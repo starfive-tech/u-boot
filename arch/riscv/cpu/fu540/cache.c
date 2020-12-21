@@ -20,24 +20,28 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
-int cache_enable_ways(void)
+static fdt_addr_t l2cc_get_base_addr(void)
 {
 	const void *blob = gd->fdt_blob;
-	int node;
+	int node = fdt_node_offset_by_compatible(blob, -1,
+					     "sifive,fu540-c000-ccache");
+
+	if (node < 0)
+		return FDT_ADDR_T_NONE;
+
+	return fdtdec_get_addr_size_auto_parent(blob, 0, node, "reg", 0,
+						NULL, false);
+}
+
+int cache_enable_ways(void)
+{
 	fdt_addr_t base;
 	u32 config;
 	u32 ways;
 
 	volatile u32 *enable;
 
-	node = fdt_node_offset_by_compatible(blob, -1,
-					     "sifive,fu540-c000-ccache");
-
-	if (node < 0)
-		return node;
-
-	base = fdtdec_get_addr_size_auto_parent(blob, 0, node, "reg", 0,
-						NULL, false);
+	base = l2cc_get_base_addr();
 	if (base == FDT_ADDR_T_NONE)
 		return FDT_ADDR_T_NONE;
 
@@ -53,3 +57,36 @@ int cache_enable_ways(void)
 	mb();
 	return 0;
 }
+
+#if CONFIG_IS_ENABLED(SIFIVE_FU540_L2CC_FLUSH)
+#define L2_CACHE_FLUSH64	0x200
+
+void flush_dcache_range(unsigned long start, unsigned long end)
+{
+	fdt_addr_t base;
+	unsigned long line;
+	volatile unsigned long *flush64;
+
+	/* make sure the address is in the range */
+	if(start > end ||
+	   start < CONFIG_SIFIVE_FU540_L2CC_FLUSH_START ||
+	   end > (CONFIG_SIFIVE_FU540_L2CC_FLUSH_START +
+		  CONFIG_SIFIVE_FU540_L2CC_FLUSH_SIZE))
+		return;
+
+	base = l2cc_get_base_addr();
+	if (base == FDT_ADDR_T_NONE)
+		return;
+
+	flush64 = (volatile unsigned long *)(base + L2_CACHE_FLUSH64);
+
+	/* memory barrier */
+	mb();
+	for (line = start; line < end; line += CONFIG_SYS_CACHELINE_SIZE)
+		(*flush64) = line;
+	/* memory barrier */
+	mb();
+
+	return;
+}
+#endif //SIFIVE_FU540_L2CC_FLUSH
