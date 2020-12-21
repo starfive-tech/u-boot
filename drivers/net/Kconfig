@@ -288,6 +288,30 @@ config ETH_DESIGNWARE
 	  100Mbit and 1 Gbit operation. You must enable CONFIG_PHYLIB to
 	  provide the PHY (physical media interface).
 
+config ETH_DESIGNWARE_PRESETED_BUFF
+	bool "Preseted mem for Synopsys Designware Ethernet MAC"
+	default y if TARGET_STARFIVE_JH7100
+
+if ETH_DESIGNWARE_PRESETED_BUFF
+
+config ETH_DESIGNWARE_PRESETED_TX_MAC_DES_BASE
+	hex "Preseted mem for preseted_tx_mac_descrtable"
+	default 0x18001000
+
+config ETH_DESIGNWARE_PRESETED_RX_MAC_DES_BASE
+	hex "Preseted mem for preseted_rx_mac_descrtable"
+	default 0x18002000
+
+config ETH_DESIGNWARE_PRESETED_TXBUFF_BASE
+	hex "Preseted mem for preseted_txbuffs"
+	default 0x18010000
+
+config ETH_DESIGNWARE_PRESETED_RXBUFF_BASE
+	hex "Preseted mem for preseted_rxbuffs"
+	default 0x18018000
+
+endif #ETH_DESIGNWARE_PRESETED_BUFF
+
 config ETH_DESIGNWARE_MESON8B
 	bool "Amlogic Meson8b and later glue driver for Synopsys Designware Ethernet MAC"
 	depends on DM_ETH
