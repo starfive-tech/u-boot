@@ -32,6 +32,25 @@
 #include <power/regulator.h>
 #include "designware.h"
 
+#if CONFIG_IS_ENABLED(ETH_DESIGNWARE_PRESETED_BUFF)
+#define TX_MAC_DES	preseted_tx_mac_descrtable
+#define RX_MAC_DES	preseted_rx_mac_descrtable
+#define TX_BUFF	preseted_txbuffs
+#define RX_BUFF	preseted_rxbuffs
+struct dmamacdescr *preseted_tx_mac_descrtable =
+	(struct dmamacdescr *)CONFIG_ETH_DESIGNWARE_PRESETED_TX_MAC_DES_BASE;
+struct dmamacdescr *preseted_rx_mac_descrtable =
+	(struct dmamacdescr *)CONFIG_ETH_DESIGNWARE_PRESETED_RX_MAC_DES_BASE;
+char *preseted_txbuffs = (char *)CONFIG_ETH_DESIGNWARE_PRESETED_TXBUFF_BASE;
+char *preseted_rxbuffs = (char *)CONFIG_ETH_DESIGNWARE_PRESETED_RXBUFF_BASE;
+#else
+#define TX_MAC_DES	priv->tx_mac_descrtable
+#define RX_MAC_DES	priv->rx_mac_descrtable
+#define TX_BUFF	priv->txbuffs
+#define RX_BUFF	priv->rxbuffs
+#endif
+
+
 static int dw_mdio_read(struct mii_dev *bus, int addr, int devad, int reg)
 {
 #ifdef CONFIG_DM_ETH
@@ -232,8 +251,8 @@ static int dw_dm_mdio_init(const char *name, void *priv)
 static void tx_descs_init(struct dw_eth_dev *priv)
 {
 	struct eth_dma_regs *dma_p = priv->dma_regs_p;
-	struct dmamacdescr *desc_table_p = &priv->tx_mac_descrtable[0];
-	char *txbuffs = &priv->txbuffs[0];
+	struct dmamacdescr *desc_table_p = &TX_MAC_DES[0];
+	char *txbuffs = &TX_BUFF[0];
 	struct dmamacdescr *desc_p;
 	u32 idx;
 
@@ -261,9 +280,9 @@ static void tx_descs_init(struct dw_eth_dev *priv)
 	desc_p->dmamac_next = (ulong)&desc_table_p[0];
 
 	/* Flush all Tx buffer descriptors at once */
-	flush_dcache_range((ulong)priv->tx_mac_descrtable,
-			   (ulong)priv->tx_mac_descrtable +
-			   sizeof(priv->tx_mac_descrtable));
+	flush_dcache_range((ulong)TX_MAC_DES,
+			   (ulong)TX_MAC_DES +
+			   sizeof(struct dmamacdescr) * CONFIG_TX_DESCR_NUM);
 
 	writel((ulong)&desc_table_p[0], &dma_p->txdesclistaddr);
 	priv->tx_currdescnum = 0;
@@ -272,8 +291,8 @@ static void tx_descs_init(struct dw_eth_dev *priv)
 static void rx_descs_init(struct dw_eth_dev *priv)
 {
 	struct eth_dma_regs *dma_p = priv->dma_regs_p;
-	struct dmamacdescr *desc_table_p = &priv->rx_mac_descrtable[0];
-	char *rxbuffs = &priv->rxbuffs[0];
+	struct dmamacdescr *desc_table_p = &RX_MAC_DES[0];
+	char *rxbuffs = &RX_BUFF[0];
 	struct dmamacdescr *desc_p;
 	u32 idx;
 
@@ -301,9 +320,9 @@ static void rx_descs_init(struct dw_eth_dev *priv)
 	desc_p->dmamac_next = (ulong)&desc_table_p[0];
 
 	/* Flush all Rx buffer descriptors at once */
-	flush_dcache_range((ulong)priv->rx_mac_descrtable,
-			   (ulong)priv->rx_mac_descrtable +
-			   sizeof(priv->rx_mac_descrtable));
+	flush_dcache_range((ulong)RX_MAC_DES,
+			   (ulong)RX_MAC_DES +
+			   sizeof(struct dmamacdescr) * CONFIG_RX_DESCR_NUM);
 
 	writel((ulong)&desc_table_p[0], &dma_p->rxdesclistaddr);
 	priv->rx_currdescnum = 0;
@@ -451,7 +470,7 @@ static int _dw_eth_send(struct dw_eth_dev *priv, void *packet, int length)
 {
 	struct eth_dma_regs *dma_p = priv->dma_regs_p;
 	u32 desc_num = priv->tx_currdescnum;
-	struct dmamacdescr *desc_p = &priv->tx_mac_descrtable[desc_num];
+	struct dmamacdescr *desc_p = &TX_MAC_DES[desc_num];
 	ulong desc_start = (ulong)desc_p;
 	ulong desc_end = desc_start +
 		roundup(sizeof(*desc_p), ARCH_DMA_MINALIGN);
@@ -517,7 +536,7 @@ static int _dw_eth_send(struct dw_eth_dev *priv, void *packet, int length)
 static int _dw_eth_recv(struct dw_eth_dev *priv, uchar **packetp)
 {
 	u32 status, desc_num = priv->rx_currdescnum;
-	struct dmamacdescr *desc_p = &priv->rx_mac_descrtable[desc_num];
+	struct dmamacdescr *desc_p = &RX_MAC_DES[desc_num];
 	int length = -EAGAIN;
 	ulong desc_start = (ulong)desc_p;
 	ulong desc_end = desc_start +
@@ -548,7 +567,7 @@ static int _dw_eth_recv(struct dw_eth_dev *priv, uchar **packetp)
 static int _dw_free_pkt(struct dw_eth_dev *priv)
 {
 	u32 desc_num = priv->rx_currdescnum;
-	struct dmamacdescr *desc_p = &priv->rx_mac_descrtable[desc_num];
+	struct dmamacdescr *desc_p = &RX_MAC_DES[desc_num];
 	ulong desc_start = (ulong)desc_p;
 	ulong desc_end = desc_start +
 		roundup(sizeof(*desc_p), ARCH_DMA_MINALIGN);
@@ -667,10 +686,12 @@ int designware_initialize(ulong base_addr, u32 interface)
 		return -ENOMEM;
 	}
 
+#if !CONFIG_IS_ENABLED(ETH_DESIGNWARE_PRESETED_BUFF)
 	if ((phys_addr_t)priv + sizeof(*priv) > (1ULL << 32)) {
 		printf("designware: buffers are outside DMA memory\n");
 		return -EINVAL;
 	}
+#endif
 
 	memset(dev, 0, sizeof(struct eth_device));
 	memset(priv, 0, sizeof(struct dw_eth_dev));
