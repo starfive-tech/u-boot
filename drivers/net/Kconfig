@@ -291,6 +291,8 @@ config ETH_DESIGNWARE
 	  100Mbit and 1 Gbit operation. You must enable CONFIG_PHYLIB to
 	  provide the PHY (physical media interface).
 
+source "drivers/net/Kconfig.dw"
+
 config ETH_DESIGNWARE_MESON8B
 	bool "Amlogic Meson8b and later glue driver for Synopsys Designware Ethernet MAC"
 	depends on DM_ETH

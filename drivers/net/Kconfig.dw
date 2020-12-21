@@ -1,0 +1,24 @@
+config ETH_DESIGNWARE_PRESETED_BUFF
+	depends on ETH_DESIGNWARE
+	bool "Preseted mem for Synopsys Designware Ethernet MAC"
+	default y if TARGET_STARFIVE_JH7100
+
+if ETH_DESIGNWARE_PRESETED_BUFF
+
+config ETH_DESIGNWARE_PRESETED_TX_MAC_DES_BASE
+	hex "Preseted mem for preseted_tx_mac_descrtable"
+	default 0x18001000
+
+config ETH_DESIGNWARE_PRESETED_RX_MAC_DES_BASE
+	hex "Preseted mem for preseted_rx_mac_descrtable"
+	default 0x18002000
+
+config ETH_DESIGNWARE_PRESETED_TXBUFF_BASE
+	hex "Preseted mem for preseted_txbuffs"
+	default 0x18010000
+
+config ETH_DESIGNWARE_PRESETED_RXBUFF_BASE
+	hex "Preseted mem for preseted_rxbuffs"
+	default 0x18018000
+
+endif #ETH_DESIGNWARE_PRESETED_BUFF
