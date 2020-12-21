@@ -394,6 +394,20 @@ static int m88e151x_config(struct phy_device *phydev)
 		phy_write(phydev, MDIO_DEVAD_NONE, MII_MARVELL_PHY_PAGE, 0);
 	}
 
+#if CONFIG_IS_ENABLED(JH_EVB_V1)
+       /*
+        * PHY(MARVELL_PHY_ID_88E1510) LED config:
+        * Reserved.. 1000, Rst
+        * LED[2] .. 0000,Link on
+        * LED[1] .. 0001,Link on, Blink - Activity
+        * LED[0] .. 0100,Blink - Activity
+        */
+#define MII_88E1512_PHY_LED1_LINK_LED0_ACTIVE  0x1014
+	m88e1xxx_phy_extwrite(phydev, MDIO_DEVAD_NONE, 3,
+			       MIIM_88E151x_LED_FUNC_CTRL,
+			       MII_88E1512_PHY_LED1_LINK_LED0_ACTIVE);
+#endif
+
 	/* soft reset */
 	phy_reset(phydev);
 
