@@ -2337,4 +2337,11 @@ config CMD_UBIFS
 	help
 	  UBIFS is a file system for flash devices which works on top of UBI.
 
+
+config CMD_CACHE_DEBUG
+	bool "L2 cache debug"
+	default y if TARGET_STARFIVE_VIC7100
+	help
+	  L2 cache debug.
+
 endmenu

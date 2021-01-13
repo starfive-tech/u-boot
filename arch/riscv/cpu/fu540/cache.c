@@ -52,10 +52,34 @@ int cache_enable_ways(void)
 
 	/* memory barrier */
 	mb();
+#if CONFIG_IS_ENABLED(SIFIVE_FU540_L2CC_WAYENABLE_DIY)
+	if (CONFIG_SIFIVE_FU540_L2CC_WAYENABLE_DIY_NUM >= ways)
+		(*enable) = ways;
+	(*enable) = CONFIG_SIFIVE_FU540_L2CC_WAYENABLE_DIY_NUM;
+#else
 	(*enable) = ways - 1;
+#endif //SIFIVE_FU540_L2CC_WAYENABLE_DIY
 	/* memory barrier */
 	mb();
 	return 0;
+}
+
+u32 cache_enable_ways_debug(u32 ways_input)
+{
+	fdt_addr_t base = l2cc_get_base_addr();
+	volatile u32 *enable = (volatile u32 *)(base + L2_CACHE_ENABLE);
+
+	if (base == FDT_ADDR_T_NONE)
+		return 0xffffffff;
+
+	printf("cache config(0x%p): 0x%x --> ",	enable, readl(enable));
+	mb();
+	(*enable) = ways_input;
+	mb();
+	printf("0x%x \n", readl(enable));
+	mb();
+
+	return readl(enable);
 }
 
 #if CONFIG_IS_ENABLED(SIFIVE_FU540_L2CC_FLUSH)

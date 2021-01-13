@@ -10,5 +10,6 @@
 #define _CACHE_SIFIVE_H
 
 int cache_enable_ways(void);
+u32 cache_enable_ways_debug(u32 ways_input);
 
 #endif /* _CACHE_SIFIVE_H */
