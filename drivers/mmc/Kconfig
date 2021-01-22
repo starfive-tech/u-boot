@@ -272,6 +272,18 @@ config MMC_DW_SNPS
 	  This selects support for Synopsys DesignWare Memory Card Interface driver
 	  extensions used in various Synopsys ARC devboards.
 
+config MMC_DW_STARFIVE_JH
+	bool "Extensions for DW Memory Card Interface used in StarFive JH SoC"
+	depends on MMC_DW
+	depends on DM_MMC
+	depends on OF_CONTROL
+	default y if TARGET_STARFIVE_JH7100
+	help
+	  This selects support for StarFive JH SoC specific extensions to the
+	  Synopsys DesignWare Memory Card Interface driver. Select this option
+	  for platforms based on StarFive JH SoC's.
+
+
 config NEXELL_DWMMC
 	bool "Nexell SD/MMC controller support"
 	depends on ARCH_NEXELL
