@@ -1,0 +1,8 @@
+STARFIVE JH7100 SOC
+M: startfive
+S:	Maintained
+F:	arch/riscv/include/asm/arch-jh7100/
+F:	board/starfive/jh7100/
+F:	include/configs/starfive-jh7100.h
+F:	configs/starfive_jh_evb_mmode_defconfig
+F:	configs/starfive_jh_evb_smode_defconfig
