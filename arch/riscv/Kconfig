@@ -20,8 +20,25 @@ config TARGET_QEMU_VIRT
 config TARGET_SIFIVE_FU540
 	bool "Support SiFive FU540 Board"
 
+config TARGET_STARFIVE_VIC7100
+	bool "Support StarFive VIC7100 SOC"
+
 config TARGET_SIPEED_MAIX
 	bool "Support Sipeed Maix Board"
+
+endchoice
+
+choice
+	prompt "Target VIC sub-board"
+	default VIC_EVB_V1
+	depends on TARGET_STARFIVE_VIC7100
+	optional
+
+config VIC_BEAGLE_V
+	bool "Support VIC Beagle V board."
+
+config VIC_EVB_V1
+	bool "Support VIC EVB-V1."
 
 endchoice
 
@@ -56,6 +73,7 @@ source "board/AndesTech/ax25-ae350/Kconfig"
 source "board/emulation/qemu-riscv/Kconfig"
 source "board/microchip/mpfs_icicle/Kconfig"
 source "board/sifive/fu540/Kconfig"
+source "board/starfive/vic7100/Kconfig"
 source "board/sipeed/maix/Kconfig"
 
 # platform-specific options below
