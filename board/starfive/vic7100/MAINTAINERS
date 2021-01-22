@@ -1,0 +1,8 @@
+STARFIVE VIC7100 SOC
+M: startfive
+S:	Maintained
+F:	arch/riscv/include/asm/arch-vic7100/
+F:	board/starfive/vic7100/
+F:	include/configs/starfive-vic7100.h
+F:	configs/starfive_vic_evb_mmode_defconfig
+F:	configs/starfive_vic_evb_smode_defconfig
