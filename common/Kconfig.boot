@@ -352,7 +352,7 @@ config SYS_TEXT_BASE
 	  The address in memory that U-Boot will be running from, initially.
 
 config SYS_CLK_FREQ
-	depends on ARC || ARCH_SUNXI || MPC83xx
+	depends on ARC || ARCH_SUNXI || MPC83xx || RISCV
 	int "CPU clock frequency"
 	help
 	  TODO: Move CONFIG_SYS_CLK_FREQ for all the architecture
