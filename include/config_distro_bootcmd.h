@@ -92,9 +92,9 @@
 
 #ifdef CONFIG_EFI_LOADER
 #if defined(CONFIG_ARM64)
-#define BOOTEFI_NAME "bootaa64.efi"
+#define BOOTEFI_NAME "grubaa64.efi"
 #elif defined(CONFIG_ARM)
-#define BOOTEFI_NAME "bootarm.efi"
+#define BOOTEFI_NAME "grubarm.efi"
 #elif defined(CONFIG_X86_RUN_32BIT)
 #define BOOTEFI_NAME "bootia32.efi"
 #elif defined(CONFIG_X86_RUN_64BIT)
@@ -140,7 +140,7 @@
 	\
 	"boot_efi_binary="                                                \
 		"load ${devtype} ${devnum}:${distro_bootpart} "           \
-			"${kernel_addr_r} efi/boot/"BOOTEFI_NAME"; "      \
+			"${kernel_addr_r} efi/fedora/"BOOTEFI_NAME"; "      \
 		"if fdt addr ${fdt_addr_r}; then "                        \
 			"bootefi ${kernel_addr_r} ${fdt_addr_r};"         \
 		"else "                                                   \
@@ -175,9 +175,9 @@
 		"run boot_efi_binary\0"                                   \
 	"scan_dev_for_efi="                                               \
 		"if test -e ${devtype} ${devnum}:${distro_bootpart} "     \
-					"efi/boot/"BOOTEFI_NAME"; then "  \
+					"efi/fedora/"BOOTEFI_NAME"; then " \
 				"echo Found EFI removable media binary "  \
-					"efi/boot/"BOOTEFI_NAME"; "       \
+					"efi/fedora/"BOOTEFI_NAME"; "     \
 				"run scan_dev_for_dtb; "                  \
 				"echo EFI LOAD FAILED: continuing...; "   \
 		"fi; "                                                    \
