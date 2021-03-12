@@ -14,8 +14,20 @@
 #include <asm/arch/clock.h>
 #endif
 
+#if defined(CONFIG_RISCV)
+u32 get_svr(void)
+{
+	return 0;
+}
+
+u32 SVR_SOC_VER(u32 svr)
+{
+	return 0;
+}
+#endif
+
 /* USB Erratum Checking code */
-#if defined(CONFIG_PPC) || defined(CONFIG_ARM)
+#if defined(CONFIG_PPC) || defined(CONFIG_ARM) || defined(CONFIG_RISCV)
 bool has_dual_phy(void)
 {
 	u32 svr = get_svr();
