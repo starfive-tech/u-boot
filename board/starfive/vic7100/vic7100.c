@@ -855,6 +855,7 @@ INIT_FUNC_DEF(trng)
 INIT_FUNC_DEF(otp)
 {
     _ENABLE_CLOCK_clk_otp_apb_;
+    _ASSERT_RESET_rstgen_rstn_otp_apb_
     _CLEAR_RESET_rstgen_rstn_otp_apb_;
 }
 
@@ -1182,14 +1183,14 @@ void reset_phy(void)
 #define ERROR_READING_SERIAL_NUMBER        0
 
 #ifdef CONFIG_MISC_INIT_R
-static u32 setup_serialnum(void);
-static void setup_macaddr(u32 serialnum);
+static u32 vic_read_serialnum(void);
+static void vic_setup_macaddr(u32 serialnum);
 
 int misc_init_r(void)
 {
 	if (!env_get("serial#")) {
-		u32 serialnum = setup_serialnum();
-		setup_macaddr(serialnum);
+		u32 serialnum = vic_read_serialnum();
+		vic_setup_macaddr(serialnum);
 	}
 	return 0;
 }
@@ -1223,55 +1224,87 @@ ulong board_flash_get_legacy(ulong base, int banknum, flash_info_t *info)
 	return (void *)CONFIG_SYS_FDT_BASE;
 }*/
 
-#if CONFIG_IS_ENABLED(SIFIVE_OTP)
+#if CONFIG_IS_ENABLED(STARFIVE_OTP)
+static u32 otp_read_mac(struct udevice *dev, unsigned char *buf)
+ {
+	u32 serial[2] = {0};
+	int ret = misc_read(dev, STARFIVE_OTP_MAC_OFFSET,
+			    serial, sizeof(serial));
+	if (ret != sizeof(serial)) {
+		printf("%s: error reading mac from OTP\n", __func__);
+		return ERROR_READING_SERIAL_NUMBER;
+	}
+
+	buf[3] = (serial[0] >> 24) & 0xff;
+	buf[2] = (serial[0] >> 16) & 0xff;
+	buf[1] = (serial[0] >> 8) & 0xff;
+	buf[0] = serial[0] & 0xff;
+
+	buf[5] = (serial[1] >> 8) & 0xff;
+	buf[4] = serial[1] & 0xff;
+
+	return ret;
+}
+
 static u32 otp_read_serialnum(struct udevice *dev)
 {
 	u32 serial[2] = {0};
-	int ret;
-	for (int i = 0xfe * 4; i > 0; i -= 8) {
-		ret = misc_read(dev, i, serial, sizeof(serial));
-		if (ret) {
-			printf("%s: error reading serial from OTP\n", __func__);
-			break;
-		}
-		if (serial[0] == ~serial[1])
-			return serial[0];
+	int ret = misc_read(dev, STARFIVE_OTP_MAC_OFFSET-8,
+			    serial, sizeof(serial));
+	if (ret != sizeof(serial)) {
+		printf("%s: error reading serial from OTP\n", __func__);
+		return ERROR_READING_SERIAL_NUMBER;
 	}
+
+	if (serial[0] == ~serial[1])
+		return serial[0];
+
 	return ERROR_READING_SERIAL_NUMBER;
 }
 #endif
 
-static u32 setup_serialnum(void)
+static u32 vic_read_serialnum(void)
 {
 	u32 serial = ERROR_READING_SERIAL_NUMBER;
-
-#if CONFIG_IS_ENABLED(SIFIVE_OTP)
-	char serial_str[6];
+#if CONFIG_IS_ENABLED(STARFIVE_OTP)
 	struct udevice *dev;
-	int ret;
+	char buf[9] = {0};
 
-	// init OTP
-	ret = uclass_get_device_by_driver(UCLASS_MISC, DM_GET_DRIVER(hifive_otp), &dev);
-	if (ret) {
+	if (uclass_get_device_by_driver(UCLASS_MISC,
+					DM_DRIVER_GET(starfive_otp), &dev)) {
 		debug("%s: could not find otp device\n", __func__);
-		return serial;
+		return ERROR_READING_SERIAL_NUMBER;
 	}
 
 	// read serial from OTP and set env var
 	serial = otp_read_serialnum(dev);
-	snprintf(serial_str, sizeof(serial_str), "%05"PRIu32, serial);
-	env_set("serial#", serial_str);
+	snprintf(buf, sizeof(buf), "%08x", serial);
+	env_set("serial#", buf);
 #endif
 
 	return serial;
 }
 
-static void setup_macaddr(u32 serialnum) {
-	// OR the serial into the MAC -- see SiFive FSBL
-	unsigned char mac[6] = {0x66,0x34,0xb0,0x6c,0xde,0xad };
+static void vic_setup_macaddr(u32 serialnum)
+{
+#if CONFIG_IS_ENABLED(STARFIVE_OTP)
+	struct udevice *dev;
+	unsigned char mac[6]={0};
+
+	// init OTP
+	if (uclass_get_device_by_driver(UCLASS_MISC,
+					DM_DRIVER_GET(starfive_otp), &dev)) {
+		debug("%s: could not find otp device\n", __func__);
+		return;
+	}
+
+	otp_read_mac(dev, mac);
+#else
+	unsigned char mac[6] = {0x66, 0x34, 0xb0, 0x6c, 0xde, 0xad};
 	mac[5] |= (serialnum >>  0) & 0xff;
 	mac[4] |= (serialnum >>  8) & 0xff;
 	mac[3] |= (serialnum >> 16) & 0xff;
+#endif
 	eth_env_set_enetaddr("ethaddr", mac);
 }
 
