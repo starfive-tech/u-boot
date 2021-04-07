@@ -77,6 +77,8 @@
 
 #define CONFIG_BOOTFILE			"vmlinuz"
 
+/*mac addr offset in otp*/
+#define STARFIVE_OTP_MAC_OFFSET		0x28
 
 /*
  * Ethernet
