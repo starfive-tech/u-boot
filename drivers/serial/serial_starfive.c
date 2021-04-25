@@ -1,7 +1,11 @@
 /*
- * Copyright (C) 2020 StarFive
- *
- * Modified to support VIC7100 SoC by StarFive
+ * StarFive VIC7100 Serial Port driver
+ * This driver ported from NS16550 Serial Port driver:
+ * drivers/serial/ns16550.c
+ * (which is originally from linux source (arch/powerpc/boot/ns16550.c))
+ * 
+ * Modified for StarFive VIC7100 SoC by
+ * TekkamanV <tekkamanv@starfivetech.com>
  *
  * SPDX-License-Identifier: GPL-2.0+
  */
@@ -17,13 +21,6 @@
 #include <linux/compiler.h>
 #include <serial.h>
 #include <linux/err.h>
-
-#include <asm/arch/io.h>
-#include <asm/arch/global_reg.h>
-#include <asm/arch/ezGPIO_fullMux_ctrl_macro.h>
-#include <asm/arch/clkgen_ctrl_macro.h>
-#include <asm/arch/rstgen_ctrl_macro.h>
-#include <asm/arch/vic_module_reset_clkgen.h>
 
 #define UART_REG(x) u32 x
 typedef struct uart_starfive {
@@ -138,14 +135,6 @@ DECLARE_GLOBAL_DATA_PTR;
 #define MCR_LOOP			(0x01 << 0x04) /* loop back */
 #define MCR_AFCE			(0x01 << 0x05) /* auto flow control enable */
 
-static void _starfive_serial_reset_clk_gpio_setup(void)
-{
-	vic_uart0_reset_clk_gpio_evb_enable;
-	vic_uart1_reset_clk_gpio_evb_enable;
-	//vic_uart2_reset_clk_gpio_evb_enable;
-	//vic_uart3_reset_clk_gpio_evb_enable;
-}
-
 static void _ser_clrrxtmo(struct uart_starfive *regs)
 {
 	u32 reg32_val;
@@ -228,9 +217,9 @@ static int _starfive_serial_getc(struct uart_starfive *regs)
 static int starfive_serial_setbrg(struct udevice *dev, int baudrate)
 {
 	int ret;
+	u32 clock = 0;
 	struct clk clk;
 	struct starfive_uart_platdata *platdata = dev_get_plat(dev);
-	u32 clock = 0;
 
 	ret = clk_get_by_index(dev, 0, &clk);
 	if (IS_ERR_VALUE(ret)) {
@@ -260,8 +249,6 @@ static int starfive_serial_probe(struct udevice *dev)
 	/* No need to reinitialize the UART after relocation */
 	if (gd->flags & GD_FLG_RELOC)
 		return 0;
-
-	_starfive_serial_reset_clk_gpio_setup();
 
 	_starfive_serial_init(platdata->regs);
 
