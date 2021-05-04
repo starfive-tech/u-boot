@@ -187,7 +187,7 @@ CONFIG_AUTOBOOT_DELAY_STR="f"
 CONFIG_AUTOBOOT_STOP_STR="v"
 CONFIG_AUTOBOOT_KEYED_CTRLC=y
 CONFIG_USE_BOOTARGS=y
-CONFIG_BOOTARGS="console=ttyS0,115200 debug rootwait earlycon=sbi stmmaceth=chain_mode:1"
+CONFIG_BOOTARGS="console=ttyS0,115200 debug rootwait earlycon stmmaceth=chain_mode:1"
 # CONFIG_BOOTARGS_SUBST is not set
 CONFIG_USE_BOOTCOMMAND=y
 CONFIG_BOOTCOMMAND="run bootcmd_mmc0"
