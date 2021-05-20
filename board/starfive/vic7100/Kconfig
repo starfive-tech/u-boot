@@ -34,7 +34,7 @@ config SPL_OPENSBI_LOAD_ADDR
 
 config CACHE_WAYENABLE
 	tristate "L2 cache wayenable"
-	default n
+	default y
 	help
 	  L2 cache wayenable.
 
