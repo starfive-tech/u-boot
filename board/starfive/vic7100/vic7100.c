@@ -7,6 +7,7 @@
 
 #include <common.h>
 #include <env.h>
+#include <efi_loader.h>
 #include <linux/delay.h>
 #include <linux/io.h>
 #include <dm/uclass.h>
@@ -1314,4 +1315,14 @@ void reset_misc(void)
 	printf("Resetting BeagelV......\n");
 	SET_GPIO_63_doen_LOW;
 	SET_GPIO_63_dout_HIGH;
+}
+
+int ft_board_setup(void *blob, struct bd_info *bd)
+{
+#ifdef CONFIG_EFI_LOADER
+        /* Reserve memory occupied by U-Boot itself */
+        efi_add_memory_map(0x80000000, 0x3000000, EFI_RESERVED_MEMORY_TYPE);
+#endif
+
+        return 0;
 }
