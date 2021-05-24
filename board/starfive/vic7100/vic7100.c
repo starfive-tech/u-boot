@@ -36,6 +36,7 @@
 #include <asm/arch/vad.h>
 #include <asm/arch/syscon_remap_vp6_noc_macro.h>
 #include <asm/arch/syscon_iopad_ctrl_macro.h>
+#include <asm/arch-fu540/cache.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
