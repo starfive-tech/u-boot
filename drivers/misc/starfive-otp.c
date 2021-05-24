@@ -114,8 +114,8 @@ struct starfive_otp_platdata {
 
 static void gpio_direction_output(u32 gpio, u32 val)
 {
-	volatile uint32_t __iomem *addr = EZGPIO_FULLMUX_BASE_ADDR + 0x50 +
-					  gpio * 8;
+	volatile uint32_t __iomem *addr = (void *)EZGPIO_FULLMUX_BASE_ADDR +
+					  0x50 + gpio * 8;
 
 	MA_OUTW(addr, val);
 	MA_OUTW(addr + 1, val);
@@ -123,8 +123,8 @@ static void gpio_direction_output(u32 gpio, u32 val)
 
 static void gpio_set_value(u32 gpio, u32 val)
 {
-	volatile uint32_t __iomem *addr = EZGPIO_FULLMUX_BASE_ADDR + 0x50 +
-					  gpio * 8;
+	volatile uint32_t __iomem *addr = (void *)EZGPIO_FULLMUX_BASE_ADDR +
+					  0x50 + gpio * 8;
 
 	MA_OUTW(addr, val);
 }
@@ -140,7 +140,7 @@ static int starfive_otp_read(struct udevice *dev, int offset,
 	int fuseidx = offset / BYTES_PER_FUSE;
 	int fusecount = size / BYTES_PER_FUSE;
 	u32 fusebuf[fusecount];
-	u32 addr = (u32)regs;
+	void *addr = regs;
 
 	/* Check if offset and size are multiple of BYTES_PER_FUSE */
 	if ((size % BYTES_PER_FUSE) || (offset % BYTES_PER_FUSE)) {
