@@ -63,6 +63,5 @@ config BOARD_SPECIFIC_OPTIONS # dummy
 	imply SYSRESET
 	imply SYSRESET_GPIO
 	imply CMD_DHCP
-	imply SIFIVE_CLINT
 
 endif
