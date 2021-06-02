@@ -175,7 +175,8 @@ config DMA_ADDR_T_64BIT
 	default y if 64BIT
 
 config SIFIVE_CLINT
-	bool "Enable the SiFive CLINT block driver"
+	bool
+	depends on RISCV_MMODE || SPL_RISCV_MMODE
 	help
 	  The SiFive CLINT block holds memory-mapped control and status registers
 	  associated with software and timer interrupts.
