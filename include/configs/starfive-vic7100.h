@@ -108,8 +108,6 @@
 	"name=system,size=-,bootable,type=${type_guid_gpt_system};"
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
-	"fdt_high=0xffffffffffffffff\0" \
-	"initrd_high=0xffffffffffffffff\0" \
 	"kernel_addr_r=0x84000000\0" \
 	"fdt_addr_r=0x88000000\0" \
 	"scriptaddr=0x88100000\0" \
