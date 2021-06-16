@@ -30,6 +30,7 @@ CONFIG_BOOTARGS="console=ttyS0,115200 debug rootwait earlycon stmmaceth=chain_mo
 CONFIG_BOOTCOMMAND="run bootcmd_mmc0"
 CONFIG_USE_PREBOOT=y
 CONFIG_PREBOOT="setenv fdt_addr ${fdtcontroladdr};fdt addr ${fdtcontroladdr};"
+CONFIG_DEFAULT_FDT_FILE="starfive/jh7100-beaglev-starlight.dtb"
 CONFIG_SYS_CONSOLE_INFO_QUIET=y
 CONFIG_LOG_MAX_LEVEL=5
 CONFIG_DISPLAY_CPUINFO=y
