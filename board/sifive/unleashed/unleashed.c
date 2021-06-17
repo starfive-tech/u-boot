@@ -115,6 +115,8 @@ int misc_init_r(void)
 
 int board_init(void)
 {
+
+#if CONFIG_IS_ENABLED(CACHE_WAYENABLE)
 	int ret;
 
 	/* enable all cache ways */
@@ -123,6 +125,7 @@ int board_init(void)
 		debug("%s: could not enable cache ways\n", __func__);
 		return ret;
 	}
+#endif
 
 	return 0;
 }
