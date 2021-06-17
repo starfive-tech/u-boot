@@ -669,6 +669,11 @@
 			interrupts = <122>;
 			status = "okay";
 		};
+		otp:otp@11810000{
+			compatible = "starfive,fu740-otp";
+			reg = <0x0 0x11810000 0x0 0x10000>;
+			fuse-count = <0x200>;
+		};
 	};
 };
 #include "tda998x_1080p.dtsi"
