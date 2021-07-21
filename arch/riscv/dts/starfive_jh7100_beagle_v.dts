@@ -293,14 +293,6 @@
 			interrupt-controller;
 			#gpio-cells = <2>;
 		};
-		gpiorst:gpio-restart {
-			compatible = "gpio-restart";
-			gpios = <&gpio 63 GPIO_ACTIVE_HIGH>;
-		};
-		gpiopof:gpio-poweroff {
-			compatible = "gpio-poweroff";
-			gpios = <&gpio 63 GPIO_ACTIVE_HIGH>;
-		};
 
 		i2c0: i2c@118b0000 {
 			#address-cells = <1>;
