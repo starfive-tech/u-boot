@@ -875,7 +875,7 @@ INIT_FUNC_DEF(spi2)
     _CLEAR_RESET_rstgen_rstn_spi2_apb_;
     _CLEAR_RESET_rstgen_rstn_spi2_core_;
 	/* Modifying the GPIO interface of SPI2 */
-	SET_SPI_GPIO(2, 11, 12, 18, 19);
+	SET_SPI_GPIO(2, 18, 16, 12, 15);
 }
 
 INIT_FUNC_DEF(spi3)
