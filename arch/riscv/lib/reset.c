@@ -7,10 +7,15 @@
 #include <command.h>
 #include <hang.h>
 
+__weak void reset_misc(void)
+{
+}
+
 int do_reset(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 {
 	printf("resetting ...\n");
 
+	reset_misc();
 	printf("reset not supported yet\n");
 	hang();
 
