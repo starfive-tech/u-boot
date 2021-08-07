@@ -52,7 +52,12 @@ int cache_enable_ways(void)
 
 	/* memory barrier */
 	mb();
-	(*enable) = ways - 1;
+#if CONFIG_IS_ENABLED(SIFIVE_FU740_L2CC_WAYENABLE_DIY)
+	if (CONFIG_SIFIVE_FU740_L2CC_WAYENABLE_DIY_NUM < ways)
+		(*enable) = CONFIG_SIFIVE_FU740_L2CC_WAYENABLE_DIY_NUM;
+	else
+#endif //SIFIVE_FU740_L2CC_WAYENABLE_DIY
+		(*enable) = ways - 1;
 	/* memory barrier */
 	mb();
 	return 0;

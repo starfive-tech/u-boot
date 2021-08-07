@@ -42,7 +42,8 @@ config SIFIVE_FU740
 config SIFIVE_FU740_L2CC_FLUSH
 	bool "Support Level 2 Cache Controller Flush operation of SiFive fu740"
 
-if SIFIVE_FU740_L2CC_FLUSH
+menu "Level 2 Cache Controller Flush range"
+	depends on SIFIVE_FU740_L2CC_FLUSH
 
 config SIFIVE_FU740_L2CC_FLUSH_START
 	hex "Level 2 Cache Flush operation start"
@@ -52,4 +53,19 @@ config SIFIVE_FU740_L2CC_FLUSH_SIZE
 	hex "Level 2 Cache Flush operation size"
 	default 0x800000000
 
-endif # SIFIVE_FU740_L2CC_FLUSH
+endmenu # SIFIVE_FU740_L2CC_FLUSH
+
+config SIFIVE_FU740_L2CC_WAYENABLE_DIY
+	bool "Config Level 2 Cache Controller: the largest way which has been enabled"
+
+menu "The index of the largest way"
+	depends on SIFIVE_FU740_L2CC_WAYENABLE_DIY
+
+config SIFIVE_FU740_L2CC_WAYENABLE_DIY_NUM
+	int "The index of the largest way which has been enabled for level 2 Cache "
+	default 1
+	range 0 255
+	help
+	  Range[0, 255]. The index of the largest way which has been enabled.
+
+endmenu # SIFIVE_FU740_L2CC_WAYENABLE_DIY
