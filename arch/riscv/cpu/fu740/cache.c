@@ -57,3 +57,36 @@ int cache_enable_ways(void)
 	mb();
 	return 0;
 }
+
+#if CONFIG_IS_ENABLED(SIFIVE_FU740_L2CC_FLUSH)
+#define L2_CACHE_FLUSH64	0x200
+
+void flush_dcache_range(unsigned long start, unsigned long end)
+{
+	fdt_addr_t base;
+	unsigned long line;
+	volatile unsigned long *flush64;
+
+	/* make sure the address is in the range */
+	if(start > end ||
+	   start < CONFIG_SIFIVE_FU740_L2CC_FLUSH_START ||
+	   end > (CONFIG_SIFIVE_FU740_L2CC_FLUSH_START +
+		  CONFIG_SIFIVE_FU740_L2CC_FLUSH_SIZE))
+		return;
+
+	base = l2cc_get_base_addr();
+	if (base == FDT_ADDR_T_NONE)
+		return;
+
+	flush64 = (volatile unsigned long *)(base + L2_CACHE_FLUSH64);
+
+	/* memory barrier */
+	mb();
+	for (line = start; line < end; line += CONFIG_SYS_CACHELINE_SIZE)
+		(*flush64) = line;
+	/* memory barrier */
+	mb();
+
+	return;
+}
+#endif //SIFIVE_FU740_L2CC_FLUSH
