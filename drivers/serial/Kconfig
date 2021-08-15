@@ -880,6 +880,14 @@ config SIFIVE_SERIAL
 	help
 	  This driver supports the SiFive UART. If unsure say N.
 
+config STARFIVE_SERIAL
+	bool "StarFive JH7100 UART support"
+	depends on DM_SERIAL
+	depends on TARGET_STARFIVE_JH7100
+	default y
+	help
+	This driver supports the StarFive JH7100 UART. If unsure say N.
+
 config STI_ASC_SERIAL
 	bool "STMicroelectronics on-chip UART"
 	depends on DM_SERIAL && ARCH_STI

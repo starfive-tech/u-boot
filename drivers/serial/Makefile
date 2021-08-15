@@ -75,6 +75,7 @@ obj-$(CONFIG_MTK_SERIAL) += serial_mtk.o
 obj-$(CONFIG_MT7620_SERIAL) += serial_mt7620.o
 obj-$(CONFIG_HTIF_CONSOLE) += serial_htif.o
 obj-$(CONFIG_SIFIVE_SERIAL) += serial_sifive.o
+obj-$(CONFIG_STARFIVE_SERIAL) += serial_starfive.o
 obj-$(CONFIG_XEN_SERIAL) += serial_xen.o
 
 ifndef CONFIG_SPL_BUILD
