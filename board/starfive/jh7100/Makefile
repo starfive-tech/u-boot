@@ -4,3 +4,4 @@
 # TekkamanV <tekkamanv@starfivetech.com>
 
 obj-y	+= jh7100.o
+obj-y	+= jh_ptc.o
