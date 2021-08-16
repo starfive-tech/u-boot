@@ -1,0 +1,6 @@
+STARFIVE JH7100 SOC
+M: startfive
+S:	Maintained
+F:	board/starfive/jh7100/
+F:	include/configs/starfive-jh7100.h
+F:	configs/starfive_jh7100_starlight_smode_defconfig
