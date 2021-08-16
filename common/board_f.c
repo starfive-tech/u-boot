@@ -806,6 +806,9 @@ __weak int arch_cpu_init_dm(void)
 {
 	return 0;
 }
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_JH7100)
+extern int board_hw_init(void);
+#endif
 
 __weak int checkcpu(void)
 {
@@ -947,6 +950,9 @@ static const init_fnc_t init_sequence_f[] = {
 	do_elf_reloc_fixups,
 #endif
 	clear_bss,
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_JH7100)
+	board_hw_init,
+#endif
 #if !defined(CONFIG_ARM) && !defined(CONFIG_SANDBOX) && \
 		!CONFIG_IS_ENABLED(X86_64)
 	jump_to_copy,
