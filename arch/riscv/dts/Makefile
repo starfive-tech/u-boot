@@ -7,6 +7,10 @@ dtb-$(CONFIG_TARGET_OPENPITON_RISCV64) += openpiton-riscv64.dtb
 dtb-$(CONFIG_TARGET_SIFIVE_UNLEASHED) += hifive-unleashed-a00.dtb
 dtb-$(CONFIG_TARGET_SIFIVE_UNMATCHED) += hifive-unmatched-a00.dtb
 dtb-$(CONFIG_TARGET_SIPEED_MAIX) += k210-maix-bit.dtb
+ifeq ($(CONFIG_TARGET_STARFIVE_JH7100),y)
+dtb-$(CONFIG_JH_EVB_V1) += starfive_jh7100_evb.dtb
+dtb-$(CONFIG_JH_STARLIGHT) += starfive_jh7100_starlight.dtb
+endif
 
 include $(srctree)/scripts/Makefile.dts
 
