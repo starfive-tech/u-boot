@@ -81,6 +81,7 @@
 				"run uenvcmd; " \
 			"fi; " \
 		"fi\0" \
+	"fdtfile=" CONFIG_DEFAULT_FDT_FILE "\0" \
 	BOOTENV \
 	BOOTENV_SF
 
