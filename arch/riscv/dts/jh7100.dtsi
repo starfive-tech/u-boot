@@ -197,7 +197,7 @@
 		};
 
 		uart3: serial@12440000 {
-			compatible = "snps,dw-apb-uart";
+			compatible = "snps,dw-apb-uart", "starfive,uart0";
 			interrupts = <73>;
 			reg = <0x0 0x12440000 0x0 0x10000>;
 			reg-io-width = <4>;
