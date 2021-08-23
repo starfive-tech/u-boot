@@ -95,7 +95,7 @@
 			cache-sets = <2048>;
 			cache-size = <2097152>;
 			cache-unified;
-			compatible = "sifive,fu540-c000-ccache", "starfive,ccache0", "cache";
+			compatible = "sifive,fu740-c000-ccache", "starfive,ccache0", "cache";
 			interrupts = <128 131 129 130>;
 			/*next-level-cache = <&L40 &L36>;*/
 			reg = <0x0 0x2010000 0x0 0x1000>,
