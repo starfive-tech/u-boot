@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/* Copyright (c) 2021 Emil Renner Berthing <kernel@esmil.dk> */
+
+/dts-v1/;
+#include "jh7100-beaglev-starlight.dts"
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	model = "BeagleV Starlight Beta A1";
+
+	gpio-restart {
+		compatible = "gpio-restart";
+		gpios = <&gpio 63 GPIO_ACTIVE_HIGH>;
+		priority = <256>;
+	};
+};
