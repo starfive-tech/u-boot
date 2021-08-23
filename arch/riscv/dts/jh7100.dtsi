@@ -411,7 +411,7 @@
 		};
 
 		qspi: spi@11860000 {
-			compatible = "cdns,qspi-nor";
+			compatible = "cadence,qspi","cdns,qspi-nor";
 			#address-cells = <1>;
 			#size-cells = <0>;
 			reg = <0x0 0x11860000 0x0 0x10000>,
@@ -421,7 +421,7 @@
 			cdns,fifo-depth = <256>;
 			cdns,fifo-width = <4>;
 			cdns,trigger-address = <0x0>;
-			status = "disabled";
+			status = "okay";
 			spi-max-frequency = <250000000>;
 		};
 
