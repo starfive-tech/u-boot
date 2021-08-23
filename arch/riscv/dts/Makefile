@@ -10,6 +10,8 @@ dtb-$(CONFIG_TARGET_SIPEED_MAIX) += k210-maix-bit.dtb
 ifeq ($(CONFIG_TARGET_STARFIVE_JH7100),y)
 dtb-$(CONFIG_JH_EVB_V1) += starfive_jh7100_evb.dtb
 dtb-$(CONFIG_JH_STARLIGHT) += starfive_jh7100_starlight.dtb
+dtb-$(CONFIG_JH_STARLIGHT) += jh7100-beaglev-starlight.dtb
+dtb-$(CONFIG_JH_STARLIGHT) += jh7100-beaglev-starlight-a1.dtb
 endif
 
 include $(srctree)/scripts/Makefile.dts
