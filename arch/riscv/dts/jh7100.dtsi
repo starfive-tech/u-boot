@@ -91,16 +91,19 @@
 
 		ccache: cache-controller@2010000 {
 			cache-block-size = <64>;
+			cache-line-size = <64>;
 			cache-level = <2>;
 			cache-sets = <2048>;
 			cache-size = <2097152>;
 			cache-unified;
-			compatible = "sifive,fu540-c000-ccache", "starfive,ccache0", "cache";
+			#size-cells = <2>;
+			compatible = "sifive,fu540-c000-ccache", "sifive,fu740-c000-ccache", "starfive,ccache0", "cache";
 			interrupts = <128 131 129 130>;
 			/*next-level-cache = <&L40 &L36>;*/
 			reg = <0x0 0x2010000 0x0 0x1000>,
 			      <0x0 0x8000000 0x0 0x2000000>;
 			reg-names = "control", "sideband";
+			ranges = <0x0 0x0 0x0 0x80000000 0x8 0x0>;
 		};
 
 		dtim: dtim@1000000 {
@@ -197,7 +200,7 @@
 		};
 
 		uart3: serial@12440000 {
-			compatible = "snps,dw-apb-uart";
+			compatible = "snps,dw-apb-uart", "starfive,uart0";
 			interrupts = <73>;
 			reg = <0x0 0x12440000 0x0 0x10000>;
 			reg-io-width = <4>;
@@ -411,7 +414,7 @@
 		};
 
 		qspi: spi@11860000 {
-			compatible = "cdns,qspi-nor";
+			compatible = "cadence,qspi","cdns,qspi-nor";
 			#address-cells = <1>;
 			#size-cells = <0>;
 			reg = <0x0 0x11860000 0x0 0x10000>,
@@ -421,7 +424,7 @@
 			cdns,fifo-depth = <256>;
 			cdns,fifo-width = <4>;
 			cdns,trigger-address = <0x0>;
-			status = "disabled";
+			status = "okay";
 			spi-max-frequency = <250000000>;
 		};
 
@@ -505,6 +508,8 @@
 			data-addr = <0>;
 			fifo-depth = <32>;
 			fifo-watermark-aligned;
+			bus-width = <4>;
+			max-frequency = <10000000>;
 			status = "disabled";
 		};
 
@@ -519,6 +524,8 @@
 			data-addr = <0>;
 			fifo-depth = <32>;
 			fifo-watermark-aligned;
+			bus-width = <4>;
+			max-frequency = <50000000>;
 			status = "disabled";
 		};
 
