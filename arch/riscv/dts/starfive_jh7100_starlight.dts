@@ -438,7 +438,7 @@
 			clocks = <&vpuclk>;
 			clock-names = "vcodec";
 			status = "okay";
-	};
+		};
 
 		vpu_enc:vpu_enc@118E0000 {
 			compatible = "cm,cm521-vpu";

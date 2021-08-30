@@ -36,6 +36,14 @@
 #include <asm/arch/vad.h>
 #include <asm/arch/syscon_remap_vp6_noc_macro.h>
 #include <asm/arch/syscon_iopad_ctrl_macro.h>
+#include <asm/arch/jh_audio_mode.h>
+
+#define STARFIVE_AUDIO_AC108	0
+#define STARFIVE_AUDIO_WM8960	0
+#define STARFIVE_AUDIO_VAD		0
+#define STARFIVE_AUDIO_PWMDAC	1
+#define STARFIVE_AUDIO_SPDIF	0
+#define STARFIVE_AUDIO_PDM		0
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -296,12 +304,12 @@ INIT_FUNC_DEF(gmac)
 	udelay(1000);
 	SET_GPIO_25_dout_HIGH;
 #elif defined(CONFIG_JH_STARLIGHT)
-	SET_GPIO_45_doen_LOW;
-	SET_GPIO_45_dout_HIGH;
-	udelay(1000);
-	SET_GPIO_45_dout_LOW;
-	udelay(1000);
-	SET_GPIO_45_dout_HIGH;
+	//SET_GPIO_45_doen_LOW;
+	//SET_GPIO_45_dout_HIGH;
+	//udelay(1000);
+	//SET_GPIO_45_dout_LOW;
+	//udelay(1000);
+	//SET_GPIO_45_dout_HIGH;
 #endif
 
 	_SET_SYSCON_REG_register28_SCFG_gmac_phy_intf_sel(0x1);//rgmii
@@ -372,9 +380,22 @@ INIT_FUNC_DEF(i2srx_3ch)
 
 INIT_FUNC_DEF(pdm)
 {
+    _DIVIDE_CLOCK_clk_audio_root_(2);
+    _DIVIDE_CLOCK_clk_audio_div_(0x4528);
+	_ASSERT_RESET_audio_rst_gen_rstn_apb_pdm_;  
+	_DIVIDE_CLOCK_clk_pdm_mclk_(6); 
+    _SWITCH_CLOCK_clk_pdm_mclk_SOURCE_clk_audio_src_;   
+	//_SWITCH_CLOCK_clk_pdm_mclk_SOURCE_clk_audio_12288_;
 	_ENABLE_CLOCK_clk_apb_pdm_;
 	_ENABLE_CLOCK_clk_pdm_mclk_;
 	_CLEAR_RESET_audio_rst_gen_rstn_apb_pdm_;
+
+	SET_GPIO_46_dout_dmic_clk_out;  
+	SET_GPIO_46_doen_LOW;
+	SET_GPIO_dmic_sdin_bit0(44);
+	SET_GPIO_dmic_sdin_bit1(22);
+	SET_GPIO_44_doen_HIGH;
+	SET_GPIO_22_doen_HIGH;  
 }
 
 INIT_FUNC_DEF(i2svad)
@@ -384,33 +405,144 @@ INIT_FUNC_DEF(i2svad)
 	_CLEAR_RESET_audio_rst_gen_rstn_i2svad_srst_ ;
 }
 
+
+INIT_FUNC_DEF(pmd2vad)
+{
+    _SET_SYSCON_REG_SCFG_sram_config0_vad(0);
+	
+	_ENABLE_CLOCK_clk_adc_mclk_;	
+	_ENABLE_CLOCK_clk_apb_i2svad_;	 
+	_CLEAR_RESET_audio_rst_gen_rstn_apb_i2svad_; 
+	_CLEAR_RESET_audio_rst_gen_rstn_i2svad_srst_;	 
+	
+	_SET_SYSCON_REG_SCFG_ctrl_i2sadc_enable;
+	_SET_SYSCON_REG_SCFG_aon_i2s_ctrl_adci2s_d0_sel(AUDIO_IN_PDM_SD0);
+
+	_DIVIDE_CLOCK_clk_adc_mclk_(0x3);
+	_SWITCH_CLOCK_clk_adc_mclk_SOURCE_clk_audio_src_;
+	_DIVIDE_CLOCK_clk_i2sadc_bclk_(0x8);
+	_SWITCH_CLOCK_clk_i2sadc_bclk_SOURCE_clk_adc_mclk_;
+	_DIVIDE_CLOCK_clk_i2sadc_lrclk_(0x20);
+	_SWITCH_CLOCK_clk_i2sadc_lrclk_SOURCE_clk_i2sadc_bclk_n_;
+
+    _ENABLE_CLOCK_clk_apb_i2sadc_;  
+    _CLEAR_RESET_audio_rst_gen_rstn_apb_i2sadc_;    
+    _CLEAR_RESET_audio_rst_gen_rstn_i2sadc_srst_;   
+	_SWITCH_CLOCK_clk_vad_mem_SOURCE_clk_i2svad_bclk_;
+}
+
+
+
 INIT_FUNC_DEF(spdif)
 {
-	_ENABLE_CLOCK_clk_spdif_;
-	_ENABLE_CLOCK_clk_apb_spdif_;
-	_CLEAR_RESET_audio_rst_gen_rstn_apb_spdif_;
+    _DIVIDE_CLOCK_clk_audio_root_(2);
+    _DIVIDE_CLOCK_clk_audio_div_(0x4528);
+    _ENABLE_CLOCK_clk_apb_spdif_;
+	_SWITCH_CLOCK_clk_spdif_SOURCE_clk_audio_src_;
+	//_SWITCH_CLOCK_clk_spdif_SOURCE_clk_audio_12288_;
+    _ENABLE_CLOCK_clk_spdif_;
+	_DIVIDE_CLOCK_clk_spdif_(1);
+    _CLEAR_RESET_audio_rst_gen_rstn_apb_spdif_;
+
+	//tx
+	#if 1
+	SET_GPIO_46_dout_spdif_tx_sdout;
+    SET_GPIO_46_doen_LOW;
+	#else
+	//rx
+	_SET_SYSCON_REG_SCFG_sram_config0_spdif(0x17);
+    SET_GPIO_spdif_rx_sdin(46);
+	#endif
 }
 
 INIT_FUNC_DEF(pwmdac)
 {
-	_ENABLE_CLOCK_clk_apb_pwmdac_;
-	_CLEAR_RESET_audio_rst_gen_rstn_apb_pwmdac_;
+	#if 1
+	/* audio src clk */
+	_DIVIDE_CLOCK_clk_audio_root_(2); //500M
+	_DIVIDE_CLOCK_clk_audio_div_(0x4528); // 500M/12.28M =40.69 :0x4528 out:12.28M
+
+    _ASSERT_RESET_audio_rst_gen_rstn_apb_pwmdac_;   
+	_DISABLE_CLOCK_clk_apb_pwmdac_; 
+	
+ 	_DIVIDE_CLOCK_clk_dac_mclk_(3); //out:4M
+	_SWITCH_CLOCK_clk_dac_mclk_SOURCE_clk_audio_src_; 
+	_ENABLE_CLOCK_clk_dac_mclk_;	
+	_ENABLE_CLOCK_clk_apb_pwmdac_;	
+	_CLEAR_RESET_audio_rst_gen_rstn_apb_pwmdac_;	
+	#else
+	/* pwmdac reset and clkgen */
+	_SWITCH_CLOCK_clk_dac_mclk_SOURCE_clk_audio_12288_; 
+	_DIVIDE_CLOCK_clk_dac_mclk_(3); //out :4M
+	_ENABLE_CLOCK_clk_dac_mclk_;		
+	_ENABLE_CLOCK_clk_apb_pwmdac_;	
+	_CLEAR_RESET_audio_rst_gen_rstn_apb_pwmdac_;	
+	#endif
+	
+    SET_GPIO_23_dout_pwmdac_left_out;  
+	SET_GPIO_23_doen_LOW;
+
+    SET_GPIO_24_dout_pwmdac_right_out;   
+	SET_GPIO_24_doen_LOW;
 }
 
 INIT_FUNC_DEF(i2sdac0)
 {
-	_ENABLE_CLOCK_clk_dac_mclk_;
-	_ENABLE_CLOCK_clk_apb_i2sdac_;
-	_CLEAR_RESET_audio_rst_gen_rstn_apb_i2sdac_;
-	_CLEAR_RESET_audio_rst_gen_rstn_i2sdac_srst_;
+    _ENABLE_CLOCK_clk_dac_mclk_;    
+	_SWITCH_CLOCK_clk_i2sdac_bclk_SOURCE_clk_dac_mclk_;
+	_DIVIDE_CLOCK_clk_i2sdac_bclk_(1);
+	
+	_SWITCH_CLOCK_clk_i2sdac_lrclk_SOURCE_clk_i2sdac_bclk_n_;
+	_DIVIDE_CLOCK_clk_i2sdac_lrclk_(1);
+	
+    _ENABLE_CLOCK_clk_apb_i2sdac_;   
+    _CLEAR_RESET_audio_rst_gen_rstn_apb_i2sdac_;    
+    _CLEAR_RESET_audio_rst_gen_rstn_i2sdac_srst_; 
+	
+	//for wm8960  i2sdac0
+	SET_GPIO_i2stx_bclk_in(45);
+	SET_GPIO_45_doen_HIGH;
+
+    SET_GPIO_i2stx_lrck_in(3);   
+	SET_GPIO_3_doen_HIGH;
+
+	SET_GPIO_0_dout_i2stx_sdout0;
+	SET_GPIO_0_doen_LOW;
+	
+	_SWITCH_CLOCK_clk_i2sdac_bclk_SOURCE_clk_i2sdac_bclk_iopad_;
+	_SWITCH_CLOCK_clk_i2sdac_lrclk_SOURCE_clk_i2sdac_lrclk_iopad_;
 }
 
 INIT_FUNC_DEF(i2sdac1)
 {
-	_ENABLE_CLOCK_clk_i2s1_mclk_;
-	_ENABLE_CLOCK_clk_apb_i2s1_;
-	_CLEAR_RESET_audio_rst_gen_rstn_apb_i2s1_;
-	_CLEAR_RESET_audio_rst_gen_rstn_i2s1_srst_;
+	//vic_i2s1_reset_clk_enable;
+    _SWITCH_CLOCK_clk_i2s1_mclk_SOURCE_clk_audio_12288_;    
+    _ENABLE_CLOCK_clk_i2s1_mclk_;   
+    _DIVIDE_CLOCK_clk_i2s1_mclk_(3); //16k
+	
+    _SWITCH_CLOCK_clk_i2s1_bclk_SOURCE_clk_i2s1_mclk_;  
+    _DIVIDE_CLOCK_clk_i2s1_bclk_(1); 
+	
+    _SWITCH_CLOCK_clk_i2s1_lrclk_SOURCE_clk_i2s1_bclk_; 
+    _DIVIDE_CLOCK_clk_i2s1_lrclk_(1); 
+	
+    _ENABLE_CLOCK_clk_apb_i2s1_;
+    _CLEAR_RESET_audio_rst_gen_rstn_apb_i2s1_;
+    _CLEAR_RESET_audio_rst_gen_rstn_i2s1_srst_;
+	
+	//for wm8960  i2sdac1
+	SET_GPIO_i2stx_bclk_in(45);
+	SET_GPIO_45_doen_HIGH;
+
+    SET_GPIO_i2stx_lrck_in(3);   
+	SET_GPIO_3_doen_HIGH;
+
+	SET_GPIO_0_dout_i2stx_sdout1;
+	SET_GPIO_0_doen_LOW;
+	
+	_SWITCH_CLOCK_clk_i2s1_bclk_SOURCE_clk_i2sdac_bclk_iopad_;
+	_SWITCH_CLOCK_clk_i2s1_lrclk_SOURCE_clk_i2sdac_lrclk_iopad_;
+	
 }
 
 INIT_FUNC_DEF(i2sdac16k)
@@ -419,6 +551,33 @@ INIT_FUNC_DEF(i2sdac16k)
 	_CLEAR_RESET_audio_rst_gen_rstn_apb_i2sdac16k_;
 	_CLEAR_RESET_audio_rst_gen_rstn_i2sdac16k_srst_;
 }
+
+INIT_FUNC_DEF(pdm2i2s)
+{
+	_SWITCH_CLOCK_clk_adc_mclk_SOURCE_clk_audio_src_;
+	_DIVIDE_CLOCK_clk_adc_mclk_(4);//3M
+
+	_DIVIDE_CLOCK_clk_i2sadc_bclk_(2);
+	_SWITCH_CLOCK_clk_i2sadc_bclk_SOURCE_clk_adc_mclk_;
+	_DIVIDE_CLOCK_clk_i2sadc_lrclk_(32);
+	_SWITCH_CLOCK_clk_i2sadc_lrclk_SOURCE_clk_i2sadc_bclk_n_;
+
+	_SET_SYSCON_REG_SCFG_ctrl_i2sadc_enable;
+	_SET_SYSCON_REG_SCFG_aon_i2s_ctrl_adci2s_d0_sel(AUDIO_IN_PDM_SD0);
+}
+
+INIT_FUNC_DEF(i2sgpiorx)
+{
+	_DIVIDE_CLOCK_clk_i2sadc_bclk_(1);
+	_DIVIDE_CLOCK_clk_i2sadc_lrclk_(1);
+	_SWITCH_CLOCK_clk_i2sadc_bclk_SOURCE_clk_i2sadc_bclk_iopad_;
+	_SWITCH_CLOCK_clk_i2sadc_lrclk_SOURCE_clk_i2sadc_lrclk_iopad_;
+
+	_SET_SYSCON_REG_SCFG_ctrl_i2sadc_enable;
+
+	_SET_SYSCON_REG_SCFG_aon_i2s_ctrl_adci2s_d0_sel(AUDIO_IN_SPIO_SD0);
+}
+
 
 INIT_FUNC_DEF(usb)
 {
@@ -466,8 +625,11 @@ INIT_FUNC_DEF(usb)
 
 INIT_FUNC_DEF(sgdma1p)
 {
+	_CLEAR_RESET_audio_rst_gen_rstn_apb_bus_;
 	_ENABLE_CLOCK_clk_sgdma1p_axi_;
+	_ENABLE_CLOCK_clk_dma1p_ahb_;
 	_CLEAR_RESET_rstgen_rstn_sgdma1p_axi_;
+	_CLEAR_RESET_audio_rst_gen_rstn_dma1p_ahb_;
 }
 
 /* disable, when we don't realy use it */
@@ -492,6 +654,8 @@ INIT_FUNC_DEF(sgdma2p)
 	_CLEAR_RESET_rstgen_rstn_sgdma2p_ahb_;
 	_CLEAR_RESET_rstgen_rstn_sgdma2p_axi_;
 	_CLEAR_RESET_rstgen_rstn_dma2pnoc_aix_;
+
+	_SET_SYSCON_REG_register26_SCFG_dma1p2p_sel(0xFFFFFFFF);
 }
 
 INIT_FUNC_DEF(sdio0)
@@ -1063,6 +1227,86 @@ INIT_FUNC_DEF(dsitx)
 
 }
 
+int board_ac108_init(void)
+{
+	INIT_FUNC_CALL(i2srx_3ch);
+	INIT_FUNC_CALL(i2svad);
+
+	SET_GPIO_i2srx_bclk_in(45);
+	SET_GPIO_45_doen_HIGH;
+	#if 0
+	SET_GPIO_i2srx_lrck_in(6);
+	SET_GPIO_6_doen_HIGH;
+	SET_GPIO_i2srx_sdin_bit0(8);
+	SET_GPIO_8_doen_HIGH;
+	#else
+	SET_GPIO_i2srx_lrck_in(3);
+	SET_GPIO_3_doen_HIGH;
+	SET_GPIO_i2srx_sdin_bit0(2);
+	SET_GPIO_2_doen_HIGH;
+	#endif
+
+	INIT_FUNC_CALL(i2sgpiorx);
+}
+
+int board_wm8960_init(void)
+{
+	INIT_FUNC_CALL(i2srx_3ch);
+	INIT_FUNC_CALL(i2svad);
+	INIT_FUNC_CALL(i2sdac0);
+	//INIT_FUNC_CALL(i2sdac1);
+
+	SET_GPIO_i2srx_bclk_in(45);	
+	SET_GPIO_45_doen_HIGH;
+	SET_GPIO_i2srx_lrck_in(3);
+	SET_GPIO_3_doen_HIGH;
+	SET_GPIO_i2srx_sdin_bit0(2);
+	SET_GPIO_2_doen_HIGH;
+
+	INIT_FUNC_CALL(i2sgpiorx);
+}
+
+int board_vad_init(void)
+{
+	INIT_FUNC_CALL(pdm);
+	INIT_FUNC_CALL(pmd2vad);
+}
+
+int board_pwmdac_init(void)
+{
+	INIT_FUNC_CALL(pwmdac);
+}
+
+int board_spdif_init(void)
+{
+	INIT_FUNC_CALL(spdif);
+}
+
+int board_pdm_init(void)
+{
+	INIT_FUNC_CALL(i2srx_3ch);
+	INIT_FUNC_CALL(pdm);
+	INIT_FUNC_CALL(i2svad);
+	INIT_FUNC_CALL(pdm2i2s);
+}
+
+int board_audio_init(void)
+{
+	#if STARFIVE_AUDIO_AC108
+	board_ac108_init();
+	#elif STARFIVE_AUDIO_WM8960
+	board_wm8960_init();
+	#elif STARFIVE_AUDIO_VAD
+	board_vad_init();
+	#elif STARFIVE_AUDIO_SPDIF
+	board_spdif_init();
+	#elif STARFIVE_AUDIO_PDM
+	board_pdm_init();
+	#endif
+
+	board_pwmdac_init();
+}
+
 /*init system GPIO*/
 int board_hw_init(void)
 {
@@ -1081,14 +1325,9 @@ int board_hw_init(void)
 //	INIT_FUNC_CALL(syscon);
 	INIT_FUNC_CALL(gpio);
 	INIT_FUNC_CALL(audio_subsys);
-	INIT_FUNC_CALL(i2srx_3ch);
-	INIT_FUNC_CALL(pdm);
-	INIT_FUNC_CALL(i2svad);
-	INIT_FUNC_CALL(spdif);
-	INIT_FUNC_CALL(pwmdac);
-	INIT_FUNC_CALL(i2sdac0);
-	INIT_FUNC_CALL(i2sdac1);
-	INIT_FUNC_CALL(i2sdac16k);
+
+	board_audio_init();
+
 	INIT_FUNC_CALL(usb);
 	INIT_FUNC_CALL(sgdma1p);
 //	INIT_FUNC_CALL(qspi);

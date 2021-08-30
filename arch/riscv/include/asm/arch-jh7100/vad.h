@@ -38,6 +38,19 @@
 #define SCFG_vad_i2s_ctrl_REG_ADDR   (I2S_VAD_BASE_ADDR + 0x884)
 #define VAD_AIX_MEM_ADDR             (0x701F0000)
 
+#define  _SET_SYSCON_REG_SCFG_ctrl_i2sadc_enable { \
+	uint32_t value = MA_INW(VAD_SW); \
+	value &= ~(1<<1); \
+	value |= (1<<1); \
+	MA_OUTW(VAD_SW, value); \
+}
+	
+#define _SET_SYSCON_REG_SCFG_ctrl_i2sadc_disable { \
+	uint32_t value = MA_INW(VAD_SW); \
+	value &= ~(1<<1); \
+	MA_OUTW(VAD_SW, value); \
+}
+
 #define _SET_SYSCON_REG_SCFG_aon_i2s_ctrl_adci2s_d0_sel(v) { \
 	uint32_t _ezchip_macro_read_value_=MA_INW(SCFG_vad_i2s_ctrl_REG_ADDR); \
 	_ezchip_macro_read_value_ &= ~(0x7); \
