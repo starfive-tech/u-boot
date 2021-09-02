@@ -46,6 +46,9 @@ config TARGET_TH1520_LPI4A
 config TARGET_XILINX_MBV
 	bool "Support AMD/Xilinx MicroBlaze V"
 
+config TARGET_STARFIVE_DUBHE_FPGA
+	bool "Support StarFive Dubhe FPGA Board"
+
 endchoice
 
 config SYS_ICACHE_OFF
@@ -89,6 +92,7 @@ source "board/sifive/unmatched/Kconfig"
 source "board/sipeed/maix/Kconfig"
 source "board/sophgo/milkv_duo/Kconfig"
 source "board/starfive/visionfive2/Kconfig"
+source "board/starfive/dubhe_fpga/Kconfig"
 source "board/thead/th1520_lpi4a/Kconfig"
 source "board/xilinx/mbv/Kconfig"
 
