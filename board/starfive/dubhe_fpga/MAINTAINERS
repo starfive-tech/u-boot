@@ -1,0 +1,5 @@
+STARFIVE DUBHE FPGA BOARD
+M: starfive
+S:	Maintained
+F:	board/starfive/dubhe_fpga/
+

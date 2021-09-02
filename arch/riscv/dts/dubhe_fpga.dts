@@ -1,0 +1,88 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/* Copyright (c) 2021 StarFive Technology Co., Ltd. */
+
+#include "dubhe.dtsi"
+#include "binman.dtsi"
+#include "dubhe-fpga-u-boot.dtsi"
+
+/ {
+	model = "StarFive Dubhe FPGA";
+
+	aliases {
+		serial0 = &uart0;
+	};
+
+	chosen {
+		bootargs = "console=ttySIF0,115200 earlycon=sbi root=/dev/mmcblk0p2 rw rootfstype=ext4 rootwait";
+	};
+
+	cpus {
+		timebase-frequency = <25000000>;
+
+	};
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x0 0x80000000 0x2 0x0>;
+	};
+
+	soc {
+	};
+};
+
+&spi0 {
+	status = "okay";
+	mmc@0 {
+		compatible = "mmc-spi-slot";
+		reg = <0>;
+		spi-max-frequency = <20000000>;
+		voltage-ranges = <3300 3300>;
+		disable-wp;
+	};
+};
+
+&qspi1 {
+	status = "okay";
+
+	flash@0 {
+                compatible = "jedec,spi-nor";
+                reg = <0>;
+                spi-max-frequency = <20000000>;
+                m25p,fast-read;
+                spi-tx-bus-width = <1>;
+                spi-rx-bus-width = <1>;
+
+                partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				reg = <0x000000 0x1000>;
+				label = "boot copier";
+				/*read-only;*/
+			};
+
+			partition@1000 {
+				reg = <0x1000 0x1000>;
+				label = "boot jump";
+				/*read-only;*/
+			};
+
+			partition@2000 {
+				reg = <0x2000 0x2000>;
+				label = "DTB";
+			};
+
+			partition@4000 {
+				reg = <0x4000 0x7ffc000>;
+				label = "FW_payload (OpenSBI and Linux)";
+			};
+		};
+        };
+
+};
+
+&uart0 {
+	status = "okay";
+};

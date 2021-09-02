@@ -1,0 +1,38 @@
+if TARGET_STARFIVE_DUBHE_FPGA
+
+config SYS_CPU
+	default "generic"
+
+config SYS_BOARD
+	default "dubhe_fpga"
+
+config SYS_VENDOR
+	default "starfive"
+
+config SYS_SOC
+	default "dubhe_fpga_soc"
+
+config SYS_CONFIG_NAME
+	default "starfive-dubhe-fpga"
+
+config SYS_TEXT_BASE
+	default 0x83000000 if SPL
+	default 0x80000000 if !RISCV_SMODE
+	default 0x80200000 if RISCV_SMODE
+
+config SPL_TEXT_BASE
+	default 0x80000000
+
+config SPL_OPENSBI_LOAD_ADDR
+	default 0x80100000
+
+config BOARD_SPECIFIC_OPTIONS # dummy
+	def_bool y
+	select GENERIC_RISCV
+	select SUPPORT_SPL
+	select BINMAN
+	imply DM_SERIAL
+	imply SIFIVE_SERIAL
+	imply CMD_SF
+
+endif
