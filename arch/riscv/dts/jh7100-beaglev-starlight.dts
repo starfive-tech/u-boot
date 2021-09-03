@@ -97,7 +97,23 @@
 	imx219@10 {
 		compatible = "imx219";
 		reg = <0x10>;
+		clocks = <&clk_ext_camera>;
+		clock-names = "xclk";
+		// powerdown-gpio = <&gpio 21 GPIO_ACTIVE_HIGH>;
 		reset-gpio = <&gpio 58 GPIO_ACTIVE_HIGH>;
+		//DOVDD-supply = <&v2v8>;
+		rotation = <0>;
+
+		port {
+			/* CSI2 bus endpoint */
+			imx219_to_csi2rx0: endpoint {
+				remote-endpoint = <&csi2rx0_from_imx219>;
+				bus-type = <4>;      /* MIPI CSI-2 D-PHY */
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+				link-frequencies = /bits/ 64 <456000000>;
+			};
+		};
 	};
 
 	pmic@5e {
@@ -113,6 +129,12 @@
 	tda998x@70 {
 		compatible = "nxp,tda998x";
 		reg = <0x70>;
+
+		port {
+			tda998x_0_input: endpoint {
+				remote-endpoint = <&hdmi_out>;
+			};
+		};
 	};
 };
 
@@ -142,6 +164,50 @@
 		reg = <0x45>;
 	};
 
+	/* TODO: ov5640 and sc2235 used on EVB board, not support on starlight board, remove it here?*/
+	ov5640: ov5640@3c {
+		compatible = "ovti,ov5640";
+		reg = <0x3c>;
+		clocks = <&clk_ext_camera>;
+		clock-names = "xclk";
+		powerdown-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&gpio 28 GPIO_ACTIVE_HIGH>;
+		//DOVDD-supply = <&v2v8>;
+		rotation = <180>;
+		port {
+			// Parallel bus endpoint
+			ov5640_to_parallel: endpoint {
+				remote-endpoint = <&parallel_from_ov5640>;
+				bus-type = <5>;      // Parallel
+				bus-width = <8>;
+				data-shift = <2>; // lines 9:2 are used
+				hsync-active = <0>;
+				vsync-active = <1>;
+				pclk-sample = <1>;
+			};
+		};
+	};
+	sc2235@30 {
+		compatible = "sc2235";
+		reg = <0x30>;
+		clocks = <&clk_ext_camera>;
+		clock-names = "xclk";
+		powerdown-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&gpio 28 GPIO_ACTIVE_HIGH>;
+		//DOVDD-supply = <&v2v8>;
+		port {
+			// Parallel bus endpoint
+			sc2235_to_parallel: endpoint {
+				remote-endpoint = <&parallel_from_sc2235>;
+				bus-type = <5>;      // Parallel
+				bus-width = <8>;
+				data-shift = <2>; // lines 13:6 are used
+				hsync-active = <1>;
+				vsync-active = <1>;
+				pclk-sample = <1>;
+			};
+		};
+	};
 };
 
 &i2c2 {
@@ -160,6 +226,28 @@
 		port {
 			panel_dsi_port: endpoint {
 				remote-endpoint = <&dsi_out_port>;
+			};
+		};
+	};
+
+	imx219sub@10 {
+		compatible = "imx219";
+		reg = <0x10>;
+		clocks = <&clk_ext_camera>;
+		clock-names = "xclk";
+		// powerdown-gpio = <&gpio 21 GPIO_ACTIVE_HIGH>;
+		reset-gpio = <&gpio 57 GPIO_ACTIVE_HIGH>;
+		//DOVDD-supply = <&v2v8>;
+		rotation = <0>;
+
+		port {
+			/* CSI2 bus endpoint */
+			imx219_to_csi2rx1: endpoint {
+				remote-endpoint = <&csi2rx1_from_imx219>;
+				bus-type = <4>;      /* MIPI CSI-2 D-PHY */
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+				link-frequencies = /bits/ 64 <456000000>;
 			};
 		};
 	};
@@ -234,18 +322,16 @@
 &sfivefb {
 	status = "okay";
 
-	/*
 	pp1 {
 		pp-id = <1>;
 		fifo-out;
 		src-format = <COLOR_YUV420_NV21>;
-		src-width = <800>;
-		src-height = <480>;
+		src-width = <1920>;
+		src-height = <1080>;
 		dst-format = <COLOR_RGB888_ARGB>;
-		dst-width = <800>;
-		dst-height = <480>;
+		dst-width = <1920>;
+		dst-height = <1080>;
 	};
-	*/
 
 	tda_998x_1080p {
 		compatible = "starfive,display-dev";
