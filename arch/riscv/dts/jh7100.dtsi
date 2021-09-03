@@ -229,6 +229,7 @@
 			snps,priority = <0 1 2 3>;
 			snps,axi-max-burst-len = <128>;
 			status = "okay";
+			dma-coherent;
 		};
 
 		dma1p: dma-controller@10500000 {
