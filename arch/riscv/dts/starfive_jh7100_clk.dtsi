@@ -109,4 +109,9 @@
 		clock-frequency = <125000000>;
 	};
 
+	audioclk: audioclk {
+		#clock-cells = <0>;
+		compatible = "fixed-clock";
+		clock-frequency = <12288000>;
+	};
 };
