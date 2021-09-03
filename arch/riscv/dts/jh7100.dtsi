@@ -2,6 +2,7 @@
 /* Copyright (c) 2021 StarFive Technology Co., Ltd. */
 
 /dts-v1/;
+#include "starfive_jh7100_clk.dtsi"
 #include <dt-bindings/clock/starfive-jh7100.h>
 #include <dt-bindings/starfive_fb.h>
 
@@ -624,6 +625,154 @@
 			reg = <0x0 0x11810000 0x0 0x10000>;
 			fuse-count = <0x200>;
 			clocks = <&clkgen JH7100_CLK_OTP_APB>;
+		};
+
+		i2sadc0: i2sadc0@10400000 {
+			compatible = "snps,designware-i2sadc0";
+			reg = <0x0 0x10400000 0x0 0x1000>;
+			interrupt-parent = <&plic>;
+			/* interrupts = <59>; */
+			/* interrupt-names = "rx"; */
+			clocks = <&apb1clk>;
+			clock-names = "i2sclk";
+			#sound-dai-cells = <0>;
+			dmas = <&dma2p 28>;
+			dma-names = "rx";
+		};
+
+		i2svad: i2svad@10420000 {
+			compatible = "sf,sf-i2svad";
+			reg = <0x0 0x10420000 0x0 0x1000> ;
+			interrupt-parent = <&plic>;
+			interrupts = <60>, <61>;
+			interrupt-names = "spintr", "slintr";
+			clocks = <&apb1clk>;
+			clock-names = "i2sclk";
+			#sound-dai-cells = <0>;
+		};
+
+		i2sdac0: i2sdac0@10450000 {
+			compatible = "snps,designware-i2sdac0";
+			reg = <0x0 0x10450000 0x0 0x1000>;
+			interrupt-parent = <&plic>;
+			/*interrupts = <64>; */
+			/*interrupt-names = "tx";*/
+			clocks = <&apb1clk>;
+			clock-names = "i2sclk";
+			#sound-dai-cells = <0>;
+			dmas = <&dma2p 30>;
+			dma-names = "tx";
+		};
+
+		i2sdac1: i2sdac1@10460000 {
+			compatible = "snps,designware-i2sdac1";
+			reg = <0x0 0x10460000 0x0 0x1000>;
+			interrupt-parent = <&plic>;
+			/*interrupts = <66>;*/
+			/*interrupt-names = "tx";*/
+			clocks = <&apb1clk>;
+			clock-names = "i2sclk";
+			#sound-dai-cells = <0>;
+			dmas = <&dma2p 31>;
+			dma-names = "tx";
+		};
+
+		i2sdac16k: i2sdac16k@10470000 {
+			compatible = "snps,designware-i2sdac16k";
+			reg = <0x0 0x10470000 0x0 0x1000>;
+			interrupt-parent = <&plic>;
+			/* interrupts = <68>; */
+			/* interrupt-names = "tx"; */
+			clocks = <&apb1clk>;
+			clock-names = "i2sclk";
+			#sound-dai-cells = <0>;
+			dmas = <&dma2p 29>;
+			dma-names = "tx";
+		};
+
+		spdif0: spdif0@10430000 {
+			compatible = "starfive,sf-spdif";
+			reg = <0x0 0x10430000 0x0 0x1000>;
+			interrupt-parent = <&plic>;
+			interrupts = <62>;
+			interrupt-names = "tx";
+			clocks = <&audioclk>;
+			clock-names = "audioclk";
+			#sound-dai-cells = <0>;
+		};
+
+		pdm: pdm@10410000 {
+			compatible = "starfive,sf-pdm";
+			reg = <0x0 0x10410000 0x0 0x1000>, <0x0 0x10480000 0x0 0x1000>;
+			reg-names = "pdm", "audio-clk";
+			clocks = <&audioclk>;
+			clock-names = "audioclk";
+			#sound-dai-cells = <0>;
+		};
+
+		ac108_mclk: ac108_mclk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <24576000>;
+		};
+
+		wm8960_mclk: wm8960_mclk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <24576000>;
+		};
+
+		spdif_transmitter: spdif_transmitter {
+			compatible = "linux,spdif-dit";
+			#sound-dai-cells = <0>;
+		};
+
+		spdif_receiver: spdif_receiver {
+			compatible = "linux,spdif-dir";
+			#sound-dai-cells = <0>;
+		};
+
+		pwmdac: pwmdac@10440000 {
+			compatible = "sf,pwmdac";
+			reg = <0x0 0x10440000 0x0 0x1000>;
+			clocks = <&apb1clk>;
+			dmas = <&dma2p 23>;
+			dma-names = "tx";
+			#sound-dai-cells = <0>;
+		};
+
+		pwmdac_codec: pwmdac-transmitter {
+			compatible = "linux,pwmdac-dit";
+			#sound-dai-cells = <0>;
+		};
+
+		dmic_codec: dmic_codec {
+			compatible = "dmic-codec";
+			#sound-dai-cells = <0>;
+		};
+
+		sound:snd-card{
+			compatible = "simple-audio-card";
+			simple-audio-card,name = "Starfive-Multi-Sound-Card";
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			/* pwmdac */
+			simple-audio-card,dai-link@0 {
+				reg = <0>;
+				status = "okay";
+				format = "left_j";
+				bitclock-master = <&sndcpu0>;
+				frame-master = <&sndcpu0>;
+
+				sndcpu0: cpu {
+					sound-dai = <&pwmdac>;
+				};
+
+				codec {
+					sound-dai = <&pwmdac_codec>;
+				};
+			};
 		};
 	};
 };
