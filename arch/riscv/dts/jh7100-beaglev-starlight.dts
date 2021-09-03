@@ -487,3 +487,9 @@
 	dr_mode = "host";
 	status = "okay";
 };
+
+/* #include "codecs/sf_pdm.dtsi" */
+/* #include "codecs/sf_spdif.dtsi" */
+/* #include "codecs/sf_ac108.dtsi" */
+/* #include "codecs/sf_wm8960.dtsi" */
+/* #include "codecs/sf_vad.dtsi" */
