@@ -667,12 +667,13 @@
 			      <0x0 0x19870000 0x0 0x30000>,
 			      <0x0 0x198a0000 0x0 0x30000>,
 			      <0x0 0x11800000 0x0 0x10000>,
-			      <0x0 0x11840000 0x0 0x10000>,
-			      <0x0 0x11858000 0x0 0x10000>;
+			      <0x0 0x11840000 0x0 0x10000>;
 			reg-names = "mipi0", "vclk", "vrst", "mipi1", "sctrl",
-				    "isp0", "isp1", "tclk", "trst", "iopad";
+				    "isp0", "isp1", "tclk", "trst";
 			interrupts = <119 109 112>;
 			memory-region = <&vin_reserved>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&dvpsensor_pins>;
 			status = "okay";
 
 			clocks =  <&clkgen JH7100_CLK_VIN_SRC>,

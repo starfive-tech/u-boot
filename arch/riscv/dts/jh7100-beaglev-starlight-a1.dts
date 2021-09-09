@@ -14,3 +14,12 @@
 		priority = <256>;
 	};
 };
+
+&gmac {
+	/delete-property/ snps,reset-gpios;
+};
+
+&gpio {
+	/* don't reset gpio mux for serial console and reset gpio */
+	starfive,keep-gpiomux = <13 14 63>;
+};
