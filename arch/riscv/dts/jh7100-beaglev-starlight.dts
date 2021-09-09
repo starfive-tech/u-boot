@@ -377,6 +377,102 @@
 			slew-rate = <0>;
 		};
 	};
+
+	dvpsensor_pins: dvp0 {
+		signal-pins {
+			pins = <PAD_FUNC_SHARE(98)>,
+			       <PAD_FUNC_SHARE(99)>,
+			       <PAD_FUNC_SHARE(100)>,
+			       <PAD_FUNC_SHARE(101)>,
+			       <PAD_FUNC_SHARE(102)>,
+			       <PAD_FUNC_SHARE(103)>,
+			       <PAD_FUNC_SHARE(104)>,
+			       <PAD_FUNC_SHARE(105)>,
+			       <PAD_FUNC_SHARE(106)>,
+			       <PAD_FUNC_SHARE(107)>,
+			       <PAD_FUNC_SHARE(108)>,
+			       <PAD_FUNC_SHARE(109)>,
+			       <PAD_FUNC_SHARE(110)>,
+			       <PAD_FUNC_SHARE(111)>,
+			       <PAD_FUNC_SHARE(112)>,
+			       <PAD_FUNC_SHARE(113)>,
+			       <PAD_FUNC_SHARE(114)>;
+			input-enable;
+		};
+	};
+
+	sensor0_default: sensor0 {
+		reset-pins {
+			pinmux = <GPIOMUX(58, GPO_LOW,
+				  GPO_ENABLE, GPI_NONE)>;
+			bias-disable;
+			drive-strength = <35>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	sensor0_reset_low: sensor0 {
+		reset-pins {
+			pinmux = <GPIOMUX(58, GPO_LOW,
+				  GPO_ENABLE, GPI_NONE)>;
+			bias-disable;
+			drive-strength = <35>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	sensor0_reset_high: sensor0 {
+		reset-pins {
+			pinmux = <GPIOMUX(58, GPO_HIGH,
+				  GPO_ENABLE, GPI_NONE)>;
+			bias-disable;
+			drive-strength = <35>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	sensor1_default: sensor1 {
+		reset-pins {
+			pinmux = <GPIOMUX(57, GPO_LOW,
+				  GPO_ENABLE, GPI_NONE)>;
+			bias-disable;
+			drive-strength = <35>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	sensor1_reset_low: sensor1 {
+		reset-pins {
+			pinmux = <GPIOMUX(57, GPO_LOW,
+				  GPO_ENABLE, GPI_NONE)>;
+			bias-disable;
+			drive-strength = <35>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	sensor1_reset_high: sensor1 {
+		reset-pins {
+			pinmux = <GPIOMUX(57, GPO_HIGH,
+				  GPO_ENABLE, GPI_NONE)>;
+			bias-disable;
+			drive-strength = <35>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
 };
 
 &i2c0 {
@@ -394,7 +490,11 @@
 		clocks = <&clk_ext_camera>;
 		clock-names = "xclk";
 		// powerdown-gpio = <&gpio 21 GPIO_ACTIVE_HIGH>;
-		reset-gpio = <&gpio 58 GPIO_ACTIVE_HIGH>;
+		// reset-gpio = <&gpio 58 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default", "reset_low", "reset_high";
+		pinctrl-0 = <&sensor0_default>;
+		pinctrl-1 = <&sensor0_reset_low>;
+		pinctrl-2 = <&sensor0_reset_high>;
 		//DOVDD-supply = <&v2v8>;
 		rotation = <0>;
 
@@ -530,7 +630,11 @@
 		clocks = <&clk_ext_camera>;
 		clock-names = "xclk";
 		// powerdown-gpio = <&gpio 21 GPIO_ACTIVE_HIGH>;
-		reset-gpio = <&gpio 57 GPIO_ACTIVE_HIGH>;
+		// reset-gpio = <&gpio 57 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default", "reset_low", "reset_high";
+		pinctrl-0 = <&sensor1_default>;
+		pinctrl-1 = <&sensor1_reset_low>;
+		pinctrl-2 = <&sensor1_reset_high>;
 		//DOVDD-supply = <&v2v8>;
 		rotation = <0>;
 
