@@ -526,6 +526,7 @@
 
 		port {
 			tda998x_0_input: endpoint {
+				remote-endpoint = <&hdmi_out>;
 			};
 		};
 	};

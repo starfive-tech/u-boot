@@ -512,7 +512,7 @@ INIT_FUNC_DEF(i2sdac0)
 	_SWITCH_CLOCK_clk_i2sdac_bclk_SOURCE_clk_i2sdac_bclk_iopad_;
 	_SWITCH_CLOCK_clk_i2sdac_lrclk_SOURCE_clk_i2sdac_lrclk_iopad_;
 }
-
+#if 0
 INIT_FUNC_DEF(i2sdac1)
 {
 	//vic_i2s1_reset_clk_enable;
@@ -551,6 +551,7 @@ INIT_FUNC_DEF(i2sdac16k)
 	_CLEAR_RESET_audio_rst_gen_rstn_apb_i2sdac16k_;
 	_CLEAR_RESET_audio_rst_gen_rstn_i2sdac16k_srst_;
 }
+#endif
 
 INIT_FUNC_DEF(pdm2i2s)
 {
@@ -1247,6 +1248,7 @@ int board_ac108_init(void)
 	#endif
 
 	INIT_FUNC_CALL(i2sgpiorx);
+	return 0;
 }
 
 int board_wm8960_init(void)
@@ -1264,22 +1266,26 @@ int board_wm8960_init(void)
 	SET_GPIO_2_doen_HIGH;
 
 	INIT_FUNC_CALL(i2sgpiorx);
+	return 0;
 }
 
 int board_vad_init(void)
 {
 	INIT_FUNC_CALL(pdm);
 	INIT_FUNC_CALL(pmd2vad);
+	return 0;
 }
 
 int board_pwmdac_init(void)
 {
 	INIT_FUNC_CALL(pwmdac);
+	return 0;
 }
 
 int board_spdif_init(void)
 {
 	INIT_FUNC_CALL(spdif);
+	return 0;
 }
 
 int board_pdm_init(void)
@@ -1288,6 +1294,7 @@ int board_pdm_init(void)
 	INIT_FUNC_CALL(pdm);
 	INIT_FUNC_CALL(i2svad);
 	INIT_FUNC_CALL(pdm2i2s);
+	return 0;
 }
 
 int board_audio_init(void)
@@ -1305,6 +1312,7 @@ int board_audio_init(void)
 	#endif
 
 	board_pwmdac_init();
+	return 0;
 }
 
 /*init system GPIO*/

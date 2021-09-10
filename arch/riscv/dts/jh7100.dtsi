@@ -567,14 +567,14 @@
 
 			ports {
 				port@0 {
-					endpoint {
+					hdmi_out:endpoint {
 						remote-endpoint = <&tda998x_0_input>;
 						//remote-endpoint = <&dsi_out_port>;
 					};
 				};
 
 				port@1 {
-					endpoint {
+					hdmi_input0:endpoint {
 						remote-endpoint = <&crtc_0_out>;
 					};
 				};
@@ -585,7 +585,8 @@
 		crtc: crtc@12000000 {
 			compatible = "starfive,jh7100-crtc";
 			status = "okay";
-
+			#address-cells = <1>;
+			#size-cells = <0>;
 			interrupt-parent = <&plic>;
 			interrupts = <101>, <103>;
 			interrupt-names = "lcdc_irq", "vpp1_irq";
@@ -618,6 +619,7 @@
 			port: port@0 {
 				reg = <0>;
 				crtc_0_out: endpoint {
+				remote-endpoint = <&hdmi_input0>;
 				};
 			};
 		};
@@ -729,6 +731,8 @@
 				// 	"isp1_mipi_ctrl";
 
 			ports {
+				#address-cells = <1>;
+				#size-cells = <0>;
 				port@0 {
 					reg = <0>;
 
@@ -1008,7 +1012,9 @@
 		sound:snd-card{
 			compatible = "simple-audio-card";
 			simple-audio-card,name = "Starfive-Multi-Sound-Card";
-			
+			#address-cells = <1>;
+			#size-cells = <0>;
+
 			/* pwmdac */
 			simple-audio-card,dai-link@0 {
 				reg = <0>;
