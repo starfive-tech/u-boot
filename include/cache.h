@@ -40,6 +40,17 @@ struct cache_ops {
 	 * @return 0 if OK, -ve on error
 	 */
 	int (*disable)(struct udevice *dev);
+
+	/**
+	 * flush_range() - Flush cache in a range
+	 *
+	 * @dev:	Device to check (UCLASS_CACHE)
+	 * @start:	start address of the range
+	 * @end:	end address of the range
+	 * @return 0 if OK, -ve on error
+	 */
+	int (*flush_range)(struct udevice *dev,
+			   unsigned long start, unsigned long end);
 };
 
 #define cache_get_ops(dev)	((struct cache_ops *)(dev)->driver->ops)
@@ -68,4 +79,14 @@ int cache_enable(struct udevice *dev);
  * Return: 0 if OK, -ve on error
  */
 int cache_disable(struct udevice *dev);
+
+/**
+ * flush_range() - Flush cache
+ *
+ * @dev:	Device to check (UCLASS_CACHE)
+ * @start:	start address of the range
+ * @end:	end address of the range
+ * @return 0 if OK, -ve on error
+ */
+int flush_range(struct udevice *dev, unsigned long start, unsigned long end);
 #endif
