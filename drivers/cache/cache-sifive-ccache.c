@@ -35,6 +35,10 @@ static int sifive_ccache_enable(struct udevice *dev)
 	config = readl(priv->base + SIFIVE_CCACHE_CONFIG);
 	ways = FIELD_GET(SIFIVE_CCACHE_CONFIG_WAYS, config);
 
+#if CONFIG_IS_ENABLED(SIFIVE_CCACHE_WAYENABLE_OPT)
+	if (CONFIG_SIFIVE_CCACHE_WAYENABLE_NUM < ways)
+		ways = CONFIG_SIFIVE_CCACHE_WAYENABLE_NUM;
+#endif
 	writel(ways - 1, priv->base + SIFIVE_CCACHE_WAY_ENABLE);
 
 	return 0;
