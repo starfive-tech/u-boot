@@ -46,4 +46,16 @@ config SIFIVE_CCACHE
 	  This driver is for SiFive Composable L2/L3 cache. It enables cache
 	  ways of composable cache.
 
+config SIFIVE_CCACHE_WAYENABLE_OPT
+	bool "SiFive composable cache: customized the largest way enabled."
+	depends on SIFIVE_CCACHE
+
+config SIFIVE_CCACHE_WAYENABLE_NUM
+	int "SiFive composable cache: the largest way which will be enabled"
+	depends on SIFIVE_CCACHE_WAYENABLE_OPT
+	default 1
+	range 1 256
+	help
+	  Range[1, 256]. The index of the largest way which will be enabled.
+
 endmenu
