@@ -39,6 +39,17 @@ int cache_disable(struct udevice *dev)
 	return ops->disable(dev);
 }
 
+
+int flush_range(struct udevice *dev, unsigned long start, unsigned long end)
+{
+	struct cache_ops *ops = cache_get_ops(dev);
+
+	if (!ops->flush_range)
+		return -ENOSYS;
+
+	return ops->flush_range(dev, start, end);
+}
+
 UCLASS_DRIVER(cache) = {
 	.id		= UCLASS_CACHE,
 	.name		= "cache",
