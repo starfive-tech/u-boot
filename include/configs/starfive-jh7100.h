@@ -66,6 +66,10 @@
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	STARLIGHT_FEDORA_BOOTENV \
+	"mmcsetup=mmc part\0" \
+	"fdtsetup=fdt addr ${fdtcontroladdr}\0" \
+	"fatenv=setenv fileaddr a0000000; fatload mmc 0:1 ${fileaddr} u74_uEnv.txt;" \
+	"env import -t ${fileaddr} ${filesize}\0" \
 	"loadaddr=0xa0000000\0" \
 	"loadbootenv=fatload mmc ${mmcdev} ${loadaddr} ${bootenv}\0" \
 	"ext4bootenv=ext4load mmc ${bootpart} ${loadaddr} ${bootdir}/${bootenv}\0" \

@@ -32,6 +32,7 @@ CONFIG_AUTOBOOT_DELAY_STR="f"
 CONFIG_AUTOBOOT_STOP_STR="v"
 CONFIG_AUTOBOOT_KEYED_CTRLC=y
 # CONFIG_USE_BOOTCOMMAND is not set
+# CONFIG_BOOTCOMMAND="run mmcsetup; run fdtsetup; run fatenv; echo 'running boot2...'; run boot2"
 CONFIG_USE_PREBOOT=y
 CONFIG_PREBOOT="run mmcbootenv"
 CONFIG_DEFAULT_FDT_FILE="starfive/jh7100-beaglev-starlight.dtb"
