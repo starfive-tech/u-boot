@@ -202,6 +202,7 @@ CONFIG_USE_BOOTARGS=y
 CONFIG_BOOTARGS="console=ttyS0,115200  debug rootwait  earlycon=sbi stmmaceth=chain_mode:1"
 # CONFIG_BOOTARGS_SUBST is not set
 # CONFIG_USE_BOOTCOMMAND is not set
+# CONFIG_BOOTCOMMAND="run mmcsetup; run fdtsetup; run fatenv; echo 'running boot2...'; run boot2"
 CONFIG_USE_PREBOOT=y
 CONFIG_PREBOOT="run mmcbootenv"
 CONFIG_DEFAULT_FDT_FILE=""
