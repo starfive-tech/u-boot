@@ -1,7 +1,7 @@
 if TARGET_STARFIVE_DUBHE_FPGA
 
 config SYS_CPU
-	default "generic"
+	default "dubhe"
 
 config SYS_BOARD
 	default "dubhe_fpga"
@@ -28,7 +28,7 @@ config SPL_OPENSBI_LOAD_ADDR
 
 config BOARD_SPECIFIC_OPTIONS # dummy
 	def_bool y
-	select GENERIC_RISCV
+	select STARFIVE_DUBHE
 	select SUPPORT_SPL
 	select BINMAN
 	imply DM_SERIAL
