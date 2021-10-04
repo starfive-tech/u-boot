@@ -1,5 +1,21 @@
+<<<<<<< HEAD
 config SPL_STARFIVE_DDR
 	bool "StarFive DDR driver in SPL"
 	depends on SPL_RAM && STARFIVE_JH7110
 	help
 	  This enables DDR support for the platforms based on StarFive JH7110 SoC.
+=======
+config RAM_STARFIVE
+	bool "Ram drivers support for StarFive SoCs"
+	depends on RAM && RISCV
+	default y
+	help
+	  This enables support for ram drivers of StarFive SoCs.
+
+config STARFIVE_DDR
+	bool "StarFive DDR driver"
+	depends on RAM_STARFIVE
+	default y if TARGET_STARFIVE_DUBHE_FPGA
+	help
+	  This enables DDR4/LPDDR4 support for the platforms based on StarFive SoC.
+>>>>>>> Add DDR driver framework
