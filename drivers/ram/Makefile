@@ -30,3 +30,4 @@ obj-$(CONFIG_ARCH_OCTEON) += octeon/
 
 obj-$(CONFIG_ARCH_RENESAS) += renesas/
 obj-$(CONFIG_CADENCE_DDR_CTRL) += cadence/
+obj-$(CONFIG_RAM_STARFIVE) += starfive/
