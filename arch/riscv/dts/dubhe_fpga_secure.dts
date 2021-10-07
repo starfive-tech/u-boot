@@ -2,7 +2,6 @@
 /* Copyright (c) 2021 StarFive Technology Co., Ltd. */
 
 #include "dubhe.dtsi"
-#include "binman.dtsi"
 #include "dubhe-fpga-u-boot.dtsi"
 
 / {
@@ -27,6 +26,10 @@
 	};
 
 	soc {
+	};
+	
+	binman: binman {
+		multiple-images;
 	};
 };
 
@@ -88,8 +91,9 @@
 };
 
 &binman {
+
 	kernel_fit {
-		filename = "kernel.itb";
+		filename = "kernel_sign.itb";
 		fit {
 			description = "FIT with Linux kernel image and FDT";
 			#address-cells = <1>;
@@ -105,6 +109,9 @@
 					kernel_blob: blob-ext {
 						filename = "Image";
 					};
+					hash {
+						algo = "sha256";
+					};
 				};
 				fdt_kernel {
 					description = "Linux kernel device tree binary";
@@ -115,6 +122,9 @@
 					fdt_kernel_blob: blob-ext {
 						filename = "dubhe_fpga_linux.dtb";
 					};
+					hash {
+						algo = "sha256";
+					};
 				};
 			};
 
@@ -124,13 +134,109 @@
 					description = "Starfive Dubhe FPGA";
 					kernel = "kernel";
 					fdt = "fdt_kernel";
+					signature {
+						algo = "sha256,rsa4096";
+						key-name-hint = "starfive_linux";
+						sign-images = "fdt", "kernel";
+					};
 				};
 			};
 		};
 	};
 
+	kernel_fit_sign {
+		arg {
+			args = "mkimage -k ../starfive_key/linux_key -K u-boot.dtb -r -F kernel_sign.itb";
+		};
+	};
+
+	uboot_fit {
+		filename = "u-boot_sign.itb";
+
+		fit {
+			description = "Configuration to load OpenSBI before U-Boot";
+			#address-cells = <1>;
+			fit,fdt-list = "of-list";
+
+			images {
+				uboot {
+					description = "U-Boot";
+					type = "standalone";
+					os = "U-Boot";
+					arch = "riscv";
+					compression = "none";
+					load = <CONFIG_SYS_TEXT_BASE>;
+
+					uboot_blob: blob-ext {
+						filename = "u-boot-nodtb.bin";
+					};
+					hash {
+						algo = "sha256";
+					};
+				};
+
+				opensbi {
+					description = "OpenSBI fw_dynamic Firmware";
+					type = "firmware";
+					os = "opensbi";
+					arch = "riscv";
+					compression = "none";
+					load = <CONFIG_SPL_OPENSBI_LOAD_ADDR>;
+					entry = <CONFIG_SPL_OPENSBI_LOAD_ADDR>;
+
+					opensbi_blob: opensbi {
+						filename = "fw_dynamic.bin";
+					};
+					hash {
+						algo = "sha256";
+					};
+				};
+
+				fdt {
+					description = "U-Boot proper device tree binary"; //"NAME";
+					type = "flat_dt";
+					arch = "riscv";
+					compression = "none";
+					fdt_blob: blob-ext {
+						filename = "u-boot.dtb";
+					};
+					hash {
+						algo = "sha256";
+					};
+				};
+			};
+
+			configurations {
+				default = "conf";
+				conf {
+					description = "Starfive Dubhe FPGA"; //"NAME";
+					firmware = "opensbi";
+					loadables = "uboot";
+					fdt = "fdt";
+					signature {
+						algo = "sha256,rsa4096";
+						key-name-hint = "starfive_uboot";
+						sign-images = "fdt", "firmware", "loadables";
+					};
+				};
+			};
+		};
+	};
+
+	uboot_fit_sign {
+		arg {
+			args = "mkimage -k ../starfive_key/uboot_key -K spl/u-boot-spl.dtb -r -F u-boot_sign.itb";
+		};
+	};
+
+	uboot_spl_key {
+		arg {
+			args = "make spl/u-boot-spl";
+		};
+	};
+
 	QSPI_Image_binary {
-		filename = "QSPI-Image.bin";
+		filename = "QSPI-Image-signed.bin";
 		pad-byte = <0xff>;
 
 		bootcopier_blob: blob-ext@0 {
@@ -148,12 +254,12 @@
 		};
 
 		qspi_ubootproper_opensbi_blob: blob-ext@2 {
-			filename = "u-boot.itb";
+			filename = "u-boot_sign.itb";
 			offset = <0x22000>;
 		};
 
 		qspi_kernel_blob: blob-ext@3 {
-			filename = "kernel.itb";
+			filename = "kernel_sign.itb";
 			offset = <0x400000>;
 		};
 	};
