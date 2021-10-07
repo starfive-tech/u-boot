@@ -14,6 +14,7 @@ dtb-$(CONFIG_TARGET_XILINX_MBV) += xilinx-mbv32.dtb
 
 include $(srctree)/scripts/Makefile.dts
 dtb-$(CONFIG_TARGET_STARFIVE_DUBHE_FPGA) += dubhe_fpga.dtb
+dtb-$(CONFIG_TARGET_STARFIVE_DUBHE_FPGA) += $(shell echo $(CONFIG_DEFAULT_DEVICE_TREE)).dtb
 
 targets += $(dtb-y)
 
