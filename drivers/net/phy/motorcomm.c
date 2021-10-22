@@ -1,0 +1,223 @@
+/*
+ * RealTek PHY drivers
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+ * MA 02111-1307 USA
+ *
+ * Copyright 2010-2011 Freescale Semiconductor, Inc.
+ * author Andy Fleming
+ *
+ */
+#include <config.h>
+#include <common.h>
+#include <phy.h>
+
+
+#define REG_PHY_SPEC_STATUS 	0x11
+#define REG_DEBUG_ADDR_OFFSET 	0x1e
+#define REG_DEBUG_DATA 	0x1f
+
+#define YT8512_DUPLEX 			0x2000
+#define YT8521_SPEED_MODE 		0xc000
+#define YT8521_DUPLEX 			0x2000
+#define YT8521_SPEED_MODE_BIT 		14
+#define YT8521_DUPLEX_BIT 		13
+#define YT8521_LINK_STATUS_BIT 		10
+
+#define SPEED_UNKNOWN           -1
+
+static int ytphy_read_ext(struct phy_device *phydev, u32 regnum)
+{
+	int ret;
+	int val;
+
+	ret = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_ADDR_OFFSET, regnum);
+	if (ret < 0)
+		return ret;
+
+	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA);
+
+	return val;
+}
+
+static int ytphy_write_ext(struct phy_device *phydev, u32 regnum, u16 val)
+{
+	int ret;
+
+	ret = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_ADDR_OFFSET, regnum);
+	if (ret < 0)
+		return ret;
+
+	ret = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA, val);
+
+	return ret;
+}
+
+
+static int yt8521_config(struct phy_device *phydev)
+{
+	int ret = 0;
+	int val = 0;
+
+	genphy_config_aneg(phydev);
+
+	/* disable sleep mode */
+	val = ytphy_read_ext(phydev, 0x27);
+	if (val < 0) {
+		printf("yt8521_config: read 0x27 error!\n");
+		return val;
+	}
+
+	val &= ~(1<<15);
+	ret = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA, val);
+	if (ret < 0) {
+		printf("yt8521_config: write REG_DEBUG_DATA error!\n");
+		return ret;
+	}
+
+	/* enable RXC clock when no wire plug */
+	ret = ytphy_write_ext(phydev, 0xa000, 0);
+        if (ret < 0) {
+		printf("yt8521_config: write 0xa000 error!\n");
+                return ret;
+	}
+
+	val = ytphy_read_ext(phydev, 0xc);
+        if (val < 0) {
+		printf("yt8521_config: read 0xc error!\n");
+                return val;
+	}
+
+	val &= ~(1 << 12);
+	ret = ytphy_write_ext(phydev, 0xc, val);
+	if (ret < 0) {
+		printf("yt8521_config: set 0xc error!\n");
+		return ret;
+	}
+
+	return 0;
+}
+
+static int yt8521_adjust_status(struct phy_device *phydev, int val)
+{
+	int speed_mode, duplex;
+	int speed = SPEED_UNKNOWN;
+
+	duplex = (val & YT8512_DUPLEX) >> YT8521_DUPLEX_BIT;
+	speed_mode = (val & YT8521_SPEED_MODE) >> YT8521_SPEED_MODE_BIT;
+	switch (speed_mode) {
+	case 0:
+		break;
+	case 1:
+		speed = SPEED_100;
+		break;
+	case 2:
+		speed = SPEED_1000;
+		break;
+	case 3:
+		break;
+	default:
+		speed = SPEED_UNKNOWN;
+		break;
+	}
+
+	phydev->speed = speed;
+	phydev->duplex = duplex;
+
+	return 0;
+}
+
+static int yt8521_parse_status(struct phy_device *phydev)
+{
+	int ret;
+	int val;
+	int link;
+	int link_utp, link_fiber;
+
+	/* reading UTP */
+	ret = ytphy_write_ext(phydev, 0xa000, 0);
+	if (ret < 0)
+		return ret;
+
+	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_PHY_SPEC_STATUS);
+	if (val < 0)
+		return val;
+
+	link = val & (BIT(YT8521_LINK_STATUS_BIT));
+	if (link) {
+		link_utp = 1;
+		yt8521_adjust_status(phydev, val);
+	} else {
+		link_utp = 0;
+	}
+
+	/* reading Fiber */
+	ret = ytphy_write_ext(phydev, 0xa000, 2);
+	if (ret < 0)
+		return ret;
+
+	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_PHY_SPEC_STATUS);
+	if (val < 0)
+		return val;
+
+	link = val & (BIT(YT8521_LINK_STATUS_BIT));
+	if (link) {
+		link_fiber = 1;
+		yt8521_adjust_status(phydev, val);
+	} else {
+		link_fiber = 0;
+	}
+
+	if (link_utp || link_fiber) {
+		phydev->link = 1;
+	} else {
+		phydev->link = 0;
+	}
+
+	if (link_utp) {
+		ytphy_write_ext(phydev, 0xa000, 0);
+	}
+
+	return 0;
+}
+
+static int yt8521_startup(struct phy_device *phydev)
+{
+	int retval;
+
+	retval = genphy_update_link(phydev);
+	if (retval)
+		return retval;
+
+	return yt8521_parse_status(phydev);
+}
+
+static struct phy_driver YT8521_driver = {
+	.name = "YuTai YT8521",
+	.uid = 0x0000011a,
+	.mask = 0x00000fff,
+	.features = PHY_GBIT_FEATURES,
+	.config = &yt8521_config,
+//	.startup = &genphy_startup,
+	.startup = &yt8521_startup,
+	.shutdown = &genphy_shutdown,
+};
+
+int phy_yutai_init(void)
+{
+	phy_register(&YT8521_driver);
+
+	return 0;
+}
