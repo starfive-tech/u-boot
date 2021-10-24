@@ -587,7 +587,7 @@ __maybe_unused static void *dp_fill(void *buf, struct udevice *dev)
 		*vdp = ROOT;
 		return &vdp[1];
 	}
-#ifdef CONFIG_NET
+#ifdef CONFIG_DM_ETH
 	case UCLASS_ETH: {
 		struct efi_device_path_mac_addr *dp =
 			dp_fill(buf, dev->parent);
@@ -1018,18 +1018,39 @@ struct efi_device_path *efi_dp_from_uart(void)
 #ifdef CONFIG_NET
 struct efi_device_path *efi_dp_from_eth(void)
 {
+#ifndef CONFIG_DM_ETH
+	struct efi_device_path_mac_addr *ndp;
+#endif
 	void *buf, *start;
 	unsigned dpsize = 0;
 
 	assert(eth_get_dev());
 
+#ifdef CONFIG_DM_ETH
 	dpsize += dp_size(eth_get_dev());
+#else
+	dpsize += sizeof(ROOT);
+	dpsize += sizeof(*ndp);
+#endif
 
 	start = buf = dp_alloc(dpsize + sizeof(END));
 	if (!buf)
 		return NULL;
 
+#ifdef CONFIG_DM_ETH
 	buf = dp_fill(buf, eth_get_dev());
+#else
+	memcpy(buf, &ROOT, sizeof(ROOT));
+	buf += sizeof(ROOT);
+
+	ndp = buf;
+	ndp->dp.type = DEVICE_PATH_TYPE_MESSAGING_DEVICE;
+	ndp->dp.sub_type = DEVICE_PATH_SUB_TYPE_MSG_MAC_ADDR;
+	ndp->dp.length = sizeof(*ndp);
+	ndp->if_type = 1; /* Ethernet */
+	memcpy(ndp->mac.addr, eth_get_ethaddr(), ARP_HLEN);
+	buf = &ndp[1];
+#endif
 
 	*((struct efi_device_path *)buf) = END;
 
