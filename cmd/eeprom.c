@@ -365,6 +365,7 @@ int do_eeprom(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 	int ret;
 	char *field_name = "";
 	char *field_value = "";
+	char *endptr;
 
 	if (argc <= 1)
 		return CMD_RET_USAGE;
@@ -413,7 +414,11 @@ int do_eeprom(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 		NEXT_PARAM(argc, index);
 
 	if (action == EEPROM_READ || action == EEPROM_WRITE) {
-		addr = parse_numeric_param(argv[index]);
+		//addr = parse_numeric_param(argv[index]);
+		addr = simple_strtoul(argv[index], &endptr, 16);
+                if(*endptr != '\0'){
+                	addr = -1;
+                }
 		NEXT_PARAM(argc, index);
 		off = parse_numeric_param(argv[index]);
 		NEXT_PARAM(argc, index);
