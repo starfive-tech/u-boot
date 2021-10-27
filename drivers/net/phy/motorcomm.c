@@ -28,6 +28,7 @@
 #define REG_PHY_SPEC_STATUS 	0x11
 #define REG_DEBUG_ADDR_OFFSET 	0x1e
 #define REG_DEBUG_DATA 	0x1f
+#define EXTREG_SLEEP_CONTROL 	0x27
 
 #define YT8512_DUPLEX 			0x2000
 #define YT8521_SPEED_MODE 		0xc000
@@ -65,32 +66,81 @@ static int ytphy_write_ext(struct phy_device *phydev, u32 regnum, u16 val)
 	return ret;
 }
 
+static int yt8511_config(struct phy_device *phydev)
+{
+	u16 val = 0;
+	int err = 0;
+
+	genphy_config_aneg(phydev);
+
+	/* disable sleep mode */
+	err = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_ADDR_OFFSET, EXTREG_SLEEP_CONTROL);
+	if (err < 0) {
+		printf("yt8511_config: write EXTREG_SLEEP_CONTROL error!\n");
+		return err;
+	}
+
+	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA);
+	val &= ~(1<<15);
+	err = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA, val);
+	if (err < 0) {
+		printf("yt8511_config: write REG_DEBUG_DATA error!\n");
+		return err;
+	}
+
+	/* config PLL clock */
+	err = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_ADDR_OFFSET, 0xc);
+	if (err < 0) {
+		printf("yt8511_config: write 0xc error!\n");
+		return err;
+	}
+
+	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA);
+	/* ext reg 0xc.b[2:1]
+	00-----25M from pll;
+	01---- 25M from xtl;(default)
+	10-----62.5M from pll;
+	11----125M from pll(here set to this value)
+	*/
+
+	val &= ~(3<<1);		//00-----25M from pll;
+	val |= (1<<1);		//01-----25M from xtl; (default)
+	err = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA, val);
+	if (err < 0) {
+		printf("yt8511_config: set PLL error!\n");
+		return err;
+	}
+
+	return 0;
+}
 
 static int yt8521_config(struct phy_device *phydev)
 {
 	int ret = 0;
 	int val = 0;
 
+	ytphy_write_ext(phydev, 0xa000, 0);
+
 	genphy_config_aneg(phydev);
 
-	/* disable sleep mode */
-	val = ytphy_read_ext(phydev, 0x27);
+	/* disable auto sleep */
+	val = ytphy_read_ext(phydev, EXTREG_SLEEP_CONTROL);
 	if (val < 0) {
-		printf("yt8521_config: read 0x27 error!\n");
+		printf("yt8521_config: read EXTREG_SLEEP_CONTROL error!\n");
 		return val;
 	}
 
 	val &= ~(1<<15);
-	ret = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA, val);
+	ret = ytphy_write_ext(phydev, EXTREG_SLEEP_CONTROL, val);
 	if (ret < 0) {
-		printf("yt8521_config: write REG_DEBUG_DATA error!\n");
+		printf("yt8521_config: write EXTREG_SLEEP_CONTROL error!\n");
 		return ret;
 	}
 
 	/* enable RXC clock when no wire plug */
 	ret = ytphy_write_ext(phydev, 0xa000, 0);
         if (ret < 0) {
-		printf("yt8521_config: write 0xa000 error!\n");
+		printf("yt8521_config: failed to enable RXC clock!\n");
                 return ret;
 	}
 
@@ -110,7 +160,7 @@ static int yt8521_config(struct phy_device *phydev)
 	return 0;
 }
 
-static int yt8521_adjust_status(struct phy_device *phydev, int val)
+static int yt8521_adjust_status(struct phy_device *phydev, int val, int is_utp)
 {
 	int speed_mode, duplex;
 	int speed = SPEED_UNKNOWN;
@@ -119,6 +169,8 @@ static int yt8521_adjust_status(struct phy_device *phydev, int val)
 	speed_mode = (val & YT8521_SPEED_MODE) >> YT8521_SPEED_MODE_BIT;
 	switch (speed_mode) {
 	case 0:
+		if (is_utp)
+			speed = SPEED_10;
 		break;
 	case 1:
 		speed = SPEED_100;
@@ -144,7 +196,7 @@ static int yt8521_parse_status(struct phy_device *phydev)
 	int ret;
 	int val;
 	int link;
-	int link_utp, link_fiber;
+	int link_utp = 0;
 
 	/* reading UTP */
 	ret = ytphy_write_ext(phydev, 0xa000, 0);
@@ -158,36 +210,16 @@ static int yt8521_parse_status(struct phy_device *phydev)
 	link = val & (BIT(YT8521_LINK_STATUS_BIT));
 	if (link) {
 		link_utp = 1;
-		yt8521_adjust_status(phydev, val);
+		yt8521_adjust_status(phydev, val, 1);
 	} else {
 		link_utp = 0;
 	}
 
-	/* reading Fiber */
-	ret = ytphy_write_ext(phydev, 0xa000, 2);
-	if (ret < 0)
-		return ret;
-
-	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_PHY_SPEC_STATUS);
-	if (val < 0)
-		return val;
-
-	link = val & (BIT(YT8521_LINK_STATUS_BIT));
-	if (link) {
-		link_fiber = 1;
-		yt8521_adjust_status(phydev, val);
-	} else {
-		link_fiber = 0;
-	}
-
-	if (link_utp || link_fiber) {
+	if (link_utp) {
 		phydev->link = 1;
+		ytphy_write_ext(phydev, 0xa000, 0);
 	} else {
 		phydev->link = 0;
-	}
-
-	if (link_utp) {
-		ytphy_write_ext(phydev, 0xa000, 0);
 	}
 
 	return 0;
@@ -204,19 +236,29 @@ static int yt8521_startup(struct phy_device *phydev)
 	return yt8521_parse_status(phydev);
 }
 
+static struct phy_driver YT8511_driver = {
+	.name = "YuTai YT8511",
+	.uid = 0x0000010a,
+	.mask = 0x00000fff,
+	.features = PHY_GBIT_FEATURES,
+	.config = &yt8511_config,
+	.startup = &genphy_startup,
+	.shutdown = &genphy_shutdown,
+};
+
 static struct phy_driver YT8521_driver = {
 	.name = "YuTai YT8521",
 	.uid = 0x0000011a,
 	.mask = 0x00000fff,
 	.features = PHY_GBIT_FEATURES,
 	.config = &yt8521_config,
-//	.startup = &genphy_startup,
 	.startup = &yt8521_startup,
 	.shutdown = &genphy_shutdown,
 };
 
 int phy_yutai_init(void)
 {
+	phy_register(&YT8511_driver);
 	phy_register(&YT8521_driver);
 
 	return 0;
