@@ -137,6 +137,33 @@ static int yt8521_config(struct phy_device *phydev)
 		return ret;
 	}
 
+	/*  enable tx delay 450ps per step */
+	val = ytphy_read_ext(phydev, 0xa003);
+	if (val < 0) {
+		printf("yt8521_config: read 0xa003 error!\n");
+		return val;
+	}
+	val |= 0x3; 
+	ret = ytphy_write_ext(phydev, 0xa003, val);
+	if (ret < 0) {
+		printf("yt8521_config: set 0xa003 error!\n");
+		return ret;
+	}
+
+	/* disable rx delay */
+	val = ytphy_read_ext(phydev, 0xa001);
+	if (val < 0) {
+		printf("yt8521_config: read 0xa001 error!\n");
+		return val;
+	}
+	val &= ~(1<<8);
+	ret = ytphy_write_ext(phydev, 0xa001, val);
+	if (ret < 0) {
+		printf("yt8521_config: set 0xa001 error!\n");
+		return ret;
+	}
+	
+
 	/* enable RXC clock when no wire plug */
 	ret = ytphy_write_ext(phydev, 0xa000, 0);
         if (ret < 0) {
