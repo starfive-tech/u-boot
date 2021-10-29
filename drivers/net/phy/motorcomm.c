@@ -159,7 +159,7 @@ static int yt8521_config(struct phy_device *phydev)
 	val &= ~(1<<8);
 	ret = ytphy_write_ext(phydev, 0xa001, val);
 	if (ret < 0) {
-		printf("yt8521_config: set 0xa001 error!\n");
+		printf("yt8521_config: failed to disable rx_delay!\n");
 		return ret;
 	}
 	
