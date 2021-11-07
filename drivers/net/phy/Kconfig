@@ -202,6 +202,9 @@ endif # PHY_MICREL
 config PHY_MSCC
 	bool "Microsemi Corp Ethernet PHYs support"
 
+config PHY_YUTAI
+	bool "YuTai Corp Ethernet PHYs support"
+
 config PHY_NATSEMI
 	bool "National Semiconductor Ethernet PHYs support"
 
