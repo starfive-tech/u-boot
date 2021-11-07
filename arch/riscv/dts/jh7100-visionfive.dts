@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/* Copyright (c) 2021 Jianlong Huang <jianlong.huang@starfivetech.com> */
+
+/dts-v1/;
+#include "jh7100-beaglev-starlight.dts"
+
+/ {
+	model = "StarFive VisionFive V1";
+};
+
+&i2c0 {
+	eeprom_dev:eeprom@50 {
+		compatible = "atmel,24c04";
+		reg = <0x50>;
+		pagesize = <16>;
+	};
+};
