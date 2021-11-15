@@ -37,6 +37,10 @@
 
 &spi0 {
 	u-boot,dm-spl;
+	
+	mmc@0 {
+		u-boot,dm-spl;
+	};
 };
 
 &qspi1 {
