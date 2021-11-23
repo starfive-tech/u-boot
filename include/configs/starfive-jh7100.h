@@ -61,9 +61,18 @@
 	"mmcdev=0\0" \
 	"mmcpart=3\0"
 
+#define STARLIGHT_TEST_BOOTENV \
+	"testpart=0:1\0" \
+	"testenv=u74_uEnv.txt\0" \
+	"mmcsetup=mmc part\0" \
+	"fdtsetup=fdt addr ${fdtcontroladdr}\0" \
+	"fatenv=fatload mmc ${testpart} ${loadaddr} ${testenv};" \
+		"env import -t ${loadaddr} ${filesize}\0"
+
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	STARLIGHT_FEDORA_BOOTENV \
 	"loadaddr=0xa0000000\0" \
+	STARLIGHT_TEST_BOOTENV \
 	"loadbootenv=fatload mmc ${mmcdev} ${loadaddr} ${bootenv}\0" \
 	"ext4bootenv=ext4load mmc ${bootpart} ${loadaddr} ${bootdir}/${bootenv}\0" \
 	"importbootenv=echo Importing environment from mmc${mmcdev} ...; " \
