@@ -32,6 +32,11 @@ config SPL_TEXT_BASE
 config SPL_OPENSBI_LOAD_ADDR
 	default 0x80000000
 
+config STARFIVE_EEPROM
+	bool "enable StarFive EEPROM support"
+	depends on !STARFIVE_OTP
+	default y
+
 config BOARD_SPECIFIC_OPTIONS # dummy
 	def_bool y
 	select SIFIVE_FU740

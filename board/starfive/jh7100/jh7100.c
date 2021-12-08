@@ -6,6 +6,7 @@
 
 #include <common.h>
 #include <cpu_func.h>
+#include <eeprom.h>
 #include <env.h>
 #include <linux/delay.h>
 #include <linux/io.h>
@@ -1448,6 +1449,244 @@ static u32 otp_read_serialnum(struct udevice *dev)
 }
 #endif
 
+#if CONFIG_IS_ENABLED(STARFIVE_EEPROM)
+#define CONFIG_STARFIVE_EEPROM_OR_SIZE_MAX	128 /* Header + Atom1&4(v1) */
+#define CONFIG_STARFIVE_EEPROM_OR_OFFSET	256 /* Read only field */
+#define CONFIG_STARFIVE_EEPROM_OR_SIG	"SFVF" /* StarFive VisionFive */
+#define CONFIG_STARFIVE_EEPROM_OR_SN_SIZE	32
+#define CONFIG_STARFIVE_EEPROM_OR_SN_NUMP	23
+#define CONFIG_STARFIVE_EEPROM_OR_VSTR	"StarFive Technology Co., Ltd.\0\0\0"
+#define CONFIG_STARFIVE_EEPROM_OR_VSTR_SIZE	32
+/*
+ * Atom Types
+ * 0x0000 = invalid
+ * 0x0001 = vendor info
+ * 0x0002 = GPIO map
+ * 0x0003 = Linux device tree blob
+ * 0x0004 = manufacturer custom data
+ * 0x0005-0xfffe = reserved for future use
+ * 0xffff = invalid
+ */
+
+#define HATS_ATOM_INVALID	0x0000
+#define HATS_ATOM_VENDOR	0x0001
+#define HATS_ATOM_GPIO		0x0002
+#define HATS_ATOM_DTB		0x0003
+#define HATS_ATOM_CUSTOM	0x0004
+#define HATS_ATOM_INVALID_END	0xffff
+
+struct hats_eeprom_header {
+	char signature[4];	/* ASCII table signature */
+	u8 version;		/* EEPROM data format version */
+				/* (0x00 reserved, 0x01 = first version) */
+	u8 reversed;		/* 0x00, Reserved field */
+	u16 numatoms;		/* total atoms in EEPROM */
+	u32 eeplen;		/* total length in bytes of all eeprom data */
+				/* (including this header) */
+};
+
+struct hats_eeprom_atom_header {
+	u16 type;
+	u16 count;
+	u32 dlen;
+};
+
+struct starfive_eeprom_atom1_data {
+	u8 uuid[16];
+	u16 pid;
+	u16 pver;
+	u8 vslen;
+	u8 pslen;
+	uchar vstr[CONFIG_STARFIVE_EEPROM_OR_VSTR_SIZE];
+	uchar pstr[CONFIG_STARFIVE_EEPROM_OR_SN_SIZE]; /* product SN */
+};
+
+struct starfive_eeprom_atom1 {
+	struct hats_eeprom_atom_header header;
+	struct starfive_eeprom_atom1_data data;
+	u16 crc16;
+};
+
+struct starfive_eeprom_atom4_data_v1 {
+	u16 version;
+	u8 ether_mac[6];	/* Ethernet0 MAC */
+	u16 reversed;		/* 0x00, Reserved field */
+};
+
+struct starfive_eeprom_atom4_v1 {
+	struct hats_eeprom_atom_header header;
+	struct starfive_eeprom_atom4_data_v1 data;
+	u16 crc16;
+};
+
+static uchar eeprom_ro_buff[CONFIG_STARFIVE_EEPROM_OR_SIZE_MAX];
+
+static int hats_sig_check(char *hats)
+{
+	return strncmp(hats, CONFIG_STARFIVE_EEPROM_OR_SIG, 4);
+}
+
+static int eeprom_or_fill_buff(unsigned char *buf)
+{
+	if (!hats_sig_check((char *)eeprom_ro_buff))
+		return 0;	/* already load info from EEPROM */
+
+	eeprom_init(-1);	/* prepare for EEPROM read/write */
+
+	/* fill the buff */
+	return eeprom_read(CONFIG_SYS_I2C_EEPROM_ADDR,
+			   CONFIG_STARFIVE_EEPROM_OR_OFFSET,
+			   buf, CONFIG_STARFIVE_EEPROM_OR_SIZE_MAX);
+}
+
+#define CRC16 0x8005
+static u16 getcrc(uchar* data, unsigned int size)
+{
+	int i, j = 0x0001;
+	u16 out = 0, crc = 0;
+	int bits_read = 0, bit_flag;
+
+	/* Sanity check: */
+	if((data == NULL) || size == 0)
+		return 0;
+
+	while(size > 0) {
+		bit_flag = out >> 15;
+
+		/* Get next bit: */
+		out <<= 1;
+		// item a) work from the least significant bits
+		out |= (*data >> bits_read) & 1;
+
+		/* Increment bit counter: */
+		bits_read++;
+		if(bits_read > 7) {
+			bits_read = 0;
+			data++;
+			size--;
+		}
+
+		/* Cycle check: */
+		if(bit_flag)
+			out ^= CRC16;
+	}
+
+	// item b) "push out" the last 16 bits
+	for (i = 0; i < 16; ++i) {
+		bit_flag = out >> 15;
+		out <<= 1;
+		if(bit_flag)
+			out ^= CRC16;
+	}
+
+	// item c) reverse the bits
+	for (i = 0x8000; i != 0; i >>=1, j <<= 1) {
+		if (i & out)
+			crc |= j;
+	}
+
+	return crc;
+}
+
+static int hats_atom_crc_check(struct hats_eeprom_atom_header *atom)
+{
+	u16 atom_crc, data_crc;
+	u16 *atom_crc_p = (void *) atom +
+			  sizeof(struct hats_eeprom_atom_header) +
+			  atom->dlen - sizeof(atom_crc);
+
+	atom_crc = *atom_crc_p;
+	data_crc = getcrc((uchar *) atom,
+			  sizeof(struct hats_eeprom_atom_header) +
+			  atom->dlen - sizeof(atom_crc));
+	if (atom_crc == data_crc)
+		return 0;
+
+	printf("EEPROM HATs: CRC ERROR in atom %x type %x, (%x!=%x)\n",
+		atom->count, atom->type, atom_crc, data_crc);
+	return -1;
+
+}
+
+static void *hats_get_atom(struct hats_eeprom_header *header, u16 type)
+ {
+	struct hats_eeprom_atom_header *atom;
+	void *hats_eeprom_max = (void *)header + header->eeplen;
+	void *temp = (void *)header + sizeof(struct hats_eeprom_header);
+
+
+	if (hats_sig_check((char *)header)) {
+		printf("EEPROM HATs: MAGIC ERROR\n");
+		return NULL;
+	}
+
+	for (int numatoms = (int)header->numatoms; numatoms > 0; numatoms--) {
+		atom = (struct hats_eeprom_atom_header *)temp;
+		if (hats_atom_crc_check(atom))
+			return NULL;
+		if (atom->type == type)
+			return (void *)atom;
+		/* go to next atom */
+		temp = (void *)atom + sizeof(struct hats_eeprom_atom_header) +
+		       atom->dlen;
+		if (temp > hats_eeprom_max)
+			break;
+	}
+
+	/* fail to get atom */
+	return NULL;
+}
+
+
+static u32 starfive_atom4_v1_read_mac(unsigned char *buf)
+ {
+	struct starfive_eeprom_atom4_data_v1 *temp;
+	struct hats_eeprom_atom_header *atom;
+
+	int ret = eeprom_or_fill_buff(eeprom_ro_buff);
+	if (ret) {
+		printf("%s: error loading info from EEPROM\n", __func__);
+		return ERROR_READING_SERIAL_NUMBER;
+	}
+
+	atom = (struct hats_eeprom_atom_header *)
+		hats_get_atom((struct hats_eeprom_header *)eeprom_ro_buff,
+			      HATS_ATOM_CUSTOM);
+	if (atom) {
+		temp = &(((struct starfive_eeprom_atom4_v1 *) atom)->data);
+		memcpy((void *)buf, (void *)temp->ether_mac, 6);
+		return !ERROR_READING_SERIAL_NUMBER;
+	}
+
+	return ERROR_READING_SERIAL_NUMBER;
+}
+
+static u32 starfive_atom1_get_serialnum(unsigned char *buf)
+{
+	struct starfive_eeprom_atom1_data *temp;
+	struct hats_eeprom_atom_header *atom;
+
+	int ret = eeprom_or_fill_buff(eeprom_ro_buff);
+	if (ret) {
+		printf("%s: error loading info from EEPROM\n", __func__);
+		return ret;
+	}
+
+	atom = (struct hats_eeprom_atom_header *)
+		hats_get_atom((struct hats_eeprom_header *)eeprom_ro_buff,
+			      HATS_ATOM_VENDOR);
+	if (atom) {
+		temp = &(((struct starfive_eeprom_atom1 *) atom)->data);
+		memcpy((void *)buf, (void *)temp->pstr,
+		       CONFIG_STARFIVE_EEPROM_OR_SN_SIZE);
+		return (u32) hextoul(buf + CONFIG_STARFIVE_EEPROM_OR_SN_NUMP,
+				     NULL);
+	}
+
+	return ERROR_READING_SERIAL_NUMBER;
+}
+#endif
+
 static u32 jh_read_serialnum(void)
 {
 	u32 serial = ERROR_READING_SERIAL_NUMBER;
@@ -1467,15 +1706,24 @@ static u32 jh_read_serialnum(void)
 	env_set("serial#", buf);
 #endif
 
+#if CONFIG_IS_ENABLED(STARFIVE_EEPROM)
+	char buf[CONFIG_STARFIVE_EEPROM_OR_SN_SIZE] = {0};
+
+	serial = starfive_atom1_get_serialnum(buf);
+	snprintf(buf, sizeof(buf), "%08x", serial);
+	env_set("serial#", buf);
+#endif
+
 	return serial;
 }
 
 static void jh_setup_macaddr(u32 serialnum)
 {
+	int ret = ERROR_READING_SERIAL_NUMBER;
+	unsigned char mac[6] = {0x66, 0x34, 0xb0, 0x6c, 0xde, 0xad};
+
 #if CONFIG_IS_ENABLED(STARFIVE_OTP)
 	struct udevice *dev;
-	unsigned char mac[6]={0};
-
 	// init OTP
 	if (uclass_get_device_by_driver(UCLASS_MISC,
 					DM_DRIVER_GET(starfive_otp), &dev)) {
@@ -1483,22 +1731,29 @@ static void jh_setup_macaddr(u32 serialnum)
 		return;
 	}
 
-	otp_read_mac(dev, mac);
-#else
-	unsigned char mac[6] = {0x66, 0x34, 0xb0, 0x6c, 0xde, 0xad};
-	mac[5] |= (serialnum >>  0) & 0xff;
-	mac[4] |= (serialnum >>  8) & 0xff;
-	mac[3] |= (serialnum >> 16) & 0xff;
+	ret = otp_read_mac(dev, mac);
 #endif
+
+#if CONFIG_IS_ENABLED(STARFIVE_EEPROM)
+	ret = starfive_atom4_v1_read_mac(mac);
+#endif
+	if (ret == ERROR_READING_SERIAL_NUMBER) {
+		mac[5] |= (serialnum >>  0) & 0xff;
+		mac[4] |= (serialnum >>  8) & 0xff;
+		mac[3] |= (serialnum >> 16) & 0xff;
+	}
+
 	eth_env_set_enetaddr("ethaddr", mac);
 }
 
 int misc_init_r(void)
 {
+#if CONFIG_IS_ENABLED(STARFIVE_OTP) || CONFIG_IS_ENABLED(STARFIVE_EEPROM)
 	if (!env_get("serial#")) {
 		u32 serialnum = jh_read_serialnum();
 		jh_setup_macaddr(serialnum);
 	}
+#endif
 	return 0;
 }
 #endif
