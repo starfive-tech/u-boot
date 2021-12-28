@@ -77,8 +77,7 @@ config SIFIVE_OTP
 
 config STARFIVE_OTP
 	bool "StarFive eMemory OTP driver"
-	depends on MISC && JH_STARLIGHT
-	default y if JH_STARLIGHT
+	depends on MISC && JH_STARLIGHT && !ID_EEPROM
 	help
 	  Enable support for reading and writing the eMemory OTP on the
 	  StarFive SoCs.
