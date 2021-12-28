@@ -5,3 +5,5 @@
 
 obj-y	+= jh7100.o
 obj-y	+= jh_ptc.o
+
+obj-$(CONFIG_ID_EEPROM) += jh7100-i2c-eeprom.o
