@@ -77,8 +77,8 @@ struct starfive_eeprom_atom1_data {
 	u16 pver;
 	u8 vslen;
 	u8 pslen;
-	uchar vstr[CONFIG_STARFIVE_EEPROM_ATOM1_VSTR_SIZE];
-	uchar pstr[CONFIG_STARFIVE_EEPROM_ATOM1_PSTR_SIZE]; /* product SN */
+	uchar vstr[STARFIVE_EEPROM_ATOM1_VSTR_SIZE];
+	uchar pstr[STARFIVE_EEPROM_ATOM1_PSTR_SIZE]; /* product SN */
 };
 
 struct starfive_eeprom_atom1 {
@@ -122,7 +122,7 @@ struct starfive_eeprom_info {
 static struct starfive_eeprom_info einfo;
 
 
-static uchar eeprom_wp_buff[CONFIG_STARFIVE_EEPROM_HATS_SIZE_MAX];
+static uchar eeprom_wp_buff[STARFIVE_EEPROM_HATS_SIZE_MAX];
 static struct eeprom_hats_header starfive_eeprom_hats_header_default = {
 	.signature = STARFIVE_EEPROM_HATS_SIG,
 	.version = FORMAT_VERSION,
@@ -141,10 +141,10 @@ static struct starfive_eeprom_atom1 starfive_eeprom_atom1_default = {
 		.uuid = {0},
 		.pid = 0,
 		.pver = 0,
-		.vslen = CONFIG_STARFIVE_EEPROM_ATOM1_VSTR_SIZE,
-		.pslen = CONFIG_STARFIVE_EEPROM_ATOM1_PSTR_SIZE,
-		.vstr = CONFIG_STARFIVE_EEPROM_ATOM1_VSTR,
-		.pstr = CONFIG_STARFIVE_EEPROM_ATOM1_PSTR
+		.vslen = STARFIVE_EEPROM_ATOM1_VSTR_SIZE,
+		.pslen = STARFIVE_EEPROM_ATOM1_PSTR_SIZE,
+		.vstr = STARFIVE_EEPROM_ATOM1_VSTR,
+		.pstr = STARFIVE_EEPROM_ATOM1_PSTR
 	}
 };
 static struct starfive_eeprom_atom4_v1 starfive_eeprom_atom4_v1_default = {
@@ -365,7 +365,7 @@ static int parse_eeprom_info(struct eeprom_hats_header *buf)
 		einfo.vstr = atom1->vstr;
 		einfo.pstr = atom1->pstr;
 		einfo.serialnum = (u32)hextoul((void *)atom1->pstr +
-					CONFIG_STARFIVE_EEPROM_ATOM1_SN_OFFSET,
+					STARFIVE_EEPROM_ATOM1_SN_OFFSET,
 					NULL);
 	} else  {
 		printf("fail to get vendor atom\n");
@@ -398,7 +398,7 @@ static int parse_eeprom_info(struct eeprom_hats_header *buf)
 error:
 	has_been_read = -1;
 	dump_raw_eeprom(eeprom_wp_buff,
-			CONFIG_STARFIVE_EEPROM_HATS_SIZE_MAX);
+			STARFIVE_EEPROM_HATS_SIZE_MAX);
 	return -1;
 }
 
@@ -408,8 +408,8 @@ error:
  * Return:		status code, 0: Success, non-0: Fail
  * Note: depend on	CONFIG_SYS_EEPROM_BUS_NUM
  * 			CONFIG_SYS_I2C_EEPROM_ADDR
- * 			CONFIG_STARFIVE_EEPROM_WP_OFFSET
- * 			CONFIG_STARFIVE_EEPROM_HATS_SIZE_MAX
+ * 			STARFIVE_EEPROM_WP_OFFSET
+ * 			STARFIVE_EEPROM_HATS_SIZE_MAX
  */
 static int read_eeprom(uint8_t *buf)
 {
@@ -424,8 +424,8 @@ static int read_eeprom(uint8_t *buf)
 				      CONFIG_SYS_I2C_EEPROM_ADDR_LEN,
 				      &dev);
 	if (!ret) {
-		ret = dm_i2c_read(dev, CONFIG_STARFIVE_EEPROM_WP_OFFSET,
-				  buf, CONFIG_STARFIVE_EEPROM_HATS_SIZE_MAX);
+		ret = dm_i2c_read(dev, STARFIVE_EEPROM_WP_OFFSET,
+				  buf, STARFIVE_EEPROM_HATS_SIZE_MAX);
 	}
 
 	if (ret) {
@@ -443,7 +443,7 @@ static int prog_eeprom(uint8_t *buf, unsigned int size)
 {
 	unsigned int i;
 	void *p;
-	uchar tmp_buff[CONFIG_STARFIVE_EEPROM_HATS_SIZE_MAX];
+	uchar tmp_buff[STARFIVE_EEPROM_HATS_SIZE_MAX];
 	struct udevice *dev;
 	int ret = i2c_get_chip_for_busnum(CONFIG_SYS_EEPROM_BUS_NUM,
 					  CONFIG_SYS_I2C_EEPROM_ADDR,
@@ -459,7 +459,7 @@ static int prog_eeprom(uint8_t *buf, unsigned int size)
 	     i += BYTES_PER_EEPROM_PAGE, p += BYTES_PER_EEPROM_PAGE) {
 		if (!ret)
 			ret = dm_i2c_write(dev,
-					   i + CONFIG_STARFIVE_EEPROM_WP_OFFSET,
+					   i + STARFIVE_EEPROM_WP_OFFSET,
 					   p, min((int)(size - i),
 					   BYTES_PER_EEPROM_PAGE));
 		if (ret)
@@ -470,11 +470,11 @@ static int prog_eeprom(uint8_t *buf, unsigned int size)
 	if (!ret) {
 		/* Verify the write by reading back the EEPROM and comparing */
 		ret = dm_i2c_read(dev,
-				  CONFIG_STARFIVE_EEPROM_WP_OFFSET,
+				  STARFIVE_EEPROM_WP_OFFSET,
 				  tmp_buff,
-				  CONFIG_STARFIVE_EEPROM_HATS_SIZE_MAX);
+				  STARFIVE_EEPROM_HATS_SIZE_MAX);
 		if (!ret && memcmp((void *)buf, (void *)tmp_buff,
-				   CONFIG_STARFIVE_EEPROM_HATS_SIZE_MAX))
+				   STARFIVE_EEPROM_HATS_SIZE_MAX))
 			ret = -1;
 	}
 
@@ -482,7 +482,7 @@ static int prog_eeprom(uint8_t *buf, unsigned int size)
 		has_been_read = -1;
 		printf("Programming failed.Temp buff:\n");
 		dump_raw_eeprom(tmp_buff,
-				CONFIG_STARFIVE_EEPROM_HATS_SIZE_MAX);
+				STARFIVE_EEPROM_HATS_SIZE_MAX);
 		return -1;
 	}
 
@@ -589,7 +589,7 @@ static void set_product_id(char *string)
 			      HATS_ATOM_VENDOR);
 
 	memcpy((void *)einfo.pstr, (void *)string,
-		CONFIG_STARFIVE_EEPROM_ATOM1_PSTR_SIZE);
+		STARFIVE_EEPROM_ATOM1_PSTR_SIZE);
 
 	update_crc(atom1);
 }
@@ -664,7 +664,7 @@ int do_mac(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 		return 0;
 	} else if (!strcmp(cmd, "write_eeprom")) {
 		return prog_eeprom(eeprom_wp_buff,
-				   CONFIG_STARFIVE_EEPROM_HATS_SIZE_MAX);
+				   STARFIVE_EEPROM_HATS_SIZE_MAX);
 	}
 
 	if (argc != 3)
