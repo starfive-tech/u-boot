@@ -510,6 +510,7 @@
 		pinctrl-2 = <&sensor0_reset_high>;
 		//DOVDD-supply = <&v2v8>;
 		rotation = <0>;
+		orientation = <1>; //CAMERA_ORIENTATION_BACK
 
 		port {
 			/* CSI2 bus endpoint */
@@ -650,6 +651,7 @@
 		pinctrl-2 = <&sensor1_reset_high>;
 		//DOVDD-supply = <&v2v8>;
 		rotation = <0>;
+		orientation = <0>; //CAMERA_ORIENTATION_FRONT
 
 		port {
 			/* CSI2 bus endpoint */
