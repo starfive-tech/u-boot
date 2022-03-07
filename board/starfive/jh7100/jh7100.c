@@ -681,7 +681,7 @@ INIT_FUNC_DEF(sdio0)
 	 *the value of v is 0~31 which means
 	 *the delay_shift(sel) = 0.16 * sel (ns)
 	 */
-	_SET_SYSCON_REG_register50_SCFG_sdio0_cclk_dlychain_sel(12);
+	_SET_SYSCON_REG_register50_SCFG_sdio0_cclk_dlychain_sel(0);
 
 	_SET_SYSCON_REG_register58_SCFG_funcshare_pad_ctrl_26(0x00c000c0);
 
