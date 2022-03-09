@@ -66,6 +66,10 @@ scm_version()
 			else
 				printf '%s%s' -g $head
 			fi
+		else
+			atag="`git describe 2>/dev/null`"
+			printf '%s%s' - ${atag}
+			#printf '%s%s' -g $head
 		fi
 
 		# Is this git on svn?
