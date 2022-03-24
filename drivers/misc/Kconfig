@@ -75,6 +75,13 @@ config SIFIVE_OTP
 	  Enable support for reading and writing the eMemory OTP on the
 	  SiFive SoCs.
 
+config STARFIVE_OTP
+        bool "StarFive eFuse OTP driver"
+        depends on MISC
+        help
+          Enable support for reading and writing the eFuse OTP on the
+          StarFive SoCs.
+
 config VEXPRESS_CONFIG
 	bool "Enable support for Arm Versatile Express config bus"
 	depends on MISC
