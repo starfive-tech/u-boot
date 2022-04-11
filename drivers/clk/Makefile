@@ -53,3 +53,4 @@ obj-$(CONFIG_STM32H7) += clk_stm32h7.o
 obj-$(CONFIG_CLK_VERSAL) += clk_versal.o
 obj-$(CONFIG_CLK_CDCE9XX) += clk-cdce9xx.o
 obj-$(CONFIG_CLK_VERSACLOCK) += clk_versaclock.o
+obj-$(CONFIG_CLK_JH7110) += starfive/
