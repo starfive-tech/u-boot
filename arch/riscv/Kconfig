@@ -71,6 +71,7 @@ source "arch/riscv/cpu/ax25/Kconfig"
 source "arch/riscv/cpu/fu540/Kconfig"
 source "arch/riscv/cpu/fu740/Kconfig"
 source "arch/riscv/cpu/generic/Kconfig"
+source "arch/riscv/cpu/jh7110/Kconfig"
 
 # architecture-specific options below
 
