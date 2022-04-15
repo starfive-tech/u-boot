@@ -636,6 +636,7 @@ static int set_4byte(struct spi_nor *nor, const struct flash_info *info,
 	switch (JEDEC_MFR(info)) {
 	case SNOR_MFR_ST:
 	case SNOR_MFR_MICRON:
+	case SNOR_MFR_GIGADEVICE:
 		/* Some Micron need WREN command; all will accept it */
 		need_wren = true;
 	case SNOR_MFR_ISSI:
