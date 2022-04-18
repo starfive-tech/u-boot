@@ -23,6 +23,9 @@ config TARGET_SIFIVE_UNLEASHED
 config TARGET_SIFIVE_UNMATCHED
 	bool "Support SiFive Unmatched Board"
 
+config TARGET_STARFIVE_VISIONFIVE
+	bool "Support StarFive VisionFive Board"
+
 config TARGET_SIPEED_MAIX
 	bool "Support Sipeed Maix Board"
 
@@ -65,6 +68,7 @@ source "board/sifive/unleashed/Kconfig"
 source "board/sifive/unmatched/Kconfig"
 source "board/openpiton/riscv64/Kconfig"
 source "board/sipeed/maix/Kconfig"
+source "board/starfive/visionfive/Kconfig"
 
 # platform-specific options below
 source "arch/riscv/cpu/ax25/Kconfig"
