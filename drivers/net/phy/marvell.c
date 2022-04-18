@@ -373,6 +373,11 @@ static int m88e151x_config(struct phy_device *phydev)
 		reg |= MIIM_88E1111_HWCFG_MODE_SGMII_NO_CLK;
 		reg |= MIIM_88E1111_HWCFG_FIBER_COPPER_AUTO;
 
+#if CONFIG_IS_ENABLED(FPGA_GMAC_SPEED10)
+		reg &= ~((1 << 6) | (1 << 13));//10M
+#elif CONFIG_IS_ENABLED(FPGA_GMAC_SPEED100)
+		reg |= (1 << 13);//100M
+#endif
 		phy_write(phydev, MDIO_DEVAD_NONE,
 			  MIIM_88E1111_PHY_EXT_SR, reg);
 	}

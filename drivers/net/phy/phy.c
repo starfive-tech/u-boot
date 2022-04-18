@@ -80,6 +80,11 @@ static int genphy_config_advert(struct phy_device *phydev)
 			return err;
 		changed = 1;
 	}
+#if CONFIG_IS_ENABLED(FPGA_GMAC_SPEED10)
+	phy_write(phydev, MDIO_DEVAD_NONE, 4, 0x61);//Auto-Negotiation Advertisement 10M
+#elif CONFIG_IS_ENABLED(FPGA_GMAC_SPEED100)
+	phy_write(phydev, MDIO_DEVAD_NONE, 4, 0x181);//Auto-Negotiation Advertisement 100M
+#endif
 
 	bmsr = phy_read(phydev, MDIO_DEVAD_NONE, MII_BMSR);
 	if (bmsr < 0)
@@ -112,7 +117,11 @@ static int genphy_config_advert(struct phy_device *phydev)
 	if (adv != oldadv)
 		changed = 1;
 
+#if CONFIG_IS_ENABLED(FPGA_GMAC_SPEED_AUTO)
 	err = phy_write(phydev, MDIO_DEVAD_NONE, MII_CTRL1000, adv);
+#else
+	err = phy_write(phydev, MDIO_DEVAD_NONE, MII_CTRL1000, 0);
+#endif
 	if (err < 0)
 		return err;
 
