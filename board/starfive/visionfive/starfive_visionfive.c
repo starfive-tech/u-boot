@@ -37,6 +37,39 @@
 	SYS_IOMUX_DOUT(gpio, gpo);\
 	SYS_IOMUX_DIN(gpio, gpi); }while(0)
 
+#define SYS_CLOCK_ENABLE(clk) \
+	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
+
+static void sys_reset_clear(ulong assert, ulong status, u32 rst)
+{
+	volatile u32 value;
+
+	clrbits_le32(SYS_CRG_BASE + assert, BIT(rst));
+	do{
+		value = in_le32(SYS_CRG_BASE + status);
+	}while((value & BIT(rst)) != BIT(rst));
+}
+
+static void jh7110_timer_init(void)
+{
+	SYS_CLOCK_ENABLE(TIMER_CLK_APB_SHIFT);
+	SYS_CLOCK_ENABLE(TIMER_CLK_TIMER0_SHIFT);
+	SYS_CLOCK_ENABLE(TIMER_CLK_TIMER1_SHIFT);
+	SYS_CLOCK_ENABLE(TIMER_CLK_TIMER2_SHIFT);
+	SYS_CLOCK_ENABLE(TIMER_CLK_TIMER3_SHIFT);
+
+	sys_reset_clear(SYS_CRG_RESET_ASSERT3_SHIFT,
+			SYS_CRG_RESET_STATUS3_SHIFT, TIMER_RSTN_APB_SHIFT);
+	sys_reset_clear(SYS_CRG_RESET_ASSERT3_SHIFT,
+			SYS_CRG_RESET_STATUS3_SHIFT, TIMER_RSTN_TIMER0_SHIFT);
+	sys_reset_clear(SYS_CRG_RESET_ASSERT3_SHIFT,
+			SYS_CRG_RESET_STATUS3_SHIFT, TIMER_RSTN_TIMER1_SHIFT);
+	sys_reset_clear(SYS_CRG_RESET_ASSERT3_SHIFT,
+			SYS_CRG_RESET_STATUS3_SHIFT, TIMER_RSTN_TIMER2_SHIFT);
+	sys_reset_clear(SYS_CRG_RESET_ASSERT3_SHIFT,
+			SYS_CRG_RESET_STATUS3_SHIFT, TIMER_RSTN_TIMER3_SHIFT);
+}
+
 static void jh7110_gmac_init(int id)
 {
 	switch (id) {
@@ -129,6 +162,8 @@ int board_init(void)
 
 	jh7110_gmac_init(0);
 	jh7110_gmac_init(1);
+	jh7110_timer_init();
+
 	jh7110_usb_init();
 
 	jh7110_mmc_init(0);
@@ -160,7 +195,8 @@ int misc_init_r(void)
 	if (ret)
 		printf("%s: error reading mac from OTP\n", __func__);
 	else
-		memcpy(mac, buf, 6);
+		if (buf[0] != 0xff)
+			memcpy(mac, buf, 6);
 err:
 #endif
 	eth_env_set_enetaddr("ethaddr", mac);
