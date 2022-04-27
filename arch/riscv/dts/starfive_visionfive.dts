@@ -76,14 +76,18 @@
 	status = "disabled";
 };
 
+&usbdrd30 {
+	status = "okay";
+};
 
+&usbdrd_cdns3 {
+	dr_mode = "host";
+};
 
+&timer {
+	status = "disabled";
+};
 
-
-
-
-
-
-
-
-
+&wdog {
+	status = "disabled";
+};
