@@ -1096,6 +1096,28 @@ INIT_FUNC_DEF(i2c3)
 	_CLEAR_RESET_rstgen_rstn_i2c3_core_;
 }
 
+INIT_FUNC_DEF(timer)
+{
+	_ENABLE_CLOCK_clk_wdtimer_apb_;
+
+	_ENABLE_CLOCK_clk_timer0_coreclk_;
+	_ENABLE_CLOCK_clk_timer1_coreclk_;
+	_ENABLE_CLOCK_clk_timer2_coreclk_;
+	_ENABLE_CLOCK_clk_timer3_coreclk_;
+	_ENABLE_CLOCK_clk_timer4_coreclk_;
+	_ENABLE_CLOCK_clk_timer5_coreclk_;
+	_ENABLE_CLOCK_clk_timer6_coreclk_;
+
+	//_CLEAR_RESET_rstgen_rstn_wdtimer_apb_;
+	_CLEAR_RESET_rstgen_rstn_timer0_;
+	_CLEAR_RESET_rstgen_rstn_timer1_;
+	_CLEAR_RESET_rstgen_rstn_timer2_;
+	_CLEAR_RESET_rstgen_rstn_timer3_;
+	_CLEAR_RESET_rstgen_rstn_timer4_;
+	_CLEAR_RESET_rstgen_rstn_timer5_;
+	_CLEAR_RESET_rstgen_rstn_timer6_;
+}
+
 /* disable, when we don't realy use it */
 #if 0
 INIT_FUNC_DEF(wdt)
@@ -1355,6 +1377,7 @@ int board_hw_init(void)
 //	INIT_FUNC_CALL(uart3);
 	INIT_FUNC_CALL(i2c2);
 	INIT_FUNC_CALL(i2c3);
+	INIT_FUNC_CALL(timer);
 //	INIT_FUNC_CALL(wdt);
 	INIT_FUNC_CALL(ptc);
 
