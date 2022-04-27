@@ -135,6 +135,7 @@ static int jh7110_reset_trigger(struct jh7110_reset_priv *priv,
 	unsigned long group;
 	u32 mask, value, done;
 	int ret;
+	u32 loop;
 
 	group = id / 32;
 	mask = BIT(id % 32);
@@ -156,10 +157,10 @@ static int jh7110_reset_trigger(struct jh7110_reset_priv *priv,
 		value &= ~mask;
 	writel(value, reset.assert);
 
-	/* if the associated clock is gated, deasserting might otherwise hang forever */
-	ret = readl_poll_timeout(reset.status, value, (value & mask) == done, 100000);
-	if (ret)
-		debug("reset %ld: timeout.\n", id);
+	loop = 10000; /*Addd loop condition inorder to avoid hang here*/
+	do{
+		value = in_le32(reset.status);
+	}while((value & mask) != done && --loop != 0);
 
 	return ret;
 }
