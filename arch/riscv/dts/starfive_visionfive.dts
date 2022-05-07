@@ -12,15 +12,18 @@
 	model = "StarFive VisionFive V2";
 	compatible = "starfive,jh7110";
 
+	aliases {
+		spi0="/soc/spi@13010000";
+		gpio0="/soc/gpio@13040000";
+		ethernet0="/soc/ethernet@16030000";
+		mmc0="/soc/sdio0@16010000";
+		mmc1="/soc/sdio1@16020000";
+	};
+
 	chosen {
 			stdout-path = "/soc/serial@10000000:115200";
 	};
 
-	aliases {
-		spi0="/soc/qspi@13010000";
-		gpio0="/soc/gpio@13040000";
-		ethernet0="/soc/gmac0@16030000";
-	};
 
 	memory@80000000 {
 		device_type = "memory";
@@ -89,5 +92,13 @@
 };
 
 &wdog {
+	status = "disabled";
+};
+
+&clkvout {
+	status = "disabled";
+};
+
+&pdm {
 	status = "disabled";
 };
