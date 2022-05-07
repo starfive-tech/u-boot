@@ -26,10 +26,6 @@
 #define STG_OFFSET(id) ((id - JH7110_CLK_SYS_REG_END) * 4)
 #define AON_OFFSET(id) ((id - JH7110_CLK_STG_REG_END) * 4)
 
-#define JH7110_PLL0	(JH7110_CLK_RTC+1)
-#define JH7110_PLL1	(JH7110_CLK_RTC+2)
-#define JH7110_PLL2 (JH7110_CLK_RTC+3)
-
 struct jh7110_clk_priv {
 	void __iomem *sys;
 	void __iomem *stg;
@@ -304,27 +300,17 @@ static struct clk *starfive_clk_gate_divider(void __iomem *reg,
 				offset, 0, 1, width);
 }
 
-static struct clk *starfive_clk_gate_dis(void __iomem *reg,
-				const char *name,
-				const char *parent_name,
-				unsigned int offset)
-{
-	return clk_register_gate(NULL, name, parent_name, 0, reg+offset,
-			STARFIVE_CLK_ENABLE_SHIFT,
-			CLK_GATE_SET_TO_DISABLE, NULL);
-}
-
 static int jh7110_clk_init(struct udevice *dev)
 {
 	struct jh7110_clk_priv *priv = dev_get_priv(dev);
 
-	clk_dm(JH7110_PLL0,
+	clk_dm(JH7110_PLL0_OUT,
 		starfive_clk_fix_factor(priv->sys,
 			"pll0_out", "osc", 52, 1));
-	clk_dm(JH7110_PLL1,
+	clk_dm(JH7110_PLL1_OUT,
 		starfive_clk_fix_factor(priv->sys,
 			"pll1_out", "osc", 44, 1));
-	clk_dm(JH7110_PLL2,
+	clk_dm(JH7110_PLL2_OUT,
 		starfive_clk_fix_factor(priv->sys,
 			"pll2_out", "osc", 51, 1));
 
@@ -376,7 +362,6 @@ static int jh7110_clk_init(struct udevice *dev)
 		starfive_clk_divider(priv->sys,
 			"apb_bus_func", "stg_axiahb",
 			SYS_OFFSET(JH7110_APB_BUS_FUNC), 4));
-
 	clk_dm(JH7110_OSC_DIV4,
 		starfive_clk_divider(priv->aon,
 			"osc_div4", "osc",
@@ -474,27 +459,11 @@ static int jh7110_clk_init(struct udevice *dev)
 		starfive_clk_gate_divider(priv->sys,
 			"u1_dw_gmac5_axi64_clk_ptp", "gmac_src",
 			SYS_OFFSET(JH7110_GMAC5_CLK_PTP), 5));
-
-	clk_dm(JH7110_GMAC5_CLK_RMII,
-		starfive_clk_fix_factor(priv->sys,
-			"u1_dw_gmac5_axi64_clk_rmii",
-			"gmac1_rmii_refin", 1, 1));
-
 	clk_dm(JH7110_GMAC5_CLK_TX,
 		starfive_clk_composite(priv->sys,
 			"u1_dw_gmac5_axi64_clk_tx",
 			gmac5_tx_sels, ARRAY_SIZE(gmac5_tx_sels),
 			SYS_OFFSET(JH7110_GMAC5_CLK_TX), 1, 1, 0));
-	clk_dm(JH7110_GMAC5_CLK_TX_INV,
-		starfive_clk_gate_dis(priv->sys,
-			"u1_dw_gmac5_axi64_clk_tx_inv",
-			"u1_dw_gmac5_axi64_clk_tx",
-			SYS_OFFSET(JH7110_GMAC5_CLK_TX_INV)));
-	clk_dm(JH7110_GMAC1_GTXC,
-		starfive_clk_gate_divider(priv->sys,
-			"gmac1_gtxc", "gmac1_gtxclk",
-			SYS_OFFSET(JH7110_GMAC1_GTXC), 6));
-
 	/*GMAC0*/
 	clk_dm(JH7110_AON_AHB,
 		starfive_clk_fix_factor(priv->sys, "aon_ahb",
@@ -505,13 +474,6 @@ static int jh7110_clk_init(struct udevice *dev)
 	clk_dm(JH7110_GMAC0_PTP,
 		starfive_clk_gate_divider(priv->sys, "gmac0_ptp",
 			"gmac_src", SYS_OFFSET(JH7110_GMAC0_PTP), 5));
-	clk_dm(JH7110_GMAC_PHY,
-		starfive_clk_gate_divider(priv->sys, "gmac_phy",
-			"gmac_src", SYS_OFFSET(JH7110_GMAC_PHY), 5));
-	clk_dm(JH7110_GMAC0_GTXC,
-		starfive_clk_gate_divider(priv->sys, "gmac0_gtxc",
-			"gmac0_gtxclk", SYS_OFFSET(JH7110_GMAC0_GTXC), 5));
-
 	/*UART0*/
 	clk_dm(JH7110_UART0_CLK_APB,
 		starfive_clk_gate(priv->sys,
@@ -580,7 +542,7 @@ static int jh7110_clk_init(struct udevice *dev)
 		starfive_clk_gate(priv->stg,
 			"u0_hifi4_clk_core", "hifi4_core",
 			STG_OFFSET(JH7110_HIFI4_CLK_CORE)));
-
+	/*USB*/
 	clk_dm(JH7110_USB0_CLK_USB_APB,
 		starfive_clk_gate(priv->stg,
 			"u0_cdn_usb_clk_usb_apb", "stg_apb",
@@ -633,16 +595,6 @@ static int jh7110_clk_init(struct udevice *dev)
 			u0_dw_gmac5_axi64_clk_tx_sels,
 			ARRAY_SIZE(u0_dw_gmac5_axi64_clk_tx_sels),
 			AON_OFFSET(JH7110_U0_GMAC5_CLK_TX), 1, 1, 0));
-	clk_dm(JH7110_U0_GMAC5_CLK_TX_INV,
-		starfive_clk_gate_dis(priv->aon,
-			"u0_dw_gmac5_axi64_clk_tx_inv",
-			"u0_dw_gmac5_axi64_clk_tx",
-			AON_OFFSET(JH7110_U0_GMAC5_CLK_TX_INV)));
-	clk_dm(JH7110_U0_GMAC5_CLK_RMII,
-		starfive_clk_fix_factor(priv->aon,
-			"u0_dw_gmac5_axi64_clk_rmii",
-			"gmac0_rmii_refin", 1, 1));
-
 	/*otp*/
 	clk_dm(JH7110_OTPC_CLK_APB,
 		starfive_clk_gate(priv->aon,
