@@ -166,7 +166,7 @@ config RESET_IPQ419
 
 config RESET_JH7110
 	bool "Reset driver for Starfive JH7110 SoC"
-	depends on DM_RESET && TARGET_STARFIVE_VISIONFIVE
+	depends on DM_RESET && STARFIVE_JH7110
 	default y
 	help
 	  Support for reset controller on Starfive
