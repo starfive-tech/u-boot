@@ -2,7 +2,7 @@
 
 config SPL_CLK_JH7110
 	bool "SPL clock support for JH7110"
-	depends on TARGET_STARFIVE_VISIONFIVE && SPL
+	depends on STARFIVE_JH7110 && SPL
 	select SPL_CLK
 	select SPL_CLK_CCF
 	help
@@ -10,6 +10,6 @@ config SPL_CLK_JH7110
 
 config CLK_JH7110
 	bool "Starfive JH7110 clock support"
-	depends on CLK && CLK_CCF && TARGET_STARFIVE_VISIONFIVE
+	depends on CLK && CLK_CCF && STARFIVE_JH7110
 	help
 	  This enables support clock driver for Starfive JH7110 SoC platform.
