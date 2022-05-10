@@ -1,0 +1,104 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (C) 2022 StarFive Technology Co., Ltd.
+ */
+
+/dts-v1/;
+
+#include "jh7110.dtsi"
+/ {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	model = "StarFive EVB";
+	compatible = "starfive,jh7110";
+
+	aliases {
+		spi0="/soc/spi@13010000";
+		gpio0="/soc/gpio@13040000";
+		ethernet0="/soc/ethernet@16030000";
+		mmc0="/soc/sdio0@16010000";
+		mmc1="/soc/sdio1@16020000";
+	};
+
+	chosen {
+			stdout-path = "/soc/serial@10000000:115200";
+	};
+
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x0 0x40000000 0x1 0x0>;
+	};
+
+	soc {
+	};
+};
+
+&cpu0 {
+	status = "okay";
+};
+
+&clkgen {
+	clocks = <&osc>, <&gmac1_rmii_refin>,
+		<&stg_apb>, <&gmac0_rmii_refin>;
+	clock-names = "osc", "gmac1_rmii_refin",
+		"stg_apb", "gmac0_rmii_refin";
+};
+
+&sdio0 {
+	clock-frequency = <4000000>;
+	max-frequency = <1000000>;
+	bus-width = <8>;
+	status = "okay";
+};
+
+&sdio1 {
+	clock-frequency = <4000000>;
+	max-frequency = <1000000>;
+	bus-width = <4>;
+	status = "okay";
+};
+
+&gmac0 {
+	phy-reset-gpios = <&gpio 13 0>;
+	status = "okay";
+};
+
+&gpio {
+	compatible = "starfive,jh7110-gpio";
+	gpio-controller;
+};
+
+&uart0 {
+	reg-offset = <0>;
+	current-speed = <115200>;
+	status = "okay";
+};
+
+&gpioa {
+	status = "disabled";
+};
+
+&usbdrd30 {
+	status = "okay";
+};
+
+&usbdrd_cdns3 {
+	dr_mode = "host";
+};
+
+&timer {
+	status = "disabled";
+};
+
+&wdog {
+	status = "disabled";
+};
+
+&clkvout {
+	status = "disabled";
+};
+
+&pdm {
+	status = "disabled";
+};
