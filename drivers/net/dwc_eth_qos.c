@@ -131,11 +131,7 @@ struct eqos_mac_regs {
 #define EQOS_MAC_MDIO_ADDRESS_RDA_SHIFT			16
 #define EQOS_MAC_MDIO_ADDRESS_CR_SHIFT			8
 #define EQOS_MAC_MDIO_ADDRESS_CR_20_35			2
-#if CONFIG_IS_ENABLED(STARFIVE_JH7110)
-#define EQOS_MAC_MDIO_ADDRESS_CR_250_300		9
-#else
 #define EQOS_MAC_MDIO_ADDRESS_CR_250_300		5
-#endif
 #define EQOS_MAC_MDIO_ADDRESS_SKAP			BIT(4)
 #define EQOS_MAC_MDIO_ADDRESS_GOC_SHIFT			2
 #define EQOS_MAC_MDIO_ADDRESS_GOC_READ			3
@@ -324,6 +320,7 @@ struct eqos_priv {
 	bool reg_access_ok;
 	bool clk_ck_enabled;
 	struct reset_ctl_bulk reset_bulk;
+	struct clk_bulk clk_bulk;
 };
 
 /*
@@ -625,49 +622,11 @@ static int eqos_start_clks_jh7110(struct udevice *dev)
 	struct eqos_priv *eqos = dev_get_priv(dev);
 	int ret;
 
-	ret = clk_enable(&eqos->clk_slave_bus);
+	ret = clk_enable_bulk(&eqos->clk_bulk);
 	if (ret < 0) {
-		pr_err("clk_enable(clk_slave_bus) failed: %d", ret);
-		goto err;
+		pr_err("clk_enable_bulk failed: %d", ret);
 	}
 
-	ret = clk_enable(&eqos->clk_master_bus);
-	if (ret < 0) {
-		pr_err("clk_enable(clk_master_bus) failed: %d", ret);
-		goto err_disable_clk_slave_bus;
-	}
-
-	ret = clk_enable(&eqos->clk_ck);
-	if (ret < 0) {
-		pr_err("clk_enable(clk_ck) failed: %d", ret);
-		goto err_disable_clk_master_bus;
-	}
-
-	ret = clk_enable(&eqos->clk_ptp_ref);
-	if (ret < 0) {
-		pr_err("clk_enable(clk_ptp_ref) failed: %d", ret);
-		goto err_disable_clk_gtx;
-	}
-
-	ret = clk_enable(&eqos->clk_tx);
-	if (ret < 0) {
-		pr_err("clk_enable(clk_tx) failed: %d", ret);
-		goto err_disable_clk_ptp_ref;
-	}
-
-	debug("%s: OK\n", __func__);
-	return 0;
-
-err_disable_clk_ptp_ref:
-	clk_disable(&eqos->clk_ptp_ref);
-err_disable_clk_gtx:
-	clk_disable(&eqos->clk_rx);
-err_disable_clk_master_bus:
-	clk_disable(&eqos->clk_master_bus);
-err_disable_clk_slave_bus:
-	clk_disable(&eqos->clk_slave_bus);
-err:
-	debug("%s: FAILED: %d\n", __func__, ret);
 	return ret;
 }
 
@@ -709,13 +668,8 @@ static int eqos_stop_clks_jh7110(struct udevice *dev)
 {
 	struct eqos_priv *eqos = dev_get_priv(dev);
 
-	clk_disable(&eqos->clk_tx);
-	clk_disable(&eqos->clk_ptp_ref);
-	clk_disable(&eqos->clk_ck);
-	clk_disable(&eqos->clk_master_bus);
-	clk_disable(&eqos->clk_slave_bus);
+	clk_disable_bulk(&eqos->clk_bulk);
 
-	debug("%s: OK\n", __func__);
 	return 0;
 }
 
@@ -791,10 +745,9 @@ static int eqos_stop_resets_tegra186(struct udevice *dev)
 
 static int eqos_stop_resets_jh7110(struct udevice *dev)
 {
-//	struct eqos_priv *eqos = dev_get_priv(dev);
+	struct eqos_priv *eqos = dev_get_priv(dev);
 
-//	reset_assert_bulk(&eqos->reset_bulk);
-//	dm_gpio_set_value(&eqos->phy_reset_gpio, 0);
+	reset_assert_bulk(&eqos->reset_bulk);
 
 	return 0;
 }
@@ -876,12 +829,19 @@ static ulong eqos_get_tick_clk_rate_stm32(struct udevice *dev)
 
 static ulong eqos_get_tick_clk_rate_jh7110(struct udevice *dev)
 {
-	return 4000000;
+	struct eqos_priv *eqos = dev_get_priv(dev);
+	ulong rate;
+
+	rate = clk_get_rate(&eqos->clk_tx);
+	return rate;
 }
 
-__weak int jh7110_eqos_txclk_set_rate(unsigned long rate)
+__weak int jh7110_eqos_txclk_set_rate(struct udevice *dev,
+					unsigned long rate)
 {
-	return 0;
+	struct eqos_priv *eqos = dev_get_priv(dev);
+
+	return clk_set_rate(&eqos->clk_tx, rate);
 }
 
 __weak u32 imx_get_eqos_csr_clk(void)
@@ -1046,8 +1006,7 @@ static int eqos_set_tx_clk_speed_jh7110(struct udevice *dev)
 		pr_err("invalid speed %d", eqos->phy->speed);
 		return -EINVAL;
 	}
-
-	ret = jh7110_eqos_txclk_set_rate(rate);
+	ret = jh7110_eqos_txclk_set_rate(dev, rate);
 	if (ret < 0) {
 		pr_err("jh7110 (tx_clk, %lu) failed: %d", rate, ret);
 		return ret;
@@ -1958,34 +1917,15 @@ static int eqos_probe_resources_jh7110(struct udevice *dev)
 		goto err_free_reset_eqos;
 	}
 
-	ret = clk_get_by_name(dev, "stmmaceth", &eqos->clk_master_bus);
+	ret = clk_get_by_name(dev, "gtx", &eqos->clk_tx);
 	if (ret) {
-		pr_err("clk_get_by_name(master_bus) failed: %d", ret);
+		pr_err("clk_get_by_name(gtx) failed: %d", ret);
 		goto err_free_gpio_phy_reset;
 	}
 
-	ret = clk_get_by_name(dev, "pclk", &eqos->clk_slave_bus);
+	ret = clk_get_bulk(dev, &eqos->clk_bulk);
 	if (ret) {
-		pr_err("clk_get_by_name(slave_bus) failed: %d", ret);
-		goto err_free_clk_master_bus;
-	}
-
-	ret = clk_get_by_name(dev, "ptp_ref", &eqos->clk_ptp_ref);
-	if (ret) {
-		pr_err("clk_get_by_name(ptp_ref) failed: %d", ret);
-		goto err_free_clk_slave_bus;
-		return ret;
-	}
-
-	ret = clk_get_by_name(dev, "gtx", &eqos->clk_ck);
-	if (ret) {
-		pr_err("clk_get_by_name(gtx) failed: %d", ret);
-		goto err_free_clk_ptp_ref;
-	}
-
-	ret = clk_get_by_name(dev, "tx", &eqos->clk_tx);
-	if (ret) {
-		pr_err("clk_get_by_name(tx) failed: %d", ret);
+		pr_err("clk_get_bulk failed: %d", ret);
 		goto err_free_clk_gtx;
 	}
 
@@ -1993,13 +1933,7 @@ static int eqos_probe_resources_jh7110(struct udevice *dev)
 	return 0;
 
 err_free_clk_gtx:
-	clk_free(&eqos->clk_ck);
-err_free_clk_ptp_ref:
-	clk_free(&eqos->clk_ptp_ref);
-err_free_clk_slave_bus:
-	clk_free(&eqos->clk_slave_bus);
-err_free_clk_master_bus:
-	clk_free(&eqos->clk_master_bus);
+	clk_free(&eqos->clk_tx);
 err_free_gpio_phy_reset:
 	dm_gpio_free(dev, &eqos->phy_reset_gpio);
 err_free_reset_eqos:
@@ -2012,8 +1946,6 @@ static phy_interface_t eqos_get_interface_jh7110(struct udevice *dev)
 {
 	const char *phy_mode;
 	phy_interface_t interface = PHY_INTERFACE_MODE_NONE;
-
-	debug("%s(dev=%p):\n", __func__, dev);
 
 	phy_mode = dev_read_prop(dev, "phy-mode", NULL);
 	if (phy_mode)
@@ -2067,15 +1999,10 @@ static int eqos_remove_resources_jh7110(struct udevice *dev)
 {
 	struct eqos_priv *eqos = dev_get_priv(dev);
 
-	clk_free(&eqos->clk_tx);
-	clk_free(&eqos->clk_ptp_ref);
-	clk_free(&eqos->clk_ck);
-	clk_free(&eqos->clk_slave_bus);
-	clk_free(&eqos->clk_master_bus);
 	dm_gpio_free(dev, &eqos->phy_reset_gpio);
 	reset_release_bulk(&eqos->reset_bulk);
+	clk_release_bulk(&eqos->clk_bulk);
 
-	debug("%s: OK\n", __func__);
 	return 0;
 }
 
