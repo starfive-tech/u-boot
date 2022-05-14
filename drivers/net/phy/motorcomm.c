@@ -38,6 +38,15 @@
 #define YT8521_DUPLEX_BIT	13
 #define YT8521_LINK_STATUS_BIT	10
 
+#define YT8521_EXTREG_SMI_SDS_PHY	0xa000
+#define YT8521_EXTREG_CHIP_CONFIG	0xa001
+#define YT8521_RXC_DLY_EN_BIT		8
+#define YT8521_EXTREG_RGMII_CONFIG1	0xa003
+#define YT8521_RX_DELAY_SEL_MASK	0x3C00UL
+#define YT8521_TX_DELAY_SEL_FE_MASK	0xF0UL
+#define YT8521_TX_DELAY_SEL_MASK	0xFUL
+
+
 #define SPEED_UNKNOWN		-1
 
 static int ytphy_read_ext(struct phy_device *phydev, u32 regnum)
@@ -116,7 +125,7 @@ static int yt8521_config(struct phy_device *phydev)
 	int  regnum;
 
 	ret = 0;
-	ytphy_write_ext(phydev, 0xa000, 0);
+	ytphy_write_ext(phydev, YT8521_EXTREG_SMI_SDS_PHY, 0);
 
 	genphy_config_aneg(phydev);
 
@@ -135,35 +144,40 @@ static int yt8521_config(struct phy_device *phydev)
 	}
 
 	/*  enable tx delay 450ps per step */
-	val = ytphy_read_ext(phydev, 0xa003);
+	val = ytphy_read_ext(phydev, YT8521_EXTREG_RGMII_CONFIG1);
 	if (val < 0) {
-		regnum = 0xa003;
+		regnum = YT8521_EXTREG_RGMII_CONFIG1;
 		goto err;
 	}
-	val |= 0x3;
-	ret = ytphy_write_ext(phydev, 0xa003, val);
+
+	val &= ~(YT8521_RX_DELAY_SEL_MASK
+		|YT8521_TX_DELAY_SEL_FE_MASK
+		|YT8521_TX_DELAY_SEL_MASK);
+	val |= 0x5f;
+	ret = ytphy_write_ext(phydev, YT8521_EXTREG_RGMII_CONFIG1, val);
 	if (ret < 0) {
-		regnum = 0xa003;
+		regnum = YT8521_EXTREG_RGMII_CONFIG1;
 		goto err;
 	}
 
 	/* disable rx delay */
-	val = ytphy_read_ext(phydev, 0xa001);
+	val = ytphy_read_ext(phydev, YT8521_EXTREG_CHIP_CONFIG);
 	if (val < 0) {
-		regnum = 0xa001;
+		regnum = YT8521_EXTREG_CHIP_CONFIG;
 		goto err;
 	}
 	val &= ~(1 << 8);
-	ret = ytphy_write_ext(phydev, 0xa001, val);
+	val |=BIT(YT8521_RXC_DLY_EN_BIT);
+	ret = ytphy_write_ext(phydev, YT8521_EXTREG_CHIP_CONFIG, val);
 	if (ret < 0) {
-		regnum = 0xa001;
+		regnum = YT8521_EXTREG_CHIP_CONFIG;
 		goto err;
 	}
 
 	/* enable RXC clock when no wire plug */
-	ret = ytphy_write_ext(phydev, 0xa000, 0);
+	ret = ytphy_write_ext(phydev, YT8521_EXTREG_SMI_SDS_PHY, 0);
 	if (ret < 0) {
-		regnum = 0xa000;
+		regnum = YT8521_EXTREG_SMI_SDS_PHY;
 		goto err;
 	}
 
