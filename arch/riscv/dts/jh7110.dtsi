@@ -785,12 +785,14 @@
 				"tx",
 				"ptp_ref",
 				"stmmaceth",
-				"pclk";
+				"pclk",
+				"gtxc";
 			clocks = <&clkgen JH7110_GMAC0_GTXCLK>,
 				 <&clkgen JH7110_U0_GMAC5_CLK_TX>,
 				 <&clkgen JH7110_GMAC0_PTP>,
 				 <&clkgen JH7110_U0_GMAC5_CLK_AHB>,
-				 <&clkgen JH7110_U0_GMAC5_CLK_AXI>;
+				 <&clkgen JH7110_U0_GMAC5_CLK_AXI>,
+				 <&clkgen JH7110_GMAC0_GTXC>;
 			resets = <&rstgen RSTN_U0_DW_GMAC5_AXI64_AHB>,
 				 <&rstgen RSTN_U0_DW_GMAC5_AXI64_AXI>;
 			reset-names = "ahb", "stmmaceth";

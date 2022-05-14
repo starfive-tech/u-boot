@@ -49,7 +49,7 @@ static const char *bus_root_sels[2] = {
 
 static const char *qspi_ref_sels[2] = {
 	[0] = "osc",
-	[1] = "clk_qspi_ref_src",
+	[1] = "u0_cdns_qspi_ref_src",
 };
 
 static const char *gmac5_tx_sels[2] = {
@@ -303,7 +303,7 @@ static struct clk *starfive_clk_gate_divider(void __iomem *reg,
 static int jh7110_clk_init(struct udevice *dev)
 {
 	struct jh7110_clk_priv *priv = dev_get_priv(dev);
-
+#if 0
 	clk_dm(JH7110_PLL0_OUT,
 		starfive_clk_fix_factor(priv->sys,
 			"pll0_out", "osc", 52, 1));
@@ -313,7 +313,7 @@ static int jh7110_clk_init(struct udevice *dev)
 	clk_dm(JH7110_PLL2_OUT,
 		starfive_clk_fix_factor(priv->sys,
 			"pll2_out", "osc", 51, 1));
-
+#endif
 	/*root*/
 	clk_dm(JH7110_CPU_ROOT,
 		starfive_clk_mux(priv->sys, "cpu_root",
@@ -474,6 +474,10 @@ static int jh7110_clk_init(struct udevice *dev)
 	clk_dm(JH7110_GMAC0_PTP,
 		starfive_clk_gate_divider(priv->sys, "gmac0_ptp",
 			"gmac_src", SYS_OFFSET(JH7110_GMAC0_PTP), 5));
+	clk_dm(JH7110_GMAC0_GTXC,
+		starfive_clk_gate(priv->sys,
+			"gmac0_gtxc", "gmac0_gtxclk",
+			SYS_OFFSET(JH7110_GMAC0_GTXC)));
 	/*UART0*/
 	clk_dm(JH7110_UART0_CLK_APB,
 		starfive_clk_gate(priv->sys,
