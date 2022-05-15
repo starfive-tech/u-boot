@@ -22,3 +22,6 @@ obj-$(CONFIG_IMXRT_SDRAM) += imxrt_sdram.o
 obj-$(CONFIG_RAM_SIFIVE) += sifive/
 
 obj-$(CONFIG_ARCH_OCTEON) += octeon/
+ifdef CONFIG_SPL_BUILD
+obj-$(CONFIG_SPL_STARFIVE_DDR) += starfive/
+endif
