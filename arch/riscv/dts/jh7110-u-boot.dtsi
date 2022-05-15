@@ -57,6 +57,13 @@
 		clint: clint@2000000 {
 			u-boot,dm-spl;
 		};
+
+		dmc: dmc@100b0000 {
+			compatible = "starfive,jh7110-ddr";
+			reg = <0x0 0x15700000 0x0 0x10000 0x0 0x13000000 0x0 0x10000>;
+			clock-frequency = <2133>;
+			u-boot,dm-spl;
+		};
 	};
 };
 
