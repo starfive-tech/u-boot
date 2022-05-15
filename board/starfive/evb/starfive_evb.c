@@ -17,27 +17,6 @@
 #include <linux/bitops.h>
 #include <asm/arch/gpio.h>
 
-#define SYS_IOMUX_DOEN(gpio, oen) \
-	clrsetbits_le32(SYS_IOMUX_BASE+GPIO_OFFSET(gpio), \
-		GPIO_DOEN_MASK <<  GPIO_SHIFT(gpio), \
-		(oen) << GPIO_SHIFT(gpio))
-
-#define SYS_IOMUX_DOUT(gpio, gpo) \
-	clrsetbits_le32(SYS_IOMUX_BASE + GPIO_DOUT + GPIO_OFFSET(gpio),\
-		GPIO_DOUT_MASK << GPIO_SHIFT(gpio),\
-		((gpo) & GPIO_DOUT_MASK) << GPIO_SHIFT(gpio))
-
-#define SYS_IOMUX_DIN(gpio, gpi)\
-	clrsetbits_le32(SYS_IOMUX_BASE + GPIO_DIN + GPIO_OFFSET(gpi),\
-		GPIO_DIN_MASK << GPIO_SHIFT(gpi),\
-		((gpio+2) & GPIO_DIN_MASK) << GPIO_SHIFT(gpi))
-
-#define SYS_IOMUX_COMPLEX(gpio, gpi, gpo, oen) do {\
-		SYS_IOMUX_DOEN(gpio, oen);\
-		SYS_IOMUX_DOUT(gpio, gpo);\
-		SYS_IOMUX_DIN(gpio, gpi); \
-	} while (0)
-
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
 

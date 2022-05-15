@@ -7,12 +7,15 @@
 
 #include <common.h>
 #include <init.h>
-#include <spl.h>
-#include <log.h>
-#include <linux/delay.h>
-#include <image.h>
 #include <asm/arch/spl.h>
 #include <asm/io.h>
+#include <asm/arch/gpio.h>
+#include <asm/arch/jh7110-regs.h>
+#include <image.h>
+#include <linux/bitops.h>
+#include <log.h>
+#include <linux/delay.h>
+#include <spl.h>
 
 #define MODE_SELECT_REG		0x1702002c
 
@@ -58,6 +61,30 @@ struct image_header *spl_get_load_buffer(ssize_t offset, size_t size)
 void board_init_f(ulong dummy)
 {
 	int ret;
+
+	/*DDR control depend clk init*/
+	clrsetbits_le32(SYS_CRG_BASE, CLK_CPU_ROOT_SW_MASK,
+		BIT(CLK_CPU_ROOT_SW_SHIFT) & CLK_CPU_ROOT_SW_MASK);
+
+	clrsetbits_le32(SYS_CRG_BASE + CLK_BUS_ROOT_OFFSET,
+		CLK_BUS_ROOT_SW_MASK,
+		BIT(CLK_BUS_ROOT_SW_SHIFT) & CLK_BUS_ROOT_SW_MASK);
+
+	clrsetbits_le32(SYS_CRG_BASE + CLK_NOC_BUS_STG_AXI_OFFSET,
+		CLK_NOC_BUS_STG_AXI_EN_MASK,
+		BIT(CLK_NOC_BUS_STG_AXI_EN_SHIFT)
+		& CLK_NOC_BUS_STG_AXI_EN_MASK);
+
+	clrsetbits_le32(AON_CRG_BASE + CLK_AON_APB_FUNC_OFFSET,
+		CLK_AON_APB_FUNC_SW_MASK,
+		BIT(CLK_AON_APB_FUNC_SW_SHIFT) & CLK_AON_APB_FUNC_SW_MASK);
+
+	clrsetbits_le32(SYS_CRG_BASE + CLK_QSPI_REF_OFFSET,
+		CLK_QSPI_REF_SW_MASK,
+		BIT(CLK_QSPI_REF_SW_SHIFT) & CLK_QSPI_REF_SW_MASK);
+
+	/*set GPIO to 1.8v*/
+	setbits_be32(SYS_SYSCON_BASE + 0xC, 0xf);
 
 	ret = spl_early_init();
 	if (ret)
