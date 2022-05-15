@@ -42,4 +42,18 @@ void harts_early_init(void)
 	 */
 	if (CONFIG_IS_ENABLED(RISCV_MMODE))
 		csr_write(CSR_U74_FEATURE_DISABLE, 0);
+
+#ifdef CONFIG_SPL_BUILD
+
+	/*clear L2 LIM  memory
+	 * set __bss_end to 0x81e0000 region to zero
+	 */
+	__asm__ __volatile__ (
+		"la t1, __bss_end\n"
+		"li t2, 0x81e0000\n"
+		"spl_clear_l2im:\n"
+			"addi t1, t1, 8\n"
+			"sd zero, 0(t1)\n"
+			"blt t1, t2, spl_clear_l2im\n");
+#endif
 }
