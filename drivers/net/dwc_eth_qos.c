@@ -723,12 +723,6 @@ static int eqos_start_resets_jh7110(struct udevice *dev)
 		return ret;
 	}
 
-	ret = dm_gpio_set_value(&eqos->phy_reset_gpio, 1);
-	if (ret < 0) {
-		pr_err("dm_gpio_set_value(phy_reset, assert) failed: %d", ret);
-		return ret;
-	}
-
 	debug("%s: OK\n", __func__);
 	return 0;
 }
@@ -1909,18 +1903,10 @@ static int eqos_probe_resources_jh7110(struct udevice *dev)
 		return ret;
 	}
 
-	ret = gpio_request_by_name(dev, "phy-reset-gpios", 0,
-				   &eqos->phy_reset_gpio,
-				   GPIOD_IS_OUT | GPIOD_IS_OUT_ACTIVE);
-	if (ret) {
-		pr_err("gpio_request_by_name(phy reset) failed: %d", ret);
-		goto err_free_reset_eqos;
-	}
-
 	ret = clk_get_by_name(dev, "gtx", &eqos->clk_tx);
 	if (ret) {
 		pr_err("clk_get_by_name(gtx) failed: %d", ret);
-		goto err_free_gpio_phy_reset;
+		goto err_free_reset_eqos;
 	}
 
 	ret = clk_get_bulk(dev, &eqos->clk_bulk);
@@ -1934,8 +1920,6 @@ static int eqos_probe_resources_jh7110(struct udevice *dev)
 
 err_free_clk_gtx:
 	clk_free(&eqos->clk_tx);
-err_free_gpio_phy_reset:
-	dm_gpio_free(dev, &eqos->phy_reset_gpio);
 err_free_reset_eqos:
 	reset_release_bulk(&eqos->reset_bulk);
 
@@ -1999,7 +1983,6 @@ static int eqos_remove_resources_jh7110(struct udevice *dev)
 {
 	struct eqos_priv *eqos = dev_get_priv(dev);
 
-	dm_gpio_free(dev, &eqos->phy_reset_gpio);
 	reset_release_bulk(&eqos->reset_bulk);
 	clk_release_bulk(&eqos->clk_bulk);
 
