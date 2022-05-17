@@ -451,6 +451,10 @@ static int jh7110_clk_init(struct udevice *dev)
 		starfive_clk_divider(priv->sys,
 			"gmac1_gtxclk", "gmacusb_root",
 			SYS_OFFSET(JH7110_GMAC1_GTXCLK), 4));
+	clk_dm(JH7110_GMAC1_GTXC,
+		starfive_clk_gate(priv->sys,
+			"gmac1_gtxc", "gmac1_gtxclk",
+			SYS_OFFSET(JH7110_GMAC1_GTXC)));
 	clk_dm(JH7110_GMAC1_RMII_RTX,
 		starfive_clk_divider(priv->sys,
 			"gmac1_rmii_rtx", "gmac1_rmii_refin",
