@@ -138,7 +138,7 @@ int board_init(void)
 	enable_caches();
 
 	/*enable hart1-hart4 prefetcher*/
-//	enable_prefetcher();
+	enable_prefetcher();
 
 	jh7110_gmac_init(0);
 	jh7110_gmac_init(1);
@@ -156,11 +156,12 @@ int board_init(void)
 
 int misc_init_r(void)
 {
-	char mac[6] = {0x66, 0x34, 0xb0, 0x6c, 0xde, 0xad };
+	char mac0[6] = {0x66, 0x34, 0xb0, 0x6c, 0xde, 0xad};
+	char mac1[6] = {0x66, 0x34, 0xb0, 0x7c, 0xae, 0x5d};
 
 #if CONFIG_IS_ENABLED(STARFIVE_OTP)
 	struct udevice *dev;
-	char buf[8];
+	char buf[16];
 	int ret;
 #define MACADDR_OFFSET 0x8
 
@@ -175,11 +176,14 @@ int misc_init_r(void)
 	if (ret)
 		printf("%s: error reading mac from OTP\n", __func__);
 	else
-		if (buf[0] != 0xff)
-			memcpy(mac, buf, 6);
+		if (buf[0] != 0xff) {
+			memcpy(mac0, buf, 6);
+			memcpy(mac1, &buf[8], 6);
+		}
 err:
 #endif
-	eth_env_set_enetaddr("ethaddr", mac);
+	eth_env_set_enetaddr("eth0addr", mac0);
+	eth_env_set_enetaddr("eth1addr", mac1);
 
 	return 0;
 }
