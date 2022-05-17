@@ -15,7 +15,8 @@
 	aliases {
 		spi0="/soc/spi@13010000";
 		gpio0="/soc/gpio@13040000";
-		ethernet0="/soc/ethernet@16030000";
+		ethernet0=&gmac0;
+		ethernet1=&gmac1;
 		mmc0="/soc/sdio0@16010000";
 		mmc1="/soc/sdio1@16020000";
 	};
@@ -60,8 +61,18 @@
 };
 
 &gmac0 {
-	phy-reset-gpios = <&gpio 13 0>;
 	status = "okay";
+};
+
+&gmac1 {
+	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	phy0: ethernet-phy@0 {
+		rxc-skew-ps = <1060>;
+		txc-skew-ps = <1800>;
+		reg = <0>;
+	};
 };
 
 &gpio {
