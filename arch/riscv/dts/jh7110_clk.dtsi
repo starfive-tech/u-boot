@@ -117,7 +117,7 @@
 	pll0_out: pll0_out {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <1000000000>;
+		clock-frequency = <1250000000>;
 	};
 
 	pll1_out: pll1_out {

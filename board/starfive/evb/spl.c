@@ -58,9 +58,42 @@ struct image_header *spl_get_load_buffer(ssize_t offset, size_t size)
 	return (struct image_header *)(STARFIVE_SPL_BOOT_LOAD_ADDR);
 }
 
+/* set PLL0 output to 1.5GHz*/
+__maybe_unused static void spl_cpu_fre_150(void)
+{
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_24, PLL0_DACPD_MASK,
+		BIT(PLL0_DACPD_SHIFT) & PLL0_DACPD_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_24, PLL0_DSMPD_MASK,
+		BIT(PLL0_DSMPD_SHIFT) & PLL0_DSMPD_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_36, PLL0_PREDIV_MASK,
+		BIT(PLL0_PREDIV_SHIFT) & PLL0_PREDIV_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_28, PLL0_FBDIV_MASK,
+		(125 << PLL0_FBDIV_SHIFT) & PLL0_FBDIV_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_32, PLL0_POSTDIV1_MASK,
+		BIT(PLL0_POSTDIV1_SHIFT) & PLL0_POSTDIV1_MASK);
+}
+
+/* set PLL0 output to 1.25GHz*/
+static void spl_cpu_fre_125(void)
+{
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_24, PLL0_DACPD_MASK,
+		BIT(PLL0_DACPD_SHIFT) & PLL0_DACPD_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_24, PLL0_DSMPD_MASK,
+		BIT(PLL0_DSMPD_SHIFT) & PLL0_DSMPD_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_36, PLL0_PREDIV_MASK,
+		BIT(PLL0_PREDIV_SHIFT) & PLL0_PREDIV_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_28, PLL0_FBDIV_MASK,
+		(52 << PLL0_FBDIV_SHIFT) & PLL0_FBDIV_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_32, PLL0_POSTDIV1_MASK,
+		(0 << PLL0_POSTDIV1_SHIFT) & PLL0_POSTDIV1_MASK);
+}
+
+
 void board_init_f(ulong dummy)
 {
 	int ret;
+
+	spl_cpu_fre_125();
 
 	/*DDR control depend clk init*/
 	clrsetbits_le32(SYS_CRG_BASE, CLK_CPU_ROOT_SW_MASK,
@@ -81,7 +114,7 @@ void board_init_f(ulong dummy)
 
 	clrsetbits_le32(SYS_CRG_BASE + CLK_QSPI_REF_OFFSET,
 		CLK_QSPI_REF_SW_MASK,
-		BIT(CLK_QSPI_REF_SW_SHIFT) & CLK_QSPI_REF_SW_MASK);
+		(0 << CLK_QSPI_REF_SW_SHIFT) & CLK_QSPI_REF_SW_MASK);
 
 	/*set GPIO to 1.8v*/
 	setbits_be32(SYS_SYSCON_BASE + 0xC, 0xf);
