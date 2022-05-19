@@ -101,16 +101,11 @@ static void jh7110_usb_init(void)
 static void jh7110_mmc_init(int id)
 {
 	if (id == 0) {
-		SYS_IOMUX_DOEN(62, LOW);
-		SYS_IOMUX_DOUT(62, 19);
+		SYS_IOMUX_DOEN(22, LOW);
+		SYS_IOMUX_DOUT(22, 19);
 	} else {
-		SYS_IOMUX_DOEN(10, LOW);
-		SYS_IOMUX_DOUT(10, 55);
-		SYS_IOMUX_COMPLEX(9, 44, 57, 19);
-		SYS_IOMUX_COMPLEX(11, 45, 58, 20);
-		SYS_IOMUX_COMPLEX(12, 46, 59, 21);
-		SYS_IOMUX_COMPLEX(7, 47, 60, 22);
-		SYS_IOMUX_COMPLEX(8, 48, 61, 23);
+		SYS_IOMUX_DOEN(24, LOW);
+		SYS_IOMUX_DOUT(24, 66);
 	}
 }
 
