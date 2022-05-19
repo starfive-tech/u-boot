@@ -617,11 +617,6 @@
 			clock-names = "biu","ciu";
 			resets = <&rstgen RSTN_U0_DW_SDIO_AHB>;
 			reset-names = "reset";
-			interrupts = <74>;
-			fifo-depth = <32>;
-			fifo-watermark-aligned;
-			data-addr = <0>;
-			status = "disabled";
 		};
 
 		sdio1: sdio1@16020000 {
@@ -632,11 +627,6 @@
 			clock-names = "biu","ciu";
 			resets = <&rstgen RSTN_U1_DW_SDIO_AHB>;
 			reset-names = "reset";
-			interrupts = <75>;
-			fifo-depth = <32>;
-			fifo-watermark-aligned;
-			data-addr = <0>;
-			status = "disabled";
 		};
 
 		vin_sysctl: vin_sysctl@19800000 {

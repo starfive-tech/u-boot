@@ -75,18 +75,10 @@
 };
 
 &sdio0 {
-	clock-frequency = <4000000>;
-	max-frequency = <1000000>;
-	bus-width = <8>;
-	status = "okay";
 	u-boot,dm-spl;
 };
 
 &sdio1 {
-	clock-frequency = <4000000>;
-	max-frequency = <1000000>;
-	bus-width = <4>;
-	status = "okay";
 	u-boot,dm-spl;
 };
 

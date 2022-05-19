@@ -27,12 +27,3 @@
 	};
 };
 
-&sdio0 {
-	clock-frequency = <4000000>;
-	max-frequency = <1000000>;
-};
-
-&sdio1 {
-	clock-frequency = <4000000>;
-	max-frequency = <1000000>;
-};
