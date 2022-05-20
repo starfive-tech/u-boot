@@ -121,7 +121,7 @@ void board_init_f(ulong dummy)
 	(0 << CLK_SDIO_SCLK_SW_SHIFT) & CLK_SDIO_SCLK_SW_MASK);
 
 	/*set GPIO to 1.8v*/
-	setbits_be32(SYS_SYSCON_BASE + 0xC, 0xf);
+	setbits_le32(SYS_SYSCON_BASE + 0xC, 0xf);
 
 	/* reset emmc */
 	SYS_IOMUX_DOEN(22, LOW);
