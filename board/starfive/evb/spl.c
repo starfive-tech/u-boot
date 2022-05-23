@@ -116,10 +116,6 @@ void board_init_f(ulong dummy)
 		CLK_QSPI_REF_SW_MASK,
 		(0 << CLK_QSPI_REF_SW_SHIFT) & CLK_QSPI_REF_SW_MASK);
 
-	clrsetbits_le32(SYS_CRG_BASE + CLK_SDIO_SOURCEMUX_OFFSET,
-	CLK_SDIO_SCLK_SW_MASK,
-	(0 << CLK_SDIO_SCLK_SW_SHIFT) & CLK_SDIO_SCLK_SW_MASK);
-
 	/*set GPIO to 1.8v*/
 	setbits_le32(SYS_SYSCON_BASE + 0xC, 0xf);
 
