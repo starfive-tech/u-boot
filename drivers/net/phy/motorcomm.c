@@ -153,7 +153,7 @@ static int yt8521_config(struct phy_device *phydev)
 	val &= ~(YT8521_RX_DELAY_SEL_MASK
 		|YT8521_TX_DELAY_SEL_FE_MASK
 		|YT8521_TX_DELAY_SEL_MASK);
-	val |= 0x5f;
+	val |= 0x5B;
 	ret = ytphy_write_ext(phydev, YT8521_EXTREG_RGMII_CONFIG1, val);
 	if (ret < 0) {
 		regnum = YT8521_EXTREG_RGMII_CONFIG1;
