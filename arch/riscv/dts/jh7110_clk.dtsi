@@ -113,22 +113,4 @@
 		clock-frequency = <297000000>;
 	};
 	/* external clocks end */
-
-	pll0_out: pll0_out {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <1250000000>;
-	};
-
-	pll1_out: pll1_out {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <1066000000>;
-	};
-
-	pll2_out: pll2_out {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <1228800000>;
-	};
 };

@@ -303,17 +303,16 @@ static struct clk *starfive_clk_gate_divider(void __iomem *reg,
 static int jh7110_clk_init(struct udevice *dev)
 {
 	struct jh7110_clk_priv *priv = dev_get_priv(dev);
-#if 0
+
 	clk_dm(JH7110_PLL0_OUT,
 		starfive_clk_fix_factor(priv->sys,
-			"pll0_out", "osc", 52, 1));
+			"pll0_out", "osc", 1250, 24));
 	clk_dm(JH7110_PLL1_OUT,
 		starfive_clk_fix_factor(priv->sys,
-			"pll1_out", "osc", 44, 1));
+			"pll1_out", "osc", 1066, 24));
 	clk_dm(JH7110_PLL2_OUT,
 		starfive_clk_fix_factor(priv->sys,
-			"pll2_out", "osc", 51, 1));
-#endif
+			"pll2_out", "osc", 12288, 240));
 	/*root*/
 	clk_dm(JH7110_CPU_ROOT,
 		starfive_clk_mux(priv->sys, "cpu_root",
@@ -643,6 +642,5 @@ U_BOOT_DRIVER(jh7110_clk) = {
 	.probe = jh7110_clk_probe,
 	.ops = &starfive_clk_ops,
 	.priv_auto = sizeof(struct jh7110_clk_priv),
-	.flags = DM_FLAG_PRE_RELOC,
 };
 
