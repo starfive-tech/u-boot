@@ -119,6 +119,11 @@ void board_init_f(ulong dummy)
 	/*set GPIO to 1.8v*/
 	setbits_le32(SYS_SYSCON_BASE + 0xC, 0xf);
 
+	/*set sdio0 sdcard clk default div to 4*/
+	clrsetbits_le32(SYS_CRG_BASE + CLK_SDIO0_SDCARD_OFFSET,
+		CLK_SDIO0_SDCARD_MASK,
+		(4 << CLK_SDIO0_SDCARD_SHIFT) & CLK_SDIO0_SDCARD_MASK);
+
 	/* reset emmc */
 	SYS_IOMUX_DOEN(22, LOW);
 	SYS_IOMUX_DOUT(22, 19);
