@@ -70,6 +70,15 @@
 		"env import -t ${loadaddr} ${filesize}\0"
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
+	"fdt_high=0xffffffffffffffff\0" \
+	"initrd_high=0xffffffffffffffff\0" \
+	"kernel_addr_r=0x84000000\0" \
+	"kernel_comp_addr_r=0x90000000\0" \
+	"kernel_comp_size=0x10000000\0" \
+	"fdt_addr_r=0x88000000\0" \
+	"scriptaddr=0x88100000\0" \
+	"pxefile_addr_r=0x88200000\0" \
+	"ramdisk_addr_r=0x88300000\0" \
 	STARLIGHT_FEDORA_BOOTENV \
 	"loadaddr=0xa0000000\0" \
 	STARLIGHT_TEST_BOOTENV \
