@@ -62,6 +62,8 @@
 	"mmcpart=3\0"
 
 #define STARLIGHT_TEST_BOOTENV \
+	"bootargs=earlyprintk console=ttyS0,115200 debug"	\
+		"rootwait stmmaceth=chain_mode:1\0"	\
 	"testpart=0:1\0" \
 	"testenv=u74_uEnv.txt\0" \
 	"mmcsetup=mmc part\0" \
