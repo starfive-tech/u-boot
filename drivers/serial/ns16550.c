@@ -540,6 +540,7 @@ int ns16550_serial_of_to_plat(struct udevice *dev)
 	const u32 port_type = dev_get_driver_data(dev);
 	fdt_addr_t addr;
 	struct clk clk;
+	struct clk_bulk clks;
 	int err;
 
 	addr = dev_read_addr(dev);
@@ -569,6 +570,17 @@ int ns16550_serial_of_to_plat(struct udevice *dev)
 	if (!plat->clock) {
 		debug("ns16550 clock not defined\n");
 		return -EINVAL;
+	}
+
+	err = clk_get_bulk(dev, &clks);
+	if (err)
+		debug("ns16550 clk_get_bulk fail.\n");
+	else {
+		err = clk_enable_bulk(&clks);
+		if (err) {
+			debug("ns16550 clk_enable_bulk fail.\n");
+			return -EINVAL;
+		}
 	}
 
 	plat->fcr = UART_FCR_DEFVAL;
