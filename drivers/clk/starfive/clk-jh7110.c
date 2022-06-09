@@ -246,8 +246,15 @@ static struct clk *starfive_clk_composite(void __iomem *reg,
 			goto fail;
 
 		div->reg = reg + offset;
-		div->shift = STARFIVE_CLK_DIV_SHIFT;
-		div->width = div_width;
+		if ((offset == SYS_OFFSET(JH7110_UART3_CLK_CORE)) ||
+			(offset == SYS_OFFSET(JH7110_UART4_CLK_CORE)) ||
+			(offset == SYS_OFFSET(JH7110_UART5_CLK_CORE))) {
+			div->shift = 8;
+			div->width = 8;
+		} else {
+			div->shift = STARFIVE_CLK_DIV_SHIFT;
+			div->width = div_width;
+		}
 		div->flags = CLK_DIVIDER_ONE_BASED;
 		div->table = NULL;
 	}
@@ -321,11 +328,11 @@ static int jh7110_clk_init(struct udevice *dev)
 	clk_dm(JH7110_CPU_CORE,
 		starfive_clk_divider(priv->sys,
 			"cpu_core", "cpu_root",
-			SYS_OFFSET(JH7110_CPU_CORE),	3));
+			SYS_OFFSET(JH7110_CPU_CORE), 3));
 	clk_dm(JH7110_CPU_BUS,
 		starfive_clk_divider(priv->sys,
 			"cpu_bus", "cpu_core",
-			SYS_OFFSET(JH7110_CPU_BUS),	2));
+			SYS_OFFSET(JH7110_CPU_BUS), 2));
 	clk_dm(JH7110_DDR_ROOT,
 		starfive_clk_fix_factor(priv->sys,
 			"ddr_root", "pll1_out", 1, 1));
@@ -333,9 +340,10 @@ static int jh7110_clk_init(struct udevice *dev)
 		starfive_clk_fix_factor(priv->sys,
 			"gmacusb_root", "pll0_out", 1, 1));
 	clk_dm(JH7110_PERH_ROOT,
-		starfive_clk_mux(priv->sys, "perh_root",
-			SYS_OFFSET(JH7110_PERH_ROOT), 1,
-			perh_root_sels,	ARRAY_SIZE(perh_root_sels)));
+		starfive_clk_composite(priv->sys,
+			"perh_root",
+			perh_root_sels, ARRAY_SIZE(perh_root_sels),
+			SYS_OFFSET(JH7110_PERH_ROOT), 1, 0, 2));
 
 	clk_dm(JH7110_BUS_ROOT,
 		starfive_clk_mux(priv->sys, "bus_root",
@@ -517,9 +525,9 @@ static int jh7110_clk_init(struct udevice *dev)
 			"u3_dw_uart_clk_apb", "apb0",
 			SYS_OFFSET(JH7110_UART3_CLK_APB)));
 	clk_dm(JH7110_UART3_CLK_CORE,
-		starfive_clk_gate(priv->sys,
-			"u3_dw_uart_clk_core", "perh_root",
-			SYS_OFFSET(JH7110_UART3_CLK_CORE)));
+		starfive_clk_gate_divider(priv->sys,
+		"u3_dw_uart_clk_core", "perh_root",
+		SYS_OFFSET(JH7110_UART3_CLK_CORE), 8));
 
 	/*UART4*/
 	clk_dm(JH7110_UART4_CLK_APB,
@@ -527,9 +535,9 @@ static int jh7110_clk_init(struct udevice *dev)
 			"u4_dw_uart_clk_apb", "apb0",
 			SYS_OFFSET(JH7110_UART4_CLK_APB)));
 	clk_dm(JH7110_UART4_CLK_CORE,
-		starfive_clk_gate(priv->sys,
-			"u4_dw_uart_clk_core", "perh_root",
-			SYS_OFFSET(JH7110_UART4_CLK_CORE)));
+		starfive_clk_gate_divider(priv->sys,
+		"u4_dw_uart_clk_core", "perh_root",
+		SYS_OFFSET(JH7110_UART4_CLK_CORE), 8));
 
 	/*UART5*/
 	clk_dm(JH7110_UART5_CLK_APB,
@@ -537,9 +545,9 @@ static int jh7110_clk_init(struct udevice *dev)
 			"u5_dw_uart_clk_apb", "apb0",
 			SYS_OFFSET(JH7110_UART5_CLK_APB)));
 	clk_dm(JH7110_UART5_CLK_CORE,
-		starfive_clk_gate(priv->sys,
-			"u5_dw_uart_clk_core", "perh_root",
-			SYS_OFFSET(JH7110_UART5_CLK_CORE)));
+		starfive_clk_gate_divider(priv->sys,
+		"u5_dw_uart_clk_core", "perh_root",
+		SYS_OFFSET(JH7110_UART5_CLK_CORE), 8));
 
 	clk_dm(JH7110_STG_APB,
 		starfive_clk_fix_factor(priv->stg,
