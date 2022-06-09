@@ -172,6 +172,14 @@ config RESET_JH7110
 	  Support for reset controller on Starfive
 	  JH7110 SoCs.
 
+config SPL_RESET_JH7110
+	bool "SPL Reset driver for Starfive JH7110 SoC"
+	depends on SPL && STARFIVE_JH7110
+	default y
+	help
+	  Support for reset controller on Starfive
+	  JH7110 SoCs in SPL.
+
 config RESET_SIFIVE
 	bool "Reset Driver for SiFive SoC's"
 	depends on DM_RESET && CLK_SIFIVE_PRCI && (TARGET_SIFIVE_UNLEASHED || TARGET_SIFIVE_UNMATCHED)
