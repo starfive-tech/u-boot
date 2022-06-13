@@ -19,6 +19,130 @@
 
 #define MODE_SELECT_REG		0x1702002c
 
+struct starfive_pll0_freq {
+	u32 freq;
+	u32 prediv;
+	u32 fbdiv;
+	u32 postdiv1;
+	u32 dacpd; /* Both daxpd and dsmpd set 1 while integer multiple mode */
+	u32 dsmpd; /* Both daxpd and dsmpd set 0 while fraction multiple mode */
+};
+
+enum starfive_cpu_freq {
+	CPU_FREQ_375 = 0,
+	CPU_FREQ_500,
+	CPU_FREQ_625,
+	CPU_FREQ_750,
+	CPU_FREQ_875,
+	CPU_FREQ_1000,
+	CPU_FREQ_1250,
+	CPU_FREQ_1375,
+	CPU_FREQ_1500,
+	CPU_FREQ_1625,
+	CPU_FREQ_1750,
+	CPU_FREQ_1800,
+	CPU_FREQ_MAX = CPU_FREQ_1800
+};
+
+struct starfive_pll0_freq jh7110_pll0_freq[] = {
+	{
+		.freq = CPU_FREQ_375,
+		.prediv = 8,
+		.fbdiv = 125,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_500,
+		.prediv = 6,
+		.fbdiv = 125,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_625,
+		.prediv = 24,
+		.fbdiv = 625,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_750,
+		.prediv = 4,
+		.fbdiv = 125,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_875,
+		.prediv = 24,
+		.fbdiv = 875,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_1000,
+		.prediv = 3,
+		.fbdiv = 125,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_1250,
+		.prediv = 12,
+		.fbdiv = 625,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_1375,
+		.prediv = 24,
+		.fbdiv = 1375,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_1500,
+		.prediv = 2,
+		.fbdiv = 125,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_1625,
+		.prediv = 24,
+		.fbdiv = 1625,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_1750,
+		.prediv = 12,
+		.fbdiv = 875,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+	{
+		.freq = CPU_FREQ_1800,
+		.prediv = 3,
+		.fbdiv = 225,
+		.postdiv1 = 1,
+		.dacpd = 1,
+		.dsmpd = 1
+	},
+};
+
 int spl_board_init_f(void)
 {
 	int ret;
@@ -56,6 +180,36 @@ u32 spl_boot_device(void)
 struct image_header *spl_get_load_buffer(ssize_t offset, size_t size)
 {
 	return (struct image_header *)(STARFIVE_SPL_BOOT_LOAD_ADDR);
+}
+
+static int spl_cpu_set_rate(enum starfive_cpu_freq rate)
+{
+	struct starfive_pll0_freq *cpu_freq;
+	int i;
+
+	if (rate < 0 || rate > CPU_FREQ_MAX) {
+		debug("invalid input value=%d\n", rate);
+		return -EINVAL;
+	}
+
+	for (i = 0; i<CPU_FREQ_MAX; i++) {
+		if (jh7110_pll0_freq[i].freq == rate) {
+			cpu_freq = &jh7110_pll0_freq[i];
+			break;
+		}
+	}
+
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_24, PLL0_DACPD_MASK,
+		(cpu_freq->dacpd << PLL0_DACPD_SHIFT) & PLL0_DACPD_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_24, PLL0_DSMPD_MASK,
+		(cpu_freq->dsmpd << PLL0_DSMPD_SHIFT) & PLL0_DSMPD_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_36, PLL0_PREDIV_MASK,
+		(cpu_freq->prediv << PLL0_PREDIV_SHIFT) & PLL0_PREDIV_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_28, PLL0_FBDIV_MASK,
+		(cpu_freq->fbdiv << PLL0_FBDIV_SHIFT) & PLL0_FBDIV_MASK);
+	clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_32, PLL0_POSTDIV1_MASK,
+		((cpu_freq->postdiv1 >> 1) << PLL0_POSTDIV1_SHIFT) & PLL0_POSTDIV1_MASK);
+	return 0;
 }
 
 void board_init_f(ulong dummy)
@@ -103,6 +257,9 @@ void board_init_f(ulong dummy)
 		panic("spl_early_init() failed: %d\n", ret);
 
 	arch_cpu_init_dm();
+
+	/* Adjust cpu frequency, the default is 1.25GHz */
+	spl_cpu_set_rate(CPU_FREQ_1250);
 
 	preloader_console_init();
 
