@@ -58,31 +58,6 @@ struct jh7110_reset_priv {
 	void __iomem *voutcrg;
 };
 
-static const u32 jh7110_reset_asserted[8] = {
-	/* SYSCRG_STATUS0 */
-	BIT(RSTN_U0_U7MC_RST_BUS % 32) |
-	BIT(RSTN_U0_U7MC_CORE0 % 32) |
-	BIT(RSTN_U0_U7MC_CORE1 % 32) |
-	BIT(RSTN_U0_U7MC_CORE2 % 32) |
-	BIT(RSTN_U0_U7MC_CORE3 % 32) |
-	BIT(RSTN_U0_U7MC_CORE4 % 32),
-	/* SYSCRG_STATUS1 */
-	0,
-	/* SYSCRG_STATUS2 */
-	0,
-	/* SYSCRG_STATUS3 */
-	0,
-	/* STGCRG */
-	BIT(RSTN_U0_HIFI4_CORE % 32) |
-	BIT(RSTN_U0_E24_CORE % 32),
-	/* AONCRG */
-	0,
-	/* ISPCRG */
-	0,
-	/*VOUTCRG*/
-	0,
-};
-
 static int jh7110_get_reset(struct jh7110_reset_priv *priv,
 			struct reset_assert_t *reset,
 			unsigned long group)
@@ -133,7 +108,7 @@ static int jh7110_reset_trigger(struct jh7110_reset_priv *priv,
 {
 	struct reset_assert_t reset;
 	unsigned long group;
-	u32 mask, value, done;
+	u32 mask, value, done = 0;
 	int ret;
 	u32 loop;
 
@@ -144,8 +119,6 @@ static int jh7110_reset_trigger(struct jh7110_reset_priv *priv,
 		debug("reset: bad reset id.\n");
 		return ret;
 	}
-
-	done = jh7110_reset_asserted[group] & mask;
 
 	if (!assert)
 		done ^= mask;
