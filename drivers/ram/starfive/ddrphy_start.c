@@ -11,6 +11,7 @@
 #define G_SPEED_2133	1
 
 #define OFFSET_SEL	0x80000000
+#define DDR_2G_MASK	0x40000000
 
 static struct ddr_reg_clrset ddr_start_data[] = {
 	{(OFFSET_SEL | 89),  	0xffffff00,  	0x00000051},
@@ -85,6 +86,7 @@ static struct ddr_reg_clrset ddr_start_data[] = {
 #ifdef G_DDR_SIMULATION
 	{(OFFSET_SEL | 1860),	0x80ffffff,	0x01000000},
 #endif
+	{11 | DDR_2G_MASK,	0xfffffff0,	0x00000005},
 	{247,	0xffffffff,	0x00000008},
 	{249,	0xffffffff,	0x00000800},
 	{252,	0xffffffff,	0x00000008},
@@ -240,7 +242,7 @@ static struct ddr_reg_clrset ddr_start_data4[] = {
 	{1896,	0xfff0ffff,	0x00080000},
 };
 
-void ddr_phy_start(u32 *phyreg)
+void ddr_phy_start(u32 *phyreg, enum ddr_size_t size)
 {
 	u32 i, len;
 	u32 *addr, *reg;
@@ -250,6 +252,11 @@ void ddr_phy_start(u32 *phyreg)
 
 	len = sizeof(ddr_start_data)/sizeof(struct ddr_reg_clrset);
 	for (i = 0; i < len; i++) {
+
+		if ((size == DDR_SIZE_4G)  &&
+			(ddr_start_data[i].offset & DDR_2G_MASK))
+			continue;
+
 		if (ddr_start_data[i].offset & OFFSET_SEL) {
 			offset = ddr_start_data[i].offset & (~OFFSET_SEL);
 			addr = reg;
@@ -257,6 +264,7 @@ void ddr_phy_start(u32 *phyreg)
 			offset = ddr_start_data[i].offset;
 			addr = phyreg + 2048;
 		}
+		offset &= (~DDR_2G_MASK);
 		DDR_REG_TRIGGER((addr + offset), ddr_start_data[i].mask,
 			ddr_start_data[i].val);
 	}

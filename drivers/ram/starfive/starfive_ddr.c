@@ -52,13 +52,29 @@ static void ddr_clear_rst(ulong addr, ulong addr_status,
 
 static int starfive_ddr_setup(struct udevice *dev, struct starfive_ddr_priv *priv)
 {
+	enum ddr_size_t size;
+
+	switch (priv->info.size) {
+	case 0x80000000:
+		size = DDR_SIZE_2G;
+		break;
+	case 0x100000000:
+		size = DDR_SIZE_4G;
+		break;
+	case 0x200000000:
+	case 0x400000000:
+	default:
+		pr_err("unsupport size %lx\n", priv->info.size);
+		return -1;
+	}
 	ddr_phy_train(priv->phyreg + (2048 << 2));
 	ddr_phy_util(priv->phyreg + (4096 << 2));
-	ddr_phy_start(priv->phyreg);
+	ddr_phy_start(priv->phyreg, size);
 
 	clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, 0<<24);
 
-	ddrcsr_boot(priv->ctrlreg, priv->ctrlreg + 0x1000, priv->phyreg);
+	ddrcsr_boot(priv->ctrlreg, priv->ctrlreg + 0x1000,
+		   priv->phyreg, size);
 
 	return 0;
 }
@@ -148,7 +164,7 @@ static int starfive_ddr_probe(struct udevice *dev)
 	};
 
 	ret = starfive_ddr_setup(dev, priv);
-	printk("DDR version: f859e621d4eedc.\n");
+	printf("DDR version: 600a6366.\n");
 
 	return ret;
 }

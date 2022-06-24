@@ -57,10 +57,17 @@ struct ddr_reg_clrset{
 	u32 val;
 };
 
+enum ddr_size_t {
+	DDR_SIZE_2G,
+	DDR_SIZE_4G,
+	DDR_SIZE_8G,
+	DDR_SIZE_16G,
+};
+
 void ddr_phy_train(u32 *phyreg);
 void ddr_phy_util(u32 *phyreg);
-void ddr_phy_start(u32 *phyreg);
-void ddrcsr_boot(u32 *csrreg, u32 *secreg, u32 *phyreg);
+void ddr_phy_start(u32 *phyreg, enum ddr_size_t size);
+void ddrcsr_boot(u32 *csrreg, u32 *secreg, u32 *phyreg, enum ddr_size_t size);
 
 #define DDR_REG_TRIGGER(addr, mask, value) \
 	out_le32((addr), (in_le32(addr) & (mask)) | (value))
