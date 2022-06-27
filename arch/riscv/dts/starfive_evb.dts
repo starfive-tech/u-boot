@@ -9,7 +9,7 @@
 / {
 	#address-cells = <2>;
 	#size-cells = <2>;
-	model = "StarFive EVB";
+	model = "StarFive JH7110 EVB";
 	compatible = "starfive,jh7110";
 
 	aliases {
