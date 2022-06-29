@@ -216,6 +216,9 @@ void board_init_f(ulong dummy)
 {
 	int ret;
 
+	/* Adjust cpu frequency, the default is 1.25GHz */
+	spl_cpu_set_rate(CPU_FREQ_1250);
+
 	/*DDR control depend clk init*/
 	clrsetbits_le32(SYS_CRG_BASE, CLK_CPU_ROOT_SW_MASK,
 		BIT(CLK_CPU_ROOT_SW_SHIFT) & CLK_CPU_ROOT_SW_MASK);
@@ -257,9 +260,6 @@ void board_init_f(ulong dummy)
 		panic("spl_early_init() failed: %d\n", ret);
 
 	arch_cpu_init_dm();
-
-	/* Adjust cpu frequency, the default is 1.25GHz */
-	spl_cpu_set_rate(CPU_FREQ_1250);
 
 	preloader_console_init();
 
