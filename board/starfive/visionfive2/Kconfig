@@ -1,16 +1,16 @@
-if TARGET_STARFIVE_VISIONFIVE
+if TARGET_STARFIVE_VISIONFIVE2
 
 config SYS_CPU
 	default "jh7110"
 
 config SYS_BOARD
-	default "visionfive"
+	default "visionfive2"
 
 config SYS_VENDOR
 	default "starfive"
 
 config SYS_CONFIG_NAME
-	default "starfive-visionfive"
+	default "starfive-visionfive2"
 
 config ENV_SIZE
 	default 0x2000 if ENV_IS_IN_SPI_FLASH

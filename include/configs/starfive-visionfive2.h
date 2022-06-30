@@ -5,8 +5,8 @@
  */
 
 
-#ifndef _STARFIVE_VISIONFIVE_H
-#define _STARFIVE_VISIONFIVE_H
+#ifndef _STARFIVE_VISIONFIVE2_H
+#define _STARFIVE_VISIONFIVE2_H
 
 #include <version.h>
 #include <linux/sizes.h>
@@ -16,9 +16,8 @@
 #define CONFIG_SPL_MAX_SIZE		0x00040000
 #define CONFIG_SPL_BSS_START_ADDR	0x08040000
 #define CONFIG_SPL_BSS_MAX_SIZE		0x00010000
-#define CONFIG_SYS_SPL_MALLOC_START	(CONFIG_SPL_BSS_START_ADDR +	\
-					 CONFIG_SPL_BSS_MAX_SIZE)
-#define CONFIG_SYS_SPL_MALLOC_SIZE	0x00100000
+#define CONFIG_SYS_SPL_MALLOC_START	(0x80000000)
+#define CONFIG_SYS_SPL_MALLOC_SIZE	0x00800000
 
 #define CONFIG_SPL_STACK	(0x08000000 + 0x00180000 -	\
 				 GENERATED_GBL_DATA_SIZE)
@@ -76,7 +75,6 @@
  */
 #ifdef CONFIG_CMD_NET
 #define CONFIG_DW_ALTDESCRIPTOR
-#define DWC_NET_PHYADDR		0
 #define CONFIG_ARP_TIMEOUT	500
 #define CONFIG_NETMASK		255.255.255.0
 #define CONFIG_IPADDR		192.168.120.230
@@ -141,5 +139,5 @@
 #define memcpy_fromio(a, c, l)	memcpy((a), (c), (l))
 #define memcpy_toio(c, a, l)	memcpy((c), (a), (l))
 
-#endif /* _STARFIVE_VISIONFIVE_H */
+#endif /* _STARFIVE_VISIONFIVE2_H */
 

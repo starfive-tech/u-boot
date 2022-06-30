@@ -3,7 +3,7 @@
 # Copyright (C) 2021 Shanghai StarFive Technology Co., Ltd.
 #
 
-obj-y	:= starfive_visionfive.o
+obj-y	:= starfive_visionfive2.o
 
 obj-$(CONFIG_SPL_BUILD) += spl.o
 
