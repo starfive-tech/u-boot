@@ -168,6 +168,31 @@ static void enable_prefetcher(void)
 	}
 }
 
+static void jh7110_uart0_init(void)
+{
+	/*uart0 tx*/
+	SYS_IOMUX_DOEN(41, LOW);
+	SYS_IOMUX_DOUT(41, 20);
+	/*uart0 rx*/
+	SYS_IOMUX_DOEN(40, HIGH);
+	SYS_IOMUX_DIN(40, 14);
+}
+
+static void jh7110_jtag_init(void)
+{
+	/*jtag*/
+	SYS_IOMUX_DOEN(36, HIGH);
+	SYS_IOMUX_DIN(36, 4);
+	SYS_IOMUX_DOEN(61, HIGH);
+	SYS_IOMUX_DIN(61, 19);
+	SYS_IOMUX_DOEN(63, HIGH);
+	SYS_IOMUX_DIN(63, 20);
+	SYS_IOMUX_DOEN(60, HIGH);
+	SYS_IOMUX_DIN(60, 29);
+	SYS_IOMUX_DOEN(44, 8);
+	SYS_IOMUX_DOUT(44, 22);
+}
+
 int board_init(void)
 {
 	enable_caches();
@@ -175,6 +200,8 @@ int board_init(void)
 	/*enable hart1-hart4 prefetcher*/
 	enable_prefetcher();
 
+	jh7110_uart0_init();
+	jh7110_jtag_init();
 	jh7110_gmac_init(0);
 	jh7110_gmac_init(1);
 	jh7110_timer_init();

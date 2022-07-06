@@ -243,6 +243,25 @@ void board_init_f(ulong dummy)
 	/*set GPIO to 3.3v*/
 	setbits_le32(SYS_SYSCON_BASE + 0xC, 0x0);
 
+	/*uart0 tx*/
+	SYS_IOMUX_DOEN(41, LOW);
+	SYS_IOMUX_DOUT(41, 20);
+	/*uart0 rx*/
+	SYS_IOMUX_DOEN(40, HIGH);
+	SYS_IOMUX_DIN(40, 14);
+
+	/*jtag*/
+	SYS_IOMUX_DOEN(36, HIGH);
+	SYS_IOMUX_DIN(36, 4);
+	SYS_IOMUX_DOEN(61, HIGH);
+	SYS_IOMUX_DIN(61, 19);
+	SYS_IOMUX_DOEN(63, HIGH);
+	SYS_IOMUX_DIN(63, 20);
+	SYS_IOMUX_DOEN(60, HIGH);
+	SYS_IOMUX_DIN(60, 29);
+	SYS_IOMUX_DOEN(44, 8);
+	SYS_IOMUX_DOUT(44, 22);
+
 	/*set sdio0 sdcard clk default div to 4*/
 	clrsetbits_le32(SYS_CRG_BASE + CLK_SDIO0_SDCARD_OFFSET,
 		CLK_SDIO0_SDCARD_MASK,
