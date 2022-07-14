@@ -262,10 +262,13 @@ void board_init_f(ulong dummy)
 	SYS_IOMUX_DOEN(44, 8);
 	SYS_IOMUX_DOUT(44, 22);
 
-	/*set sdio0 sdcard clk default div to 4*/
+	/*set sdio0/1 sdcard clk default div to 4*/
 	clrsetbits_le32(SYS_CRG_BASE + CLK_SDIO0_SDCARD_OFFSET,
 		CLK_SDIO0_SDCARD_MASK,
 		(4 << CLK_SDIO0_SDCARD_SHIFT) & CLK_SDIO0_SDCARD_MASK);
+	clrsetbits_le32(SYS_CRG_BASE + CLK_SDIO1_SDCARD_OFFSET,
+		CLK_SDIO1_SDCARD_MASK,
+		(4 << CLK_SDIO1_SDCARD_SHIFT) & CLK_SDIO1_SDCARD_MASK);
 
 	/* reset emmc */
 	SYS_IOMUX_DOEN(22, LOW);

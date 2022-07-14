@@ -48,12 +48,14 @@
 
 &sdio0 {
 	fifo-depth = <32>;
-	bus-width = <4>;
+	bus-width = <8>;
 	status = "okay";
 };
 
 &sdio1 {
-	status = "disabled";
+	fifo-depth = <32>;
+	bus-width = <4>;
+	status = "okay";
 };
 
 &gmac0 {

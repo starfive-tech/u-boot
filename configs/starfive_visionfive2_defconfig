@@ -24,6 +24,7 @@ CONFIG_SPI_BOOT=y
 CONFIG_USE_BOOTARGS=y
 CONFIG_BOOTARGS="console=ttyS0,115200  debug rootwait  earlycon=sbi"
 CONFIG_USE_BOOTCOMMAND=y
+CONFIG_BOOTCOMMAND="fatload mmc 1:3 $kernel_addr_r vf2_uEnv.txt; env import -t $kernel_addr_r $filesize;run boot2"
 CONFIG_LOG_MAX_LEVEL=4
 CONFIG_SPL_LOG=y
 CONFIG_DISPLAY_CPUINFO=y
