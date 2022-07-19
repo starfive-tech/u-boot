@@ -19,6 +19,7 @@
 		ethernet1=&gmac1;
 		mmc0=&sdio0;
 		mmc1=&sdio1;
+		i2c5 = &i2c5;
 	};
 
 	chosen {
@@ -89,6 +90,21 @@
 	reg-offset = <0>;
 	current-speed = <115200>;
 	status = "okay";
+};
+
+&i2c5 {
+	clock-frequency = <100000>;
+	i2c-sda-hold-time-ns = <300>;
+	i2c-sda-falling-time-ns = <3000>;
+	i2c-scl-falling-time-ns = <3000>;
+	auto_calc_scl_lhcnt;
+	status = "okay";
+
+	eeprom@50 {
+		compatible = "atmel,24c04";
+		reg = <0x50>;
+		pagesize = <16>;
+	};
 };
 
 &gpioa {

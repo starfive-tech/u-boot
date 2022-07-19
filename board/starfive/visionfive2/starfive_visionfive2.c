@@ -193,6 +193,22 @@ static void jh7110_jtag_init(void)
 	SYS_IOMUX_DOUT(44, 22);
 }
 
+static void jh7110_i2c_init(int id)
+{
+	switch (id) {
+	case 5:
+		//scl
+		SYS_IOMUX_COMPLEX(19, 79, 0, 42);
+		//sda
+		SYS_IOMUX_COMPLEX(20, 80, 0, 43);
+
+		break;
+
+	default:
+		break;
+	}
+}
+
 int board_init(void)
 {
 	enable_caches();
@@ -210,6 +226,7 @@ int board_init(void)
 
 	jh7110_mmc_init(0);
 	jh7110_mmc_init(1);
+	jh7110_i2c_init(5);
 
 	return 0;
 }

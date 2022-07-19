@@ -604,6 +604,16 @@ static int jh7110_clk_init(struct udevice *dev)
 			"u0_otpc_clk_apb",	"aon_apb",
 			AON_OFFSET(JH7110_OTPC_CLK_APB)));
 
+	/*i2c5*/
+	clk_dm(JH7110_I2C5_CLK_APB,
+		starfive_clk_gate(priv->sys,
+			"u5_dw_i2c_clk_apb", "apb0",
+			SYS_OFFSET(JH7110_I2C5_CLK_APB)));
+	clk_dm(JH7110_I2C5_CLK_CORE,
+		starfive_clk_gate(priv->sys,
+			"u5_dw_i2c_clk_core", "osc",
+			SYS_OFFSET(JH7110_I2C5_CLK_CORE)));
+
 	return 0;
 }
 
