@@ -85,9 +85,6 @@
 #endif
 #endif
 
-/* allow to overwrite serial and ethaddr */
-#define CONFIG_ENV_OVERWRITE
-
 /* HACK these should have '#if defined (stuff) around them like zynqp*/
 #define BOOT_TARGET_DEVICES(func) func(DHCP, dhcp, na)	func(MMC, mmc, 0)
 
