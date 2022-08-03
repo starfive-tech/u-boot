@@ -58,11 +58,6 @@ static const char *gmac5_tx_sels[2] = {
 	[1] = "gmac1_rmii_rtx",
 };
 
-static const char *aon_apb_func_sels[2] = {
-	[0] = "osc_div4",
-	[1] = "osc",
-};
-
 static const char *u0_dw_gmac5_axi64_clk_tx_sels[2] = {
 	[0] = "gmac0_gtxclk",
 	[1] = "gmac0_rmii_rtx",
@@ -399,18 +394,16 @@ static int jh7110_clk_init(struct udevice *dev)
 		starfive_clk_divider(priv->sys,
 			"apb_bus_func", "stg_axiahb",
 			SYS_OFFSET(JH7110_APB_BUS_FUNC), 4));
-	clk_dm(JH7110_OSC_DIV4,
-		starfive_clk_divider(priv->aon,
-			"osc_div4", "osc",
-			AON_OFFSET(JH7110_OSC_DIV4), 3));
-	clk_dm(JH7110_AON_APB_FUNC,
-		starfive_clk_mux(priv->aon, "aon_apb_func",
-			AON_OFFSET(JH7110_AON_APB_FUNC), 1,
-			aon_apb_func_sels, ARRAY_SIZE(aon_apb_func_sels)));
+	clk_dm(JH7110_PCLK2_MUX_FUNC_PCLK,
+		starfive_clk_fix_factor(priv->sys,
+			"u2_pclk_mux_func_pclk", "apb_bus_func", 1, 1));
+	clk_dm(JH7110_U2_PCLK_MUX_PCLK,
+		starfive_clk_fix_factor(priv->sys,
+			"u2_pclk_mux_pclk", "u2_pclk_mux_func_pclk", 1, 1));
 
 	clk_dm(JH7110_APB_BUS,
 		starfive_clk_fix_factor(priv->sys,
-			"apb_bus", "aon_apb_func", 1, 1));
+			"apb_bus", "u2_pclk_mux_pclk", 1, 1));
 	clk_dm(JH7110_APB0,
 		starfive_clk_gate(priv->sys,
 			"apb0", "apb_bus",
@@ -421,13 +414,6 @@ static int jh7110_clk_init(struct udevice *dev)
 	clk_dm(JH7110_AON_APB,
 		starfive_clk_fix_factor(priv->sys,
 			"aon_apb", "apb_bus_func", 1, 1));
-
-	/*hifi4*/
-	clk_dm(JH7110_HIFI4_CORE,
-		starfive_clk_divider(priv->sys,
-			"hifi4_core", "bus_root",
-			SYS_OFFSET(JH7110_HIFI4_CORE), 4));
-
 	/*QSPI*/
 	clk_dm(JH7110_QSPI_CLK_AHB,
 		starfive_clk_gate(priv->sys,
@@ -582,11 +568,6 @@ static int jh7110_clk_init(struct udevice *dev)
 	clk_dm(JH7110_STG_APB,
 		starfive_clk_fix_factor(priv->stg,
 			"stg_apb", "apb_bus", 1, 1));
-
-	clk_dm(JH7110_HIFI4_CLK_CORE,
-		starfive_clk_gate(priv->stg,
-			"u0_hifi4_clk_core", "hifi4_core",
-			STG_OFFSET(JH7110_HIFI4_CLK_CORE)));
 	/*USB*/
 	clk_dm(JH7110_USB0_CLK_USB_APB,
 		starfive_clk_gate(priv->stg,

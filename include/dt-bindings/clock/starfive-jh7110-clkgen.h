@@ -249,7 +249,7 @@
 #define JH7110_RTC_HMS_CLK_OSC32K               231
 #define JH7110_RTC_HMS_CLK_CAL                  232
 
-#define JH7110_CLK_AON_REG_END                  233
+#define JH7110_CLK_REG_END			233
 
 /* sys other */
 #define JH7110_PLL0_OUT                        233
@@ -336,38 +336,39 @@
 #define JH7110_E2_DEBUG_SYSTEMJTAG_TCK         314
 #define JH7110_JTAG_CERTIFICATION_TCK          315
 #define JH7110_SEC_SKP_CLK                     316
+#define JH7110_U2_PCLK_MUX_PCLK		317
 
-#define JH7110_CLK_SYS_END                     317
+#define JH7110_CLK_SYS_END                     318
 
 /* stg other */
-#define JH7110_PCIE0_CLK_AXI_SLV0               317
-#define JH7110_PCIE0_CLK_AXI_SLV                318
-#define JH7110_PCIE0_CLK_OSC                    319
-#define JH7110_PCIE1_CLK_AXI_SLV0               320
-#define JH7110_PCIE1_CLK_AXI_SLV                321
-#define JH7110_PCIE1_CLK_OSC                    322
-#define JH7110_E2_IRQ_SYNC_CLK_CORE             323
-#define JH7110_STG_CRG_PCLK                     324
-#define JH7110_STG_SYSCON_PCLK                  325
+#define JH7110_PCIE0_CLK_AXI_SLV0               318
+#define JH7110_PCIE0_CLK_AXI_SLV                319
+#define JH7110_PCIE0_CLK_OSC                    320
+#define JH7110_PCIE1_CLK_AXI_SLV0               321
+#define JH7110_PCIE1_CLK_AXI_SLV                322
+#define JH7110_PCIE1_CLK_OSC                    323
+#define JH7110_E2_IRQ_SYNC_CLK_CORE             324
+#define JH7110_STG_CRG_PCLK                     325
+#define JH7110_STG_SYSCON_PCLK                  326
 
-#define JH7110_CLK_STG_END                      326
+#define JH7110_CLK_STG_END                      327
 
 /* aon other */
-#define JH7110_U0_GMAC5_CLK_PTP                 326
-#define JH7110_U0_GMAC5_CLK_RMII                327
-#define JH7110_AON_SYSCON_PCLK                  328
-#define JH7110_AON_IOMUX_PCLK                   329
-#define JH7110_AON_CRG_PCLK                     330
-#define JH7110_PMU_CLK_APB                      331
-#define JH7110_PMU_CLK_WKUP                     332
-#define JH7110_RTC_HMS_CLK_OSC32K_G             333
-#define JH7110_32K_OUT                          334
-#define JH7110_RESET0_CTRL_CLK_SRC              335
+#define JH7110_U0_GMAC5_CLK_PTP                 327
+#define JH7110_U0_GMAC5_CLK_RMII                328
+#define JH7110_AON_SYSCON_PCLK                  329
+#define JH7110_AON_IOMUX_PCLK                   330
+#define JH7110_AON_CRG_PCLK                     331
+#define JH7110_PMU_CLK_APB                      332
+#define JH7110_PMU_CLK_WKUP                     333
+#define JH7110_RTC_HMS_CLK_OSC32K_G             334
+#define JH7110_32K_OUT                          335
+#define JH7110_RESET0_CTRL_CLK_SRC              336
 /* aon other and source */
-#define JH7110_PCLK_MUX_FUNC_PCLK               336
-#define JH7110_PCLK_MUX_BIST_PCLK               337
+#define JH7110_PCLK_MUX_FUNC_PCLK               337
+#define JH7110_PCLK_MUX_BIST_PCLK               338
 
-#define JH7110_CLK_END                          338
+#define JH7110_CLK_END                          339
 
 /* sys external clocks */
 #define JH7110_OSC                      (JH7110_CLK_END + 0)
