@@ -20,6 +20,13 @@
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
 
+enum {
+	BOOT_FLASH =	0,
+	BOOT_SD,
+	BOOT_EMMC,
+	BOOT_UART,
+};
+
 static void sys_reset_clear(ulong assert, ulong status, u32 rst)
 {
 	u32 value;
@@ -209,6 +216,34 @@ static void jh7110_i2c_init(int id)
 	}
 }
 
+static void get_boot_mode(void)
+{
+	u32 value;
+
+	value = in_le32(AON_IOMUX_BASE + AON_GPIO_DIN_REG);
+	switch (value & 0x03) {
+		case BOOT_FLASH:
+			env_set("bootmode", "flash");
+			env_set("devnum", "1");
+			break;
+
+		case BOOT_SD:
+			env_set("bootmode", "sd");
+			env_set("devnum", "1");
+			break;
+
+		case BOOT_EMMC:
+			env_set("bootmode", "emmc");
+			env_set("devnum", "0");
+			break;
+
+		default:
+			env_set("bootmode", "uart");
+			env_set("devnum", "1");
+			break;
+	}
+}
+
 int board_init(void)
 {
 	enable_caches();
@@ -230,6 +265,15 @@ int board_init(void)
 
 	return 0;
 }
+
+#ifdef CONFIG_BOARD_LATE_INIT
+int board_late_init(void)
+{
+	get_boot_mode();
+
+	return 0;
+}
+#endif
 
 #ifdef CONFIG_MISC_INIT_R
 

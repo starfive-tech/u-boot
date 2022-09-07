@@ -101,6 +101,20 @@
 	"name=loader2,size=4MB,type=${type_guid_gpt_loader2};"		\
 	"name=system,size=-,bootable,type=${type_guid_gpt_system};"
 
+#define VISIONFIVE2_BOOTENV			\
+	"testenv=vf2_uEnv.txt\0" 		\
+	"load_vf2_env="					\
+	"if test ${bootmode} = flash; then "	\
+		"if mmc dev ${devnum}; then "		\
+			"echo found device ${devnum};"	\
+		"else "						\
+			"setenv devnum 0;"		\
+			"mmc dev 0;"			\
+		"fi; "						\
+	"fi; "							\
+	"echo bootmode ${bootmode} device ${devnum};"	\
+	"fatload mmc ${devnum}:3 ${kernel_addr_r} ${testenv};\0"	\
+
 #define CONFIG_EXTRA_ENV_SETTINGS			\
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
@@ -111,6 +125,7 @@
 	"script_size_f=0x1000\0"			\
 	"pxefile_addr_r=0x88200000\0"			\
 	"ramdisk_addr_r=0x88300000\0"			\
+	VISIONFIVE2_BOOTENV				\
 	"type_guid_gpt_loader1=" TYPE_GUID_LOADER1 "\0" \
 	"type_guid_gpt_loader2=" TYPE_GUID_LOADER2 "\0" \
 	"type_guid_gpt_system=" TYPE_GUID_SYSTEM "\0"	\
