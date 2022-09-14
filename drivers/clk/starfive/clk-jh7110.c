@@ -4,8 +4,8 @@
  * Author:	yanhong <yanhong.wang@starfivetech.com>
  *
  */
-#include <asm/arch/jh7110-regs.h>
 #include <common.h>
+#include <asm/arch/clk.h>
 #include <clk-uclass.h>
 #include <clk.h>
 #include <dt-bindings/clock/starfive-jh7110-clkgen.h>
@@ -17,7 +17,6 @@
 #include <linux/clk-provider.h>
 #include <linux/io.h>
 
-#define getbits_le32(addr,mask) ((in_le32(addr)&(mask)) >> __ffs(mask))
 #define STARFIVE_CLK_ENABLE_SHIFT	31 /*[31]*/
 #define STARFIVE_CLK_INVERT_SHIFT	30 /*[30]*/
 #define STARFIVE_CLK_MUX_SHIFT		24 /*[29:24]*/
@@ -303,48 +302,26 @@ static struct clk *starfive_clk_gate_divider(void __iomem *reg,
 				offset, 0, 1, width);
 }
 
-static int jh7110_get_pll0_freq(void)
-{
-	u32 dacpd, dsmpd;
-	u32 prediv, fbdiv, postdiv1;
-	u32 refclk = 24;
-	u32 pll0_freq = 0;
-
-	dacpd = getbits_le32(SYS_SYSCON_BASE+SYS_SYSCON_24, PLL0_DACPD_MASK);
-	dsmpd = getbits_le32(SYS_SYSCON_BASE+SYS_SYSCON_24, PLL0_DSMPD_MASK);
-	fbdiv = getbits_le32(SYS_SYSCON_BASE+SYS_SYSCON_28, PLL0_FBDIV_MASK);
-	prediv = getbits_le32(SYS_SYSCON_BASE+SYS_SYSCON_36, PLL0_PREDIV_MASK);
-	postdiv1 = 1 << getbits_le32(SYS_SYSCON_BASE+SYS_SYSCON_32, PLL0_POSTDIV1_MASK);
-
-	debug("dacpd:%d, dsmpd:%d, prediv:%d, fbdiv:%d, postdiv1:%d\n",
-				dacpd, dsmpd, prediv, fbdiv, postdiv1);
-	if (dacpd == 1 && dsmpd == 1)
-		pll0_freq = (refclk * fbdiv) / (prediv * postdiv1);
-	else if ((dacpd == 0 && dsmpd == 0))
-		pll0_freq = 1000;
-	else {
-		debug("Unkwnon pll mode.\n");
-		return -EINVAL;
-	}
-
-	printf("FREQ:  %d MHz\n",pll0_freq);
-	return pll0_freq;
-}
-
 static int jh7110_clk_init(struct udevice *dev)
 {
 	struct jh7110_clk_priv *priv = dev_get_priv(dev);
-	u32 pll0_freq = jh7110_get_pll0_freq();
+	struct starfive_pll_freq conf;
+	u64 pll;
 
+	pll = starfive_jh7110_pll_get_rate(PLL0, &conf);
 	clk_dm(JH7110_PLL0_OUT,
 		starfive_clk_fix_factor(priv->sys,
-			"pll0_out", "osc", pll0_freq, 24));
+			"pll0_out", "osc", conf.fbdiv, conf.prediv * conf.postdiv1));
+
+	pll = starfive_jh7110_pll_get_rate(PLL1, &conf);
 	clk_dm(JH7110_PLL1_OUT,
 		starfive_clk_fix_factor(priv->sys,
-			"pll1_out", "osc", 1066, 24));
+			"pll1_out", "osc", conf.fbdiv, conf.prediv * conf.postdiv1));
+
+	pll = starfive_jh7110_pll_get_rate(PLL2, &conf);
 	clk_dm(JH7110_PLL2_OUT,
 		starfive_clk_fix_factor(priv->sys,
-			"pll2_out", "osc", 12288, 240));
+			"pll2_out", "osc", conf.fbdiv, conf.prediv * conf.postdiv1));
 	/*root*/
 	clk_dm(JH7110_CPU_ROOT,
 		starfive_clk_mux(priv->sys, "cpu_root",
