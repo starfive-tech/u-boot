@@ -8,3 +8,4 @@ else
 obj-y += dram.o
 obj-y += cpu.o
 endif
+obj-y += pll.o
