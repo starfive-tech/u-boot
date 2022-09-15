@@ -6,6 +6,7 @@
  */
 
 #include <common.h>
+#include <asm/arch/clk.h>
 #include <dm.h>
 #include <fdtdec.h>
 #include <init.h>
@@ -103,14 +104,9 @@ static int starfive_ddr_probe(struct udevice *dev)
 	switch (priv->fre) {
 	case 2133:
 		clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, 0<<24);
-		clrsetbits_le32(SYS_SYSCON_40_REG, PLL1_PD_MASK, 1<<27);
-		clrsetbits_le32(SYS_SYSCON_36_REG, PLL1_DACPD_MASK, 0<<15);
-		clrsetbits_le32(SYS_SYSCON_36_REG, PLL1_DSMPD_MASK, 0<<16);
-		clrsetbits_le32(SYS_SYSCON_40_REG, PLL1_FRAC_MASK, 0xe00000<<0);
-		clrsetbits_le32(SYS_SYSCON_36_REG, PLL1_FBDIV_MASK, 0x58<<17);
-		clrsetbits_le32(SYS_SYSCON_44_REG, PLL1_PREDIV_MASK, 0x1<<0);
-		clrsetbits_le32(SYS_SYSCON_40_REG, PLL1_POSTDIV1_MASK, 0x1<<28);
-		clrsetbits_le32(SYS_SYSCON_40_REG, PLL1_PD_MASK, 0<<27);
+
+		starfive_jh7110_pll_set_rate(PLL1, 1066000000);
+
 		udelay(100);
 		clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, (1<<24)&CLK_DDR_BUS_MASK);
 
@@ -134,14 +130,8 @@ static int starfive_ddr_probe(struct udevice *dev)
 
 	case 2800:
 		clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, 0<<24);
-		clrsetbits_le32(SYS_SYSCON_40_REG, PLL1_PD_MASK, 1<<27);
-		clrsetbits_le32(SYS_SYSCON_36_REG, PLL1_DACPD_MASK, 0<<15);
-		clrsetbits_le32(SYS_SYSCON_36_REG, PLL1_DSMPD_MASK, 0<<16);
-		clrsetbits_le32(SYS_SYSCON_40_REG, PLL1_FRAC_MASK, 0xAAAAAA<<0);
-		clrsetbits_le32(SYS_SYSCON_36_REG, PLL1_FBDIV_MASK, 0x74<<16);
-		clrsetbits_le32(SYS_SYSCON_44_REG, PLL1_PREDIV_MASK, 2<<0);
-		clrsetbits_le32(SYS_SYSCON_40_REG, PLL1_POSTDIV1_MASK, 0<<28);
-		clrsetbits_le32(SYS_SYSCON_40_REG, PLL1_PD_MASK, 0<<27);
+
+		starfive_jh7110_pll_set_rate(PLL1, 1400000000);
 
 		clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, 1<<24);
 
