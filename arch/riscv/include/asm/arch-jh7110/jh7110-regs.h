@@ -38,6 +38,7 @@
 #define GMAC5_1_CLK_TX_BIT              0x18
 #define GMAC5_1_CLK_TX_MASK             0x1000000U
 
+
 /*usb cfg*/
 #define STG_SYSCON_4			0x4U
 #define STG_SYSCON_196			0xC4U

@@ -755,3 +755,18 @@ int mac_read_from_eeprom(void)
 
 	return 0;
 }
+
+/**
+ * get_pcb_revision_from_eeprom - get the PCB revision
+ *
+ * Read the EEPROM to determine the board revision.
+ */
+u8 get_pcb_revision_from_eeprom(void)
+{
+	u8 pv = 0xFF;
+
+	if (einfo.pcb_revision) {
+		pv = *einfo.pcb_revision;
+	}
+	return pv;
+}

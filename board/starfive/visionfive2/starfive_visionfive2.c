@@ -7,6 +7,7 @@
 
 #include <common.h>
 #include <asm/io.h>
+#include <asm/arch/eeprom.h>
 #include <asm/arch/jh7110-regs.h>
 #include <cpu_func.h>
 #include <dm/uclass.h>
@@ -20,11 +21,22 @@
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
 
+#define PCB_REVISION_MASK	0xF0
+#define PCB_REVISION_SHIFT	4
+#define PCB_REVISION_A		0x0A
+#define PCB_REVISION_B		0x0B
+
 enum {
 	BOOT_FLASH =	0,
 	BOOT_SD,
 	BOOT_EMMC,
 	BOOT_UART,
+};
+
+enum board_type_t {
+	BOARD_1000M_1000M = 0,
+	BOARD_1000M_100M,
+	BOARD_TYPE_MAX,
 };
 
 static void sys_reset_clear(ulong assert, ulong status, u32 rst)
@@ -57,7 +69,7 @@ static void jh7110_timer_init(void)
 			SYS_CRG_RESET_STATUS3_SHIFT, TIMER_RSTN_TIMER3_SHIFT);
 }
 
-static void jh7110_gmac_init(int id)
+static void jh7110_gmac_init_1000M(int id)
 {
 	switch (id) {
 	case 0:
@@ -74,6 +86,65 @@ static void jh7110_gmac_init(int id)
 
 	default:
 		break;
+	}
+}
+
+static void jh7110_gmac_init_100M(int id)
+{
+	switch (id) {
+	case 0:
+		clrsetbits_le32(AON_SYSCON_BASE + AON_SYSCFG_12,
+			GMAC5_0_SEL_I_MASK,
+			(4 << GMAC5_0_SEL_I_SHIFT) & GMAC5_0_SEL_I_MASK);
+		setbits_le32(AON_CRG_BASE + GMAC5_0_CLK_TX_SHIFT, 0x1000000);
+		setbits_le32(AON_CRG_BASE + GMAC5_0_CLK_RX_SHIFT, 0x1000000);
+		break;
+
+	case 1:
+		clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_144,
+			GMAC5_1_SEL_I_MASK,
+			(4 << GMAC5_1_SEL_I_SHIFT) & GMAC5_1_SEL_I_MASK);
+		setbits_le32(SYS_CRG_BASE + GMAC5_1_CLK_TX_SHIFT, 0x1000000);
+		setbits_le32(SYS_CRG_BASE + GMAC5_1_CLK_RX_SHIFT, 0x1000000);
+		break;
+
+	default:
+		break;
+	}
+}
+
+static int get_board_type(void)
+{
+	u8 pv;
+	int type;
+
+	pv = get_pcb_revision_from_eeprom();
+	pv = (pv & PCB_REVISION_MASK) >> PCB_REVISION_SHIFT;
+
+	if (pv == PCB_REVISION_A) {
+		type = BOARD_1000M_100M;
+	} else if (pv == PCB_REVISION_B) {
+		type = BOARD_1000M_1000M;
+	} else {
+		type = BOARD_TYPE_MAX;
+	}
+
+	return type;
+}
+
+static void jh7110_gmac_init(int type)
+{
+	switch (type) {
+		case BOARD_1000M_100M:
+			jh7110_gmac_init_1000M(0);
+			jh7110_gmac_init_100M(1);
+			break;
+
+		case BOARD_1000M_1000M:
+		default:
+			jh7110_gmac_init_1000M(0);
+			jh7110_gmac_init_1000M(1);
+			break;
 	}
 }
 
@@ -253,8 +324,6 @@ int board_init(void)
 
 	jh7110_uart0_init();
 	jh7110_jtag_init();
-	jh7110_gmac_init(0);
-	jh7110_gmac_init(1);
 	jh7110_timer_init();
 
 	jh7110_usb_init(true);
@@ -270,6 +339,7 @@ int board_init(void)
 int board_late_init(void)
 {
 	get_boot_mode();
+	jh7110_gmac_init(get_board_type());
 
 	return 0;
 }
