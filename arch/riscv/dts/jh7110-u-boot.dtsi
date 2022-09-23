@@ -59,8 +59,12 @@
 		};
 
 		dmc: dmc@100b0000 {
-			compatible = "starfive,jh7110-ddr";
+			compatible = "starfive,jh7110-dmc";
 			reg = <0x0 0x15700000 0x0 0x10000 0x0 0x13000000 0x0 0x10000>;
+			resets = <&rstgen RSTN_U0_DDR_AXI>,
+					<&rstgen RSTN_U0_DDR_OSC>,
+					<&rstgen RSTN_U0_DDR_APB>;
+			reset-names = "axi", "osc", "apb";
 			clock-frequency = <2133>;
 			u-boot,dm-spl;
 		};
