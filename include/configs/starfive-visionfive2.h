@@ -85,7 +85,7 @@
 #endif
 
 /* HACK these should have '#if defined (stuff) around them like zynqp*/
-#define BOOT_TARGET_DEVICES(func) func(DHCP, dhcp, na)	func(MMC, mmc, 0)
+#define BOOT_TARGET_DEVICES(func) func(MMC, mmc, 0) func(DHCP, dhcp, na)
 
 #include <config_distro_bootcmd.h>
 
@@ -101,19 +101,40 @@
 	"name=loader2,size=4MB,type=${type_guid_gpt_loader2};"		\
 	"name=system,size=-,bootable,type=${type_guid_gpt_system};"
 
-#define VISIONFIVE2_BOOTENV			\
-	"testenv=vf2_uEnv.txt\0" 		\
-	"load_vf2_env="					\
-	"if test ${bootmode} = flash; then "	\
-		"if mmc dev ${devnum}; then "		\
-			"echo found device ${devnum};"	\
+#define VISIONFIVE2_BOOTENV		\
+	"bootenv=uEnv.txt\0"		\
+	"testenv=vf2_uEnv.txt\0"	\
+	"bootdir=/boot\0"		\
+	"mmcpart=3\0"			\
+	"loadaddr=0xa0000000\0"		\
+	"load_vf2_env=fatload mmc ${bootpart} ${loadaddr} ${testenv}\0"	\
+	"loadbootenv=fatload mmc ${bootpart} ${loadaddr} ${bootenv}\0"	\
+	"ext4bootenv="			\
+		"ext4load mmc ${bootpart} ${loadaddr} ${bootdir}/${bootenv}\0"\
+	"importbootenv="		\
+		"echo Importing environment from mmc${devnum} ...; "	\
+		"env import -t ${loadaddr} ${filesize}\0"	\
+	"scan_mmc_dev="						\
+	"if test ${bootmode} = flash; then "			\
+		"if mmc dev ${devnum}; then "			\
+			"echo found device ${devnum};"		\
 		"else "						\
-			"setenv devnum 0;"		\
-			"mmc dev 0;"			\
+			"setenv devnum 0;"			\
+			"mmc dev 0;"				\
 		"fi; "						\
 	"fi; "							\
-	"echo bootmode ${bootmode} device ${devnum};"	\
-	"fatload mmc ${devnum}:3 ${kernel_addr_r} ${testenv};\0"	\
+	"echo bootmode ${bootmode} device ${devnum};\0"		\
+	"mmcbootenv=run scan_mmc_dev; "				\
+		"setenv bootpart ${devnum}:${mmcpart}; " 	\
+		"if mmc rescan; then " 				\
+			"run loadbootenv && run importbootenv; "	\
+			"run ext4bootenv && run importbootenv; "	\
+			"if test -n $uenvcmd; then "		\
+				"echo Running uenvcmd ...; "	\
+				"run uenvcmd; "			\
+			"fi; "					\
+		"fi\0"						\
+	"fdtfile=" CONFIG_DEFAULT_FDT_FILE "\0"
 
 #define CONFIG_EXTRA_ENV_SETTINGS			\
 	"fdt_high=0xffffffffffffffff\0"			\
