@@ -8,42 +8,41 @@
 #ifndef __STARFIVE_DDR_H__
 #define __STARFIVE_DDR_H__
 
-#include <common.h>
-#include <asm/io.h>
-#include <inttypes.h>
+#define JH7110_SYS_CRG	0x13020000
 
-#define SYS_CRG_BASE		0x13020000
-#define SYS_SYSCON_BASE		0x13030000
+#define SEC_CTRL_ADDR		0x1000
+#define PHY_BASE_ADDR		0x800
+#define PHY_AC_BASE_ADDR	0x1000
 
-#define CLK_DDR_BUS_REG		(SYS_CRG_BASE + 0xAC)
-#define CLK_AXI_CTRL_REG	(SYS_CRG_BASE + 0xB0)
+#define DDR_BUS_MASK		GENMASK(29, 24)
+#define DDR_AXI_MASK		BIT(31)
+#define DDR_BUS_OFFSET		0xAC
+#define DDR_AXI_OFFSET		0xB0
 
-#define RESET_ASSERT0_REG	(SYS_CRG_BASE + 0x2F8)
-#define RESET_ASSERT1_REG	(SYS_CRG_BASE + 0x2FC)
-#define RESET_ASSERT2_REG	(SYS_CRG_BASE + 0x300)
-#define RESET_ASSERT3_REG	(SYS_CRG_BASE + 0x304)
+#define DDR_BUS_OSC_DIV2	0
+#define DDR_BUS_PLL1_DIV2	1
+#define DDR_BUS_PLL1_DIV4	2
+#define DDR_BUS_PLL1_DIV8	3
+#define DDR_AXI_DISABLE		0
+#define DDR_AXI_ENABLE		1
 
-#define RESET_STATUS0_REG	(SYS_CRG_BASE + 0x308)
-#define RESET_STATUS1_REG	(SYS_CRG_BASE + 0x30C)
-#define RESET_STATUS2_REG	(SYS_CRG_BASE + 0x310)
-#define RESET_STATUS3_REG	(SYS_CRG_BASE + 0x314)
+#define OFFSET_SEL		BIT(31)
+#define REG2G			BIT(30)
+#define REG4G			BIT(29)
+#define REG8G			BIT(28)
+#define F_ADDSET		BIT(2)
+#define F_SET			BIT(1)
+#define F_CLRSET		BIT(0)
+#define REGALL			(REG2G | REG4G | REG8G)
+#define REGSETALL		(F_SET | REGALL)
+#define REGCLRSETALL		(F_CLRSET | REGALL)
+#define REGADDSETALL		(F_ADDSET | REGALL)
 
-#define RSTN_AXI_MASK		(0x1 << 6)
-#define RSTN_OSC_MASK		(0x1 << 7)
-#define RSTN_APB_MASK		(0x1 << 8)
-
-#define CLK_DDR_BUS_MASK    	0x3000000U
-#define CLK_AXI_EN_MASK		0x80000000U
-
-struct ddr_reg_set{
-	u32 offset;
-	u32 val;
-};
-
-struct ddr_reg_clrset{
+struct ddr_reg_cfg {
 	u32 offset;
 	u32 mask;
 	u32 val;
+	u32 flag;
 };
 
 enum ddr_size_t {
@@ -60,6 +59,11 @@ void ddrcsr_boot(u32 *csrreg, u32 *secreg, u32 *phyreg, enum ddr_size_t size);
 
 #define DDR_REG_TRIGGER(addr, mask, value) \
 	out_le32((addr), (in_le32(addr) & (mask)) | (value))
+
+#define DDR_REG_SET(type, val) \
+	clrsetbits_le32(JH7110_SYS_CRG + DDR_##type##_OFFSET, \
+		DDR_##type##_MASK, \
+		((val) << __ffs(DDR_##type##_MASK)) & DDR_##type##_MASK)
 
 #endif /*__STARFIVE_DDR_H__*/
 

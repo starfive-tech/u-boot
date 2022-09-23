@@ -11,6 +11,7 @@
 #include <fdtdec.h>
 #include <init.h>
 #include <ram.h>
+#include <reset.h>
 #include <syscon.h>
 #include <asm/io.h>
 #include <clk.h>
@@ -26,30 +27,11 @@ struct starfive_ddr_priv {
 	struct ram_info info;
 	void __iomem	*ctrlreg;
 	void __iomem	*phyreg;
+	struct reset_ctl rst_axi;
+	struct reset_ctl rst_osc;
+	struct reset_ctl rst_apb;
 	u32	fre;
 };
-
-static void ddr_assert_rst(ulong addr, ulong addr_status,
-			u32 mask)
-{
-	uint32_t tmp;
-
-	out_le32(addr, in_le32(addr) | mask);
-	do {
-		tmp = in_le32(addr_status);
-	} while ((tmp & mask) != 0);
-}
-
-static void ddr_clear_rst(ulong addr, ulong addr_status,
-			u32 mask)
-{
-	uint32_t tmp;
-
-	out_le32(addr, in_le32(addr) & (~mask));
-	do {
-		tmp = in_le32(addr_status);
-	} while ((tmp & mask) != mask);
-}
 
 static int starfive_ddr_setup(struct udevice *dev, struct starfive_ddr_priv *priv)
 {
@@ -63,18 +45,20 @@ static int starfive_ddr_setup(struct udevice *dev, struct starfive_ddr_priv *pri
 		size = DDR_SIZE_4G;
 		break;
 	case 0x200000000:
+		size = DDR_SIZE_8G;
+		break;
 	case 0x400000000:
 	default:
 		pr_err("unsupport size %lx\n", priv->info.size);
 		return -1;
 	}
-	ddr_phy_train(priv->phyreg + (2048 << 2));
-	ddr_phy_util(priv->phyreg + (4096 << 2));
+
+	ddr_phy_train(priv->phyreg + (PHY_BASE_ADDR << 2));
+	ddr_phy_util(priv->phyreg + (PHY_AC_BASE_ADDR << 2));
 	ddr_phy_start(priv->phyreg, size);
 
-	clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, 0<<24);
-
-	ddrcsr_boot(priv->ctrlreg, priv->ctrlreg + 0x1000,
+	DDR_REG_SET(BUS, DDR_BUS_OSC_DIV2);
+	ddrcsr_boot(priv->ctrlreg, priv->ctrlreg + SEC_CTRL_ADDR,
 		   priv->phyreg, size);
 
 	return 0;
@@ -84,6 +68,7 @@ static int starfive_ddr_probe(struct udevice *dev)
 {
 	struct starfive_ddr_priv *priv = dev_get_priv(dev);
 	fdt_addr_t addr;
+	u64 rate;
 	int ret;
 
 	priv->dev = dev;
@@ -92,10 +77,21 @@ static int starfive_ddr_probe(struct udevice *dev)
 	addr = dev_read_addr_index(dev, 1);
 	priv->phyreg = (void __iomem *)addr;
 	ret = dev_read_u32(dev, "clock-frequency", &priv->fre);
-	if (ret) {
-		pr_err("clock-frequency not found in dt %d\n", ret);
-		return ret;
-	}
+	if (ret)
+		goto init_end;
+
+	ret = reset_get_by_name(dev, "axi", &priv->rst_axi);
+	if (ret)
+		goto init_end;
+
+	ret = reset_get_by_name(dev, "osc", &priv->rst_osc);
+	if (ret)
+		goto err_axi;
+
+	ret = reset_get_by_name(dev, "apb", &priv->rst_apb);
+	if (ret)
+		goto err_osc;
+
 	/* Read memory base and size from DT */
 	fdtdec_setup_mem_size_base();
 	priv->info.base = gd->ram_base;
@@ -103,58 +99,38 @@ static int starfive_ddr_probe(struct udevice *dev)
 
 	switch (priv->fre) {
 	case 2133:
-		clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, 0<<24);
-
-		starfive_jh7110_pll_set_rate(PLL1, 1066000000);
-
-		udelay(100);
-		clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, (1<<24)&CLK_DDR_BUS_MASK);
-
-		ddr_assert_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_OSC_MASK);
-		ddr_clear_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_OSC_MASK);
-		ddr_assert_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_APB_MASK);
-		ddr_clear_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_APB_MASK);
-		clrsetbits_le32(CLK_AXI_CTRL_REG, CLK_AXI_EN_MASK, (0<<31)&CLK_AXI_EN_MASK);
-
-		ddr_assert_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_AXI_MASK);
-		ddr_clear_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_AXI_MASK);
-
-		clrsetbits_le32(CLK_AXI_CTRL_REG, CLK_AXI_EN_MASK, (1<<31)&CLK_AXI_EN_MASK);
+		rate = 1066000000;
 		break;
 
 	case 2800:
-		clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, 0<<24);
-
-		starfive_jh7110_pll_set_rate(PLL1, 1400000000);
-
-		clrsetbits_le32(CLK_DDR_BUS_REG, CLK_DDR_BUS_MASK, 1<<24);
-
-		ddr_assert_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_OSC_MASK);
-		ddr_clear_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_OSC_MASK);
-		ddr_assert_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_APB_MASK);
-		ddr_clear_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_APB_MASK);
-		ddr_assert_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_AXI_MASK);
-		ddr_clear_rst(RESET_ASSERT1_REG, RESET_STATUS1_REG,
-				RSTN_AXI_MASK);
+		rate = 1400000000;
 		break;
 	default:
 		printk("Unknown DDR frequency %d\n", priv->fre);
-		break;
+		ret = -1;
+		goto init_end;
 	};
 
+	DDR_REG_SET(BUS, DDR_BUS_OSC_DIV2);
+	starfive_jh7110_pll_set_rate(PLL1, rate);
+	udelay(100);
+	DDR_REG_SET(BUS, DDR_BUS_PLL1_DIV2);
+	reset_assert(&priv->rst_osc);
+	reset_deassert(&priv->rst_osc);
+	reset_assert(&priv->rst_apb);
+	reset_deassert(&priv->rst_apb);
+	reset_assert(&priv->rst_axi);
+	reset_deassert(&priv->rst_axi);
+
 	ret = starfive_ddr_setup(dev, priv);
-	printf("DDR version: 600a6366.\n");
+	printf("DDR version: dc2e84f0.\n");
+		goto init_end;
+err_osc:
+	reset_free(&priv->rst_osc);
+err_axi:
+	reset_free(&priv->rst_axi);
+	pr_err("reset_get_by_name(axi) failed: %d", ret);
+init_end:
 
 	return ret;
 }
@@ -173,7 +149,7 @@ static struct ram_ops starfive_ddr_ops = {
 };
 
 static const struct udevice_id starfive_ddr_ids[] = {
-	{ .compatible = "starfive,jh7110-ddr" },
+	{ .compatible = "starfive,jh7110-dmc" },
 	{ }
 };
 
