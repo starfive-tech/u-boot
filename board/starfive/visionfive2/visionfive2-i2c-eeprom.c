@@ -765,8 +765,38 @@ u8 get_pcb_revision_from_eeprom(void)
 {
 	u8 pv = 0xFF;
 
+	if (read_eeprom(eeprom_wp_buff))
+		return pv;
+
 	if (einfo.pcb_revision) {
 		pv = *einfo.pcb_revision;
 	}
 	return pv;
+}
+
+/**
+ * get_data_from_eeprom
+ *
+ * Read data from eeprom, must use int mac_read_from_eeprom(void) first
+ *
+ * offset: offset of eeprom
+ * len: count of data
+ * data: return data
+ *
+ * return the len of valid data
+ */
+int get_data_from_eeprom(int offset, int len, unsigned char *data)
+{
+	int cp_len = -1;
+
+	if (read_eeprom(eeprom_wp_buff))
+		return cp_len;
+
+	if (offset < STARFIVE_EEPROM_HATS_SIZE_MAX) {
+		cp_len = (offset + len > STARFIVE_EEPROM_HATS_SIZE_MAX) ?
+			(offset + len - STARFIVE_EEPROM_HATS_SIZE_MAX) : len;
+		memcpy(data, &eeprom_wp_buff[offset], cp_len);
+	}
+
+	return cp_len;
 }
