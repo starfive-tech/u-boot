@@ -100,6 +100,13 @@ void board_init_f(ulong dummy)
 	clrsetbits_le32(AON_IOMUX_BASE + 0x84, 0x3, BIT(0) & 0x3);
 	clrsetbits_le32(AON_IOMUX_BASE + 0x88, 0x3, BIT(0) & 0x3);
 
+	/* Improved GMAC1 TX I/O PAD capability */
+	clrsetbits_le32(SYS_IOMUX_BASE + 0x26c, 0x3, BIT(0) & 0x3);
+	clrsetbits_le32(SYS_IOMUX_BASE + 0x270, 0x3, BIT(0) & 0x3);
+	clrsetbits_le32(SYS_IOMUX_BASE + 0x274, 0x3, BIT(0) & 0x3);
+	clrsetbits_le32(SYS_IOMUX_BASE + 0x278, 0x3, BIT(0) & 0x3);
+	clrsetbits_le32(SYS_IOMUX_BASE + 0x27c, 0x3, BIT(0) & 0x3);
+
 	/*set GPIO to 3.3v*/
 	setbits_le32(SYS_SYSCON_BASE + 0xC, 0x0);
 
