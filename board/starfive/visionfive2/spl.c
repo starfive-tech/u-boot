@@ -93,6 +93,12 @@ void board_init_f(ulong dummy)
 		CLK_QSPI_REF_SW_MASK,
 		(0 << CLK_QSPI_REF_SW_SHIFT) & CLK_QSPI_REF_SW_MASK);
 
+	/* Improved GMAC0 TX I/O PAD capability */
+	clrsetbits_le32(AON_IOMUX_BASE + 0x78, 0x3, BIT(0) & 0x3);
+	clrsetbits_le32(AON_IOMUX_BASE + 0x7c, 0x3, BIT(0) & 0x3);
+	clrsetbits_le32(AON_IOMUX_BASE + 0x80, 0x3, BIT(0) & 0x3);
+	clrsetbits_le32(AON_IOMUX_BASE + 0x84, 0x3, BIT(0) & 0x3);
+	clrsetbits_le32(AON_IOMUX_BASE + 0x88, 0x3, BIT(0) & 0x3);
 
 	/*set GPIO to 3.3v*/
 	setbits_le32(SYS_SYSCON_BASE + 0xC, 0x0);
