@@ -5,7 +5,7 @@
 ifeq ($(CONFIG_SPL_BUILD),y)
 obj-y += spl.o
 else
-obj-y += dram.o
 obj-y += cpu.o
 endif
+obj-y += dram.o
 obj-y += pll.o
