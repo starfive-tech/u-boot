@@ -134,6 +134,10 @@ void board_init_f(ulong dummy)
 	SYS_IOMUX_COMPLEX(8, 48, 61, 23);
 	SYS_IOMUX_SET_DS(8, 3);
 
+	/*i2c5*/
+	SYS_IOMUX_COMPLEX(19, 79, 0, 42);//scl
+	SYS_IOMUX_COMPLEX(20, 80, 0, 43);//sda
+
 	ret = spl_early_init();
 	if (ret)
 		panic("spl_early_init() failed: %d\n", ret);
