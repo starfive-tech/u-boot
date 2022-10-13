@@ -119,3 +119,20 @@
 &gmac0_rmii_refin {
 	u-boot,dm-spl;
 };
+
+&i2c5 {
+	clock-frequency = <100000>;
+	i2c-sda-hold-time-ns = <300>;
+	i2c-sda-falling-time-ns = <3000>;
+	i2c-scl-falling-time-ns = <3000>;
+	auto_calc_scl_lhcnt;
+	status = "okay";
+	u-boot,dm-spl;
+
+	eeprom@50 {
+		compatible = "atmel,24c04";
+		reg = <0x50>;
+		pagesize = <16>;
+		u-boot,dm-spl;
+	};
+};
