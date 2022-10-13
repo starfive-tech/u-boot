@@ -346,6 +346,13 @@ int board_late_init(void)
 {
 	get_boot_mode();
 	jh7110_gmac_init(get_board_type());
+	/*
+	 * save the memory info by environment variable in u-boot,
+	 * It will used to update the memory configuration in dts,
+	 * which passed to kernel lately.
+	 */
+	env_set_hex("memory_addr", gd->ram_base);
+	env_set_hex("memory_size", gd->ram_size);
 
 	return 0;
 }
