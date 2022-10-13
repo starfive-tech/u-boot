@@ -12,17 +12,47 @@
 #include <init.h>
 #include <linux/ctype.h>
 #include <linux/delay.h>
-//#include <u-boot/crc.h>
+
+#define CONFIG_SYS_EEPROM_BUS_NUM		0
+
+#define FORMAT_VERSION				0x2
+#define PCB_VERSION				0xB1
+#define BOM_VERSION				'A'
+/*
+ * BYTES_PER_EEPROM_PAGE: the 24FC04H datasheet says that data can
+ * only be written in page mode, which means 16 bytes at a time:
+ * 16-Byte Page Write Buffer
+ */
+#define BYTES_PER_EEPROM_PAGE			16
+
+/*
+ * EEPROM_WRITE_DELAY_MS: the 24FC04H datasheet says it takes up to
+ * 5ms to complete a given write:
+ * Write Cycle Time (byte or page) ro Page Write Time 5 ms, Maximum
+ */
+#define EEPROM_WRITE_DELAY_MS			5000
+/*
+ * StarFive OUI. Registration Date is 20xx-xx-xx
+ */
+#define STARFIVE_OUI_PREFIX			"6C:CF:39:"
+#define STARFIVE_DEFAULT_MAC0			{0x6c, 0xcf, 0x39, 0x6c, 0xde, 0xad}
+#define STARFIVE_DEFAULT_MAC1			{0x6c, 0xcf, 0x39, 0x7c, 0xae, 0x5d}
+
+/* Magic number at the first four bytes of EEPROM HATs */
+#define STARFIVE_EEPROM_HATS_SIG	"SFVF" /* StarFive VisionFive */
+
+#define STARFIVE_EEPROM_HATS_SIZE_MAX	256 /* Header + Atom1&4(v1) */
+#define STARFIVE_EEPROM_WP_OFFSET	0 /* Read only field */
+#define STARFIVE_EEPROM_ATOM1_PSTR	"VF7110A1-2228-D008E000-00000001\0"
+#define STARFIVE_EEPROM_ATOM1_PSTR_SIZE	32
+#define STARFIVE_EEPROM_ATOM1_SN_OFFSET	23
+#define STARFIVE_EEPROM_ATOM1_VSTR	"StarFive Technology Co., Ltd.\0\0\0"
+#define STARFIVE_EEPROM_ATOM1_VSTR_SIZE	32
+
 /*
  * MAGIC_NUMBER_BYTES: number of bytes used by the magic number
  */
 #define MAGIC_NUMBER_BYTES			4
-
-/*
- * SERIAL_NUMBER_BYTES: number of bytes used by the board serial
- * number
- */
-//#define SERIAL_NUMBER_BYTES			16
 
 /*
  * MAC_ADDR_BYTES: number of bytes used by the Ethernet MAC address
@@ -365,8 +395,6 @@ static int parse_eeprom_info(struct eeprom_hats_header *buf)
 		goto error;
 	};
 
-	printf("StarFive EEPROM format v%u\n", buf->version);
-
 	// parse atom1(verdor)
 	atom = (struct eeprom_hats_atom_header *)
 		hats_get_atom(buf, HATS_ATOM_VENDOR);
@@ -405,13 +433,11 @@ static int parse_eeprom_info(struct eeprom_hats_header *buf)
 
 	// everthing gose right
 	has_been_read = 1;
-	show_eeprom(&einfo);
+
 	return 0;
 
 error:
 	has_been_read = -1;
-	dump_raw_eeprom(eeprom_wp_buff,
-			STARFIVE_EEPROM_HATS_SIZE_MAX);
 	return -1;
 }
 
@@ -732,8 +758,10 @@ int mac_read_from_eeprom(void)
 	 * try to fill the buff from EEPROM,
 	 * always return SUCCESS, even some error happens.
 	 */
-	if (read_eeprom(eeprom_wp_buff))
+	if (read_eeprom(eeprom_wp_buff)) {
+		dump_raw_eeprom(eeprom_wp_buff, STARFIVE_EEPROM_HATS_SIZE_MAX);
 		return 0;
+	}
 
 	// 1, setup ethaddr env
 	eth_env_set_enetaddr("eth0addr", einfo.mac0_addr);
@@ -753,6 +781,8 @@ int mac_read_from_eeprom(void)
 	if (!env_get("serial#"))
 		env_set("serial#", einfo.pstr);
 
+	printf("StarFive EEPROM format v%u\n", *einfo.version);
+	show_eeprom(&einfo);
 	return 0;
 }
 
