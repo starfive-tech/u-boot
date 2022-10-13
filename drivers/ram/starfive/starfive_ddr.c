@@ -92,8 +92,6 @@ static int starfive_ddr_probe(struct udevice *dev)
 	if (ret)
 		goto err_osc;
 
-	/* Read memory base and size from DT */
-	fdtdec_setup_mem_size_base();
 	priv->info.base = gd->ram_base;
 	priv->info.size = gd->ram_size;
 
