@@ -158,6 +158,13 @@ config SYS_I2C_DW
 	  controller is used in various SoCs, e.g. the ST SPEAr, Altera
 	  SoCFPGA, Synopsys ARC700 and some Intel x86 SoCs.
 
+config SPL_SYS_I2C_DW
+	bool "Designware I2C Controller in SPL"
+	default n
+	help
+	  Say yes here to select the Designware I2C Host Controller in SPL. This
+	  controller is used in StarFive JH7110 SoC.
+
 config SYS_I2C_ASPEED
 	bool "Aspeed I2C Controller"
 	depends on DM_I2C && ARCH_ASPEED

@@ -17,7 +17,7 @@ obj-$(CONFIG_SYS_I2C_AT91) += at91_i2c.o
 obj-$(CONFIG_SYS_I2C_CADENCE) += i2c-cdns.o
 obj-$(CONFIG_SYS_I2C_CA) += i2c-cortina.o
 obj-$(CONFIG_SYS_I2C_DAVINCI) += davinci_i2c.o
-obj-$(CONFIG_SYS_I2C_DW) += designware_i2c.o
+obj-$(CONFIG_$(SPL_)SYS_I2C_DW) += designware_i2c.o
 ifdef CONFIG_PCI
 obj-$(CONFIG_SYS_I2C_DW) += designware_i2c_pci.o
 endif
