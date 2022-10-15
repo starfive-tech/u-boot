@@ -188,9 +188,19 @@ static int get_board_type(void)
 	return type;
 }
 
-static void jh7110_gmac_init(int type)
+static void jh7110_gmac_init(int chip_type, int pcb_type)
 {
-	switch (type) {
+	switch (chip_type) {
+		case CHIP_A:
+			break;
+		case CHIP_B:
+		default:
+			jh7110_gmac_sel_tx_to_rgmii(0);
+			jh7110_gmac_sel_tx_to_rgmii(1);
+			break;
+	}
+
+	switch (pcb_type) {
 		case BOARD_1000M_100M:
 			jh7110_gmac_init_1000M(0);
 			jh7110_gmac_init_100M(1);
@@ -401,7 +411,8 @@ int board_init(void)
 int board_late_init(void)
 {
 	get_boot_mode();
-	jh7110_gmac_init(get_board_type());
+
+	jh7110_gmac_init(get_chip_type(), get_board_type());
 	/*
 	 * save the memory info by environment variable in u-boot,
 	 * It will used to update the memory configuration in dts,
