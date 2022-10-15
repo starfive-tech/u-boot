@@ -139,6 +139,16 @@ static void jh7110_gmac_sel_tx_to_rgmii(int id)
 		break;
 	}
 }
+
+static void set_uboot_fdt_addr_env(void)
+{
+	char str[17];
+	ulong fdt_addr = (ulong)gd->fdt_blob;
+
+	sprintf(str, "0x%lx", fdt_addr);
+	env_set("uboot_fdt_addr", str);
+}
+
 static int get_chip_type(void)
 {
 	int type;
@@ -459,6 +469,7 @@ err:
 	eth_env_set_enetaddr("eth1addr", mac1);
 
 	get_chip_type();
+	set_uboot_fdt_addr_env();
 	return 0;
 }
 #endif
