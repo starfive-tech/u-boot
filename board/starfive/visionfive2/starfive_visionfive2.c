@@ -25,12 +25,19 @@
 #define PCB_REVISION_SHIFT	4
 #define PCB_REVISION_A		0x0A
 #define PCB_REVISION_B		0x0B
+#define CHIP_REVISION_SHIFT	80
 
 enum {
 	BOOT_FLASH =	0,
 	BOOT_SD,
 	BOOT_EMMC,
 	BOOT_UART,
+};
+
+enum chip_type_t {
+	CHIP_A = 0,
+	CHIP_B,
+	CHIP_MAX,
 };
 
 enum board_type_t {
@@ -131,6 +138,36 @@ static void jh7110_gmac_sel_tx_to_rgmii(int id)
 	default:
 		break;
 	}
+}
+static int get_chip_type(void)
+{
+	int type;
+	int len = -1;
+	u8 data;
+
+	len = get_data_from_eeprom(CHIP_REVISION_SHIFT, 1, &data);
+	if (len <= 0) {
+		env_set("chip_vision", "UNKOWN");
+		return -EINVAL;
+	}
+
+	switch (data) {
+	case 'a':
+	case 'A':
+		type = CHIP_A;
+		env_set("chip_vision", "A");
+		break;
+	case 'b':
+	case 'B':
+		type = CHIP_B;
+		env_set("chip_vision", "B");
+		break;
+	default:
+		type = CHIP_MAX;
+		env_set("chip_vision", "UNKOWN");
+		break;
+	}
+	return type;
 }
 static int get_board_type(void)
 {
@@ -410,6 +447,7 @@ err:
 	eth_env_set_enetaddr("eth0addr", mac0);
 	eth_env_set_enetaddr("eth1addr", mac1);
 
+	get_chip_type();
 	return 0;
 }
 #endif
