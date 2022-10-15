@@ -113,6 +113,25 @@ static void jh7110_gmac_init_100M(int id)
 	}
 }
 
+static void jh7110_gmac_sel_tx_to_rgmii(int id)
+{
+	switch (id) {
+	case 0:
+		clrsetbits_le32(AON_CRG_BASE + GMAC5_0_CLK_TX_SHIFT,
+			GMAC5_0_CLK_TX_MASK,
+			BIT(GMAC5_0_CLK_TX_BIT) & GMAC5_0_CLK_TX_MASK);
+		break;
+
+	case 1:
+		clrsetbits_le32(SYS_CRG_BASE + GMAC5_1_CLK_TX_SHIFT,
+			GMAC5_1_CLK_TX_MASK,
+			BIT(GMAC5_1_CLK_TX_BIT) & GMAC5_1_CLK_TX_MASK);
+		break;
+
+	default:
+		break;
+	}
+}
 static int get_board_type(void)
 {
 	u8 pv;
