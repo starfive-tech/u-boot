@@ -101,6 +101,36 @@
 	"name=loader2,size=4MB,type=${type_guid_gpt_loader2};"		\
 	"name=system,size=-,bootable,type=${type_guid_gpt_system};"
 
+#define CHIPA_GMAC_SET	\
+	"chipa_gmac_set="	\
+	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_10 <0x0>;"	\
+	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_100 <0x0>;"	\
+	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_1000 <0x0>;"	\
+	"fdt set /soc/ethernet@16040000/ethernet-phy@1 tx_inverted_10 <0x0>;"	\
+	"fdt set /soc/ethernet@16040000/ethernet-phy@1 tx_inverted_100 <0x0>;"	\
+	"fdt set /soc/ethernet@16040000/ethernet-phy@1 tx_inverted_1000 <0x0>;"	\
+	"fdt set /soc/ethernet@16040000/ethernet-phy@1 tx_delay_sel <0x9> \0"
+
+#define CHIPA_SET	\
+	"chipa_set="				\
+	"if test ${chip_vision} = A; then "	\
+		"run chipa_gmac_set;"		\
+	"fi; \0"				\
+	"chipa_set_uboot="			\
+	"fdt addr ${uboot_fdt_addr};"		\
+	"run chipa_set;\0"			\
+	"chipa_set_linux="			\
+	"fdt addr ${fdt_addr_r};"		\
+	"run chipa_set;\0"
+
+#define CHIPA_SET_FORCE	\
+	"chipa_set_uboot_force="		\
+	"fdt addr ${uboot_fdt_addr};"		\
+	"run chipa_gmac_set; \0"		\
+	"chipa_set_linux_force="		\
+	"fdt addr ${fdt_addr_r};"		\
+	"run chipa_gmac_set; \0"		\
+
 #define VISIONFIVE2_BOOTENV		\
 	"bootenv=uEnv.txt\0"		\
 	"testenv=vf2_uEnv.txt\0"	\
@@ -147,6 +177,9 @@
 	"pxefile_addr_r=0x88200000\0"			\
 	"ramdisk_addr_r=0x88300000\0"			\
 	VISIONFIVE2_BOOTENV				\
+	CHIPA_GMAC_SET					\
+	CHIPA_SET					\
+	CHIPA_SET_FORCE					\
 	"type_guid_gpt_loader1=" TYPE_GUID_LOADER1 "\0" \
 	"type_guid_gpt_loader2=" TYPE_GUID_LOADER2 "\0" \
 	"type_guid_gpt_system=" TYPE_GUID_SYSTEM "\0"	\

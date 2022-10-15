@@ -29,7 +29,7 @@ CONFIG_BOOTARGS="console=ttyS0,115200  debug rootwait  earlycon=sbi"
 CONFIG_USE_BOOTCOMMAND=y
 CONFIG_BOOTCOMMAND="run load_vf2_env;run importbootenv;run boot2;run distro_bootcmd"
 CONFIG_USE_PREBOOT=y
-CONFIG_PREBOOT="run mmcbootenv"
+CONFIG_PREBOOT="run chipa_set_uboot;run mmcbootenv"
 CONFIG_DEFAULT_FDT_FILE="starfive/starfive_visionfive2.dtb"
 CONFIG_LOG_MAX_LEVEL=4
 CONFIG_SPL_LOG=y
