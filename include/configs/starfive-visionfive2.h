@@ -111,6 +111,10 @@
 	"fdt set /soc/ethernet@16040000/ethernet-phy@1 tx_inverted_1000 <0x0>;"	\
 	"fdt set /soc/ethernet@16040000/ethernet-phy@1 tx_delay_sel <0x9> \0"
 
+#define VISIONFIVE2_MEM_SET	\
+	"visionfive2_mem_set="	\
+	"fdt memory ${memory_addr} ${memory_size};\0"
+
 #define CHIPA_SET	\
 	"chipa_set="				\
 	"if test ${chip_vision} = A; then "	\
@@ -121,6 +125,7 @@
 	"run chipa_set;\0"			\
 	"chipa_set_linux="			\
 	"fdt addr ${fdt_addr_r};"		\
+	"run visionfive2_mem_set;"		\
 	"run chipa_set;\0"
 
 #define CHIPA_SET_FORCE	\
@@ -129,6 +134,7 @@
 	"run chipa_gmac_set; \0"		\
 	"chipa_set_linux_force="		\
 	"fdt addr ${fdt_addr_r};"		\
+	"run visionfive2_mem_set;"		\
 	"run chipa_gmac_set; \0"		\
 
 #define VISIONFIVE2_BOOTENV		\
@@ -180,6 +186,7 @@
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
 	CHIPA_SET_FORCE					\
+	VISIONFIVE2_MEM_SET				\
 	"type_guid_gpt_loader1=" TYPE_GUID_LOADER1 "\0" \
 	"type_guid_gpt_loader2=" TYPE_GUID_LOADER2 "\0" \
 	"type_guid_gpt_system=" TYPE_GUID_SYSTEM "\0"	\
