@@ -321,6 +321,7 @@ struct eqos_priv {
 	bool clk_ck_enabled;
 	struct reset_ctl_bulk reset_bulk;
 	struct clk_bulk clk_bulk;
+	struct clk rmii_rtx;
 };
 
 /*
@@ -1005,6 +1006,8 @@ static int eqos_set_tx_clk_speed_jh7110(struct udevice *dev)
 		pr_err("jh7110 (tx_clk, %lu) failed: %d", rate, ret);
 		return ret;
 	}
+
+	clk_set_rate(&eqos->rmii_rtx, rate);
 
 	return 0;
 }
@@ -1906,6 +1909,12 @@ static int eqos_probe_resources_jh7110(struct udevice *dev)
 	ret = clk_get_by_name(dev, "gtx", &eqos->clk_tx);
 	if (ret) {
 		pr_err("clk_get_by_name(gtx) failed: %d", ret);
+		goto err_free_reset_eqos;
+	}
+
+	ret = clk_get_by_name(dev, "rmii_rtx", &eqos->rmii_rtx);
+	if (ret) {
+		pr_err("clk_get_by_name(rmii_rtx) failed: %d", ret);
 		goto err_free_reset_eqos;
 	}
 
