@@ -111,6 +111,11 @@
 		reg = <0x50>;
 		pagesize = <16>;
 	};
+
+	pmic: axp15060_reg@36 {
+               compatible = "stf,axp15060-regulator";
+               reg = <0x36>;
+	};
 };
 
 &gpioa {
