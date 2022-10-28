@@ -106,6 +106,7 @@
 	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_10 <0x0>;"	\
 	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_100 <0x0>;"	\
 	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_1000 <0x0>;"	\
+	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_delay_sel <0x9>;"	\
 	"fdt set /soc/ethernet@16040000/ethernet-phy@1 tx_inverted_10 <0x0>;"	\
 	"fdt set /soc/ethernet@16040000/ethernet-phy@1 tx_inverted_100 <0x0>;"	\
 	"fdt set /soc/ethernet@16040000/ethernet-phy@1 tx_inverted_1000 <0x0>;"	\
