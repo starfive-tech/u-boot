@@ -91,7 +91,7 @@ void board_init_f(ulong dummy)
 
 	clrsetbits_le32(SYS_CRG_BASE + CLK_QSPI_REF_OFFSET,
 		CLK_QSPI_REF_SW_MASK,
-		(0 << CLK_QSPI_REF_SW_SHIFT) & CLK_QSPI_REF_SW_MASK);
+		(1 << CLK_QSPI_REF_SW_SHIFT) & CLK_QSPI_REF_SW_MASK);
 
 	/* Improved GMAC0 TX I/O PAD capability */
 	clrsetbits_le32(AON_IOMUX_BASE + 0x78, 0x3, BIT(0) & 0x3);
