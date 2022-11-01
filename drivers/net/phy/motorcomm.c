@@ -25,29 +25,69 @@
 #include <config.h>
 #include <common.h>
 #include <phy.h>
+#include <bitfield.h>
 
 #define REG_PHY_SPEC_STATUS	0x11
 #define REG_DEBUG_ADDR_OFFSET	0x1e
 #define REG_DEBUG_DATA		0x1f
 #define EXTREG_SLEEP_CONTROL	0x27
 
-#define YT8512_DUPLEX		0x2000
-#define YT8521_SPEED_MODE	0xc000
-#define YT8521_DUPLEX		0x2000
-#define YT8521_SPEED_MODE_BIT	14
-#define YT8521_DUPLEX_BIT	13
-#define YT8521_LINK_STATUS_BIT	10
+#define YTPHY_EXTREG_CHIP_CONFIG	0xa001
+#define YTPHY_EXTREG_RGMII_CONFIG1	0xa003
+#define YTPHY_PAD_DRIVES_STRENGTH_CFG	0xa010
+#define YTPHY_DUPLEX		0x2000
+#define YTPHY_DUPLEX_BIT	13
+#define YTPHY_SPEED_MODE	0xc000
+#define YTPHY_SPEED_MODE_BIT	14
+#define YTPHY_RGMII_SW_DR_MASK	GENMASK(5, 4)
 
-#define YT8521_EXTREG_SMI_SDS_PHY	0xa000
-#define YT8521_EXTREG_CHIP_CONFIG	0xa001
-#define YT8521_RXC_DLY_EN_BIT		8
-#define YT8521_EXTREG_RGMII_CONFIG1	0xa003
-#define YT8521_RX_DELAY_SEL_MASK	0x3C00UL
-#define YT8521_TX_DELAY_SEL_FE_MASK	0xF0UL
-#define YT8521_TX_DELAY_SEL_MASK	0xFUL
-
+#define YT8521_EXT_CLK_GATE	0xc
+#define YT8521_EN_SLEEP_SW_BIT	15
 
 #define SPEED_UNKNOWN		-1
+
+#define PHY_ID_YT8531                   0x4f51e91b
+#define MOTORCOMM_PHY_ID_MASK           0x00000fff
+
+#define YT8512_EXTREG_LED0              0x40c0
+#define YT8512_EXTREG_LED1              0x40c3
+
+#define YT8512_EXTREG_SLEEP_CONTROL1    0x2027
+
+#define YT8512_LED0_ACT_BLK_IND         0x1000
+#define YT8512_LED0_DIS_LED_AN_TRY      0x0001
+#define YT8512_LED0_BT_BLK_EN           0x0002
+#define YT8512_LED0_HT_BLK_EN           0x0004
+#define YT8512_LED0_COL_BLK_EN          0x0008
+#define YT8512_LED0_BT_ON_EN            0x0010
+#define YT8512_LED1_BT_ON_EN            0x0010
+#define YT8512_LED1_TXACT_BLK_EN        0x0100
+#define YT8512_LED1_RXACT_BLK_EN        0x0200
+
+#define YT8512_EN_SLEEP_SW_BIT          15
+
+struct ytphy_reg_field {
+	const char	*name;
+	const u8	size;	/* Size of the bitfield, in bits */
+	const u8	off;	/* Offset from bit 0 */
+	const u8	dflt;	/* Default value */
+};
+
+static const struct ytphy_reg_field ytphy_rxtxd_grp[] = {
+	{ "rx_delay_sel", 4, 10, 0x0 },
+	{ "tx_delay_sel_fe", 4, 4, 0xf },
+	{ "tx_delay_sel", 4, 0, 0x1 }
+};
+
+static const struct ytphy_reg_field ytphy_txinver_grp[] = {
+	{ "tx_inverted_1000", 1, 14, 0x0 },
+	{ "tx_inverted_100", 1, 14, 0x0 },
+	{ "tx_inverted_10", 1, 14, 0x0 }
+};
+
+static const struct ytphy_reg_field ytphy_rxden_grp[] = {
+	{ "rxc_dly_en", 1, 8, 0x1 }
+};
 
 static int ytphy_read_ext(struct phy_device *phydev, u32 regnum)
 {
@@ -71,157 +111,26 @@ static int ytphy_write_ext(struct phy_device *phydev, u32 regnum, u16 val)
 	return phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA, val);
 }
 
-static int yt8511_config(struct phy_device *phydev)
+static int ytphy_parse_status(struct phy_device *phydev)
 {
-	u16 val = 0;
-	int err = 0;
+	int val;
+	int speed, speed_mode, duplex;
 
-	genphy_config_aneg(phydev);
+	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_PHY_SPEC_STATUS);
+	if (val < 0)
+		return val;
 
-	/* disable sleep mode */
-	err = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_ADDR_OFFSET, EXTREG_SLEEP_CONTROL);
-	if (err < 0) {
-		printf("%s: write EXTREG_SLEEP_CONTROL error!\n", __func__);
-		return err;
-	}
-
-	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA);
-	val &= ~(1 << 15);
-	err = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA, val);
-	if (err < 0) {
-		printf("%s: write REG_DEBUG_DATA error!\n", __func__);
-		return err;
-	}
-
-	/* config PLL clock */
-	err = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_ADDR_OFFSET, 0xc);
-	if (err < 0) {
-		printf("%s: write 0xc error!\n", __func__);
-		return err;
-	}
-
-	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA);
-	/* ext reg 0xc.b[2:1]
-	 * 00-----25M from pll;
-	 * 01---- 25M from xtl;(default)
-	 * 10-----62.5M from pll;
-	 * 11----125M from pll(here set to this value)
-	 */
-
-	val &= ~(3 << 1);	/*00-----25M from pll*/
-	val |= (1 << 1);	/*01-----25M from xtl; (default)*/
-	err = phy_write(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA, val);
-	if (err < 0) {
-		printf("%s: set PLL error!\n", __func__);
-		return err;
-	}
-
-	return 0;
-}
-
-static int yt8521_config(struct phy_device *phydev)
-{
-	int ret, val;
-	int  regnum;
-
-	ret = 0;
-	ytphy_write_ext(phydev, YT8521_EXTREG_SMI_SDS_PHY, 0);
-
-	genphy_config_aneg(phydev);
-
-	/* disable auto sleep */
-	val = ytphy_read_ext(phydev, EXTREG_SLEEP_CONTROL);
-	if (val < 0) {
-		regnum = EXTREG_SLEEP_CONTROL;
-		goto err;
-	}
-
-	val &= ~(1 << 15);
-	ret = ytphy_write_ext(phydev, EXTREG_SLEEP_CONTROL, val);
-	if (ret < 0) {
-		regnum = EXTREG_SLEEP_CONTROL;
-		goto err;
-	}
-
-	/*  enable tx delay 450ps per step */
-	val = ytphy_read_ext(phydev, YT8521_EXTREG_RGMII_CONFIG1);
-	if (val < 0) {
-		regnum = YT8521_EXTREG_RGMII_CONFIG1;
-		goto err;
-	}
-
-	val &= ~(YT8521_RX_DELAY_SEL_MASK
-		|YT8521_TX_DELAY_SEL_FE_MASK
-		|YT8521_TX_DELAY_SEL_MASK);
-	val |= 0x5B;
-	ret = ytphy_write_ext(phydev, YT8521_EXTREG_RGMII_CONFIG1, val);
-	if (ret < 0) {
-		regnum = YT8521_EXTREG_RGMII_CONFIG1;
-		goto err;
-	}
-
-	/* disable rx delay */
-	val = ytphy_read_ext(phydev, YT8521_EXTREG_CHIP_CONFIG);
-	if (val < 0) {
-		regnum = YT8521_EXTREG_CHIP_CONFIG;
-		goto err;
-	}
-	val &= ~(1 << 8);
-	val |=BIT(YT8521_RXC_DLY_EN_BIT);
-	ret = ytphy_write_ext(phydev, YT8521_EXTREG_CHIP_CONFIG, val);
-	if (ret < 0) {
-		regnum = YT8521_EXTREG_CHIP_CONFIG;
-		goto err;
-	}
-
-	/* enable RXC clock when no wire plug */
-	ret = ytphy_write_ext(phydev, YT8521_EXTREG_SMI_SDS_PHY, 0);
-	if (ret < 0) {
-		regnum = YT8521_EXTREG_SMI_SDS_PHY;
-		goto err;
-	}
-
-	val = ytphy_read_ext(phydev, 0xc);
-	if (val < 0) {
-		regnum = 0xc;
-		goto err;
-	}
-
-	val &= ~(1 << 12);
-	ret = ytphy_write_ext(phydev, 0xc, val);
-	if (ret < 0) {
-		regnum = 0xc;
-		goto err;
-	}
-
-	return 0;
-err:
-	printf("%s operate reg %d err.\n", __func__, regnum);
-	return ret;
-}
-
-static int yt8521_adjust_status(struct phy_device *phydev, int val, int is_utp)
-{
-	int speed_mode, duplex;
-	int speed = SPEED_UNKNOWN;
-
-	duplex = (val & YT8512_DUPLEX) >> YT8521_DUPLEX_BIT;
-	speed_mode = (val & YT8521_SPEED_MODE) >> YT8521_SPEED_MODE_BIT;
+	duplex = (val & YTPHY_DUPLEX) >> YTPHY_DUPLEX_BIT;
+	speed_mode = (val & YTPHY_SPEED_MODE) >> YTPHY_SPEED_MODE_BIT;
 	switch (speed_mode) {
-	case 0:
-		if (is_utp)
-			speed = SPEED_10;
+	case 2:
+		speed = SPEED_1000;
 		break;
 	case 1:
 		speed = SPEED_100;
 		break;
-	case 2:
-		speed = SPEED_1000;
-		break;
-	case 3:
-		break;
 	default:
-		speed = SPEED_UNKNOWN;
+		speed = SPEED_10;
 		break;
 	}
 
@@ -231,56 +140,232 @@ static int yt8521_adjust_status(struct phy_device *phydev, int val, int is_utp)
 	return 0;
 }
 
-static int yt8521_parse_status(struct phy_device *phydev)
+static int ytphy_of_inverted(struct phy_device *phydev)
 {
-	int ret, val, link, link_utp;
+	ofnode node;
+	u32 val;
+	u32 inver_10;
+	u32 inver_100;
+	u32 inver_1000;
 
-	/* reading UTP */
-	ret = ytphy_write_ext(phydev, 0xa000, 0);
-	if (ret < 0)
-		return ret;
-
-	val = phy_read(phydev, MDIO_DEVAD_NONE, REG_PHY_SPEC_STATUS);
-	if (val < 0)
-		return val;
-
-	link = val & (BIT(YT8521_LINK_STATUS_BIT));
-	if (link) {
-		link_utp = 1;
-		yt8521_adjust_status(phydev, val, 1);
-	} else {
-		link_utp = 0;
+	node = phydev->node;
+	if (!ofnode_valid(node)) {
+		/* Look for a PHY node under the Ethernet node */
+		node = dev_read_subnode(phydev->dev, "ethernet-phy");
 	}
 
-	if (link_utp) {
-		phydev->link = 1;
-		ytphy_write_ext(phydev, 0xa000, 0);
-	} else {
-		phydev->link = 0;
+	if (!ofnode_valid(node)) /* No node found*/
+		return 0;
+
+	val = ytphy_read_ext(phydev, YTPHY_EXTREG_RGMII_CONFIG1);
+	inver_10 = ofnode_read_u32_default(node, "tx_inverted_10", 0);
+	inver_100 = ofnode_read_u32_default(node, "tx_inverted_100", 0);
+	inver_1000 = ofnode_read_u32_default(node, "tx_inverted_1000", 0);
+
+	switch (phydev->speed) {
+	case SPEED_1000:
+		val = bitfield_replace(val, ytphy_txinver_grp[0].off,
+				ytphy_txinver_grp[0].size, inver_1000);
+		break;
+	case SPEED_100:
+		val = bitfield_replace(val, ytphy_txinver_grp[1].off,
+				ytphy_txinver_grp[1].size, inver_100);
+		break;
+	case SPEED_10:
+		val = bitfield_replace(val, ytphy_txinver_grp[2].off,
+				ytphy_txinver_grp[2].size, inver_10);
+		break;
+	default:
+		printf("UNKOWN SPEED\n");
+		break;
 	}
 
-	return 0;
+	return ytphy_write_ext(phydev, YTPHY_EXTREG_RGMII_CONFIG1, val);
 }
 
-static int yt8521_startup(struct phy_device *phydev)
+static int ytphy_startup(struct phy_device *phydev)
 {
 	int retval;
 
 	retval = genphy_update_link(phydev);
 	if (retval)
 		return retval;
+	ytphy_parse_status(phydev);
 
-	return yt8521_parse_status(phydev);
+	ytphy_of_inverted(phydev);
+
+	return 0;
 }
 
-static struct phy_driver YT8511_driver = {
-	.name = "YuTai YT8511",
-	.uid = 0x0000010a,
-	.mask = 0x00000fff,
-	.features = PHY_GBIT_FEATURES,
-	.config = &yt8511_config,
-	.startup = &genphy_startup,
-	.shutdown = &genphy_shutdown,
+static int ytphy_of_config(struct phy_device *phydev)
+{
+	ofnode node;
+	u32 val;
+	u32 cfg;
+	int i;
+
+	node = phydev->node;
+	if (!ofnode_valid(node)) {
+		/* Look for a PHY node under the Ethernet node */
+		node = dev_read_subnode(phydev->dev, "ethernet-phy");
+	}
+
+	if (!ofnode_valid(node)) /* No node found*/
+		return 0;
+
+	/*read rxc_dly_en config*/
+	cfg = ofnode_read_u32_default(node, ytphy_rxden_grp[0].name, ~0);
+	if (cfg != -1) {
+
+		val = ytphy_read_ext(phydev, YTPHY_EXTREG_CHIP_CONFIG);
+
+		/*check the cfg overflow or not*/
+		cfg = (cfg > ((1 << ytphy_rxden_grp[0].size) - 1)) ?
+			((1 << ytphy_rxden_grp[0].size) - 1) : cfg;
+
+		val = bitfield_replace(val, ytphy_rxden_grp[0].off,
+			ytphy_rxden_grp[0].size, cfg);
+		ytphy_write_ext(phydev, YTPHY_EXTREG_CHIP_CONFIG, val);
+	}
+
+	/* set drive strenght of rxd/rx_ctl rgmii pad */
+	val = ytphy_read_ext(phydev, YTPHY_PAD_DRIVES_STRENGTH_CFG);
+	val |= YTPHY_RGMII_SW_DR_MASK;
+	ytphy_write_ext(phydev, YTPHY_PAD_DRIVES_STRENGTH_CFG, val);
+
+	val = ytphy_read_ext(phydev, YTPHY_EXTREG_RGMII_CONFIG1);
+	for (i = 0; i < ARRAY_SIZE(ytphy_rxtxd_grp); i++) {
+
+		cfg = ofnode_read_u32_default(node,
+			ytphy_rxtxd_grp[i].name, ~0);
+		cfg = (cfg != -1) ? cfg : ytphy_rxtxd_grp[i].dflt;
+
+		/*check the cfg overflow or not*/
+		cfg = (cfg > ((1 << ytphy_rxtxd_grp[i].size) - 1)) ?
+			((1 << ytphy_rxtxd_grp[i].size) - 1) : cfg;
+
+		val = bitfield_replace(val, ytphy_rxtxd_grp[i].off,
+				ytphy_rxtxd_grp[i].size, cfg);
+	}
+
+	return ytphy_write_ext(phydev, YTPHY_EXTREG_RGMII_CONFIG1, val);
+}
+
+static int yt8512_led_init(struct phy_device *phydev)
+{
+	int ret;
+	int val;
+	int mask;
+
+	val = ytphy_read_ext(phydev, YT8512_EXTREG_LED0);
+	if (val < 0)
+		return val;
+
+	val |= YT8512_LED0_ACT_BLK_IND;
+
+	mask = YT8512_LED0_DIS_LED_AN_TRY | YT8512_LED0_BT_BLK_EN |
+	YT8512_LED0_HT_BLK_EN | YT8512_LED0_COL_BLK_EN |
+	YT8512_LED0_BT_ON_EN;
+	val &= ~mask;
+
+	ret = ytphy_write_ext(phydev, YT8512_EXTREG_LED0, val);
+	if (ret < 0)
+		return ret;
+
+	val = ytphy_read_ext(phydev, YT8512_EXTREG_LED1);
+	if (val < 0)
+		return val;
+
+	val |= YT8512_LED1_BT_ON_EN;
+
+	mask = YT8512_LED1_TXACT_BLK_EN | YT8512_LED1_RXACT_BLK_EN;
+	val &= ~mask;
+
+	ret = ytphy_write_ext(phydev, YT8512_LED1_BT_ON_EN, val);
+
+	return ret;
+}
+
+static int yt8512_config(struct phy_device *phydev)
+{
+	int ret;
+	int val;
+
+	ret = 0;
+	genphy_config_aneg(phydev);
+
+	ret = yt8512_led_init(phydev);
+
+	/* disable auto sleep */
+	val = ytphy_read_ext(phydev, YT8512_EXTREG_SLEEP_CONTROL1);
+	if (val < 0)
+		return val;
+
+	val &= (~BIT(YT8512_EN_SLEEP_SW_BIT));
+
+	ret = ytphy_write_ext(phydev, YT8512_EXTREG_SLEEP_CONTROL1, val);
+	if (ret < 0)
+		return ret;
+
+	return ret;
+}
+
+static int yt8521_config(struct phy_device *phydev)
+{
+	int ret, val;
+
+	ret = 0;
+	genphy_config_aneg(phydev);
+
+	/* disable auto sleep */
+	val = ytphy_read_ext(phydev, EXTREG_SLEEP_CONTROL);
+	if (val < 0)
+		return val;
+
+	val &= ~(1 << YT8521_EN_SLEEP_SW_BIT);
+	ret = ytphy_write_ext(phydev, EXTREG_SLEEP_CONTROL, val);
+	if (ret < 0)
+		return ret;
+
+	/*set delay config*/
+	ret = ytphy_of_config(phydev);
+	if (ret < 0)
+		return ret;
+
+	val = ytphy_read_ext(phydev, YT8521_EXT_CLK_GATE);
+	if (val < 0)
+		return val;
+
+	val &= ~(1 << 12);
+	ret = ytphy_write_ext(phydev, YT8521_EXT_CLK_GATE, val);
+	if (ret < 0)
+		return ret;
+
+	return 0;
+}
+
+static int yt8531_config(struct phy_device *phydev)
+{
+	int ret;
+
+	ret = 0;
+	genphy_config_aneg(phydev);
+
+	/*set delay config*/
+	ret = ytphy_of_config(phydev);
+	if (ret < 0)
+		return ret;
+	return 0;
+}
+
+static struct phy_driver YT8512_driver = {
+	.name          = "YuTai YT8512",
+	.uid           = 0x00000118,
+	.mask          = 0x00000fff,
+	.features      = PHY_GBIT_FEATURES,
+	.config        = &yt8512_config,
+	.startup       = &ytphy_startup,
+	.shutdown      = &genphy_shutdown,
 };
 
 static struct phy_driver YT8521_driver = {
@@ -289,14 +374,25 @@ static struct phy_driver YT8521_driver = {
 	.mask = 0x00000fff,
 	.features = PHY_GBIT_FEATURES,
 	.config = &yt8521_config,
-	.startup = &yt8521_startup,
+	.startup = &ytphy_startup,
 	.shutdown = &genphy_shutdown,
+};
+
+static struct phy_driver YT8531_driver = {
+	.name          = "YT8531 Gigabit Ethernet",
+	.uid           = PHY_ID_YT8531,
+	.mask          = MOTORCOMM_PHY_ID_MASK,
+	.features      = PHY_GBIT_FEATURES,
+	.config        = &yt8531_config,
+	.startup       = &ytphy_startup,
+	.shutdown      = &genphy_shutdown,
 };
 
 int phy_yutai_init(void)
 {
-	phy_register(&YT8511_driver);
+	phy_register(&YT8512_driver);
 	phy_register(&YT8521_driver);
+	phy_register(&YT8531_driver);
 
 	return 0;
 }
