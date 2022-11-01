@@ -17,6 +17,12 @@
 #include <linux/bitops.h>
 #include <asm/arch/gpio.h>
 
+enum chip_type_t {
+	CHIP_A = 0,
+	CHIP_B,
+	CHIP_MAX,
+};
+
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
 
@@ -157,6 +163,26 @@ static void jh7110_usb_init(bool usb2_enable)
 
 }
 
+static u32 get_chip_type(void)
+{
+	u32 value;
+
+	value = in_le32(AON_IOMUX_BASE + AON_GPIO_DIN_REG);
+	value = (value & BIT(3)) >> 3;
+	switch (value) {
+	case CHIP_B:
+		env_set("chip_vision", "B");
+		jh7110_gmac_sel_tx_to_rgmii(0);
+		jh7110_gmac_sel_tx_to_rgmii(1);
+		break;
+	case CHIP_A:
+	default:
+		env_set("chip_vision", "A");
+		break;
+	}
+	return value;
+}
+
 static void jh7110_mmc_init(int id)
 {
 	if (id == 0) {
@@ -238,7 +264,7 @@ err:
 #endif
 	eth_env_set_enetaddr("eth0addr", mac0);
 	eth_env_set_enetaddr("eth1addr", mac1);
-
+	get_chip_type();
 	return 0;
 }
 #endif
