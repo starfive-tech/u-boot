@@ -74,21 +74,38 @@ static void jh7110_gmac_sel_tx_to_rgmii(int id)
 	}
 }
 
-static void jh7110_gmac_init(int id)
+static void jh7110_gmac_io_pad(int id)
 {
+	u32 cap = BIT(0); /* 2.5V */
+
 	switch (id) {
 	case 0:
-		clrsetbits_le32(AON_SYSCON_BASE + AON_SYSCFG_12,
-			GMAC5_0_SEL_I_MASK,
-			BIT(GMAC5_0_SEL_I_SHIFT) & GMAC5_0_SEL_I_MASK);
+		/* Improved GMAC0 TX I/O PAD capability */
+		clrsetbits_le32(AON_IOMUX_BASE + 0x78, 0x3, cap & 0x3);
+		clrsetbits_le32(AON_IOMUX_BASE + 0x7c, 0x3, cap & 0x3);
+		clrsetbits_le32(AON_IOMUX_BASE + 0x80, 0x3, cap & 0x3);
+		clrsetbits_le32(AON_IOMUX_BASE + 0x84, 0x3, cap & 0x3);
+		clrsetbits_le32(AON_IOMUX_BASE + 0x88, 0x3, cap & 0x3);
 		break;
-
 	case 1:
-		clrsetbits_le32(SYS_SYSCON_BASE + SYS_SYSCON_144,
-			GMAC5_1_SEL_I_MASK,
-			BIT(GMAC5_1_SEL_I_SHIFT) & GMAC5_1_SEL_I_MASK);
+		/* Improved GMAC1 TX I/O PAD capability */
+		clrsetbits_le32(SYS_IOMUX_BASE + 0x26c, 0x3, cap & 0x3);
+		clrsetbits_le32(SYS_IOMUX_BASE + 0x270, 0x3, cap & 0x3);
+		clrsetbits_le32(SYS_IOMUX_BASE + 0x274, 0x3, cap & 0x3);
+		clrsetbits_le32(SYS_IOMUX_BASE + 0x278, 0x3, cap & 0x3);
+		clrsetbits_le32(SYS_IOMUX_BASE + 0x27c, 0x3, cap & 0x3);
 		break;
+	}
+}
 
+static void jh7110_gmac_init(int id, u32 chip)
+{
+	switch (chip) {
+	case CHIP_B:
+		jh7110_gmac_sel_tx_to_rgmii(id);
+		jh7110_gmac_io_pad(id);
+		break;
+	case CHIP_A:
 	default:
 		break;
 	}
@@ -172,8 +189,6 @@ static u32 get_chip_type(void)
 	switch (value) {
 	case CHIP_B:
 		env_set("chip_vision", "B");
-		jh7110_gmac_sel_tx_to_rgmii(0);
-		jh7110_gmac_sel_tx_to_rgmii(1);
 		break;
 	case CHIP_A:
 	default:
@@ -220,12 +235,8 @@ int board_init(void)
 	/*enable hart1-hart4 prefetcher*/
 	enable_prefetcher();
 
-	jh7110_gmac_init(0);
-	jh7110_gmac_init(1);
 	jh7110_timer_init();
-
 	jh7110_usb_init(true);
-
 	jh7110_mmc_init(0);
 	jh7110_mmc_init(1);
 
@@ -238,6 +249,7 @@ int misc_init_r(void)
 {
 	char mac0[6] = {0x66, 0x34, 0xb0, 0x6c, 0xde, 0xad};
 	char mac1[6] = {0x66, 0x34, 0xb0, 0x7c, 0xae, 0x5d};
+	u32 chip;
 
 #if CONFIG_IS_ENABLED(STARFIVE_OTP)
 	struct udevice *dev;
@@ -264,7 +276,10 @@ err:
 #endif
 	eth_env_set_enetaddr("eth0addr", mac0);
 	eth_env_set_enetaddr("eth1addr", mac1);
-	get_chip_type();
+
+	chip = get_chip_type();
+	jh7110_gmac_init(0, chip);
+	jh7110_gmac_init(1, chip);
 	return 0;
 }
 #endif
