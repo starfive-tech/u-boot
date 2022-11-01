@@ -25,8 +25,16 @@
 #define SYS_SYSCON_144			0x90U
 #define GMAC5_0_SEL_I_SHIFT             0x12U
 #define GMAC5_0_SEL_I_MASK              0x1C0000U
+#define GMAC5_0_CLK_TX_SHIFT            0x14
+#define GMAC5_0_CLK_RX_SHIFT            0x1C
+#define GMAC5_0_CLK_TX_BIT              0x18
+#define GMAC5_0_CLK_TX_MASK             0x1000000U
 #define GMAC5_1_SEL_I_SHIFT             0x2U
 #define GMAC5_1_SEL_I_MASK              0x1CU
+#define GMAC5_1_CLK_TX_SHIFT            0x1A4
+#define GMAC5_1_CLK_RX_SHIFT            0x19C
+#define GMAC5_1_CLK_TX_BIT              0x18
+#define GMAC5_1_CLK_TX_MASK             0x1000000U
 
 /*usb cfg*/
 #define STG_SYSCON_4			0x4U
