@@ -15,6 +15,7 @@
 #define AON_SYSCON_BASE	0x17010000
 #define SYS_CRG_BASE		0x13020000
 #define AON_CRG_BASE		0x17000000
+#define AON_IOMUX_BASE		0x17020000
 #define STG_CRG_BASE		0x10230000
 #define CLK_ENABLE_MASK		0x80000000U
 #define SYS_CRG_RESET_ASSERT3_SHIFT	0X304U
@@ -25,8 +26,16 @@
 #define SYS_SYSCON_144			0x90U
 #define GMAC5_0_SEL_I_SHIFT             0x12U
 #define GMAC5_0_SEL_I_MASK              0x1C0000U
+#define GMAC5_0_CLK_TX_SHIFT            0x14
+#define GMAC5_0_CLK_RX_SHIFT            0x1C
+#define GMAC5_0_CLK_TX_BIT              0x18
+#define GMAC5_0_CLK_TX_MASK             0x1000000U
 #define GMAC5_1_SEL_I_SHIFT             0x2U
 #define GMAC5_1_SEL_I_MASK              0x1CU
+#define GMAC5_1_CLK_TX_SHIFT            0x1A4
+#define GMAC5_1_CLK_RX_SHIFT            0x19C
+#define GMAC5_1_CLK_TX_BIT              0x18
+#define GMAC5_1_CLK_TX_MASK             0x1000000U
 
 /*usb cfg*/
 #define STG_SYSCON_4			0x4U
@@ -67,6 +76,7 @@
 #define PCIE_USB3_RX_STANDBY_MASK	0x80U
 #define PCIE_USB3_PHY_ENABLE_SHIFT	0x4U
 #define PCIE_USB3_PHY_ENABLE_MASK	0x10U
+#define AON_GPIO_DIN_REG		0x2c
 
 /*timer cfg*/
 #define TIMER_CLK_APB_SHIFT		0x1F0U

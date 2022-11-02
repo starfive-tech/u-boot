@@ -89,7 +89,10 @@ void board_init_f(ulong dummy)
 		CLK_AON_APB_FUNC_SW_MASK,
 		BIT(CLK_AON_APB_FUNC_SW_SHIFT) & CLK_AON_APB_FUNC_SW_MASK);
 
-
+	/* switch qspi clk to pll0 */
+	clrsetbits_le32(SYS_CRG_BASE + CLK_QSPI_REF_OFFSET,
+			CLK_QSPI_REF_SW_MASK,
+			BIT(CLK_QSPI_REF_SW_SHIFT) & CLK_QSPI_REF_SW_MASK);
 
 	/*set GPIO to 1.8v*/
 	setbits_le32(SYS_SYSCON_BASE + 0xC, 0xf);
