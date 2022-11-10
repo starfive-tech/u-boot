@@ -176,13 +176,13 @@
 #define CONFIG_EXTRA_ENV_SETTINGS			\
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
-	"kernel_addr_r=0x44000000\0"			\
+	"kernel_addr_r=0x40200000\0"			\
 	"fdt_addr_r=0x46000000\0"			\
-	"scriptaddr=0x88100000\0"			\
+	"scriptaddr=0x43900000\0"			\
 	"script_offset_f=0x1fff000\0"			\
 	"script_size_f=0x1000\0"			\
-	"pxefile_addr_r=0x88200000\0"			\
-	"ramdisk_addr_r=0x88300000\0"			\
+	"pxefile_addr_r=0x45900000\0"			\
+	"ramdisk_addr_r=0x46100000\0"			\
 	VISIONFIVE2_BOOTENV				\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
