@@ -20,7 +20,12 @@ extern "C" {
 #define GPIO_DOEN_MASK	0x3f
 #define GPIO_DOUT_MASK	0x7f
 #define GPIO_DIN_MASK	0x7f
-#define GPIO_DS_MASK 0x06
+#define GPIO_DS_MASK	0x06
+#define GPIO_SD_SHIFT	1
+#define GPIO_PULL_MASK	0x18
+#define GPIO_PULL_SHIFT	3
+#define GPIO_PULL_UP	1
+#define GPIO_PULL_DOWN	2
 
 #define NR_GPIOS		64
 
@@ -65,7 +70,11 @@ struct starfive_gpio_platdata {
 
 #define SYS_IOMUX_SET_DS(gpio, ds) \
 	clrsetbits_le32(SYS_IOMUX_BASE + GPIO_CONFIG + gpio * 4, \
-		GPIO_DS_MASK, ds)
+		GPIO_DS_MASK, (ds) << GPIO_SD_SHIFT)
+
+#define SYS_IOMUX_SET_PULL(gpio, pull) \
+	clrsetbits_le32(SYS_IOMUX_BASE + GPIO_CONFIG + gpio * 4, \
+		GPIO_PULL_MASK, (pull) << GPIO_PULL_SHIFT)
 
 #define SYS_IOMUX_COMPLEX(gpio, gpi, gpo, oen) do {\
 		SYS_IOMUX_DOEN(gpio, oen);\
