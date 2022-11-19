@@ -397,6 +397,22 @@ static void get_boot_mode(void)
 	}
 }
 
+static void jh7110_gpio_init()
+{
+	/* This is for fixing don't detect wm8960 occasionally.
+	 * Set scl/sda gpio output enable
+	 * Set drive strength to 12mA
+	 * Set gpio pull up
+	 */
+	SYS_IOMUX_COMPLEX(57, 9, 0, 1);
+	SYS_IOMUX_SET_DS(57, 3);
+	SYS_IOMUX_SET_PULL(57, GPIO_PULL_UP);
+
+	SYS_IOMUX_COMPLEX(58, 10, 0, 1);
+	SYS_IOMUX_SET_DS(58, 3);
+	SYS_IOMUX_SET_PULL(58, GPIO_PULL_UP);
+}
+
 int board_init(void)
 {
 	enable_caches();
@@ -413,6 +429,7 @@ int board_init(void)
 	jh7110_mmc_init(0);
 	jh7110_mmc_init(1);
 	jh7110_i2c_init(5);
+	jh7110_gpio_init();
 
 	return 0;
 }
