@@ -397,7 +397,7 @@ static void get_boot_mode(void)
 	}
 }
 
-static void jh7110_gpio_init()
+static void jh7110_gpio_init(void)
 {
 	/* This is for fixing don't detect wm8960 occasionally.
 	 * Set scl/sda gpio output enable
