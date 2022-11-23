@@ -170,14 +170,6 @@ static void jh7110_usb_init(bool usb2_enable)
 			PDRSTN_SPLIT_MASK,
 			(0 << PDRSTN_SPLIT_SHIFT) & PDRSTN_SPLIT_MASK);
 	}
-	SYS_IOMUX_DOEN(33, LOW);
-	SYS_IOMUX_DOUT(33, 7);
-	SYS_IOMUX_DOEN(34, HIGH);
-
-	clrsetbits_le32(SYS_IOMUX_BASE + SYS_IOMUX_32,
-		IOMUX_USB_MASK,
-		((34+2) << IOMUX_USB_SHIFT) & IOMUX_USB_MASK);
-
 }
 
 static u32 get_chip_type(void)
@@ -196,17 +188,6 @@ static u32 get_chip_type(void)
 		break;
 	}
 	return value;
-}
-
-static void jh7110_mmc_init(int id)
-{
-	if (id == 0) {
-		SYS_IOMUX_DOEN(22, LOW);
-		SYS_IOMUX_DOUT(22, 19);
-	} else {
-		SYS_IOMUX_DOEN(24, LOW);
-		SYS_IOMUX_DOUT(24, 66);
-	}
 }
 
 /*enable U74-mc hart1~hart4 prefetcher*/
@@ -237,8 +218,6 @@ int board_init(void)
 
 	jh7110_timer_init();
 	jh7110_usb_init(true);
-	jh7110_mmc_init(0);
-	jh7110_mmc_init(1);
 
 	return 0;
 }
