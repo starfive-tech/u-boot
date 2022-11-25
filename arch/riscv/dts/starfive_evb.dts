@@ -6,6 +6,7 @@
 /dts-v1/;
 
 #include "jh7110.dtsi"
+#include <dt-bindings/pinctrl/pinctrl-starfive-jh7110.h>
 / {
 	#address-cells = <2>;
 	#size-cells = <2>;
@@ -46,14 +47,68 @@
 		"stg_apb", "gmac0_rmii_refin";
 };
 
+&gpio {
+	status = "okay";
+
+	usb_pins: usb-pins {
+		drive-vbus-pin {
+			pinmux = <GPIOMUX(33, GPOUT_SYS_USB_DRIVE_VBUS,
+						GPOEN_ENABLE, GPI_NONE)>;
+			bias-pull-up;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+
+		overcurrent-pin {
+			pinmux = <GPIOMUX(34, GPOUT_LOW,
+						GPOEN_DISABLE, GPI_SYS_USB_OVERCURRENT)>;
+			bias-pull-up;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	mmc0_pins: mmc0-pins {
+		 mmc0-pins-rest {
+			pinmux = <GPIOMUX(22, GPOUT_SYS_SDIO0_RST,
+						GPOEN_ENABLE, GPI_NONE)>;
+			bias-pull-up;
+			drive-strength = <12>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	mmc1_pins: mmc1-pins {
+		 mmc1-pins-rest {
+			pinmux = <GPIOMUX(24, GPOUT_SYS_SDIO1_RST,
+						GPOEN_ENABLE, GPI_NONE)>;
+			bias-pull-up;
+			drive-strength = <12>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+};
+
 &sdio0 {
 	fifo-depth = <32>;
 	bus-width = <4>;
 	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc0_pins>;
 };
 
 &sdio1 {
 	status = "disabled";
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc1_pins>;
 };
 
 &gmac0 {
@@ -81,11 +136,6 @@
 	};
 };
 
-&gpio {
-	compatible = "starfive,jh7110-gpio";
-	gpio-controller;
-};
-
 &uart0 {
 	reg-offset = <0>;
 	current-speed = <115200>;
@@ -102,6 +152,8 @@
 
 &usbdrd_cdns3 {
 	dr_mode = "host";
+	pinctrl-names = "default";
+	pinctrl-0 = <&usb_pins>;
 };
 
 &timer {

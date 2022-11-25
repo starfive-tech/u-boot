@@ -505,7 +505,7 @@
 		};
 
 		gpio: gpio@13040000 {
-			compatible = "starfive_jh7110-sys-pinctrl";
+			compatible = "starfive,jh7110-sys-pinctrl";
 			reg = <0x0 0x13040000 0x0 0x10000>;
 			reg-names = "control";
 			interrupts = <91>;
@@ -516,7 +516,7 @@
 		};
 
 		gpioa: gpio@17020000 {
-			compatible = "starfive_jh7110-aon-pinctrl";
+			compatible = "starfive,jh7110-aon-pinctrl";
 			reg = <0x0 0x17020000 0x0 0x10000>;
 			reg-names = "control";
 			interrupts = <90>;
