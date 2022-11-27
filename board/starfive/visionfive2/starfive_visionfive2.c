@@ -287,28 +287,6 @@ static void jh7110_usb_init(bool usb2_enable)
 	SYS_IOMUX_DOUT(25, 7);
 }
 
-static void jh7110_mmc_init(int id)
-{
-	if (id == 0) {
-		SYS_IOMUX_DOEN(62, LOW);
-		SYS_IOMUX_DOUT(62, 19);
-	} else {
-		SYS_IOMUX_DOEN(10, LOW);
-		SYS_IOMUX_DOUT(10, 55);
-		SYS_IOMUX_SET_DS(10, 3);
-		SYS_IOMUX_COMPLEX(9, 44, 57, 19);
-		SYS_IOMUX_SET_DS(9, 3);
-		SYS_IOMUX_COMPLEX(11, 45, 58, 20);
-		SYS_IOMUX_SET_DS(11, 3);
-		SYS_IOMUX_COMPLEX(12, 46, 59, 21);
-		SYS_IOMUX_SET_DS(12, 3);
-		SYS_IOMUX_COMPLEX(7, 47, 60, 22);
-		SYS_IOMUX_SET_DS(7, 3);
-		SYS_IOMUX_COMPLEX(8, 48, 61, 23);
-		SYS_IOMUX_SET_DS(8, 3);
-	}
-}
-
 /*enable U74-mc hart1~hart4 prefetcher*/
 static void enable_prefetcher(void)
 {
@@ -326,16 +304,6 @@ static void enable_prefetcher(void)
 		setbits_le32(reg, 0x1);
 		mb(); /* memory barrier */
 	}
-}
-
-static void jh7110_uart0_init(void)
-{
-	/*uart0 tx*/
-	SYS_IOMUX_DOEN(5, LOW);
-	SYS_IOMUX_DOUT(5, 20);
-	/*uart0 rx*/
-	SYS_IOMUX_DOEN(6, HIGH);
-	SYS_IOMUX_DIN(6, 14);
 }
 
 static void jh7110_jtag_init(void)
@@ -420,14 +388,11 @@ int board_init(void)
 	/*enable hart1-hart4 prefetcher*/
 	enable_prefetcher();
 
-	jh7110_uart0_init();
 	jh7110_jtag_init();
 	jh7110_timer_init();
 
 	jh7110_usb_init(true);
 
-	jh7110_mmc_init(0);
-	jh7110_mmc_init(1);
 	jh7110_i2c_init(5);
 	jh7110_gpio_init();
 
