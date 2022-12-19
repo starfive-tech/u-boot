@@ -61,8 +61,8 @@ void board_init_f(ulong dummy)
 {
 	int ret;
 
-	/* Adjust cpu frequency, the default is 1.25GHz */
-	starfive_jh7110_pll_set_rate(PLL0, 1250000000);
+	/* Set pll0 cpufreq to 1000M */
+	starfive_jh7110_pll_set_rate(PLL0, 1000000000);
 
 	/*change pll2 to 1188MHz*/
 	starfive_jh7110_pll_set_rate(PLL2, 1188000000);
