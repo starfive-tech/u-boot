@@ -279,7 +279,7 @@ static u64 pll_get_rate(enum starfive_pll_type pll,
 		fbdiv = GET_PLL(PLL0, FBDIV);
 		postdiv1 = 1 << GET_PLL(PLL0, POSTDIV1);
 		frac = GET_PLL(PLL0, FRAC);
-		deffreq = 1250000000;
+		deffreq = 1000000000;
 		break;
 
 	case PLL1:
