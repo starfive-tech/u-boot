@@ -15,6 +15,7 @@
 #include <netdev.h>
 #include <phy_interface.h>
 #include <flash.h>
+#include <i2c.h>
 
 #include <asm/arch/io.h>
 #include <asm/arch/global_reg.h>
@@ -1532,4 +1533,48 @@ int board_init(void)
 	enable_caches();
 
 	return ret;
+}
+
+/*
+ * Platform reset via TPS65086 PMIC
+ */
+
+#define TPS65086_FORCESHUTDN		0x91
+#define TPS65086_I2C_ADDR		0x5e
+#define TPS65086_I2C_BUS		0
+
+void reset_misc(void)
+{
+	u_char one = 1;
+	struct udevice *dev;
+	struct udevice *bus;
+	struct dm_i2c_chip *i2c_chip;
+	int ret;
+
+	ret = uclass_get_device_by_seq(UCLASS_I2C, TPS65086_I2C_BUS, &bus);
+	if (ret) {
+		debug("%s: No bus %d\n", __func__, TPS65086_I2C_BUS);
+		return;
+	}
+
+	ret = i2c_get_chip(bus, TPS65086_I2C_ADDR, 1, &dev);
+	if (!ret)
+		ret = i2c_set_chip_offset_len(dev, 1);
+	if (ret) {
+		printf("Error writing the chip: %d", ret);
+		return;
+	}
+
+	i2c_chip = dev_get_parent_plat(dev);
+	if (!i2c_chip){
+		printf("Error writing the chip: %d", ret);
+		return;
+	}
+
+	i2c_chip->flags &= ~DM_I2C_CHIP_WR_ADDRESS;
+	ret = dm_i2c_write(dev, TPS65086_FORCESHUTDN, &one, 1);
+	if (ret) {
+		printf("Error writing the chip: %d", ret);
+		return;
+	}
 }
