@@ -113,13 +113,12 @@
 			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile} ${filesize};" \
 		"else " \
 			"run chipa_gmac_set;" \
+			"run visionfive2_mem_set;"	\
 			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile} ${filesize};"	\
 		"fi;" \
 	"else "	\
-                "if test ${memory_size} = 200000000; then " \
-                        "run visionfive2_mem_set;" \
-                        "fatwrite mmc ${fatbootpart} ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile} ${filesize};" \
-                "fi;" \
+                "run visionfive2_mem_set;" \
+                "fatwrite mmc ${fatbootpart} ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile} ${filesize};" \
 	"fi; \0"	\
 	"bootcmd_distro=" 	\
 	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot mmc ${fatbootpart} fat c0000000 ${bootdir}/${boot_syslinux_conf}; \0"	\
