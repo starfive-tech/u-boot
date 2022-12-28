@@ -100,29 +100,29 @@
 	"fatbootpart=1:2\0"	\
 	"distroloadaddr=0xb0000000\0"	\
 	"load_distro_uenv="	\
-	"fatload mmc ${fatbootpart} ${distroloadaddr} ${bootdir}/${bootenv}; env import ${distroloadaddr} 17c; \0"	\
+	"fatload mmc ${fatbootpart} ${distroloadaddr} /${bootenv}; env import ${distroloadaddr} 17c; \0"	\
 	"fdt_loaddtb="	\
-	"fatload mmc ${fatbootpart} ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
+	"fatload mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
 	"fdt_sizecheck="	\
-	"fatsize mmc ${fatbootpart} ${bootdir}/dtbs/${fdtfile}; \0"	\
+	"fatsize mmc ${fatbootpart} /dtbs/${fdtfile}; \0"	\
 	"set_fdt_distro="	\
 	"if test ${chip_vision} = A; then " \
 		"if test ${memory_size} = 200000000; then " \
 			"run chipa_gmac_set;" \
 			"run visionfive2_mem_set;" \
-			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile} ${filesize};" \
+			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
 		"else " \
 			"run chipa_gmac_set;" \
-			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile} ${filesize};"	\
+			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};"	\
 		"fi;" \
 	"else "	\
                 "if test ${memory_size} = 200000000; then " \
                         "run visionfive2_mem_set;" \
-                        "fatwrite mmc ${fatbootpart} ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile} ${filesize};" \
+                        "fatwrite mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
                 "fi;" \
 	"fi; \0"	\
 	"bootcmd_distro=" 	\
-	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot mmc ${fatbootpart} fat c0000000 ${bootdir}/${boot_syslinux_conf}; \0"	\
+	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot mmc ${fatbootpart} fat c0000000 /${boot_syslinux_conf}; \0"	\
 
 #define PARTS_DEFAULT							\
 	"name=loader1,start=17K,size=1M,type=${type_guid_gpt_loader1};" \
