@@ -244,7 +244,7 @@ int misc_init_r(void)
 	}
 
 	ret = misc_read(dev, MACADDR_OFFSET, buf, sizeof(buf));
-	if (ret)
+	if (ret != sizeof(buf))
 		printf("%s: error reading mac from OTP\n", __func__);
 	else
 		if (buf[0] != 0xff) {
