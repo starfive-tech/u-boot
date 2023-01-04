@@ -39,7 +39,7 @@
 
 #define SPEED_UNKNOWN			-1
 
-static int ytphy_read_ext(struct phy_device *phydev, u32 regnum)
+static int ytphy_read_ext(struct phy_device *phydev, int addr, int devad, int regnum)
 {
 	int ret;
 
@@ -50,7 +50,7 @@ static int ytphy_read_ext(struct phy_device *phydev, u32 regnum)
 	return phy_read(phydev, MDIO_DEVAD_NONE, REG_DEBUG_DATA);
 }
 
-static int ytphy_write_ext(struct phy_device *phydev, u32 regnum, u16 val)
+static int ytphy_write_ext(struct phy_device *phydev, int addr, int devad, int regnum, u16 val)
 {
 	int ret;
 
@@ -113,65 +113,65 @@ static int yt8521_config(struct phy_device *phydev)
 {
 	int ret, val;
 
-	ytphy_write_ext(phydev, 0xa000, 0);
+	ytphy_write_ext(phydev, 0xa000, 0, 0, 0);
 
 	genphy_config_aneg(phydev);
 
 	/* disable auto sleep */
-	val = ytphy_read_ext(phydev, EXTREG_SLEEP_CONTROL);
+	val = ytphy_read_ext(phydev, 0, 0, EXTREG_SLEEP_CONTROL);
 	if (val < 0) {
 		printf("yt8521_config: read EXTREG_SLEEP_CONTROL error!\n");
 		return val;
 	}
 
 	val &= ~(1<<15);
-	ret = ytphy_write_ext(phydev, EXTREG_SLEEP_CONTROL, val);
+	ret = ytphy_write_ext(phydev, EXTREG_SLEEP_CONTROL, 0, 0, val);
 	if (ret < 0) {
 		printf("yt8521_config: write EXTREG_SLEEP_CONTROL error!\n");
 		return ret;
 	}
 
 	/*  enable tx delay 450ps per step */
-	val = ytphy_read_ext(phydev, 0xa003);
+	val = ytphy_read_ext(phydev, 0, 0, 0xa003);
 	if (val < 0) {
 		printf("yt8521_config: read 0xa003 error!\n");
 		return val;
 	}
 	val |= 0x3;
-	ret = ytphy_write_ext(phydev, 0xa003, val);
+	ret = ytphy_write_ext(phydev, 0xa003, 0, 0, val);
 	if (ret < 0) {
 		printf("yt8521_config: set 0xa003 error!\n");
 		return ret;
 	}
 
 	/* disable rx delay */
-	val = ytphy_read_ext(phydev, 0xa001);
+	val = ytphy_read_ext(phydev, 0, 0, 0xa001);
 	if (val < 0) {
 		printf("yt8521_config: read 0xa001 error!\n");
 		return val;
 	}
 	val &= ~(1<<8);
-	ret = ytphy_write_ext(phydev, 0xa001, val);
+	ret = ytphy_write_ext(phydev, 0xa001, 0, 0, val);
 	if (ret < 0) {
 		printf("yt8521_config: failed to disable rx_delay!\n");
 		return ret;
 	}
 
 	/* enable RXC clock when no wire plug */
-	ret = ytphy_write_ext(phydev, 0xa000, 0);
+	ret = ytphy_write_ext(phydev, 0xa000, 0, 0, 0);
 	if (ret < 0) {
 		printf("yt8521_config: failed to enable RXC clock!\n");
 		return ret;
 	}
 
-	val = ytphy_read_ext(phydev, 0xc);
+	val = ytphy_read_ext(phydev, 0, 0, 0xc);
 	if (val < 0) {
 		printf("yt8521_config: read 0xc error!\n");
 		return val;
 	}
 
 	val &= ~(1 << 12);
-	ret = ytphy_write_ext(phydev, 0xc, val);
+	ret = ytphy_write_ext(phydev, 0xc, 0, 0, val);
 	if (ret < 0) {
 		printf("yt8521_config: set 0xc error!\n");
 		return ret;
@@ -216,7 +216,7 @@ static int yt8521_parse_status(struct phy_device *phydev)
 	int ret, val, link, link_utp;
 
 	/* reading UTP */
-	ret = ytphy_write_ext(phydev, 0xa000, 0);
+	ret = ytphy_write_ext(phydev, 0xa000, 0, 0, 0);
 	if (ret < 0)
 		return ret;
 
@@ -234,7 +234,7 @@ static int yt8521_parse_status(struct phy_device *phydev)
 
 	if (link_utp) {
 		phydev->link = 1;
-		ytphy_write_ext(phydev, 0xa000, 0);
+		ytphy_write_ext(phydev, 0xa000, 0, 0, 0);
 	} else {
 		phydev->link = 0;
 	}
@@ -271,6 +271,8 @@ static struct phy_driver YT8521_driver = {
 	.config = &yt8521_config,
 	.startup = &yt8521_startup,
 	.shutdown = &genphy_shutdown,
+	.readext= &ytphy_read_ext,
+	.writeext= &ytphy_write_ext,
 };
 
 int phy_yutai_init(void)
