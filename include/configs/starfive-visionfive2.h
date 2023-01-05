@@ -100,9 +100,9 @@
 	"fatbootpart=1:2\0"	\
 	"distroloadaddr=0xb0000000\0"	\
 	"load_distro_uenv="	\
-	"fatload mmc ${fatbootpart} ${distroloadaddr} /${bootenv}; env import ${distroloadaddr} 17c; \0"	\
+	"load mmc ${fatbootpart} ${distroloadaddr} /${bootenv}; env import ${distroloadaddr} 17c; \0"	\
 	"fdt_loaddtb="	\
-	"fatload mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
+	"load mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
 	"fdt_sizecheck="	\
 	"fatsize mmc ${fatbootpart} /dtbs/${fdtfile}; \0"	\
 	"set_fdt_distro="	\
@@ -121,8 +121,12 @@
                         "fatwrite mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
                 "fi;" \
 	"fi; \0"	\
+	"echo Start VF2_DISTRO_BOOTENV;\0"	\
 	"bootcmd_distro=" 	\
-	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot mmc ${fatbootpart} fat c0000000 /${boot_syslinux_conf}; \0"	\
+	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot mmc ${fatbootpart} any c0000000 /${boot_syslinux_conf}; \0"
+
+#define BOOTENV_DTI	\
+	"echo BOOTENV_DTI;\0"
 
 #define PARTS_DEFAULT							\
 	"name=loader1,start=17K,size=1M,type=${type_guid_gpt_loader1};" \
@@ -172,8 +176,8 @@
 	"bootdir=/boot\0"		\
 	"mmcpart=3\0"			\
 	"loadaddr=0xa0000000\0"		\
-	"load_vf2_env=fatload mmc ${bootpart} ${loadaddr} ${testenv}\0"	\
-	"loadbootenv=fatload mmc ${bootpart} ${loadaddr} ${bootenv}\0"	\
+	"load_vf2_env=load mmc ${bootpart} ${loadaddr} ${testenv}\0"	\
+	"loadbootenv=load mmc ${bootpart} ${loadaddr} ${bootenv}\0"	\
 	"ext4bootenv="			\
 		"ext4load mmc ${bootpart} ${loadaddr} ${bootdir}/${bootenv}\0"\
 	"importbootenv="		\
@@ -213,6 +217,7 @@
 	"ramdisk_addr_r=0x46100000\0"			\
 	VF2_DISTRO_BOOTENV				\
 	VISIONFIVE2_BOOTENV				\
+	BOOTENV_DTI					\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
 	CHIPA_SET_FORCE					\
