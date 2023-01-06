@@ -8,7 +8,6 @@
 #include "jh7110_clk.dtsi"
 #include <dt-bindings/reset/starfive-jh7110.h>
 #include <dt-bindings/clock/starfive-jh7110-clkgen.h>
-#include <dt-bindings/clock/starfive-jh7110-vout.h>
 #include <dt-bindings/clock/starfive-jh7110-isp.h>
 
 / {
