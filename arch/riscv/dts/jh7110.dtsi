@@ -659,6 +659,19 @@
 			status = "disabled";
 		};
 
+		i2c5: i2c5@12050000 {
+			compatible = "snps,designware-i2c";
+			reg = <0x0 0x12050000 0x0 0x10000>;
+			clocks = <&clkgen JH7110_I2C5_CLK_CORE>,
+				 <&clkgen JH7110_I2C5_CLK_APB>;
+			clock-names = "ref", "pclk";
+			resets = <&rstgen RSTN_U5_DW_I2C_APB>;
+			interrupts = <50>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "disabled";
+		};
+
 		/* unremovable emmc as mmcblk0 */
 		sdio0: sdio0@16010000 {
 			compatible = "snps,dw-mshc";
