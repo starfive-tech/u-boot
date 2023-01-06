@@ -116,10 +116,18 @@ static int starfive_otp_read(struct udevice *dev, int offset,
 	int bytescnt;
 	int i;
 
-	if (!buf || (offset >= OTP_MEM_SIZE) || (offset & 0x3)) {
-		printf("%s:invalid parameter.\n", __func__);
+	if ((size % BYTES_PER_INT) || (offset % BYTES_PER_INT)) {
+		printf("%s: size and offset must be multiple of 4.\n", __func__);
 		return -EINVAL;
 	}
+
+	/* check bounds */
+	if (!buf)
+		return -EINVAL;
+	if (offset >= OTP_MEM_SIZE)
+		return -EINVAL;
+	if ((offset + size) > OTP_MEM_SIZE)
+		return -EINVAL;
 
 	bytescnt = size / BYTES_PER_INT;
 
@@ -133,7 +141,8 @@ static int starfive_otp_read(struct udevice *dev, int offset,
 		databuf[i] = data;
 		offset += 4;
 	}
-	return 0;
+
+	return size;
 }
 
 static int starfive_otp_probe(struct udevice *dev)
