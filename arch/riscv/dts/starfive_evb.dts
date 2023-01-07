@@ -171,3 +171,10 @@
 &pdm {
 	status = "disabled";
 };
+
+&i2c5 {
+	pmic_axp15060: axp15060_reg@36 {
+               compatible = "stf,axp15060-regulator";
+               reg = <0x36>;
+	};
+};
