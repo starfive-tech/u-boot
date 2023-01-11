@@ -25,6 +25,7 @@
 
 	chosen {
 			stdout-path = "/soc/serial@10000000:115200";
+			starfive,boot-hart-id = <1>;
 	};
 
 
