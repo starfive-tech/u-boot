@@ -6,6 +6,7 @@
 /dts-v1/;
 
 #include "jh7110.dtsi"
+#include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/pinctrl/pinctrl-starfive-jh7110.h>
 / {
 	#address-cells = <2>;
@@ -36,6 +37,11 @@
 
 	soc {
 	};
+
+	gpio-restart {
+		compatible = "gpio-restart";
+		gpios = <&gpio 35 GPIO_ACTIVE_HIGH>;
+	};
 };
 
 &cpu0 {
@@ -51,6 +57,7 @@
 
 &gpio {
 	status = "okay";
+	gpio-controller;
 	uart0_pins: uart0-0 {
 		tx-pins {
 			pinmux = <GPIOMUX(5, GPOUT_SYS_UART0_TX,
