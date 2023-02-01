@@ -421,6 +421,10 @@ static int jh7110_clk_init(struct udevice *dev)
 	clk_dm(JH7110_AON_APB,
 	       starfive_clk_fix_factor(priv->sys,
 				       "aon_apb", "apb_bus_func", 1, 1));
+	clk_dm(JH7110_NOCSTG_BUS,
+	       starfive_clk_divider(priv->sys,
+				    "nocstg_bus", "bus_root",
+				    SYS_OFFSET(JH7110_NOCSTG_BUS), 3));
 	/*QSPI*/
 	clk_dm(JH7110_QSPI_CLK_AHB,
 	       starfive_clk_gate(priv->sys,
@@ -463,6 +467,11 @@ static int jh7110_clk_init(struct udevice *dev)
 	       starfive_clk_divider(priv->sys,
 				    "usb_125m", "gmacusb_root",
 				    SYS_OFFSET(JH7110_USB_125M), 4));
+	clk_dm(JH7110_NOC_BUS_CLK_STG_AXI,
+	       starfive_clk_gate(priv->sys,
+				    "u0_sft7110_noc_bus_clk_stg_axi",
+				    "nocstg_bus",
+				    SYS_OFFSET(JH7110_NOC_BUS_CLK_STG_AXI)));
 
 	/*GMAC1*/
 	clk_dm(JH7110_GMAC5_CLK_AHB,
@@ -707,6 +716,40 @@ static int jh7110_clk_init(struct udevice *dev)
 	clk_dm(JH7110_I2C2_CLK_CORE,
 		starfive_clk_fix_factor(priv->sys,
 			"u2_dw_i2c_clk_core", "u2_dw_i2c_clk_apb", 1, 1));
+
+	/*pcie0*/
+	clk_dm(JH7110_PCIE0_CLK_TL,
+		starfive_clk_gate(priv->stg,
+			"u0_plda_pcie_clk_tl",
+			"stg_axiahb",
+			STG_OFFSET(JH7110_PCIE0_CLK_TL)));
+	clk_dm(JH7110_PCIE0_CLK_AXI_MST0,
+		starfive_clk_gate(priv->stg,
+			"u0_plda_pcie_clk_axi_mst0",
+			"stg_axiahb",
+			STG_OFFSET(JH7110_PCIE0_CLK_AXI_MST0)));
+	clk_dm(JH7110_PCIE0_CLK_APB,
+		starfive_clk_gate(priv->stg,
+			"u0_plda_pcie_clk_apb",
+			"stg_apb",
+			STG_OFFSET(JH7110_PCIE0_CLK_APB)));
+
+	/*pcie1*/
+	clk_dm(JH7110_PCIE1_CLK_TL,
+		starfive_clk_gate(priv->stg,
+			"u1_plda_pcie_clk_tl",
+			"stg_axiahb",
+			STG_OFFSET(JH7110_PCIE1_CLK_TL)));
+	clk_dm(JH7110_PCIE1_CLK_AXI_MST0,
+		starfive_clk_gate(priv->stg,
+			"u1_plda_pcie_clk_axi_mst0",
+			"stg_axiahb",
+			STG_OFFSET(JH7110_PCIE1_CLK_AXI_MST0)));
+	clk_dm(JH7110_PCIE1_CLK_APB,
+		starfive_clk_gate(priv->stg,
+			"u1_plda_pcie_clk_apb",
+			"stg_apb",
+			STG_OFFSET(JH7110_PCIE1_CLK_APB)));
 
 	return 0;
 }
