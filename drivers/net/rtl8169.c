@@ -350,6 +350,7 @@ static struct pci_device_id supported[] = {
 	{ PCI_DEVICE(PCI_VENDOR_ID_REALTEK, 0x8167) },
 	{ PCI_DEVICE(PCI_VENDOR_ID_REALTEK, 0x8168) },
 	{ PCI_DEVICE(PCI_VENDOR_ID_REALTEK, 0x8169) },
+	{ PCI_DEVICE(PCI_VENDOR_ID_REALTEK, 0x8161) },
 	{}
 };
 
@@ -1139,6 +1140,7 @@ int rtl8169_initialize(struct bd_info *bis)
 		pci_read_config_word(devno, PCI_DEVICE_ID, &device);
 		switch (device) {
 		case 0x8168:
+		case 0x8161:
 			region = 2;
 			break;
 
@@ -1197,6 +1199,7 @@ static int rtl8169_eth_probe(struct udevice *dev)
 	debug("rtl8169: REALTEK RTL8169 @0x%x\n", iobase);
 	switch (pplat->device) {
 	case 0x8168:
+	case 0x8161:
 		region = 2;
 		break;
 	default:
