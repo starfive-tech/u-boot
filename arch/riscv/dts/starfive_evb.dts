@@ -27,10 +27,20 @@
 			starfive,boot-hart-id = <1>;
 	};
 
-
 	memory@80000000 {
 		device_type = "memory";
 		reg = <0x0 0x40000000 0x1 0x0>;
+	};
+
+	reserved-memory {
+			#size-cells = <2>;
+			#address-cells = <2>;
+			ranges;
+
+			opensbi {
+				reg = <0x00 0x40000000 0x00 0x80000>;
+				no-map;
+			};
 	};
 
 	soc {
