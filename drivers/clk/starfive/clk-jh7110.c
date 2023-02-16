@@ -690,6 +690,24 @@ static int jh7110_clk_init(struct udevice *dev)
 				    "u0_dom_vout_top_clk_mipiphy_ref", "osc",
 				    SYS_OFFSET(JH7110_MCLK_INNER), 2));
 
+	/*i2c5*/
+	clk_dm(JH7110_I2C5_CLK_APB,
+		starfive_clk_gate(priv->sys,
+			"u5_dw_i2c_clk_apb", "apb0",
+			SYS_OFFSET(JH7110_I2C5_CLK_APB)));
+	clk_dm(JH7110_I2C5_CLK_CORE,
+		starfive_clk_fix_factor(priv->sys,
+			"u5_dw_i2c_clk_core", "u5_dw_i2c_clk_apb", 1, 1));
+
+	/*i2c2*/
+	clk_dm(JH7110_I2C2_CLK_APB,
+		starfive_clk_gate(priv->sys,
+			"u2_dw_i2c_clk_apb", "apb0",
+			SYS_OFFSET(JH7110_I2C2_CLK_APB)));
+	clk_dm(JH7110_I2C2_CLK_CORE,
+		starfive_clk_fix_factor(priv->sys,
+			"u2_dw_i2c_clk_core", "u2_dw_i2c_clk_apb", 1, 1));
+
 	return 0;
 }
 
