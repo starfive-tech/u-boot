@@ -342,3 +342,10 @@ config PMIC_TPS65941
 	help
 	The TPS65941 is a PMIC containing a bunch of SMPS & LDOs.
 	This driver binds the pmic children.
+
+config PMIC_STARFIVE
+	bool "Enable driver for STARFIVE PMIC"
+	depends on DM_PMIC
+	help
+	The PMIC contains a bunch of SMPS & LDOs.
+	This driver binds the pmic children.
