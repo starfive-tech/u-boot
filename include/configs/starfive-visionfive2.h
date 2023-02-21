@@ -100,7 +100,14 @@
 	"fatbootpart=1:2\0"	\
 	"distroloadaddr=0xb0000000\0"	\
 	"load_distro_uenv="	\
-	"fatload mmc ${fatbootpart} ${distroloadaddr} ${bootdir}/${bootenv}; env import ${distroloadaddr} 17c; \0"	\
+	"if fatload mmc ${devnum}:3 ${distroloadaddr} ${bootdir}/${bootenv}; then " \
+		"setenv fatbootpart ${devnum}:4; " \
+		"env import ${distroloadaddr} 200;" \
+	"else " \
+		"fatload mmc ${devnum}:2 ${distroloadaddr} ${bootdir}/${bootenv};" \
+		"setenv fatbootpart ${devnum}:3; " \
+		"env import ${distroloadaddr} 200;" \
+	"fi; \0" \
 	"fdt_loaddtb="	\
 	"fatload mmc ${fatbootpart} ${fdt_addr_r} ${bootdir}/dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
 	"fdt_sizecheck="	\
