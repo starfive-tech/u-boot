@@ -28,7 +28,7 @@ int dram_init(void)
 	/*read memory size info*/
 	ret = get_data_from_eeprom(offset, len, (u8 *)&data);
 	if (ret == len)
-		gd->ram_size = (phys_size_t)(hextoul((char *)&data, NULL) & 0xff) << 30;
+		gd->ram_size = (phys_size_t)((hextoul((char *)&data, NULL) & 0xff) << 30);
 	ret = 0;
 
 err:
