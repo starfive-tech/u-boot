@@ -97,38 +97,38 @@
 #define TYPE_GUID_SYSTEM	"0FC63DAF-8483-4772-8E79-3D69D8477DE4"
 
 #define VF2_DISTRO_BOOTENV \
-	"fatbootpart=1:2\0"	\
+	"fatbootpart=1:3\0"	\
 	"distroloadaddr=0xb0000000\0"	\
 	"load_distro_uenv="	\
-	"if fatload mmc ${devnum}:3 ${distroloadaddr} ${bootenv}; then " \
+	"if fatload mmc ${devnum}:3 ${distroloadaddr} /${bootenv}; then " \
 		"setenv fatbootpart ${devnum}:4; " \
 		"env import ${distroloadaddr} 200;" \
 	"else " \
-		"fatload mmc ${devnum}:2 ${distroloadaddr} ${bootenv};" \
+		"fatload mmc ${devnum}:2 ${distroloadaddr} /${bootenv};" \
 		"setenv fatbootpart ${devnum}:3; " \
 		"env import ${distroloadaddr} 200;" \
 	"fi; \0" \
 	"fdt_loaddtb="	\
-	"fatload mmc ${fatbootpart} ${fdt_addr_r} dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
+	"fatload mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
 	"fdt_sizecheck="	\
-	"fatsize mmc ${fatbootpart} dtbs/${fdtfile}; \0"	\
+	"fatsize mmc ${fatbootpart} /dtbs/${fdtfile}; \0"	\
 	"set_fdt_distro="	\
 	"if test ${chip_vision} = A; then " \
 		"if test ${memory_size} = 200000000; then " \
 			"run chipa_gmac_set;" \
 			"run visionfive2_mem_set;" \
-			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} dtbs/${fdtfile} ${filesize};" \
+			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
 		"else " \
 			"run chipa_gmac_set;" \
 			"run visionfive2_mem_set;"	\
-			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} dtbs/${fdtfile} ${filesize};"	\
+			"fatwrite mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};"	\
 		"fi;" \
 	"else "	\
                 "run visionfive2_mem_set;" \
-                "fatwrite mmc ${fatbootpart} ${fdt_addr_r} dtbs/${fdtfile} ${filesize};" \
+                "fatwrite mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
 	"fi; \0"	\
 	"bootcmd_distro=" 	\
-	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot mmc ${fatbootpart} fat c0000000 ${boot_syslinux_conf}; \0"	\
+	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot mmc ${fatbootpart} fat c0000000 /${boot_syslinux_conf}; \0"	\
 
 #define PARTS_DEFAULT							\
 	"name=loader1,start=17K,size=1M,type=${type_guid_gpt_loader1};" \
