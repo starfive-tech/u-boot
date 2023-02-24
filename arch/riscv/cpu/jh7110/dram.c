@@ -11,12 +11,26 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
+static bool check_eeprom_dram_info(phys_size_t size)
+{
+	switch (size) {
+	case 0x80000000:
+	case 0x100000000:
+	case 0x200000000:
+	case 0x400000000:
+		return true;
+	default:
+		return false;
+	}
+}
+
 int dram_init(void)
 {
 	int ret;
 	u8 data;
 	u32 len;
 	u32 offset;
+	phys_size_t size;
 
 	data = 0;
 	len = 1;
@@ -27,8 +41,11 @@ int dram_init(void)
 
 	/*read memory size info*/
 	ret = get_data_from_eeprom(offset, len, &data);
-	if (ret == len)
-		gd->ram_size = ((phys_size_t)hextoul(&data, NULL)) << 30;
+	if (ret == len) {
+		size = ((phys_size_t)hextoul(&data, NULL)) << 30;
+		if (check_eeprom_dram_info(size))
+			gd->ram_size = size;
+	}
 
 	ret = 0;
 err:
