@@ -14,23 +14,23 @@ DECLARE_GLOBAL_DATA_PTR;
 int dram_init(void)
 {
 	int ret;
-	u32 data;
+	u8 data;
 	u32 len;
 	u32 offset;
 
 	data = 0;
-	len = 4;
-	offset = 88; /*offset of memory size stored in eeprom*/
+	len = 1;
+	offset = 91; /*offset of memory size stored in eeprom*/
 	ret = fdtdec_setup_mem_size_base();
 	if (ret)
 		goto err;
 
 	/*read memory size info*/
-	ret = get_data_from_eeprom(offset, len, (u8 *)&data);
+	ret = get_data_from_eeprom(offset, len, &data);
 	if (ret == len)
-		gd->ram_size = (phys_size_t)((hextoul((char *)&data, NULL) & 0xff) << 30);
-	ret = 0;
+		gd->ram_size = ((phys_size_t)hextoul(&data, NULL)) << 30;
 
+	ret = 0;
 err:
 	return ret;
 }
