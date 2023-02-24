@@ -330,4 +330,16 @@ config PCIE_UNIPHIER
 	  Say Y here if you want to enable PCIe controller support on
 	  UniPhier SoCs.
 
+config PCIE_STARFIVE
+	bool "Enable Starfive PCIe driver"
+	depends on RISCV
+	depends on STARFIVE_JH7110
+	depends on PINCTRL_STARFIVE_JH7110
+	depends on CLK_JH7110
+	depends on RESET_JH7110
+	default y
+	help
+	  Say Y here if you want to enable PCIe controller support on
+	  Starfive SoCs.
+
 endif

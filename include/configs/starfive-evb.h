@@ -70,6 +70,8 @@
 #define CONFIG_SYS_LOAD_ADDR		(CONFIG_SYS_SDRAM_BASE + SZ_16M)
 #define CONFIG_STANDALONE_LOAD_ADDR	0x41000000
 
+#define CONFIG_SYS_PCI_64BIT		/* enable 64-bit PCI resources */
+
 /*
  * Ethernet
  */

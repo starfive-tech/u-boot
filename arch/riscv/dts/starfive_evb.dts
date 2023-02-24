@@ -163,6 +163,86 @@
 		};
 	};
 
+	pcie0_perst_default: pcie0_perst_default {
+		perst-pins {
+			pinmux = <GPIOMUX(26, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie0_perst_active: pcie0_perst_active {
+		perst-pins {
+			pinmux = <GPIOMUX(26, GPOUT_LOW, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie0_power_default: pcie0_power_default {
+		power-pins {
+			pinmux = <GPIOMUX(32, GPOUT_LOW, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie0_power_active: pcie0_power_active {
+		power-pins {
+			pinmux = <GPIOMUX(32, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie1_perst_default: pcie1_perst_default {
+		perst-pins {
+			pinmux = <GPIOMUX(28, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie1_perst_active: pcie1_perst_active {
+		perst-pins {
+			pinmux = <GPIOMUX(28, GPOUT_LOW, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie1_power_default: pcie1_power_default {
+		power-pins {
+			pinmux = <GPIOMUX(21, GPOUT_LOW, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie1_power_active: pcie1_power_active {
+		power-pins {
+			pinmux = <GPIOMUX(21, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
 };
 
 &sdio0 {
@@ -222,6 +302,24 @@
 	dr_mode = "host";
 	pinctrl-names = "default";
 	pinctrl-0 = <&usb_pins>;
+};
+
+&pcie0 {
+	pinctrl-names = "perst-default", "perst-active", "power-default", "power-active";
+	pinctrl-0 = <&pcie0_perst_default>;
+	pinctrl-1 = <&pcie0_perst_active>;
+	pinctrl-2 = <&pcie0_power_default>;
+	pinctrl-3 = <&pcie0_power_active>;
+	status = "disabled";
+};
+
+&pcie1 {
+	pinctrl-names = "perst-default", "perst-active", "power-default", "power-active";
+	pinctrl-0 = <&pcie1_perst_default>;
+	pinctrl-1 = <&pcie1_perst_active>;
+	pinctrl-2 = <&pcie1_power_default>;
+	pinctrl-3 = <&pcie1_power_active>;
+	status = "okay";
 };
 
 &timer {
