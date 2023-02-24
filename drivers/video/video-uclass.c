@@ -192,8 +192,7 @@ int video_sync(struct udevice *vid, bool force)
 	 * architectures do not actually implement it. Is there a way to find
 	 * out whether it exists? For now, ARM is safe.
 	 */
-#if (defined(CONFIG_ARM) && !CONFIG_IS_ENABLED(SYS_DCACHE_OFF)) || defined(CONFIG_RISCV)
-
+#if defined(CONFIG_ARM) && !CONFIG_IS_ENABLED(SYS_DCACHE_OFF)
 	struct video_priv *priv = dev_get_uclass_priv(vid);
 
 	if (priv->flush_dcache) {
@@ -265,7 +264,7 @@ int video_sync_copy(struct udevice *dev, void *from, void *to)
 		 * frame buffer
 		 */
 		if (offset < -priv->fb_size || offset > 2 * priv->fb_size) {
-#if DEBUG
+#ifdef DEBUG
 			char str[80];
 
 			snprintf(str, sizeof(str),

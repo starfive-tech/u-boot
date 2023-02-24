@@ -6,7 +6,6 @@ ifeq ($(CONFIG_SPL_BUILD),y)
 obj-y += spl.o
 else
 obj-y += cpu.o
-obj-y += cache.o
 endif
 obj-y += dram.o
 obj-y += pll.o

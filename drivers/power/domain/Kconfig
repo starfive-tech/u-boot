@@ -30,13 +30,6 @@ config IMX8M_POWER_DOMAIN
 	  Enable support for manipulating NXP i.MX8M on-SoC power domains via
 	  requests to the ATF.
 
-config STARFIVE_POWER_DOMAIN
-	bool "Enable starfive power domain driver"
-	depends on POWER_DOMAIN
-	help
-	  Enable support for pwoer up on-SoC power domains via
-	  requests to the ATF.
-
 config MTK_POWER_DOMAIN
 	bool "Enable the MediaTek power domain driver"
 	depends on POWER_DOMAIN && ARCH_MEDIATEK
