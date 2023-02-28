@@ -27,6 +27,8 @@
 #define PCB_REVISION_B		0x0B
 #define CHIP_REVISION_SHIFT	80
 
+#define CPU_VOL_BINNING_OFFSET 0x7fc
+
 enum {
 	BOOT_FLASH =	0,
 	BOOT_SD,
@@ -44,6 +46,13 @@ enum board_type_t {
 	BOARD_1000M_1000M = 0,
 	BOARD_1000M_100M,
 	BOARD_TYPE_MAX,
+};
+
+
+enum cpu_voltage_type_t {
+	CPU_VOL_1040 = 0xff,
+	CPU_VOL_1060 = 0xf0,
+	CPU_VOL_1080 = 0xf1,
 };
 
 static void sys_reset_clear(ulong assert, ulong status, u32 rst)
@@ -287,6 +296,32 @@ static void jh7110_usb_init(bool usb2_enable)
 	SYS_IOMUX_DOUT(25, 7);
 }
 
+#if CONFIG_IS_ENABLED(STARFIVE_OTP)
+static void get_cpu_voltage_type(struct udevice *dev)
+{
+	int ret;
+	u32 buf = CPU_VOL_1040;
+
+	ret = misc_read(dev, CPU_VOL_BINNING_OFFSET, &buf, sizeof(buf));
+	if (ret != sizeof(buf))
+		printf("%s: error reading CPU vol from OTP\n", __func__);
+	else {
+		switch ((buf & 0xff)) {
+		case CPU_VOL_1080:
+			env_set("cpu_max_vol", "1080000");
+			break;
+		case CPU_VOL_1060:
+			env_set("cpu_max_vol", "1060000");
+			break;
+		case CPU_VOL_1040:
+		default:
+			env_set("cpu_max_vol", "1040000");
+			break;
+		}
+	}
+}
+#endif
+
 /*enable U74-mc hart1~hart4 prefetcher*/
 static void enable_prefetcher(void)
 {
@@ -452,6 +487,9 @@ err:
 
 	get_chip_type();
 	set_uboot_fdt_addr_env();
+#if CONFIG_IS_ENABLED(STARFIVE_OTP)
+	get_cpu_voltage_type(dev);
+#endif
 	return 0;
 }
 #endif
