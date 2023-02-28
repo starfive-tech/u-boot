@@ -25,8 +25,15 @@ enum chip_type_t {
 	CHIP_MAX,
 };
 
+enum cpu_voltage_type_t {
+	CPU_VOL_1040 = 0xff,
+	CPU_VOL_1060 = 0xf0,
+	CPU_VOL_1080 = 0xf1,
+};
+
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
+#define CPU_VOL_BINNING_OFFSET 0x7fc
 
 static void sys_reset_clear(ulong assert, ulong status, u32 rst)
 {
@@ -192,6 +199,32 @@ static u32 get_chip_type(void)
 	return value;
 }
 
+#if CONFIG_IS_ENABLED(STARFIVE_OTP)
+static void get_cpu_voltage_type(struct udevice *dev)
+{
+	int ret;
+	u32 buf = CPU_VOL_1040;
+
+	ret = misc_read(dev, CPU_VOL_BINNING_OFFSET, &buf, sizeof(buf));
+	if (ret != sizeof(buf))
+		printf("%s: error reading CPU vol from OTP\n", __func__);
+	else {
+		switch ((buf & 0xff)) {
+		case CPU_VOL_1080:
+			env_set("cpu_max_vol", "1080000");
+			break;
+		case CPU_VOL_1060:
+			env_set("cpu_max_vol", "1060000");
+			break;
+		case CPU_VOL_1040:
+		default:
+			env_set("cpu_max_vol", "1040000");
+			break;
+		}
+	}
+}
+#endif
+
 /*enable U74-mc hart1~hart4 prefetcher*/
 static void enable_prefetcher(void)
 {
@@ -259,6 +292,9 @@ err:
 	eth_env_set_enetaddr("eth1addr", mac1);
 
 	chip = get_chip_type();
+#if CONFIG_IS_ENABLED(STARFIVE_OTP)
+	get_cpu_voltage_type(dev);
+#endif
 	jh7110_gmac_init(0, chip);
 	jh7110_gmac_init(1, chip);
 	return 0;

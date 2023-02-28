@@ -100,6 +100,28 @@
 #define TYPE_GUID_LOADER2	"2E54B353-1271-4842-806F-E436D6AF6985"
 #define TYPE_GUID_SYSTEM	"0FC63DAF-8483-4772-8E79-3D69D8477DE4"
 
+#define CPU_VOL_1040_SET \
+	"cpu_vol_1040_set="			\
+	"fdt set /opp-table-0/opp-1500000000 opp-microvolt <1040000>;\0"
+
+#define CPU_VOL_1060_SET \
+	"cpu_vol_1060_set="			\
+	"fdt set /opp-table-0/opp-1500000000 opp-microvolt <1060000>;\0"
+
+#define CPU_VOL_1080_SET \
+	"cpu_vol_1080_set="			\
+	"fdt set /opp-table-0/opp-1500000000 opp-microvolt <1080000>;\0"
+
+#define CPU_VOL_SET	\
+	"cpu_vol_set="				\
+	"if test ${cpu_max_vol} = 1080000; then "		\
+		"run cpu_vol_1080_set;"			\
+	"elif test ${cpu_max_vol} = 1060000; then "	\
+		"run cpu_vol_1060_set;"			\
+	"else "						\
+		"run cpu_vol_1040_set;"			\
+	"fi; \0"
+
 #define CHIPA_GMAC_SET \
 	"chipa_gmac_set="	\
 	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_10 <0x1>;"	\
@@ -135,6 +157,10 @@
 	"ramdisk_addr_r=0x46100000\0"			\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
+	CPU_VOL_1040_SET				\
+	CPU_VOL_1060_SET				\
+	CPU_VOL_1080_SET				\
+	CPU_VOL_SET					\
 	"type_guid_gpt_loader1=" TYPE_GUID_LOADER1 "\0" \
 	"type_guid_gpt_loader2=" TYPE_GUID_LOADER2 "\0" \
 	"type_guid_gpt_system=" TYPE_GUID_SYSTEM "\0"	\
