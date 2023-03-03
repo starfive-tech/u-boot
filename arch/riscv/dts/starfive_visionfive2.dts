@@ -164,6 +164,86 @@
 			slew-rate = <0>;
 		};
 	};
+
+	pcie0_perst_default: pcie0_perst_default {
+		perst-pins {
+			pinmux = <GPIOMUX(26, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie0_perst_active: pcie0_perst_active {
+		perst-pins {
+			pinmux = <GPIOMUX(26, GPOUT_LOW, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie0_wake_default: pcie0_wake_default {
+		wake-pins {
+			pinmux = <GPIOMUX(32, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-enable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie0_clkreq_default: pcie0_clkreq_default {
+		clkreq-pins {
+			pinmux = <GPIOMUX(27, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-enable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie1_perst_default: pcie1_perst_default {
+		perst-pins {
+			pinmux = <GPIOMUX(28, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie1_perst_active: pcie1_perst_active {
+		perst-pins {
+			pinmux = <GPIOMUX(28, GPOUT_LOW, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-disable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie1_wake_default: pcie1_wake_default {
+		wake-pins {
+			pinmux = <GPIOMUX(21, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-enable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
+
+	pcie1_clkreq_default: pcie1_clkreq_default {
+		clkreq-pins {
+			pinmux = <GPIOMUX(29, GPOUT_HIGH, GPOEN_ENABLE, GPI_NONE)>;
+			drive-strength = <2>;
+			input-enable;
+			input-schmitt-disable;
+			slew-rate = <0>;
+		};
+	};
 };
 
 &sdio0 {
@@ -248,6 +328,24 @@
 
 &usbdrd_cdns3 {
 	dr_mode = "host";
+};
+
+&pcie0 {
+	pinctrl-names = "perst-default", "perst-active", "wake-default", "clkreq-default";
+	pinctrl-0 = <&pcie0_perst_default>;
+	pinctrl-1 = <&pcie0_perst_active>;
+	pinctrl-2 = <&pcie0_wake_default>;
+	pinctrl-3 = <&pcie0_clkreq_default>;
+	status = "disabled";
+};
+
+&pcie1 {
+	pinctrl-names = "perst-default", "perst-active", "wake-default", "clkreq-default";
+	pinctrl-0 = <&pcie1_perst_default>;
+	pinctrl-1 = <&pcie1_perst_active>;
+	pinctrl-2 = <&pcie1_wake_default>;
+	pinctrl-3 = <&pcie1_clkreq_default>;
+	status = "okay";
 };
 
 &timer {
