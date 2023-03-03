@@ -365,15 +365,10 @@ static int starfive_pcie_init_port(struct udevice *dev)
 		goto err_deassert_clk;
 	}
 
-	ret = pinctrl_select_state(dev, "power-active");
-	if (ret) {
-		dev_err(dev, "Set power-acvtive pinctrl failed: %d\n", ret);
-		goto err_deassert_reset;
-	}
 	ret = pinctrl_select_state(dev, "perst-active");
 	if (ret) {
 		dev_err(dev, "Set perst-active pinctrl failed: %d\n", ret);
-		goto err_release_power_pin;
+		goto err_deassert_reset;
 	}
 
 	/* Disable physical functions except #0 */
@@ -440,8 +435,6 @@ static int starfive_pcie_init_port(struct udevice *dev)
 
 	return 0;
 
-err_release_power_pin:
-	pinctrl_select_state(dev, "power-default");
 err_deassert_reset:
 	reset_assert_bulk(&priv->rsts);
 err_deassert_clk:
