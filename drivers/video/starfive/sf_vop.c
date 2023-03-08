@@ -349,6 +349,9 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 	u32 remote_phandle;
 	ofnode remote;
 	const char *compat;
+	struct display_plat *disp_uc_plat;
+	debug("%s(%s, 0x%lx, %s)\n", __func__,
+			  dev_read_name(dev), fbbase, ofnode_get_name(ep_node));
 
 	struct udevice *panel = NULL;
 
@@ -361,6 +364,7 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 		return -EINVAL;
 	remote_vop_id = ofnode_read_u32_default(remote, "reg", -1);
 	uc_priv->bpix = VIDEO_BPP32;
+	debug("remote_vop_id  %d\n", remote_vop_id);
 
 	/*
 	 * The remote-endpoint references into a subnode of the encoder
@@ -388,14 +392,19 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 			      __func__, dev_read_name(dev));
 			return -EINVAL;
 		}
-
+		debug("%s(%s, 0x%lx,remote %s)\n", __func__,
+		  dev_read_name(dev), fbbase, ofnode_get_name(remote));
+		uclass_find_device_by_ofnode(UCLASS_DISPLAY, remote, &disp);
+		if (disp)
+			break;
 		uclass_find_device_by_ofnode(UCLASS_VIDEO_BRIDGE, remote, &disp);
 		if (disp)
 			break;
+
 	};
 	compat = ofnode_get_property(remote, "compatible", NULL);
 	if (!compat) {
-		printf("%s(%s): Failed to find compatible property\n",
+		debug("%s(%s): Failed to find compatible property\n",
 		      __func__, dev_read_name(dev));
 		return -EINVAL;
 	}
@@ -410,24 +419,111 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 	} else if (strstr(compat, "lvds")) {
 		vop_id = VOP_MODE_LVDS;
 	} else {
-		printf("%s(%s): Failed to find vop mode for %s\n",
+		debug("%s(%s): Failed to find vop mode for %s\n",
 		      __func__, dev_read_name(dev), compat);
 		return -EINVAL;
 	}
 
-	ret = device_probe(disp);
-	if (ret) {
-		printf("%s: device '%s' display won't probe (ret=%d)\n",
-		      __func__, dev->name, ret);
-		return ret;
+	debug("vop_id  %d,compat = %s\n", vop_id,compat);
+	if(vop_id == VOP_MODE_HDMI)
+	{
+		disp_uc_plat = dev_get_uclass_plat(disp);
+		debug("Found device '%s', disp_uc_priv=%p\n", disp->name, disp_uc_plat);
+
+
+		disp_uc_plat->source_id = remote_vop_id;
+		disp_uc_plat->src_dev = dev;
+
+		ret = device_probe(disp);
+		if (ret) {
+			debug("%s: device '%s' display won't probe (ret=%d)\n",
+			  __func__, dev->name, ret);
+			return ret;
+		}
+
+		ret = display_enable(disp, 1 << VIDEO_BPP32, &timing);
+		if (ret) {
+			debug("%s: Failed to read timings\n", __func__);
+			return ret;
+		}
+		int err = clk_set_parent(&priv->dc_pix0, &priv->dc_pix_src);
+		if (err) {
+			debug("failed to set %s clock as %s's parent\n",
+				priv->dc_pix_src.dev->name, priv->dc_pix0.dev->name);
+			return err;
+		}
+
+		ulong new_rate = clk_set_rate(&priv->dc_pix_src, 148500000);
+		debug("new_rate  %ld\n", new_rate);
+
+		dc_hw_init(dev);
+
+		uc_priv->xsize = 1920;
+		uc_priv->ysize = 1080;
+
+		writel(0xc0001fff, priv->regs_hi+0x00000014);
+		writel(0x00002000, priv->regs_hi+0x00001cc0);
+		//writel(uc_plat->base+0x1fa400, priv->regs_hi+0x00001530);
+		writel(0x00000000, priv->regs_hi+0x00001800);
+		writel(0x00000000, priv->regs_hi+0x000024d8);
+		writel(0x021c0780, priv->regs_hi+0x000024e0);
+		writel(0x021c0780, priv->regs_hi+0x00001810);
+		writel(uc_plat->base, priv->regs_hi+0x00001400);
+		writel(0x00001e00, priv->regs_hi+0x00001408);
+		writel(0x00000f61, priv->regs_hi+0x00001ce8);
+		writel(0x00002042, priv->regs_hi+0x00002510);
+		writel(0x808a3156, priv->regs_hi+0x00002508);
+		writel(0x8008e1b2, priv->regs_hi+0x00002500);
+		writel(0x18000000, priv->regs_hi+0x00001518);
+		writel(0x00003000, priv->regs_hi+0x00001cc0);
+		writel(0x00060000, priv->regs_hi+0x00001540);
+		writel(0x00000001, priv->regs_hi+0x00002540);
+		writel(0x80060000, priv->regs_hi+0x00001540);
+		writel(0x00060000, priv->regs_hi+0x00001544);
+		writel(0x00000002, priv->regs_hi+0x00002544);
+		writel(0x80060000, priv->regs_hi+0x00001544);
+		writel(0x00060000, priv->regs_hi+0x00001548);
+		writel(0x0000000c, priv->regs_hi+0x00002548);
+		writel(0x80060000, priv->regs_hi+0x00001548);
+		writel(0x00060000, priv->regs_hi+0x0000154c);
+		writel(0x0000000d, priv->regs_hi+0x0000254c);
+		writel(0x80060000, priv->regs_hi+0x0000154c);
+		writel(0x00000001, priv->regs_hi+0x00002518);
+		writel(0x00000000, priv->regs_hi+0x00001a28);
+		writel(0x08980780, priv->regs_hi+0x00001430);
+		writel(0x440207d8, priv->regs_hi+0x00001438);
+		writel(0x04650438, priv->regs_hi+0x00001440);
+		writel(0x4220843c, priv->regs_hi+0x00001448);
+		writel(0x00000000, priv->regs_hi+0x000014b0);
+		writel(0x000000d2, priv->regs_hi+0x00001cd0);
+		writel(0x00000005, priv->regs_hi+0x000014b8);
+		writel(0x00000052, priv->regs_hi+0x000014d0);
+		writel(0xdeadbeef, priv->regs_hi+0x00001528);
+		writel(0x00001111, priv->regs_hi+0x00001418);
+		writel(0x00000000, priv->regs_hi+0x00001410);
+		writel(0x00000000, priv->regs_hi+0x00002518);
+		writel(0x00200024, priv->regs_hi+0x00001468);
+		writel(0x00000000, priv->regs_hi+0x00001484);
+		writel(0x00200024, priv->regs_hi+0x00001468);
+		writel(0x00000c24, priv->regs_hi+0x000024e8);
+		writel(0x00000000, priv->regs_hi+0x000024fc);
+		writel(0x00000c24, priv->regs_hi+0x000024e8);
+		writel(0x00000001, priv->regs_hi+0x00001ccc);
+		return 0;
 	}
-	debug("%s,vop_id = %d\n", __func__,vop_id);
 
 	if(vop_id == VOP_MODE_MIPI)
 	{
+		ret = device_probe(disp);
+		if (ret) {
+			debug("%s: device '%s' display won't probe (ret=%d)\n",
+				  __func__, dev->name, ret);
+			return ret;
+		}
+
 		ret = video_bridge_attach(disp);
 		if (ret) {
-			printf("fail to attach bridge\n");
+			debug("fail to attach bridge\n");
 			return ret;
 		}
 
@@ -440,7 +536,7 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 		ret = uclass_first_device_err(UCLASS_PANEL, &panel);
 		if (ret) {
 			if (ret != -ENODEV)
-				printf("panel device error %d\n", ret);
+				debug("panel device error %d\n", ret);
 			return ret;
 		}
 
@@ -449,14 +545,14 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 			ret = ofnode_decode_display_timing(dev_ofnode(panel),
 							   0, &timing);
 			if (ret) {
-				printf("decode display timing error %d\n", ret);
+				debug("decode display timing error %d\n", ret);
 				return ret;
 			}
 		}
 
 		int err = clk_set_parent(&priv->dc_pix0, &priv->dc_pix_src);
 		if (err) {
-			printf("failed to set %s clock as %s's parent\n",
+			debug("failed to set %s clock as %s's parent\n",
 				priv->dc_pix_src.dev->name, priv->dc_pix0.dev->name);
 			return err;
 		}
@@ -521,6 +617,7 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 		writel(0x00000000, priv->regs_hi+0x000024fc); //csr_reg
 		writel(0x00011b25, priv->regs_hi+0x000024e8); //csr_reg
 		writel(0x00000001, priv->regs_hi+0x00001ccc); //csr_reg
+		return 0;
 	}
 
 	return 0;
@@ -547,21 +644,12 @@ static int sf_vop_probe(struct udevice *dev)
 
 	vout_probe_resources_jh7110(dev);
 
-	/*
-	 * Try all the ports until we find one that works. In practice this
-	 * tries EDP first if available, then HDMI.
-	 *
-	 * Note that rockchip_vop_set_clk() always uses NPLL as the source
-	 * clock so it is currently not possible to use more than one display
-	 * device simultaneously.
-	 */
 	port = dev_read_subnode(dev, "port");
 	if (!ofnode_valid(port)) {
 		debug("%s(%s): 'port' subnode not found\n",
 		      __func__, dev_read_name(dev));
 		return -EINVAL;
 	}
-
 	for (node = ofnode_first_subnode(port);
 	     ofnode_valid(node);
 	     node = dev_read_next_subnode(node)) {
@@ -601,7 +689,7 @@ int sf_vop_bind(struct udevice *dev)
 
 	plat->size = 4 * (CONFIG_VIDEO_STARFIVE_MAX_XRES *
 			  CONFIG_VIDEO_STARFIVE_MAX_YRES);
-	printf("%s,%d,plat->size = %d\n",__func__,__LINE__,plat->size);
+	debug("%s,%d,plat->size = %d\n",__func__,__LINE__,plat->size);
 
 	return 0;
 }
