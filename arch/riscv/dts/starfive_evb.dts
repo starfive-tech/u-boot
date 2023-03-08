@@ -340,7 +340,6 @@
 
 
 &mipi_dsi0 {
-
 	status = "okay";
 	rockchip,panel = <&rm68200_panel>;
 	data-lanes-num = <1>;
@@ -365,6 +364,11 @@
 
 };
 
+&hdmi{
+	pinctrl-names = "default";
+	pinctrl-0 = <&hdmi_pins>;
+	status = "okay";
+};
 
 &i2c2 {
 	clock-frequency = <100000>;
