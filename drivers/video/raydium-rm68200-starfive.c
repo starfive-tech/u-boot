@@ -311,7 +311,7 @@ static int rm68200_panel_probe(struct udevice *dev)
 	   break;
 
 	   default:
-		   printf("Unknown Atmel firmware revision: 0x%02x\n", reg_value);
+		   debug("Unknown Atmel firmware revision: 0x%02x\n", reg_value);
 		   return -ENODEV;
 	}
 

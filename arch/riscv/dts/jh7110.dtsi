@@ -1335,38 +1335,20 @@
 					remote-endpoint = <&hdmi_in_vopb>;
 				};
 
-				vopb_out_lvds: endpoint@2 {
-					reg = <2>;
-					remote-endpoint = <&lvds_in_vopb>;
-				};
-
-				vopb_out_edp: endpoint@3 {
-					reg = <3>;
-					remote-endpoint = <&edp_in_vopb>;
-				};
-			};
-		};
-
-		edp: edp@29600000 {
-			compatible = "rockchip,rk3288-edp";
-			reg = <0x0 0x29600000 0x0 0x4000>;
-			status = "okay";
-			ports {
-				edp_in: port {
-					#address-cells = <1>;
-					#size-cells = <0>;
-					edp_in_vopb: endpoint@0 {
-						reg = <0>;
-						remote-endpoint = <&vopb_out_edp>;
-					};
-				};
 			};
 		};
 
 		hdmi: hdmi@29590000 {
-			compatible = "rockchip,rk3288-dw-hdmi";
+			compatible = "starfive,inno-hdmi";
 			reg = <0x0 0x29590000 0x0 0x4000>;
 			status = "okay";
+			clocks = <&clkvout JH7110_U0_HDMI_TX_CLK_SYS>,
+				 <&clkvout JH7110_U0_HDMI_TX_CLK_MCLK>,
+				 <&clkvout JH7110_U0_HDMI_TX_CLK_BCLK>;
+			clock-names = "sysclk", "mclk","bclk";
+			resets = <&rstgen RSTN_U0_HDMI_TX_HDMI>;
+			reset-names = "hdmi_tx";
+
 			ports {
 				hdmi_in: port {
 					#address-cells = <1>;
@@ -1374,25 +1356,6 @@
 					hdmi_in_vopb: endpoint@0 {
 						reg = <0>;
 						remote-endpoint = <&vopb_out_hdmi>;
-					};
-				};
-			};
-		};
-
-		lvds: lvds@ff96c000 {
-			compatible = "rockchip,rk3288-lvds";
-			reg = <0x0 0xff96c000 0x0 0x4000>;
-			status = "okay";
-			ports {
-				#address-cells = <1>;
-				#size-cells = <0>;
-				lvds_in: port@0 {
-					reg = <0>;
-					#address-cells = <1>;
-					#size-cells = <0>;
-					lvds_in_vopb: endpoint@0 {
-						reg = <0>;
-						remote-endpoint = <&vopb_out_lvds>;
 					};
 				};
 			};

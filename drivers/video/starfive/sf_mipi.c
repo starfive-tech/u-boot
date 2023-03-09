@@ -1,3 +1,5 @@
+#include <asm/gpio.h>
+#include <asm/io.h>
 #include <common.h>
 #include <clk.h>
 #include <display.h>
@@ -6,23 +8,21 @@
 #include <panel.h>
 #include <regmap.h>
 #include <syscon.h>
-#include <asm/gpio.h>
-#include <asm/io.h>
+
 #include <dm/uclass-internal.h>
 #include <linux/err.h>
 #include <linux/kernel.h>
-#include <video_bridge.h>
+#include <linux/delay.h>
+#include <linux/iopoll.h>
+#include <linux/err.h>
+#include <power/regulator.h>
 
+#include <video_bridge.h>
 #include <dsi_host.h>
 #include <mipi_dsi.h>
 #include <reset.h>
 #include <video.h>
 
-#include <linux/iopoll.h>
-#include <linux/err.h>
-#include <power/regulator.h>
-#include <regmap.h>
-#include <syscon.h>
 #include "sf_mipi.h"
 
 static inline u32 sf_dphy_get_reg(void __iomem * io_addr, u32 shift, u32 mask)
@@ -72,11 +72,6 @@ static void reset(int assert, void __iomem *phy_reg)
 	}
 }
 
-static inline void sys_delay(int cycles)
-{
-    while (cycles--);
-}
-
 int sys_mipi_dsi_set_ppi_txbyte_hs(int enable, void *priv_data)
 {
 	struct mipi_dsi_device *device = priv_data;
@@ -97,7 +92,7 @@ int sys_mipi_dsi_set_ppi_txbyte_hs(int enable, void *priv_data)
 			return ret;
 		}
 	}
-	sys_delay(100);
+	mdelay(100);
 	return 0;
 }
 
@@ -253,7 +248,7 @@ static int dsi_sf_attach(struct udevice *dev)
 
 	ret = uclass_first_device(UCLASS_PANEL, &priv->panel);
 	if (ret) {
-		printf("panel device error %d\n", ret);
+		debug("panel device error %d\n", ret);
 		return ret;
 	}
 	debug("%s,priv->panel->name = %s\n", __func__,priv->panel->name);
