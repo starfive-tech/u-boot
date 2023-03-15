@@ -430,6 +430,15 @@ config VIDEO_LCD_RAYDIUM_RM68200
 	Say Y here if you want to enable support for Raydium RM68200
 	720x1280 DSI video mode panel.
 
+config VIDEO_LCD_STARFIVE_SEEED
+	bool "seeed DSI LCD panel support"
+	depends on DM_VIDEO
+	select VIDEO_MIPI_DSI
+	default n
+	help
+	Say Y here if you want to enable support for seeed
+	800X480 DSI video mode panel.
+
 config VIDEO_LCD_SSD2828
 	bool "SSD2828 bridge chip"
 	default n
@@ -1012,5 +1021,7 @@ config VIDEO_VCXK
 	help
 	  This enables VCXK driver which can be used with VC2K, VC4K
 	  and VC8K devices on various boards from BuS Elektronik GmbH.
+
+source "drivers/video/starfive/Kconfig"
 
 endmenu
