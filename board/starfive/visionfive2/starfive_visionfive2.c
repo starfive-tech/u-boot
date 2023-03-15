@@ -17,6 +17,8 @@
 #include <misc.h>
 #include <linux/bitops.h>
 #include <asm/arch/gpio.h>
+#include <bmp_logo.h>
+#include <video.h>
 
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
@@ -437,6 +439,9 @@ int board_init(void)
 #ifdef CONFIG_BOARD_LATE_INIT
 int board_late_init(void)
 {
+	struct udevice *dev;
+	int ret;
+
 	get_boot_mode();
 
 	jh7110_gmac_init(get_chip_type(), get_board_type());
@@ -448,6 +453,15 @@ int board_late_init(void)
 	env_set_hex("memory_addr", gd->ram_base);
 	env_set_hex("memory_size", gd->ram_size);
 
+	ret = uclass_get_device(UCLASS_VIDEO, 0, &dev);
+	if (ret)
+		return ret;
+
+	ret = video_bmp_display(dev, (ulong)&bmp_logo_bitmap[0], 0, 0, false);
+	if (ret)
+		goto err;
+
+err:
 	return 0;
 }
 #endif
@@ -493,4 +507,3 @@ err:
 	return 0;
 }
 #endif
-
