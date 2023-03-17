@@ -19,6 +19,7 @@
 #include <asm/arch/gpio.h>
 #include <bmp_logo.h>
 #include <video.h>
+#include <splash.h>
 
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
@@ -457,7 +458,7 @@ int board_late_init(void)
 	if (ret)
 		return ret;
 
-	ret = video_bmp_display(dev, (ulong)&bmp_logo_bitmap[0], 0, 0, false);
+	ret = video_bmp_display(dev, (ulong)&bmp_logo_bitmap[0], BMP_ALIGN_CENTER, BMP_ALIGN_CENTER, true);
 	if (ret)
 		goto err;
 
