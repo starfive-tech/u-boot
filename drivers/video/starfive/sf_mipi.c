@@ -159,11 +159,11 @@ static void dsi_phy_post_set_mode(void *priv_data, unsigned long mode_flags)
 							CFG_L0_SWAP_SEL_SHIFT, CFG_L0_SWAP_SEL_MASK);//Lane setting
 			sf_dphy_set_reg(priv->phy_reg, 0x1,
 							CFG_L1_SWAP_SEL_SHIFT, CFG_L1_SWAP_SEL_MASK);
-			sf_dphy_set_reg(priv->phy_reg, 0x4,
-							CFG_L2_SWAP_SEL_SHIFT, CFG_L2_SWAP_SEL_MASK);
 			sf_dphy_set_reg(priv->phy_reg, 0x2,
-							CFG_L3_SWAP_SEL_SHIFT, CFG_L3_SWAP_SEL_MASK);
+							CFG_L2_SWAP_SEL_SHIFT, CFG_L2_SWAP_SEL_MASK);
 			sf_dphy_set_reg(priv->phy_reg, 0x3,
+							CFG_L3_SWAP_SEL_SHIFT, CFG_L3_SWAP_SEL_MASK);
+			sf_dphy_set_reg(priv->phy_reg, 0x4,
 							CFG_L4_SWAP_SEL_SHIFT, CFG_L4_SWAP_SEL_MASK);
 			//PLL setting
 			sf_dphy_set_reg(priv->phy_reg + 0x1c, 0x0,
