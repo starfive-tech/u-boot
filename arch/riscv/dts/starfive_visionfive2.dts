@@ -244,6 +244,62 @@
 			slew-rate = <0>;
 		};
 	};
+
+	i2c2_pins: i2c2-0 {
+		i2c-pins {
+			pinmux = <GPIOMUX(3, GPOUT_LOW,
+				  GPOEN_SYS_I2C2_CLK,
+				  GPI_SYS_I2C2_CLK)>,
+				 <GPIOMUX(2, GPOUT_LOW,
+				  GPOEN_SYS_I2C2_DATA,
+				  GPI_SYS_I2C2_DATA)>;
+			bias-disable; /* external pull-up */
+			input-enable;
+			input-schmitt-enable;
+		};
+	};
+
+	i2c5_pins: i2c5-0 {
+		i2c-pins {
+			pinmux = <GPIOMUX(19, GPOUT_LOW,
+				  GPOEN_SYS_I2C5_CLK,
+				  GPI_SYS_I2C5_CLK)>,
+				 <GPIOMUX(20, GPOUT_LOW,
+				  GPOEN_SYS_I2C5_DATA,
+				  GPI_SYS_I2C5_DATA)>;
+			bias-disable; /* external pull-up */
+			input-enable;
+			input-schmitt-enable;
+		};
+	};
+
+	hdmi_pins: hdmi-0 {
+		i2c-pins {
+			pinmux = <GPIOMUX(7, GPOUT_SYS_HDMI_DDC_SCL,
+				  GPOEN_SYS_HDMI_DDC_SCL,
+				  GPI_SYS_HDMI_DDC_SCL)>,
+				 <GPIOMUX(8, GPOUT_SYS_HDMI_DDC_SDA,
+				  GPOEN_SYS_HDMI_DDC_SDA,
+				  GPI_SYS_HDMI_DDC_SDA)>;
+			bias-pull-up;
+			input-enable;
+		};
+
+		cec-pins {
+			pinmux = <GPIOMUX(14, GPOUT_SYS_HDMI_CEC_SDA,
+				  GPOEN_SYS_HDMI_CEC_SDA,
+				  GPI_SYS_HDMI_CEC_SDA)>;
+			bias-pull-up;
+			input-enable;
+		};
+
+		hpd-pins {
+			pinmux = <GPIOMUX(15, GPOUT_LOW,
+				  GPOEN_DISABLE,
+				  GPI_SYS_HDMI_HPD)>;
+			input-enable;
+		};
+	};
 };
 
 &sdio0 {
@@ -312,9 +368,61 @@
 		pagesize = <16>;
 	};
 
-	pmic: axp15060_reg@36 {
-               compatible = "stf,axp15060-regulator";
-               reg = <0x36>;
+	pmic: jh7110_evb_reg@36 {
+		compatible = "starfive,jh7110-evb-regulator";
+		reg = <0x36>;
+
+		regulators {
+			hdmi_1p8: ldo1 {
+				regulator-name = "lp8733-ldo1";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
+				regulator-boot-on;
+				regulator-always-on;
+			};
+			mipitx_1p8: ldo2 {
+				regulator-name = "lp8733-ldo2";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
+				regulator-boot-on;
+				regulator-always-on;
+			};
+			mipirx_1p8: ldo3 {
+				regulator-name = "lp8733-ldo3";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
+				regulator-boot-on;
+				regulator-always-on;
+			};
+			hdmi_0p9: ldo4 {
+				regulator-name = "lp8733-ldo4";
+				regulator-min-microvolt = <900000>;
+				regulator-max-microvolt = <900000>;
+				regulator-boot-on;
+				regulator-always-on;
+			};
+			mipitx_0p9: ldo5 {
+				regulator-name = "lp8733-ldo5";
+				regulator-min-microvolt = <900000>;
+				regulator-max-microvolt = <900000>;
+				regulator-boot-on;
+				regulator-always-on;
+			};
+			mipirx_0p9: ldo6 {
+				regulator-name = "lp8733-ldo6";
+				regulator-min-microvolt = <900000>;
+				regulator-max-microvolt = <900000>;
+				regulator-boot-on;
+				regulator-always-on;
+			};
+			sdio_vdd: ldo7 {
+				regulator-name = "lp8733-ldo7";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-boot-on;
+				regulator-always-on;
+			};
+		};
 	};
 };
 
@@ -357,9 +465,60 @@
 };
 
 &clkvout {
-	status = "disabled";
+	status = "okay";
 };
 
 &pdm {
 	status = "disabled";
 };
+
+&mipi_dsi0 {
+	status = "okay";
+	rockchip,panel = <&rm68200_panel>;
+	data-lanes-num = <1>;
+	display-timings {
+		timing0 {
+		bits-per-pixel = <24>;
+		clock-frequency = <160000000>;
+		hfront-porch = <120>;
+		hsync-len = <20>;
+		hback-porch = <21>;
+		hactive = <1200>;
+		vfront-porch = <21>;
+		vsync-len = <3>;
+		vback-porch = <18>;
+		vactive = <1920>;
+		hsync-active = <0>;
+		vsync-active = <0>;
+		de-active = <1>;
+		pixelclk-active = <0>;
+		};
+	};
+
+};
+
+&hdmi{
+	pinctrl-names = "default";
+	pinctrl-0 = <&hdmi_pins>;
+	status = "okay";
+};
+
+&i2c2 {
+	clock-frequency = <100000>;
+	i2c-sda-hold-time-ns = <300>;
+	i2c-sda-falling-time-ns = <3000>;
+	i2c-scl-falling-time-ns = <3000>;
+	auto_calc_scl_lhcnt;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c2_pins>;
+	status = "okay";
+
+	rm68200_panel: rm68200_panel@45 {
+		compatible = "raydium,rm68200";
+		reg = <0x45>;
+
+	};
+
+
+};
+

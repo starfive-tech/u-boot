@@ -266,6 +266,14 @@ config DM_REGULATOR_LP873X
 	features for REGULATOR LP873X and the family of LP873X PMICs.
 	The driver implements get/set api for: value and enable.
 
+config DM_REGULATOR_STARFIVE
+	bool "Enable driver for STARFIVE PMIC regulators"
+        depends on PMIC_STARFIVE
+	---help---
+	This enables implementation of driver-model regulator uclass
+	features for REGULATOR LP873X and the family of LP873X PMICs.
+	The driver implements get/set api for: value and enable.
+
 config DM_REGULATOR_LP87565
 	bool "Enable driver for LP87565 PMIC regulators"
         depends on PMIC_LP87565

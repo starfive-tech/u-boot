@@ -708,6 +708,14 @@ static int jh7110_clk_init(struct udevice *dev)
 		starfive_clk_gate(priv->sys,
 			"u5_dw_i2c_clk_core", "osc",
 			SYS_OFFSET(JH7110_I2C5_CLK_CORE)));
+	/*i2c2*/
+	clk_dm(JH7110_I2C2_CLK_APB,
+		starfive_clk_gate(priv->sys,
+			"u2_dw_i2c_clk_apb", "apb0",
+			SYS_OFFSET(JH7110_I2C2_CLK_APB)));
+	clk_dm(JH7110_I2C2_CLK_CORE,
+		starfive_clk_fix_factor(priv->sys,
+			"u2_dw_i2c_clk_core", "u2_dw_i2c_clk_apb", 1, 1));
 
 	/*pcie0*/
 	clk_dm(JH7110_PCIE0_CLK_TL,

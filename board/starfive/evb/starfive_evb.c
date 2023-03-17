@@ -16,6 +16,9 @@
 #include <misc.h>
 #include <linux/bitops.h>
 #include <asm/arch/gpio.h>
+#include <bmp_logo.h>
+#include <video.h>
+#include <splash.h>
 
 enum chip_type_t {
 	CHIP_A = 0,
@@ -298,4 +301,22 @@ err:
 	return 0;
 }
 #endif
+
+int board_late_init(void)
+{
+	struct udevice *dev;
+	int ret;
+
+	ret = uclass_get_device(UCLASS_VIDEO, 0, &dev);
+	if (ret)
+		return ret;
+
+	ret = video_bmp_display(dev, (ulong)&bmp_logo_bitmap[0], BMP_ALIGN_CENTER, BMP_ALIGN_CENTER, true);
+	if (ret)
+		goto err;
+
+err:
+		return 0;
+
+}
 
