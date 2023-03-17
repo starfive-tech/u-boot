@@ -141,5 +141,11 @@
 #define memcpy_fromio(a, c, l)	memcpy((a), (c), (l))
 #define memcpy_toio(c, a, l)	memcpy((c), (a), (l))
 
-#endif /* _STARFIVE_VISIONFIVE_H */
+#define CONFIG_VIDEO_BMP_LOGO
+#define CONFIG_VIDEO_LOGO
+#define CONFIG_BMP_16BPP
+#define CONFIG_BMP_24BPP
+#define CONFIG_BMP_32BPP
+
+#endif /* _STARFIVE_EVB_H */
 
