@@ -247,10 +247,10 @@
 
 	i2c2_pins: i2c2-0 {
 		i2c-pins {
-			pinmux = <GPIOMUX(11, GPOUT_LOW,
+			pinmux = <GPIOMUX(3, GPOUT_LOW,
 				  GPOEN_SYS_I2C2_CLK,
 				  GPI_SYS_I2C2_CLK)>,
-				 <GPIOMUX(9, GPOUT_LOW,
+				 <GPIOMUX(2, GPOUT_LOW,
 				  GPOEN_SYS_I2C2_DATA,
 				  GPI_SYS_I2C2_DATA)>;
 			bias-disable; /* external pull-up */
@@ -368,9 +368,9 @@
 		pagesize = <16>;
 	};
 
-	pmic: jh7110_evb_reg@50 {
+	pmic: jh7110_evb_reg@36 {
 		compatible = "starfive,jh7110-evb-regulator";
-		reg = <0x50>;
+		reg = <0x36>;
 
 		regulators {
 			hdmi_1p8: ldo1 {
