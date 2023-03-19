@@ -53,9 +53,11 @@ enum board_type_t {
 
 
 enum cpu_voltage_type_t {
+	CPU_VOL_1020 = 0x0e,
 	CPU_VOL_1040 = 0xff,
 	CPU_VOL_1060 = 0xf0,
 	CPU_VOL_1080 = 0xf1,
+	CPU_VOL_1100 = 0xf2,
 };
 
 static void sys_reset_clear(ulong assert, ulong status, u32 rst)
@@ -310,13 +312,18 @@ static void get_cpu_voltage_type(struct udevice *dev)
 		printf("%s: error reading CPU vol from OTP\n", __func__);
 	else {
 		switch ((buf & 0xff)) {
+		case CPU_VOL_1100:
+			env_set("cpu_max_vol", "1100000");
+			break;
 		case CPU_VOL_1080:
 			env_set("cpu_max_vol", "1080000");
 			break;
 		case CPU_VOL_1060:
 			env_set("cpu_max_vol", "1060000");
 			break;
-		case CPU_VOL_1040:
+		case CPU_VOL_1020:
+			env_set("cpu_max_vol", "1020000");
+			break;
 		default:
 			env_set("cpu_max_vol", "1040000");
 			break;
