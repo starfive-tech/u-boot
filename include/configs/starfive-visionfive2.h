@@ -156,6 +156,7 @@
 		"fi;" \
 	"else "	\
                 "run visionfive2_mem_set;" \
+		"run cpu_vol_set;" \
                 "fatwrite mmc ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
 	"fi; \0"	\
 	"bootcmd_distro=" 	\
