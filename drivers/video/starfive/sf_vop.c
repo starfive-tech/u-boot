@@ -67,19 +67,6 @@ static int sf_vop_power(struct udevice *dev)
 		return ret;
 	}
 
-	ret = uclass_get_device_by_driver(UCLASS_PMIC,
-			  DM_DRIVER_GET(pmic_starfive), &dev_pmic);
-	if (ret) {
-		pr_err("failed to find PMIC: %d\n", ret);
-		return ret;
-	}
-
-	ret = pmic_clrsetbits(dev_pmic, POWER_SW_0_REG, 0x3f, 0x3f);
-	if (ret) {
-		pr_err("failed to update SD control register: %d", ret);
-		return ret;
-	}
-
 	return 0;
 }
 
