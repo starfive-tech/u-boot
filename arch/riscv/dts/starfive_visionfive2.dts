@@ -274,16 +274,7 @@
 	};
 
 	hdmi_pins: hdmi-0 {
-		i2c-pins {
-			pinmux = <GPIOMUX(7, GPOUT_SYS_HDMI_DDC_SCL,
-				  GPOEN_SYS_HDMI_DDC_SCL,
-				  GPI_SYS_HDMI_DDC_SCL)>,
-				 <GPIOMUX(8, GPOUT_SYS_HDMI_DDC_SDA,
-				  GPOEN_SYS_HDMI_DDC_SDA,
-				  GPI_SYS_HDMI_DDC_SDA)>;
-			bias-pull-up;
-			input-enable;
-		};
+
 
 		cec-pins {
 			pinmux = <GPIOMUX(14, GPOUT_SYS_HDMI_CEC_SDA,
