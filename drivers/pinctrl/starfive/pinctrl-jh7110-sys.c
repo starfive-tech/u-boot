@@ -376,10 +376,23 @@ const struct starfive_pinctrl_soc_info jh7110_sys_pinctrl_info = {
 
 static int jh7110_sys_pinctrl_probe(struct udevice *dev)
 {
+	u32 value;
+	int ret;
 	struct starfive_pinctrl_soc_info *info =
 		(struct starfive_pinctrl_soc_info *)dev_get_driver_data(dev);
+	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
 
-	return starfive_pinctrl_probe(dev, info);
+	ret = starfive_pinctrl_probe(dev, info);
+
+	/* Set up the usb controller overcurrent signal. */
+	if (!ret) {
+		value = readl(priv->base + JH7110_SYS_GPI);
+		value &= ~(0x7f << 16);
+		value |= BIT(16);
+		writel(value, priv->base + JH7110_SYS_GPI);
+	}
+
+	return ret;
 }
 
 static const struct udevice_id jh7110_sys_pinctrl_ids[] = {
