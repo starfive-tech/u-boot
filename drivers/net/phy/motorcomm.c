@@ -96,6 +96,8 @@ static const struct ytphy_reg_field ytphy_rxden_grp[] = {
 	{ "rxc_dly_en", 1, 8, 0x1 }
 };
 
+static int ytphy_of_config(struct phy_device *phydev);
+
 static int ytphy_read_ext(struct phy_device *phydev, u32 regnum)
 {
 	int ret;
@@ -194,6 +196,11 @@ static int ytphy_startup(struct phy_device *phydev)
 {
 	int retval;
 
+	/*set delay config*/
+	retval = ytphy_of_config(phydev);
+	if (retval < 0)
+		return retval;
+
 	retval = genphy_update_link(phydev);
 	if (retval)
 		return retval;
@@ -256,6 +263,7 @@ static int ytphy_of_config(struct phy_device *phydev)
 
 		cfg = ofnode_read_u32_default(node,
 			ytphy_rxtxd_grp[i].name, ~0);
+
 		cfg = (cfg != -1) ? cfg : ytphy_rxtxd_grp[i].dflt;
 
 		/*check the cfg overflow or not*/
@@ -369,10 +377,6 @@ static int yt8531_config(struct phy_device *phydev)
 	ret = 0;
 	genphy_config_aneg(phydev);
 
-	/*set delay config*/
-	ret = ytphy_of_config(phydev);
-	if (ret < 0)
-		return ret;
 	return 0;
 }
 
