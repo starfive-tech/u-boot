@@ -278,7 +278,7 @@ const struct pinctrl_ops starfive_pinctrl_ops = {
 static int starfive_gpio_direction_input(struct udevice *dev, unsigned int off)
 {
 	struct udevice *pdev = dev->parent;
-	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
+	struct starfive_pinctrl_priv *priv = dev_get_priv(pdev);
 	struct starfive_pinctrl_soc_info *info = priv->info;
 
 	/* enable input and schmitt trigger */
@@ -297,7 +297,7 @@ static int starfive_gpio_direction_output(struct udevice *dev,
 		unsigned int off, int val)
 {
 	struct udevice *pdev = dev->parent;
-	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
+	struct starfive_pinctrl_priv *priv = dev_get_priv(pdev);
 	struct starfive_pinctrl_soc_info *info = priv->info;
 
 	if (info->set_one_pinmux)
