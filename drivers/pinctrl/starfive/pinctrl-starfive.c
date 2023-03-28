@@ -275,6 +275,21 @@ const struct pinctrl_ops starfive_pinctrl_ops = {
 	.pinconf_set		= starfive_pinconf_set,
 };
 
+static int starfive_gpio_get_direction(struct udevice *dev, unsigned int off)
+{
+	struct udevice *pdev = dev->parent;
+	struct starfive_pinctrl_priv *priv = dev_get_priv(pdev);
+	struct starfive_pinctrl_soc_info *info = priv->info;
+
+	unsigned int offset = 4 * (off / 4);
+	unsigned int shift  = 8 * (off % 4);
+	u32 doen = readl(priv->base + info->doen_reg_base + offset);
+
+	doen = (doen >> shift) & info->doen_mask;
+
+	return doen == GPOEN_ENABLE ? GPIOF_OUTPUT : GPIOF_INPUT;
+}
+
 static int starfive_gpio_direction_input(struct udevice *dev, unsigned int off)
 {
 	struct udevice *pdev = dev->parent;
@@ -365,6 +380,7 @@ static int starfive_gpio_probe(struct udevice *dev)
 }
 
 static const struct dm_gpio_ops starfive_gpio_ops = {
+	.get_function = starfive_gpio_get_direction,
 	.direction_input = starfive_gpio_direction_input,
 	.direction_output = starfive_gpio_direction_output,
 	.get_value = starfive_gpio_get_value,
