@@ -204,6 +204,11 @@
 	"run visionfive2_mem_set;"		\
 	"run chipa_gmac_set; \0"		\
 
+#define VISIONFIVE2_BOOTENV_NVME	\
+	"nvmepart=3\0"			\
+	"devnvme=0\0"			\
+	"nvme_env=vf2_nvme_uEnv.txt\0"	\
+
 #define VISIONFIVE2_BOOTENV		\
 	"bootenv=uEnv.txt\0"		\
 	"testenv=vf2_uEnv.txt\0"	\
@@ -215,28 +220,37 @@
 	"ext4bootenv="			\
 		"ext4load mmc ${bootpart} ${loadaddr} ${bootdir}/${bootenv}\0"\
 	"importbootenv="		\
-		"echo Importing environment from mmc${devnum} ...; "	\
+		"echo Importing environment from ${devnum}/${devnvme} ...; "\
 		"env import -t ${loadaddr} ${filesize}\0"	\
 	"scan_mmc_dev="						\
 	"if test ${bootmode} = flash; then "			\
-		"if mmc dev ${devnum}; then "			\
-			"echo found device ${devnum};"		\
-		"else "						\
-			"setenv devnum 0;"			\
-			"mmc dev 0;"				\
+		"if pci enum; then "				\
+			"nvme scan; "				\
+			"echo pci enum ...;"			\
 		"fi; "						\
-	"fi; "							\
-	"echo bootmode ${bootmode} device ${devnum};\0"		\
+		"if nvme dev; then "				\
+			"setenv btpart ${devnvme}:${nvmepart};" \
+			"setenv load_vf2_env fatload nvme ${btpart} ${loadaddr} ${nvme_env};"	\
+		"else "						\
+			"if mmc dev ${devnum}; then "			\
+				"echo found device ${devnum};"		\
+			"else "						\
+				"setenv devnum 0;"			\
+				"mmc dev 0;"				\
+			"fi; "						\
+			"if mmc rescan; then " 				\
+				"run loadbootenv && run importbootenv; "\
+				"run ext4bootenv && run importbootenv; "\
+				"if test -n $uenvcmd; then "		\
+					"echo Running uenvcmd ...; "	\
+					"run uenvcmd; "			\
+				"fi; "					\
+			"fi; "						\
+		"fi; "							\
+	"fi; "								\
+	"echo bootmode ${bootmode} device ${devnum}/${devnvme};\0"	\
 	"mmcbootenv=run scan_mmc_dev; "				\
-		"setenv bootpart ${devnum}:${mmcpart}; " 	\
-		"if mmc rescan; then " 				\
-			"run loadbootenv && run importbootenv; "	\
-			"run ext4bootenv && run importbootenv; "	\
-			"if test -n $uenvcmd; then "		\
-				"echo Running uenvcmd ...; "	\
-				"run uenvcmd; "			\
-			"fi; "					\
-		"fi\0"						\
+	"setenv bootpart ${devnum}:${mmcpart};\0" 		\
 	"fdtfile=" CONFIG_DEFAULT_FDT_FILE "\0"
 
 #define CONFIG_EXTRA_ENV_SETTINGS			\
@@ -250,6 +264,7 @@
 	"pxefile_addr_r=0x45900000\0"			\
 	"ramdisk_addr_r=0x46100000\0"			\
 	VF2_DISTRO_BOOTENV				\
+	VISIONFIVE2_BOOTENV_NVME			\
 	VISIONFIVE2_BOOTENV				\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
