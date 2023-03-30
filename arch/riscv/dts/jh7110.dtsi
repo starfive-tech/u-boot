@@ -555,6 +555,7 @@
 			reg-names = "control";
 			interrupts = <91>;
 			interrupt-controller;
+			gpio-controller;
 			#gpio-cells = <2>;
 			ngpios = <64>;
 			status = "okay";
@@ -566,6 +567,7 @@
 			reg-names = "control";
 			interrupts = <90>;
 			interrupt-controller;
+			gpio-controller;
 			#gpio-cells = <2>;
 			ngpios = <4>;
 			status = "okay";
