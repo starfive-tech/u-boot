@@ -249,6 +249,7 @@
 	"script_size_f=0x1000\0"			\
 	"pxefile_addr_r=0x45900000\0"			\
 	"ramdisk_addr_r=0x46100000\0"			\
+	"fdtoverlay_addr_r=0x4f000000\0"		\
 	VF2_DISTRO_BOOTENV				\
 	VISIONFIVE2_BOOTENV				\
 	CHIPA_GMAC_SET					\
