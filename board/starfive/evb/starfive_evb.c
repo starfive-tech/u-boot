@@ -234,31 +234,9 @@ static void get_cpu_voltage_type(struct udevice *dev)
 }
 #endif
 
-/*enable U74-mc hart1~hart4 prefetcher*/
-static void enable_prefetcher(void)
-{
-	u32 hart;
-	u32 *reg;
-#define L2_PREFETCHER_BASE_ADDR	0x2030000
-#define L2_PREFETCHER_OFFSET	0x2000
-
-	/*hart1~hart4*/
-	for (hart = 1; hart < 5; hart++) {
-		reg = (u32 *)((u64)(L2_PREFETCHER_BASE_ADDR
-			+ hart*L2_PREFETCHER_OFFSET));
-
-		mb(); /* memory barrier */
-		setbits_le32(reg, 0x1);
-		mb(); /* memory barrier */
-	}
-}
-
 int board_init(void)
 {
 	enable_caches();
-
-	/*enable hart1-hart4 prefetcher*/
-	enable_prefetcher();
 
 	jh7110_timer_init();
 	jh7110_usb_init(true);
