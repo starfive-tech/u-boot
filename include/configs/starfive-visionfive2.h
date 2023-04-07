@@ -118,9 +118,15 @@
 	"cpu_vol_1100_set=" 			\
 	"fdt set /opp-table-0/opp-1500000000 opp-microvolt <1100000>;\0"
 
+#define CPU_VOL_1120_SET \
+	"cpu_vol_1120_set=" 			\
+	"fdt set /opp-table-0/opp-1500000000 opp-microvolt <1120000>;\0"
+
 #define CPU_VOL_SET	\
-	"cpu_vol_set="				\
-	"if test ${cpu_max_vol} = 1100000; then "	\
+	"cpu_vol_set="					\
+	"if test ${cpu_max_vol} = 1120000; then "	\
+		"run cpu_vol_1120_set;"			\
+	"elif test ${cpu_max_vol} = 1100000; then "	\
 		"run cpu_vol_1100_set;"			\
 	"elif test ${cpu_max_vol} = 1080000; then "	\
 		"run cpu_vol_1080_set;"			\
@@ -273,6 +279,7 @@
 	CPU_VOL_1060_SET				\
 	CPU_VOL_1080_SET				\
 	CPU_VOL_1100_SET				\
+	CPU_VOL_1120_SET				\
 	CPU_VOL_SET					\
 	CHIPA_SET_FORCE					\
 	VISIONFIVE2_MEM_SET				\
