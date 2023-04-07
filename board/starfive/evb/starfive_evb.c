@@ -27,12 +27,14 @@ enum chip_type_t {
 };
 
 enum cpu_voltage_type_t {
-	CPU_VOL_1020 = 0x0e,
-	CPU_VOL_1040 = 0xff,
-	CPU_VOL_1060 = 0xf0,
-	CPU_VOL_1080 = 0xf1,
-	CPU_VOL_1100 = 0xf2,
+	CPU_VOL_1020 = 0xef0,
+	CPU_VOL_1040 = 0xfff,
+	CPU_VOL_1060 = 0xff0,
+	CPU_VOL_1080 = 0xfe0,
+	CPU_VOL_1100 = 0xf80,
+	CPU_VOL_1120 = 0xf00,
 };
+#define CPU_VOL_MASK	0xfff
 
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
@@ -212,8 +214,10 @@ static void get_cpu_voltage_type(struct udevice *dev)
 	if (ret != sizeof(buf))
 		printf("%s: error reading CPU vol from OTP\n", __func__);
 	else {
-		buf = 0x0e;
-		switch ((buf & 0xff)) {
+		switch ((buf & CPU_VOL_MASK)) {
+		case CPU_VOL_1120:
+			env_set("cpu_max_vol", "1120000");
+			break;
 		case CPU_VOL_1100:
 			env_set("cpu_max_vol", "1100000");
 			break;
