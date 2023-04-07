@@ -71,6 +71,16 @@
 	};
 };
 
+&cachectrl {
+	reg = <0x0 0x2010000 0x0 0x4000>,
+	      <0x0 0x2030000 0x0 0x80000>,
+	      <0x0 0x8000000 0x0 0x2000000>;
+	reg-names = "control", "prefetcher", "sideband";
+	prefetch-dist-size = <0x4>;
+	prefetch-hart-mask = <0x1e>;
+	prefetch-enable;
+};
+
 &uart0 {
 	clock-frequency = <24000000>;
 	current-speed = <115200>;

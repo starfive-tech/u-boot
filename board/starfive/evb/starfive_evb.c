@@ -27,12 +27,14 @@ enum chip_type_t {
 };
 
 enum cpu_voltage_type_t {
-	CPU_VOL_1020 = 0x0e,
-	CPU_VOL_1040 = 0xff,
-	CPU_VOL_1060 = 0xf0,
-	CPU_VOL_1080 = 0xf1,
-	CPU_VOL_1100 = 0xf2,
+	CPU_VOL_1020 = 0xef0,
+	CPU_VOL_1040 = 0xfff,
+	CPU_VOL_1060 = 0xff0,
+	CPU_VOL_1080 = 0xfe0,
+	CPU_VOL_1100 = 0xf80,
+	CPU_VOL_1120 = 0xf00,
 };
+#define CPU_VOL_MASK	0xfff
 
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
@@ -212,8 +214,10 @@ static void get_cpu_voltage_type(struct udevice *dev)
 	if (ret != sizeof(buf))
 		printf("%s: error reading CPU vol from OTP\n", __func__);
 	else {
-		buf = 0x0e;
-		switch ((buf & 0xff)) {
+		switch ((buf & CPU_VOL_MASK)) {
+		case CPU_VOL_1120:
+			env_set("cpu_max_vol", "1120000");
+			break;
 		case CPU_VOL_1100:
 			env_set("cpu_max_vol", "1100000");
 			break;
@@ -234,31 +238,9 @@ static void get_cpu_voltage_type(struct udevice *dev)
 }
 #endif
 
-/*enable U74-mc hart1~hart4 prefetcher*/
-static void enable_prefetcher(void)
-{
-	u32 hart;
-	u32 *reg;
-#define L2_PREFETCHER_BASE_ADDR	0x2030000
-#define L2_PREFETCHER_OFFSET	0x2000
-
-	/*hart1~hart4*/
-	for (hart = 1; hart < 5; hart++) {
-		reg = (u32 *)((u64)(L2_PREFETCHER_BASE_ADDR
-			+ hart*L2_PREFETCHER_OFFSET));
-
-		mb(); /* memory barrier */
-		setbits_le32(reg, 0x1);
-		mb(); /* memory barrier */
-	}
-}
-
 int board_init(void)
 {
 	enable_caches();
-
-	/*enable hart1-hart4 prefetcher*/
-	enable_prefetcher();
 
 	jh7110_timer_init();
 	jh7110_usb_init(true);
