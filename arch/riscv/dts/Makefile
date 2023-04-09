@@ -12,7 +12,7 @@ dtb-$(CONFIG_JH_EVB_V1) += starfive_jh7100_evb.dtb
 dtb-$(CONFIG_JH_STARLIGHT) += starfive_jh7100_starlight.dtb
 dtb-$(CONFIG_JH_STARLIGHT) += jh7100-beaglev-starlight.dtb
 dtb-$(CONFIG_JH_STARLIGHT) += jh7100-beaglev-starlight-a1.dtb
-dtb-$(CONFIG_JH_STARLIGHT) += jh7100-visionfive.dtb
+dtb-$(CONFIG_JH_STARLIGHT) += jh7100-starfive-visionfive-v1.dtb
 endif
 
 include $(srctree)/scripts/Makefile.dts
