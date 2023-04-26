@@ -2,7 +2,7 @@
 /*
  * Pinctrl / GPIO driver for StarFive SoC
  *
- * Copyright (C) 2022 Shanghai StarFive Technology Co., Ltd.
+ * Copyright (C) 2022-2023 StarFive Technology Co., Ltd.
  *   Author: Lee Kuan Lim <kuanlim.lee@starfivetech.com>
  *   Author: Jianlong Huang <jianlong.huang@starfivetech.com>
  */

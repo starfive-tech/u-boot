@@ -2,7 +2,7 @@
 /**
  * cdns-starfive.c - Cadence USB Controller
  *
- * Copyright (C) 2022 Starfive, Inc.
+ * Copyright (C) 2022-2023 StarFive Technology Co., Ltd.
  * Author:	yanhong <yanhong.wang@starfivetech.com>
  */
 
