@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0+
 #
-# Copyright (C) 2021 Shanghai StarFive Technology Co., Ltd.
+# Copyright (C) 2022-2023 StarFive Technology Co., Ltd.
 #
 
 obj-y	:= starfive_evb.o

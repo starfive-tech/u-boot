@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0 OR MIT */
 /*
- * Copyright (C) 2022 Starfive, Inc.
+ * Copyright (C) 2022-2023 StarFive Technology Co., Ltd.
  * Author:	samin <samin.guo@starfivetech.com>
  *		yanhong <yanhong.wang@starfivetech.com>
  */
