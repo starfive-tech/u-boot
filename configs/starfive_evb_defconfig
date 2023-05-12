@@ -28,7 +28,7 @@ CONFIG_SPI_BOOT=y
 CONFIG_USE_BOOTARGS=y
 CONFIG_BOOTARGS="console=tty1 console=ttyS0,115200  debug rootwait  earlycon=sbi "
 CONFIG_USE_BOOTCOMMAND=y
-CONFIG_BOOTCOMMAND="fatload mmc 0:3 $kernel_addr_r jh7110_uEnv.txt; env import -t $kernel_addr_r $filesize;run boot2"
+CONFIG_BOOTCOMMAND="run mmcbootenv;run boot2"
 CONFIG_USE_PREBOOT=y
 CONFIG_PREBOOT="run chipa_set_uboot"
 CONFIG_LOG_MAX_LEVEL=4
