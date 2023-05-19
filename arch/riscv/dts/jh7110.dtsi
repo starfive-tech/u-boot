@@ -20,7 +20,7 @@
 		#size-cells = <0>;
 
 		cpu0: cpu@0 {
-			compatible = "sifive,u74-mc", "riscv";
+			compatible = "sifive,s7", "riscv";
 			reg = <0>;
 			d-cache-block-size = <64>;
 			d-cache-sets = <64>;
@@ -35,7 +35,7 @@
 			i-tlb-size = <40>;
 			mmu-type = "riscv,sv39";
 			next-level-cache = <&cachectrl>;
-			riscv,isa = "rv64imacu";
+			riscv,isa = "rv64imacu_zba_zbb";
 			tlb-split;
 			status = "disabled";
 
@@ -62,7 +62,7 @@
 			i-tlb-size = <40>;
 			mmu-type = "riscv,sv39";
 			next-level-cache = <&cachectrl>;
-			riscv,isa = "rv64imafdcbsux";
+			riscv,isa = "rv64imafdcbsux_zba_zbb";
 			tlb-split;
 			status = "okay";
 
@@ -89,7 +89,7 @@
 			i-tlb-size = <40>;
 			mmu-type = "riscv,sv39";
 			next-level-cache = <&cachectrl>;
-			riscv,isa = "rv64imafdcbsux";
+			riscv,isa = "rv64imafdcbsux_zba_zbb";
 			tlb-split;
 			status = "okay";
 
@@ -116,7 +116,7 @@
 			i-tlb-size = <40>;
 			mmu-type = "riscv,sv39";
 			next-level-cache = <&cachectrl>;
-			riscv,isa = "rv64imafdcbsux";
+			riscv,isa = "rv64imafdcbsux_zba_zbb";
 			tlb-split;
 			status = "okay";
 
@@ -143,7 +143,7 @@
 			i-tlb-size = <40>;
 			mmu-type = "riscv,sv39";
 			next-level-cache = <&cachectrl>;
-			riscv,isa = "rv64imafdcbsux";
+			riscv,isa = "rv64imafdcbsux_zba_zbb";
 			tlb-split;
 			status = "okay";
 
