@@ -110,32 +110,33 @@
 	"cpu_vol_1060_set="			\
 	"fdt set /opp-table-0/opp-1500000000 opp-microvolt <1060000>;\0"
 
-#define CPU_VOL_1080_SET \
-	"cpu_vol_1080_set="			\
-	"fdt set /opp-table-0/opp-1500000000 opp-microvolt <1080000>;\0"
+#define CPU_SPEED_1250_SET \
+	"cpu_speed_1250_set="			\
+	"fdt rm /opp-table-0/opp-375000000;"	\
+	"fdt rm /opp-table-0/opp-500000000;"	\
+	"fdt rm /opp-table-0/opp-750000000;"	\
+	"fdt rm /opp-table-0/opp-1500000000;\0"
 
-#define CPU_VOL_1100_SET \
-	"cpu_vol_1100_set=" 			\
-	"fdt set /opp-table-0/opp-1500000000 opp-microvolt <1100000>;\0"
+#define CPU_SPEED_1500_SET \
+	"cpu_speed_1500_set="			\
+	"fdt rm /opp-table-0/opp-312500000;"	\
+	"fdt rm /opp-table-0/opp-417000000;"	\
+	"fdt rm /opp-table-0/opp-625000000;"	\
+	"fdt rm /opp-table-0/opp-1250000000;\0"
 
-#define CPU_VOL_1120_SET \
-	"cpu_vol_1120_set=" 			\
-	"fdt set /opp-table-0/opp-1500000000 opp-microvolt <1120000>;\0"
-
-#define CPU_VOL_SET	\
-	"cpu_vol_set="					\
-	"if test ${cpu_max_vol} = 1120000; then "	\
-		"run cpu_vol_1120_set;"			\
-	"elif test ${cpu_max_vol} = 1100000; then "	\
-		"run cpu_vol_1100_set;"			\
-	"elif test ${cpu_max_vol} = 1080000; then "	\
-		"run cpu_vol_1080_set;"			\
-	"elif test ${cpu_max_vol} = 1060000; then "	\
-		"run cpu_vol_1060_set;"			\
-	"elif test ${cpu_max_vol} = 1020000; then "	\
-		"run cpu_vol_1020_set;"			\
-	"else "						\
-		"run cpu_vol_1040_set;"			\
+#define CPU_FREQ_VOL_SET \
+	"cpu_vol_set="						\
+	"if test ${cpu_max_vol} = 1000000; then "		\
+		"run cpu_speed_1250_set; "			\
+	"else "							\
+		"run cpu_speed_1500_set; "			\
+		"if test ${cpu_max_vol} = 1060000; then "	\
+			"run cpu_vol_1060_set; "		\
+		"elif test ${cpu_max_vol} = 1020000; then "	\
+			"run cpu_vol_1020_set; "		\
+		"else "						\
+			"run cpu_vol_1040_set; "		\
+		"fi; "						\
 	"fi; \0"
 
 #define VF2_DISTRO_BOOTENV \
@@ -300,10 +301,9 @@
 	CPU_VOL_1020_SET				\
 	CPU_VOL_1040_SET				\
 	CPU_VOL_1060_SET				\
-	CPU_VOL_1080_SET				\
-	CPU_VOL_1100_SET				\
-	CPU_VOL_1120_SET				\
-	CPU_VOL_SET					\
+	CPU_SPEED_1250_SET				\
+	CPU_SPEED_1500_SET				\
+	CPU_FREQ_VOL_SET				\
 	CHIPA_SET_FORCE					\
 	VISIONFIVE2_MEM_SET				\
 	"type_guid_gpt_loader1=" TYPE_GUID_LOADER1 "\0" \
