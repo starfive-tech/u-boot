@@ -79,7 +79,7 @@ static struct ddr_reg_cfg ddr_start_cfg[] = {
 	{185,	0x80ffffff,	0x20000000,	REGCLRSETALL},
 	{10,	0xffffffe0,	0x00000002,	REGCLRSETALL},
 	{0,	0xfffffffe,	0x00000001,	REGCLRSETALL},
-	{11,	0xfffffff0,	0x00000005,	(F_CLRSET | REG2G)},
+	{11,	0xfffffff0,	0x00000005,	(F_CLRSET | REG1G | REG2G)},
 	{247,	0xffffffff,	0x00000008,	REGCLRSETALL},
 	{249,	0xffffffff,	0x00000800,	REGCLRSETALL},
 	{252,	0xffffffff,	0x00000008,	REGCLRSETALL},
@@ -92,10 +92,10 @@ static struct ddr_reg_cfg ddr_start_cfg[] = {
 	{313,	0xffffffff,	0x36000000,	(F_CLRSET | REG8G)},
 	{337,	0xffffffff,	0x36000000,	(F_CLRSET | REG8G)},
 	{361,	0xffffffff,	0x36000000,	(F_CLRSET | REG8G)},
-	{289,	0xffffffff,	0x66000000,	(F_CLRSET | REG2G | REG4G)},
-	{313,	0xffffffff,	0x66000000,	(F_CLRSET | REG2G | REG4G)},
-	{337,	0xffffffff,	0x66000000,	(F_CLRSET | REG2G | REG4G)},
-	{361,	0xffffffff,	0x66000000,	(F_CLRSET | REG2G | REG4G)},
+	{289,	0xffffffff,	0x66000000,	(F_CLRSET | REG1G | REG2G | REG4G)},
+	{313,	0xffffffff,	0x66000000,	(F_CLRSET | REG1G | REG2G | REG4G)},
+	{337,	0xffffffff,	0x66000000,	(F_CLRSET | REG1G | REG2G | REG4G)},
+	{361,	0xffffffff,	0x66000000,	(F_CLRSET | REG1G | REG2G | REG4G)},
 	{282,	0xffffffff,	0x00160000,	REGCLRSETALL},
 	{306,	0xffffffff,	0x00160000,	REGCLRSETALL},
 	{330,	0xffffffff,	0x00160000,	REGCLRSETALL},
@@ -162,7 +162,7 @@ static struct ddr_reg_cfg ddr_start_cfg[] = {
 	{1915,	0x0,		0xc3c37ff,	(OFFSET_SEL | REGSETALL)},
 	{1916,	0x0,		0x1fffff10,	(OFFSET_SEL | REGSETALL)},
 	{1917,	0x0,		0x230070,	(OFFSET_SEL | REGSETALL)},
-	{1918,	0x0,		0x3ff7ffff,	(OFFSET_SEL | REG4G | REG2G | F_SET)},
+	{1918,	0x0,		0x3ff7ffff,	(OFFSET_SEL | REG4G | REG1G | REG2G | F_SET)},
 	{1918,	0x0,		0x3ff7ffff,	(OFFSET_SEL | REG8G | F_SET)},
 	{1919,	0x0,		0xe10,		(OFFSET_SEL | REGSETALL)},
 	{1920,	0x0,		0x1fffffff,	(OFFSET_SEL | REGSETALL)},
@@ -186,9 +186,9 @@ static struct ddr_reg_cfg ddr_start_cfg[] = {
 	{333,	0xffff0000,	0xff8f,		(OFFSET_SEL | REGCLRSETALL)},
 	{589,	0xffff0000,	0xff8f,		(OFFSET_SEL | REGCLRSETALL)},
 	{845,	0xffff0000,	0xff8f,		(OFFSET_SEL | REGCLRSETALL)},
-	{1062,	0xffffff00,	0xff,		(OFFSET_SEL | REG4G | REG2G | F_CLRSET)},
-	{1318,	0xffffff00,	0xff,		(OFFSET_SEL | REG4G | REG2G | F_CLRSET)},
-	{1574,	0xffffff00,	0xff,		(OFFSET_SEL | REG4G | REG2G | F_CLRSET)},
+	{1062,	0xffffff00,	0xff,		(OFFSET_SEL | REG4G | REG1G | REG2G | F_CLRSET)},
+	{1318,	0xffffff00,	0xff,		(OFFSET_SEL | REG4G | REG1G | REG2G | F_CLRSET)},
+	{1574,	0xffffff00,	0xff,		(OFFSET_SEL | REG4G | REG1G | REG2G | F_CLRSET)},
 	{1062,	0xffffff00,	0xfb,		(OFFSET_SEL | REG8G | F_CLRSET)},
 	{1318,	0xffffff00,	0xfb,		(OFFSET_SEL | REG8G | F_CLRSET)},
 	{1574,	0xffffff00,	0xfb,		(OFFSET_SEL | REG8G | F_CLRSET)},
@@ -256,6 +256,10 @@ void ddr_phy_start(u32 *phyreg, enum ddr_size_t size)
 	u32 mask;
 
 	switch (size) {
+	case DDR_SIZE_1G:
+		mask = REG1G;
+		break;
+
 	case DDR_SIZE_2G:
 		mask = REG2G;
 		break;
