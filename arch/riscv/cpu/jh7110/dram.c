@@ -18,6 +18,7 @@ DECLARE_GLOBAL_DATA_PTR;
 static bool check_eeprom_dram_info(phys_size_t size)
 {
 	switch (size) {
+	case 0x40000000:
 	case 0x80000000:
 	case 0x100000000:
 	case 0x200000000:

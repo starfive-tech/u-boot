@@ -27,13 +27,14 @@
 #define DDR_AXI_ENABLE		1
 
 #define OFFSET_SEL		BIT(31)
-#define REG2G			BIT(30)
-#define REG4G			BIT(29)
-#define REG8G			BIT(28)
+#define REG1G			BIT(30)
+#define REG2G			BIT(29)
+#define REG4G			BIT(28)
+#define REG8G			BIT(27)
 #define F_ADDSET		BIT(2)
 #define F_SET			BIT(1)
 #define F_CLRSET		BIT(0)
-#define REGALL			(REG2G | REG4G | REG8G)
+#define REGALL			(REG1G | REG2G | REG4G | REG8G)
 #define REGSETALL		(F_SET | REGALL)
 #define REGCLRSETALL		(F_CLRSET | REGALL)
 #define REGADDSETALL		(F_ADDSET | REGALL)
@@ -46,6 +47,7 @@ struct ddr_reg_cfg {
 };
 
 enum ddr_size_t {
+	DDR_SIZE_1G,
 	DDR_SIZE_2G,
 	DDR_SIZE_4G,
 	DDR_SIZE_8G,

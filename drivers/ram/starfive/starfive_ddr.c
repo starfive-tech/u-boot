@@ -38,6 +38,9 @@ static int starfive_ddr_setup(struct udevice *dev, struct starfive_ddr_priv *pri
 	enum ddr_size_t size;
 
 	switch (priv->info.size) {
+	case 0x40000000:
+		size = DDR_SIZE_1G;
+		break;
 	case 0x80000000:
 		size = DDR_SIZE_2G;
 		break;
@@ -121,7 +124,7 @@ static int starfive_ddr_probe(struct udevice *dev)
 	reset_deassert(&priv->rst_axi);
 
 	ret = starfive_ddr_setup(dev, priv);
-	printf("DDR version: dc2e84f0.\n");
+	printf("DDR: %ldG version: g8ad50857.\n", priv->info.size/1024/1024/1024);
 		goto init_end;
 err_osc:
 	reset_free(&priv->rst_osc);
