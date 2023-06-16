@@ -2,16 +2,19 @@
 /*
  * Copyright (C) 2018, Bin Meng <bmeng.cn@gmail.com>
  */
-
 #include <common.h>
-#include <asm/arch/eeprom.h>
 #include <fdtdec.h>
 #include <init.h>
 #include <linux/sizes.h>
 
-DECLARE_GLOBAL_DATA_PTR;
+#ifdef CONFIG_ID_EEPROM
+#include <asm/arch/eeprom.h>
 #define STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET	91
+#endif
 
+DECLARE_GLOBAL_DATA_PTR;
+
+#ifdef CONFIG_ID_EEPROM
 static bool check_eeprom_dram_info(phys_size_t size)
 {
 	switch (size) {
@@ -25,22 +28,15 @@ static bool check_eeprom_dram_info(phys_size_t size)
 	}
 }
 
-int dram_init(void)
+static void resize_ddr_from_eeprom(void)
 {
-	int ret;
-	u8 data;
-	u32 len;
-	u32 offset;
+	u32 offset = STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET;
 	phys_size_t size;
+	u32 len = 1;
+	u8 data = 0;
+	int ret;
 
-	data = 0;
-	len = 1;
-	offset = STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET; /*offset of memory size stored in eeprom*/
-	ret = fdtdec_setup_mem_size_base();
-	if (ret)
-		goto err;
-
-	/*read memory size info*/
+	/* read memory size info */
 	ret = get_data_from_eeprom(offset, len, &data);
 	if (ret == len) {
 		size = ((phys_size_t)hextoul(&data, NULL)) << 30;
@@ -48,9 +44,21 @@ int dram_init(void)
 			gd->ram_size = size;
 	}
 
-	ret = 0;
-err:
+}
+#endif /* CONFIG_ID_EEPROM */
+
+int dram_init(void)
+{
+	int ret;
+
+	ret = fdtdec_setup_mem_size_base();
+	if (ret)
 	return ret;
+
+#ifdef CONFIG_ID_EEPROM
+	resize_ddr_from_eeprom();
+#endif
+	return 0;
 }
 
 int dram_init_banksize(void)
