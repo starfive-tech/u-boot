@@ -177,12 +177,16 @@
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
 	"kernel_addr_r=0x40200000\0"			\
+	"kernel_comp_addr_r=0x5a000000\0"		\
+	"kernel_comp_size=0x4000000\0"			\
 	"fdt_addr_r=0x46000000\0"			\
 	"scriptaddr=0x43900000\0"			\
 	"script_offset_f=0x1fff000\0"			\
 	"script_size_f=0x1000\0"			\
 	"pxefile_addr_r=0x45900000\0"			\
 	"ramdisk_addr_r=0x46100000\0"			\
+	"fdtoverlay_addr_r=0x4f000000\0"		\
+	"loadaddr=0x60000000\0"				\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
 	EVB_BOOTENV_NVME				\
