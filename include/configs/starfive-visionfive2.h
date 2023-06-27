@@ -136,7 +136,6 @@
 
 #define VF2_DISTRO_BOOTENV \
 	"fatbootpart=1:3\0"	\
-	"distroloadaddr=0xb0000000\0"	\
 	"bootdev=mmc\0" \
 	"scan_boot_dev="                                        	\
 	"if test ${bootmode} = flash; then "                    	\
@@ -158,9 +157,9 @@
 		"fi; "                                                  \
 	"fi; \0"							\
 	"load_distro_uenv="						\
-	"fatload ${bootdev} ${devnum}:3 ${distroloadaddr} /${bootenv}; " \
+	"fatload ${bootdev} ${devnum}:3 ${loadaddr} /${bootenv}; " \
 	"setenv fatbootpart ${devnum}:3; " \
-	"env import ${distroloadaddr} 200; \0" \
+	"env import ${loadaddr} 200; \0" \
 	"fdt_loaddtb="	\
 	"fatload ${bootdev} ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
 	"fdt_sizecheck="	\
@@ -182,7 +181,7 @@
                 "fatwrite ${bootdev} ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
 	"fi; \0"	\
 	"bootcmd_distro=" 	\
-	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot ${bootdev} ${fatbootpart} fat c0000000 /${boot_syslinux_conf}; \0"	\
+	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot ${bootdev} ${fatbootpart} fat ${scriptaddr} /${boot_syslinux_conf}; \0"	\
 
 #define PARTS_DEFAULT							\
 	"name=loader1,start=17K,size=1M,type=${type_guid_gpt_loader1};" \
@@ -236,7 +235,6 @@
 	"testenv=vf2_uEnv.txt\0"	\
 	"bootdir=/boot\0"		\
 	"mmcpart=3\0"			\
-	"loadaddr=0x60000000\0"		\
 	"load_vf2_env=fatload mmc ${bootpart} ${loadaddr} ${testenv}\0"	\
 	"loadbootenv=fatload mmc ${bootpart} ${loadaddr} ${bootenv}\0"	\
 	"ext4bootenv="			\
@@ -288,6 +286,7 @@
 	"pxefile_addr_r=0x45900000\0"			\
 	"ramdisk_addr_r=0x46100000\0"			\
 	"fdtoverlay_addr_r=0x4f000000\0"		\
+	"loadaddr=0x60000000\0"				\
 	VF2_DISTRO_BOOTENV				\
 	VISIONFIVE2_BOOTENV_NVME			\
 	VISIONFIVE2_BOOTENV				\
