@@ -10,6 +10,7 @@
 #include <linux/sizes.h>
 
 DECLARE_GLOBAL_DATA_PTR;
+#define STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET	91
 
 static bool check_eeprom_dram_info(phys_size_t size)
 {
@@ -34,7 +35,7 @@ int dram_init(void)
 
 	data = 0;
 	len = 1;
-	offset = 91; /*offset of memory size stored in eeprom*/
+	offset = STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET; /*offset of memory size stored in eeprom*/
 	ret = fdtdec_setup_mem_size_base();
 	if (ret)
 		goto err;
