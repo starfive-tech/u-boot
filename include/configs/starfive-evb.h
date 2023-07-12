@@ -16,15 +16,14 @@
 #define CONFIG_SPL_MAX_SIZE		0x00040000
 #define CONFIG_SPL_BSS_START_ADDR	0x08040000
 #define CONFIG_SPL_BSS_MAX_SIZE		0x00010000
-#define CONFIG_SYS_SPL_MALLOC_START	(0x80000000)
+#define CONFIG_SYS_SPL_MALLOC_START	0x42000000
 #define CONFIG_SYS_SPL_MALLOC_SIZE	0x00800000
 
-#define CONFIG_SPL_STACK	(0x08000000 + 0x00180000 -	\
-				 GENERATED_GBL_DATA_SIZE)
+#define CONFIG_SPL_STACK		(0x08000000 + 0x00180000 - \
+					GENERATED_GBL_DATA_SIZE)
 
-#define STARFIVE_SPL_BOOT_LOAD_ADDR 0xa0000000
+#define STARFIVE_SPL_BOOT_LOAD_ADDR	0x60000000
 #endif
-
 
 #define CONFIG_SYS_CACHELINE_SIZE 64
 
@@ -32,7 +31,7 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_CBSIZE	1024	/* Console I/O Buffer Size */
-#define CONFIG_SYS_BOOTM_LEN (32 << 20) /* 32MB */
+#define CONFIG_SYS_BOOTM_LEN	SZ_64M
 
 /*
  * Print Buffer Size
@@ -56,19 +55,13 @@
  */
 #define CONFIG_SYS_MALLOC_LEN		SZ_8M
 
-#define CONFIG_NR_DRAM_BANKS	1
-
-#define PHYS_SDRAM_0		0x40000000	/* SDRAM Bank #1 */
-#define PHYS_SDRAM_0_SIZE	0x100000000	/* 8 GB */
-
-#define CONFIG_SYS_SDRAM_BASE	(PHYS_SDRAM_0)
-
+#define CONFIG_SYS_SDRAM_BASE		0x40000000
 
 /* Init Stack Pointer */
-#define CONFIG_SYS_INIT_SP_ADDR		(CONFIG_SYS_SDRAM_BASE + SZ_2M)
+#define CONFIG_SYS_INIT_SP_ADDR		(CONFIG_SYS_SDRAM_BASE + SZ_8M)
 
 #define CONFIG_SYS_LOAD_ADDR		(CONFIG_SYS_SDRAM_BASE + SZ_16M)
-#define CONFIG_STANDALONE_LOAD_ADDR	0x41000000
+#define CONFIG_STANDALONE_LOAD_ADDR	(CONFIG_SYS_SDRAM_BASE + SZ_16M)
 
 #define CONFIG_SYS_PCI_64BIT		/* enable 64-bit PCI resources */
 
@@ -184,12 +177,16 @@
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
 	"kernel_addr_r=0x40200000\0"			\
+	"kernel_comp_addr_r=0x5a000000\0"		\
+	"kernel_comp_size=0x4000000\0"			\
 	"fdt_addr_r=0x46000000\0"			\
 	"scriptaddr=0x43900000\0"			\
 	"script_offset_f=0x1fff000\0"			\
 	"script_size_f=0x1000\0"			\
 	"pxefile_addr_r=0x45900000\0"			\
 	"ramdisk_addr_r=0x46100000\0"			\
+	"fdtoverlay_addr_r=0x4f000000\0"		\
+	"loadaddr=0x60000000\0"				\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
 	EVB_BOOTENV_NVME				\
@@ -206,11 +203,6 @@
 	BOOTENV						\
 	BOOTENV_SF
 
-/*
- * memtest works on 1.9 MB in DRAM
- */
-#define CONFIG_SYS_MEMTEST_START	PHYS_SDRAM_0
-#define CONFIG_SYS_MEMTEST_END		(PHYS_SDRAM_0 + PHYS_SDRAM_0_SIZE)
 
 #define CONFIG_SYS_BAUDRATE_TABLE {9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600}
 #define CONFIG_SYS_LOADS_BAUD_CHANGE 1		/* allow baudrate change */
