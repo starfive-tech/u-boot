@@ -16,14 +16,16 @@
 #define CONFIG_SPL_MAX_SIZE		0x00040000
 #define CONFIG_SPL_BSS_START_ADDR	0x08040000
 #define CONFIG_SPL_BSS_MAX_SIZE		0x00010000
-#define CONFIG_SYS_SPL_MALLOC_START	(0x80000000)
+#define CONFIG_SYS_SPL_MALLOC_START	0x42000000
+
 #define CONFIG_SYS_SPL_MALLOC_SIZE	0x00800000
 
-#define CONFIG_SPL_STACK	(0x08000000 + 0x00180000 -	\
-				 GENERATED_GBL_DATA_SIZE)
-
-#define STARFIVE_SPL_BOOT_LOAD_ADDR 0xa0000000
+#define CONFIG_SPL_STACK		(0x08000000 + 0x00180000 - \
+					 GENERATED_GBL_DATA_SIZE)
+#define STARFIVE_SPL_BOOT_LOAD_ADDR	0x60000000
 #endif
+
+#define CONFIG_SYS_BOOTM_LEN            SZ_64M
 
 
 #define CONFIG_SYS_CACHELINE_SIZE 64
@@ -32,7 +34,6 @@
  * Miscellaneous configurable options
  */
 #define CONFIG_SYS_CBSIZE	1024	/* Console I/O Buffer Size */
-#define CONFIG_SYS_BOOTM_LEN (32 << 20) /* 32MB */
 
 /*
  * Print Buffer Size
@@ -56,19 +57,13 @@
  */
 #define CONFIG_SYS_MALLOC_LEN		SZ_8M
 
-#define CONFIG_NR_DRAM_BANKS	1
-
-#define PHYS_SDRAM_0		0x40000000	/* SDRAM Bank #1 */
-#define PHYS_SDRAM_0_SIZE	0x100000000	/* 8 GB */
-
-#define CONFIG_SYS_SDRAM_BASE	(PHYS_SDRAM_0)
-
+#define CONFIG_SYS_SDRAM_BASE		0x40000000
 
 /* Init Stack Pointer */
-#define CONFIG_SYS_INIT_SP_ADDR		(CONFIG_SYS_SDRAM_BASE + SZ_2M)
+#define CONFIG_SYS_INIT_SP_ADDR		(CONFIG_SYS_SDRAM_BASE + SZ_8M)
 
 #define CONFIG_SYS_LOAD_ADDR		(CONFIG_SYS_SDRAM_BASE + SZ_16M)
-#define CONFIG_STANDALONE_LOAD_ADDR	0x41000000
+#define CONFIG_STANDALONE_LOAD_ADDR	(CONFIG_SYS_SDRAM_BASE + SZ_16M)
 
 #define CONFIG_SYS_PCI_64BIT		/* enable 64-bit PCI resources */
 
@@ -141,7 +136,6 @@
 
 #define VF2_DISTRO_BOOTENV \
 	"fatbootpart=1:3\0"	\
-	"distroloadaddr=0xb0000000\0"	\
 	"bootdev=mmc\0" \
 	"scan_boot_dev="                                        	\
 	"if test ${bootmode} = flash; then "                    	\
@@ -163,9 +157,9 @@
 		"fi; "                                                  \
 	"fi; \0"							\
 	"load_distro_uenv="						\
-	"fatload ${bootdev} ${devnum}:3 ${distroloadaddr} /${bootenv}; " \
+	"fatload ${bootdev} ${devnum}:3 ${loadaddr} /${bootenv}; " \
 	"setenv fatbootpart ${devnum}:3; " \
-	"env import ${distroloadaddr} 200; \0" \
+	"env import ${loadaddr} 200; \0" \
 	"fdt_loaddtb="	\
 	"fatload ${bootdev} ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
 	"fdt_sizecheck="	\
@@ -187,7 +181,7 @@
                 "fatwrite ${bootdev} ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
 	"fi; \0"	\
 	"bootcmd_distro=" 	\
-	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot ${bootdev} ${fatbootpart} fat c0000000 /${boot_syslinux_conf}; \0"	\
+	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot ${bootdev} ${fatbootpart} fat ${scriptaddr} /${boot_syslinux_conf}; \0"	\
 
 #define PARTS_DEFAULT							\
 	"name=loader1,start=17K,size=1M,type=${type_guid_gpt_loader1};" \
@@ -241,7 +235,6 @@
 	"testenv=vf2_uEnv.txt\0"	\
 	"bootdir=/boot\0"		\
 	"mmcpart=3\0"			\
-	"loadaddr=0xa0000000\0"		\
 	"load_vf2_env=fatload mmc ${bootpart} ${loadaddr} ${testenv}\0"	\
 	"loadbootenv=fatload mmc ${bootpart} ${loadaddr} ${bootenv}\0"	\
 	"ext4bootenv="			\
@@ -284,8 +277,8 @@
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
 	"kernel_addr_r=0x40200000\0"			\
-	"kernel_comp_addr_r=0x90000000\0"		\
-	"kernel_comp_size=0x10000000\0"			\
+	"kernel_comp_addr_r=0x5a000000\0"		\
+	"kernel_comp_size=0x4000000\0"			\
 	"fdt_addr_r=0x46000000\0"			\
 	"scriptaddr=0x43900000\0"			\
 	"script_offset_f=0x1fff000\0"			\
@@ -293,6 +286,7 @@
 	"pxefile_addr_r=0x45900000\0"			\
 	"ramdisk_addr_r=0x46100000\0"			\
 	"fdtoverlay_addr_r=0x4f000000\0"		\
+	"loadaddr=0x60000000\0"				\
 	VF2_DISTRO_BOOTENV				\
 	VISIONFIVE2_BOOTENV_NVME			\
 	VISIONFIVE2_BOOTENV				\
@@ -312,12 +306,6 @@
 	"partitions=" PARTS_DEFAULT "\0"		\
 	BOOTENV						\
 	BOOTENV_SF
-
-/*
- * memtest works on 1.9 MB in DRAM
- */
-#define CONFIG_SYS_MEMTEST_START	PHYS_SDRAM_0
-#define CONFIG_SYS_MEMTEST_END		(PHYS_SDRAM_0 + PHYS_SDRAM_0_SIZE)
 
 #define CONFIG_SYS_BAUDRATE_TABLE {9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600}
 #define CONFIG_SYS_LOADS_BAUD_CHANGE 1		/* allow baudrate change */
