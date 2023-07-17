@@ -21,6 +21,19 @@
 
 #define PAGE_SIZE 4096
 
+static inline int __test_and_clear_bit_1(int nr, void *addr)
+{
+	int mask, retval;
+	unsigned int *a = (unsigned int *)addr;
+
+	a += nr >> 5;
+	mask = 1 << (nr & 0x1f);
+	retval = (mask & *a) != 0;
+	*a &= ~mask;
+
+	return retval;
+}
+
 static int dwmci_wait_reset(struct dwmci_host *host, u32 value)
 {
 	unsigned long timeout = 1000;
@@ -317,6 +330,9 @@ static int dwmci_send_cmd(struct mmc *mmc, struct mmc_cmd *cmd,
 	if (cmd->resp_type & MMC_RSP_CRC)
 		flags |= DWMCI_CMD_CHECK_CRC;
 
+	if (__test_and_clear_bit_1(DW_MMC_CARD_NEED_INIT, &host->flags))
+		flags |= DWMCI_CMD_SEND_INIT;
+
 	flags |= (cmd->cmdidx | DWMCI_CMD_START | DWMCI_CMD_USE_HOLD_REG);
 
 	debug("Sending CMD%d\n",cmd->cmdidx);
@@ -593,6 +609,8 @@ static int dwmci_init(struct mmc *mmc)
 		debug("%s[%d] Fail-reset!!\n", __func__, __LINE__);
 		return -EIO;
 	}
+
+	host->flags = 1 << DW_MMC_CARD_NEED_INIT;
 
 	/* Enumerate at 400KHz */
 	dwmci_setup_bus(host, mmc->cfg->f_min);

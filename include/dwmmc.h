@@ -92,6 +92,7 @@
 #define DWMCI_CMD_RW		(1 << 10)
 #define DWMCI_CMD_SEND_STOP	(1 << 12)
 #define DWMCI_CMD_ABORT_STOP	(1 << 14)
+#define DWMCI_CMD_SEND_INIT	(1 << 15)
 #define DWMCI_CMD_PRV_DAT_WAIT	(1 << 13)
 #define DWMCI_CMD_UPD_CLK	(1 << 21)
 #define DWMCI_CMD_USE_HOLD_REG	(1 << 29)
@@ -198,6 +199,14 @@ struct dwmci_host {
 
 	/* use fifo mode to read and write data */
 	bool fifo_mode;
+
+	/* Starfive: porting from kernel 5.15, fix mmc device power-up sequence */
+	unsigned int flags;
+#define DW_MMC_CARD_PRESENT	0
+#define DW_MMC_CARD_NEED_INIT	1
+#define DW_MMC_CARD_NO_LOW_PWR	2
+#define DW_MMC_CARD_NO_USE_HOLD 3
+#define DW_MMC_CARD_NEEDS_POLL	4
 };
 
 struct dwmci_idmac {
