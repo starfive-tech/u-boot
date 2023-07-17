@@ -49,6 +49,7 @@
 #define DWMCI_IDINTEN		0x090
 #define DWMCI_DSCADDR		0x094
 #define DWMCI_BUFADDR		0x098
+#define DWMCI_UHS_REG_EXT	0x108
 #define DWMCI_DATA		0x200
 
 /* Interrupt Mask register */

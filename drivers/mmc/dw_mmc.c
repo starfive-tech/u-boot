@@ -522,6 +522,64 @@ static int dwmci_set_ios(struct mmc *mmc)
 	return 0;
 }
 
+static void dw_mci_hs_set_bits(struct dwmci_host *host, u32 smpl_phase)
+{
+	/* change driver phase and sample phase */
+	u32 mask = 0x1f;
+	u32 reg_value;
+
+	reg_value = dwmci_readl(host, DWMCI_UHS_REG_EXT);
+
+	/* In UHS_REG_EXT, only 5 bits valid in DRV_PHASE and SMPL_PHASE */
+	reg_value &= ~(mask << 16);
+	reg_value |= (smpl_phase << 16);
+	dwmci_writel(host, DWMCI_UHS_REG_EXT, reg_value);
+
+	/* We should delay 1ms wait for timing setting finished. */
+	udelay(1000);
+}
+
+static int dwmci_execute_tuning(struct udevice *dev, uint opcode)
+{
+	struct mmc *mmc = mmc_get_mmc_dev(dev);
+	struct dwmci_host *host = mmc->priv;
+	int err = -1;
+	int smpl_phase, smpl_raise = -1, smpl_fall = -1;
+	int i;
+
+	for (i = 0; i < 32; ++i) {
+		smpl_phase = i;
+		dw_mci_hs_set_bits(host, smpl_phase);
+		dwmci_writel(host, DWMCI_RINTSTS, DWMCI_INTMSK_ALL);
+
+		err = mmc_send_tuning(mmc, opcode, NULL);
+
+		if (!err && smpl_raise < 0) {
+			smpl_raise = i;
+		} else if (err && smpl_raise >= 0) {
+			smpl_fall = i - 1;
+			break;
+		}
+	}
+
+	if (i >= 32 && smpl_raise >= 0)
+		smpl_fall = 31;
+
+	if (smpl_raise < 0) {
+		pr_err("No valid delay chain! use default\n");
+		dw_mci_hs_set_bits(host, 0);
+		err = -EINVAL;
+	} else {
+		smpl_phase = (smpl_raise + smpl_fall) / 2;
+		dw_mci_hs_set_bits(host, smpl_phase);
+		pr_debug("Found valid delay chain! use it [delay=%d]\n", smpl_phase);
+		err = 0;
+	}
+
+	dwmci_writel(host, DWMCI_RINTSTS, DWMCI_INTMSK_ALL);
+	return err;
+}
+
 static int dwmci_init(struct mmc *mmc)
 {
 	struct dwmci_host *host = mmc->priv;
@@ -577,6 +635,7 @@ int dwmci_probe(struct udevice *dev)
 const struct dm_mmc_ops dm_dwmci_ops = {
 	.send_cmd	= dwmci_send_cmd,
 	.set_ios	= dwmci_set_ios,
+	.execute_tuning = dwmci_execute_tuning,
 };
 
 #else
@@ -608,7 +667,7 @@ void dwmci_setup_cfg(struct mmc_config *cfg, struct dwmci_host *host,
 		cfg->host_caps |= MMC_MODE_4BIT;
 		cfg->host_caps &= ~MMC_MODE_8BIT;
 	}
-	cfg->host_caps |= MMC_MODE_HS | MMC_MODE_HS_52MHz;
+	cfg->host_caps |= MMC_MODE_HS_52MHz | MMC_MODE_HS200;
 
 	cfg->b_max = CONFIG_SYS_MMC_MAX_BLK_COUNT;
 }
