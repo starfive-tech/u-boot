@@ -66,6 +66,8 @@ struct sf_vop_priv {
 
 	struct reset_ctl rst_vout_src;
 	struct reset_ctl noc_disp;
+	bool   mipi_logo;
+	bool   hdmi_logo;
 };
 
 enum vop_features {
