@@ -54,6 +54,16 @@ enum ddr_size_t {
 	DDR_SIZE_16G,
 };
 
+enum ddr_type_t {
+	DDR_TYPE_LPDDR4,
+	DDR_TYPE_DDR4,
+	DDR_TYPE_LPDDR3,
+	DDR_TYPE_DDR3,
+	DDR_TYPE_UNKNOWN,
+};
+
+extern enum ddr_type_t starfive_ddr_type;
+
 void ddr_phy_train(u32 *phyreg);
 void ddr_phy_util(u32 *phyreg);
 void ddr_phy_start(u32 *phyreg, enum ddr_size_t size);
