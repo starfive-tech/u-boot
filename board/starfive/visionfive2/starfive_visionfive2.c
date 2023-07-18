@@ -490,3 +490,50 @@ err:
 	return 0;
 }
 #endif
+
+#ifdef CONFIG_ID_EEPROM
+
+#include <asm/arch/eeprom.h>
+#define STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET	91
+
+static bool check_eeprom_dram_info(ulong size)
+{
+	switch (size) {
+	case 1:
+	case 2:
+	case 4:
+	case 8:
+	case 16:
+		return true;
+	default:
+		return false;
+	}
+}
+
+static int resize_ddr_from_eeprom(void)
+{
+	ulong size;
+	u32 len = 1;
+	u8 data = 0;
+	int ret;
+
+	/* read memory size info */
+	ret = get_data_from_eeprom(STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET, len, &data);
+	if (ret == len) {
+		size = hextoul(&data, NULL);
+		if (check_eeprom_dram_info(size))
+			return size;
+	}
+	return 0;
+}
+#else
+static int resize_ddr_from_eeprom(void)
+{
+	return 0;
+}
+#endif /* CONFIG_ID_EEPROM */
+
+int board_ddr_size(void)
+{
+	return resize_ddr_from_eeprom();
+}
