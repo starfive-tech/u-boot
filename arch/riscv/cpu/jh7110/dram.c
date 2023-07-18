@@ -2,63 +2,33 @@
 /*
  * Copyright (C) 2018, Bin Meng <bmeng.cn@gmail.com>
  */
+
 #include <common.h>
 #include <fdtdec.h>
 #include <init.h>
 #include <linux/sizes.h>
 
-#ifdef CONFIG_ID_EEPROM
-#include <asm/arch/eeprom.h>
-#define STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET	91
-#endif
-
 DECLARE_GLOBAL_DATA_PTR;
 
-#ifdef CONFIG_ID_EEPROM
-static bool check_eeprom_dram_info(phys_size_t size)
+__weak int board_ddr_size(void)
 {
-	switch (size) {
-	case 0x40000000:
-	case 0x80000000:
-	case 0x100000000:
-	case 0x200000000:
-	case 0x400000000:
-		return true;
-	default:
-		return false;
-	}
+	return 0;
 }
-
-static void resize_ddr_from_eeprom(void)
-{
-	u32 offset = STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET;
-	phys_size_t size;
-	u32 len = 1;
-	u8 data = 0;
-	int ret;
-
-	/* read memory size info */
-	ret = get_data_from_eeprom(offset, len, &data);
-	if (ret == len) {
-		size = ((phys_size_t)hextoul(&data, NULL)) << 30;
-		if (check_eeprom_dram_info(size))
-			gd->ram_size = size;
-	}
-
-}
-#endif /* CONFIG_ID_EEPROM */
 
 int dram_init(void)
 {
 	int ret;
+	phys_size_t size;
 
 	ret = fdtdec_setup_mem_size_base();
 	if (ret)
-	return ret;
+		return ret;
 
-#ifdef CONFIG_ID_EEPROM
-	resize_ddr_from_eeprom();
-#endif
+	/* resize ddr size */
+	size = board_ddr_size();
+	if (size > 0)
+		gd->ram_size = size << 30;
+
 	return 0;
 }
 
