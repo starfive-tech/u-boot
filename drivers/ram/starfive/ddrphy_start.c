@@ -9,7 +9,116 @@
 
 #include "starfive_ddr.h"
 
-static struct ddr_reg_cfg ddr_start_cfg[] = {
+static struct ddr_reg_cfg ddr4_start_cfg[] = {
+	{67,	0xffe0ffff,	0x00010000,	REGCLRSETALL},
+	{67,	0xe0ffffff,	0x01000000,	REGCLRSETALL},
+	{179,	0xff80ffff,	0x001c0000,	REGCLRSETALL},
+	{179,	0x80ffffff,	0x1c000000,	REGCLRSETALL},
+	{182,	0xff80ffff,	0x001c0000,	REGCLRSETALL},
+	{182,	0x80ffffff,	0x1c000000,	REGCLRSETALL},
+	{185,	0xff80ffff,	0x001c0000,	REGCLRSETALL},
+	{185,	0x80ffffff,	0x1c000000,	REGCLRSETALL},
+	{0,	0xffffffff,	0x01,		REGCLRSETALL},
+	{11,	0xfffffff0,	0x1,		REGCLRSETALL},
+	{96,	0x0,		0x300,		(OFFSET_SEL | REGADDSETALL)},
+	{352,	0x0,		0x300,		(OFFSET_SEL | REGADDSETALL)},
+	{608,	0x0,		0x300,		(OFFSET_SEL | REGADDSETALL)},
+	{864,	0x0,		0x300,		(OFFSET_SEL | REGADDSETALL)},
+	{96,	0xff00ffff,	0x00120000,	(OFFSET_SEL | REGCLRSETALL)},
+	{352,	0xff00ffff,	0x00120000,	(OFFSET_SEL | REGCLRSETALL)},
+	{608,	0xff00ffff,	0x00120000,	(OFFSET_SEL | REGCLRSETALL)},
+	{864,	0xff00ffff,	0x00120000,	(OFFSET_SEL | REGCLRSETALL)},
+	{33,	0xffffff00,	0x0040,		(OFFSET_SEL | REGCLRSETALL)},
+	{289,	0xffffff00,	0x0040,		(OFFSET_SEL | REGCLRSETALL)},
+	{545,	0xffffff00,	0x0040,		(OFFSET_SEL | REGCLRSETALL)},
+	{801,	0xffffff00,	0x0040,		(OFFSET_SEL | REGCLRSETALL)},
+	{180,	0xffffffff,	0x0100,		REGCLRSETALL},
+	{183,	0xffffffff,	0x0100,		REGCLRSETALL},
+	{186,	0xffffffff,	0x0100,		REGCLRSETALL},
+	{83,	0xffc0ffff,	0x70000,	(OFFSET_SEL | REGCLRSETALL)},
+	{339,	0xffc0ffff,	0x70000,	(OFFSET_SEL | REGCLRSETALL)},
+	{595,	0xffc0ffff,	0x70000,	(OFFSET_SEL | REGCLRSETALL)},
+	{851,	0xffc0ffff,	0x70000,	(OFFSET_SEL | REGCLRSETALL)},
+	{1062,	0xf800ffff,	0x70000,	(OFFSET_SEL | REGCLRSETALL)},
+	{1318,	0xf800ffff,	0x70000,	(OFFSET_SEL | REGCLRSETALL)},
+	{1574,	0xf800ffff,	0x70000,	(OFFSET_SEL | REGCLRSETALL)},
+	{1892,	0xfffc0000,	0x0a287,	(OFFSET_SEL | REGCLRSETALL)},
+	{1864,	0xffffff00,	0x34,		(OFFSET_SEL | REGCLRSETALL)},
+	{1893,	0xfffc0000,	0x7,		(OFFSET_SEL | REGCLRSETALL)},
+	{1852,	0xffffe000,	0x058,		(OFFSET_SEL | REGCLRSETALL)},
+	{1822,	0xffffffff,	0xFF,		(OFFSET_SEL | REGCLRSETALL)},
+	{1896,	0xfffffc00,	0x02ca,		(OFFSET_SEL | REGCLRSETALL)},
+	{91,	0xfc00ffff,	0x02ed0000,	(OFFSET_SEL | REGCLRSETALL)},
+	{347,	0xfc00ffff,	0x02ed0000,	(OFFSET_SEL | REGCLRSETALL)},
+	{603,	0xfc00ffff,	0x02ed0000,	(OFFSET_SEL | REGCLRSETALL)},
+	{859,	0xfc00ffff,	0x02ed0000,	(OFFSET_SEL | REGCLRSETALL)},
+	{1912,	0x0,		0xcc2bfc7,	(OFFSET_SEL | REGSETALL)},
+	{1913,	0x0,		0xff8f,		(OFFSET_SEL | REGSETALL)},
+	{1914,	0x0,		0x33f077f,	(OFFSET_SEL | REGSETALL)},
+	{1915,	0x0,		0xc3c377f,	(OFFSET_SEL | REGSETALL)},
+	{1916,	0x0,		0x1fff7f30,	(OFFSET_SEL | REGSETALL)},
+	{1917,	0x0,		0x2ec010,	(OFFSET_SEL | REGSETALL)},
+	{1918,	0x0,		0x3fc77ffb,	(OFFSET_SEL | REGSETALL)},
+	{1919,	0x0,		0xe10,		(OFFSET_SEL | REGSETALL)},
+	{1920,	0x0,		0x1fff7fff,	(OFFSET_SEL | REGSETALL)},
+	{1921,	0x0,		0x188411,	(OFFSET_SEL | REGSETALL)},
+	{1922,	0x0,		0x1fff7fff,	(OFFSET_SEL | REGSETALL)},
+	{1923,	0x0,		0x180400,	(OFFSET_SEL | REGSETALL)},
+	{1924,	0x0,		0x1fff7fff,	(OFFSET_SEL | REGSETALL)},
+	{1925,	0x0,		0x180400,	(OFFSET_SEL | REGSETALL)},
+	{1926,	0x0,		0x07ff7ffb,	(OFFSET_SEL | REGSETALL)},
+	{1927,	0x0,		0x188400,	(OFFSET_SEL | REGSETALL)},
+	{1928,	0x0,		0x1fff7fff,	(OFFSET_SEL | REGSETALL)},
+	{1929,	0x0,		0x4188411,	(OFFSET_SEL | REGSETALL)},
+	{1837,	0x0,		0x24410,	(OFFSET_SEL | REGSETALL)},
+	{1840,	0x0,		0x24410,	(OFFSET_SEL | REGSETALL)},
+	{1842,	0x0,		0x2ffff,	(OFFSET_SEL | REGSETALL)},
+	{76,	0xff0000f8,	0x00f7ff07,	(OFFSET_SEL | REGCLRSETALL)},
+	{332,	0xff0000f8,	0x00f7ff07,	(OFFSET_SEL | REGCLRSETALL)},
+	{588,	0xff0000f8,	0x00f7ff07,	(OFFSET_SEL | REGCLRSETALL)},
+	{844,	0xff0000f8,	0x00f7ff07,	(OFFSET_SEL | REGCLRSETALL)},
+	{77,	0xffff0000,	0xfcff,		(OFFSET_SEL | REGCLRSETALL)},
+	{333,	0xffff0000,	0xfcff,		(OFFSET_SEL | REGCLRSETALL)},
+	{589,	0xffff0000,	0xfcff,		(OFFSET_SEL | REGCLRSETALL)},
+	{845,	0xffff0000,	0xfcff,		(OFFSET_SEL | REGCLRSETALL)},
+	{1062,	0xffffff00,	0xbb,		(OFFSET_SEL | REGCLRSETALL)},
+	{1318,	0xffffff00,	0xbb,		(OFFSET_SEL | REGCLRSETALL)},
+	{1574,	0xffffff00,	0xbb,		(OFFSET_SEL | REGCLRSETALL)},
+	{1028,	0xffffffff,	0x1000000,	(OFFSET_SEL | REGCLRSETALL)},
+	{1284,	0xffffffff,	0x1000000,	(OFFSET_SEL | REGCLRSETALL)},
+	{1540,	0xffffffff,	0x1000000,	(OFFSET_SEL | REGCLRSETALL)},
+	{1848,	0x0,		0x3cf07f8,	(OFFSET_SEL | REGSETALL)},
+	{1849,	0x0,		0x3f,		(OFFSET_SEL | REGSETALL)},
+	{1850,	0x0,		0x1dffff,	(OFFSET_SEL | REGSETALL)},
+	{1851,	0x0,		0x190000,	(OFFSET_SEL | REGSETALL)},
+	{130,	0x0000ffff,	0xffff0000,	(OFFSET_SEL | REGCLRSETALL)},
+	{386,	0x0000ffff,	0xffff0000,	(OFFSET_SEL | REGCLRSETALL)},
+	{642,	0x0000ffff,	0xffff0000,	(OFFSET_SEL | REGCLRSETALL)},
+	{898,	0x0000ffff,	0xffff0000,	(OFFSET_SEL | REGCLRSETALL)},
+	{131,	0xfffffff0,	0xf,		(OFFSET_SEL | REGCLRSETALL)},
+	{387,	0xfffffff0,	0xf,		(OFFSET_SEL | REGCLRSETALL)},
+	{643,	0xfffffff0,	0xf,		(OFFSET_SEL | REGCLRSETALL)},
+	{899,	0xfffffff0,	0xf,		(OFFSET_SEL | REGCLRSETALL)},
+	{29,	0xc0ffffff,	0x10000000,	(OFFSET_SEL | REGCLRSETALL)},
+	{285,	0xc0ffffff,	0x10000000,	(OFFSET_SEL | REGCLRSETALL)},
+	{541,	0xc0ffffff,	0x10000000,	(OFFSET_SEL | REGCLRSETALL)},
+	{797,	0xc0ffffff,	0x10000000,	(OFFSET_SEL | REGCLRSETALL)},
+	{30,	0xffffffff,	0x00080000,	(OFFSET_SEL | REGCLRSETALL)},
+	{286,	0xffffffff,	0x00080000,	(OFFSET_SEL | REGCLRSETALL)},
+	{542,	0xffffffff,	0x00080000,	(OFFSET_SEL | REGCLRSETALL)},
+	{798,	0xffffffff,	0x00080000,	(OFFSET_SEL | REGCLRSETALL)},
+	{31,	0xffffffc0,	0x00000010,	(OFFSET_SEL | REGCLRSETALL)},
+	{287,	0xffffffc0,	0x00000010,	(OFFSET_SEL | REGCLRSETALL)},
+	{543,	0xffffffc0,	0x00000010,	(OFFSET_SEL | REGCLRSETALL)},
+	{799,	0xffffffc0,	0x00000010,	(OFFSET_SEL | REGCLRSETALL)},
+	{1071,	0xfffffff0,	0x00000008,	(OFFSET_SEL | REGCLRSETALL)},
+	{1327,	0xfffffff0,	0x00000008,	(OFFSET_SEL | REGCLRSETALL)},
+	{1583,	0xfffffff0,	0x00000008,	(OFFSET_SEL | REGCLRSETALL)},
+	{1808,	0xfffffff0,	0x00000008,	(OFFSET_SEL | REGCLRSETALL)},
+	{1896,	0xfff0ffff,	0x00080000,	(OFFSET_SEL | REGCLRSETALL)},
+};
+
+static struct ddr_reg_cfg lpddr4_start_cfg[] = {
 	{89,	0xffffff00,	0x00000051,	(OFFSET_SEL | REGCLRSETALL)},
 	{78,	0xfffffcff,	0x0,		(OFFSET_SEL | REGCLRSETALL)},
 	{345,	0xffffff00,	0x00000051,	(OFFSET_SEL | REGCLRSETALL)},
@@ -254,6 +363,7 @@ void ddr_phy_start(u32 *phyreg, enum ddr_size_t size)
 {
 	u32 len;
 	u32 mask;
+	struct ddr_reg_cfg *data;
 
 	switch (size) {
 	case DDR_SIZE_1G:
@@ -277,7 +387,21 @@ void ddr_phy_start(u32 *phyreg, enum ddr_size_t size)
 		return;
 	};
 
-	len = sizeof(ddr_start_cfg) / sizeof(struct ddr_reg_cfg);
-	ddr_reg_set(phyreg, ddr_start_cfg, len, mask);
+	switch (starfive_ddr_type) {
+	case DDR_TYPE_DDR4:
+		len = sizeof(ddr4_start_cfg) / sizeof(struct ddr_reg_cfg);
+		data = ddr4_start_cfg;
+		break;
+	case DDR_TYPE_LPDDR4:
+		len = sizeof(lpddr4_start_cfg) / sizeof(struct ddr_reg_cfg);
+		data = lpddr4_start_cfg;
+		break;
+	case DDR_TYPE_LPDDR3:
+	case DDR_TYPE_DDR3:
+	default:
+		return;
+	}
+
+	ddr_reg_set(phyreg, data, len, mask);
 	out_le32(phyreg, 0x01);
 }

@@ -12,7 +12,100 @@
 
 #define REGOFFSET(offset)	((offset) / 4)
 
-static struct ddr_reg_cfg ddr_csr_cfg[] = {
+static struct ddr_reg_cfg ddr4_csr_cfg[] = {
+	{0x0,		0x0,	0x00000405,	REGSETALL},
+	{0xf00,		0x0,	0x40000010,	(OFFSET_SEL | REGSETALL)},
+	{0xf04,		0x0,	0x04800001,	(OFFSET_SEL | REGSETALL)},
+	{0xf10,		0x0,	0x00400000,	(OFFSET_SEL | REGSETALL)},
+	{0xf14,		0x0,	0x043fffff,	(OFFSET_SEL | REGSETALL)},
+	{0xf18,		0x0,	0x00000000,	(OFFSET_SEL | REGSETALL)},
+	{0xf30,		0x0,	0x1f001041,	(OFFSET_SEL | REGSETALL)},
+	{0x110,		0x0,	0xc0000001,	(OFFSET_SEL | REGSETALL)},
+	{0x114,		0x0,	0xffffffff,	(OFFSET_SEL | REGSETALL)},
+	{0x10c,		0x0,	0x00000f0f,	REGSETALL},
+	{0x11c,		0x0,	0x00000000,	REGSETALL},
+	{0x500,		0x0,	0x00000201,	REGSETALL},
+	{0x514,		0x0,	0x00000100,	REGSETALL},
+	{0x6a8,		0x0,	0x00040000,	REGSETALL},
+	{0xea8,		0x0,	0x00040000,	REGSETALL},
+	{0x504,		0x0,	0x40000000,	REGSETALL}
+};
+
+static struct ddr_reg_cfg ddr4_csr_cfg1[] = {
+	{0x310,		0x0,	0x00020000,	REGSETALL},
+	{0x310,		0x0,	0x00020001,	REGSETALL},
+	{0x600,		0x0,	0x00170176,	REGSETALL},
+	{0x604,		0x0,	0x000b00bb,	REGSETALL},
+	{0x608,		0x0,	0x0005005d,	REGSETALL},
+	{0x60c,		0x0,	0x0002002e,	REGSETALL},
+	{0x678,		0x0,	0x00000019,	REGSETALL},
+	{0x100,		0x0,	0x00000008,	REGSETALL},
+	{0x620,		0x0,	0x0b000f0f,	REGSETALL},
+	{0x624,		0x0,	0x06070b07,	REGSETALL},
+	{0x628,		0x0,	0x3123088f,	REGSETALL},
+	{0x62c,		0x0,	0x23160620,	REGSETALL},
+	{0x630,		0x0,	0x1900140f,	REGSETALL},
+	{0x634,		0x0,	0x800b0208,	REGSETALL},
+	{0x638,		0x0,	0x001c1c00,	REGSETALL},
+	{0x63c,		0x0,	0x1a000a06,	REGSETALL},
+	{0x640,		0x0,	0x025600ff,	REGSETALL},
+	{0x644,		0x0,	0x124b024b,	REGSETALL},
+	{0x648,		0x0,	0x40012000,	REGSETALL},
+	{0x64c,		0x0,	0x00082310,	REGSETALL},
+	{0x6c0,		0x0,	0x001b0706,	REGSETALL},
+	{0x6c4,		0x0,	0x0000181c,	REGSETALL},
+	{0x650,		0x0,	0x00000000,	REGSETALL},
+	{0x654,		0x0,	0x00000000,	REGSETALL},
+	{0x658,		0x0,	0x00000060,	REGSETALL},
+	{0x65c,		0x0,	0x00800200,	REGSETALL},
+	{0x660,		0x0,	0x00000000,	REGSETALL},
+	{0x680,		0x0,	0x0f000410,	REGSETALL},
+	{0x684,		0x0,	0x08000b03,	REGSETALL},
+	{0x688,		0x0,	0x04080415,	REGSETALL},
+	{0x68c,		0x0,	0x20002520,	REGSETALL},
+	{0x690,		0x0,	0x00140000,	REGSETALL},
+	{0x69c,		0x0,	0x01240074,	REGSETALL},
+	{0x6a0,		0x0,	0x00000000,	REGSETALL},
+	{0x6a4,		0x0,	0x20250c00,	REGSETALL},
+	{0x6a8,		0x0,	0x00040000,	REGSETALL},
+	{0x4,		0x0,	0x10030000,	REGSETALL},
+	{0xc,		0x0,	0x00000002,	REGSETALL},
+	{0x4,		0x0,	0x1006081e,	REGSETALL},
+	{0xc,		0x0,	0x00000002,	REGSETALL},
+	{0x4,		0x0,	0x10050441,	REGSETALL},
+	{0xc,		0x0,	0x00000002,	REGSETALL},
+	{0x4,		0x0,	0x10040000,	REGSETALL},
+	{0xc,		0x0,	0x00000002,	REGSETALL},
+	{0x4,		0x0,	0x10020010,	REGSETALL},
+	{0xc,		0x0,	0x00000002,	REGSETALL},
+	{0x4,		0x0,	0x10010001,	REGSETALL},
+	{0xc,		0x0,	0x00000002,	REGSETALL},
+	{0x4,		0x0,	0x10000734,	REGSETALL},
+	{0xc,		0x0,	0x00000002,	REGSETALL},
+	{0x10,		0x0,	0x00000011,	REGSETALL},
+	{0x14,		0x0,	0x00000001,	REGSETALL},
+};
+
+static struct ddr_reg_cfg ddr4_csr_cfg3[] = {
+	{0x410,		0x0,	0x00101010,	REGSETALL},
+	{0x420,		0x0,	0x0c181006,	REGSETALL},
+	{0x424,		0x0,	0x20200820,	REGSETALL},
+	{0x428,		0x0,	0x80000020,	REGSETALL},
+	{0x0,		0x0,	0x00000005,	REGSETALL},
+	{0x108,		0x0,	0x00001000,	REGSETALL},
+	{0x704,		0x0,	0x00000007,	REGSETALL | OFFSET_SEL},
+	{0x330,		0x0,	0x09311fff,	REGSETALL},
+	{0x508,		0x0,	0x00000003,	REGSETALL},
+	{0x324,		0x0,	0x00002000,	REGSETALL},
+	{0x104,		0x0,	0x80000000,	REGSETALL},
+	{0x510,		0x0,	0x00000100,	REGSETALL},
+	{0x514,		0x0,	0x00000000,	REGSETALL},
+	{0x700,		0x0,	0x00000003,	REGSETALL | OFFSET_SEL},
+	{0x514,		0x0,	0x00000600,	REGSETALL},
+	{0x20,		0x0,	0x00000001,	REGSETALL},
+};
+
+static struct ddr_reg_cfg lpddr4_csr_cfg[] = {
 	{0x0,		0x0,	0x00000001,	REGSETALL},
 	{0xf00,		0x0,	0x40001030,	(OFFSET_SEL | F_SET | REG4G | REG8G)},
 	{0xf00,		0x0,	0x40001010,	(OFFSET_SEL | F_SET | REG2G)},
@@ -36,7 +129,7 @@ static struct ddr_reg_cfg ddr_csr_cfg[] = {
 	{0x504,		0x0,	0x40000000,	REGSETALL}
 };
 
-static struct ddr_reg_cfg ddr_csr_cfg1[] = {
+static struct ddr_reg_cfg lpddr4_csr_cfg1[] = {
 	{0x310,		0x0,	0x00020000,	REGSETALL},
 	{0x310,		0x0,	0x00020001,	REGSETALL},
 	{0x600,		0x0,	0x002e0176,	REGSETALL},
@@ -126,7 +219,7 @@ static struct ddr_reg_cfg ddr_csr_cfg2[] = {
 	{0x2e8,		0xffffffff,		0x300,		REGCLRSETALL},
 };
 
-static struct ddr_reg_cfg ddr_csr_cfg3[] = {
+static struct ddr_reg_cfg lpddr4_csr_cfg3[] = {
 	{0x100,		0x0,	0x000000e0,	REGSETALL},
 	{0x620,		0x0,	0x04041417,	REGSETALL},
 	{0x624,		0x0,	0x09110609,	REGSETALL},
@@ -217,6 +310,8 @@ void ddrcsr_boot(u32 *csrreg, u32 *secreg, u32 *phyreg, enum ddr_size_t size)
 	u32 len;
 	u32 val;
 	u32 mask;
+	bool ddr4flag;
+	struct ddr_reg_cfg *data;
 
 	switch (size) {
 	case DDR_SIZE_1G:
@@ -240,8 +335,27 @@ void ddrcsr_boot(u32 *csrreg, u32 *secreg, u32 *phyreg, enum ddr_size_t size)
 		return;
 	};
 
-	len = sizeof(ddr_csr_cfg)/sizeof(struct ddr_reg_cfg);
-	ddr_csr_set(csrreg, secreg, ddr_csr_cfg, len, mask);
+	switch (starfive_ddr_type) {
+	case DDR_TYPE_DDR4:
+		ddr4flag = true;
+		break;
+	case DDR_TYPE_LPDDR4:
+		ddr4flag = false;
+		break;
+	case DDR_TYPE_LPDDR3:
+	case DDR_TYPE_DDR3:
+	default:
+		return;
+	}
+
+	if (ddr4flag) {
+		len = sizeof(ddr4_csr_cfg) / sizeof(struct ddr_reg_cfg);
+		data = ddr4_csr_cfg;
+	} else {
+		len = sizeof(lpddr4_csr_cfg) / sizeof(struct ddr_reg_cfg);
+		data = lpddr4_csr_cfg;
+	}
+	ddr_csr_set(csrreg, secreg, data, len, mask);
 
 	do {
 		udelay(1);
@@ -270,28 +384,34 @@ void ddrcsr_boot(u32 *csrreg, u32 *secreg, u32 *phyreg, enum ddr_size_t size)
 	out_le32(csrreg + REGOFFSET(0x14), 0x00000001);
 	udelay(4);
 
-	len = sizeof(ddr_csr_cfg1)/sizeof(struct ddr_reg_cfg);
-	ddr_csr_set(csrreg, secreg, ddr_csr_cfg1, len, mask);
+	if (ddr4flag) {
+		len = sizeof(ddr4_csr_cfg1) / sizeof(struct ddr_reg_cfg);
+		ddr_csr_set(csrreg, secreg, ddr4_csr_cfg1, len, mask);
+		udelay(1);
+	} else {
+		len = sizeof(lpddr4_csr_cfg1) / sizeof(struct ddr_reg_cfg);
+		ddr_csr_set(csrreg, secreg, lpddr4_csr_cfg1, len, mask);
 
-	udelay(4);
-	out_le32(csrreg + REGOFFSET(0x10), 0x00000011);
-	out_le32(csrreg + REGOFFSET(0x14), 0x00000001);
-
-	switch (size) {
-	case DDR_SIZE_4G:
-	case DDR_SIZE_8G:
-		out_le32(csrreg + REGOFFSET(0x10), 0x00000020);
-		out_le32(csrreg + REGOFFSET(0x14), 0x00000001);
 		udelay(4);
-		out_le32(csrreg + REGOFFSET(0x10), 0x00000021);
+		out_le32(csrreg + REGOFFSET(0x10), 0x00000011);
 		out_le32(csrreg + REGOFFSET(0x14), 0x00000001);
-		break;
-	case DDR_SIZE_1G:
-	case DDR_SIZE_2G:
-	case DDR_SIZE_16G:
-	default:
-		break;
-	};
+
+		switch (size) {
+		case DDR_SIZE_4G:
+		case DDR_SIZE_8G:
+			out_le32(csrreg + REGOFFSET(0x10), 0x00000020);
+			out_le32(csrreg + REGOFFSET(0x14), 0x00000001);
+			udelay(4);
+			out_le32(csrreg + REGOFFSET(0x10), 0x00000021);
+			out_le32(csrreg + REGOFFSET(0x14), 0x00000001);
+			break;
+		case DDR_SIZE_1G:
+		case DDR_SIZE_2G:
+		case DDR_SIZE_16G:
+		default:
+			break;
+		};
+	}
 	out_le32(csrreg + REGOFFSET(0x514), 0x00000000);
 
 	do {
@@ -299,41 +419,53 @@ void ddrcsr_boot(u32 *csrreg, u32 *secreg, u32 *phyreg, enum ddr_size_t size)
 		val = in_le32(csrreg + REGOFFSET(0x518));
 	} while ((val & 0x2) != 0x2);
 
-	val = in_le32(csrreg + REGOFFSET(0x518));
-	while ((val & 0x2) != 0x0) {
-		val = in_le32(phyreg + 1);
-		if ((val & 0x20) == 0x20) {
-			switch (val & 0x0000001f) {
-			case 0: //ddrc_clock=12M
-				DDR_REG_SET(BUS, DDR_BUS_OSC_DIV2);
-				break;
-			case 1: //ddrc_clock=200M
-				DDR_REG_SET(BUS, DDR_BUS_PLL1_DIV8);
-				break;
-			case 2: //ddrc_clock=800M
-				DDR_REG_SET(BUS, DDR_BUS_PLL1_DIV2);
-				break;
-			default:
-				break;
-			};
-
-			out_le32((phyreg + 2), 0x1);
-			do {
-				udelay(2);
-				val = in_le32(phyreg + 2);
-			} while ((val & 0x00000001) != 0x00000000);
-		}
-		udelay(1);
+	if (ddr4flag) {
+		do {
+			udelay(1);
+			val = in_le32(csrreg + REGOFFSET(0x518));
+		} while (val & 0x2);
+	} else {
 		val = in_le32(csrreg + REGOFFSET(0x518));
-	};
+		while (val & 0x2) {
+			val = in_le32(phyreg + 1);
+			if (val & 0x20) {
+				switch (val & 0x0000001f) {
+				case 0: //ddrc_clock=12M
+					DDR_REG_SET(BUS, DDR_BUS_OSC_DIV2);
+					break;
+				case 1: //ddrc_clock=200M
+					DDR_REG_SET(BUS, DDR_BUS_PLL1_DIV8);
+					break;
+				case 2: //ddrc_clock=800M
+					DDR_REG_SET(BUS, DDR_BUS_PLL1_DIV2);
+					break;
+				default:
+					break;
+				};
 
+				out_le32((phyreg + 2), 0x1);
+				do {
+					udelay(2);
+					val = in_le32(phyreg + 2);
+				} while ((val & 0x00000001) != 0x00000000);
+			}
+			udelay(1);
+			val = in_le32(csrreg + REGOFFSET(0x518));
+		};
+	}
 	val = in_le32(phyreg + 2048 + 83);
 	val = in_le32(phyreg + 2048 + 84);
 	out_le32((phyreg + 2048 + 84), val & 0xF8000000);
 
-	len = sizeof(ddr_csr_cfg2)/sizeof(struct ddr_reg_cfg);
+	len = sizeof(ddr_csr_cfg2) / sizeof(struct ddr_reg_cfg);
 	ddr_csr_set((phyreg + PHY_BASE_ADDR), secreg, ddr_csr_cfg2, len, mask);
 
-	len = sizeof(ddr_csr_cfg3)/sizeof(struct ddr_reg_cfg);
-	ddr_csr_set(csrreg, secreg, ddr_csr_cfg3, len, mask);
+	if (ddr4flag) {
+		len = sizeof(ddr4_csr_cfg3) / sizeof(struct ddr_reg_cfg);
+		data = ddr4_csr_cfg3;
+	} else {
+		len = sizeof(lpddr4_csr_cfg3) / sizeof(struct ddr_reg_cfg);
+		data = lpddr4_csr_cfg3;
+	}
+	ddr_csr_set(csrreg, secreg, data, len, mask);
 }
