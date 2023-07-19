@@ -289,6 +289,14 @@ int board_late_init(void)
 	struct udevice *dev;
 	int ret;
 
+	/*
+	 * save the memory info by environment variable in u-boot,
+	 * It will used to update the memory configuration in dts,
+	 * which passed to kernel lately.
+	 */
+	env_set_hex("memory_addr", gd->ram_base);
+	env_set_hex("memory_size", gd->ram_size);
+
 	ret = uclass_get_device(UCLASS_VIDEO, 0, &dev);
 	if (ret)
 		return ret;
