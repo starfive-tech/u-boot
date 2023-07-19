@@ -68,9 +68,7 @@ static int sf_power_domain_on(struct power_domain *power_domain)
 	encourage_hi = SW_MODE_ENCOURAGE_EN_HI;
 
 	/* write SW_ENCOURAGE to make the configuration take effect */
-	val = __raw_readl(priv->regs + mode) | BIT(power_domain->id);
-
-	__raw_writel(val, priv->regs + mode);
+	__raw_writel(BIT(power_domain->id), priv->regs + mode);
 	__raw_writel(SW_MODE_ENCOURAGE_ON, priv->regs + SW_ENCOURAGE);
 	__raw_writel(encourage_lo, priv->regs + SW_ENCOURAGE);
 	__raw_writel(encourage_hi, priv->regs + SW_ENCOURAGE);
@@ -99,9 +97,7 @@ static int sf_power_domain_off(struct power_domain *power_domain)
 	encourage_lo = SW_MODE_ENCOURAGE_DIS_LO;
 	encourage_hi = SW_MODE_ENCOURAGE_DIS_HI;
 
-	val = __raw_readl(priv->regs + mode) & ~(BIT(power_domain->id));
-
-	__raw_writel(val, priv->regs + mode);
+	__raw_writel(BIT(power_domain->id), priv->regs + mode);
 	__raw_writel(SW_MODE_ENCOURAGE_ON, priv->regs + SW_ENCOURAGE);
 	__raw_writel(encourage_lo, priv->regs + SW_ENCOURAGE);
 	__raw_writel(encourage_hi, priv->regs + SW_ENCOURAGE);
@@ -110,7 +106,7 @@ static int sf_power_domain_off(struct power_domain *power_domain)
 					!(val & BIT(power_domain->id)),
 					TIMEOUT_US);
 	if (ret) {
-		pr_err("power_off failed");
+		pr_err("power_off failed\n");
 		return -ETIMEDOUT;
 	}
 
