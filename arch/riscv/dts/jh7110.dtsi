@@ -1328,14 +1328,14 @@
 			vopb_out: port {
 				#address-cells = <1>;
 				#size-cells = <0>;
-				vopb_out_mipi: endpoint@0 {
+				vopb_out_hdmi: endpoint@0 {
 					reg = <0>;
-					remote-endpoint = <&mipi_in_vopb>;
+					remote-endpoint = <&hdmi_in_vopb>;
 				};
 
-				vopb_out_hdmi: endpoint@1 {
+				vopb_out_mipi: endpoint@1 {
 					reg = <1>;
-					remote-endpoint = <&hdmi_in_vopb>;
+					remote-endpoint = <&mipi_in_vopb>;
 				};
 
 			};

@@ -540,6 +540,25 @@ free_clock_sys_clk:
 
 }
 
+static int sf_hdmi_remove(struct udevice *dev)
+{
+	struct sf_hdmi_priv *priv = dev_get_priv(dev);
+	debug("sf_hdmi_remove  ---\n");
+	hdmi_write(priv, 0x00,0x1b2);
+	hdmi_write(priv, 0x00,0x1be);
+	hdmi_write(priv, 0x00,0x1b4);
+	hdmi_write(priv, 1,0x1a0);
+	hdmi_write(priv, 1,0x1aa);
+	hdmi_write(priv, 0x00,0x1cc);
+	hdmi_write(priv, 0x00,0x1b0);
+
+	clk_disable(&priv->bclk);
+	clk_disable(&priv->mclk);
+	clk_disable(&priv->sys_clk);
+	reset_assert(&priv->tx_rst);
+	return 0;
+}
+
 static const struct dm_display_ops inno_hdmi_ops = {
 	.read_edid = rk_hdmi_read_edid,
 	.enable = inno_hdmi_enable,
@@ -558,4 +577,6 @@ U_BOOT_DRIVER(inno_hdmi_starfive) = {
 	.of_to_plat = inno_hdmi_of_to_plat,
 	.probe = inno_hdmi_probe,
 	.priv_auto	= sizeof(struct sf_hdmi_priv),
+	.remove = sf_hdmi_remove,
+	.flags = DM_FLAG_OS_PREPARE,
 };

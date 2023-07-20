@@ -32,6 +32,47 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
+static void iotrace_writel(ulong value, void *ptr)
+{
+	//printf("writel( 0x%08x, %p ) -- 0x%08x\n", value, ptr, readl(ptr));
+	//readl(ptr);
+	mdelay(10);
+	writel(value, ptr);
+}
+
+static int sf_vop_power_off(struct udevice *dev)
+{
+	struct udevice *dev_power;
+	struct udevice *dev_pmic;
+	struct power_domain_ops *ops;
+	struct power_domain power_domain;
+	int ret;
+	if (!(gd->flags & GD_FLG_RELOC))
+		 return 0;
+	ret = uclass_find_first_device(UCLASS_POWER_DOMAIN, &dev_power);
+	if (ret)
+		return ret;
+
+	ret = device_probe(dev_power);
+	if (ret) {
+		pr_err("%s: device '%s' display won't probe (ret=%d)\n",
+		   __func__, dev_power->name, ret);
+		return ret;
+	}
+
+	ops = (struct power_domain_ops *)dev_power->driver->ops;
+	power_domain.dev = dev_power;
+	power_domain.id = 4;
+
+	ret = ops->off(&power_domain);
+	if (ret) {
+		pr_err("ops->0ff() failed: %d\n", ret);
+		return ret;
+	}
+
+	return 0;
+}
+
 static int sf_vop_power(struct udevice *dev)
 {
 	struct udevice *dev_power;
@@ -70,6 +111,7 @@ static int sf_vop_power(struct udevice *dev)
 	return 0;
 }
 
+
 static int vout_get_rst_clock_resources(struct udevice *dev)
 {
 	struct sf_vop_priv *priv = dev_get_priv(dev);
@@ -107,7 +149,7 @@ static int vout_get_rst_clock_resources(struct udevice *dev)
 
 	ret = clk_get_by_name(dev, "dc_pix1", &priv->dc_pix1);
 	if (ret) {
-		pr_err("clk_get_by_name(dc_pix0) failed: %d\n", ret);
+		pr_err("clk_get_by_name(dc_pix1) failed: %d\n", ret);
 		return ret;
 	}
 
@@ -496,6 +538,7 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 		writel(0x00000000, priv->regs_hi+0x000024fc);
 		writel(0x00000c24, priv->regs_hi+0x000024e8);
 		writel(0x00000001, priv->regs_hi+0x00001ccc);
+		priv->hdmi_logo = true;
 		return 0;
 	}
 
@@ -604,6 +647,7 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 		writel(0x00000000, priv->regs_hi+0x000024fc); //csr_reg
 		writel(0x00011b25, priv->regs_hi+0x000024e8); //csr_reg
 		writel(0x00000001, priv->regs_hi+0x00001ccc); //csr_reg
+		priv->mipi_logo = true;
 		return 0;
 	}
 
@@ -628,6 +672,8 @@ static int sf_vop_probe(struct udevice *dev)
 	priv->regs_low = dev_remap_addr_name(dev, "low");
 	if (!priv->regs_low)
 		return -EINVAL;
+	priv->hdmi_logo = false;
+	priv->mipi_logo = false;
 
 	vout_probe_resources_jh7110(dev);
 
@@ -654,6 +700,104 @@ static int sf_vop_probe(struct udevice *dev)
 
 static int sf_vop_remove(struct udevice *dev)
 {
+	struct sf_vop_priv *priv = dev_get_priv(dev);
+	debug("sf_vop_remove-------\n");
+	int ret;
+
+	if(priv->mipi_logo == true)
+		return 0;
+
+	if(priv->hdmi_logo == false)
+		return 0;
+
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1cc0 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x24e0 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1810 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1400 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1408 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1ce8 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x2510 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x2508 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x2500 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1518 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1540 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x2540 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1544 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x2544 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1548 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x2548 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x154c );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x254c );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x2518 );
+	iotrace_writel( 0x00000e07, priv->regs_hi+0x1a28 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1430 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1438 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1440 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1448 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x14b0 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1cd0 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x14b8 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x14d0 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1528 );
+	iotrace_writel( 0x00000100, priv->regs_hi+0x1418 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1410 );
+	iotrace_writel( 0x00000001, priv->regs_hi+0x2518 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1468 );
+	iotrace_writel( 0x00000001, priv->regs_hi+0x1484 );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x24e8 );
+	iotrace_writel( 0x00000001, priv->regs_hi+0x24fc );
+	iotrace_writel( 0x00000000, priv->regs_hi+0x1ccc );
+
+	ret = reset_assert(&priv->dc8200_rst_axi);
+	if (ret) {
+		pr_err("failed to assert dc8200_rst_axi reset (ret=%d)\n", ret);
+		return ret;
+	}
+
+	ret = reset_assert(&priv->dc8200_rst_core);
+	if (ret) {
+		pr_err("failed to assert dc8200_rst_axi reset (ret=%d)\n", ret);
+		return ret;
+	}
+
+	ret = reset_assert(&priv->dc8200_rst_ahb);
+	if (ret) {
+		pr_err("failed to assert dc8200_rst_ahb reset (ret=%d)\n", ret);
+		return ret;
+	}
+
+	clk_set_rate(&priv->dc_pix_src, 74250000);
+
+	clk_disable(&priv->hdmitx0_pixelclk);
+
+	clk_disable(&priv->dc_ahb);
+
+	clk_disable(&priv->dc_core);
+
+	clk_disable(&priv->dc_axi);
+
+	clk_disable(&priv->dc_pix1);
+
+	clk_disable(&priv->dc_pix0);
+
+	ret = reset_assert(&priv->rst_vout_src);
+	if (ret) {
+		pr_err("failed to deassert rst_vout_src reset (ret=%d)\n", ret);
+		return ret;
+	}
+
+	clk_disable(&priv->top_vout_ahb);
+
+	clk_disable(&priv->top_vout_axi);
+
+	clk_disable(&priv->vout_src);
+
+	clk_disable(&priv->disp_axi);
+
+	reset_assert(&priv->noc_disp);
+
+	sf_vop_power_off(dev);
+
 	return 0;
 }
 
@@ -690,4 +834,5 @@ U_BOOT_DRIVER(starfive_dc8200) = {
 	.probe	= sf_vop_probe,
     .remove = sf_vop_remove,
 	.priv_auto	= sizeof(struct sf_vop_priv),
+	.flags = DM_FLAG_OS_PREPARE,
 };
