@@ -156,6 +156,41 @@
 	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_100 <0x1>;"	\
 	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_1000 <0x1>;\0"
 
+#define CMA_SIZE_SET \
+	"cma_start=70000000\0"					\
+	"cma_1g=b000000\0"					\
+	"cma_2g=20000000\0"					\
+	"cma_4g=40000000\0"					\
+	"cma_8g=60000000\0"					\
+	"cma_node=/reserved-memory/linux,cma\0" 		\
+	"cma_ddr1g_set="					\
+	"fdt set ${cma_node} size <0x0 0x${cma_1g}>;"		\
+	"fdt set ${cma_node} alloc-ranges <0x0 0x${cma_start} 0x0 0x${cma_1g}>;\0" \
+	"cma_ddr2g_set="					\
+	"fdt set ${cma_node} size <0x0 0x${cma_2g}>;"		\
+	"fdt set ${cma_node} alloc-ranges <0x0 0x${cma_start} 0x0 0x${cma_2g}>;\0" \
+	"cma_ddr4g_set="					\
+	"fdt set ${cma_node} size <0x0 0x${cma_4g}>;"		\
+	"fdt set ${cma_node} alloc-ranges <0x0 0x${cma_start} 0x0 0x${cma_4g}>;\0" \
+	"cma_ddr8g_set="					\
+	"fdt set ${cma_node} size <0x0 0x${cma_8g}>;"		\
+	"fdt set ${cma_node} alloc-ranges <0x0 0x${cma_start} 0x0 0x${cma_8g}>;\0" \
+	"cma_resize="						\
+	"if test ${memory_size} -eq 40000000; then "		\
+		"run cma_ddr1g_set;"				\
+	"elif test ${memory_size} -eq 80000000; then "		\
+		"run cma_ddr2g_set;"				\
+	"elif test ${memory_size} -eq 100000000; then " 	\
+		"run cma_ddr4g_set;"				\
+	"elif test ${memory_size} -ge 200000000; then " 	\
+		"run cma_ddr8g_set;"				\
+	"fi; \0 "
+
+#define EVB_MEM_SET	\
+	"evb_mem_set="	\
+	"fdt memory ${memory_addr} ${memory_size};" \
+	"run cma_resize; \0"
+
 #define CHIPA_SET	\
 	"chipa_set="				\
 	"if test ${chip_vision} = B; then "	\
@@ -166,6 +201,7 @@
 	"run chipa_set;\0"			\
 	"chipa_set_linux="			\
 	"fdt addr ${fdt_addr_r};"		\
+	"run evb_mem_set;"                  \
 	"run chipa_set;\0"
 
 #define PARTS_DEFAULT							\
@@ -196,6 +232,8 @@
 	CPU_SPEED_1250_SET				\
 	CPU_SPEED_1500_SET				\
 	CPU_FREQ_VOL_SET				\
+	EVB_MEM_SET					\
+	CMA_SIZE_SET					\
 	"type_guid_gpt_loader1=" TYPE_GUID_LOADER1 "\0" \
 	"type_guid_gpt_loader2=" TYPE_GUID_LOADER2 "\0" \
 	"type_guid_gpt_system=" TYPE_GUID_SYSTEM "\0"	\
