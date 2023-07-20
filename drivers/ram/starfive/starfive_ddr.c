@@ -33,9 +33,17 @@ struct starfive_ddr_priv {
 	u32	fre;
 };
 
+enum ddr_type_t starfive_ddr_type;
+
+__weak int starfive_get_ddr_type(void)
+{
+	return -EINVAL;
+}
+
 static int starfive_ddr_setup(struct udevice *dev, struct starfive_ddr_priv *priv)
 {
 	enum ddr_size_t size;
+	int ret;
 
 	switch (priv->info.size) {
 	case 0x40000000:
@@ -56,11 +64,35 @@ static int starfive_ddr_setup(struct udevice *dev, struct starfive_ddr_priv *pri
 		return -1;
 	}
 
+	starfive_ddr_type = DDR_TYPE_LPDDR4;	/*set default ddr type */
+	ret = starfive_get_ddr_type();
+	if (ret >= 0) {
+		switch (ret) {
+		case 0x0:
+			starfive_ddr_type = DDR_TYPE_LPDDR4;
+			break;
+		case 0x1:
+			starfive_ddr_type = DDR_TYPE_DDR4;
+			break;
+		case 0x2:
+			starfive_ddr_type = DDR_TYPE_LPDDR3;
+			break;
+		case 0x3:
+			starfive_ddr_type = DDR_TYPE_DDR3;
+			break;
+		default:
+			pr_err("unsupport ddr type %d\n", ret);
+			return -EINVAL;
+		}
+	}
+
 	ddr_phy_train(priv->phyreg + (PHY_BASE_ADDR << 2));
 	ddr_phy_util(priv->phyreg + (PHY_AC_BASE_ADDR << 2));
 	ddr_phy_start(priv->phyreg, size);
 
-	DDR_REG_SET(BUS, DDR_BUS_OSC_DIV2);
+	if (starfive_ddr_type == DDR_TYPE_LPDDR4)
+		DDR_REG_SET(BUS, DDR_BUS_OSC_DIV2);
+
 	ddrcsr_boot(priv->ctrlreg, priv->ctrlreg + SEC_CTRL_ADDR,
 		   priv->phyreg, size);
 
@@ -124,8 +156,11 @@ static int starfive_ddr_probe(struct udevice *dev)
 	reset_deassert(&priv->rst_axi);
 
 	ret = starfive_ddr_setup(dev, priv);
-	printf("DDR: %ldG version: g8ad50857.\n", priv->info.size/1024/1024/1024);
-		goto init_end;
+	printf("%sDDR4: %ldG version: g8ad50857.\n",
+		starfive_ddr_type == DDR_TYPE_LPDDR4 ? "LP":"",
+		priv->info.size/1024/1024/1024);
+	goto init_end;
+
 err_osc:
 	reset_free(&priv->rst_osc);
 err_axi:
