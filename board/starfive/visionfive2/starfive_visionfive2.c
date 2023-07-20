@@ -512,10 +512,18 @@ static bool check_eeprom_dram_info(ulong size)
 
 static int resize_ddr_from_eeprom(void)
 {
+	struct udevice *dev;
 	ulong size;
 	u32 len = 1;
 	u8 data = 0;
 	int ret;
+
+	/* I2C init */
+	ret = uclass_get_device(UCLASS_I2C, 0, &dev);
+	if (ret) {
+		debug("I2C init failed: %d\n", ret);
+		return 0;
+	}
 
 	/* read memory size info */
 	ret = get_data_from_eeprom(STARFIVE_JH7110_EEPROM_DDRINFO_OFFSET, len, &data);

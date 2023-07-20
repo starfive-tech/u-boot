@@ -17,13 +17,6 @@ int spl_soc_init(void)
 	int ret;
 	struct udevice *dev;
 
-	/* I2C init */
-	ret = uclass_get_device(UCLASS_I2C, 0, &dev);
-	if (ret) {
-		debug("I2C init failed: %d\n", ret);
-		return ret;
-	}
-
 	/*read memory size info from eeprom and
 	 *init gd->ram_size variable
 	 */
