@@ -8,6 +8,7 @@
 #include <dm.h>
 #include <log.h>
 #include <asm/csr.h>
+#include <init.h>
 
 #define CSR_U74_FEATURE_DISABLE	0x7c1
 
@@ -15,6 +16,11 @@ int spl_soc_init(void)
 {
 	int ret;
 	struct udevice *dev;
+
+	/*read memory size info from eeprom and
+	 *init gd->ram_size variable
+	 */
+	dram_init();
 
 	/* DDR init */
 	ret = uclass_get_device(UCLASS_RAM, 0, &dev);
