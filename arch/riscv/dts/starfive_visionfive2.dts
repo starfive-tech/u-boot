@@ -383,7 +383,7 @@
 };
 
 &usbdrd_cdns3 {
-	dr_mode = "host";
+	dr_mode = "peripheral";
 };
 
 &pcie0 {
@@ -392,7 +392,7 @@
 	pinctrl-1 = <&pcie0_perst_active>;
 	pinctrl-2 = <&pcie0_wake_default>;
 	pinctrl-3 = <&pcie0_clkreq_default>;
-	status = "disabled";
+	status = "okay";
 };
 
 &pcie1 {
