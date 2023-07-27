@@ -22,6 +22,8 @@ extern "C" {
 #define GPIO_DIN_MASK	0x7f
 #define GPIO_DS_MASK	0x06
 #define GPIO_DS_SHIFT	1
+#define GPIO_SLEW_MASK	BIT(5)
+#define GPIO_SLEW_SHIFT	5
 #define GPIO_PULL_MASK	0x18
 #define GPIO_PULL_SHIFT	3
 #define GPIO_PULL_UP	1
@@ -44,9 +46,10 @@ enum gpio_state {
 #define GPIO_DOUT	0x40
 #define GPIO_DIN	0x80
 #define GPIO_EN		0xdc
-#define GPIO_CONFIG 0x120
-#define GPIO_LOW_IE		0x100
+#define GPIO_LOW_IE	0x100
 #define GPIO_HIGH_IE	0x104
+#define GPIO_CONFIG	0x120
+
 
 /* Details about a GPIO bank */
 struct starfive_gpio_platdata {
@@ -69,12 +72,16 @@ struct starfive_gpio_platdata {
 		((gpio+2) & GPIO_DIN_MASK) << GPIO_SHIFT(gpi))
 
 #define SYS_IOMUX_SET_DS(gpio, ds) \
-	clrsetbits_le32(SYS_IOMUX_BASE + GPIO_CONFIG + gpio * 4, \
-		GPIO_DS_MASK, (ds) << GPIO_DS_SHIFT)
+			clrsetbits_le32(SYS_IOMUX_BASE + GPIO_CONFIG + gpio * 4, \
+				GPIO_DS_MASK, (ds) << GPIO_DS_SHIFT)
+
+#define SYS_IOMUX_SET_SLEW(gpio, slew) \
+			clrsetbits_le32(SYS_IOMUX_BASE + GPIO_CONFIG + gpio * 4, \
+				GPIO_SLEW_MASK, (slew) << GPIO_SLEW_SHIFT)
 
 #define SYS_IOMUX_SET_PULL(gpio, pull) \
-	clrsetbits_le32(SYS_IOMUX_BASE + GPIO_CONFIG + gpio * 4, \
-		GPIO_PULL_MASK, (pull) << GPIO_PULL_SHIFT)
+			clrsetbits_le32(SYS_IOMUX_BASE + GPIO_CONFIG + gpio * 4, \
+				GPIO_PULL_MASK, (pull) << GPIO_PULL_SHIFT)
 
 #define SYS_IOMUX_COMPLEX(gpio, gpi, gpo, oen) do {\
 		SYS_IOMUX_DOEN(gpio, oen);\
