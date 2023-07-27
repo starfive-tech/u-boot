@@ -110,9 +110,9 @@ static int starfive_pcie_addr_valid(pci_dev_t bdf, int first_busno)
 	return 1;
 }
 
-static int starfive_pcie_off_conf(pci_dev_t bdf, uint offset)
+static int starfive_pcie_off_conf(pci_dev_t bdf, uint offset, int first_busno)
 {
-	unsigned int bus = PCI_BUS(bdf);
+	unsigned int bus = PCI_BUS(bdf) - first_busno;
 	unsigned int dev = PCI_DEV(bdf);
 	unsigned int func = PCI_FUNC(bdf);
 
@@ -120,10 +120,10 @@ static int starfive_pcie_off_conf(pci_dev_t bdf, uint offset)
 			(func << ECAM_FUNC_SHIFT) | (offset & ~0x3);
 }
 
-static bool plda_pcie_hide_rc_bar(pci_dev_t bdf, int offset)
+static bool plda_pcie_hide_rc_bar(pci_dev_t bdf, int offset, int first_busno)
 {
-	if ((PCI_BUS(bdf) == 0) &&
-		(offset == PCI_BASE_ADDRESS_0 || offset == PCI_BASE_ADDRESS_1))
+	if ((PCI_BUS(bdf) == first_busno) &&
+	    (offset == PCI_BASE_ADDRESS_0 || offset == PCI_BASE_ADDRESS_1))
 		return true;
 
 	return false;
@@ -136,7 +136,7 @@ static int starfive_pcie_config_read(const struct udevice *udev, pci_dev_t bdf,
 	void __iomem *addr;
 	ulong value;
 	struct starfive_pcie *priv = dev_get_priv(udev);
-	int where = starfive_pcie_off_conf(bdf, offset);
+	int where = starfive_pcie_off_conf(bdf, offset, priv->first_busno);
 
 	if (!starfive_pcie_addr_valid(bdf, priv->first_busno)) {
 		pr_debug("Out of range\n");
@@ -168,9 +168,9 @@ int starfive_pcie_config_write(struct udevice *udev, pci_dev_t bdf,
 	void __iomem *addr;
 	ulong old;
 	struct starfive_pcie *priv = dev_get_priv(udev);
-	int where = starfive_pcie_off_conf(bdf, offset);
+	int where = starfive_pcie_off_conf(bdf, offset, priv->first_busno);
 
-	if (plda_pcie_hide_rc_bar(bdf, offset))
+	if (plda_pcie_hide_rc_bar(bdf, offset, priv->first_busno))
 		return -1;
 
 	if (!starfive_pcie_addr_valid(bdf, priv->first_busno)) {
