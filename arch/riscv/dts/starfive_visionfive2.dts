@@ -294,6 +294,8 @@
 };
 
 &sdio0 {
+	assigned-clocks = <&clkgen JH7110_SDIO0_CLK_SDCARD>;
+	assigned-clock-rates = <50000000>;
 	fifo-depth = <32>;
 	bus-width = <8>;
 	pinctrl-names = "default";
@@ -302,6 +304,8 @@
 };
 
 &sdio1 {
+	assigned-clocks = <&clkgen JH7110_SDIO1_CLK_SDCARD>;
+	assigned-clock-rates = <50000000>;
 	fifo-depth = <32>;
 	bus-width = <4>;
 	pinctrl-names = "default";
