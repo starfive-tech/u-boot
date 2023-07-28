@@ -246,6 +246,8 @@
 };
 
 &sdio0 {
+	assigned-clocks = <&clkgen JH7110_SDIO0_CLK_SDCARD>;
+	assigned-clock-rates = <50000000>;
 	fifo-depth = <32>;
 	bus-width = <4>;
 	status = "okay";
