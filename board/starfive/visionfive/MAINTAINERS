@@ -1,7 +1,0 @@
-STARFIVE JH7110 VISIONFIVE BOARD
-M: startfive
-S:	Maintained
-F:	arch/riscv/include/asm/arch-jh7110/
-F:	board/starfive/visionfive/
-F:	include/configs/starfive-visionfive.h
-F:	configs/starfive_visionfive_defconfig
