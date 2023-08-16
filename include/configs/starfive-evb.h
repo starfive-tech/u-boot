@@ -134,22 +134,6 @@
 		"fi; "						\
 	"fi; \0"
 
-#define EVB_BOOTENV_NVME				\
-	"sdev_cmd=mmc\0"				\
-	"sdev_blk=mmcblk0p4\0"				\
-	"scan_nvme_dev="				\
-	"if pci enum; then "				\
-		"nvme scan; "				\
-		"echo pci enum ...;"			\
-	"fi; "						\
-	"if nvme dev; then "				\
-		"setenv sdev_cmd nvme;"			\
-		"setenv sdev_blk nvme0n1p4;"		\
-	"fi; \0"					\
-	"mmcbootenv=run scan_nvme_dev; "		\
-	"fatload ${sdev_cmd} 0:3 $kernel_addr_r jh7110_uEnv.txt; " \
-	"env import -t $kernel_addr_r $filesize; \0"
-
 #define CHIPA_GMAC_SET \
 	"chipa_gmac_set="	\
 	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_10 <0x1>;"	\
@@ -225,7 +209,6 @@
 	"loadaddr=0x60000000\0"				\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
-	EVB_BOOTENV_NVME				\
 	CPU_VOL_1020_SET				\
 	CPU_VOL_1040_SET				\
 	CPU_VOL_1060_SET				\
