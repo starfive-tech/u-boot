@@ -248,15 +248,6 @@
 	"run visionfive2_mem_set;"		\
 	"run chipa_set;\0"
 
-#define CHIPA_SET_FORCE	\
-	"chipa_set_uboot_force="		\
-	"fdt addr ${uboot_fdt_addr};"		\
-	"run chipa_gmac_set; \0"		\
-	"chipa_set_linux_force="		\
-	"fdt addr ${fdt_addr_r};"		\
-	"run visionfive2_mem_set;"		\
-	"run chipa_gmac_set; \0"		\
-
 #define VISIONFIVE2_BOOTENV_NVME	\
 	"nvmepart=3\0"			\
 	"devnvme=0\0"			\
@@ -331,7 +322,6 @@
 	CPU_SPEED_1500_SET				\
 	CPU_FREQ_VOL_SET				\
 	CMA_SIZE_SET					\
-	CHIPA_SET_FORCE					\
 	VISIONFIVE2_MEM_SET				\
 	"type_guid_gpt_loader1=" TYPE_GUID_LOADER1 "\0" \
 	"type_guid_gpt_loader2=" TYPE_GUID_LOADER2 "\0" \
