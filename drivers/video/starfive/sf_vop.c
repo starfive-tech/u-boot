@@ -43,7 +43,6 @@ static void iotrace_writel(ulong value, void *ptr)
 static int sf_vop_power_off(struct udevice *dev)
 {
 	struct udevice *dev_power;
-	struct udevice *dev_pmic;
 	struct power_domain_ops *ops;
 	struct power_domain power_domain;
 	int ret;
@@ -76,7 +75,9 @@ static int sf_vop_power_off(struct udevice *dev)
 static int sf_vop_power(struct udevice *dev)
 {
 	struct udevice *dev_power;
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB)
 	struct udevice *dev_pmic;
+#endif
 	struct power_domain_ops *ops;
 	struct power_domain power_domain;
 	int ret;
@@ -108,6 +109,7 @@ static int sf_vop_power(struct udevice *dev)
 		return ret;
 	}
 
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB)
 	ret = uclass_get_device_by_driver(UCLASS_PMIC,
 			  DM_DRIVER_GET(pmic_starfive), &dev_pmic);
 	if (ret) {
@@ -120,6 +122,7 @@ static int sf_vop_power(struct udevice *dev)
 		pr_err("failed to update SD control register: %d", ret);
 		return ret;
 	}
+#endif
 
 	return 0;
 }
