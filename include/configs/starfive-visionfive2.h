@@ -164,56 +164,6 @@
 		"run cma_ddr8g_set;"				\
 	"fi; \0 "
 
-
-#define VF2_DISTRO_BOOTENV \
-	"fatbootpart=1:3\0"	\
-	"bootdev=mmc\0" \
-	"scan_boot_dev="                                        	\
-	"if test ${bootmode} = flash; then "                    	\
-		"if pci enum; then "                            	\
-			"nvme scan; "                           	\
-			"echo pci enum ...;"                    	\
-		"fi; "                                          	\
-		"if nvme dev; then "                            	\
-			"setenv fatbootpart ${devnvme}:${nvmepart};" 	\
-			"setenv devnum ${devnvme};" 			\
-			"setenv bootdev nvme;"   			\
-		"else "                                         	\
-			"if mmc dev ${devnum}; then "                   \
-				"echo found device ${devnum};"          \
-			"else "                                         \
-				"setenv devnum 0;"                      \
-				"mmc dev 0;"                            \
-			"fi; "                                          \
-		"fi; "                                                  \
-	"fi; \0"							\
-	"load_distro_uenv="						\
-	"fatload ${bootdev} ${devnum}:3 ${loadaddr} /${bootenv}; " \
-	"setenv fatbootpart ${devnum}:3; " \
-	"env import ${loadaddr} 200; \0" \
-	"fdt_loaddtb="	\
-	"fatload ${bootdev} ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
-	"fdt_sizecheck="	\
-	"fatsize ${bootdev} ${fatbootpart} /dtbs/${fdtfile}; \0"	\
-	"set_fdt_distro="	\
-	"if test ${chip_vision} = A; then " \
-		"if test ${memory_size} = 200000000; then " \
-			"run chipa_gmac_set;" \
-			"run visionfive2_mem_set;" \
-			"fatwrite ${bootdev} ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
-		"else " \
-			"run chipa_gmac_set;" \
-			"run visionfive2_mem_set;"	\
-			"fatwrite ${bootdev} ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};"	\
-		"fi;" \
-	"else "	\
-                "run visionfive2_mem_set;" \
-		"run cpu_vol_set;" \
-                "fatwrite ${bootdev} ${fatbootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize};" \
-	"fi; \0"	\
-	"bootcmd_distro=" 	\
-	"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; sysboot ${bootdev} ${fatbootpart} fat ${scriptaddr} /${boot_syslinux_conf}; \0"	\
-
 #define PARTS_DEFAULT							\
 	"name=loader1,start=17K,size=1M,type=${type_guid_gpt_loader1};" \
 	"name=loader2,size=4MB,type=${type_guid_gpt_loader2};"		\
@@ -248,54 +198,6 @@
 	"run visionfive2_mem_set;"		\
 	"run chipa_set;\0"
 
-#define VISIONFIVE2_BOOTENV_NVME	\
-	"nvmepart=3\0"			\
-	"devnvme=0\0"			\
-	"nvme_env=vf2_nvme_uEnv.txt\0"	\
-
-#define VISIONFIVE2_BOOTENV		\
-	"bootenv=uEnv.txt\0"		\
-	"testenv=vf2_uEnv.txt\0"	\
-	"bootdir=/boot\0"		\
-	"mmcpart=3\0"			\
-	"load_vf2_env=fatload mmc ${bootpart} ${loadaddr} ${testenv}\0"	\
-	"loadbootenv=fatload mmc ${bootpart} ${loadaddr} ${bootenv}\0"	\
-	"ext4bootenv="			\
-		"ext4load mmc ${bootpart} ${loadaddr} ${bootdir}/${bootenv}\0"\
-	"importbootenv="		\
-		"echo Importing environment from ${devnum}/${devnvme} ...; "\
-		"env import -t ${loadaddr} ${filesize}\0"	\
-	"scan_mmc_dev="						\
-	"if test ${bootmode} = flash; then "			\
-		"if pci enum; then "				\
-			"nvme scan; "				\
-			"echo pci enum ...;"			\
-		"fi; "						\
-		"if nvme dev; then "				\
-			"setenv btpart ${devnvme}:${nvmepart};" \
-			"setenv load_vf2_env fatload nvme ${btpart} ${loadaddr} ${nvme_env};"	\
-		"else "						\
-			"if mmc dev ${devnum}; then "			\
-				"echo found device ${devnum};"		\
-			"else "						\
-				"setenv devnum 0;"			\
-				"mmc dev 0;"				\
-			"fi; "						\
-			"if mmc rescan; then " 				\
-				"run loadbootenv && run importbootenv; "\
-				"run ext4bootenv && run importbootenv; "\
-				"if test -n $uenvcmd; then "		\
-					"echo Running uenvcmd ...; "	\
-					"run uenvcmd; "			\
-				"fi; "					\
-			"fi; "						\
-		"fi; "							\
-	"fi; "								\
-	"echo bootmode ${bootmode} device ${devnum}/${devnvme};\0"	\
-	"mmcbootenv=run scan_mmc_dev; "				\
-	"setenv bootpart ${devnum}:${mmcpart};\0" 		\
-	"fdtfile=" CONFIG_DEFAULT_FDT_FILE "\0"
-
 #define CONFIG_EXTRA_ENV_SETTINGS			\
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
@@ -310,9 +212,6 @@
 	"ramdisk_addr_r=0x46100000\0"			\
 	"fdtoverlay_addr_r=0x4f000000\0"		\
 	"loadaddr=0x60000000\0"				\
-	VF2_DISTRO_BOOTENV				\
-	VISIONFIVE2_BOOTENV_NVME			\
-	VISIONFIVE2_BOOTENV				\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
 	CPU_VOL_1020_SET				\
