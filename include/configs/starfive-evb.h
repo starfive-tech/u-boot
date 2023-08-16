@@ -193,6 +193,15 @@
 	"name=loader2,size=4MB,type=${type_guid_gpt_loader2};"		\
 	"name=system,size=-,bootable,type=${type_guid_gpt_system};"
 
+#define EVB_SDK_BOOTENV			\
+	"bootenv=uEnv.txt\0"		\
+	"bootenv_sdk=jh7110_uEnv.txt\0"	\
+	"boot_devs=mmc nvme\0"		\
+	"emmc_devnum=1\0"		\
+	"sd_devnum=0\0" 		\
+	"mmc_devnum_l=0 1\0"		\
+	"nvme_devnum_l=0 0\0"
+
 #define JH7110_SDK_BOOTENV		\
 	"bootdir=/boot\0"		\
 	"bootpart=3\0"			\
@@ -316,6 +325,7 @@
 	"ramdisk_addr_r=0x46100000\0"			\
 	"fdtoverlay_addr_r=0x4f000000\0"		\
 	"loadaddr=0x60000000\0"				\
+	EVB_SDK_BOOTENV					\
 	JH7110_SDK_BOOTENV				\
 	JH7110_DISTRO_BOOTENV				\
 	CHIPA_GMAC_SET					\
