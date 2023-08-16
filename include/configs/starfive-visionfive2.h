@@ -198,6 +198,15 @@
 	"run visionfive2_mem_set;"		\
 	"run chipa_set;\0"
 
+#define VF2_SDK_BOOTENV			\
+	"bootenv=uEnv.txt\0"		\
+	"bootenv_sdk=vf2_uEnv.txt\0"	\
+	"boot_devs=mmc nvme\0"		\
+	"emmc_devnum=0\0" 		\
+	"sd_devnum=1\0"			\
+	"mmc_devnum_l=1 0\0"		\
+	"nvme_devnum_l=0 0\0"
+
 #define JH7110_SDK_BOOTENV		\
 	"bootdir=/boot\0"		\
 	"bootpart=3\0"			\
@@ -321,6 +330,7 @@
 	"ramdisk_addr_r=0x46100000\0"			\
 	"fdtoverlay_addr_r=0x4f000000\0"		\
 	"loadaddr=0x60000000\0"				\
+	VF2_SDK_BOOTENV					\
 	JH7110_SDK_BOOTENV				\
 	JH7110_DISTRO_BOOTENV				\
 	CHIPA_GMAC_SET					\
