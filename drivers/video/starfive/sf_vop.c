@@ -29,6 +29,7 @@
 #include <panel.h>
 
 #include "sf_vop.h"
+#include "sf_mipi.h"
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -398,7 +399,9 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 	debug("%s(%s, 0x%lx, %s)\n", __func__,
 			  dev_read_name(dev), fbbase, ofnode_get_name(ep_node));
 
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB) || CONFIG_IS_ENABLED(TARGET_STARFIVE_VISIONFIVE2)
 	struct udevice *panel = NULL;
+#endif
 
 	ret = ofnode_read_u32(ep_node, "remote-endpoint", &remote_phandle);
 	if (ret)
@@ -579,6 +582,7 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 			return ret;
 		}
 
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB) || CONFIG_IS_ENABLED(TARGET_STARFIVE_VISIONFIVE2)
 		ret = uclass_first_device_err(UCLASS_PANEL, &panel);
 		if (ret) {
 			if (ret != -ENODEV)
@@ -595,6 +599,7 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 				return ret;
 			}
 		}
+#endif
 
 		int err = clk_set_parent(&priv->dc_pix0, &priv->dc_pix_src);
 		if (err) {
@@ -603,17 +608,40 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 			return err;
 		}
 
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB) || CONFIG_IS_ENABLED(TARGET_STARFIVE_VISIONFIVE2)
 		ulong new_rate = clk_set_rate(&priv->dc_pix_src, timing.pixelclock.typ);
 		debug("new_rate  %ld\n", new_rate);
+#endif
 
 		dc_hw_init(dev);
 
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB) || CONFIG_IS_ENABLED(TARGET_STARFIVE_VISIONFIVE2)
 		uc_priv->xsize = timing.hactive.typ;
 		uc_priv->ysize = timing.vactive.typ;
 
 		if (IS_ENABLED(CONFIG_VIDEO_COPY))
 			uc_plat->copy_base = uc_plat->base - uc_plat->size / 2;
+#else
+		struct dsi_sf_priv *private = dev_get_priv(disp);
 
+		uc_priv->xsize = private->timings.hactive.typ;
+		uc_priv->ysize = private->timings.vactive.typ;
+		debug("uc_priv->xsize  %d\n", uc_priv->xsize);
+		debug("uc_priv->ysize  %d\n", uc_priv->ysize);
+
+		if(uc_priv->xsize == 800)
+		{
+			ulong new_rate = clk_set_rate(&priv->dc_pix_src, 29700000);
+			debug("new_rate  %ld\n", new_rate);
+		}
+		if(uc_priv->xsize == 1920)
+		{
+			ulong new_rate = clk_set_rate(&priv->dc_pix_src, 148500000);
+			debug("new_rate  %ld\n", new_rate);
+		}
+#endif
+
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB) || CONFIG_IS_ENABLED(TARGET_STARFIVE_VISIONFIVE2)
 		writel(0xc0001fff, priv->regs_hi+0x00000014); //csr_reg
 		writel(0x000000e8, priv->regs_hi+0x00001a38); //csr_reg
 		writel(0x00002000, priv->regs_hi+0x00001cc0); //csr_reg
@@ -663,10 +691,115 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 		writel(0x00000000, priv->regs_hi+0x000024fc); //csr_reg
 		writel(0x00011b25, priv->regs_hi+0x000024e8); //csr_reg
 		writel(0x00000001, priv->regs_hi+0x00001ccc); //csr_reg
-		priv->mipi_logo = true;
-		return 0;
+#else
+		if(uc_priv->xsize == 800)
+		{
+			writel(0xc0001fff, priv->regs_hi+0x00000014); //csr_reg
+			writel(0x000000e8, priv->regs_hi+0x00001a38); //csr_reg
+			writel(0x00002000, priv->regs_hi+0x00001cc0); //csr_reg
+			writel(0x00000000, priv->regs_hi+0x000024d8); //csr_reg
+			writel(0x03c00438, priv->regs_hi+0x000024e0); //csr_reg
+			writel(0x03c00438, priv->regs_hi+0x00001810); //csr_reg
+			writel(uc_plat->base, priv->regs_hi+0x00001400);
+			writel(0x000010e0, priv->regs_hi+0x00001408); //csr_reg
+			writel(0x000fb00b, priv->regs_hi+0x00001ce8); //csr_reg
+			writel(0x0000a9a3, priv->regs_hi+0x00002510); //csr_reg
+			writel(0x2c4e6f06, priv->regs_hi+0x00002508); //csr_reg
+			writel(0xe6daec4f, priv->regs_hi+0x00002500); //csr_reg
+			writel(0x18220000, priv->regs_hi+0x00001518); //csr_reg
+			writel(0x00003000, priv->regs_hi+0x00001cc0); //csr_reg
+			writel(0x00030000, priv->regs_hi+0x00001cc4); //csr_reg
+			writel(0x00030000, priv->regs_hi+0x00001cc4); //csr_reg
+			writel(0x00050c1a, priv->regs_hi+0x00001540); //csr_reg
+			writel(0x00000001, priv->regs_hi+0x00002540); //csr_reg
+			writel(0x00050c1a, priv->regs_hi+0x00001540); //csr_reg
+			writel(0x4016120c, priv->regs_hi+0x00001544); //csr_reg
+			writel(0x00000002, priv->regs_hi+0x00002544); //csr_reg
+			writel(0x4016120c, priv->regs_hi+0x00001544); //csr_reg
+			writel(0x001b1208, priv->regs_hi+0x00001548); //csr_reg
+			writel(0x00000004, priv->regs_hi+0x00002548); //csr_reg
+			writel(0x001b1208, priv->regs_hi+0x00001548); //csr_reg
+			writel(0x0016110e, priv->regs_hi+0x0000154c); //csr_reg
+			writel(0x00000005, priv->regs_hi+0x0000254c); //csr_reg
+			writel(0x0016110e, priv->regs_hi+0x0000154c); //csr_reg
+			writel(0x00000001, priv->regs_hi+0x00002518); //csr_reg
+			writel(0x00000000, priv->regs_hi+0x00001a28); //csr_reg
+			writel(0x03840320, priv->regs_hi+0x00001430); //csr_reg, hsize, htotal
+			writel(0xc1bf837a, priv->regs_hi+0x00001438); //csr_reg, hsize blanking
+			writel(0x022601e0, priv->regs_hi+0x00001440); //csr_reg, vsize
+			writel(0xc110021c, priv->regs_hi+0x00001448); //csr_reg, vsize blanking
+			writel(0x00000000, priv->regs_hi+0x000014b0); //csr_reg
+			writel(0x000000e2, priv->regs_hi+0x00001cd0); //csr_reg
+			writel(0x000000af, priv->regs_hi+0x000014d0); //csr_reg
+			writel(0x00000005, priv->regs_hi+0x000014b8); //csr_reg
+			writel(0x8dd0b774, priv->regs_hi+0x00001528); //csr_reg
+			writel(0x00001111, priv->regs_hi+0x00001418); //csr_reg
+			writel(0x00000000, priv->regs_hi+0x00001410); //csr_reg
+			writel(0x00000000, priv->regs_hi+0x00002518); //csr_reg
+			writel(0x00000006, priv->regs_hi+0x00001468); //csr_reg
+			writel(0x00000000, priv->regs_hi+0x00001484); //csr_reg
+			writel(0x00000006, priv->regs_hi+0x00001468); //csr_reg
+			writel(0x00011b25, priv->regs_hi+0x000024e8); //csr_reg
+			writel(0x00000000, priv->regs_hi+0x000024fc); //csr_reg
+			writel(0x00011b25, priv->regs_hi+0x000024e8); //csr_reg
+			writel(0x00000001, priv->regs_hi+0x00001ccc); //csr_reg
+		}
+		if(uc_priv->xsize == 1920)
+		{
+			writel(0xc0001fff, priv->regs_hi+0x00000014);
+			writel(0x000000e8, priv->regs_hi+0x00001a38);
+			writel(0x00002000, priv->regs_hi+0x00001cc0);
+			writel(0x00000000, priv->regs_hi+0x000024d8);
+			writel(0x04380780, priv->regs_hi+0x000024e0);
+			writel(0x04380780, priv->regs_hi+0x00001810);
+			writel(uc_plat->base, priv->regs_hi+0x00001400);
+			writel(0x00001e00, priv->regs_hi+0x00001408);
+			writel(0x00000000, priv->regs_hi+0x00001ce8);
+			writel(0x0000a9a3, priv->regs_hi+0x00002510);
+			writel(0x2c4e6f06, priv->regs_hi+0x00002508);
+			writel(0xe6daec4f, priv->regs_hi+0x00002500);
+			writel(0x18220000, priv->regs_hi+0x00001518);
+			writel(0x00003000, priv->regs_hi+0x00001cc0);
+			writel(0x00030000, priv->regs_hi+0x00001cc4);
+			writel(0x00030000, priv->regs_hi+0x00001cc4);
+			writel(0x00050c1a, priv->regs_hi+0x00001540);
+			writel(0x00000001, priv->regs_hi+0x00002540);
+			writel(0x00050c1a, priv->regs_hi+0x00001540);
+			writel(0x4016120c, priv->regs_hi+0x00001544);
+			writel(0x00000002, priv->regs_hi+0x00002544);
+			writel(0x4016120c, priv->regs_hi+0x00001544);
+			writel(0x001b1208, priv->regs_hi+0x00001548);
+			writel(0x00000004, priv->regs_hi+0x00002548);
+			writel(0x001b1208, priv->regs_hi+0x00001548);
+			writel(0x0016110e, priv->regs_hi+0x0000154c);
+			writel(0x00000005, priv->regs_hi+0x0000254c);
+			writel(0x0016110e, priv->regs_hi+0x0000154c);
+			writel(0x00000001, priv->regs_hi+0x00002518);
+			writel(0x00000000, priv->regs_hi+0x00001a28);
+			writel(0x08980780, priv->regs_hi+0x00001430);
+			writel(0xc40207d8, priv->regs_hi+0x00001438);
+			writel(0x04650438, priv->regs_hi+0x00001440);
+			writel(0xc220843c, priv->regs_hi+0x00001448);
+			writel(0x00000000, priv->regs_hi+0x000014b0);
+			writel(0x000000e2, priv->regs_hi+0x00001cd0);
+			writel(0x000000af, priv->regs_hi+0x000014d0);
+			writel(0x00000005, priv->regs_hi+0x000014b8);
+			writel(0x8dd0b774, priv->regs_hi+0x00001528);
+			writel(0x00001111, priv->regs_hi+0x00001418);
+			writel(0x00000000, priv->regs_hi+0x00001410);
+			writel(0x00000000, priv->regs_hi+0x00002518);
+			writel(0x00000006, priv->regs_hi+0x00001468);
+			writel(0x00000000, priv->regs_hi+0x00001484);
+			writel(0x00000006, priv->regs_hi+0x00001468);
+			writel(0x00011b25, priv->regs_hi+0x000024e8);
+			writel(0x00000000, priv->regs_hi+0x000024fc);
+			writel(0x00011b25, priv->regs_hi+0x000024e8);
+			writel(0x00000001, priv->regs_hi+0x00001ccc);
+		}
+#endif
 	}
 
+	priv->mipi_logo = true;
 	return 0;
 }
 
