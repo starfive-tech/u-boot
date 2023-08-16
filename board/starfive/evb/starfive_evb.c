@@ -202,6 +202,12 @@ static u32 get_chip_type(void)
 	return value;
 }
 
+static void get_boot_mode(void)
+{
+	/* evb only support flash boot */
+	env_set("bootmode", "flash");
+}
+
 #if CONFIG_IS_ENABLED(STARFIVE_OTP)
 static void get_cpu_voltage_type(struct udevice *dev)
 {
@@ -288,6 +294,8 @@ int board_late_init(void)
 {
 	struct udevice *dev;
 	int ret;
+
+	get_boot_mode();
 
 	/*
 	 * save the memory info by environment variable in u-boot,
