@@ -134,22 +134,6 @@
 		"fi; "						\
 	"fi; \0"
 
-#define EVB_BOOTENV_NVME				\
-	"sdev_cmd=mmc\0"				\
-	"sdev_blk=mmcblk0p4\0"				\
-	"scan_nvme_dev="				\
-	"if pci enum; then "				\
-		"nvme scan; "				\
-		"echo pci enum ...;"			\
-	"fi; "						\
-	"if nvme dev; then "				\
-		"setenv sdev_cmd nvme;"			\
-		"setenv sdev_blk nvme0n1p4;"		\
-	"fi; \0"					\
-	"mmcbootenv=run scan_nvme_dev; "		\
-	"fatload ${sdev_cmd} 0:3 $kernel_addr_r jh7110_uEnv.txt; " \
-	"env import -t $kernel_addr_r $filesize; \0"
-
 #define CHIPA_GMAC_SET \
 	"chipa_gmac_set="	\
 	"fdt set /soc/ethernet@16030000/ethernet-phy@0 tx_inverted_10 <0x1>;"	\
@@ -209,6 +193,124 @@
 	"name=loader2,size=4MB,type=${type_guid_gpt_loader2};"		\
 	"name=system,size=-,bootable,type=${type_guid_gpt_system};"
 
+#define EVB_SDK_BOOTENV			\
+	"bootenv=uEnv.txt\0"		\
+	"bootenv_sdk=jh7110_uEnv.txt\0"	\
+	"boot_devs=mmc nvme\0"		\
+	"emmc_devnum=1\0"		\
+	"sd_devnum=0\0" 		\
+	"mmc_devnum_l=0 1\0"		\
+	"nvme_devnum_l=0 0\0"
+
+#define JH7110_SDK_BOOTENV		\
+	"bootdir=/boot\0"		\
+	"bootpart=3\0"			\
+	"rootpart=4\0"			\
+	"load_sdk_uenv="		\
+		"fatload ${bootdev} ${devnum}:${bootpart} ${loadaddr} ${bootenv_sdk};"	\
+		"env import -t ${loadaddr} ${filesize}; \0"				\
+	"mmc_test_and_boot="				\
+		"if mmc dev ${devnum}; then "	\
+			"echo Try booting from MMC${devnum} ...; "	\
+			"setenv sdev_blk mmcblk${devnum}p${rootpart};"	\
+			"run load_sdk_uenv; run boot2;" \
+		"fi;\0" 						\
+	"bootenv_mmc="					\
+		"setenv bootdev mmc;"			\
+		"if test ${bootmode} = flash; then "	\
+			"for mmc_devnum in ${mmc_devnum_l}; do " \
+				"setenv devnum ${mmc_devnum}; " \
+				"run mmc_test_and_boot;"	\
+			"done;" 				\
+		"fi; "						\
+		"if test ${bootmode} = sd; then "	\
+			"setenv devnum ${sd_devnum};"	\
+			"run mmc_test_and_boot;"	\
+		"fi; "					\
+		"if test ${bootmode} = emmc; then "	\
+			"setenv devnum	${emmc_devnum};"\
+			"run mmc_test_and_boot;"	\
+		"fi; \0"				\
+	"bootenv_nvme=" 				\
+		"if test ${bootmode} = flash; then "	\
+			"for nvme_devnum in ${nvme_devnum_l}; do " \
+				"setenv devnum ${nvme_devnum};" \
+				"if pci enum; then "		\
+					"nvme scan; "		\
+				"fi; "				\
+				"if nvme dev ${devnum}; then "	\
+					"echo Try booting from NVME${devnum} ...; "	\
+					"setenv bootdev nvme;"	\
+					"setenv sdev_blk nvme${devnum}n1p${rootpart};"	\
+					"run load_sdk_uenv; run boot2;" \
+				"fi; "				\
+			"done; "				\
+		"fi; \0"					\
+	"sdk_boot_env=" 		\
+		"for bootdev_s in ${boot_devs}; do "	\
+		"run bootenv_${bootdev_s}; "		\
+		"done;\0"				\
+	"fdtfile=" CONFIG_DEFAULT_FDT_FILE "\0"
+
+#define JH7110_DISTRO_BOOTENV	\
+	"bootdir=/boot\0"	\
+	"bootpart=3\0"		\
+	"rootpart=4\0"		\
+	"load_distro_uenv="						\
+		"fatload ${bootdev} ${devnum}:${bootpart} ${loadaddr} /${bootenv}; " \
+		"env import ${loadaddr} ${filesize}; \0" \
+	"fdt_loaddtb="		\
+		"fatload ${bootdev} ${devnum}:${bootpart} ${fdt_addr_r} /dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
+	"fdt_sizecheck="	\
+		"fatsize ${bootdev} ${devnum}:${bootpart} /dtbs/${fdtfile}; \0" \
+	"set_fdt_distro="	\
+		"run chipa_set_linux; run cpu_vol_set;" \
+		"fatwrite ${bootdev} ${devnum}:${bootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize}; \0" \
+	"bootcmd_distro="	\
+		"run load_distro_uenv; " \
+		"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; "	\
+		"sysboot ${bootdev} ${devnum}:${bootpart} fat ${scriptaddr} /${boot_syslinux_conf}; \0" \
+	"distro_mmc_test_and_boot="					\
+		"if mmc dev ${devnum}; then "				\
+			"echo Try booting from MMC${devnum} ...; "	\
+			"run bootcmd_distro;"				\
+		"fi;\0" 						\
+	"distro_bootenv_mmc="					\
+		"setenv bootdev mmc;"			\
+		"if test ${bootmode} = flash; then "	\
+			"for mmc_devnum in ${mmc_devnum_l}; do "\
+				"setenv devnum ${mmc_devnum}; " \
+				"run distro_mmc_test_and_boot;" \
+			"done;" 				\
+		"fi; "						\
+		"if test ${bootmode} = sd; then "	\
+			"setenv devnum ${sd_devnum};"	\
+			"run distro_mmc_test_and_boot;" \
+		"fi; "					\
+		"if test ${bootmode} = emmc; then "	\
+			"setenv devnum	${emmc_devnum};"\
+			"run distro_mmc_test_and_boot;" \
+		"fi; \0"				\
+	"distro_bootenv_nvme="				\
+		"if test ${bootmode} = flash; then "	\
+			"for nvme_devnum in ${nvme_devnum_l}; do " \
+				"setenv devnum ${nvme_devnum};" \
+				"if pci enum; then "		\
+					"nvme scan; "		\
+				"fi; "				\
+				"if nvme dev ${devnum}; then "	\
+					"echo Try booting from NVME${devnum} ...; "	\
+					"setenv bootdev nvme;"	\
+					"run bootcmd_distro; "	\
+				"fi; "				\
+			"done; "				\
+		"fi; \0"					\
+	"distro_boot_env="		\
+		"echo Tring booting distro ...;"		\
+		"for bootdev_s in ${boot_devs}; do "		\
+			"run distro_bootenv_${bootdev_s}; "	\
+		"done; \0"
+
 #define CONFIG_EXTRA_ENV_SETTINGS			\
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
@@ -223,9 +325,11 @@
 	"ramdisk_addr_r=0x46100000\0"			\
 	"fdtoverlay_addr_r=0x4f000000\0"		\
 	"loadaddr=0x60000000\0"				\
+	EVB_SDK_BOOTENV					\
+	JH7110_SDK_BOOTENV				\
+	JH7110_DISTRO_BOOTENV				\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
-	EVB_BOOTENV_NVME				\
 	CPU_VOL_1020_SET				\
 	CPU_VOL_1040_SET				\
 	CPU_VOL_1060_SET				\
