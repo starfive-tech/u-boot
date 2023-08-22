@@ -267,6 +267,9 @@ int cpu_init_r(void);
 int last_stage_init(void);
 int mac_read_from_eeprom(void);
 int set_cpu_clk_info(void);
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
+int set_pmic(void);
+#endif
 int update_flash_size(int flash_size);
 int arch_early_init_r(void);
 int misc_init_r(void);
