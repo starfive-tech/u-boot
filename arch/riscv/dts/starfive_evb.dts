@@ -399,7 +399,7 @@
 	status = "okay";
 
 	rm68200_panel: rm68200_panel@45 {
-		compatible = "raydium,rm68200";
+		compatible = "starfive,seeed";
 		reg = <0x45>;
 
 	};
