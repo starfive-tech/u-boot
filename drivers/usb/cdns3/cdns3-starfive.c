@@ -79,6 +79,7 @@ struct cdns_starfive {
 static int cdns_mode_init(struct cdns_starfive *data)
 {
 	enum usb_dr_mode mode;
+	int ret;
 
 	/* Init usb 2.0 utmi phy */
 	regmap_update_bits(data->stg_map, data->stg_offset_4,
@@ -115,6 +116,11 @@ static int cdns_mode_init(struct cdns_starfive *data)
 	}
 
 	mode = usb_get_dr_mode(dev_read_first_subnode(data->dev));
+	if (mode == USB_DR_MODE_UNKNOWN) {
+		ret = ofnode_read_u32(dev_read_first_subnode(data->dev), "dr_num_mode" , &mode);
+		if (ret)
+			return ret;
+	}
 	data->mode = mode;
 
 	switch (mode) {
@@ -211,6 +217,51 @@ static void cdns_starfive_set_phy(struct cdns_starfive *data)
 	}
 }
 
+int cdns3_starfive_bind(struct udevice *parent)
+{
+	enum usb_dr_mode dr_mode;
+	struct udevice *dev;
+	const char *driver;
+	const char *name;
+	ofnode node;
+	int ret;
+
+	node = ofnode_by_compatible(dev_ofnode(parent), "cdns,usb3");
+	if (!ofnode_valid(node)) {
+		printf("%s: failed to get usb node\n",
+			__func__);
+		goto fail;
+	}
+
+	dr_mode = usb_get_dr_mode(node);
+	if (dr_mode != USB_DR_MODE_UNKNOWN)
+		return cdns3_bind(parent);
+
+	name = ofnode_get_name(node);
+
+#if defined(CONFIG_SPL_USB_HOST) || \
+		(!defined(CONFIG_SPL_BUILD) && defined(CONFIG_USB_HOST))
+	ret = device_bind_driver_to_node(parent, "cdns-usb3-host", name, node, &dev);
+	if (ret) {
+		printf("%s: not able to bind usb host mode\n",
+			__func__);
+		goto fail;
+	}
+#endif
+#if CONFIG_IS_ENABLED(DM_USB_GADGET)
+	ret = device_bind_driver_to_node(parent, "cdns-usb3-peripheral", name, node, &dev);
+	if (ret) {
+		printf("%s: not able to bind usb device mode\n",
+		       __func__);
+		goto fail;
+	}
+
+#endif
+fail:
+	/* do not return an error: failing to bind would hang the board */
+	return 0;
+}
+
 static int cdns_starfive_probe(struct udevice *dev)
 {
 	struct cdns_starfive *data = dev_get_plat(dev);
@@ -230,7 +281,9 @@ static int cdns_starfive_probe(struct udevice *dev)
 		return -EINVAL;
 	}
 
-	data->usb2_only = dev_read_bool(dev, "starfive,usb2-only");
+	ret = dev_read_u32(dev, "starfive,usb2-only", &data->usb2_only);
+	if (ret)
+		return ret;
 
 	ret = dev_read_phandle_with_args(dev, "starfive,stg-syscon", NULL, 4, 0, &args);
 	if (ret)
@@ -286,7 +339,7 @@ U_BOOT_DRIVER(cdns_starfive) = {
 	.name = "cdns-starfive",
 	.id = UCLASS_NOP,
 	.of_match = cdns_starfive_of_match,
-	.bind = cdns3_bind,
+	.bind = cdns3_starfive_bind,
 	.probe = cdns_starfive_probe,
 	.remove = cdns_starfive_remove,
 	.plat_auto	= sizeof(struct cdns_starfive),

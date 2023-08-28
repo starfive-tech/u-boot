@@ -113,6 +113,12 @@ static int cdns3_core_init_role(struct cdns3 *cdns)
 	dr_mode = usb_get_dr_mode(dev_ofnode(dev));
 	cdns->role = USB_ROLE_NONE;
 
+	if (dr_mode == USB_DR_MODE_UNKNOWN) {
+		ret = ofnode_read_u32(dev_ofnode(dev), "dr_num_mode" , &dr_mode);
+		if (ret)
+			return ret;
+	}
+
 	/*
 	 * If driver can't read mode by means of usb_get_dr_mode function then
 	 * chooses mode according with Kernel configuration. This setting
