@@ -1569,15 +1569,17 @@ void cdns3_ep_config(struct cdns3_endpoint *priv_ep)
 	case USB_ENDPOINT_XFER_INT:
 		ep_cfg = EP_CFG_EPTYPE(USB_ENDPOINT_XFER_INT);
 
-		if ((priv_dev->dev_ver == DEV_VER_V2 && !priv_ep->dir) ||
-		    priv_dev->dev_ver > DEV_VER_V2)
+		if ((priv_dev->gadget.speed >= USB_SPEED_SUPER) &&
+			((priv_dev->dev_ver == DEV_VER_V2  && !priv_ep->dir) ||
+			priv_dev->dev_ver > DEV_VER_V2))
 			ep_cfg |= EP_CFG_TDL_CHK;
 		break;
 	case USB_ENDPOINT_XFER_BULK:
 		ep_cfg = EP_CFG_EPTYPE(USB_ENDPOINT_XFER_BULK);
 
-		if ((priv_dev->dev_ver == DEV_VER_V2  && !priv_ep->dir) ||
-		    priv_dev->dev_ver > DEV_VER_V2)
+		if ((priv_dev->gadget.speed >= USB_SPEED_SUPER) &&
+			((priv_dev->dev_ver == DEV_VER_V2  && !priv_ep->dir) ||
+			priv_dev->dev_ver > DEV_VER_V2))
 			ep_cfg |= EP_CFG_TDL_CHK;
 		break;
 	default:
