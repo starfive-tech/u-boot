@@ -383,6 +383,7 @@
 };
 
 &usbdrd30 {
+	starfive,usb2-only = <1>;
 	status = "okay";
 };
 
