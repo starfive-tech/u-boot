@@ -20,7 +20,11 @@
 #include <linux/compat.h>
 #include <android_image.h>
 
+#ifdef CONFIG_FASTBOOT_STARFIVE_MAX_BLK_WRITE
+#define FASTBOOT_MAX_BLK_WRITE	CONFIG_FASTBOOT_STARFIVE_MAX_BLK_WRITE /* = 8192 */
+#else
 #define FASTBOOT_MAX_BLK_WRITE 16384
+#endif
 
 #define BOOT_PARTITION_NAME "boot"
 
