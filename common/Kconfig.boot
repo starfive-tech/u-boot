@@ -921,6 +921,13 @@ config AUTOBOOT_MENU_SHOW
 
 endmenu
 
+config AUTO_FASTBOOT_STARFIVE
+	bool "Auto fastboot on StarFive SoCs"
+	default 0
+	depends on CMD_FASTBOOT && FASTBOOT && STARFIVE_JH7110
+	help
+	  This enables the function of auto-fastboot before autoboot on StarFive SoC.
+
 config USE_BOOTARGS
 	bool "Enable boot arguments"
 	help
