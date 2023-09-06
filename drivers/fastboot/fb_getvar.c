@@ -31,6 +31,7 @@ static void getvar_partition_type(char *part_name, char *response);
 static void getvar_partition_size(char *part_name, char *response);
 #endif
 static void getvar_is_userspace(char *var_parameter, char *response);
+static void getvar_logical_block_size(char *var_parameter, char *response);
 
 static const struct {
 	const char *variable;
@@ -81,6 +82,9 @@ static const struct {
 	}, {
 		.variable = "is-userspace",
 		.dispatch = getvar_is_userspace
+	}, {
+		.variable = "logical-block-size",
+		.dispatch = getvar_logical_block_size
 	}
 };
 
@@ -249,6 +253,20 @@ static void getvar_partition_size(char *part_name, char *response)
 static void getvar_is_userspace(char *var_parameter, char *response)
 {
 	fastboot_okay("no", response);
+}
+
+static void getvar_logical_block_size(char *var_parameter, char *response)
+{
+	struct blk_desc *dev_desc;
+
+	dev_desc = blk_get_dev("mmc", CONFIG_FASTBOOT_FLASH_MMC_DEV);
+	if (!dev_desc || dev_desc->type == DEV_TYPE_UNKNOWN) {
+		pr_err("invalid mmc device\n");
+		fastboot_fail("invalid mmc device", response);
+		return;
+	}
+
+	fastboot_response("OKAY", response, "0x%08lx", dev_desc->blksz);
 }
 
 /**
