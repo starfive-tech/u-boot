@@ -513,6 +513,7 @@ void fastboot_mmc_flash_write(const char *cmd, void *download_buffer,
 {
 	struct blk_desc *dev_desc;
 	struct disk_partition info = {0};
+	char *fastboot_env;
 
 #ifdef CONFIG_FASTBOOT_MMC_BOOT_SUPPORT
 	if (strcmp(cmd, CONFIG_FASTBOOT_MMC_BOOT1_NAME) == 0) {
@@ -605,6 +606,52 @@ void fastboot_mmc_flash_write(const char *cmd, void *download_buffer,
 		info.blksz	= dev_desc->blksz;
 	}
 #endif
+
+	/* Fastboot for StarFive JH7110 SoC */
+	fastboot_env = env_get("fb_sf_flag");
+	if (fastboot_env) {
+		dev_desc = blk_get_dev("mmc", 0);
+		if (!dev_desc)
+			return;
+
+		if (strcmp(cmd, "all") == 0) {
+			strlcpy((char *)&info.name, cmd, sizeof(info.name));
+			info.start = 0x0;
+			info.size = 0x80000000;
+			info.blksz = 0x200;
+		} else if (strcmp(cmd, "part") == 0) {
+			strlcpy((char *)&info.name, cmd, sizeof(info.name));
+			info.start = 0x0;
+			info.size = 0x1000;
+			info.blksz = 0x200;
+		} else if (strcmp(cmd, "spl") == 0) {
+			strlcpy((char *)&info.name, cmd, sizeof(info.name));
+			info.start = 0x1000;
+			info.size = 0x1000;
+			info.blksz = 0x200;
+		} else if (strcmp(cmd, "uboot") == 0) {
+			strlcpy((char *)&info.name, cmd, sizeof(info.name));
+			info.start = 0x2000;
+			info.size = 0x2000;
+			info.blksz = 0x200;
+		} else if (strcmp(cmd, "image") == 0) {
+			fastboot_env = env_get("fb_sf_image_addr");
+			if (fastboot_env) {
+				strlcpy((char *)&info.name, cmd, sizeof(info.name));
+				info.start = simple_strtoul(fastboot_env, NULL, 16);
+				info.size = 0x92000;
+				info.blksz = 0x200;
+			}
+		} else if (strcmp(cmd, "root") == 0) {
+			fastboot_env = env_get("fb_sf_root_addr");
+			if (fastboot_env) {
+				strlcpy((char *)&info.name, cmd, sizeof(info.name));
+				info.start = simple_strtoul(fastboot_env, NULL, 16);
+				info.size = 0x80000000;
+				info.blksz = 0x200;
+			}
+		}
+	}
 
 	if (!info.name[0] &&
 	    fastboot_mmc_get_part_info(cmd, &dev_desc, &info, response) < 0)
