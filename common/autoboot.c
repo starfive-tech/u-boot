@@ -499,3 +499,62 @@ void autoboot_command(const char *s)
 			run_command_list(s, -1, 0);
 	}
 }
+
+static int abortfastboot(int bootdelay)
+{
+	int abort = 0;
+	unsigned long ts;
+
+	printf("Hit any key to stop auto-fastboot: %2d ", bootdelay);
+
+	/*
+	 * Check if key already pressed
+	 */
+	if (tstc()) {	/* we got a key press	*/
+		getchar();	/* consume input	*/
+		puts("\b\b\b 0");
+		abort = 1;	/* don't auto fastboot	*/
+	}
+
+	while ((bootdelay > 0) && (!abort)) {
+		--bootdelay;
+		/* delay 1000 ms */
+		ts = get_timer(0);
+		do {
+			if (tstc()) {	/* we got a key press	*/
+				int key;
+
+				abort  = 1;	/* don't auto fastboot	*/
+				bootdelay = 0;	/* no more delay	*/
+				key = getchar();/* consume input	*/
+				break;
+			}
+			udelay(10000);
+		} while (!abort && get_timer(ts) < 1000);
+
+		printf("\b\b\b%2d ", bootdelay);
+	}
+
+	putc('\n');
+
+	return abort;
+}
+
+int autofastboot_command(void)
+{
+	char *s = env_get("fb_sf_completed");
+
+	if (s != NULL) {
+		printf("EMMC had loaded img and do not use auto-fastboot.\n");
+		return -ENOENT; /* had loaded */
+	}
+
+	if (IS_ENABLED(CONFIG_USB_FUNCTION_FASTBOOT)) {
+		if (!abortfastboot(2)) {
+			s = "fastboot usb 0";
+			return run_command_list(s, -1, 0);
+		}
+	}
+
+	return -ENOENT;
+}

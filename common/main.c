@@ -39,6 +39,7 @@ static void run_preboot_environment_command(void)
 /* We come here after U-Boot is initialised and ready to process commands */
 void main_loop(void)
 {
+	int ret = 1;
 	const char *s;
 
 	bootstage_mark_name(BOOTSTAGE_ID_MAIN_LOOP, "main_loop");
@@ -61,7 +62,13 @@ void main_loop(void)
 	if (cli_process_fdt(&s))
 		cli_secure_boot_cmd(s);
 
-	autoboot_command(s);
+	if (IS_ENABLED(CONFIG_AUTO_FASTBOOT_STARFIVE)) {
+		ret = autofastboot_command();
+		s = bootdelay_process();
+	}
+
+	if (ret)
+		autoboot_command(s);
 
 	cli_loop();
 	panic("No CLI available");
