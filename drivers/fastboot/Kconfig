@@ -212,6 +212,9 @@ config FASTBOOT_CMD_OEM_BOOTBUS
 	  Add support for the "oem bootbus" command from a client. This set
 	  the mmc boot configuration for the selecting eMMC device.
 
+config FASTBOOT_STARFIVE_MAX_BLK_WRITE
+        int "The max size of block writing with sparse file on StarFive JH7110 SoC"
+
 endif # FASTBOOT
 
 endmenu

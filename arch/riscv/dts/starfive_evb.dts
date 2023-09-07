@@ -312,6 +312,7 @@
 		 <&rstgen RSTN_U0_CDN_USB_UTMI_APB>,
 		 <&rstgen RSTN_U0_PLDA_PCIE_APB>;
 	reset-names = "pwrup","apb","axi","utmi", "phy";
+	starfive,usb2-only = <0>;
 	status = "okay";
 };
 

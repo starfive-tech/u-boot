@@ -79,4 +79,5 @@ static inline void autoboot_command(const char *s)
 }
 #endif
 
+int autofastboot_command(void);
 #endif
