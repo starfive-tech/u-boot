@@ -103,6 +103,8 @@ struct starfive_pcie {
 
 	int atr_table_num;
 	int first_busno;
+	struct gpio_desc *power_gpio;
+	struct gpio_desc *reset_gpio;
 };
 
 static int starfive_pcie_addr_valid(pci_dev_t bdf, int first_busno)
@@ -371,22 +373,32 @@ static int starfive_pcie_init_port(struct udevice *dev)
 		goto err_deassert_clk;
 	}
 
-#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB)
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB) || CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
 	ret = pinctrl_select_state(dev, "power-active");
 	if (ret) {
-		dev_err(dev, "Set power-acvtive pinctrl failed: %d\n", ret);
-		goto err_deassert_reset;
+		priv->power_gpio =
+			devm_gpiod_get_optional(dev, "power", GPIOD_IS_OUT);
+		if (IS_ERR(priv->power_gpio)) {
+			dev_err(dev, "Get power-acvtive gpio failed: %d\n", ret);
+			goto err_deassert_reset;
+		}
+		dm_gpio_set_value(priv->power_gpio, 1);
 	}
 #endif
 
 	ret = pinctrl_select_state(dev, "perst-active");
 	if (ret) {
-		dev_err(dev, "Set perst-active pinctrl failed: %d\n", ret);
-#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB)
-		goto err_release_power_pin;
+		priv->reset_gpio =
+			devm_gpiod_get_optional(dev, "reset", GPIOD_IS_OUT);
+		if (IS_ERR(priv->reset_gpio)) {
+			dev_err(dev, "Set perst-active gpio failed: %d\n", ret);
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB) || CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
+			goto err_release_power_pin;
 #else
-		goto err_deassert_reset;
+			goto err_deassert_reset;
 #endif
+		}
+		dm_gpio_set_value(priv->reset_gpio, 1);
 	}
 
 	/* Disable physical functions except #0 */
@@ -447,13 +459,17 @@ static int starfive_pcie_init_port(struct udevice *dev)
 	mdelay(100);
 	ret = pinctrl_select_state(dev, "perst-default");
 	if (ret) {
-		dev_err(dev, "Set perst-default pinctrl failed: %d\n", ret);
+		if (priv->reset_gpio) {
+			dm_gpio_set_value(priv->reset_gpio, 0);
+			return 0;
+		} else
+			dev_err(dev, "Set perst-default pinctrl failed: %d\n", ret);
 		return ret;
 	}
 
 	return 0;
 
-#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB)
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB) || CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
 err_release_power_pin:
 	pinctrl_select_state(dev, "power-default");
 #endif
