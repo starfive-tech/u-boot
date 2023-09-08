@@ -720,9 +720,6 @@ static int sf_vop_remove(struct udevice *dev)
 	if(priv->mipi_logo == true)
 		return 0;
 
-	if(priv->hdmi_logo == false)
-		return 0;
-
 	iotrace_writel( 0x00000000, priv->regs_hi+0x1cc0 );
 	iotrace_writel( 0x00000000, priv->regs_hi+0x24e0 );
 	iotrace_writel( 0x00000000, priv->regs_hi+0x1810 );
