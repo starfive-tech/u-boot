@@ -43,12 +43,12 @@ static int do_fastboot_usb(int argc, char *const argv[],
 	char *endp;
 	int ret;
 
-#ifdef CONFIG_FASTBOOT_STARFIVE_MAX_BLK_WRITE
+#ifdef CONFIG_TARGET_STARFIVE_DEVKITS
 #define RUN_FB_SF_PRESETTING				\
 	"fdt set /soc/usbdrd starfive,usb2-only <0x1>;"	\
 	"fdt set /soc/usbdrd/usb@10100000 dr_num_mode <0x2>;"
 
-		run_command_list(RUN_FB_SF_PRESETTING, -1, 0);
+	run_command_list(RUN_FB_SF_PRESETTING, -1, 0);
 #endif
 
 	if (argc < 2)
