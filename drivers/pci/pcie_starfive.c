@@ -40,6 +40,10 @@ DECLARE_GLOBAL_DATA_PTR;
 #define IDS_PCI_TO_PCI_BRIDGE		0x060400
 #define IDS_CLASS_CODE_SHIFT		8
 
+#define PLDA_LINK_UP			1
+#define PLDA_LINK_DOWN			0
+
+#define PLDA_DATA_LINK_ACTIVE		BIT(5)
 #define PREF_MEM_WIN_64_SUPPORT		BIT(3)
 #define PMSG_LTR_SUPPORT		BIT(2)
 #define PLDA_FUNCTION_DIS		BIT(15)
@@ -92,6 +96,7 @@ struct starfive_pcie {
 	u32 stg_arfun;
 	u32 stg_awfun;
 	u32 stg_rp_nep;
+	u32 stg_lnksta;
 
 	struct clk_bulk	clks;
 	struct reset_ctl_bulk	rsts;
@@ -267,7 +272,7 @@ static int starfive_pcie_get_syscon(struct udevice *dev)
 	struct starfive_pcie *priv = dev_get_priv(dev);
 	struct udevice *syscon;
 	struct ofnode_phandle_args syscfg_phandle;
-	u32 cells[4];
+	u32 cells[5];
 	int ret;
 
 	/* get corresponding syscon phandle */
@@ -300,11 +305,12 @@ static int starfive_pcie_get_syscon(struct udevice *dev)
 		return -EINVAL;
 	}
 
-	dev_dbg(dev, "Get syscon values: %x, %x, %x\n",
-			cells[1], cells[2], cells[3]);
+	dev_dbg(dev, "Get syscon values: %x, %x, %x, %x\n",
+			cells[1], cells[2], cells[3], cells[4]);
 	priv->stg_arfun = cells[1];
 	priv->stg_awfun = cells[2];
 	priv->stg_rp_nep = cells[3];
+	priv->stg_lnksta = cells[4];
 
 	return 0;
 }
@@ -431,7 +437,7 @@ static int starfive_pcie_init_port(struct udevice *dev)
 	starfive_pcie_atr_init(priv);
 
 	/* Ensure that PERST has been asserted for at least 300 ms */
-	mdelay(300);
+	mdelay(100);
 	ret = pinctrl_select_state(dev, "perst-default");
 	if (ret) {
 		dev_err(dev, "Set perst-default pinctrl failed: %d\n", ret);
@@ -449,6 +455,33 @@ err_deassert_clk:
 
 	return ret;
 }
+
+static int plda_pcie_is_link_up(struct udevice *dev)
+{
+	struct starfive_pcie *priv = dev_get_priv(dev);
+	int ret;
+	u32 stg_reg_val;
+
+	/* 100ms timeout value should be enough for Gen1/2 training */
+	ret = regmap_read_poll_timeout(priv->regmap,
+					priv->stg_lnksta,
+					stg_reg_val,
+					stg_reg_val & PLDA_DATA_LINK_ACTIVE,
+					10 * 1000, 100);
+
+	/* If the link is down (no device in slot), then exit. */
+	if (ret == -ETIMEDOUT) {
+		dev_err(dev, "Port link down.\n");
+		return PLDA_LINK_DOWN;
+	} else if (ret == 0) {
+		dev_err(dev, "Port link up.\n");
+		return PLDA_LINK_UP;
+	}
+
+	dev_warn(dev, "Read stg_linksta failed.\n");
+	return ret;
+}
+
 
 static int starfive_pcie_probe(struct udevice *dev)
 {
@@ -481,6 +514,14 @@ static int starfive_pcie_probe(struct udevice *dev)
 	ret = starfive_pcie_init_port(dev);
 	if (ret)
 		return ret;
+
+	if (plda_pcie_is_link_up(dev) == PLDA_LINK_UP) {
+		/* As the requirement in PCIe base spec r6.0, system (<=5GT/s) must
+		 * wait a minimum of 100 ms following exit from a conventional reset
+		 * before sending a configuration request to the device.
+		 */
+		mdelay(100);
+	}
 
 	dev_err(dev, "Starfive PCIe bus probed.\n");
 
