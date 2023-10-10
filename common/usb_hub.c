@@ -376,6 +376,9 @@ int usb_hub_port_connect_change(struct usb_device *dev, int port)
 		return ret;
 	}
 
+	if (le16_to_cpu(portsts->wPortChange) & USB_PORT_STAT_C_OVERCURRENT)
+		return -EIO;
+
 	switch (portstatus & USB_PORT_STAT_SPEED_MASK) {
 	case USB_PORT_STAT_SUPER_SPEED:
 		speed = USB_SPEED_SUPER;
