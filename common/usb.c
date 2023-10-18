@@ -1144,20 +1144,32 @@ int usb_select_config(struct usb_device *dev)
 	memset(dev->mf, 0, sizeof(dev->mf));
 	memset(dev->prod, 0, sizeof(dev->prod));
 	memset(dev->serial, 0, sizeof(dev->serial));
-	if (dev->descriptor.iManufacturer)
-		usb_string(dev, dev->descriptor.iManufacturer,
+	if (dev->descriptor.iManufacturer) {
+		err = usb_string(dev, dev->descriptor.iManufacturer,
 			   dev->mf, sizeof(dev->mf));
-	if (dev->descriptor.iProduct)
-		usb_string(dev, dev->descriptor.iProduct,
+		if (err < 0)
+			goto decriptor_err;
+	} if (dev->descriptor.iProduct) {
+		err = usb_string(dev, dev->descriptor.iProduct,
 			   dev->prod, sizeof(dev->prod));
-	if (dev->descriptor.iSerialNumber)
-		usb_string(dev, dev->descriptor.iSerialNumber,
+		if (err < 0)
+			goto decriptor_err;
+	}
+	if (dev->descriptor.iSerialNumber) {
+		err = usb_string(dev, dev->descriptor.iSerialNumber,
 			   dev->serial, sizeof(dev->serial));
+		if (err < 0)
+			goto decriptor_err;
+	}
 	debug("Manufacturer %s\n", dev->mf);
 	debug("Product      %s\n", dev->prod);
 	debug("SerialNumber %s\n", dev->serial);
 
 	return 0;
+
+decriptor_err:
+	printf("failed to get usb device info %d\n", err);
+	return err;
 }
 
 int usb_setup_device(struct usb_device *dev, bool do_read,
