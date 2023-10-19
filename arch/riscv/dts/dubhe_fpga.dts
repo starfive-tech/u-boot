@@ -44,6 +44,7 @@
 &gmac0 {
 	status = "okay";
 	phy-mode = "rgmii-id";
+	mac-address = [de ad be ef de ad];
 	// clk_csr = <3>;
 	// max-speed = <10>;
 	phy-handle = <&ethernet_phy0>;
