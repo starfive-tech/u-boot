@@ -4,3 +4,7 @@
 
 obj-y += dram.o
 obj-y += cpu.o
+
+ifndef CONFIG_SPL_BUILD
+obj-y += cache.o
+endif
