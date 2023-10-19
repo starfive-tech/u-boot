@@ -1693,9 +1693,9 @@ err_free_clk_slave_bus:
 err_free_clk_master_bus:
 	clk_free(&eqos->clk_master_bus);
 err_free_gpio_phy_reset:
-	dm_gpio_free(dev, &eqos->phy_reset_gpio);
+	/* dm_gpio_free(dev, &eqos->phy_reset_gpio); */
 err_free_reset_eqos:
-	reset_free(&eqos->reset_ctl);
+	/* reset_free(&eqos->reset_ctl); */
 
 	return ret;
 }
