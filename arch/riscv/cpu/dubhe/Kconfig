@@ -16,3 +16,6 @@ config STARFIVE_DUBHE
 	imply SPL_OPENSBI
 	imply SPL_LOAD_FIT
 	imply MII
+
+config SYS_CACHELINE_SIZE
+	default 64
