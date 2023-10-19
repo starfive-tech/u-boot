@@ -15,3 +15,4 @@ config STARFIVE_DUBHE
 	imply SPL_CPU
 	imply SPL_OPENSBI
 	imply SPL_LOAD_FIT
+	imply MII

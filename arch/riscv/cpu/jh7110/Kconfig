@@ -29,3 +29,20 @@ config STARFIVE_JH7110
 	imply SPL_OPENSBI
 	imply SPL_RISCV_ACLINT
 	imply SPL_SYS_MALLOC_CLEAR_ON_INIT
+
+choice
+	prompt "JH7110 GMAC Speed"
+	depends on (STARFIVE_JH7110 || STARFIVE_DUBHE)
+	default FPGA_GMAC_SPEED10
+	help
+	  choice JH7110 GMAC speed.
+	  (GMAC only works well on 10M/duple, for FPGA board.)
+
+	config FPGA_GMAC_SPEED10
+		bool "GMAC works on 10M mode"
+	config FPGA_GMAC_SPEED100
+		bool "GMAC works on 100M mode"
+	config FPGA_GMAC_SPEED_AUTO
+		bool "GMAC works on auto mode"
+
+endchoice
