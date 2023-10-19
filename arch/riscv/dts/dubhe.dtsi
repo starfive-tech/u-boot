@@ -33,6 +33,28 @@
 				interrupt-controller;
 			};
 		};
+
+		cpu@1 {
+			compatible = "starfive,dubhe", "riscv";
+			d-cache-block-size = <64>;
+			d-cache-sets = <128>;
+			d-cache-size = <65536>;
+			device_type = "cpu";
+			i-cache-block-size = <64>;
+			i-cache-sets = <512>;
+			i-cache-size = <65536>;
+			i-tlb-sets = <1>;
+			i-tlb-size = <32>;
+			mmu-type = "riscv,sv48";
+			reg = <0x1>;
+			riscv,isa = "rv64imafdcbhnv";
+			tlb-split;
+			cpu1_intc: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
 	};
 
 	soc {
@@ -98,5 +120,40 @@
 			clocks = <&pbus_clk>;
 			status = "disabled";
 		};
+
+		stmmac_axi_setup: stmmac-axi-config {
+			snps,wr_osr_lmt = <0xf>;
+			snps,rd_osr_lmt = <0xf>;
+			snps,blen = <256 128 64 32 0 0 0>;
+		};
+
+		gmac0: gmac0@10100000 {
+			compatible = "starfive,dubhe-eqos-5.20";
+			reg = <0x0 0x10100000 0x0 0x10000>;
+			clock-names = "gtx",
+				"tx",
+				"ptp_ref",
+				"stmmaceth",
+				"pclk",
+				"gtxc";
+			interrupt-parent = <&plic0>;
+			interrupts = <8>, <11>, <12> ;
+			interrupt-names = "macirq", "eth_wake_irq", "eth_lpi";
+			max-frame-size = <1500>;
+			phy-mode = "rgmii-id";
+			snps,multicast-filter-bins = <64>;
+			snps,perfect-filter-entries = <128>;
+			rx-fifo-depth = <2048>;
+			tx-fifo-depth = <2048>;
+			snps,fixed-burst;
+			snps,no-pbl-x8;
+			snps,force_thresh_dma_mode;
+			snps,axi-config = <&stmmac_axi_setup>;
+			snps,tso;
+			snps,en-tx-lpi-clockgating;
+			snps,txpbl = <4>;
+			snps,rxpbl = <4>;
+			status = "disabled";
+		};		
 	};
 };
