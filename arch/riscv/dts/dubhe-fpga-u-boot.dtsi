@@ -7,22 +7,22 @@
 	};
 
 	config {
-		u-boot,spl-payload-offset = <0x22000>;
+		u-boot,spl-payload-offset = <0x42000>;
 	};
 
 	cpus {
-		u-boot,dm-spl;
+		bootph-all;
 		cpu@0 {
-			u-boot,dm-spl;
+			bootph-all;
 		};
 	};
 
 	memory@80000000 {
-		u-boot,dm-spl;
+		bootph-all;
 	};
 
 	soc {
-		u-boot,dm-spl;
+		bootph-all;
 		dmc: dmc@10280000 {
 			compatible = "starfive,dubhe-ddr";
 			reg = <0x0 0x10280000 0x0 0x10000
@@ -30,40 +30,40 @@
 			       0x0 0x102A0000 0x0 0x10000>;
 			clocks = <&pbus_clk>;
 			clock-frequency = <25000000>;
-			u-boot,dm-spl;
+			bootph-all;
 		};
 	};
 };
 
 &spi0 {
-	u-boot,dm-spl;
+	bootph-all;
 	
 	mmc@0 {
-		u-boot,dm-spl;
+		bootph-all;
 	};
 };
 
 &qspi1 {
-	u-boot,dm-spl;
+	bootph-all;
 
 	flash@0 {
-		u-boot,dm-spl;
+		bootph-all;
 	};
 };
 
 &uart0 {
-	u-boot,dm-spl;
+	bootph-all;
 };
 
 &pbus_clk {
-	u-boot,dm-spl;
+	bootph-all;
 };
 
 &clint {
 	clocks = <&pbus_clk>;
-	u-boot,dm-spl;
+	bootph-all;
 };
 
 &cpu0_intc {
-	u-boot,dm-spl;
+	bootph-all;
 };
