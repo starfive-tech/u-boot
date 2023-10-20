@@ -316,6 +316,7 @@ err:
 #endif
 }
 
+#if 0
 static int eqos_start_clks_jh7110(struct udevice *dev)
 {
 	struct eqos_priv *eqos = dev_get_priv(dev);
@@ -366,6 +367,7 @@ err:
 	debug("%s: FAILED: %d\n", __func__, ret);
 	return ret;
 }
+#endif
 
 static int eqos_stop_clks_tegra186(struct udevice *dev)
 {
@@ -385,6 +387,7 @@ static int eqos_stop_clks_tegra186(struct udevice *dev)
 	return 0;
 }
 
+#if 0
 static int eqos_stop_clks_jh7110(struct udevice *dev)
 {
 	struct eqos_priv *eqos = dev_get_priv(dev);
@@ -398,6 +401,7 @@ static int eqos_stop_clks_jh7110(struct udevice *dev)
 	debug("%s: OK\n", __func__);
 	return 0;
 }
+#endif
 
 static int eqos_start_resets_tegra186(struct udevice *dev)
 {
@@ -471,6 +475,7 @@ static int eqos_stop_resets_tegra186(struct udevice *dev)
 	return 0;
 }
 
+#if 0
 static int eqos_stop_resets_jh7110(struct udevice *dev)
 {
 //	struct eqos_priv *eqos = dev_get_priv(dev);
@@ -480,6 +485,7 @@ static int eqos_stop_resets_jh7110(struct udevice *dev)
 
 	return 0;
 }
+#endif
 
 static int eqos_calibrate_pads_tegra186(struct udevice *dev)
 {
@@ -1567,8 +1573,10 @@ err_free_clk_master_bus:
 	clk_disable(&eqos->clk_master_bus);
 err_free_gpio_phy_reset:
 	/* dm_gpio_free(dev, &eqos->phy_reset_gpio); */
+#if 0
 err_free_reset_eqos:
-	/* reset_free(&eqos->reset_ctl); */
+	/* reset_release_bulk(&eqos->reset_bulk); */
+#endif
 
 	return ret;
 }
@@ -1578,7 +1586,7 @@ static phy_interface_t eqos_get_interface_tegra186(const struct udevice *dev)
 	return PHY_INTERFACE_MODE_MII;
 }
 
-static phy_interface_t eqos_get_interface_jh7110(struct udevice *dev)
+static phy_interface_t eqos_get_interface_jh7110(const struct udevice *dev)
 {
 	const char *phy_mode;
 	phy_interface_t interface = PHY_INTERFACE_MODE_NA;
@@ -1605,6 +1613,7 @@ static int eqos_remove_resources_tegra186(struct udevice *dev)
 	return 0;
 }
 
+#if 0
 static int eqos_remove_resources_jh7110(struct udevice *dev)
 {
 	struct eqos_priv *eqos = dev_get_priv(dev);
@@ -1620,6 +1629,7 @@ static int eqos_remove_resources_jh7110(struct udevice *dev)
 	debug("%s: OK\n", __func__);
 	return 0;
 }
+#endif
 
 static int eqos_probe(struct udevice *dev)
 {
