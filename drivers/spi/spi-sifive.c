@@ -382,7 +382,7 @@ static int sifive_spi_cs_info(struct udevice *bus, uint cs,
 	struct sifive_spi *spi = dev_get_priv(bus);
 
 	if (cs >= spi->num_cs)
-		return -EINVAL;
+		/* return -EINVAL; */
 
 	return 0;
 }
