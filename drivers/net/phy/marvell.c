@@ -424,6 +424,12 @@ static int m88e151x_config(struct phy_device *phydev)
 	phy_write(phydev, MDIO_DEVAD_NONE, 16, 0x214D);
 	phy_write(phydev, MDIO_DEVAD_NONE, 17, 0xCC0C);
 	phy_write(phydev, MDIO_DEVAD_NONE, 16, 0x2159);
+	
+	/* Dubhe GMAC */
+	phy_write(phydev, MDIO_DEVAD_NONE, MIIM_88E1118_PHY_PAGE, 18); //Switch to Page 18
+	phy_write(phydev, MDIO_DEVAD_NONE, 18, 0x2); //Enable CRC checker on Copper Interface
+	phy_write(phydev, MDIO_DEVAD_NONE, 20, 0x0); //Set RGMII to Copper mode
+	
 	phy_write(phydev, MDIO_DEVAD_NONE, MIIM_88E1118_PHY_PAGE, 0x0000);
 
 	/* SGMII-to-Copper mode initialization */
