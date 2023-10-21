@@ -15,6 +15,10 @@
 		cpu@0 {
 			bootph-all;
 		};
+
+		cpu@1 {
+			bootph-all;
+		};
 	};
 
 	memory@80000000 {
