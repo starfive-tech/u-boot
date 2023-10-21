@@ -14,7 +14,7 @@ CONFIG_RISCV_SMODE=y
 CONFIG_SPL_OPENSBI_LOAD_ADDR=0x80100000
 CONFIG_FIT=y
 CONFIG_USE_BOOTARGS=y
-CONFIG_BOOTARGS="console=ttySIF0,115200 earlycon=sbi root=/dev/mmcblk0p2 rw rootfstype=ext4 rootwait"
+CONFIG_BOOTARGS="console=ttySIF0,115200 earlycon=sbi ip=:::255.255.255.0::eth0:dhcp"
 CONFIG_USE_BOOTCOMMAND=y
 #CONFIG_BOOTCOMMAND="echo Dubhe FPGA booting from serial flash...; sf probe 1:0; sf read 0x84000000 0x400000 0x1200000; bootm 0x84000000"
 CONFIG_BOOTCOMMAND=""
