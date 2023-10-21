@@ -4,29 +4,31 @@
 / {
 	chosen {
 		stdout-path = "serial0";
+		bootph-pre-ram;
 	};
 
 	config {
 		u-boot,spl-payload-offset = <0x42000>;
+		bootph-pre-ram;
 	};
 
 	cpus {
-		bootph-all;
+		bootph-pre-ram;
 		cpu@0 {
-			bootph-all;
+			bootph-pre-ram;
 		};
 
 		cpu@1 {
-			bootph-all;
+			bootph-pre-ram;
 		};
 	};
 
 	memory@80000000 {
-		bootph-all;
+		bootph-pre-ram;
 	};
 
 	soc {
-		bootph-all;
+		bootph-pre-ram;
 		dmc: dmc@10280000 {
 			compatible = "starfive,dubhe-ddr";
 			reg = <0x0 0x10280000 0x0 0x10000
@@ -34,40 +36,52 @@
 			       0x0 0x102A0000 0x0 0x10000>;
 			clocks = <&pbus_clk>;
 			clock-frequency = <25000000>;
-			bootph-all;
+			bootph-pre-ram;
 		};
 	};
 };
 
+&clint {
+	bootph-pre-ram;
+};
+
+&pbus_clk {
+	bootph-pre-ram;
+};
+
+&plic0 {
+	bootph-pre-ram;
+};
+
 &spi0 {
-	bootph-all;
+	bootph-pre-ram;
 	
 	mmc@0 {
-		bootph-all;
+		bootph-pre-ram;
 	};
 };
 
 &qspi1 {
-	bootph-all;
+	bootph-pre-ram;
 
 	flash@0 {
-		bootph-all;
+		bootph-pre-ram;
 	};
 };
 
 &uart0 {
-	bootph-all;
+	bootph-pre-ram;
 };
 
 &pbus_clk {
-	bootph-all;
+	bootph-pre-ram;
 };
 
 &clint {
 	clocks = <&pbus_clk>;
-	bootph-all;
+	bootph-pre-ram;
 };
 
 &cpu0_intc {
-	bootph-all;
+	bootph-pre-ram;
 };
