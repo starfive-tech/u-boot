@@ -379,10 +379,10 @@ static int sifive_spi_set_mode(struct udevice *bus, uint mode)
 static int sifive_spi_cs_info(struct udevice *bus, uint cs,
 			      struct spi_cs_info *info)
 {
-	struct sifive_spi *spi = dev_get_priv(bus);
+/* 	struct sifive_spi *spi = dev_get_priv(bus);
 
 	if (cs >= spi->num_cs)
-		/* return -EINVAL; */
+		return -EINVAL; */
 
 	return 0;
 }
