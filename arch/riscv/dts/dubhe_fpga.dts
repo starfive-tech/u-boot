@@ -14,7 +14,7 @@
 	};
 
 	chosen {
-		bootargs = "console=ttySIF0,115200 earlycon=sbi root=/dev/mmcblk0p2 rw rootfstype=ext4 rootwait";
+		bootargs = "console=ttySIF0,115200 earlycon=sbi ip=:::255.255.255.0::eth0:dhcp";
 	};
 
 	cpus {
