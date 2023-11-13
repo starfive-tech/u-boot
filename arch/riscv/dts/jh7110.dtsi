@@ -15,6 +15,56 @@
 	#address-cells = <2>;
 	#size-cells = <2>;
 
+	chosen {
+		opensbi-domains {
+			compatible = "opensbi,domain,config";
+
+			rpmsg_shmem: rpmsg_shmem {
+				compatible = "opensbi,domain,memregion";
+				base = <0x0 0x6e400000>;
+				order = <22>;
+			};
+
+			rtcode: rtcode {
+				compatible = "opensbi,domain,memregion";
+				base = <0x0 0x6e800000>;
+				order = <23>;
+			};
+
+			rtheap: rtheap {
+				compatible = "opensbi,domain,memregion";
+				base = <0x0 0x6f000000>;
+				order = <24>;
+			};
+
+			allmem: allmem {
+				compatible = "opensbi,domain,memregion";
+				base = <0x0 0x0>;
+				order = <64>;
+			};
+
+			udomain: u-domain {
+				compatible = "opensbi,domain,instance";
+				possible-harts = <&cpu0 &cpu1 &cpu2 &cpu3>;
+				regions = <&rpmsg_shmem 0x3f>, <&rtcode 0x0>, <&rtheap 0x0>, <&allmem 0x3f>;
+				next-addr = <0x0 0x40200000>;
+				boot-hart = <&cpu1>;
+				system-reset-allowed;
+				system-suspend-allowed;
+			};
+
+			rtdomain: rt-domain {
+				compatible = "opensbi,domain,instance";
+				possible-harts = <&cpu4>;
+				regions = <&rpmsg_shmem 0x3f>, <&rtcode 0x3f>, <&rtheap 0x3f>, <&allmem 0x3f>;
+				boot-hart = <&cpu4>;
+				next-arg1 = <0x0 0x0>;
+				next-addr = <0x0 0x6e800000>;
+				next-mode = <0x1>;
+			};
+		};
+	};
+
 	cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -37,6 +87,7 @@
 			next-level-cache = <&cachectrl>;
 			riscv,isa = "rv64imacu_zba_zbb";
 			tlb-split;
+			opensbi-domain = <&udomain>;
 			status = "disabled";
 
 			cpu0intctrl: interrupt-controller {
@@ -64,6 +115,7 @@
 			next-level-cache = <&cachectrl>;
 			riscv,isa = "rv64imafdcbsux_zba_zbb";
 			tlb-split;
+			opensbi-domain = <&udomain>;
 			status = "okay";
 
 			cpu1intctrl: interrupt-controller {
@@ -91,6 +143,7 @@
 			next-level-cache = <&cachectrl>;
 			riscv,isa = "rv64imafdcbsux_zba_zbb";
 			tlb-split;
+			opensbi-domain = <&udomain>;
 			status = "okay";
 
 			cpu2intctrl: interrupt-controller {
@@ -118,6 +171,7 @@
 			next-level-cache = <&cachectrl>;
 			riscv,isa = "rv64imafdcbsux_zba_zbb";
 			tlb-split;
+			opensbi-domain = <&udomain>;
 			status = "okay";
 
 			cpu3intctrl: interrupt-controller {
@@ -145,6 +199,7 @@
 			next-level-cache = <&cachectrl>;
 			riscv,isa = "rv64imafdcbsux_zba_zbb";
 			tlb-split;
+			opensbi-domain = <&rtdomain>;
 			status = "okay";
 
 			cpu4intctrl: interrupt-controller {
