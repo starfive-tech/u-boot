@@ -199,4 +199,10 @@ int board_fit_config_name_match(const char *name)
 }
 #endif
 
-
+void spl_perform_fixups(struct spl_image_info *spl_image)
+{
+	if (spl_image->size > CONFIG_RTOS_IMAGE_OFFSET)
+		memcpy((void *)CONFIG_RTOS_RAM_BASE,
+			(void *) (CONFIG_SPL_OPENSBI_LOAD_ADDR + CONFIG_RTOS_IMAGE_OFFSET),
+			spl_image->size - CONFIG_RTOS_IMAGE_OFFSET);
+}
