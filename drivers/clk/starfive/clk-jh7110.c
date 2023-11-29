@@ -425,6 +425,58 @@ static int jh7110_clk_init(struct udevice *dev)
 	       starfive_clk_divider(priv->sys,
 				    "nocstg_bus", "bus_root",
 				    SYS_OFFSET(JH7110_NOCSTG_BUS), 3));
+
+	/*I2C*/
+	clk_dm(JH7110_I2C0_CLK_APB,
+	       starfive_clk_gate(priv->sys,
+				 "u0_dw_i2c_clk_apb", "apb0",
+				 SYS_OFFSET(JH7110_I2C0_CLK_APB)));
+	clk_dm(JH7110_I2C0_CLK_CORE,
+	       starfive_clk_fix_factor(priv->sys,
+				       "u0_dw_i2c_clk_core", "u0_dw_i2c_clk_apb", 1, 1));
+	clk_dm(JH7110_I2C1_CLK_APB,
+	       starfive_clk_gate(priv->sys,
+				 "u1_dw_i2c_clk_apb", "apb0",
+				 SYS_OFFSET(JH7110_I2C1_CLK_APB)));
+	clk_dm(JH7110_I2C1_CLK_CORE,
+	       starfive_clk_fix_factor(priv->sys,
+				       "u1_dw_i2c_clk_core", "u1_dw_i2c_clk_apb", 1, 1));
+	clk_dm(JH7110_I2C2_CLK_APB,
+	       starfive_clk_gate(priv->sys,
+				 "u2_dw_i2c_clk_apb", "apb0",
+				 SYS_OFFSET(JH7110_I2C2_CLK_APB)));
+	clk_dm(JH7110_I2C2_CLK_CORE,
+	       starfive_clk_fix_factor(priv->sys,
+				       "u2_dw_i2c_clk_core", "u2_dw_i2c_clk_apb", 1, 1));
+	clk_dm(JH7110_I2C3_CLK_APB,
+	       starfive_clk_gate(priv->sys,
+				 "u3_dw_i2c_clk_apb", "apb12",
+				 SYS_OFFSET(JH7110_I2C3_CLK_APB)));
+	clk_dm(JH7110_I2C3_CLK_CORE,
+	       starfive_clk_fix_factor(priv->sys,
+				       "u3_dw_i2c_clk_core", "u3_dw_i2c_clk_apb", 1, 1));
+	clk_dm(JH7110_I2C4_CLK_APB,
+	       starfive_clk_gate(priv->sys,
+				 "u4_dw_i2c_clk_apb", "apb12",
+				 SYS_OFFSET(JH7110_I2C4_CLK_APB)));
+	clk_dm(JH7110_I2C4_CLK_CORE,
+	       starfive_clk_fix_factor(priv->sys,
+				       "u4_dw_i2c_clk_core", "u4_dw_i2c_clk_apb", 1, 1));
+	clk_dm(JH7110_I2C5_CLK_APB,
+	       starfive_clk_gate(priv->sys,
+				 "u5_dw_i2c_clk_apb", "apb12",
+				 SYS_OFFSET(JH7110_I2C5_CLK_APB)));
+	clk_dm(JH7110_I2C5_CLK_CORE,
+	       starfive_clk_fix_factor(priv->sys,
+				       "u5_dw_i2c_clk_core", "u5_dw_i2c_clk_apb", 1, 1));
+	clk_dm(JH7110_I2C6_CLK_APB,
+	       starfive_clk_gate(priv->sys,
+				 "u6_dw_i2c_clk_apb", "apb12",
+				 SYS_OFFSET(JH7110_I2C6_CLK_APB)));
+	clk_dm(JH7110_I2C6_CLK_CORE,
+	       starfive_clk_fix_factor(priv->sys,
+				       "u6_dw_i2c_clk_core", "u6_dw_i2c_clk_apb", 1, 1));
+
 	/*QSPI*/
 	clk_dm(JH7110_QSPI_CLK_AHB,
 	       starfive_clk_gate(priv->sys,
@@ -698,24 +750,6 @@ static int jh7110_clk_init(struct udevice *dev)
 	       starfive_clk_divider(priv->sys,
 				    "u0_dom_vout_top_clk_mipiphy_ref", "osc",
 				    SYS_OFFSET(JH7110_MCLK_INNER), 2));
-
-	/*i2c5*/
-	clk_dm(JH7110_I2C5_CLK_APB,
-		starfive_clk_gate(priv->sys,
-			"u5_dw_i2c_clk_apb", "apb0",
-			SYS_OFFSET(JH7110_I2C5_CLK_APB)));
-	clk_dm(JH7110_I2C5_CLK_CORE,
-		starfive_clk_fix_factor(priv->sys,
-			"u5_dw_i2c_clk_core", "u5_dw_i2c_clk_apb", 1, 1));
-
-	/*i2c2*/
-	clk_dm(JH7110_I2C2_CLK_APB,
-		starfive_clk_gate(priv->sys,
-			"u2_dw_i2c_clk_apb", "apb0",
-			SYS_OFFSET(JH7110_I2C2_CLK_APB)));
-	clk_dm(JH7110_I2C2_CLK_CORE,
-		starfive_clk_fix_factor(priv->sys,
-			"u2_dw_i2c_clk_core", "u2_dw_i2c_clk_apb", 1, 1));
 
 	/*pcie0*/
 	clk_dm(JH7110_PCIE0_CLK_TL,

@@ -786,6 +786,7 @@ struct dsi_sf_priv {
 	struct udevice *panel;
 	struct udevice *dsi_host;
 	unsigned int data_lanes;
+	struct display_timing timings;
 
 	struct clk dsi_sys_clk;
 	struct clk apb_clk;

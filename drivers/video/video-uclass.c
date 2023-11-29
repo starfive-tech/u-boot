@@ -265,7 +265,7 @@ int video_sync_copy(struct udevice *dev, void *from, void *to)
 		 * frame buffer
 		 */
 		if (offset < -priv->fb_size || offset > 2 * priv->fb_size) {
-#if DEBUG
+#ifdef DEBUG
 			char str[80];
 
 			snprintf(str, sizeof(str),

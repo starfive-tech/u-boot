@@ -114,7 +114,13 @@ static void dsi_phy_post_set_mode(void *priv_data, unsigned long mode_flags)
 	if (!priv)
 		return;
 
-	bitrate = 750000000;//1188M 60fps
+	// bitrate = 750000000;//1188M 60fps
+	debug("dsi_phy_post_set_mode priv->timings.hactive.typ %d----\n",priv->timings.hactive.typ);
+	debug("dsi_phy_post_set_mode priv->timings.vactive.typ %d----\n",priv->timings.vactive.typ);
+	if (priv->timings.hactive.typ == 800)
+		bitrate = 750000000;
+	else if(priv->timings.hactive.typ == 1920)
+		bitrate = 900000000;//1188M 60fps
 
 	sf_dphy_set_reg(priv->phy_reg + 0x8, 0x10,
 					RG_CDTX_L0N_HSTX_RES_SHIFT, RG_CDTX_L0N_HSTX_RES_MASK);
@@ -159,12 +165,21 @@ static void dsi_phy_post_set_mode(void *priv_data, unsigned long mode_flags)
 							CFG_L0_SWAP_SEL_SHIFT, CFG_L0_SWAP_SEL_MASK);//Lane setting
 			sf_dphy_set_reg(priv->phy_reg, 0x1,
 							CFG_L1_SWAP_SEL_SHIFT, CFG_L1_SWAP_SEL_MASK);
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_EVB)
 			sf_dphy_set_reg(priv->phy_reg, 0x4,
 							CFG_L2_SWAP_SEL_SHIFT, CFG_L2_SWAP_SEL_MASK);
 			sf_dphy_set_reg(priv->phy_reg, 0x2,
 							CFG_L3_SWAP_SEL_SHIFT, CFG_L3_SWAP_SEL_MASK);
 			sf_dphy_set_reg(priv->phy_reg, 0x3,
 							CFG_L4_SWAP_SEL_SHIFT, CFG_L4_SWAP_SEL_MASK);
+#else
+			sf_dphy_set_reg(priv->phy_reg, 0x2,
+							CFG_L2_SWAP_SEL_SHIFT, CFG_L2_SWAP_SEL_MASK);
+			sf_dphy_set_reg(priv->phy_reg, 0x3,
+							CFG_L3_SWAP_SEL_SHIFT, CFG_L3_SWAP_SEL_MASK);
+			sf_dphy_set_reg(priv->phy_reg, 0x4,
+							CFG_L4_SWAP_SEL_SHIFT, CFG_L4_SWAP_SEL_MASK);
+#endif
 			//PLL setting
 			sf_dphy_set_reg(priv->phy_reg + 0x1c, 0x0,
 							RG_CDTX_PLL_SSC_EN_SHIFT, RG_CDTX_PLL_SSC_EN_MASK);
@@ -246,11 +261,24 @@ static int dsi_sf_attach(struct udevice *dev)
 	struct display_timing timings;
 	int ret;
 
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
+	ret = uclass_get_device_by_name(UCLASS_PANEL, "seeed_panel@45", &priv->panel);
+	if (ret) {
+		debug("Could not get seeed_panel@45: %d\n", ret);
+		ret = uclass_get_device_by_name(UCLASS_PANEL, "lt8911exb_i2c@29", &priv->panel);
+		if (ret) {
+			debug("Could not get lt8911exb_i2c@29: %d\n", ret);
+			return ret;
+		}
+	}
+#else
 	ret = uclass_first_device(UCLASS_PANEL, &priv->panel);
 	if (ret) {
 		debug("panel device error %d\n", ret);
 		return ret;
 	}
+#endif
+
 	debug("%s,priv->panel->name = %s\n", __func__,priv->panel->name);
 
 	mplat = dev_get_plat(priv->panel);
@@ -264,14 +292,15 @@ static int dsi_sf_attach(struct udevice *dev)
 		ret = ofnode_decode_display_timing(dev_ofnode(priv->panel),
 						   0, &timings);
 		if (ret) {
-			printf("decode display timing error %d\n", ret);
+			debug("decode display timing error %d\n", ret);
 			return ret;
 		}
 	}
+	priv->timings = timings;
 
 	ret = uclass_get_device(UCLASS_DSI_HOST, 0, &priv->dsi_host);
 	if (ret) {
-		printf("No video dsi host detected %d\n", ret);
+		debug("No video dsi host detected %d\n", ret);
 		return ret;
 	}
 
@@ -279,7 +308,7 @@ static int dsi_sf_attach(struct udevice *dev)
 			mplat->lanes,
 			&dsi_stm_phy_ops);
 	if (ret) {
-		printf("failed to initialize mipi dsi host\n");
+		debug("failed to initialize mipi dsi host\n");
 		return ret;
 	}
 
@@ -293,13 +322,13 @@ static int dsi_sf_set_backlight(struct udevice *dev, int percent)
 
 	ret = dsi_host_enable(priv->dsi_host);
 	if (ret) {
-		printf("failed to enable mipi dsi host\n");
+		debug("failed to enable mipi dsi host\n");
 		return ret;
 	}
 
 	ret = panel_enable_backlight(priv->panel);
 	if (ret) {
-		printf("panel %s enable backlight error %d\n",
+		debug("panel %s enable backlight error %d\n",
 			priv->panel->name, ret);
 		return ret;
 	}
@@ -433,7 +462,7 @@ static int dsi_sf_probe(struct udevice *dev)
 
 	ret = dev_read_u32(dev, "data-lanes-num", &priv->data_lanes);
 	if (ret) {
-		printf("fail to get data lanes property %d\n", ret);
+		debug("fail to get data lanes property %d\n", ret);
 		return 0;
 	}
 
@@ -499,13 +528,13 @@ static int dsi_sf_probe(struct udevice *dev)
 
 	debug("%s ok: ID_REG val = %08x\n", __func__, val);
 	if (REV_VENDOR_ID(val) != 0xcad) {
-		printf("invalid vendor id\n");
+		debug("invalid vendor id\n");
 		ret = -EINVAL;
 	}
 
 	ret = cdns_check_register_access(dev);
     if (ret) {
-        printf("error: r/w test generic reg failed\n");
+        debug("error: r/w test generic reg failed\n");
     }
 
 	val = readl(priv->dsi_reg + IP_CONF);

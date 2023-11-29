@@ -1,0 +1,7 @@
+STARFIVE JH7110 DevKits BOARD
+M:	Yanhong Wang <yanhong.wang@starfivetech.com>
+S:	Maintained
+F:	arch/riscv/include/asm/arch-jh7110/
+F:	board/starfive/devkits/
+F:	include/configs/starfive-devkits.h
+F:	configs/starfive_devkits_defconfig

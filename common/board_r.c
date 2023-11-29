@@ -690,6 +690,9 @@ static init_fnc_t init_sequence_r[] = {
 #ifdef CONFIG_ARCH_EARLY_INIT_R
 	arch_early_init_r,
 #endif
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
+	set_pmic,
+#endif
 	power_init_board,
 #ifdef CONFIG_MTD_NOR_FLASH
 	initr_flash,

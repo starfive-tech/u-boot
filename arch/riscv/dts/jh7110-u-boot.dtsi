@@ -129,3 +129,11 @@
 &gmac0_rmii_refin {
 	u-boot,dm-spl;
 };
+
+&gpio {
+	u-boot,dm-spl;
+};
+
+&gpioa {
+	u-boot,dm-spl;
+};

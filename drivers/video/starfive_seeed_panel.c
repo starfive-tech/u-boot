@@ -4,8 +4,8 @@
  * Author(s): Yannick Fertre <yannick.fertre@st.com> for STMicroelectronics.
  *            Philippe Cornu <philippe.cornu@st.com> for STMicroelectronics.
  *
- * This rm68200 panel driver is inspired from the Linux Kernel driver
- * drivers/gpu/drm/panel/panel-raydium-rm68200.c.
+ * This seeed panel driver is inspired from the Linux Kernel driver
+ * drivers/gpu/drm/panel/panel-raydium-seeed.c.
  */
 #include <common.h>
 #include <backlight.h>
@@ -145,15 +145,16 @@ enum REG_ADDR {
 /* Chip/Rev Registers */
 #define IDREG 0x04A0
 
-/* Debug Registers */
+/* printf Registers */
 #define WCMDQUEUE 0x0500
 #define RCMDQUEUE 0x0504
 
 
-struct rm68200_panel_priv {
+struct seeed_panel_priv {
 	struct udevice *reg;
 	struct udevice *backlight;
-	struct gpio_desc reset;
+	struct gpio_desc *sel_gpio;   //select
+
 };
 
 static const struct display_timing default_timing = {
@@ -292,6 +293,9 @@ static int rm68200_panel_of_to_plat(struct udevice *dev)
 static int rm68200_panel_probe(struct udevice *dev)
 {
 	struct mipi_dsi_panel_plat *plat = dev_get_plat(dev);
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
+	struct seeed_panel_priv *priv = dev_get_priv(dev);
+#endif
 
 	u8 reg_value = 0;
 
@@ -315,6 +319,17 @@ static int rm68200_panel_probe(struct udevice *dev)
 		   return -ENODEV;
 	}
 
+#if CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
+	priv->sel_gpio = devm_gpiod_get_optional(dev, "sel", GPIOD_IS_OUT);
+
+	if (IS_ERR(priv->sel_gpio)) {
+		pr_err("Failed get reset sel gpio\n");
+		return PTR_ERR(priv->sel_gpio);
+	}
+
+	dm_gpio_set_value(priv->sel_gpio, 0);
+#endif
+
 	return 0;
 }
 
@@ -324,17 +339,17 @@ static const struct panel_ops rm68200_panel_ops = {
 };
 
 static const struct udevice_id rm68200_panel_ids[] = {
-	{ .compatible = "raydium,rm68200" },
+	{ .compatible = "starfive,seeed" },
 	{ }
 };
 
-U_BOOT_DRIVER(rm68200_panel) = {
-	.name			  = "rm68200_panel",
+U_BOOT_DRIVER(seeed_panel) = {
+	.name			  = "seeed_panel",
 	.id			  = UCLASS_PANEL,
 	.of_match		  = rm68200_panel_ids,
 	.ops			  = &rm68200_panel_ops,
 	.of_to_plat	  = rm68200_panel_of_to_plat,
 	.probe			  = rm68200_panel_probe,
 	.plat_auto	= sizeof(struct mipi_dsi_panel_plat),
-	.priv_auto	= sizeof(struct rm68200_panel_priv),
+	.priv_auto	= sizeof(struct seeed_panel_priv),
 };
