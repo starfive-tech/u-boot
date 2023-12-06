@@ -688,7 +688,7 @@
 			status = "disabled";
 		};
 
-		i2c5: i2c@12050000 {
+		i2c5: i2c5@12050000 {
 			compatible = "snps,designware-i2c";
 			reg = <0x0 0x12050000 0x0 0x10000>;
 			clocks = <&clkgen JH7110_I2C5_CLK_CORE>,
