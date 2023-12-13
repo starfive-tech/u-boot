@@ -127,8 +127,8 @@ void board_init_f(ulong dummy)
 	SYS_IOMUX_DOUT(43, 0x44);
 	SYS_IOMUX_SET_DS(43, 3);
 	/*uart1 rx*/
-	SYS_IOMUX_DOEN(45, HIGH);
-	SYS_IOMUX_DIN(45, 55);
+	SYS_IOMUX_DOEN(42, HIGH);
+	SYS_IOMUX_DIN(42, 55);
 
 	/*jtag*/
 	SYS_IOMUX_DOEN(36, HIGH);
