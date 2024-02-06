@@ -23,7 +23,7 @@
  * only be written in page mode, which means 16 bytes at a time:
  * 16-Byte Page Write Buffer
  */
-#define BYTES_PER_EEPROM_PAGE			16
+#define BYTES_PER_EEPROM_PAGE			8
 
 /*
  * EEPROM_WRITE_DELAY_MS: the 24FC04H datasheet says it takes up to
