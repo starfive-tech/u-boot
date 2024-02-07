@@ -229,7 +229,6 @@ static void get_cpu_voltage_type(struct udevice *dev)
 			env_set("cpu_max_vol", "1020000");
 			break;
 		default:
-			env_set("cpu_max_vol", "1040000");
 			break;
 		}
 	}
@@ -281,6 +280,9 @@ err:
 	eth_env_set_enetaddr("eth1addr", mac1);
 
 	chip = get_chip_type();
+
+       /* Set the default cpu max voltage. */
+       env_set("cpu_max_vol", "1040000");
 #if CONFIG_IS_ENABLED(STARFIVE_OTP)
 	get_cpu_voltage_type(dev);
 #endif
