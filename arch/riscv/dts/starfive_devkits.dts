@@ -231,9 +231,9 @@
 	};
 
 	eeprom@50 {
-		compatible = "atmel,24c04";
+		compatible = "atmel,24c02";
 		reg = <0x50>;
-		pagesize = <16>;
+		pagesize = <8>;
 	};
 
 	ext_gpio: ext_gpio@74 {
