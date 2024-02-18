@@ -367,8 +367,9 @@
  * BYTES_PER_EEPROM_PAGE: the 24FC04H datasheet says that data can
  * only be written in page mode, which means 16 bytes at a time:
  * 16-Byte Page Write Buffer
+ * For compatibility with 24FC02, PAGE SIZE is set to 8
  */
-#define BYTES_PER_EEPROM_PAGE			16
+#define BYTES_PER_EEPROM_PAGE			8
 
 /*
  * EEPROM_WRITE_DELAY_MS: the 24FC04H datasheet says it takes up to
