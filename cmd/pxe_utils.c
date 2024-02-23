@@ -654,6 +654,12 @@ static int label_boot(struct cmd_tbl *cmdtp, struct pxe_label *label)
 
 	kernel_addr = genimg_get_kernel_addr(bootm_argv[1]);
 	buf = map_sysmem(kernel_addr, 0);
+
+#if IS_ENABLED(CONFIG_STARFIVE_JH7110)
+	run_command("run chipa_set_linux", 0);
+	run_command("run cpu_vol_set", 0);
+#endif
+
 	/* Try bootm for legacy and FIT format image */
 	if (genimg_get_format(buf) != IMAGE_FORMAT_INVALID)
 		do_bootm(cmdtp, 0, bootm_argc, bootm_argv);
