@@ -263,17 +263,9 @@
 	"rootpart=4\0"		\
 	"load_distro_uenv="						\
 		"fatload ${bootdev} ${devnum}:${bootpart} ${loadaddr} /${bootenv}; " \
-		"env import ${loadaddr} ${filesize}; \0" \
-	"fdt_loaddtb="		\
-		"fatload ${bootdev} ${devnum}:${bootpart} ${fdt_addr_r} /dtbs/${fdtfile}; fdt addr ${fdt_addr_r}; \0" \
-	"fdt_sizecheck="	\
-		"fatsize ${bootdev} ${devnum}:${bootpart} /dtbs/${fdtfile}; \0" \
-	"set_fdt_distro="	\
-		"run chipa_set_linux; run cpu_vol_set;" \
-		"fatwrite ${bootdev} ${devnum}:${bootpart} ${fdt_addr_r} /dtbs/${fdtfile} ${filesize}; \0" \
+		"env import -t ${loadaddr} ${filesize}; \0" \
 	"bootcmd_distro="	\
 		"run load_distro_uenv; " \
-		"run fdt_loaddtb; run fdt_sizecheck; run set_fdt_distro; "	\
 		"sysboot ${bootdev} ${devnum}:${bootpart} fat ${scriptaddr} /${boot_syslinux_conf}; \0" \
 	"distro_mmc_test_and_boot="					\
 		"if mmc dev ${devnum}; then "				\
