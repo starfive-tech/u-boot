@@ -13,8 +13,7 @@ dtb-$(CONFIG_TARGET_TH1520_LPI4A) += th1520-lichee-pi-4a.dtb
 dtb-$(CONFIG_TARGET_XILINX_MBV) += xilinx-mbv32.dtb
 
 include $(srctree)/scripts/Makefile.dts
-dtb-$(CONFIG_TARGET_STARFIVE_DUBHE_FPGA) += dubhe_fpga.dtb
-dtb-$(CONFIG_TARGET_STARFIVE_DUBHE_FPGA) += $(shell echo $(CONFIG_DEFAULT_DEVICE_TREE)).dtb
+dtb-$(CONFIG_TARGET_STARFIVE_DUBHE_FPGA) += dubhe90_fpga.dtb dubhe80_fpga.dtb dubhe70_fpga.dtb
 
 targets += $(dtb-y)
 
