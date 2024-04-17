@@ -1,0 +1,174 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2021-2024 StarFive Technology Co., Ltd.
+ */
+
+/ {
+	binman: binman	{
+		multiple-images;
+#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
+		spl_sign {
+			signing_image {
+				cmd1 = "cd ../jhb100_cst/; ./mkbif_secure ../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_sec.cfg > /dev/null";
+			};
+		};
+
+		uboot_sign {
+			signing_image {
+				cmd1 = "cd ../jhb100_cst/; ./mkbif_secure ../u-boot/u-boot-nodtb.bin ./input_files/jhb100/uboot_sec.cfg > /dev/null; ./mkbif_secure ../opensbi/build/platform/generic/firmware/fw_dynamic.bin ./input_files/jhb100/opensbi_sec.cfg > /dev/null; ./mkbif_secure ../u-boot/u-boot.dtb ./input_files/jhb100/uboot_sec.cfg > /dev/null";
+			};
+		};
+
+		kernel_sign {
+			signing_image {
+				cmd1 = "cd ../jhb100_cst/; ./mkbif_secure ../u-boot/Image ./input_files/jhb100/kernel_sec.cfg > /dev/null; ./mkbif_secure ../u-boot/jhb100-fpga-linux.dtb ./input_files/jhb100/kernel_sec.cfg > /dev/null; ./mkbif_secure ../u-boot/rootfs.cpio ./input_files/jhb100/rootfs_sec.cfg > /dev/null";
+			};
+		};
+#else
+		spl_sign {
+			signing_image {
+				cmd1 = "cd ../jhb100_cst/; ./mkbif ../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_nor.cfg > /dev/null";
+			};
+		};
+#endif
+	};
+};
+
+#include "jhb100-binman.dtsi"
+&binman {
+#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
+	kernel_fit {
+		filename = "kernel.itb";
+
+		fit {
+			description = "FIT with Linux kernel image, FDT and ramfs";
+			#address-cells = <1>;
+
+			images {
+				kernel {
+					kernel_blob: blob-ext {
+						filename = "Image.secure.out";
+					};
+				};
+
+				fdt_kernel {
+					fdt_kernel_blob: blob-ext {
+						filename = "jhb100-fpga-linux.dtb.secure.out";
+					};
+				};
+
+				ramfs {
+					ramfs_blob: blob-ext {
+						filename = "rootfs.cpio.secure.out";
+					};
+				};
+			};
+		};
+	};
+
+	itb {
+		fit {
+			images {
+				uboot {
+					uboot_blob: blob-ext {
+						filename = "u-boot-nodtb.bin.secure.out";
+					};
+				};
+
+				opensbi {
+					opensbi_blob: opensbi {
+						filename = "fw_dynamic.bin.secure.out";
+					};
+				};
+
+				fdt {
+					description = "U-Boot proper device tree binary"; //"NAME";
+					type = "flat_dt";
+					arch = "riscv";
+					compression = "none";
+					fdt_blob: blob-ext {
+						filename = "u-boot.dtb.secure.out";
+					};
+				};
+			};
+
+			configurations {
+				default = "conf";
+				conf {
+					description = "Starfive Dubhe FPGA"; //"NAME";
+					firmware = "opensbi";
+					loadables = "uboot";
+					fdt = "fdt";
+				};
+			};
+		};
+	};
+#else
+	kernel_fit {
+		filename = "kernel.itb";
+
+		fit {
+			description = "FIT with Linux kernel image, FDT and ramfs";
+			#address-cells = <1>;
+
+			images {
+				kernel {
+					kernel_blob: blob-ext {
+						filename = "Image";
+					};
+				};
+
+				fdt_kernel {
+					fdt_kernel_blob: blob-ext {
+						filename = "jhb100-fpga.dtb";
+					};
+				};
+
+				ramfs {
+					ramfs_blob: blob-ext {
+						filename = "rootfs.cpio";
+					};
+				};
+			};
+		};
+	};
+
+	itb {
+		fit {
+			images {
+				uboot {
+					uboot_blob: blob-ext {
+						filename = "u-boot-nodtb.bin";
+					};
+				};
+
+				opensbi {
+					opensbi_blob: opensbi {
+						filename = "fw_dynamic.bin";
+					};
+				};
+
+				fdt {
+					description = "U-Boot proper device tree binary"; //"NAME";
+					type = "flat_dt";
+					arch = "riscv";
+					compression = "none";
+					fdt_blob: blob-ext {
+						filename = "u-boot.dtb";
+					};
+				};
+			};
+
+			configurations {
+				default = "conf";
+				conf {
+					description = "Starfive Dubhe FPGA"; //"NAME";
+					firmware = "opensbi";
+					loadables = "uboot";
+					fdt = "fdt";
+				};
+			};
+		};
+	};
+#endif
+};

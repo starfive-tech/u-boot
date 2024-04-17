@@ -1,0 +1,210 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2021-2022 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100-u-boot.dtsi"
+/ {
+	aliases {
+		timer0 = &timer0;
+		ethernet0 = &gmac2;
+		sfc0 = &sfc0;
+	};
+
+	chosen {
+		/* tick-timer = "timer0"; */
+		bootph-pre-ram;
+
+		opensbi-domains {
+			compatible = "opensbi,domain,config";
+			jhb100-system-suspend;
+		};
+	};
+
+	config {
+		u-boot,spl-primary-payload-offset = <0x210000>;
+		u-boot,spl-payload-offset = <0x590000>;
+		bootph-pre-ram;
+	};
+
+	cpus {
+		bootph-pre-ram;
+		cpu@0 {
+			bootph-pre-ram;
+		};
+
+		cpu@1 {
+			bootph-pre-ram;
+		};
+
+		cpu@2 {
+			bootph-pre-ram;
+		};
+
+		cpu@3 {
+			bootph-pre-ram;
+		};
+	};
+	
+	memory {
+		bootph-pre-ram;
+	};
+};
+
+&uart5 {
+	bootph-pre-ram;
+	dlf-size = <6>;
+	/delete-property/ clock-frequency;
+	/delete-property/ resets;
+};
+
+&clint {
+	bootph-pre-ram;
+};
+
+&gmac2 {
+	bootph-pre-ram;
+	mdio0 {
+		bootph-pre-ram;
+		ethernet_phy0: ethernet-phy@0 {
+			bootph-pre-ram;
+		};
+	};
+};
+
+&plic {
+	bootph-pre-ram;
+};
+
+&osc {
+	bootph-pre-ram;
+};
+
+&pll0 {
+	bootph-pre-ram;
+};
+
+&pll1 {
+	bootph-pre-ram;
+};
+
+&pll2 {
+	bootph-pre-ram;
+};
+
+&pll3 {
+	bootph-pre-ram;
+};
+
+&pll6 {
+	bootph-pre-ram;
+};
+
+&pll7 {
+	bootph-pre-ram;
+};
+
+&syscrg {
+	bootph-pre-ram;
+};
+
+&sys1crg {
+	bootph-pre-ram;
+};
+
+&sys2crg {
+	bootph-pre-ram;
+};
+
+&per1crg {
+	bootph-pre-ram;
+};
+
+&per2crg {
+	bootph-pre-ram;
+};
+
+&per3crg {
+	bootph-pre-ram;
+};
+
+&per0_1200 {
+	bootph-pre-ram;
+};
+
+&per2_gmac2_rgmii_rx {
+	bootph-pre-ram;
+};
+
+&per2_gmac2_rmii_ref {
+	bootph-pre-ram;
+};
+
+&per3_gmac0_rmii_rclki {
+	bootph-pre-ram;	
+};
+
+&per0crg {
+	bootph-pre-ram;
+};
+
+&sfc0 {
+	bootph-pre-ram;
+	status = "okay";
+};
+
+&timer0 {
+	status = "disabled";
+};
+
+&timer1 {
+	status = "disabled";
+};
+
+&timer2 {
+	status = "disabled";
+};
+
+&timer_test {
+	status = "okay";
+};
+
+&fpga_12mhz_clk {
+	bootph-pre-ram;
+};
+
+&fpga_3mhz_clk {
+	bootph-pre-ram;
+};
+
+&fpga_2p5mhz_clk {
+	bootph-pre-ram;
+};
+
+&pinctrl_bmcperiph0 {
+	bootph-pre-ram;
+};
+
+&pinctrl_bmcperiph1 {
+	bootph-pre-ram;
+};
+
+&pinctrl_bmcperiph2 {
+	bootph-pre-ram;
+};
+
+&pinctrl_bmcperiph3 {
+	bootph-pre-ram;
+};
+
+&pinctrl_sys0 {
+	bootph-pre-ram;
+};
+
+&pinctrl_sys1 {
+	bootph-pre-ram;
+};
+
+&pinctrl_sys2 {
+	bootph-pre-ram;
+};

@@ -1,0 +1,75 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2021-2022 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100-img.dtsi"
+#include "jhb100-fpga-sfc0-flash.dtsi"
+/ {
+	soc {
+		bootph-pre-ram;
+		otp: otpc@28000000 {
+			compatible = "starfive,jhb100-otp";
+			reg = <0x0 0x28000000 0x0 0x100000>;
+			otp1 = <0x1400 0x400 0x1080 0x80 0x12b4 0x8>;
+			otp2 = <0x0 0xc00 0x1010 0xc 0x1280 0x6>;
+			puf = <0x1300 0x80 0x1070 0x10 0x12bc 0x1>;
+			status = "disabled";
+			bootph-pre-ram;
+		};
+
+		aes: starfive-aes@1ff00100 {
+			compatible = "starfive,aes";
+			reg = <0x0 0x1ff00100 0x0 0x100>;
+			status = "disabled";
+			bootph-pre-ram;
+		};
+
+		sha: starfive-sha@1ff00300 {
+			compatible = "starfive,sha";
+			reg = <0x0 0x1ff00300 0x0 0x100>;
+			status = "disabled";
+			bootph-pre-ram;
+		};
+
+		ecc: starfive-ecc@1ff00400 {
+			compatible = "starfive,ecdsa";
+			reg = <0x0 0x1ff00400 0x0 0x400>;
+			status = "disabled";
+			bootph-pre-ram;
+		};
+	};
+};
+
+&cpu0 {
+	riscv,isa = "rv64imafdch_zba_zbb_zbc_zbs_zicbom_zicbop_zicboz_zicntr_zicond_zicsr_zifencei_zihintpause_zihpm_sscofpmf_svinval_svnapot";
+};
+
+&cpu1 {
+	riscv,isa = "rv64imafdch_zba_zbb_zbc_zbs_zicbom_zicbop_zicboz_zicntr_zicond_zicsr_zifencei_zihintpause_zihpm_sscofpmf_svinval_svnapot";
+};
+
+&cpu2 {
+	riscv,isa = "rv64imafdch_zba_zbb_zbc_zbs_zicbom_zicbop_zicboz_zicntr_zicond_zicsr_zifencei_zihintpause_zihpm_sscofpmf_svinval_svnapot";
+};
+
+&cpu3 {
+	riscv,isa = "rv64imafdch_zba_zbb_zbc_zbs_zicbom_zicbop_zicboz_zicntr_zicond_zicsr_zifencei_zihintpause_zihpm_sscofpmf_svinval_svnapot";
+};
+
+
+&cpu0_intc {
+	bootph-pre-ram;
+};
+
+&cpu1_intc {
+	bootph-pre-ram;
+};
+
+&cpu2_intc {
+	bootph-pre-ram;
+};
+
+&cpu3_intc {
+	bootph-pre-ram;
+};
