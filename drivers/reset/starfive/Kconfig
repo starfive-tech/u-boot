@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: GPL-2.0-only
+
+config RESET_STARFIVE
+	bool "Reset driver for StarFive SoC"
+	depends on DM_RESET
+	help
+	  Enable this if require support for reset driver for
+	  StarFive SOC.
+
+config RESET_STARFIVE_JHB100
+	bool "Reset driver for StarFive JHB100 SoC"
+	depends on  RESET_STARFIVE
+	help
+	  This selects the reset driver for StarFive JHB100 SOC.

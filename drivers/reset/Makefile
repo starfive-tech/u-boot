@@ -33,3 +33,4 @@ obj-$(CONFIG_RESET_ZYNQMP) += reset-zynqmp.o
 obj-$(CONFIG_RESET_DRA7) += reset-dra7.o
 obj-$(CONFIG_RESET_AT91) += reset-at91.o
 obj-$(CONFIG_$(SPL_TPL_)RESET_JH7110) += reset-jh7110.o
+obj-$(CONFIG_RESET_STARFIVE)	+= starfive/
