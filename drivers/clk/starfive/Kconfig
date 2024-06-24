@@ -15,3 +15,46 @@ config CLK_JH7110
 	select CLK_CCF
 	help
 	  This enables support clock driver for StarFive JH7110 SoC platform.
+
+config CLK_STARFIVE_COMMON
+	bool
+	select SPL_CLK_CCF
+	select SPL_CLK_COMPOSITE_CCF
+	select CLK_CCF
+	select CLK_COMPOSITE_CCF
+
+config CLK_STARFIVE_JHB100_SYS
+	bool "StarFive JHB100 System clock support"
+	depends on CLK
+	select CLK_STARFIVE_COMMON
+	help
+	  Say yes here to support the System clock controller
+	  on the StarFive JHB100 SoC.
+
+config CLK_STARFIVE_JHB100_PER0
+	bool "StarFive JHB100 Peripheral-0 clock support"
+	depends on CLK_STARFIVE_JHB100_SYS
+	help
+	  Say yes here to support Peripheral-0 Clock Driver
+	  on the StarFive JHB100 SoC.
+
+config CLK_STARFIVE_JHB100_PER1
+	bool "StarFive JHB100 Peripheral-1 clock support"
+	depends on CLK_STARFIVE_JHB100_SYS
+	help
+	  Say yes here to support Peripheral-1 Clock Driver
+	  on the StarFive JHB100 SoC.
+
+config CLK_STARFIVE_JHB100_PER2
+	bool "StarFive JHB100 Peripheral-2 clock support"
+	depends on CLK_STARFIVE_JHB100_SYS
+	help
+	  Say yes here to support Peripheral-2 Clock Driver
+	  on the StarFive JHB100 SoC.
+
+config CLK_STARFIVE_JHB100_PER3
+	bool "StarFive JHB100 Peripheral-3 clock support"
+	depends on CLK_STARFIVE_JHB100_SYS
+	help
+	  Say yes here to support Peripheral-3 Clock Driver
+	  on the StarFive JHB100 SoC.

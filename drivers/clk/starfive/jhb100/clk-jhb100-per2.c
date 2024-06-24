@@ -1,0 +1,148 @@
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ * Copyright (C) 2024 StarFive Technology Co., Ltd.
+ * Author:	ZhiWei Lim <zhiwei.lim@starfivetech.com>
+ *
+ */
+
+ #include "clk.h"
+ #include "clk-starfive-common.h"
+ #include <dt-bindings/clock/starfive,jhb100-crg.h>
+ #include <linux/clk-provider.h>
+
+static const char *gmac2_tx_mux[MAX_NUM_PARENTS] = {
+	[0] = "per2_125",
+	[1] = "gmac2_tx_50_buf",
+};
+
+static const char *gmac2_rx_mux[MAX_NUM_PARENTS] = {
+	[0] = "per2_gmac2_rgmii_rx",
+	[1] = "per2_gmac2_rmii_ref",
+};
+
+static const char *ether0_tx_mux[MAX_NUM_PARENTS] = {
+	[0] = "gmac2_tx",
+	[1] = "gmac2_rx_gpio",
+};
+
+static const char *ether0_rx_mux[MAX_NUM_PARENTS] = {
+	[0] = "gmac2_rx_gpio",
+	[1] = "gmac2_rx_pll",
+};
+
+static const char *ether0_rmii_mux[MAX_NUM_PARENTS] = {
+	[0] = "gmac2_rmii",
+	[1] = "per2_gmac2_rmii_ref",
+};
+
+static struct clk_info per2crg_clk_info[] = {
+	{ JHB100_PER2CLK_300,	"per2_300",
+		"per2_targ",	NULL,	CLK_DIVIDER,	2 },
+	{ JHB100_PER2CLK_100,	"per2_100",
+		"per2_400",	NULL,	CLK_DIVIDER,	4 },
+	{ JHB100_PER2CLK_CAN0_CORE,	"can0_core",
+		"per2_400",	NULL,	CLK_DIVIDER,	9 },
+	{ JHB100_PER2CLK_CAN0_TIMER,	"can0_timer",
+		"per2_100",	NULL,	CLK_DIVIDER,	9 },
+	{ JHB100_PER2CLK_CAN1_CORE,	"can1_core",
+		"per2_400",	NULL,	CLK_DIVIDER,	9 },
+	{ JHB100_PER2CLK_CAN1_TIMER,	"can1_timer",
+		"per2_100",	NULL,	CLK_DIVIDER,	9 },
+	{ JHB100_PER2CLK_GMAC2_TX_50_BUF,	"gmac2_tx_50_buf",
+		"per2_100",	NULL,	CLK_DIVIDER,	2 },
+	{ JHB100_PER2CLK_GMAC2_TX,	"gmac2_tx",
+		"",	gmac2_tx_mux,	CLK_MDIV,	6 },
+	{ JHB100_PER2CLK_GMAC2_TX_125_N,	"gmac2_tx_125_n",
+		"per2_125",	NULL,	CLK_INV,	0 },
+	{ JHB100_PER2CLK_GMAC2_RX_125_N,	"gmac2_rx_125_n",
+		"per2_125",	NULL,	CLK_INV,	0 },
+	{ JHB100_PER2CLK_GMAC2_RX_PLL,	"gmac2_rx_pll",
+		"per2_125",	NULL,	CLK_DIVIDER,	6 },
+	{ JHB100_PER2CLK_GMAC2_RMII,	"gmac2_rmii",
+		"per2_100",	NULL,	CLK_DIVIDER,	2 },
+	{ JHB100_PER2CLK_GMAC2_RX_GPIO,	"gmac2_rx_gpio",
+		"",	gmac2_rx_mux,	CLK_MUX,	0 },
+	{ JHB100_PER2CLK_GMAC3_TX,	"gmac3_tx",
+		"per2_125",	NULL,	CLK_DIVIDER,	6 },
+	{ JHB100_PER2CLK_GMAC3_RX_PLL,	"gmac3_rx_pll",
+		"per2_125",	NULL,	CLK_DIVIDER,	6 },
+	{ JHB100_PER2CLK_GMAC3_TX_125_N,	"gmac3_tx_125_n",
+		"per2_125",	NULL,	CLK_INV,	0 },
+	{ JHB100_PER2CLK_GMAC3_RX_125_N,	"gmac3_rx_125_n",
+		"per2_125",	NULL,	CLK_INV,	0 },
+	{ JHB100_PER2CLK_RTC_CORE,	"rtc_core",
+		"osc",	NULL,	CLK_DIVIDER,	10 },
+	{ JHB100_PER2CLK_FAN_TACH_PCLK,	"fan_tach_pclk",
+		"per2_100",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER0_RMIIANDRGMII_TX_I,	"ether0_rmiiandrgmii_tx_i",
+		"",	ether0_tx_mux,	CLK_GMUX,	0 },
+	{ JHB100_PER2CLK_ETHER0_RMIIANDRGMII_RX_I,	"ether0_rmiiandrgmii_rx_i",
+		"",	ether0_rx_mux,	CLK_GMUX,	0 },
+	{ JHB100_PER2CLK_ETHER0_RMIIANDRGMII_TX_180_I,	"ether0_rmiiandrgmii_tx_180_i",
+		"gmac2_tx_125_n",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER0_RMIIANDRGMII_RX_180_I,	"ether0_rmiiandrgmii_rx_180_i",
+		"gmac2_rx_125_n",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER0_RMIIANDRGMII_PTP_REF_I,	"ether0_rmiiandrgmii_ptp_ref_i",
+		"gmac2_tx",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER0_RMIIANDRGMII_RMII_I,	"ether0_rmiiandrgmii_rmii_i",
+		"",	ether0_rmii_mux,	CLK_GMUX,	0 },
+	{ JHB100_PER2CLK_ETHER0_RMIIANDRGMII_CSR_I,	"ether0_rmiiandrgmii_csr_i",
+		"per2_100",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER0_RMIIANDRGMII_ACLK_I,	"ether0_rmiiandrgmii_aclk_i",
+		"per2_300",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_GMAC2_TXCK,	"gmac2_txck",
+		"gmac2_tx",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_GMAC2_CLK_RMII,	"gmac2_clk_rmii",
+		"ether0_rmiiandrgmii_rmii_i",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER1_SGMII_TX_I,	"ether1_sgmii_tx_i",
+		"gmac3_tx",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER1_SGMII_RX_I,	"ether1_sgmii_rx_i",
+		"gmac3_rx_pll",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER1_SGMII_TX_125_I,	"ether1_sgmii_tx_125_i",
+		"per2_125",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER1_SGMII_RX_125_I,	"ether1_sgmii_rx_125_i",
+		"per2_125",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER1_SGMII_PTP_REF_I,	"ether1_sgmii_ptp_ref_i",
+		"per2_125",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER1_SGMII_CSR_I,	"ether1_sgmii_csr_i",
+		"per2_100",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_ETHER1_SGMII_ACLK_I,	"ether1_sgmii_aclk_i",
+		"per2_300",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_MAIN_ICG_EN_CAN0,	"main_icg_en_can0",
+		"per2_100",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_MAIN_ICG_EN_CAN1,	"main_icg_en_can1",
+		"per2_100",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_MAIN_ICG_EN_DMAC3_1CH,	"main_icg_en_dmac3_1ch",
+		"per2_100",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_MAIN_ICG_EN_GMAC2,	"main_icg_en_gmac2",
+		"per2_100",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER2CLK_MAIN_ICG_EN_GMAC3,	"main_icg_en_gmac3",
+		"per2_100",	NULL,	CLK_GATE,	0 },
+};
+
+static int jhb100_per2crg_probe(struct udevice *dev)
+{
+	void __iomem *reg = (void __iomem *)dev_read_addr_ptr(dev);
+
+	starfive_clk_init(reg, per2, per2crg_clk_info, ARRAY_SIZE(per2crg_clk_info));
+
+	return 0;
+}
+
+JHB100_CLK_OF_XLATE(per2);
+
+JHB100_CLK_OPS(per2);
+
+static const struct udevice_id jhb100_per2crg_match[] = {
+	{ .compatible = "starfive,jhb100-per2crg" },
+	{ /* sentinel */ }
+};
+
+U_BOOT_DRIVER(per2crg) = {
+	.name = "clk-starfive-jhb100-per2",
+	.id = UCLASS_CLK,
+	.of_match = jhb100_per2crg_match,
+	.probe = jhb100_per2crg_probe,
+	.ops = &jhb100_per2_clk_ops,
+	.bind = jhb100_clk_bind,
+};
