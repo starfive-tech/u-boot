@@ -340,4 +340,11 @@ config STARFIVE_TIMER
 	  Select this to enable support for the timer found on
 	  Starfive SoC.
 
+config STARFIVE_DUAL_TIMER
+	bool "Starfive dual timer support"
+	depends on TIMER
+	help
+	  Select this to enable support for the dual timer found on
+	  Starfive SoC that can support up to 64-bit timer resolution.
+
 endmenu
