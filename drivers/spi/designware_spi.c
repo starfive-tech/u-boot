@@ -56,6 +56,7 @@
 #define DW_SPI_IDR			0x58
 #define DW_SPI_VERSION			0x5c
 #define DW_SPI_DR			0x60
+#define DW_SPI_SPI_CTRLR0		0xf4
 
 /* Bit fields in CTRLR0 */
 /*
@@ -114,6 +115,19 @@
 /* Bit field in RISR */
 #define RISR_INT_RXOI			BIT(3)
 
+/* Bit fields in SPI_CTRLR0 */
+#define DW_SPI_SPI_CTRLR0_CLK_STRETCH_EN	BIT(30)
+#define DW_SPI_SPI_CTRLR0_WAIT_CYCLE_MASK	GENMASK(15, 11)
+#define DW_SPI_SPI_CTRLR0_INST_L_MASK		GENMASK(9, 8)
+#define DW_SPI_SPI_CTRLR0_INST_L_INST_L0	0x0
+#define DW_SPI_SPI_CTRLR0_INST_L_INST_L8	0x2
+#define DW_SPI_SPI_CTRLR0_INST_L_INST_L16	0x3
+#define DW_SPI_SPI_CTRLR0_ADDR_L_MASK		GENMASK(5, 2)
+#define DW_SPI_SPI_CTRLR0_TRANS_TYPE_MASK	GENMASK(1, 0)
+#define DW_SPI_SPI_CTRLR0_TRANS_TYPE_TT0	0x0
+#define DW_SPI_SPI_CTRLR0_TRANS_TYPE_TT1	0x1
+#define DW_SPI_SPI_CTRLR0_TRANS_TYPE_TT2	0x2
+
 #define RX_TIMEOUT			1000		/* timeout in ms */
 
 struct dw_spi_plat {
@@ -127,6 +141,7 @@ struct dw_spi_priv {
 	struct gpio_desc cs_gpio;	/* External chip-select gpio */
 
 	u32 (*update_cr0)(struct dw_spi_priv *priv);
+	u32 (*update_spi_cr0)(struct dw_spi_priv *priv);
 
 	void __iomem *regs;
 	unsigned long bus_clk_rate;
@@ -145,6 +160,11 @@ struct dw_spi_priv {
 	u8 cs;				/* chip select pin */
 	u8 tmode;			/* TR/TO/RO/EEPROM */
 	u8 type;			/* SPI/SSP/MicroWire */
+	u8 spi_frf;			/* BYTE/DUAL/QUAD/OCTAL */
+	u8 trans_type;			/* Address & instruction transfer format */
+	u8 inst_l;			/* Instruction length */
+	u8 addr_l;			/* Address length */
+	u8 wait_c;			/* Wait cycles */
 };
 
 static inline u32 dw_read(struct dw_spi_priv *priv, u32 offset)
@@ -181,6 +201,23 @@ static u32 dw_spi_dwc_update_cr0(struct dw_spi_priv *priv)
 	     | FIELD_PREP(DWC_SSI_CTRLR0_TMOD_MASK, priv->tmode);
 }
 
+static u32 dw_spi_jhb100_update_cr0(struct dw_spi_priv *priv)
+{
+	return FIELD_PREP(DWC_SSI_CTRLR0_DFS_MASK, priv->bits_per_word - 1)
+	     | FIELD_PREP(DWC_SSI_CTRLR0_FRF_MASK, priv->type)
+	     | FIELD_PREP(DWC_SSI_CTRLR0_TMOD_MASK, priv->tmode)
+	     | FIELD_PREP(DWC_SSI_CTRLR0_SPI_FRF_MASK, priv->spi_frf);
+}
+
+static u32 dw_spi_dwc_update_spi_cr0(struct dw_spi_priv *priv)
+{
+	return FIELD_PREP(DW_SPI_SPI_CTRLR0_WAIT_CYCLE_MASK, priv->wait_c)
+	     | FIELD_PREP(DW_SPI_SPI_CTRLR0_INST_L_MASK, priv->inst_l)
+	     | FIELD_PREP(DW_SPI_SPI_CTRLR0_ADDR_L_MASK, priv->addr_l)
+	     | FIELD_PREP(DW_SPI_SPI_CTRLR0_TRANS_TYPE_MASK, priv->trans_type)
+	     | DW_SPI_SPI_CTRLR0_CLK_STRETCH_EN;
+}
+
 static int dw_spi_apb_init(struct udevice *bus, struct dw_spi_priv *priv)
 {
 	/* If we read zeros from DFS, then we need to use DFS_32 instead */
@@ -215,6 +252,15 @@ static int dw_spi_dwc_init(struct udevice *bus, struct dw_spi_priv *priv)
 {
 	priv->max_xfer = 32;
 	priv->update_cr0 = dw_spi_dwc_update_cr0;
+	return 0;
+}
+
+static int dw_spi_jhb100_init(struct udevice *bus, struct dw_spi_priv *priv)
+{
+	priv->fifo_len = 16;
+	priv->max_xfer = 32;
+	priv->update_cr0 = dw_spi_jhb100_update_cr0;
+	priv->update_spi_cr0 = dw_spi_dwc_update_spi_cr0;
 	return 0;
 }
 
@@ -323,6 +369,8 @@ err_rate:
 	return -EINVAL;
 }
 
+#if 0
+/* TODO: Remove preprocessor directive once SoC is ready */
 static int dw_spi_reset(struct udevice *bus)
 {
 	int ret;
@@ -352,6 +400,7 @@ static int dw_spi_reset(struct udevice *bus)
 
 	return 0;
 }
+#endif
 
 typedef int (*dw_spi_init_t)(struct udevice *bus, struct dw_spi_priv *priv);
 
@@ -370,9 +419,12 @@ static int dw_spi_probe(struct udevice *bus)
 	if (ret)
 		return ret;
 
+#if 0
+	/* TODO: Remove preprocessor directive once SoC is ready */
 	ret = dw_spi_reset(bus);
 	if (ret)
 		return ret;
+#endif
 
 	if (!init)
 		return -EINVAL;
@@ -578,6 +630,31 @@ static int dw_spi_xfer(struct udevice *dev, unsigned int bitlen,
 	return ret;
 }
 
+static u32 dw_spi_update_spi_cr0(struct dw_spi_priv *priv, const struct spi_mem_op *op)
+{
+	/* set transfer type, address length, instruction length, wait cycles */
+	if (op->data.buswidth == op->addr.buswidth &&
+	    op->data.buswidth == op->cmd.buswidth)
+		priv->trans_type = DW_SPI_SPI_CTRLR0_TRANS_TYPE_TT2;
+	else if (op->data.buswidth == op->addr.buswidth)
+		priv->trans_type = DW_SPI_SPI_CTRLR0_TRANS_TYPE_TT1;
+	else
+		priv->trans_type = DW_SPI_SPI_CTRLR0_TRANS_TYPE_TT0;
+
+	priv->addr_l = clamp(op->addr.nbytes * 2, 0, 0xf);
+
+	if (op->cmd.nbytes > 1)
+		priv->inst_l = DW_SPI_SPI_CTRLR0_INST_L_INST_L16;
+	else if (op->cmd.nbytes == 1)
+		priv->inst_l = DW_SPI_SPI_CTRLR0_INST_L_INST_L8;
+	else
+		priv->inst_l = DW_SPI_SPI_CTRLR0_INST_L_INST_L0;
+
+	priv->wait_c = (op->dummy.nbytes * (BITS_PER_BYTE / op->dummy.buswidth));
+
+	return priv->update_spi_cr0(priv);
+}
+
 /*
  * This function is necessary for reading SPI flash with the native CS
  * c.f. https://lkml.org/lkml/2015/12/23/132
@@ -590,44 +667,68 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 	struct dw_spi_priv *priv = dev_get_priv(bus);
 	u8 op_len = op->cmd.nbytes + op->addr.nbytes + op->dummy.nbytes;
 	u8 op_buf[op_len];
-	u32 cr0, sts;
+	u32 cr0, sts, spi_cr0;
+
+	priv->spi_frf = (op->data.buswidth == 4) ? CTRLR0_SPI_FRF_QUAD :
+		((op->data.buswidth == 2) ? CTRLR0_SPI_FRF_DUAL : CTRLR0_SPI_FRF_BYTE);
 
 	if (read)
-		priv->tmode = CTRLR0_TMOD_EPROMREAD;
+		if (!priv->update_spi_cr0)
+			priv->tmode = CTRLR0_TMOD_EPROMREAD;
+		else
+			priv->tmode = CTRLR0_TMOD_RO;
 	else
 		priv->tmode = CTRLR0_TMOD_TO;
 
 	cr0 = priv->update_cr0(priv);
+	if (priv->update_spi_cr0)
+		spi_cr0 = dw_spi_update_spi_cr0(priv, op);
+
 	dev_dbg(bus, "cr0=%08x buf=%p len=%u [bytes]\n", cr0, op->data.buf.in,
 		op->data.nbytes);
 
 	dw_write(priv, DW_SPI_SSIENR, 0);
 	dw_write(priv, DW_SPI_CTRLR0, cr0);
-	if (read)
-		dw_write(priv, DW_SPI_CTRLR1, op->data.nbytes - 1);
+	dw_write(priv, DW_SPI_CTRLR1, op->data.nbytes ? op->data.nbytes - 1 : 0);
+	if (priv->update_spi_cr0)
+		dw_write(priv, DW_SPI_SPI_CTRLR0, spi_cr0);
+
 	dw_write(priv, DW_SPI_SSIENR, 1);
-
-	/* From spi_mem_exec_op */
-	pos = 0;
-	op_buf[pos++] = op->cmd.opcode;
-	if (op->addr.nbytes) {
-		for (i = 0; i < op->addr.nbytes; i++)
-			op_buf[pos + i] = op->addr.val >>
-				(8 * (op->addr.nbytes - i - 1));
-
-		pos += op->addr.nbytes;
-	}
-	if (op->dummy.nbytes)
-		memset(op_buf + pos, 0xff, op->dummy.nbytes);
-
 	external_cs_manage(slave->dev, false);
 
-	priv->tx = &op_buf;
-	priv->tx_end = priv->tx + op_len;
-	priv->rx = NULL;
-	priv->rx_end = NULL;
-	while (priv->tx != priv->tx_end)
-		dw_writer(priv);
+	/* From spi_mem_exec_op */
+	if (!priv->update_spi_cr0) {
+		pos = 0;
+		op_buf[pos++] = op->cmd.opcode;
+		if (op->addr.nbytes) {
+			for (i = 0; i < op->addr.nbytes; i++)
+				op_buf[pos + i] = op->addr.val >>
+					(8 * (op->addr.nbytes - i - 1));
+
+			pos += op->addr.nbytes;
+		}
+		if (op->dummy.nbytes)
+			memset(op_buf + pos, 0xff, op->dummy.nbytes);
+
+		priv->tx = &op_buf;
+		priv->tx_end = priv->tx + op_len;
+		priv->rx = NULL;
+		priv->rx_end = NULL;
+		while (priv->tx != priv->tx_end)
+			dw_writer(priv);
+	} else {
+		dw_write(priv, DW_SPI_DR, (u8)op->cmd.opcode);
+
+		/*
+		 * During enhanced SPI mode, the address length can vary to accommodate
+		 * 3 or 4-byte addressing modes. Therefore, using a u32 type is sufficient
+		 * for this purpose.
+		 */
+		if (op->addr.nbytes)
+			dw_write(priv, DW_SPI_DR, (u32)op->addr.val);
+		if (op->dummy.nbytes)
+			dw_write(priv, DW_SPI_DR, 0xff);
+	}
 
 	/*
 	 * XXX: The following are tight loops! Enabling debug messages may cause
@@ -787,6 +888,7 @@ static const struct udevice_id dw_spi_ids[] = {
 	{ .compatible = "mscc,jaguar2-spi", .data = (ulong)dw_spi_apb_init },
 	{ .compatible = "snps,axs10x-spi", .data = (ulong)dw_spi_apb_init },
 	{ .compatible = "snps,hsdk-spi", .data = (ulong)dw_spi_apb_init },
+	{ .compatible = "starfive,jhb100-spi", .data = (ulong)dw_spi_jhb100_init },
 	{ }
 };
 
