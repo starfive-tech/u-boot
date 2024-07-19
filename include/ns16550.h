@@ -75,6 +75,7 @@ struct ns16550_plat {
 	int reg_offset;
 	int clock;
 	u32 fcr;
+	u32 dlf_size;
 	int flags;
 #if defined(CONFIG_PCI) && defined(CONFIG_SPL)
 	int bdf;

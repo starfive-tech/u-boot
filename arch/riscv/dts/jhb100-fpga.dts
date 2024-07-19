@@ -192,6 +192,7 @@
 	status = "okay";
 	clocks = <&fpga_3mhz_clk>, <&fpga_3mhz_clk>;
 	clock-frequency = <3000000>;
+	dlf-size = <6>;
 	current-speed = <115200>;
 };
 

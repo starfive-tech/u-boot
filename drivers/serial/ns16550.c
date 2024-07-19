@@ -16,6 +16,7 @@
 #include <spl.h>
 #include <watchdog.h>
 #include <asm/global_data.h>
+#include <linux/bitops.h>
 #include <linux/err.h>
 #include <linux/types.h>
 #include <asm/io.h>
@@ -56,6 +57,8 @@ DECLARE_GLOBAL_DATA_PTR;
 #ifndef CFG_SYS_NS16550_IER
 #define CFG_SYS_NS16550_IER  0x00
 #endif /* CFG_SYS_NS16550_IER */
+
+#define DW_UART_DLF	0x30 /* Divisor Latch Fraction Register */
 
 static inline void serial_out_shift(void *addr, int shift, int value)
 {
@@ -214,6 +217,36 @@ int ns16550_calc_divisor(struct ns16550 *port, int clock, int baudrate)
 	return DIV_ROUND_CLOSEST(clock, mode_x_div * baudrate);
 }
 
+static unsigned int ns16550_get_dlf_size(struct ns16550 *com_port)
+{
+	unsigned int reg, old_dlf;
+
+	if (!com_port->plat->dlf_size)
+		return 0;
+
+	old_dlf = serial_in(com_port + DW_UART_DLF);
+	serial_out(~0U, com_port + DW_UART_DLF);
+	reg = serial_in(com_port + DW_UART_DLF);
+	serial_out(old_dlf, com_port + DW_UART_DLF);
+
+	if (reg)
+		return fls(reg);
+
+	return 0;
+}
+
+unsigned int ns16550_calc_frac_divisor(struct ns16550 *com_port, int clock,
+					int baudrate, int *frac)
+{
+	unsigned int quot, rem, base_baud = baudrate * 16;
+
+	quot = clock / base_baud;
+	rem = clock % base_baud;
+	*frac = DIV_ROUND_CLOSEST(rem << ns16550_get_dlf_size(com_port), base_baud);
+
+	return quot;
+}
+
 static void ns16550_setbrg(struct ns16550 *com_port, int baud_divisor)
 {
 	/* to keep serial format, read lcr before writing BKSE */
@@ -327,7 +360,8 @@ int ns16550_tstc(struct ns16550 *com_port)
 static inline void _debug_uart_init(void)
 {
 	struct ns16550 *com_port = (struct ns16550 *)CONFIG_VAL(DEBUG_UART_BASE);
-	int baud_divisor;
+	int dlf_size = ns16550_get_dlf_size(com_port);
+	int quot_frac, baud_divisor;
 
 	/* Wait until tx buffer is empty */
 	while (!(serial_din(&com_port->lsr) & UART_LSR_TEMT))
@@ -339,8 +373,16 @@ static inline void _debug_uart_init(void)
 	 * feasible. The better fix is to move all users of this driver to
 	 * driver model.
 	 */
-	baud_divisor = ns16550_calc_divisor(com_port, CONFIG_DEBUG_UART_CLOCK,
-					    CONFIG_BAUDRATE);
+	if (dlf_size) {
+		baud_divisor = ns16550_calc_frac_divisor(com_port,
+						CONFIG_DEBUG_UART_CLOCK,
+						CONFIG_BAUDRATE, &quot_frac);
+		serial_dout(com_port + DW_UART_DLF, quot_frac);
+	} else {
+		baud_divisor = ns16550_calc_divisor(com_port,
+						    CONFIG_DEBUG_UART_CLOCK,
+						    CONFIG_BAUDRATE);
+	}
 	serial_dout(&com_port->ier, CFG_SYS_NS16550_IER);
 	serial_dout(&com_port->mcr, UART_MCRVAL);
 	serial_dout(&com_port->fcr, UART_FCR_DEFVAL);
@@ -425,9 +467,17 @@ static int ns16550_serial_setbrg(struct udevice *dev, int baudrate)
 {
 	struct ns16550 *const com_port = dev_get_priv(dev);
 	struct ns16550_plat *plat = com_port->plat;
-	int clock_divisor;
+	int dlf_size = ns16550_get_dlf_size(com_port);
+	int quot_frac, clock_divisor;
 
-	clock_divisor = ns16550_calc_divisor(com_port, plat->clock, baudrate);
+	if (dlf_size) {
+		clock_divisor = ns16550_calc_frac_divisor(com_port, plat->clock,
+							  baudrate, &quot_frac);
+		serial_out(quot_frac, com_port + DW_UART_DLF);
+	} else {
+		clock_divisor = ns16550_calc_divisor(com_port, plat->clock,
+							baudrate);
+	}
 
 	ns16550_setbrg(com_port, clock_divisor);
 
@@ -565,6 +615,7 @@ int ns16550_serial_of_to_plat(struct udevice *dev)
 	plat->reg_offset = dev_read_u32_default(dev, "reg-offset", 0);
 	plat->reg_shift = dev_read_u32_default(dev, "reg-shift", 0);
 	plat->reg_width = dev_read_u32_default(dev, "reg-io-width", 1);
+	plat->dlf_size = dev_read_u32_default(dev, "dlf-size", 0);
 
 	err = clk_get_by_index(dev, 0, &clk);
 	if (!err) {
