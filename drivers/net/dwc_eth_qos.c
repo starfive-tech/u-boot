@@ -1545,6 +1545,10 @@ static const struct udevice_id eqos_ids[] = {
 		.compatible = "starfive,jh7110-dwmac",
 		.data = (ulong)&eqos_jh7110_config
 	},
+	{
+		.compatible = "starfive,jhb100-dwmac",
+		.data = (ulong)&eqos_jhb100_config
+	},
 #endif
 	{ }
 };
