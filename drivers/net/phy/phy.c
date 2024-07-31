@@ -26,6 +26,9 @@
 #include <linux/err.h>
 #include <linux/compiler.h>
 
+/* Hacking for FPGA JHB100 (to be remove) */
+#define FPGA_JHB100_USE_ONLY
+
 DECLARE_GLOBAL_DATA_PTR;
 
 /* Generic PHY support and helper functions */
@@ -83,6 +86,12 @@ static int genphy_config_advert(struct phy_device *phydev)
 		changed = 1;
 	}
 
+#ifdef FPGA_JHB100_USE_ONLY
+	phy_write(phydev, MDIO_DEVAD_NONE, 4, 0x441); //Enable MAC Pause and Auto-Negotiation Advertisement 10M Full Duplex
+#else
+	phy_write(phydev, MDIO_DEVAD_NONE, 4, 0x41); //Enable Auto-Negotiation Advertisement 10M Full Duplex
+#endif
+
 	bmsr = phy_read(phydev, MDIO_DEVAD_NONE, MII_BMSR);
 	if (bmsr < 0)
 		return bmsr;
@@ -103,6 +112,7 @@ static int genphy_config_advert(struct phy_device *phydev)
 
 	adv &= ~(ADVERTISE_1000FULL | ADVERTISE_1000HALF);
 
+#ifndef FPGA_JHB100_USE_ONLY
 	if (phydev->supported & (SUPPORTED_1000baseT_Half |
 				SUPPORTED_1000baseT_Full)) {
 		if (advertise & SUPPORTED_1000baseT_Half)
@@ -110,6 +120,7 @@ static int genphy_config_advert(struct phy_device *phydev)
 		if (advertise & SUPPORTED_1000baseT_Full)
 			adv |= ADVERTISE_1000FULL;
 	}
+#endif
 
 	if (adv != oldadv)
 		changed = 1;
@@ -556,6 +567,9 @@ struct phy_device *phy_device_create(struct mii_dev *bus, int addr,
 
 	dev->autoneg = AUTONEG_ENABLE;
 
+#ifdef FPGA_JHB100_USE_ONLY
+	dev->speed = SPEED_10;
+#endif
 	dev->addr = addr;
 	dev->phy_id = phy_id;
 	dev->is_c45 = is_c45;
