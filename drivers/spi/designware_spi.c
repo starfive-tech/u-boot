@@ -129,6 +129,7 @@
 #define DW_SPI_SPI_CTRLR0_TRANS_TYPE_TT2	0x2
 
 #define RX_TIMEOUT			1000		/* timeout in ms */
+#define CLOCK_STRETCH_WAIT_RETRIES	1000000
 
 struct dw_spi_plat {
 	s32 frequency;		/* Default clock frequency, -1 for none */
@@ -667,7 +668,7 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 	struct dw_spi_priv *priv = dev_get_priv(bus);
 	u8 op_len = op->cmd.nbytes + op->addr.nbytes + op->dummy.nbytes;
 	u8 op_buf[op_len];
-	u32 cr0, sts, spi_cr0;
+	u32 cr0, sts, spi_cr0, level, rx_len, retry;
 
 	priv->spi_frf = (op->data.buswidth == 4) ? CTRLR0_SPI_FRF_QUAD :
 		((op->data.buswidth == 2) ? CTRLR0_SPI_FRF_DUAL : CTRLR0_SPI_FRF_BYTE);
@@ -738,6 +739,10 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 		void *prev_rx = priv->rx = op->data.buf.in;
 		priv->rx_end = priv->rx + op->data.nbytes;
 
+		rx_len = (priv->rx_end - priv->rx) / (priv->bits_per_word >> 3);
+		level = min_t(u32, priv->fifo_len / 2, rx_len);
+		dw_write(priv, DW_SPI_RXFTLR, level - 1);
+
 		dw_write(priv, DW_SPI_SER, 1 << spi_chip_select(slave->dev));
 		while (priv->rx != priv->rx_end) {
 			dw_reader(priv);
@@ -747,8 +752,17 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 					dev_err(bus, "FIFO overflow on Rx\n");
 					return -EIO;
 				}
+
+				retry++;
+				if (retry == CLOCK_STRETCH_WAIT_RETRIES) {
+					dev_err(bus, "Retry of dw_spi_exec_op failed\n");
+					return -EIO;
+				}
 			}
 			prev_rx = priv->rx;
+			rx_len = (priv->rx_end - priv->rx) / (priv->bits_per_word >> 3);
+			if (rx_len <= dw_read(priv, DW_SPI_RXFTLR))
+				dw_write(priv, DW_SPI_RXFTLR, rx_len - 1);
 		}
 	} else {
 		u32 val;
