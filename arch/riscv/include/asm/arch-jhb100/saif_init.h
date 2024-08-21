@@ -14,6 +14,9 @@
 #include <asm/arch/bmcperiph2-macro/dom_bmcperiph2_mem_map.h>
 #include <asm/arch/sys-macro/chip_top_mem_map.h>
 #include <asm/arch/sys-macro/sys2_iomux_cfg_macro.h>
+#include <asm/arch/sys-macro/sys2_crg_macro.h>
+#include <asm/arch/sys-macro/sys1_crg_macro.h>
+#include <asm/arch/sys-macro/sys0_crg_macro.h>
 
 void u0_dwc_ssi_sfc_enable(void);
 void u0_dwc_ether_rmiiandrgmii_enable_patch(void);
