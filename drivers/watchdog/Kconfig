@@ -357,6 +357,13 @@ config WDT_STARFIVE
 	help
 	  Enable support for the watchdog timer of StarFive JH7110 SoC.
 
+config WDT_STARFIVE_JHB100
+	bool "StarFive JHB100 watchdog timer support"
+	depends on WDT
+	imply WATCHDOG
+	help
+	  Enable support for the watchdog timer of StarFive JHB100 SoC.
+
 config WDT_SUNXI
 	bool "Allwinner sunxi watchdog timer support"
 	depends on WDT && ARCH_SUNXI
