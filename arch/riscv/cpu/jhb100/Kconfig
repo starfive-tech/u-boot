@@ -1,0 +1,64 @@
+# SPDX-License-Identifier: GPL-2.0+
+#
+# Copyright (c) 2021-2023 StarFive Technology Co., Ltd.
+
+config STARFIVE_JHB100
+	bool
+	select SUPPORT_SPL
+	select RAM
+	select SPL_RAM if SPL
+	imply CPU
+	imply CPU_RISCV
+	imply RISCV_TIMER if (RISCV_SMODE || SPL_RISCV_SMODE)
+	imply SPL_RISCV_ACLINT
+	imply CMD_CPU
+	imply SPL_CPU
+	imply SPL_OPENSBI
+	imply SPL_LOAD_FIT
+	imply SMP
+	imply DM_SERIAL
+	imply ZYNQ_SERIAL
+	imply MII
+	imply MMC
+	imply MMC_SPI
+	imply MMC_BROKEN_CD
+	imply CMD_MMC
+	imply DM_GPIO
+	imply STARFIVE_GPIO
+	imply CMD_GPIO
+	imply MISC
+	imply STARFIVE_OTP
+	imply DM_PWM
+	imply PWM_SIFIVE
+	imply DM_I2C
+	imply SYS_I2C_OCORES
+
+if ENV_IS_IN_SPI_FLASH
+
+config ENV_OFFSET
+	default 0x505000
+
+config ENV_SIZE
+	default 0x20000
+
+config ENV_SECT_SIZE
+	default 0x10000
+
+endif # ENV_IS_IN_SPI_FLASH
+
+config STARFIVE_JHB100_SECURE_VAB_AUTH
+	bool "Enable boot image authentication with Starfive JHB100 VAB"
+	depends on TARGET_STARFIVE_JHB100
+	select FIT_IMAGE_POST_PROCESS
+	select SPL_FIT_IMAGE_POST_PROCESS
+	select SPL_DRIVERS_MISC
+	select SPL_CRYPTO
+	select ECDSA
+	select ECDSA_VERIFY
+	select SPL_ECDSA_VERIFY
+	select STARFIVE_OTP
+	select STARFIVE_AES
+	select STARFIVE_ECC
+	select STARFIVE_SHA
+	help
+	 All images loaded from FIT will be authenticated by Starfive JHB100 VAB
