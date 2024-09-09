@@ -87,17 +87,11 @@ void plat_uart_init(void)
 	SET_U0_SYS2_IOMUX_FUNC10_SEL(1);
 	SET_U0_SYS2_IOMUX_FUNC11_SEL(1);
 
-	SET_U0_DW_APB_UART_UART4_RX_SEL(4);
-	SET_U0_DW_APB_UART_UART4_TX_SEL(4);
-
 	// console UART5 (Merak)
 	SET_PADCFG_PAD_GPIO_A36_IE(1);
 	SET_PADCFG_PAD_GPIO_A37_IE(0);
 	SET_U0_SYS2_IOMUX_FUNC12_SEL(1);
 	SET_U0_SYS2_IOMUX_FUNC13_SEL(1);
-
-	SET_U0_DW_APB_UART_UART5_RX_SEL(5);
-	SET_U0_DW_APB_UART_UART5_TX_SEL(5);
 }
 
 void starfive_wdt_reset(void)
@@ -131,17 +125,17 @@ void plat_gmac_init(void)
 	SET_U0_BMCPERIPH0_GPIO_IOMUX_FUNC25_SEL(2); //gpio_func_sel(GPIO_B25, 2);	// MDIO
 	SET_U0_BMCPERIPH2_IOMUX_FUNC24_SEL(0);      //gpio_func_sel(GPIO_D24, 0);	// RESETN
 	SET_U0_BMCPERIPH2_IOMUX_FUNC25_SEL(2);      //gpio_func_sel(GPIO_D25, 2);	// TXEN
-	SET_U0_BMCPERIPH2_IOMUX_FUNC43_SEL(1);      //gpio_func_sel(GPIO_D43, 1);	// TXCLK
+	//SET_U0_BMCPERIPH2_IOMUX_FUNC43_SEL(1);      //gpio_func_sel(GPIO_D43, 1);	// TXCLK
 	SET_U0_BMCPERIPH2_IOMUX_FUNC27_SEL(2);      //gpio_func_sel(GPIO_D27, 2);	// TXD0
 	SET_U0_BMCPERIPH2_IOMUX_FUNC28_SEL(2);      //gpio_func_sel(GPIO_D28, 2);	// TXD1
 	SET_U0_BMCPERIPH2_IOMUX_FUNC30_SEL(2);      //gpio_func_sel(GPIO_D30, 2);	// TXD2
-	SET_U0_BMCPERIPH2_IOMUX_FUNC31_SEL(2);      //gpio_func_sel(GPIO_D31, 2);	// TXD3
-	SET_U0_BMCPERIPH2_IOMUX_FUNC37_SEL(1);      //gpio_func_sel(GPIO_D37, 1);	// RXCLK
-	SET_U0_BMCPERIPH2_IOMUX_FUNC38_SEL(1);      //gpio_func_sel(GPIO_D38, 1);	// RXDV
-	SET_U0_BMCPERIPH2_IOMUX_FUNC39_SEL(1);      //gpio_func_sel(GPIO_D39, 1);	// RXD0
-	SET_U0_BMCPERIPH2_IOMUX_FUNC40_SEL(1);      //gpio_func_sel(GPIO_D40, 1);	// RXD1
-	SET_U0_BMCPERIPH2_IOMUX_FUNC41_SEL(1);      //gpio_func_sel(GPIO_D41, 1);	// RXD2
-	SET_U0_BMCPERIPH2_IOMUX_FUNC42_SEL(1);      //gpio_func_sel(GPIO_D42, 1);	// RXD3
+	//SET_U0_BMCPERIPH2_IOMUX_FUNC31_SEL(2);      //gpio_func_sel(GPIO_D31, 2);	// TXD3
+	//SET_U0_BMCPERIPH2_IOMUX_FUNC37_SEL(1);      //gpio_func_sel(GPIO_D37, 1);	// RXCLK
+	//SET_U0_BMCPERIPH2_IOMUX_FUNC38_SEL(1);      //gpio_func_sel(GPIO_D38, 1);	// RXDV
+	//SET_U0_BMCPERIPH2_IOMUX_FUNC39_SEL(1);      //gpio_func_sel(GPIO_D39, 1);	// RXD0
+	//SET_U0_BMCPERIPH2_IOMUX_FUNC40_SEL(1);      //gpio_func_sel(GPIO_D40, 1);	// RXD1
+	//SET_U0_BMCPERIPH2_IOMUX_FUNC41_SEL(1);      //gpio_func_sel(GPIO_D41, 1);	// RXD2
+	//SET_U0_BMCPERIPH2_IOMUX_FUNC42_SEL(1);      //gpio_func_sel(GPIO_D42, 1);	// RXD3
 
 	/* Reset phy - active low */
 	#define GPIO_OUT  0
@@ -164,8 +158,8 @@ void gmac_reset(void)
 	u0_dwc_ether_rmiiandrgmii_disable_patch();
 
 	/* dwc_eth_qos_gmac_interface_set */
-	SET_U0_DWC_ETHER_RMIIANDRGMII_PHY_INTF_SEL_I(1); //sys_con
-	_SET_CLOCK_POLARITY_STATUS_CLK_BMCPERIPH2_GMAC2_RX_125_N_(1);
+	//SET_U0_DWC_ETHER_RMIIANDRGMII_PHY_INTF_SEL_I(1); //sys_con
+	//_SET_CLOCK_POLARITY_STATUS_CLK_BMCPERIPH2_GMAC2_RX_125_N_(1);
 
 	/* Set clk & Deassert reset */
 	u0_dwc_ether_rmiiandrgmii_enable_patch();
@@ -227,8 +221,8 @@ void subsys_init(void)
 	_CLEAR_RESET_RSTGEN_RSTN_U0_DOM_BMCCPUSS_RSTN_DOM_BMCCPUSS_RSTN_CORE_;
 	_CLEAR_RESET_RSTGEN_RSTN_U0_BCU_DFT_BISR_RST_;
 	/* PD_HOSTSIS_i0 */
-	_CLEAR_RESET_RSTGEN_RSTN_U8_PCU_CORE_RST_;
-	_CLEAR_RESET_RSTGEN_RSTN_U8_PCU_APB_RST_;
+	//_CLEAR_RESET_RSTGEN_RSTN_U8_PCU_CORE_RST_;
+	//_CLEAR_RESET_RSTGEN_RSTN_U8_PCU_APB_RST_;
 
 	debug("before...static on..PD_HOSTSIS_i0..\n");
 	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
@@ -392,9 +386,12 @@ void board_init_f(ulong dummy)
 	//flexnoc_reset();
 	//starfive_wdt_reset();
 	//starfive_timer_reset();
-	plat_gmac_init();
-	gmac_reset();
-	subsys_init();
+
+	/* TODO: Temporarily disable devices until the pins have been updated with the new CMacro */
+	//plat_gmac_init();
+	//gmac_reset();
+	//subsys_init();
+
 	//sd_reset();
 	//u0_tvsensor_wrapper_enable();
 	//smbus_reset();
