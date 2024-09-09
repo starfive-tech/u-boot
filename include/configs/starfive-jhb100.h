@@ -15,9 +15,9 @@
 
 #ifdef CONFIG_SPL
 
-#define CONFIG_SPL_STACK	(0x400100000 - GENERATED_GBL_DATA_SIZE)
+#define CONFIG_SPL_STACK	(0x40100000 - GENERATED_GBL_DATA_SIZE)
 
-#define STARFIVE_SPL_BOOT_LOAD_ADDR 0x408000000
+#define STARFIVE_SPL_BOOT_LOAD_ADDR 0x48000000
 #endif
 
 #define CONFIG_SYS_CACHELINE_SIZE 64
@@ -47,7 +47,7 @@
 
 #define CONFIG_NR_DRAM_BANKS	1
 
-#define PHYS_SDRAM_0		0x400000000	/* SDRAM Bank #1 */
+#define PHYS_SDRAM_0		0x40000000	/* SDRAM Bank #1 */
 //#define PHYS_SDRAM_0_SIZE	0x80000000	/* 2 GB */
 #define PHYS_SDRAM_0_SIZE	0x100000000	/* 4 GB */
 
@@ -67,7 +67,7 @@
 #define CONFIG_GATEWAYIP	192.168.152.1
 #endif
 
-#define CONFIG_RAMDISK_ADDR 0x429000000
+#define CONFIG_RAMDISK_ADDR 0x70000000
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
@@ -232,18 +232,21 @@
 		"fi;"	\
 		"echo SPI Secondary FIT image failed authentication ...;\0"
 
+/* TODO: The values of kernel_addr_r, fdt_addr, and ramdisk_addr_r will be confirmed
+ * after discussion with the Linux team
+ */
 #define CFG_EXTRA_ENV_SETTINGS			\
 	"bootfile=Image\0"	\
 	"fdtfile=jhb100-fpga.dtb\0"	\
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
 	"envloadaddr=0x44000000\0"	\
-	"kernel_addr_r=0x401000000\0"			\
-	"kernel_comp_addr_r=0x403000000\0"		\
+	"kernel_addr_r=0xc0000000\0"			\
+	"kernel_comp_addr_r=0x44000000\0"		\
 	"kernel_comp_size=0x2000000\0"			\
 	"kernel_fit_load_size=0x2000000\0"		\
 	"kernel_fit_comp_load_size=0xa00000\0"		\
-	"fdt_addr_r=0x430000000\0"			\
+	"fdt_addr_r=0x46000000\0"			\
 	"load_comp_addr=0x47000000\0"	\
 	"ramdisk_size=0x4000000\0"			\
 	"loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \

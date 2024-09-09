@@ -22,5 +22,17 @@ int dram_init_banksize(void)
 
 phys_size_t board_get_usable_ram_top(phys_size_t total_size)
 {
+#ifdef CONFIG_64BIT
+	/*
+	 * Ensure that we run from first 4GB so that all
+	 * addresses used by U-Boot are 32bit addresses.
+	 *
+	 * This in-turn ensures that 32bit DMA capable
+	 * devices work fine because DMA mapping APIs will
+	 * provide 32bit DMA addresses only.
+	 */
+	if (gd->ram_top > SZ_4G)
+		return SZ_4G;
+#endif
 	return gd->ram_top;
 }
