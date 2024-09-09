@@ -177,6 +177,10 @@
 	bootph-pre-ram;
 };
 
+&fpga_4mhz_clk {
+	bootph-pre-ram;
+};
+
 &fpga_2p5mhz_clk {
 	bootph-pre-ram;
 };

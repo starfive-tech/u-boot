@@ -13,6 +13,8 @@
 		spi-max-frequency = <200000>;
 		spi-tx-bus-width = <4>;
 		spi-rx-bus-width = <4>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&sfc0_pins>;
 
 		partitions {
 			compatible = "fixed-partitions";
@@ -102,6 +104,49 @@
 				label = "Data";
 				reg = <0x1a00000 0x6600000>;
 			};
+		};
+	};
+};
+
+&pinctrl_bmcperiph1 {
+	gpio-line-names =
+		"", "", "", "",
+		"", "SFC0_CS0", "SFC0_CS1", "SFC0_SCLK",
+		"SFC0_IO0", "SFC0_IO1", "SFC0_IO2", "SFC0_IO3";
+
+	sfc0_pins: sfc0-grp {
+		sfc0_sclk-pins {
+			pinmux = <PINMUX(7, 0)>;
+		};
+
+		sfc0_cs0-pins {
+			pinmux = <PINMUX(5, 0)>;
+			bias-pull-up;
+		};
+
+		sfc0_cs1-pins {
+			pinmux = <PINMUX(6, 0)>;
+			bias-pull-up;
+		};
+
+		sfc0_io0-pins {
+			pinmux = <PINMUX(8, 0)>;
+			input-enable;
+		};
+
+		sfc0_io1-pins {
+			pinmux = <PINMUX(9, 0)>;
+			input-enable;
+		};
+
+		sfc0_io2-pins {
+			pinmux = <PINMUX(10, 0)>;
+			input-enable;
+		};
+
+		sfc0_io3-pins {
+			pinmux = <PINMUX(11, 0)>;
+			input-enable;
 		};
 	};
 };

@@ -5,7 +5,6 @@
 
 #include "jhb100.dtsi"
 #include "jhb100-fpga-sfc0-flash.dtsi"
-#include "jhb100-pinfunc.h"
 #include <dt-bindings/gpio/gpio.h>
 
 / {
@@ -26,7 +25,7 @@
 
 	memory {
 		device_type = "memory";
-		reg = <0x4 0x0 0x2 0x0>;	/* 8GB */
+		reg = <0x0 0x40000000 0x2 0x00000000>;	/* 8GB */
 	};
 
 	reserved-memory {
@@ -35,15 +34,15 @@
 		ranges;
 
 		/* DMA global pool cached address */
-		dma-reserved@404000000 {
-			reg = <0x4 0x04000000 0x0 0x20000000>;
+		dma-reserved@44000000 {
+			reg = <0x0 0x44000000 0x0 0x20000000>;
 			no-map;
 		};
 
 		/* DMA global pool uncached address (alias) */
-		linux,dma@44000000 {
+		linux,dma@404000000 {
 			compatible = "shared-dma-pool";
-			reg = <0x0 0x44000000 0x0 0x20000000>;
+			reg = <0x4 0x04000000 0x0 0x20000000>;
 			no-map;
 			linux,dma-default;
 		};
@@ -53,45 +52,45 @@
 		 * Also need to reserve corresponding cache addresses,
 		 * so that kernel will not manage them.
 		 */
-		pcie0_mmbi_buffer_cache: mmbi_buffer@424000000 {
-			reg = <0x4 0x24000000 0 0x800000>;
-			alignment = <0x0 0x800000>;
-			no-map;
-		};
-
-		pcie0_mmbi_buffer_uncache: mmbi_buffer@64000000 {
+		pcie0_mmbi_buffer_cache: mmbi_buffer@64000000 {
 			reg = <0x0 0x64000000 0 0x800000>;
 			alignment = <0x0 0x800000>;
 			no-map;
 		};
 
-		espi0_mmbi_buffer_cache: mmbi_buffer@424800000 {
-			reg = <0x4 0x24800000 0 0x800000>;
+		pcie0_mmbi_buffer_uncache: mmbi_buffer@424000000 {
+			reg = <0x4 0x24000000 0 0x800000>;
 			alignment = <0x0 0x800000>;
 			no-map;
 		};
 
-		espi0_mmbi_buffer_uncache: mmbi_buffer@64800000 {
+		espi0_mmbi_buffer_cache: mmbi_buffer@64800000 {
 			reg = <0x0 0x64800000 0 0x800000>;
 			alignment = <0x0 0x800000>;
 			no-map;
 		};
 
-		espi0_mem_cache: espi0-slave@425000000 {
-			compatible = "shared-dma-pool";
-			reg = <0x4 0x25000000 0x0 0x200000>;
+		espi0_mmbi_buffer_uncache: mmbi_buffer@424800000 {
+			reg = <0x4 0x24800000 0 0x800000>;
+			alignment = <0x0 0x800000>;
 			no-map;
 		};
 
-		espi0_mem_uncache: espi0-slave@65000000 {
+		espi0_mem_cache: espi0-slave@65000000 {
 			compatible = "shared-dma-pool";
 			reg = <0x0 0x65000000 0x0 0x200000>;
 			no-map;
 		};
 
-		ramoops@425200000 {
+		espi0_mem_uncache: espi0-slave@425000000 {
+			compatible = "shared-dma-pool";
+			reg = <0x4 0x25000000 0x0 0x200000>;
+			no-map;
+		};
+
+		ramoops@65200000 {
 			compatible = "ramoops";
-			reg = <0x4 0x25200000 0x0 0xc0000>;
+			reg = <0x0 0x65200000 0x0 0xc0000>;
 			record-size = <0x20000>;
 			console-size = <0x20000>;
 			pmsg-size = <0x20000>;
@@ -102,7 +101,7 @@
 			reusable;
 			size = <0x0 0x10000000>;
 			alignment = <0x0 0x1000>;
-			alloc-ranges = <0x4 0x26000000 0x2 0x00000000>;
+			alloc-ranges = <0x0 0x66000000 0x1 0xda000000>;
 			linux,cma-default;
 		};
 	};
@@ -118,6 +117,12 @@
 			compatible = "fixed-clock";
 			#clock-cells = <0>;
 			clock-frequency = <3000000>;
+		};
+
+		fpga_4mhz_clk: fpga_4mhz_clk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <4000000>;
 		};
 
 		fpga_2p5mhz_clk: fpga_2p5mhz_clk {
@@ -188,12 +193,151 @@
 	};
 };
 
+&pinctrl_sys2 {
+	gpio-line-names =
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"UART5_RX", "UART5_TX", "", "";
+
+	uart5_pins: uart5-grp {
+		uart5_tx-pins {
+			pinmux = <PINMUX(13, 1)>;
+		};
+
+		uart5_rx-pins {
+			pinmux = <PINMUX(12, 1)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+};
+
+&pinctrl_bmcperiph0 {
+	gpio-line-names =
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"MDIO0_MDC", "MDIO0_MDIO", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "I3C0_SCL",
+		"I3C0_SDA", "I3C1_SCL", "I3C1_SDA", "";
+
+	mdio0_pins: mdio0-grp {
+		mdio0_mdc-pins {
+			pinmux = <PINMUX(24, 2)>;
+		};
+
+		mdio0_mdio-pins {
+			pinmux = <PINMUX(25, 2)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+
+	i3c0_pins: i3c0-grp {
+		i3c0_scl-pins {
+			pinmux = <PINMUX(43, 1)>;
+		};
+
+		i3c0_sda-pins  {
+			pinmux = <PINMUX(44, 1)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+
+	i3c1_pins: i3c1-grp {
+		i3c1_scl-pins {
+			pinmux = <PINMUX(45, 1)>;
+		};
+
+		i3c1_sda-pins  {
+			pinmux = <PINMUX(46, 1)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+};
+
+&pinctrl_bmcperiph2 {
+	gpio-line-names =
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"GMAC2_PHY_RESET", "GMAC2_TXEN", "", "GMAC2_TXD0",
+		"GMAC2_TXD1", "", "GMAC2_TXD2", "GMAC2_TXD3",
+		"", "", "", "",
+		"", "GMAC2_RXCLK", "GMAC2_RXDV", "GMAC2_RXD0",
+		"GMAC2_RXD1", "GMAC2_RXD2", "GMAC2_RXD3", "GMAC2_TXCLK";
+
+	gmac2_pins: gmac2-grp {
+		gmac2_txen-pins {
+			pinmux = <PINMUX(25, 2)>;
+		};
+
+		gmac2_txclk-pins {
+			pinmux = <PINMUX(43, 1)>;
+		};
+
+		gmac2_txd0-pins {
+			pinmux = <PINMUX(27, 2)>;
+		};
+
+		gmac2_txd1-pins {
+			pinmux = <PINMUX(28, 2)>;
+		};
+
+		gmac2_txd2-pins {
+			pinmux = <PINMUX(30, 2)>;
+		};
+
+		gmac2_txd3-pins {
+			pinmux = <PINMUX(31, 2)>;
+		};
+
+		gmac2_rxclk-pins {
+			pinmux = <PINMUX(37, 1)>;
+		};
+
+		gmac2_rxdv-pins {
+			pinmux = <PINMUX(38, 1)>;
+		};
+
+		gmac2_rxd0-pins {
+			pinmux = <PINMUX(39, 1)>;
+		};
+
+		gmac2_rxd1-pins {
+			pinmux = <PINMUX(40, 1)>;
+		};
+
+		gmac2_rxd2-pins {
+			pinmux = <PINMUX(41, 1)>;
+		};
+
+		gmac2_rxd3-pins {
+			pinmux = <PINMUX(42, 1)>;
+		};
+	};
+
+};
+
 &uart5 {
 	status = "okay";
-	clocks = <&fpga_3mhz_clk>, <&fpga_3mhz_clk>;
-	clock-frequency = <3000000>;
-	dlf-size = <6>;
+	clocks = <&fpga_4mhz_clk>, <&fpga_4mhz_clk>;
+	clock-frequency = <4000000>;
 	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart5_pins>;
 };
 
 &husb0 {
@@ -259,7 +403,7 @@
 
 &espi0 {
 	flash-safs-mode = <0>;
-	perif-memcyc-src-addr = <0x65000000>;
+	perif-memcyc-src-addr = <0x4 0x25000000>;
 	perif-memcyc-size = <0x200000>;
 	memory-region = <&espi0_mem_uncache>;
 
@@ -290,6 +434,9 @@
 	phy-mode = "rgmii-id";
 	phy-handle = <&ethernet_phy0>;
 	status = "okay";
+	pinctrl-names = "default", "default";
+	pinctrl-0 = <&gmac2_pins>;
+	pinctrl-1 = <&mdio0_pins>;
 
 	mdio0 {
 		compatible = "snps,dwmac-mdio";
@@ -299,6 +446,7 @@
 			reg = <0>;
 			max-speed = <10>;
 			device_type = "ethernet-phy";
+
 			marvell,reg-init =
 				<0x0 0x4 0 0x0441>, /*Page 0, Reg 4 <- 0x0441*/
 				<0x12 0x14 0 0x0>, /*Page 18, Reg 20 <- 0x0*/
@@ -329,6 +477,8 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c0_pins>;
 };
 
 &i3c1 {
@@ -341,4 +491,6 @@
 	dcr = /bits/ 8 <0x0>;
 	hotjoin-request;
 	/* pec-private-transfer; */
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c1_pins>;
 };
