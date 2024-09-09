@@ -1,5 +1,4 @@
-//RTL tag v0.5.1
-
+//commit:06b6362e (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_0_ADDR                 (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x0U)
 #define PADCFG_PAD_GPIO_A24_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A24_DS_SHIFT                       0x0U
@@ -19,6 +18,9 @@
 #define PADCFG_PAD_GPIO_A24_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A24_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A24_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A24_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A24_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A24_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_4_ADDR                 (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x4U)
 #define PADCFG_PAD_GPIO_A25_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A25_DS_SHIFT                       0x0U
@@ -38,6 +40,9 @@
 #define PADCFG_PAD_GPIO_A25_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A25_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A25_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A25_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A25_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A25_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_8_ADDR                 (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x8U)
 #define PADCFG_PAD_GPIO_A26_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A26_DS_SHIFT                       0x0U
@@ -57,6 +62,9 @@
 #define PADCFG_PAD_GPIO_A26_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A26_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A26_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A26_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A26_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A26_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_12_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xcU)
 #define PADCFG_PAD_GPIO_A27_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A27_DS_SHIFT                       0x0U
@@ -76,6 +84,9 @@
 #define PADCFG_PAD_GPIO_A27_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A27_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A27_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A27_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A27_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A27_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_16_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x10U)
 #define PADCFG_PAD_GPIO_A28_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A28_DS_SHIFT                       0x0U
@@ -95,6 +106,9 @@
 #define PADCFG_PAD_GPIO_A28_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A28_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A28_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A28_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A28_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A28_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_20_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x14U)
 #define PADCFG_PAD_GPIO_A29_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A29_DS_SHIFT                       0x0U
@@ -114,6 +128,9 @@
 #define PADCFG_PAD_GPIO_A29_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A29_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A29_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A29_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A29_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A29_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_24_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x18U)
 #define PADCFG_PAD_GPIO_A30_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A30_DS_SHIFT                       0x0U
@@ -133,6 +150,9 @@
 #define PADCFG_PAD_GPIO_A30_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A30_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A30_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A30_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A30_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A30_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_28_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x1cU)
 #define PADCFG_PAD_GPIO_A31_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A31_DS_SHIFT                       0x0U
@@ -152,6 +172,9 @@
 #define PADCFG_PAD_GPIO_A31_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A31_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A31_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A31_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A31_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A31_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_32_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x20U)
 #define PADCFG_PAD_GPIO_A32_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A32_DS_SHIFT                       0x0U
@@ -171,6 +194,9 @@
 #define PADCFG_PAD_GPIO_A32_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A32_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A32_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A32_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A32_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A32_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_36_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x24U)
 #define PADCFG_PAD_GPIO_A33_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A33_DS_SHIFT                       0x0U
@@ -190,6 +216,9 @@
 #define PADCFG_PAD_GPIO_A33_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A33_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A33_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A33_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A33_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A33_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_40_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x28U)
 #define PADCFG_PAD_GPIO_A34_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A34_DS_SHIFT                       0x0U
@@ -209,6 +238,9 @@
 #define PADCFG_PAD_GPIO_A34_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A34_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A34_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A34_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A34_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A34_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_44_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x2cU)
 #define PADCFG_PAD_GPIO_A35_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A35_DS_SHIFT                       0x0U
@@ -228,6 +260,9 @@
 #define PADCFG_PAD_GPIO_A35_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A35_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A35_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A35_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A35_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A35_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_48_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x30U)
 #define PADCFG_PAD_GPIO_A36_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A36_DS_SHIFT                       0x0U
@@ -247,6 +282,9 @@
 #define PADCFG_PAD_GPIO_A36_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A36_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A36_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A36_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A36_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A36_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_52_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x34U)
 #define PADCFG_PAD_GPIO_A37_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A37_DS_SHIFT                       0x0U
@@ -266,6 +304,9 @@
 #define PADCFG_PAD_GPIO_A37_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A37_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A37_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A37_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A37_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A37_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_56_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x38U)
 #define PADCFG_PAD_GPIO_A38_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A38_DS_SHIFT                       0x0U
@@ -285,6 +326,9 @@
 #define PADCFG_PAD_GPIO_A38_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A38_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A38_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A38_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A38_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A38_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_60_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x3cU)
 #define PADCFG_PAD_GPIO_A39_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A39_DS_SHIFT                       0x0U
@@ -304,6 +348,9 @@
 #define PADCFG_PAD_GPIO_A39_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A39_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A39_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A39_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A39_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A39_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_64_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x40U)
 #define PADCFG_PAD_GPIO_A40_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A40_DS_SHIFT                       0x0U
@@ -323,6 +370,9 @@
 #define PADCFG_PAD_GPIO_A40_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A40_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A40_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A40_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A40_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A40_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_68_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x44U)
 #define PADCFG_PAD_GPIO_A41_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A41_DS_SHIFT                       0x0U
@@ -342,6 +392,9 @@
 #define PADCFG_PAD_GPIO_A41_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A41_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A41_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A41_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A41_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A41_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_72_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x48U)
 #define PADCFG_PAD_GPIO_A42_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A42_DS_SHIFT                       0x0U
@@ -361,6 +414,9 @@
 #define PADCFG_PAD_GPIO_A42_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A42_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A42_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A42_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A42_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A42_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_76_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x4cU)
 #define PADCFG_PAD_GPIO_A43_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A43_DS_SHIFT                       0x0U
@@ -380,6 +436,9 @@
 #define PADCFG_PAD_GPIO_A43_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A43_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A43_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A43_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A43_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A43_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_80_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x50U)
 #define PADCFG_PAD_GPIO_A44_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A44_DS_SHIFT                       0x0U
@@ -399,6 +458,9 @@
 #define PADCFG_PAD_GPIO_A44_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A44_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A44_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A44_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A44_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A44_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_84_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x54U)
 #define PADCFG_PAD_GPIO_A45_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A45_DS_SHIFT                       0x0U
@@ -418,6 +480,9 @@
 #define PADCFG_PAD_GPIO_A45_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A45_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A45_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A45_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A45_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A45_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_88_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x58U)
 #define PADCFG_PAD_GPIO_A46_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A46_DS_SHIFT                       0x0U
@@ -437,6 +502,9 @@
 #define PADCFG_PAD_GPIO_A46_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A46_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A46_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A46_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A46_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A46_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_92_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x5cU)
 #define PADCFG_PAD_GPIO_A47_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A47_DS_SHIFT                       0x0U
@@ -456,6 +524,9 @@
 #define PADCFG_PAD_GPIO_A47_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A47_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A47_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A47_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A47_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A47_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_96_ADDR                (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x60U)
 #define PADCFG_PAD_GPIO_A48_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A48_DS_SHIFT                       0x0U
@@ -475,6 +546,9 @@
 #define PADCFG_PAD_GPIO_A48_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A48_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A48_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A48_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A48_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A48_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_100_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x64U)
 #define PADCFG_PAD_GPIO_A49_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A49_DS_SHIFT                       0x0U
@@ -494,6 +568,9 @@
 #define PADCFG_PAD_GPIO_A49_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A49_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A49_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A49_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A49_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A49_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_104_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x68U)
 #define PADCFG_PAD_GPIO_A50_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A50_DS_SHIFT                       0x0U
@@ -513,6 +590,9 @@
 #define PADCFG_PAD_GPIO_A50_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A50_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A50_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A50_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A50_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A50_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_108_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x6cU)
 #define PADCFG_PAD_GPIO_A51_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A51_DS_SHIFT                       0x0U
@@ -532,6 +612,9 @@
 #define PADCFG_PAD_GPIO_A51_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A51_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A51_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A51_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A51_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A51_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_112_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x70U)
 #define PADCFG_PAD_GPIO_A52_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A52_DS_SHIFT                       0x0U
@@ -551,6 +634,9 @@
 #define PADCFG_PAD_GPIO_A52_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A52_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A52_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A52_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A52_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A52_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_116_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x74U)
 #define PADCFG_PAD_GPIO_A53_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A53_DS_SHIFT                       0x0U
@@ -570,6 +656,9 @@
 #define PADCFG_PAD_GPIO_A53_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A53_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A53_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A53_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A53_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A53_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_120_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x78U)
 #define PADCFG_PAD_GPIO_A54_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A54_DS_SHIFT                       0x0U
@@ -589,6 +678,9 @@
 #define PADCFG_PAD_GPIO_A54_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A54_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A54_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A54_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A54_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A54_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_124_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x7cU)
 #define PADCFG_PAD_GPIO_A55_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_A55_DS_SHIFT                       0x0U
@@ -608,7 +700,120 @@
 #define PADCFG_PAD_GPIO_A55_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_A55_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_A55_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A55_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A55_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A55_DEBOUNCE_MASK                  0xFFFF8000U
 #define SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x80U)
+#define PADCFG_PAD_GPIO_A56_DS_WIDTH                       0x2U
+#define PADCFG_PAD_GPIO_A56_DS_SHIFT                       0x0U
+#define PADCFG_PAD_GPIO_A56_DS_MASK                        0x3U
+#define PADCFG_PAD_GPIO_A56_IE_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A56_IE_SHIFT                       0x2U
+#define PADCFG_PAD_GPIO_A56_IE_MASK                        0x4U
+#define PADCFG_PAD_GPIO_A56_PD_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A56_PD_SHIFT                       0x3U
+#define PADCFG_PAD_GPIO_A56_PD_MASK                        0x8U
+#define PADCFG_PAD_GPIO_A56_PU_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A56_PU_SHIFT                       0x4U
+#define PADCFG_PAD_GPIO_A56_PU_MASK                        0x10U
+#define PADCFG_PAD_GPIO_A56_SLEW_WIDTH                     0x1U
+#define PADCFG_PAD_GPIO_A56_SLEW_SHIFT                     0x5U
+#define PADCFG_PAD_GPIO_A56_SLEW_MASK                      0x20U
+#define PADCFG_PAD_GPIO_A56_SMT_WIDTH                      0x1U
+#define PADCFG_PAD_GPIO_A56_SMT_SHIFT                      0x6U
+#define PADCFG_PAD_GPIO_A56_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A56_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A56_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A56_DEBOUNCE_MASK                  0xFFFF8000U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x84U)
+#define PADCFG_PAD_GPIO_A57_DS_WIDTH                       0x2U
+#define PADCFG_PAD_GPIO_A57_DS_SHIFT                       0x0U
+#define PADCFG_PAD_GPIO_A57_DS_MASK                        0x3U
+#define PADCFG_PAD_GPIO_A57_IE_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A57_IE_SHIFT                       0x2U
+#define PADCFG_PAD_GPIO_A57_IE_MASK                        0x4U
+#define PADCFG_PAD_GPIO_A57_PD_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A57_PD_SHIFT                       0x3U
+#define PADCFG_PAD_GPIO_A57_PD_MASK                        0x8U
+#define PADCFG_PAD_GPIO_A57_PU_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A57_PU_SHIFT                       0x4U
+#define PADCFG_PAD_GPIO_A57_PU_MASK                        0x10U
+#define PADCFG_PAD_GPIO_A57_SLEW_WIDTH                     0x1U
+#define PADCFG_PAD_GPIO_A57_SLEW_SHIFT                     0x5U
+#define PADCFG_PAD_GPIO_A57_SLEW_MASK                      0x20U
+#define PADCFG_PAD_GPIO_A57_SMT_WIDTH                      0x1U
+#define PADCFG_PAD_GPIO_A57_SMT_SHIFT                      0x6U
+#define PADCFG_PAD_GPIO_A57_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A57_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A57_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A57_DEBOUNCE_MASK                  0xFFFF8000U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x88U)
+#define PADCFG_PAD_GPIO_A58_DS_WIDTH                       0x2U
+#define PADCFG_PAD_GPIO_A58_DS_SHIFT                       0x0U
+#define PADCFG_PAD_GPIO_A58_DS_MASK                        0x3U
+#define PADCFG_PAD_GPIO_A58_IE_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A58_IE_SHIFT                       0x2U
+#define PADCFG_PAD_GPIO_A58_IE_MASK                        0x4U
+#define PADCFG_PAD_GPIO_A58_PD_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A58_PD_SHIFT                       0x3U
+#define PADCFG_PAD_GPIO_A58_PD_MASK                        0x8U
+#define PADCFG_PAD_GPIO_A58_PU_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A58_PU_SHIFT                       0x4U
+#define PADCFG_PAD_GPIO_A58_PU_MASK                        0x10U
+#define PADCFG_PAD_GPIO_A58_SLEW_WIDTH                     0x1U
+#define PADCFG_PAD_GPIO_A58_SLEW_SHIFT                     0x5U
+#define PADCFG_PAD_GPIO_A58_SLEW_MASK                      0x20U
+#define PADCFG_PAD_GPIO_A58_SMT_WIDTH                      0x1U
+#define PADCFG_PAD_GPIO_A58_SMT_SHIFT                      0x6U
+#define PADCFG_PAD_GPIO_A58_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A58_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A58_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A58_DEBOUNCE_MASK                  0xFFFF8000U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x8cU)
+#define PADCFG_PAD_GPIO_A59_DS_WIDTH                       0x2U
+#define PADCFG_PAD_GPIO_A59_DS_SHIFT                       0x0U
+#define PADCFG_PAD_GPIO_A59_DS_MASK                        0x3U
+#define PADCFG_PAD_GPIO_A59_IE_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A59_IE_SHIFT                       0x2U
+#define PADCFG_PAD_GPIO_A59_IE_MASK                        0x4U
+#define PADCFG_PAD_GPIO_A59_PD_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A59_PD_SHIFT                       0x3U
+#define PADCFG_PAD_GPIO_A59_PD_MASK                        0x8U
+#define PADCFG_PAD_GPIO_A59_PU_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A59_PU_SHIFT                       0x4U
+#define PADCFG_PAD_GPIO_A59_PU_MASK                        0x10U
+#define PADCFG_PAD_GPIO_A59_SLEW_WIDTH                     0x1U
+#define PADCFG_PAD_GPIO_A59_SLEW_SHIFT                     0x5U
+#define PADCFG_PAD_GPIO_A59_SLEW_MASK                      0x20U
+#define PADCFG_PAD_GPIO_A59_SMT_WIDTH                      0x1U
+#define PADCFG_PAD_GPIO_A59_SMT_SHIFT                      0x6U
+#define PADCFG_PAD_GPIO_A59_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A59_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A59_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A59_DEBOUNCE_MASK                  0xFFFF8000U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x90U)
+#define PADCFG_PAD_GPIO_A60_DS_WIDTH                       0x2U
+#define PADCFG_PAD_GPIO_A60_DS_SHIFT                       0x0U
+#define PADCFG_PAD_GPIO_A60_DS_MASK                        0x3U
+#define PADCFG_PAD_GPIO_A60_IE_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A60_IE_SHIFT                       0x2U
+#define PADCFG_PAD_GPIO_A60_IE_MASK                        0x4U
+#define PADCFG_PAD_GPIO_A60_PD_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A60_PD_SHIFT                       0x3U
+#define PADCFG_PAD_GPIO_A60_PD_MASK                        0x8U
+#define PADCFG_PAD_GPIO_A60_PU_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_A60_PU_SHIFT                       0x4U
+#define PADCFG_PAD_GPIO_A60_PU_MASK                        0x10U
+#define PADCFG_PAD_GPIO_A60_SLEW_WIDTH                     0x1U
+#define PADCFG_PAD_GPIO_A60_SLEW_SHIFT                     0x5U
+#define PADCFG_PAD_GPIO_A60_SLEW_MASK                      0x20U
+#define PADCFG_PAD_GPIO_A60_SMT_WIDTH                      0x1U
+#define PADCFG_PAD_GPIO_A60_SMT_SHIFT                      0x6U
+#define PADCFG_PAD_GPIO_A60_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_A60_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_A60_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_A60_DEBOUNCE_MASK                  0xFFFF8000U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x94U)
 #define PADCFG_PAD_JTAG_TCK_DS_WIDTH                       0x2U
 #define PADCFG_PAD_JTAG_TCK_DS_SHIFT                       0x0U
 #define PADCFG_PAD_JTAG_TCK_DS_MASK                        0x3U
@@ -627,7 +832,7 @@
 #define PADCFG_PAD_JTAG_TCK_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_JTAG_TCK_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_JTAG_TCK_SMT_MASK                       0x40U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x84U)
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x98U)
 #define PADCFG_PAD_JTAG_TRESETN_DS_WIDTH                   0x2U
 #define PADCFG_PAD_JTAG_TRESETN_DS_SHIFT                   0x0U
 #define PADCFG_PAD_JTAG_TRESETN_DS_MASK                    0x3U
@@ -646,7 +851,7 @@
 #define PADCFG_PAD_JTAG_TRESETN_SMT_WIDTH                  0x1U
 #define PADCFG_PAD_JTAG_TRESETN_SMT_SHIFT                  0x6U
 #define PADCFG_PAD_JTAG_TRESETN_SMT_MASK                   0x40U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x88U)
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x9cU)
 #define PADCFG_PAD_JTAG_TMS_DS_WIDTH                       0x2U
 #define PADCFG_PAD_JTAG_TMS_DS_SHIFT                       0x0U
 #define PADCFG_PAD_JTAG_TMS_DS_MASK                        0x3U
@@ -665,7 +870,7 @@
 #define PADCFG_PAD_JTAG_TMS_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_JTAG_TMS_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_JTAG_TMS_SMT_MASK                       0x40U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x8cU)
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xa0U)
 #define PADCFG_PAD_JTAG_TDI_DS_WIDTH                       0x2U
 #define PADCFG_PAD_JTAG_TDI_DS_SHIFT                       0x0U
 #define PADCFG_PAD_JTAG_TDI_DS_MASK                        0x3U
@@ -684,7 +889,7 @@
 #define PADCFG_PAD_JTAG_TDI_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_JTAG_TDI_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_JTAG_TDI_SMT_MASK                       0x40U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x90U)
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xa4U)
 #define PADCFG_PAD_JTAG_TDO_DS_WIDTH                       0x2U
 #define PADCFG_PAD_JTAG_TDO_DS_SHIFT                       0x0U
 #define PADCFG_PAD_JTAG_TDO_DS_MASK                        0x3U
@@ -703,7 +908,26 @@
 #define PADCFG_PAD_JTAG_TDO_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_JTAG_TDO_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_JTAG_TDO_SMT_MASK                       0x40U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x94U)
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xa8U)
+#define PADCFG_PAD_VOUT_HPD_DS_WIDTH                       0x2U
+#define PADCFG_PAD_VOUT_HPD_DS_SHIFT                       0x0U
+#define PADCFG_PAD_VOUT_HPD_DS_MASK                        0x3U
+#define PADCFG_PAD_VOUT_HPD_IE_WIDTH                       0x1U
+#define PADCFG_PAD_VOUT_HPD_IE_SHIFT                       0x2U
+#define PADCFG_PAD_VOUT_HPD_IE_MASK                        0x4U
+#define PADCFG_PAD_VOUT_HPD_PD_WIDTH                       0x1U
+#define PADCFG_PAD_VOUT_HPD_PD_SHIFT                       0x3U
+#define PADCFG_PAD_VOUT_HPD_PD_MASK                        0x8U
+#define PADCFG_PAD_VOUT_HPD_PU_WIDTH                       0x1U
+#define PADCFG_PAD_VOUT_HPD_PU_SHIFT                       0x4U
+#define PADCFG_PAD_VOUT_HPD_PU_MASK                        0x10U
+#define PADCFG_PAD_VOUT_HPD_SLEW_WIDTH                     0x1U
+#define PADCFG_PAD_VOUT_HPD_SLEW_SHIFT                     0x5U
+#define PADCFG_PAD_VOUT_HPD_SLEW_MASK                      0x20U
+#define PADCFG_PAD_VOUT_HPD_SMT_WIDTH                      0x1U
+#define PADCFG_PAD_VOUT_HPD_SMT_SHIFT                      0x6U
+#define PADCFG_PAD_VOUT_HPD_SMT_MASK                       0x40U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xacU)
 #define U0_SYS2_IOMUX_FMUX_O0_SEL_WIDTH                    0x1U
 #define U0_SYS2_IOMUX_FMUX_O0_SEL_SHIFT                    0x0U
 #define U0_SYS2_IOMUX_FMUX_O0_SEL_MASK                     0x1U
@@ -800,7 +1024,23 @@
 #define U0_SYS2_IOMUX_FMUX_O31_SEL_WIDTH                   0x1U
 #define U0_SYS2_IOMUX_FMUX_O31_SEL_SHIFT                   0x1FU
 #define U0_SYS2_IOMUX_FMUX_O31_SEL_MASK                    0x80000000U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x98U)
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xb0U)
+#define U0_SYS2_IOMUX_FMUX_O32_SEL_WIDTH                   0x1U
+#define U0_SYS2_IOMUX_FMUX_O32_SEL_SHIFT                   0x0U
+#define U0_SYS2_IOMUX_FMUX_O32_SEL_MASK                    0x1U
+#define U0_SYS2_IOMUX_FMUX_O33_SEL_WIDTH                   0x1U
+#define U0_SYS2_IOMUX_FMUX_O33_SEL_SHIFT                   0x1U
+#define U0_SYS2_IOMUX_FMUX_O33_SEL_MASK                    0x2U
+#define U0_SYS2_IOMUX_FMUX_O34_SEL_WIDTH                   0x1U
+#define U0_SYS2_IOMUX_FMUX_O34_SEL_SHIFT                   0x2U
+#define U0_SYS2_IOMUX_FMUX_O34_SEL_MASK                    0x4U
+#define U0_SYS2_IOMUX_FMUX_O35_SEL_WIDTH                   0x1U
+#define U0_SYS2_IOMUX_FMUX_O35_SEL_SHIFT                   0x3U
+#define U0_SYS2_IOMUX_FMUX_O35_SEL_MASK                    0x8U
+#define U0_SYS2_IOMUX_FMUX_O36_SEL_WIDTH                   0x1U
+#define U0_SYS2_IOMUX_FMUX_O36_SEL_SHIFT                   0x4U
+#define U0_SYS2_IOMUX_FMUX_O36_SEL_MASK                    0x10U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xb4U)
 #define U0_SYS2_IOMUX_FMUX_OEN0_SEL_WIDTH                  0x1U
 #define U0_SYS2_IOMUX_FMUX_OEN0_SEL_SHIFT                  0x0U
 #define U0_SYS2_IOMUX_FMUX_OEN0_SEL_MASK                   0x1U
@@ -897,35 +1137,55 @@
 #define U0_SYS2_IOMUX_FMUX_OEN31_SEL_WIDTH                 0x1U
 #define U0_SYS2_IOMUX_FMUX_OEN31_SEL_SHIFT                 0x1FU
 #define U0_SYS2_IOMUX_FMUX_OEN31_SEL_MASK                  0x80000000U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x9cU)
-#define O_I_31_0__WIDTH                                    0x20U
-#define O_I_31_0__SHIFT                                    0x0U
-#define O_I_31_0__MASK                                     0xFFFFFFFFU
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xa0U)
-#define U0_SYS2_IOMUX_FUNC0_SEL_WIDTH                      0x2U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xb8U)
+#define U0_SYS2_IOMUX_FMUX_OEN32_SEL_WIDTH                 0x1U
+#define U0_SYS2_IOMUX_FMUX_OEN32_SEL_SHIFT                 0x0U
+#define U0_SYS2_IOMUX_FMUX_OEN32_SEL_MASK                  0x1U
+#define U0_SYS2_IOMUX_FMUX_OEN33_SEL_WIDTH                 0x1U
+#define U0_SYS2_IOMUX_FMUX_OEN33_SEL_SHIFT                 0x1U
+#define U0_SYS2_IOMUX_FMUX_OEN33_SEL_MASK                  0x2U
+#define U0_SYS2_IOMUX_FMUX_OEN34_SEL_WIDTH                 0x1U
+#define U0_SYS2_IOMUX_FMUX_OEN34_SEL_SHIFT                 0x2U
+#define U0_SYS2_IOMUX_FMUX_OEN34_SEL_MASK                  0x4U
+#define U0_SYS2_IOMUX_FMUX_OEN35_SEL_WIDTH                 0x1U
+#define U0_SYS2_IOMUX_FMUX_OEN35_SEL_SHIFT                 0x3U
+#define U0_SYS2_IOMUX_FMUX_OEN35_SEL_MASK                  0x8U
+#define U0_SYS2_IOMUX_FMUX_OEN36_SEL_WIDTH                 0x1U
+#define U0_SYS2_IOMUX_FMUX_OEN36_SEL_SHIFT                 0x4U
+#define U0_SYS2_IOMUX_FMUX_OEN36_SEL_MASK                  0x10U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_188_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xbcU)
+#define U0_SYS2_IOMUX_O_I_31_0__WIDTH                      0x20U
+#define U0_SYS2_IOMUX_O_I_31_0__SHIFT                      0x0U
+#define U0_SYS2_IOMUX_O_I_31_0__MASK                       0xFFFFFFFFU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_192_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xc0U)
+#define U0_SYS2_IOMUX_O_I_36_32__WIDTH                     0x5U
+#define U0_SYS2_IOMUX_O_I_36_32__SHIFT                     0x0U
+#define U0_SYS2_IOMUX_O_I_36_32__MASK                      0x1FU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xc4U)
+#define U0_SYS2_IOMUX_FUNC0_SEL_WIDTH                      0x1U
 #define U0_SYS2_IOMUX_FUNC0_SEL_SHIFT                      0x0U
-#define U0_SYS2_IOMUX_FUNC0_SEL_MASK                       0x3U
-#define U0_SYS2_IOMUX_FUNC1_SEL_WIDTH                      0x2U
+#define U0_SYS2_IOMUX_FUNC0_SEL_MASK                       0x1U
+#define U0_SYS2_IOMUX_FUNC1_SEL_WIDTH                      0x1U
 #define U0_SYS2_IOMUX_FUNC1_SEL_SHIFT                      0x2U
-#define U0_SYS2_IOMUX_FUNC1_SEL_MASK                       0xCU
-#define U0_SYS2_IOMUX_FUNC2_SEL_WIDTH                      0x2U
+#define U0_SYS2_IOMUX_FUNC1_SEL_MASK                       0x4U
+#define U0_SYS2_IOMUX_FUNC2_SEL_WIDTH                      0x1U
 #define U0_SYS2_IOMUX_FUNC2_SEL_SHIFT                      0x4U
-#define U0_SYS2_IOMUX_FUNC2_SEL_MASK                       0x30U
-#define U0_SYS2_IOMUX_FUNC3_SEL_WIDTH                      0x2U
+#define U0_SYS2_IOMUX_FUNC2_SEL_MASK                       0x10U
+#define U0_SYS2_IOMUX_FUNC3_SEL_WIDTH                      0x1U
 #define U0_SYS2_IOMUX_FUNC3_SEL_SHIFT                      0x6U
-#define U0_SYS2_IOMUX_FUNC3_SEL_MASK                       0xC0U
-#define U0_SYS2_IOMUX_FUNC4_SEL_WIDTH                      0x2U
+#define U0_SYS2_IOMUX_FUNC3_SEL_MASK                       0x40U
+#define U0_SYS2_IOMUX_FUNC4_SEL_WIDTH                      0x1U
 #define U0_SYS2_IOMUX_FUNC4_SEL_SHIFT                      0x8U
-#define U0_SYS2_IOMUX_FUNC4_SEL_MASK                       0x300U
-#define U0_SYS2_IOMUX_FUNC5_SEL_WIDTH                      0x2U
+#define U0_SYS2_IOMUX_FUNC4_SEL_MASK                       0x100U
+#define U0_SYS2_IOMUX_FUNC5_SEL_WIDTH                      0x1U
 #define U0_SYS2_IOMUX_FUNC5_SEL_SHIFT                      0xAU
-#define U0_SYS2_IOMUX_FUNC5_SEL_MASK                       0xC00U
-#define U0_SYS2_IOMUX_FUNC6_SEL_WIDTH                      0x2U
+#define U0_SYS2_IOMUX_FUNC5_SEL_MASK                       0x400U
+#define U0_SYS2_IOMUX_FUNC6_SEL_WIDTH                      0x1U
 #define U0_SYS2_IOMUX_FUNC6_SEL_SHIFT                      0xCU
-#define U0_SYS2_IOMUX_FUNC6_SEL_MASK                       0x3000U
-#define U0_SYS2_IOMUX_FUNC7_SEL_WIDTH                      0x2U
+#define U0_SYS2_IOMUX_FUNC6_SEL_MASK                       0x1000U
+#define U0_SYS2_IOMUX_FUNC7_SEL_WIDTH                      0x1U
 #define U0_SYS2_IOMUX_FUNC7_SEL_SHIFT                      0xEU
-#define U0_SYS2_IOMUX_FUNC7_SEL_MASK                       0xC000U
+#define U0_SYS2_IOMUX_FUNC7_SEL_MASK                       0x4000U
 #define U0_SYS2_IOMUX_FUNC8_SEL_WIDTH                      0x1U
 #define U0_SYS2_IOMUX_FUNC8_SEL_SHIFT                      0x10U
 #define U0_SYS2_IOMUX_FUNC8_SEL_MASK                       0x10000U
@@ -950,7 +1210,7 @@
 #define U0_SYS2_IOMUX_FUNC15_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC15_SEL_SHIFT                     0x1EU
 #define U0_SYS2_IOMUX_FUNC15_SEL_MASK                      0xC0000000U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xa4U)
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xc8U)
 #define U0_SYS2_IOMUX_FUNC16_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC16_SEL_SHIFT                     0x0U
 #define U0_SYS2_IOMUX_FUNC16_SEL_MASK                      0x3U
@@ -963,27 +1223,27 @@
 #define U0_SYS2_IOMUX_FUNC19_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC19_SEL_SHIFT                     0x6U
 #define U0_SYS2_IOMUX_FUNC19_SEL_MASK                      0xC0U
-#define U0_SYS2_IOMUX_FUNC20_SEL_WIDTH                     0x1U
+#define U0_SYS2_IOMUX_FUNC20_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC20_SEL_SHIFT                     0x8U
-#define U0_SYS2_IOMUX_FUNC20_SEL_MASK                      0x100U
-#define U0_SYS2_IOMUX_FUNC21_SEL_WIDTH                     0x1U
+#define U0_SYS2_IOMUX_FUNC20_SEL_MASK                      0x300U
+#define U0_SYS2_IOMUX_FUNC21_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC21_SEL_SHIFT                     0xAU
-#define U0_SYS2_IOMUX_FUNC21_SEL_MASK                      0x400U
-#define U0_SYS2_IOMUX_FUNC22_SEL_WIDTH                     0x1U
+#define U0_SYS2_IOMUX_FUNC21_SEL_MASK                      0xC00U
+#define U0_SYS2_IOMUX_FUNC22_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC22_SEL_SHIFT                     0xCU
-#define U0_SYS2_IOMUX_FUNC22_SEL_MASK                      0x1000U
-#define U0_SYS2_IOMUX_FUNC23_SEL_WIDTH                     0x1U
+#define U0_SYS2_IOMUX_FUNC22_SEL_MASK                      0x3000U
+#define U0_SYS2_IOMUX_FUNC23_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC23_SEL_SHIFT                     0xEU
-#define U0_SYS2_IOMUX_FUNC23_SEL_MASK                      0x4000U
-#define U0_SYS2_IOMUX_FUNC24_SEL_WIDTH                     0x1U
+#define U0_SYS2_IOMUX_FUNC23_SEL_MASK                      0xC000U
+#define U0_SYS2_IOMUX_FUNC24_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC24_SEL_SHIFT                     0x10U
-#define U0_SYS2_IOMUX_FUNC24_SEL_MASK                      0x10000U
-#define U0_SYS2_IOMUX_FUNC25_SEL_WIDTH                     0x1U
+#define U0_SYS2_IOMUX_FUNC24_SEL_MASK                      0x30000U
+#define U0_SYS2_IOMUX_FUNC25_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC25_SEL_SHIFT                     0x12U
-#define U0_SYS2_IOMUX_FUNC25_SEL_MASK                      0x40000U
-#define U0_SYS2_IOMUX_FUNC26_SEL_WIDTH                     0x1U
+#define U0_SYS2_IOMUX_FUNC25_SEL_MASK                      0xC0000U
+#define U0_SYS2_IOMUX_FUNC26_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC26_SEL_SHIFT                     0x14U
-#define U0_SYS2_IOMUX_FUNC26_SEL_MASK                      0x100000U
+#define U0_SYS2_IOMUX_FUNC26_SEL_MASK                      0x300000U
 #define U0_SYS2_IOMUX_FUNC27_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC27_SEL_SHIFT                     0x16U
 #define U0_SYS2_IOMUX_FUNC27_SEL_MASK                      0xC00000U
@@ -999,10 +1259,10 @@
 #define U0_SYS2_IOMUX_FUNC31_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC31_SEL_SHIFT                     0x1EU
 #define U0_SYS2_IOMUX_FUNC31_SEL_MASK                      0xC0000000U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xa8U)
-#define U0_SYS2_IOMUX_FUNC32_SEL_WIDTH                     0x1U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xccU)
+#define U0_SYS2_IOMUX_FUNC32_SEL_WIDTH                     0x2U
 #define U0_SYS2_IOMUX_FUNC32_SEL_SHIFT                     0x0U
-#define U0_SYS2_IOMUX_FUNC32_SEL_MASK                      0x1U
+#define U0_SYS2_IOMUX_FUNC32_SEL_MASK                      0x3U
 #define U0_SYS2_IOMUX_FUNC33_SEL_WIDTH                     0x1U
 #define U0_SYS2_IOMUX_FUNC33_SEL_SHIFT                     0x2U
 #define U0_SYS2_IOMUX_FUNC33_SEL_MASK                      0x4U
@@ -1015,35 +1275,66 @@
 #define U0_SYS2_IOMUX_FUNC36_SEL_WIDTH                     0x1U
 #define U0_SYS2_IOMUX_FUNC36_SEL_SHIFT                     0x8U
 #define U0_SYS2_IOMUX_FUNC36_SEL_MASK                      0x100U
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xacU)
-#define INT_EN_31_0__WIDTH                                 0x20U
-#define INT_EN_31_0__SHIFT                                 0x0U
-#define INT_EN_31_0__MASK                                  0xFFFFFFFFU
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xb0U)
-#define INT_STATUS_31_0__WIDTH                             0x20U
-#define INT_STATUS_31_0__SHIFT                             0x0U
-#define INT_STATUS_31_0__MASK                              0xFFFFFFFFU
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xb4U)
-#define INT_CLR_31_0__WIDTH                                0x20U
-#define INT_CLR_31_0__SHIFT                                0x0U
-#define INT_CLR_31_0__MASK                                 0xFFFFFFFFU
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xb8U)
-#define INT_EDGE_31_0__WIDTH                               0x20U
-#define INT_EDGE_31_0__SHIFT                               0x0U
-#define INT_EDGE_31_0__MASK                                0xFFFFFFFFU
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_188_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xbcU)
-#define INT_HIGH_LEVEL_31_0__WIDTH                         0x20U
-#define INT_HIGH_LEVEL_31_0__SHIFT                         0x0U
-#define INT_HIGH_LEVEL_31_0__MASK                          0xFFFFFFFFU
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_192_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xc0U)
-#define INT_BOTH_EDGE_31_0__WIDTH                          0x20U
-#define INT_BOTH_EDGE_31_0__SHIFT                          0x0U
-#define INT_BOTH_EDGE_31_0__MASK                           0xFFFFFFFFU
-#define SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xc4U)
-#define INT_RISING_EDGE_31_0__WIDTH                        0x20U
-#define INT_RISING_EDGE_31_0__SHIFT                        0x0U
-#define INT_RISING_EDGE_31_0__MASK                         0xFFFFFFFFU
-#define SYS2_IOMUX_CFGITG__SYSCFG_200_ADDR                 (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xc8U)
+#define U0_SYS2_IOMUX_FUNC42_SEL_WIDTH                     0x1U
+#define U0_SYS2_IOMUX_FUNC42_SEL_SHIFT                     0x14U
+#define U0_SYS2_IOMUX_FUNC42_SEL_MASK                      0x100000U
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_208_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xd0U)
+#define U0_SYS2_IOMUX_INT_EN_31_0__WIDTH                   0x20U
+#define U0_SYS2_IOMUX_INT_EN_31_0__SHIFT                   0x0U
+#define U0_SYS2_IOMUX_INT_EN_31_0__MASK                    0xFFFFFFFFU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_212_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xd4U)
+#define U0_SYS2_IOMUX_INT_EN_36_32__WIDTH                  0x5U
+#define U0_SYS2_IOMUX_INT_EN_36_32__SHIFT                  0x0U
+#define U0_SYS2_IOMUX_INT_EN_36_32__MASK                   0x1FU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_216_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xd8U)
+#define U0_SYS2_IOMUX_INT_STATUS_31_0__WIDTH               0x20U
+#define U0_SYS2_IOMUX_INT_STATUS_31_0__SHIFT               0x0U
+#define U0_SYS2_IOMUX_INT_STATUS_31_0__MASK                0xFFFFFFFFU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_220_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xdcU)
+#define U0_SYS2_IOMUX_INT_STATUS_36_32__WIDTH              0x5U
+#define U0_SYS2_IOMUX_INT_STATUS_36_32__SHIFT              0x0U
+#define U0_SYS2_IOMUX_INT_STATUS_36_32__MASK               0x1FU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_224_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xe0U)
+#define U0_SYS2_IOMUX_INT_CLR_31_0__WIDTH                  0x20U
+#define U0_SYS2_IOMUX_INT_CLR_31_0__SHIFT                  0x0U
+#define U0_SYS2_IOMUX_INT_CLR_31_0__MASK                   0xFFFFFFFFU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_228_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xe4U)
+#define U0_SYS2_IOMUX_INT_CLR_36_32__WIDTH                 0x5U
+#define U0_SYS2_IOMUX_INT_CLR_36_32__SHIFT                 0x0U
+#define U0_SYS2_IOMUX_INT_CLR_36_32__MASK                  0x1FU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_232_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xe8U)
+#define U0_SYS2_IOMUX_INT_EDGE_31_0__WIDTH                 0x20U
+#define U0_SYS2_IOMUX_INT_EDGE_31_0__SHIFT                 0x0U
+#define U0_SYS2_IOMUX_INT_EDGE_31_0__MASK                  0xFFFFFFFFU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_236_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xecU)
+#define U0_SYS2_IOMUX_INT_EDGE_36_32__WIDTH                0x5U
+#define U0_SYS2_IOMUX_INT_EDGE_36_32__SHIFT                0x0U
+#define U0_SYS2_IOMUX_INT_EDGE_36_32__MASK                 0x1FU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_240_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xf0U)
+#define U0_SYS2_IOMUX_INT_HIGH_LEVEL_31_0__WIDTH           0x20U
+#define U0_SYS2_IOMUX_INT_HIGH_LEVEL_31_0__SHIFT           0x0U
+#define U0_SYS2_IOMUX_INT_HIGH_LEVEL_31_0__MASK            0xFFFFFFFFU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_244_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xf4U)
+#define U0_SYS2_IOMUX_INT_HIGH_LEVEL_36_32__WIDTH          0x5U
+#define U0_SYS2_IOMUX_INT_HIGH_LEVEL_36_32__SHIFT          0x0U
+#define U0_SYS2_IOMUX_INT_HIGH_LEVEL_36_32__MASK           0x1FU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_248_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xf8U)
+#define U0_SYS2_IOMUX_INT_BOTH_EDGE_31_0__WIDTH            0x20U
+#define U0_SYS2_IOMUX_INT_BOTH_EDGE_31_0__SHIFT            0x0U
+#define U0_SYS2_IOMUX_INT_BOTH_EDGE_31_0__MASK             0xFFFFFFFFU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_252_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xfcU)
+#define U0_SYS2_IOMUX_INT_BOTH_EDGE_36_32__WIDTH           0x5U
+#define U0_SYS2_IOMUX_INT_BOTH_EDGE_36_32__SHIFT           0x0U
+#define U0_SYS2_IOMUX_INT_BOTH_EDGE_36_32__MASK            0x1FU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_256_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x100U)
+#define U0_SYS2_IOMUX_INT_RISING_EDGE_31_0__WIDTH          0x20U
+#define U0_SYS2_IOMUX_INT_RISING_EDGE_31_0__SHIFT          0x0U
+#define U0_SYS2_IOMUX_INT_RISING_EDGE_31_0__MASK           0xFFFFFFFFU
+#define SYS2_IOMUX_CFG__ITG__SYSCFG_260_ADDR               (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x104U)
+#define U0_SYS2_IOMUX_INT_RISING_EDGE_36_32__WIDTH         0x5U
+#define U0_SYS2_IOMUX_INT_RISING_EDGE_36_32__SHIFT         0x0U
+#define U0_SYS2_IOMUX_INT_RISING_EDGE_36_32__MASK          0x1FU
+#define SYS2_IOMUX_CFGITG__SYSCFG_264_ADDR                 (U0_SYS2_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x108U)
 #define GET_PADCFG_PAD_GPIO_A24_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_0_ADDR,PADCFG_PAD_GPIO_A24_DS_SHIFT,PADCFG_PAD_GPIO_A24_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A24_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_0_ADDR,data,PADCFG_PAD_GPIO_A24_DS_SHIFT,PADCFG_PAD_GPIO_A24_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A24_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_0_ADDR,PADCFG_PAD_GPIO_A24_IE_SHIFT,PADCFG_PAD_GPIO_A24_IE_MASK)
@@ -1056,6 +1347,8 @@
 #define SET_PADCFG_PAD_GPIO_A24_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_0_ADDR,data,PADCFG_PAD_GPIO_A24_SLEW_SHIFT,PADCFG_PAD_GPIO_A24_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A24_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_0_ADDR,PADCFG_PAD_GPIO_A24_SMT_SHIFT,PADCFG_PAD_GPIO_A24_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A24_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_0_ADDR,data,PADCFG_PAD_GPIO_A24_SMT_SHIFT,PADCFG_PAD_GPIO_A24_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A24_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_0_ADDR,PADCFG_PAD_GPIO_A24_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A24_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A24_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_0_ADDR,data,PADCFG_PAD_GPIO_A24_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A24_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A25_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_4_ADDR,PADCFG_PAD_GPIO_A25_DS_SHIFT,PADCFG_PAD_GPIO_A25_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A25_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_4_ADDR,data,PADCFG_PAD_GPIO_A25_DS_SHIFT,PADCFG_PAD_GPIO_A25_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A25_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_4_ADDR,PADCFG_PAD_GPIO_A25_IE_SHIFT,PADCFG_PAD_GPIO_A25_IE_MASK)
@@ -1068,6 +1361,8 @@
 #define SET_PADCFG_PAD_GPIO_A25_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_4_ADDR,data,PADCFG_PAD_GPIO_A25_SLEW_SHIFT,PADCFG_PAD_GPIO_A25_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A25_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_4_ADDR,PADCFG_PAD_GPIO_A25_SMT_SHIFT,PADCFG_PAD_GPIO_A25_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A25_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_4_ADDR,data,PADCFG_PAD_GPIO_A25_SMT_SHIFT,PADCFG_PAD_GPIO_A25_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A25_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_4_ADDR,PADCFG_PAD_GPIO_A25_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A25_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A25_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_4_ADDR,data,PADCFG_PAD_GPIO_A25_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A25_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A26_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_8_ADDR,PADCFG_PAD_GPIO_A26_DS_SHIFT,PADCFG_PAD_GPIO_A26_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A26_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_8_ADDR,data,PADCFG_PAD_GPIO_A26_DS_SHIFT,PADCFG_PAD_GPIO_A26_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A26_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_8_ADDR,PADCFG_PAD_GPIO_A26_IE_SHIFT,PADCFG_PAD_GPIO_A26_IE_MASK)
@@ -1080,6 +1375,8 @@
 #define SET_PADCFG_PAD_GPIO_A26_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_8_ADDR,data,PADCFG_PAD_GPIO_A26_SLEW_SHIFT,PADCFG_PAD_GPIO_A26_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A26_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_8_ADDR,PADCFG_PAD_GPIO_A26_SMT_SHIFT,PADCFG_PAD_GPIO_A26_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A26_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_8_ADDR,data,PADCFG_PAD_GPIO_A26_SMT_SHIFT,PADCFG_PAD_GPIO_A26_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A26_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_8_ADDR,PADCFG_PAD_GPIO_A26_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A26_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A26_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_8_ADDR,data,PADCFG_PAD_GPIO_A26_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A26_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A27_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_12_ADDR,PADCFG_PAD_GPIO_A27_DS_SHIFT,PADCFG_PAD_GPIO_A27_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A27_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_12_ADDR,data,PADCFG_PAD_GPIO_A27_DS_SHIFT,PADCFG_PAD_GPIO_A27_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A27_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_12_ADDR,PADCFG_PAD_GPIO_A27_IE_SHIFT,PADCFG_PAD_GPIO_A27_IE_MASK)
@@ -1092,6 +1389,8 @@
 #define SET_PADCFG_PAD_GPIO_A27_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_12_ADDR,data,PADCFG_PAD_GPIO_A27_SLEW_SHIFT,PADCFG_PAD_GPIO_A27_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A27_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_12_ADDR,PADCFG_PAD_GPIO_A27_SMT_SHIFT,PADCFG_PAD_GPIO_A27_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A27_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_12_ADDR,data,PADCFG_PAD_GPIO_A27_SMT_SHIFT,PADCFG_PAD_GPIO_A27_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A27_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_12_ADDR,PADCFG_PAD_GPIO_A27_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A27_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A27_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_12_ADDR,data,PADCFG_PAD_GPIO_A27_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A27_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A28_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_16_ADDR,PADCFG_PAD_GPIO_A28_DS_SHIFT,PADCFG_PAD_GPIO_A28_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A28_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_16_ADDR,data,PADCFG_PAD_GPIO_A28_DS_SHIFT,PADCFG_PAD_GPIO_A28_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A28_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_16_ADDR,PADCFG_PAD_GPIO_A28_IE_SHIFT,PADCFG_PAD_GPIO_A28_IE_MASK)
@@ -1104,6 +1403,8 @@
 #define SET_PADCFG_PAD_GPIO_A28_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_16_ADDR,data,PADCFG_PAD_GPIO_A28_SLEW_SHIFT,PADCFG_PAD_GPIO_A28_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A28_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_16_ADDR,PADCFG_PAD_GPIO_A28_SMT_SHIFT,PADCFG_PAD_GPIO_A28_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A28_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_16_ADDR,data,PADCFG_PAD_GPIO_A28_SMT_SHIFT,PADCFG_PAD_GPIO_A28_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A28_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_16_ADDR,PADCFG_PAD_GPIO_A28_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A28_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A28_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_16_ADDR,data,PADCFG_PAD_GPIO_A28_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A28_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A29_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_20_ADDR,PADCFG_PAD_GPIO_A29_DS_SHIFT,PADCFG_PAD_GPIO_A29_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A29_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_20_ADDR,data,PADCFG_PAD_GPIO_A29_DS_SHIFT,PADCFG_PAD_GPIO_A29_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A29_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_20_ADDR,PADCFG_PAD_GPIO_A29_IE_SHIFT,PADCFG_PAD_GPIO_A29_IE_MASK)
@@ -1116,6 +1417,8 @@
 #define SET_PADCFG_PAD_GPIO_A29_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_20_ADDR,data,PADCFG_PAD_GPIO_A29_SLEW_SHIFT,PADCFG_PAD_GPIO_A29_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A29_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_20_ADDR,PADCFG_PAD_GPIO_A29_SMT_SHIFT,PADCFG_PAD_GPIO_A29_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A29_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_20_ADDR,data,PADCFG_PAD_GPIO_A29_SMT_SHIFT,PADCFG_PAD_GPIO_A29_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A29_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_20_ADDR,PADCFG_PAD_GPIO_A29_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A29_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A29_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_20_ADDR,data,PADCFG_PAD_GPIO_A29_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A29_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A30_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_24_ADDR,PADCFG_PAD_GPIO_A30_DS_SHIFT,PADCFG_PAD_GPIO_A30_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A30_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_24_ADDR,data,PADCFG_PAD_GPIO_A30_DS_SHIFT,PADCFG_PAD_GPIO_A30_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A30_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_24_ADDR,PADCFG_PAD_GPIO_A30_IE_SHIFT,PADCFG_PAD_GPIO_A30_IE_MASK)
@@ -1128,6 +1431,8 @@
 #define SET_PADCFG_PAD_GPIO_A30_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_24_ADDR,data,PADCFG_PAD_GPIO_A30_SLEW_SHIFT,PADCFG_PAD_GPIO_A30_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A30_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_24_ADDR,PADCFG_PAD_GPIO_A30_SMT_SHIFT,PADCFG_PAD_GPIO_A30_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A30_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_24_ADDR,data,PADCFG_PAD_GPIO_A30_SMT_SHIFT,PADCFG_PAD_GPIO_A30_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A30_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_24_ADDR,PADCFG_PAD_GPIO_A30_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A30_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A30_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_24_ADDR,data,PADCFG_PAD_GPIO_A30_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A30_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A31_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_28_ADDR,PADCFG_PAD_GPIO_A31_DS_SHIFT,PADCFG_PAD_GPIO_A31_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A31_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_28_ADDR,data,PADCFG_PAD_GPIO_A31_DS_SHIFT,PADCFG_PAD_GPIO_A31_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A31_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_28_ADDR,PADCFG_PAD_GPIO_A31_IE_SHIFT,PADCFG_PAD_GPIO_A31_IE_MASK)
@@ -1140,6 +1445,8 @@
 #define SET_PADCFG_PAD_GPIO_A31_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_28_ADDR,data,PADCFG_PAD_GPIO_A31_SLEW_SHIFT,PADCFG_PAD_GPIO_A31_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A31_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_28_ADDR,PADCFG_PAD_GPIO_A31_SMT_SHIFT,PADCFG_PAD_GPIO_A31_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A31_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_28_ADDR,data,PADCFG_PAD_GPIO_A31_SMT_SHIFT,PADCFG_PAD_GPIO_A31_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A31_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_28_ADDR,PADCFG_PAD_GPIO_A31_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A31_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A31_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_28_ADDR,data,PADCFG_PAD_GPIO_A31_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A31_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A32_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_32_ADDR,PADCFG_PAD_GPIO_A32_DS_SHIFT,PADCFG_PAD_GPIO_A32_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A32_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_32_ADDR,data,PADCFG_PAD_GPIO_A32_DS_SHIFT,PADCFG_PAD_GPIO_A32_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A32_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_32_ADDR,PADCFG_PAD_GPIO_A32_IE_SHIFT,PADCFG_PAD_GPIO_A32_IE_MASK)
@@ -1152,6 +1459,8 @@
 #define SET_PADCFG_PAD_GPIO_A32_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_32_ADDR,data,PADCFG_PAD_GPIO_A32_SLEW_SHIFT,PADCFG_PAD_GPIO_A32_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A32_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_32_ADDR,PADCFG_PAD_GPIO_A32_SMT_SHIFT,PADCFG_PAD_GPIO_A32_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A32_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_32_ADDR,data,PADCFG_PAD_GPIO_A32_SMT_SHIFT,PADCFG_PAD_GPIO_A32_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A32_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_32_ADDR,PADCFG_PAD_GPIO_A32_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A32_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A32_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_32_ADDR,data,PADCFG_PAD_GPIO_A32_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A32_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A33_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_36_ADDR,PADCFG_PAD_GPIO_A33_DS_SHIFT,PADCFG_PAD_GPIO_A33_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A33_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_36_ADDR,data,PADCFG_PAD_GPIO_A33_DS_SHIFT,PADCFG_PAD_GPIO_A33_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A33_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_36_ADDR,PADCFG_PAD_GPIO_A33_IE_SHIFT,PADCFG_PAD_GPIO_A33_IE_MASK)
@@ -1164,6 +1473,8 @@
 #define SET_PADCFG_PAD_GPIO_A33_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_36_ADDR,data,PADCFG_PAD_GPIO_A33_SLEW_SHIFT,PADCFG_PAD_GPIO_A33_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A33_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_36_ADDR,PADCFG_PAD_GPIO_A33_SMT_SHIFT,PADCFG_PAD_GPIO_A33_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A33_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_36_ADDR,data,PADCFG_PAD_GPIO_A33_SMT_SHIFT,PADCFG_PAD_GPIO_A33_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A33_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_36_ADDR,PADCFG_PAD_GPIO_A33_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A33_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A33_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_36_ADDR,data,PADCFG_PAD_GPIO_A33_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A33_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A34_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_40_ADDR,PADCFG_PAD_GPIO_A34_DS_SHIFT,PADCFG_PAD_GPIO_A34_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A34_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_40_ADDR,data,PADCFG_PAD_GPIO_A34_DS_SHIFT,PADCFG_PAD_GPIO_A34_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A34_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_40_ADDR,PADCFG_PAD_GPIO_A34_IE_SHIFT,PADCFG_PAD_GPIO_A34_IE_MASK)
@@ -1176,6 +1487,8 @@
 #define SET_PADCFG_PAD_GPIO_A34_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_40_ADDR,data,PADCFG_PAD_GPIO_A34_SLEW_SHIFT,PADCFG_PAD_GPIO_A34_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A34_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_40_ADDR,PADCFG_PAD_GPIO_A34_SMT_SHIFT,PADCFG_PAD_GPIO_A34_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A34_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_40_ADDR,data,PADCFG_PAD_GPIO_A34_SMT_SHIFT,PADCFG_PAD_GPIO_A34_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A34_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_40_ADDR,PADCFG_PAD_GPIO_A34_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A34_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A34_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_40_ADDR,data,PADCFG_PAD_GPIO_A34_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A34_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A35_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_44_ADDR,PADCFG_PAD_GPIO_A35_DS_SHIFT,PADCFG_PAD_GPIO_A35_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A35_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_44_ADDR,data,PADCFG_PAD_GPIO_A35_DS_SHIFT,PADCFG_PAD_GPIO_A35_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A35_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_44_ADDR,PADCFG_PAD_GPIO_A35_IE_SHIFT,PADCFG_PAD_GPIO_A35_IE_MASK)
@@ -1188,6 +1501,8 @@
 #define SET_PADCFG_PAD_GPIO_A35_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_44_ADDR,data,PADCFG_PAD_GPIO_A35_SLEW_SHIFT,PADCFG_PAD_GPIO_A35_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A35_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_44_ADDR,PADCFG_PAD_GPIO_A35_SMT_SHIFT,PADCFG_PAD_GPIO_A35_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A35_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_44_ADDR,data,PADCFG_PAD_GPIO_A35_SMT_SHIFT,PADCFG_PAD_GPIO_A35_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A35_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_44_ADDR,PADCFG_PAD_GPIO_A35_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A35_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A35_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_44_ADDR,data,PADCFG_PAD_GPIO_A35_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A35_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A36_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_48_ADDR,PADCFG_PAD_GPIO_A36_DS_SHIFT,PADCFG_PAD_GPIO_A36_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A36_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_48_ADDR,data,PADCFG_PAD_GPIO_A36_DS_SHIFT,PADCFG_PAD_GPIO_A36_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A36_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_48_ADDR,PADCFG_PAD_GPIO_A36_IE_SHIFT,PADCFG_PAD_GPIO_A36_IE_MASK)
@@ -1200,6 +1515,8 @@
 #define SET_PADCFG_PAD_GPIO_A36_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_48_ADDR,data,PADCFG_PAD_GPIO_A36_SLEW_SHIFT,PADCFG_PAD_GPIO_A36_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A36_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_48_ADDR,PADCFG_PAD_GPIO_A36_SMT_SHIFT,PADCFG_PAD_GPIO_A36_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A36_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_48_ADDR,data,PADCFG_PAD_GPIO_A36_SMT_SHIFT,PADCFG_PAD_GPIO_A36_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A36_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_48_ADDR,PADCFG_PAD_GPIO_A36_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A36_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A36_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_48_ADDR,data,PADCFG_PAD_GPIO_A36_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A36_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A37_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_52_ADDR,PADCFG_PAD_GPIO_A37_DS_SHIFT,PADCFG_PAD_GPIO_A37_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A37_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_52_ADDR,data,PADCFG_PAD_GPIO_A37_DS_SHIFT,PADCFG_PAD_GPIO_A37_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A37_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_52_ADDR,PADCFG_PAD_GPIO_A37_IE_SHIFT,PADCFG_PAD_GPIO_A37_IE_MASK)
@@ -1212,6 +1529,8 @@
 #define SET_PADCFG_PAD_GPIO_A37_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_52_ADDR,data,PADCFG_PAD_GPIO_A37_SLEW_SHIFT,PADCFG_PAD_GPIO_A37_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A37_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_52_ADDR,PADCFG_PAD_GPIO_A37_SMT_SHIFT,PADCFG_PAD_GPIO_A37_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A37_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_52_ADDR,data,PADCFG_PAD_GPIO_A37_SMT_SHIFT,PADCFG_PAD_GPIO_A37_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A37_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_52_ADDR,PADCFG_PAD_GPIO_A37_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A37_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A37_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_52_ADDR,data,PADCFG_PAD_GPIO_A37_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A37_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A38_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_56_ADDR,PADCFG_PAD_GPIO_A38_DS_SHIFT,PADCFG_PAD_GPIO_A38_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A38_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_56_ADDR,data,PADCFG_PAD_GPIO_A38_DS_SHIFT,PADCFG_PAD_GPIO_A38_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A38_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_56_ADDR,PADCFG_PAD_GPIO_A38_IE_SHIFT,PADCFG_PAD_GPIO_A38_IE_MASK)
@@ -1224,6 +1543,8 @@
 #define SET_PADCFG_PAD_GPIO_A38_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_56_ADDR,data,PADCFG_PAD_GPIO_A38_SLEW_SHIFT,PADCFG_PAD_GPIO_A38_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A38_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_56_ADDR,PADCFG_PAD_GPIO_A38_SMT_SHIFT,PADCFG_PAD_GPIO_A38_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A38_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_56_ADDR,data,PADCFG_PAD_GPIO_A38_SMT_SHIFT,PADCFG_PAD_GPIO_A38_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A38_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_56_ADDR,PADCFG_PAD_GPIO_A38_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A38_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A38_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_56_ADDR,data,PADCFG_PAD_GPIO_A38_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A38_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A39_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_60_ADDR,PADCFG_PAD_GPIO_A39_DS_SHIFT,PADCFG_PAD_GPIO_A39_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A39_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_60_ADDR,data,PADCFG_PAD_GPIO_A39_DS_SHIFT,PADCFG_PAD_GPIO_A39_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A39_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_60_ADDR,PADCFG_PAD_GPIO_A39_IE_SHIFT,PADCFG_PAD_GPIO_A39_IE_MASK)
@@ -1236,6 +1557,8 @@
 #define SET_PADCFG_PAD_GPIO_A39_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_60_ADDR,data,PADCFG_PAD_GPIO_A39_SLEW_SHIFT,PADCFG_PAD_GPIO_A39_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A39_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_60_ADDR,PADCFG_PAD_GPIO_A39_SMT_SHIFT,PADCFG_PAD_GPIO_A39_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A39_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_60_ADDR,data,PADCFG_PAD_GPIO_A39_SMT_SHIFT,PADCFG_PAD_GPIO_A39_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A39_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_60_ADDR,PADCFG_PAD_GPIO_A39_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A39_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A39_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_60_ADDR,data,PADCFG_PAD_GPIO_A39_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A39_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A40_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_64_ADDR,PADCFG_PAD_GPIO_A40_DS_SHIFT,PADCFG_PAD_GPIO_A40_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A40_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_64_ADDR,data,PADCFG_PAD_GPIO_A40_DS_SHIFT,PADCFG_PAD_GPIO_A40_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A40_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_64_ADDR,PADCFG_PAD_GPIO_A40_IE_SHIFT,PADCFG_PAD_GPIO_A40_IE_MASK)
@@ -1248,6 +1571,8 @@
 #define SET_PADCFG_PAD_GPIO_A40_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_64_ADDR,data,PADCFG_PAD_GPIO_A40_SLEW_SHIFT,PADCFG_PAD_GPIO_A40_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A40_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_64_ADDR,PADCFG_PAD_GPIO_A40_SMT_SHIFT,PADCFG_PAD_GPIO_A40_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A40_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_64_ADDR,data,PADCFG_PAD_GPIO_A40_SMT_SHIFT,PADCFG_PAD_GPIO_A40_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A40_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_64_ADDR,PADCFG_PAD_GPIO_A40_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A40_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A40_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_64_ADDR,data,PADCFG_PAD_GPIO_A40_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A40_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A41_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_68_ADDR,PADCFG_PAD_GPIO_A41_DS_SHIFT,PADCFG_PAD_GPIO_A41_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A41_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_68_ADDR,data,PADCFG_PAD_GPIO_A41_DS_SHIFT,PADCFG_PAD_GPIO_A41_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A41_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_68_ADDR,PADCFG_PAD_GPIO_A41_IE_SHIFT,PADCFG_PAD_GPIO_A41_IE_MASK)
@@ -1260,6 +1585,8 @@
 #define SET_PADCFG_PAD_GPIO_A41_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_68_ADDR,data,PADCFG_PAD_GPIO_A41_SLEW_SHIFT,PADCFG_PAD_GPIO_A41_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A41_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_68_ADDR,PADCFG_PAD_GPIO_A41_SMT_SHIFT,PADCFG_PAD_GPIO_A41_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A41_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_68_ADDR,data,PADCFG_PAD_GPIO_A41_SMT_SHIFT,PADCFG_PAD_GPIO_A41_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A41_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_68_ADDR,PADCFG_PAD_GPIO_A41_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A41_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A41_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_68_ADDR,data,PADCFG_PAD_GPIO_A41_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A41_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A42_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_72_ADDR,PADCFG_PAD_GPIO_A42_DS_SHIFT,PADCFG_PAD_GPIO_A42_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A42_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_72_ADDR,data,PADCFG_PAD_GPIO_A42_DS_SHIFT,PADCFG_PAD_GPIO_A42_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A42_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_72_ADDR,PADCFG_PAD_GPIO_A42_IE_SHIFT,PADCFG_PAD_GPIO_A42_IE_MASK)
@@ -1272,6 +1599,8 @@
 #define SET_PADCFG_PAD_GPIO_A42_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_72_ADDR,data,PADCFG_PAD_GPIO_A42_SLEW_SHIFT,PADCFG_PAD_GPIO_A42_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A42_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_72_ADDR,PADCFG_PAD_GPIO_A42_SMT_SHIFT,PADCFG_PAD_GPIO_A42_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A42_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_72_ADDR,data,PADCFG_PAD_GPIO_A42_SMT_SHIFT,PADCFG_PAD_GPIO_A42_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A42_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_72_ADDR,PADCFG_PAD_GPIO_A42_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A42_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A42_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_72_ADDR,data,PADCFG_PAD_GPIO_A42_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A42_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A43_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_76_ADDR,PADCFG_PAD_GPIO_A43_DS_SHIFT,PADCFG_PAD_GPIO_A43_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A43_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_76_ADDR,data,PADCFG_PAD_GPIO_A43_DS_SHIFT,PADCFG_PAD_GPIO_A43_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A43_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_76_ADDR,PADCFG_PAD_GPIO_A43_IE_SHIFT,PADCFG_PAD_GPIO_A43_IE_MASK)
@@ -1284,6 +1613,8 @@
 #define SET_PADCFG_PAD_GPIO_A43_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_76_ADDR,data,PADCFG_PAD_GPIO_A43_SLEW_SHIFT,PADCFG_PAD_GPIO_A43_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A43_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_76_ADDR,PADCFG_PAD_GPIO_A43_SMT_SHIFT,PADCFG_PAD_GPIO_A43_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A43_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_76_ADDR,data,PADCFG_PAD_GPIO_A43_SMT_SHIFT,PADCFG_PAD_GPIO_A43_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A43_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_76_ADDR,PADCFG_PAD_GPIO_A43_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A43_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A43_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_76_ADDR,data,PADCFG_PAD_GPIO_A43_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A43_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A44_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_80_ADDR,PADCFG_PAD_GPIO_A44_DS_SHIFT,PADCFG_PAD_GPIO_A44_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A44_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_80_ADDR,data,PADCFG_PAD_GPIO_A44_DS_SHIFT,PADCFG_PAD_GPIO_A44_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A44_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_80_ADDR,PADCFG_PAD_GPIO_A44_IE_SHIFT,PADCFG_PAD_GPIO_A44_IE_MASK)
@@ -1296,6 +1627,8 @@
 #define SET_PADCFG_PAD_GPIO_A44_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_80_ADDR,data,PADCFG_PAD_GPIO_A44_SLEW_SHIFT,PADCFG_PAD_GPIO_A44_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A44_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_80_ADDR,PADCFG_PAD_GPIO_A44_SMT_SHIFT,PADCFG_PAD_GPIO_A44_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A44_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_80_ADDR,data,PADCFG_PAD_GPIO_A44_SMT_SHIFT,PADCFG_PAD_GPIO_A44_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A44_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_80_ADDR,PADCFG_PAD_GPIO_A44_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A44_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A44_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_80_ADDR,data,PADCFG_PAD_GPIO_A44_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A44_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A45_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_84_ADDR,PADCFG_PAD_GPIO_A45_DS_SHIFT,PADCFG_PAD_GPIO_A45_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A45_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_84_ADDR,data,PADCFG_PAD_GPIO_A45_DS_SHIFT,PADCFG_PAD_GPIO_A45_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A45_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_84_ADDR,PADCFG_PAD_GPIO_A45_IE_SHIFT,PADCFG_PAD_GPIO_A45_IE_MASK)
@@ -1308,6 +1641,8 @@
 #define SET_PADCFG_PAD_GPIO_A45_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_84_ADDR,data,PADCFG_PAD_GPIO_A45_SLEW_SHIFT,PADCFG_PAD_GPIO_A45_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A45_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_84_ADDR,PADCFG_PAD_GPIO_A45_SMT_SHIFT,PADCFG_PAD_GPIO_A45_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A45_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_84_ADDR,data,PADCFG_PAD_GPIO_A45_SMT_SHIFT,PADCFG_PAD_GPIO_A45_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A45_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_84_ADDR,PADCFG_PAD_GPIO_A45_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A45_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A45_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_84_ADDR,data,PADCFG_PAD_GPIO_A45_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A45_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A46_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_88_ADDR,PADCFG_PAD_GPIO_A46_DS_SHIFT,PADCFG_PAD_GPIO_A46_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A46_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_88_ADDR,data,PADCFG_PAD_GPIO_A46_DS_SHIFT,PADCFG_PAD_GPIO_A46_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A46_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_88_ADDR,PADCFG_PAD_GPIO_A46_IE_SHIFT,PADCFG_PAD_GPIO_A46_IE_MASK)
@@ -1320,6 +1655,8 @@
 #define SET_PADCFG_PAD_GPIO_A46_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_88_ADDR,data,PADCFG_PAD_GPIO_A46_SLEW_SHIFT,PADCFG_PAD_GPIO_A46_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A46_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_88_ADDR,PADCFG_PAD_GPIO_A46_SMT_SHIFT,PADCFG_PAD_GPIO_A46_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A46_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_88_ADDR,data,PADCFG_PAD_GPIO_A46_SMT_SHIFT,PADCFG_PAD_GPIO_A46_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A46_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_88_ADDR,PADCFG_PAD_GPIO_A46_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A46_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A46_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_88_ADDR,data,PADCFG_PAD_GPIO_A46_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A46_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A47_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_92_ADDR,PADCFG_PAD_GPIO_A47_DS_SHIFT,PADCFG_PAD_GPIO_A47_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A47_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_92_ADDR,data,PADCFG_PAD_GPIO_A47_DS_SHIFT,PADCFG_PAD_GPIO_A47_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A47_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_92_ADDR,PADCFG_PAD_GPIO_A47_IE_SHIFT,PADCFG_PAD_GPIO_A47_IE_MASK)
@@ -1332,6 +1669,8 @@
 #define SET_PADCFG_PAD_GPIO_A47_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_92_ADDR,data,PADCFG_PAD_GPIO_A47_SLEW_SHIFT,PADCFG_PAD_GPIO_A47_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A47_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_92_ADDR,PADCFG_PAD_GPIO_A47_SMT_SHIFT,PADCFG_PAD_GPIO_A47_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A47_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_92_ADDR,data,PADCFG_PAD_GPIO_A47_SMT_SHIFT,PADCFG_PAD_GPIO_A47_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A47_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_92_ADDR,PADCFG_PAD_GPIO_A47_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A47_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A47_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_92_ADDR,data,PADCFG_PAD_GPIO_A47_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A47_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A48_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_96_ADDR,PADCFG_PAD_GPIO_A48_DS_SHIFT,PADCFG_PAD_GPIO_A48_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A48_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_96_ADDR,data,PADCFG_PAD_GPIO_A48_DS_SHIFT,PADCFG_PAD_GPIO_A48_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A48_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_96_ADDR,PADCFG_PAD_GPIO_A48_IE_SHIFT,PADCFG_PAD_GPIO_A48_IE_MASK)
@@ -1344,6 +1683,8 @@
 #define SET_PADCFG_PAD_GPIO_A48_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_96_ADDR,data,PADCFG_PAD_GPIO_A48_SLEW_SHIFT,PADCFG_PAD_GPIO_A48_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A48_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_96_ADDR,PADCFG_PAD_GPIO_A48_SMT_SHIFT,PADCFG_PAD_GPIO_A48_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A48_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_96_ADDR,data,PADCFG_PAD_GPIO_A48_SMT_SHIFT,PADCFG_PAD_GPIO_A48_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A48_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_96_ADDR,PADCFG_PAD_GPIO_A48_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A48_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A48_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_96_ADDR,data,PADCFG_PAD_GPIO_A48_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A48_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A49_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_100_ADDR,PADCFG_PAD_GPIO_A49_DS_SHIFT,PADCFG_PAD_GPIO_A49_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A49_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_100_ADDR,data,PADCFG_PAD_GPIO_A49_DS_SHIFT,PADCFG_PAD_GPIO_A49_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A49_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_100_ADDR,PADCFG_PAD_GPIO_A49_IE_SHIFT,PADCFG_PAD_GPIO_A49_IE_MASK)
@@ -1356,6 +1697,8 @@
 #define SET_PADCFG_PAD_GPIO_A49_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_100_ADDR,data,PADCFG_PAD_GPIO_A49_SLEW_SHIFT,PADCFG_PAD_GPIO_A49_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A49_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_100_ADDR,PADCFG_PAD_GPIO_A49_SMT_SHIFT,PADCFG_PAD_GPIO_A49_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A49_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_100_ADDR,data,PADCFG_PAD_GPIO_A49_SMT_SHIFT,PADCFG_PAD_GPIO_A49_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A49_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_100_ADDR,PADCFG_PAD_GPIO_A49_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A49_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A49_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_100_ADDR,data,PADCFG_PAD_GPIO_A49_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A49_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A50_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_104_ADDR,PADCFG_PAD_GPIO_A50_DS_SHIFT,PADCFG_PAD_GPIO_A50_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A50_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_104_ADDR,data,PADCFG_PAD_GPIO_A50_DS_SHIFT,PADCFG_PAD_GPIO_A50_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A50_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_104_ADDR,PADCFG_PAD_GPIO_A50_IE_SHIFT,PADCFG_PAD_GPIO_A50_IE_MASK)
@@ -1368,6 +1711,8 @@
 #define SET_PADCFG_PAD_GPIO_A50_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_104_ADDR,data,PADCFG_PAD_GPIO_A50_SLEW_SHIFT,PADCFG_PAD_GPIO_A50_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A50_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_104_ADDR,PADCFG_PAD_GPIO_A50_SMT_SHIFT,PADCFG_PAD_GPIO_A50_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A50_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_104_ADDR,data,PADCFG_PAD_GPIO_A50_SMT_SHIFT,PADCFG_PAD_GPIO_A50_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A50_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_104_ADDR,PADCFG_PAD_GPIO_A50_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A50_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A50_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_104_ADDR,data,PADCFG_PAD_GPIO_A50_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A50_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A51_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_108_ADDR,PADCFG_PAD_GPIO_A51_DS_SHIFT,PADCFG_PAD_GPIO_A51_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A51_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_108_ADDR,data,PADCFG_PAD_GPIO_A51_DS_SHIFT,PADCFG_PAD_GPIO_A51_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A51_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_108_ADDR,PADCFG_PAD_GPIO_A51_IE_SHIFT,PADCFG_PAD_GPIO_A51_IE_MASK)
@@ -1380,6 +1725,8 @@
 #define SET_PADCFG_PAD_GPIO_A51_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_108_ADDR,data,PADCFG_PAD_GPIO_A51_SLEW_SHIFT,PADCFG_PAD_GPIO_A51_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A51_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_108_ADDR,PADCFG_PAD_GPIO_A51_SMT_SHIFT,PADCFG_PAD_GPIO_A51_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A51_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_108_ADDR,data,PADCFG_PAD_GPIO_A51_SMT_SHIFT,PADCFG_PAD_GPIO_A51_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A51_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_108_ADDR,PADCFG_PAD_GPIO_A51_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A51_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A51_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_108_ADDR,data,PADCFG_PAD_GPIO_A51_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A51_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A52_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_112_ADDR,PADCFG_PAD_GPIO_A52_DS_SHIFT,PADCFG_PAD_GPIO_A52_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A52_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_112_ADDR,data,PADCFG_PAD_GPIO_A52_DS_SHIFT,PADCFG_PAD_GPIO_A52_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A52_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_112_ADDR,PADCFG_PAD_GPIO_A52_IE_SHIFT,PADCFG_PAD_GPIO_A52_IE_MASK)
@@ -1392,6 +1739,8 @@
 #define SET_PADCFG_PAD_GPIO_A52_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_112_ADDR,data,PADCFG_PAD_GPIO_A52_SLEW_SHIFT,PADCFG_PAD_GPIO_A52_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A52_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_112_ADDR,PADCFG_PAD_GPIO_A52_SMT_SHIFT,PADCFG_PAD_GPIO_A52_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A52_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_112_ADDR,data,PADCFG_PAD_GPIO_A52_SMT_SHIFT,PADCFG_PAD_GPIO_A52_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A52_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_112_ADDR,PADCFG_PAD_GPIO_A52_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A52_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A52_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_112_ADDR,data,PADCFG_PAD_GPIO_A52_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A52_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A53_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_116_ADDR,PADCFG_PAD_GPIO_A53_DS_SHIFT,PADCFG_PAD_GPIO_A53_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A53_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_116_ADDR,data,PADCFG_PAD_GPIO_A53_DS_SHIFT,PADCFG_PAD_GPIO_A53_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A53_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_116_ADDR,PADCFG_PAD_GPIO_A53_IE_SHIFT,PADCFG_PAD_GPIO_A53_IE_MASK)
@@ -1404,6 +1753,8 @@
 #define SET_PADCFG_PAD_GPIO_A53_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_116_ADDR,data,PADCFG_PAD_GPIO_A53_SLEW_SHIFT,PADCFG_PAD_GPIO_A53_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A53_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_116_ADDR,PADCFG_PAD_GPIO_A53_SMT_SHIFT,PADCFG_PAD_GPIO_A53_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A53_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_116_ADDR,data,PADCFG_PAD_GPIO_A53_SMT_SHIFT,PADCFG_PAD_GPIO_A53_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A53_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_116_ADDR,PADCFG_PAD_GPIO_A53_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A53_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A53_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_116_ADDR,data,PADCFG_PAD_GPIO_A53_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A53_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A54_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_120_ADDR,PADCFG_PAD_GPIO_A54_DS_SHIFT,PADCFG_PAD_GPIO_A54_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A54_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_120_ADDR,data,PADCFG_PAD_GPIO_A54_DS_SHIFT,PADCFG_PAD_GPIO_A54_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A54_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_120_ADDR,PADCFG_PAD_GPIO_A54_IE_SHIFT,PADCFG_PAD_GPIO_A54_IE_MASK)
@@ -1416,6 +1767,8 @@
 #define SET_PADCFG_PAD_GPIO_A54_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_120_ADDR,data,PADCFG_PAD_GPIO_A54_SLEW_SHIFT,PADCFG_PAD_GPIO_A54_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A54_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_120_ADDR,PADCFG_PAD_GPIO_A54_SMT_SHIFT,PADCFG_PAD_GPIO_A54_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A54_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_120_ADDR,data,PADCFG_PAD_GPIO_A54_SMT_SHIFT,PADCFG_PAD_GPIO_A54_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A54_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_120_ADDR,PADCFG_PAD_GPIO_A54_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A54_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A54_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_120_ADDR,data,PADCFG_PAD_GPIO_A54_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A54_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_A55_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_124_ADDR,PADCFG_PAD_GPIO_A55_DS_SHIFT,PADCFG_PAD_GPIO_A55_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_A55_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_124_ADDR,data,PADCFG_PAD_GPIO_A55_DS_SHIFT,PADCFG_PAD_GPIO_A55_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_A55_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_124_ADDR,PADCFG_PAD_GPIO_A55_IE_SHIFT,PADCFG_PAD_GPIO_A55_IE_MASK)
@@ -1428,279 +1781,399 @@
 #define SET_PADCFG_PAD_GPIO_A55_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_124_ADDR,data,PADCFG_PAD_GPIO_A55_SLEW_SHIFT,PADCFG_PAD_GPIO_A55_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_A55_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_124_ADDR,PADCFG_PAD_GPIO_A55_SMT_SHIFT,PADCFG_PAD_GPIO_A55_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_A55_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_124_ADDR,data,PADCFG_PAD_GPIO_A55_SMT_SHIFT,PADCFG_PAD_GPIO_A55_SMT_MASK)
-#define GET_PADCFG_PAD_JTAG_TCK_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_JTAG_TCK_DS_SHIFT,PADCFG_PAD_JTAG_TCK_DS_MASK)
-#define SET_PADCFG_PAD_JTAG_TCK_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_JTAG_TCK_DS_SHIFT,PADCFG_PAD_JTAG_TCK_DS_MASK)
-#define GET_PADCFG_PAD_JTAG_TCK_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_JTAG_TCK_IE_SHIFT,PADCFG_PAD_JTAG_TCK_IE_MASK)
-#define SET_PADCFG_PAD_JTAG_TCK_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_JTAG_TCK_IE_SHIFT,PADCFG_PAD_JTAG_TCK_IE_MASK)
-#define GET_PADCFG_PAD_JTAG_TCK_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_JTAG_TCK_PD_SHIFT,PADCFG_PAD_JTAG_TCK_PD_MASK)
-#define SET_PADCFG_PAD_JTAG_TCK_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_JTAG_TCK_PD_SHIFT,PADCFG_PAD_JTAG_TCK_PD_MASK)
-#define GET_PADCFG_PAD_JTAG_TCK_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_JTAG_TCK_PU_SHIFT,PADCFG_PAD_JTAG_TCK_PU_MASK)
-#define SET_PADCFG_PAD_JTAG_TCK_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_JTAG_TCK_PU_SHIFT,PADCFG_PAD_JTAG_TCK_PU_MASK)
-#define GET_PADCFG_PAD_JTAG_TCK_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_JTAG_TCK_SLEW_SHIFT,PADCFG_PAD_JTAG_TCK_SLEW_MASK)
-#define SET_PADCFG_PAD_JTAG_TCK_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_JTAG_TCK_SLEW_SHIFT,PADCFG_PAD_JTAG_TCK_SLEW_MASK)
-#define GET_PADCFG_PAD_JTAG_TCK_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_JTAG_TCK_SMT_SHIFT,PADCFG_PAD_JTAG_TCK_SMT_MASK)
-#define SET_PADCFG_PAD_JTAG_TCK_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_JTAG_TCK_SMT_SHIFT,PADCFG_PAD_JTAG_TCK_SMT_MASK)
-#define GET_PADCFG_PAD_JTAG_TRESETN_DS                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_JTAG_TRESETN_DS_SHIFT,PADCFG_PAD_JTAG_TRESETN_DS_MASK)
-#define SET_PADCFG_PAD_JTAG_TRESETN_DS(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_JTAG_TRESETN_DS_SHIFT,PADCFG_PAD_JTAG_TRESETN_DS_MASK)
-#define GET_PADCFG_PAD_JTAG_TRESETN_IE                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_JTAG_TRESETN_IE_SHIFT,PADCFG_PAD_JTAG_TRESETN_IE_MASK)
-#define SET_PADCFG_PAD_JTAG_TRESETN_IE(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_JTAG_TRESETN_IE_SHIFT,PADCFG_PAD_JTAG_TRESETN_IE_MASK)
-#define GET_PADCFG_PAD_JTAG_TRESETN_PD                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_JTAG_TRESETN_PD_SHIFT,PADCFG_PAD_JTAG_TRESETN_PD_MASK)
-#define SET_PADCFG_PAD_JTAG_TRESETN_PD(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_JTAG_TRESETN_PD_SHIFT,PADCFG_PAD_JTAG_TRESETN_PD_MASK)
-#define GET_PADCFG_PAD_JTAG_TRESETN_PU                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_JTAG_TRESETN_PU_SHIFT,PADCFG_PAD_JTAG_TRESETN_PU_MASK)
-#define SET_PADCFG_PAD_JTAG_TRESETN_PU(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_JTAG_TRESETN_PU_SHIFT,PADCFG_PAD_JTAG_TRESETN_PU_MASK)
-#define GET_PADCFG_PAD_JTAG_TRESETN_SLEW                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_JTAG_TRESETN_SLEW_SHIFT,PADCFG_PAD_JTAG_TRESETN_SLEW_MASK)
-#define SET_PADCFG_PAD_JTAG_TRESETN_SLEW(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_JTAG_TRESETN_SLEW_SHIFT,PADCFG_PAD_JTAG_TRESETN_SLEW_MASK)
-#define GET_PADCFG_PAD_JTAG_TRESETN_SMT                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_JTAG_TRESETN_SMT_SHIFT,PADCFG_PAD_JTAG_TRESETN_SMT_MASK)
-#define SET_PADCFG_PAD_JTAG_TRESETN_SMT(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_JTAG_TRESETN_SMT_SHIFT,PADCFG_PAD_JTAG_TRESETN_SMT_MASK)
-#define GET_PADCFG_PAD_JTAG_TMS_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_JTAG_TMS_DS_SHIFT,PADCFG_PAD_JTAG_TMS_DS_MASK)
-#define SET_PADCFG_PAD_JTAG_TMS_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_JTAG_TMS_DS_SHIFT,PADCFG_PAD_JTAG_TMS_DS_MASK)
-#define GET_PADCFG_PAD_JTAG_TMS_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_JTAG_TMS_IE_SHIFT,PADCFG_PAD_JTAG_TMS_IE_MASK)
-#define SET_PADCFG_PAD_JTAG_TMS_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_JTAG_TMS_IE_SHIFT,PADCFG_PAD_JTAG_TMS_IE_MASK)
-#define GET_PADCFG_PAD_JTAG_TMS_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_JTAG_TMS_PD_SHIFT,PADCFG_PAD_JTAG_TMS_PD_MASK)
-#define SET_PADCFG_PAD_JTAG_TMS_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_JTAG_TMS_PD_SHIFT,PADCFG_PAD_JTAG_TMS_PD_MASK)
-#define GET_PADCFG_PAD_JTAG_TMS_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_JTAG_TMS_PU_SHIFT,PADCFG_PAD_JTAG_TMS_PU_MASK)
-#define SET_PADCFG_PAD_JTAG_TMS_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_JTAG_TMS_PU_SHIFT,PADCFG_PAD_JTAG_TMS_PU_MASK)
-#define GET_PADCFG_PAD_JTAG_TMS_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_JTAG_TMS_SLEW_SHIFT,PADCFG_PAD_JTAG_TMS_SLEW_MASK)
-#define SET_PADCFG_PAD_JTAG_TMS_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_JTAG_TMS_SLEW_SHIFT,PADCFG_PAD_JTAG_TMS_SLEW_MASK)
-#define GET_PADCFG_PAD_JTAG_TMS_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_JTAG_TMS_SMT_SHIFT,PADCFG_PAD_JTAG_TMS_SMT_MASK)
-#define SET_PADCFG_PAD_JTAG_TMS_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_JTAG_TMS_SMT_SHIFT,PADCFG_PAD_JTAG_TMS_SMT_MASK)
-#define GET_PADCFG_PAD_JTAG_TDI_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_JTAG_TDI_DS_SHIFT,PADCFG_PAD_JTAG_TDI_DS_MASK)
-#define SET_PADCFG_PAD_JTAG_TDI_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_JTAG_TDI_DS_SHIFT,PADCFG_PAD_JTAG_TDI_DS_MASK)
-#define GET_PADCFG_PAD_JTAG_TDI_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_JTAG_TDI_IE_SHIFT,PADCFG_PAD_JTAG_TDI_IE_MASK)
-#define SET_PADCFG_PAD_JTAG_TDI_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_JTAG_TDI_IE_SHIFT,PADCFG_PAD_JTAG_TDI_IE_MASK)
-#define GET_PADCFG_PAD_JTAG_TDI_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_JTAG_TDI_PD_SHIFT,PADCFG_PAD_JTAG_TDI_PD_MASK)
-#define SET_PADCFG_PAD_JTAG_TDI_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_JTAG_TDI_PD_SHIFT,PADCFG_PAD_JTAG_TDI_PD_MASK)
-#define GET_PADCFG_PAD_JTAG_TDI_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_JTAG_TDI_PU_SHIFT,PADCFG_PAD_JTAG_TDI_PU_MASK)
-#define SET_PADCFG_PAD_JTAG_TDI_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_JTAG_TDI_PU_SHIFT,PADCFG_PAD_JTAG_TDI_PU_MASK)
-#define GET_PADCFG_PAD_JTAG_TDI_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_JTAG_TDI_SLEW_SHIFT,PADCFG_PAD_JTAG_TDI_SLEW_MASK)
-#define SET_PADCFG_PAD_JTAG_TDI_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_JTAG_TDI_SLEW_SHIFT,PADCFG_PAD_JTAG_TDI_SLEW_MASK)
-#define GET_PADCFG_PAD_JTAG_TDI_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_JTAG_TDI_SMT_SHIFT,PADCFG_PAD_JTAG_TDI_SMT_MASK)
-#define SET_PADCFG_PAD_JTAG_TDI_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_JTAG_TDI_SMT_SHIFT,PADCFG_PAD_JTAG_TDI_SMT_MASK)
-#define GET_PADCFG_PAD_JTAG_TDO_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_JTAG_TDO_DS_SHIFT,PADCFG_PAD_JTAG_TDO_DS_MASK)
-#define SET_PADCFG_PAD_JTAG_TDO_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_JTAG_TDO_DS_SHIFT,PADCFG_PAD_JTAG_TDO_DS_MASK)
-#define GET_PADCFG_PAD_JTAG_TDO_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_JTAG_TDO_IE_SHIFT,PADCFG_PAD_JTAG_TDO_IE_MASK)
-#define SET_PADCFG_PAD_JTAG_TDO_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_JTAG_TDO_IE_SHIFT,PADCFG_PAD_JTAG_TDO_IE_MASK)
-#define GET_PADCFG_PAD_JTAG_TDO_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_JTAG_TDO_PD_SHIFT,PADCFG_PAD_JTAG_TDO_PD_MASK)
-#define SET_PADCFG_PAD_JTAG_TDO_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_JTAG_TDO_PD_SHIFT,PADCFG_PAD_JTAG_TDO_PD_MASK)
-#define GET_PADCFG_PAD_JTAG_TDO_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_JTAG_TDO_PU_SHIFT,PADCFG_PAD_JTAG_TDO_PU_MASK)
-#define SET_PADCFG_PAD_JTAG_TDO_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_JTAG_TDO_PU_SHIFT,PADCFG_PAD_JTAG_TDO_PU_MASK)
-#define GET_PADCFG_PAD_JTAG_TDO_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_JTAG_TDO_SLEW_SHIFT,PADCFG_PAD_JTAG_TDO_SLEW_MASK)
-#define SET_PADCFG_PAD_JTAG_TDO_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_JTAG_TDO_SLEW_SHIFT,PADCFG_PAD_JTAG_TDO_SLEW_MASK)
-#define GET_PADCFG_PAD_JTAG_TDO_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_JTAG_TDO_SMT_SHIFT,PADCFG_PAD_JTAG_TDO_SMT_MASK)
-#define SET_PADCFG_PAD_JTAG_TDO_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_JTAG_TDO_SMT_SHIFT,PADCFG_PAD_JTAG_TDO_SMT_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O0_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O0_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O0_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O0_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O0_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O0_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O1_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O1_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O1_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O1_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O1_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O1_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O2_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O2_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O2_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O2_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O2_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O2_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O3_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O3_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O3_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O3_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O3_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O3_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O4_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O4_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O4_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O4_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O4_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O4_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O5_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O5_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O5_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O5_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O5_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O5_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O6_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O6_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O6_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O6_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O6_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O6_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O7_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O7_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O7_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O7_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O7_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O7_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O8_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O8_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O8_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O8_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O8_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O8_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O9_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O9_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O9_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O9_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O9_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O9_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O10_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O10_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O10_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O10_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O10_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O10_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O11_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O11_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O11_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O11_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O11_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O11_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O12_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O12_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O12_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O12_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O12_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O12_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O13_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O13_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O13_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O13_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O13_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O13_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O14_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O14_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O14_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O14_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O14_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O14_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O15_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O15_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O15_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O15_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O15_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O15_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O16_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O16_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O16_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O16_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O16_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O16_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O17_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O17_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O17_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O17_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O17_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O17_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O18_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O18_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O18_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O18_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O18_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O18_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O19_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O19_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O19_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O19_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O19_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O19_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O20_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O20_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O20_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O20_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O20_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O20_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O21_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O21_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O21_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O21_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O21_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O21_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O22_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O22_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O22_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O22_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O22_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O22_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O23_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O23_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O23_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O23_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O23_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O23_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O24_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O24_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O24_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O24_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O24_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O24_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O25_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O25_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O25_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O25_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O25_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O25_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O26_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O26_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O26_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O26_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O26_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O26_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O27_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O27_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O27_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O27_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O27_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O27_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O28_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O28_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O28_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O28_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O28_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O28_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O29_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O29_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O29_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O29_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O29_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O29_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O30_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O30_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O30_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O30_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O30_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O30_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_O31_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_SYS2_IOMUX_FMUX_O31_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O31_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_O31_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_SYS2_IOMUX_FMUX_O31_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O31_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN0_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN0_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN0_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN0_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN0_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN0_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN1_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN1_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN1_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN1_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN1_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN1_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN2_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN2_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN2_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN2_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN2_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN2_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN3_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN3_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN3_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN3_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN3_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN3_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN4_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN4_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN4_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN4_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN4_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN4_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN5_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN5_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN5_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN5_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN5_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN5_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN6_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN6_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN6_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN6_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN6_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN6_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN7_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN7_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN7_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN7_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN7_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN7_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN8_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN8_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN8_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN8_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN8_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN8_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN9_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN9_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN9_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN9_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN9_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN9_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN10_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN10_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN10_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN10_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN10_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN10_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN11_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN11_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN11_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN11_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN11_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN11_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN12_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN12_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN12_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN12_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN12_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN12_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN13_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN13_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN13_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN13_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN13_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN13_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN14_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN14_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN14_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN14_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN14_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN14_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN15_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN15_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN15_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN15_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN15_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN15_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN16_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN16_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN16_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN16_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN16_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN16_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN17_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN17_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN17_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN17_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN17_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN17_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN18_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN18_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN18_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN18_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN18_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN18_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN19_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN19_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN19_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN19_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN19_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN19_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN20_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN20_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN20_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN20_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN20_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN20_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN21_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN21_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN21_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN21_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN21_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN21_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN22_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN22_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN22_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN22_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN22_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN22_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN23_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN23_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN23_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN23_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN23_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN23_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN24_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN24_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN24_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN24_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN24_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN24_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN25_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN25_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN25_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN25_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN25_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN25_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN26_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN26_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN26_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN26_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN26_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN26_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN27_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN27_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN27_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN27_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN27_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN27_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN28_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN28_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN28_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN28_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN28_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN28_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN29_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN29_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN29_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN29_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN29_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN29_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN30_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN30_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN30_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN30_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN30_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN30_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FMUX_OEN31_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_SYS2_IOMUX_FMUX_OEN31_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN31_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FMUX_OEN31_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN31_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN31_SEL_MASK)
-// #define GET_O_I_31_0_                                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,O_I_31_0__SHIFT,O_I_31_0__MASK)
-#define GET_U0_SYS2_IOMUX_FUNC0_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC0_SEL_SHIFT,U0_SYS2_IOMUX_FUNC0_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC0_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC0_SEL_SHIFT,U0_SYS2_IOMUX_FUNC0_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC1_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC1_SEL_SHIFT,U0_SYS2_IOMUX_FUNC1_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC1_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC1_SEL_SHIFT,U0_SYS2_IOMUX_FUNC1_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC2_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC2_SEL_SHIFT,U0_SYS2_IOMUX_FUNC2_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC2_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC2_SEL_SHIFT,U0_SYS2_IOMUX_FUNC2_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC3_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC3_SEL_SHIFT,U0_SYS2_IOMUX_FUNC3_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC3_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC3_SEL_SHIFT,U0_SYS2_IOMUX_FUNC3_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC4_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC4_SEL_SHIFT,U0_SYS2_IOMUX_FUNC4_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC4_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC4_SEL_SHIFT,U0_SYS2_IOMUX_FUNC4_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC5_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC5_SEL_SHIFT,U0_SYS2_IOMUX_FUNC5_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC5_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC5_SEL_SHIFT,U0_SYS2_IOMUX_FUNC5_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC6_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC6_SEL_SHIFT,U0_SYS2_IOMUX_FUNC6_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC6_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC6_SEL_SHIFT,U0_SYS2_IOMUX_FUNC6_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC7_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC7_SEL_SHIFT,U0_SYS2_IOMUX_FUNC7_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC7_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC7_SEL_SHIFT,U0_SYS2_IOMUX_FUNC7_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC8_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC8_SEL_SHIFT,U0_SYS2_IOMUX_FUNC8_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC8_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC8_SEL_SHIFT,U0_SYS2_IOMUX_FUNC8_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC9_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC9_SEL_SHIFT,U0_SYS2_IOMUX_FUNC9_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC9_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC9_SEL_SHIFT,U0_SYS2_IOMUX_FUNC9_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC10_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC10_SEL_SHIFT,U0_SYS2_IOMUX_FUNC10_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC10_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC10_SEL_SHIFT,U0_SYS2_IOMUX_FUNC10_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC11_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC11_SEL_SHIFT,U0_SYS2_IOMUX_FUNC11_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC11_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC11_SEL_SHIFT,U0_SYS2_IOMUX_FUNC11_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC12_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC12_SEL_SHIFT,U0_SYS2_IOMUX_FUNC12_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC12_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC12_SEL_SHIFT,U0_SYS2_IOMUX_FUNC12_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC13_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC13_SEL_SHIFT,U0_SYS2_IOMUX_FUNC13_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC13_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC13_SEL_SHIFT,U0_SYS2_IOMUX_FUNC13_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC14_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC14_SEL_SHIFT,U0_SYS2_IOMUX_FUNC14_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC14_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC14_SEL_SHIFT,U0_SYS2_IOMUX_FUNC14_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC15_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_SYS2_IOMUX_FUNC15_SEL_SHIFT,U0_SYS2_IOMUX_FUNC15_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC15_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,U0_SYS2_IOMUX_FUNC15_SEL_SHIFT,U0_SYS2_IOMUX_FUNC15_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC16_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC16_SEL_SHIFT,U0_SYS2_IOMUX_FUNC16_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC16_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC16_SEL_SHIFT,U0_SYS2_IOMUX_FUNC16_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC17_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC17_SEL_SHIFT,U0_SYS2_IOMUX_FUNC17_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC17_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC17_SEL_SHIFT,U0_SYS2_IOMUX_FUNC17_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC18_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC18_SEL_SHIFT,U0_SYS2_IOMUX_FUNC18_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC18_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC18_SEL_SHIFT,U0_SYS2_IOMUX_FUNC18_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC19_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC19_SEL_SHIFT,U0_SYS2_IOMUX_FUNC19_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC19_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC19_SEL_SHIFT,U0_SYS2_IOMUX_FUNC19_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC20_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC20_SEL_SHIFT,U0_SYS2_IOMUX_FUNC20_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC20_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC20_SEL_SHIFT,U0_SYS2_IOMUX_FUNC20_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC21_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC21_SEL_SHIFT,U0_SYS2_IOMUX_FUNC21_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC21_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC21_SEL_SHIFT,U0_SYS2_IOMUX_FUNC21_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC22_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC22_SEL_SHIFT,U0_SYS2_IOMUX_FUNC22_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC22_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC22_SEL_SHIFT,U0_SYS2_IOMUX_FUNC22_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC23_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC23_SEL_SHIFT,U0_SYS2_IOMUX_FUNC23_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC23_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC23_SEL_SHIFT,U0_SYS2_IOMUX_FUNC23_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC24_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC24_SEL_SHIFT,U0_SYS2_IOMUX_FUNC24_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC24_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC24_SEL_SHIFT,U0_SYS2_IOMUX_FUNC24_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC25_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC25_SEL_SHIFT,U0_SYS2_IOMUX_FUNC25_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC25_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC25_SEL_SHIFT,U0_SYS2_IOMUX_FUNC25_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC26_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC26_SEL_SHIFT,U0_SYS2_IOMUX_FUNC26_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC26_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC26_SEL_SHIFT,U0_SYS2_IOMUX_FUNC26_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC27_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC27_SEL_SHIFT,U0_SYS2_IOMUX_FUNC27_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC27_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC27_SEL_SHIFT,U0_SYS2_IOMUX_FUNC27_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC28_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC28_SEL_SHIFT,U0_SYS2_IOMUX_FUNC28_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC28_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC28_SEL_SHIFT,U0_SYS2_IOMUX_FUNC28_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC29_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC29_SEL_SHIFT,U0_SYS2_IOMUX_FUNC29_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC29_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC29_SEL_SHIFT,U0_SYS2_IOMUX_FUNC29_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC30_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC30_SEL_SHIFT,U0_SYS2_IOMUX_FUNC30_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC30_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC30_SEL_SHIFT,U0_SYS2_IOMUX_FUNC30_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC31_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_SYS2_IOMUX_FUNC31_SEL_SHIFT,U0_SYS2_IOMUX_FUNC31_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC31_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,U0_SYS2_IOMUX_FUNC31_SEL_SHIFT,U0_SYS2_IOMUX_FUNC31_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC32_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,U0_SYS2_IOMUX_FUNC32_SEL_SHIFT,U0_SYS2_IOMUX_FUNC32_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC32_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,U0_SYS2_IOMUX_FUNC32_SEL_SHIFT,U0_SYS2_IOMUX_FUNC32_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC33_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,U0_SYS2_IOMUX_FUNC33_SEL_SHIFT,U0_SYS2_IOMUX_FUNC33_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC33_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,U0_SYS2_IOMUX_FUNC33_SEL_SHIFT,U0_SYS2_IOMUX_FUNC33_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC34_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,U0_SYS2_IOMUX_FUNC34_SEL_SHIFT,U0_SYS2_IOMUX_FUNC34_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC34_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,U0_SYS2_IOMUX_FUNC34_SEL_SHIFT,U0_SYS2_IOMUX_FUNC34_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC35_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,U0_SYS2_IOMUX_FUNC35_SEL_SHIFT,U0_SYS2_IOMUX_FUNC35_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC35_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,U0_SYS2_IOMUX_FUNC35_SEL_SHIFT,U0_SYS2_IOMUX_FUNC35_SEL_MASK)
-#define GET_U0_SYS2_IOMUX_FUNC36_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,U0_SYS2_IOMUX_FUNC36_SEL_SHIFT,U0_SYS2_IOMUX_FUNC36_SEL_MASK)
-#define SET_U0_SYS2_IOMUX_FUNC36_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,U0_SYS2_IOMUX_FUNC36_SEL_SHIFT,U0_SYS2_IOMUX_FUNC36_SEL_MASK)
-// #define GET_INT_EN_31_0_                                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,INT_EN_31_0__SHIFT,INT_EN_31_0__MASK)
-// #define SET_INT_EN_31_0_(data)                             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,INT_EN_31_0__SHIFT,INT_EN_31_0__MASK)
-// #define GET_INT_STATUS_31_0_                               itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,INT_STATUS_31_0__SHIFT,INT_STATUS_31_0__MASK)
-// #define GET_INT_CLR_31_0_                                  itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,INT_CLR_31_0__SHIFT,INT_CLR_31_0__MASK)
-// #define SET_INT_CLR_31_0_(data)                            itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,INT_CLR_31_0__SHIFT,INT_CLR_31_0__MASK)
-// #define GET_INT_EDGE_31_0_                                 itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,INT_EDGE_31_0__SHIFT,INT_EDGE_31_0__MASK)
-// #define SET_INT_EDGE_31_0_(data)                           itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,data,INT_EDGE_31_0__SHIFT,INT_EDGE_31_0__MASK)
-// #define GET_INT_HIGH_LEVEL_31_0_                           itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_188_ADDR,INT_HIGH_LEVEL_31_0__SHIFT,INT_HIGH_LEVEL_31_0__MASK)
-// #define SET_INT_HIGH_LEVEL_31_0_(data)                     itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_188_ADDR,data,INT_HIGH_LEVEL_31_0__SHIFT,INT_HIGH_LEVEL_31_0__MASK)
-// #define GET_INT_BOTH_EDGE_31_0_                            itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_192_ADDR,INT_BOTH_EDGE_31_0__SHIFT,INT_BOTH_EDGE_31_0__MASK)
-// #define SET_INT_BOTH_EDGE_31_0_(data)                      itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_192_ADDR,data,INT_BOTH_EDGE_31_0__SHIFT,INT_BOTH_EDGE_31_0__MASK)
-// #define GET_INT_RISING_EDGE_31_0_                          itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,INT_RISING_EDGE_31_0__SHIFT,INT_RISING_EDGE_31_0__MASK)
-// #define SET_INT_RISING_EDGE_31_0_(data)                    itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,INT_RISING_EDGE_31_0__SHIFT,INT_RISING_EDGE_31_0__MASK)
+#define GET_PADCFG_PAD_GPIO_A55_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_124_ADDR,PADCFG_PAD_GPIO_A55_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A55_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A55_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_124_ADDR,data,PADCFG_PAD_GPIO_A55_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A55_DEBOUNCE_MASK)
+#define GET_PADCFG_PAD_GPIO_A56_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_A56_DS_SHIFT,PADCFG_PAD_GPIO_A56_DS_MASK)
+#define SET_PADCFG_PAD_GPIO_A56_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_A56_DS_SHIFT,PADCFG_PAD_GPIO_A56_DS_MASK)
+#define GET_PADCFG_PAD_GPIO_A56_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_A56_IE_SHIFT,PADCFG_PAD_GPIO_A56_IE_MASK)
+#define SET_PADCFG_PAD_GPIO_A56_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_A56_IE_SHIFT,PADCFG_PAD_GPIO_A56_IE_MASK)
+#define GET_PADCFG_PAD_GPIO_A56_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_A56_PD_SHIFT,PADCFG_PAD_GPIO_A56_PD_MASK)
+#define SET_PADCFG_PAD_GPIO_A56_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_A56_PD_SHIFT,PADCFG_PAD_GPIO_A56_PD_MASK)
+#define GET_PADCFG_PAD_GPIO_A56_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_A56_PU_SHIFT,PADCFG_PAD_GPIO_A56_PU_MASK)
+#define SET_PADCFG_PAD_GPIO_A56_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_A56_PU_SHIFT,PADCFG_PAD_GPIO_A56_PU_MASK)
+#define GET_PADCFG_PAD_GPIO_A56_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_A56_SLEW_SHIFT,PADCFG_PAD_GPIO_A56_SLEW_MASK)
+#define SET_PADCFG_PAD_GPIO_A56_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_A56_SLEW_SHIFT,PADCFG_PAD_GPIO_A56_SLEW_MASK)
+#define GET_PADCFG_PAD_GPIO_A56_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_A56_SMT_SHIFT,PADCFG_PAD_GPIO_A56_SMT_MASK)
+#define SET_PADCFG_PAD_GPIO_A56_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_A56_SMT_SHIFT,PADCFG_PAD_GPIO_A56_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A56_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_A56_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A56_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A56_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_A56_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A56_DEBOUNCE_MASK)
+#define GET_PADCFG_PAD_GPIO_A57_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_A57_DS_SHIFT,PADCFG_PAD_GPIO_A57_DS_MASK)
+#define SET_PADCFG_PAD_GPIO_A57_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_A57_DS_SHIFT,PADCFG_PAD_GPIO_A57_DS_MASK)
+#define GET_PADCFG_PAD_GPIO_A57_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_A57_IE_SHIFT,PADCFG_PAD_GPIO_A57_IE_MASK)
+#define SET_PADCFG_PAD_GPIO_A57_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_A57_IE_SHIFT,PADCFG_PAD_GPIO_A57_IE_MASK)
+#define GET_PADCFG_PAD_GPIO_A57_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_A57_PD_SHIFT,PADCFG_PAD_GPIO_A57_PD_MASK)
+#define SET_PADCFG_PAD_GPIO_A57_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_A57_PD_SHIFT,PADCFG_PAD_GPIO_A57_PD_MASK)
+#define GET_PADCFG_PAD_GPIO_A57_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_A57_PU_SHIFT,PADCFG_PAD_GPIO_A57_PU_MASK)
+#define SET_PADCFG_PAD_GPIO_A57_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_A57_PU_SHIFT,PADCFG_PAD_GPIO_A57_PU_MASK)
+#define GET_PADCFG_PAD_GPIO_A57_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_A57_SLEW_SHIFT,PADCFG_PAD_GPIO_A57_SLEW_MASK)
+#define SET_PADCFG_PAD_GPIO_A57_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_A57_SLEW_SHIFT,PADCFG_PAD_GPIO_A57_SLEW_MASK)
+#define GET_PADCFG_PAD_GPIO_A57_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_A57_SMT_SHIFT,PADCFG_PAD_GPIO_A57_SMT_MASK)
+#define SET_PADCFG_PAD_GPIO_A57_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_A57_SMT_SHIFT,PADCFG_PAD_GPIO_A57_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A57_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_A57_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A57_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A57_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_A57_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A57_DEBOUNCE_MASK)
+#define GET_PADCFG_PAD_GPIO_A58_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_A58_DS_SHIFT,PADCFG_PAD_GPIO_A58_DS_MASK)
+#define SET_PADCFG_PAD_GPIO_A58_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_A58_DS_SHIFT,PADCFG_PAD_GPIO_A58_DS_MASK)
+#define GET_PADCFG_PAD_GPIO_A58_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_A58_IE_SHIFT,PADCFG_PAD_GPIO_A58_IE_MASK)
+#define SET_PADCFG_PAD_GPIO_A58_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_A58_IE_SHIFT,PADCFG_PAD_GPIO_A58_IE_MASK)
+#define GET_PADCFG_PAD_GPIO_A58_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_A58_PD_SHIFT,PADCFG_PAD_GPIO_A58_PD_MASK)
+#define SET_PADCFG_PAD_GPIO_A58_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_A58_PD_SHIFT,PADCFG_PAD_GPIO_A58_PD_MASK)
+#define GET_PADCFG_PAD_GPIO_A58_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_A58_PU_SHIFT,PADCFG_PAD_GPIO_A58_PU_MASK)
+#define SET_PADCFG_PAD_GPIO_A58_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_A58_PU_SHIFT,PADCFG_PAD_GPIO_A58_PU_MASK)
+#define GET_PADCFG_PAD_GPIO_A58_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_A58_SLEW_SHIFT,PADCFG_PAD_GPIO_A58_SLEW_MASK)
+#define SET_PADCFG_PAD_GPIO_A58_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_A58_SLEW_SHIFT,PADCFG_PAD_GPIO_A58_SLEW_MASK)
+#define GET_PADCFG_PAD_GPIO_A58_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_A58_SMT_SHIFT,PADCFG_PAD_GPIO_A58_SMT_MASK)
+#define SET_PADCFG_PAD_GPIO_A58_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_A58_SMT_SHIFT,PADCFG_PAD_GPIO_A58_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A58_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_A58_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A58_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A58_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_A58_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A58_DEBOUNCE_MASK)
+#define GET_PADCFG_PAD_GPIO_A59_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_A59_DS_SHIFT,PADCFG_PAD_GPIO_A59_DS_MASK)
+#define SET_PADCFG_PAD_GPIO_A59_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_A59_DS_SHIFT,PADCFG_PAD_GPIO_A59_DS_MASK)
+#define GET_PADCFG_PAD_GPIO_A59_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_A59_IE_SHIFT,PADCFG_PAD_GPIO_A59_IE_MASK)
+#define SET_PADCFG_PAD_GPIO_A59_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_A59_IE_SHIFT,PADCFG_PAD_GPIO_A59_IE_MASK)
+#define GET_PADCFG_PAD_GPIO_A59_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_A59_PD_SHIFT,PADCFG_PAD_GPIO_A59_PD_MASK)
+#define SET_PADCFG_PAD_GPIO_A59_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_A59_PD_SHIFT,PADCFG_PAD_GPIO_A59_PD_MASK)
+#define GET_PADCFG_PAD_GPIO_A59_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_A59_PU_SHIFT,PADCFG_PAD_GPIO_A59_PU_MASK)
+#define SET_PADCFG_PAD_GPIO_A59_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_A59_PU_SHIFT,PADCFG_PAD_GPIO_A59_PU_MASK)
+#define GET_PADCFG_PAD_GPIO_A59_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_A59_SLEW_SHIFT,PADCFG_PAD_GPIO_A59_SLEW_MASK)
+#define SET_PADCFG_PAD_GPIO_A59_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_A59_SLEW_SHIFT,PADCFG_PAD_GPIO_A59_SLEW_MASK)
+#define GET_PADCFG_PAD_GPIO_A59_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_A59_SMT_SHIFT,PADCFG_PAD_GPIO_A59_SMT_MASK)
+#define SET_PADCFG_PAD_GPIO_A59_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_A59_SMT_SHIFT,PADCFG_PAD_GPIO_A59_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A59_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_A59_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A59_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A59_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_A59_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A59_DEBOUNCE_MASK)
+#define GET_PADCFG_PAD_GPIO_A60_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_GPIO_A60_DS_SHIFT,PADCFG_PAD_GPIO_A60_DS_MASK)
+#define SET_PADCFG_PAD_GPIO_A60_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_GPIO_A60_DS_SHIFT,PADCFG_PAD_GPIO_A60_DS_MASK)
+#define GET_PADCFG_PAD_GPIO_A60_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_GPIO_A60_IE_SHIFT,PADCFG_PAD_GPIO_A60_IE_MASK)
+#define SET_PADCFG_PAD_GPIO_A60_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_GPIO_A60_IE_SHIFT,PADCFG_PAD_GPIO_A60_IE_MASK)
+#define GET_PADCFG_PAD_GPIO_A60_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_GPIO_A60_PD_SHIFT,PADCFG_PAD_GPIO_A60_PD_MASK)
+#define SET_PADCFG_PAD_GPIO_A60_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_GPIO_A60_PD_SHIFT,PADCFG_PAD_GPIO_A60_PD_MASK)
+#define GET_PADCFG_PAD_GPIO_A60_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_GPIO_A60_PU_SHIFT,PADCFG_PAD_GPIO_A60_PU_MASK)
+#define SET_PADCFG_PAD_GPIO_A60_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_GPIO_A60_PU_SHIFT,PADCFG_PAD_GPIO_A60_PU_MASK)
+#define GET_PADCFG_PAD_GPIO_A60_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_GPIO_A60_SLEW_SHIFT,PADCFG_PAD_GPIO_A60_SLEW_MASK)
+#define SET_PADCFG_PAD_GPIO_A60_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_GPIO_A60_SLEW_SHIFT,PADCFG_PAD_GPIO_A60_SLEW_MASK)
+#define GET_PADCFG_PAD_GPIO_A60_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_GPIO_A60_SMT_SHIFT,PADCFG_PAD_GPIO_A60_SMT_MASK)
+#define SET_PADCFG_PAD_GPIO_A60_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_GPIO_A60_SMT_SHIFT,PADCFG_PAD_GPIO_A60_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_A60_DEBOUNCE                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,PADCFG_PAD_GPIO_A60_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A60_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_A60_DEBOUNCE(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,PADCFG_PAD_GPIO_A60_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_A60_DEBOUNCE_MASK)
+#define GET_PADCFG_PAD_JTAG_TCK_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,PADCFG_PAD_JTAG_TCK_DS_SHIFT,PADCFG_PAD_JTAG_TCK_DS_MASK)
+#define SET_PADCFG_PAD_JTAG_TCK_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,PADCFG_PAD_JTAG_TCK_DS_SHIFT,PADCFG_PAD_JTAG_TCK_DS_MASK)
+#define GET_PADCFG_PAD_JTAG_TCK_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,PADCFG_PAD_JTAG_TCK_IE_SHIFT,PADCFG_PAD_JTAG_TCK_IE_MASK)
+#define SET_PADCFG_PAD_JTAG_TCK_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,PADCFG_PAD_JTAG_TCK_IE_SHIFT,PADCFG_PAD_JTAG_TCK_IE_MASK)
+#define GET_PADCFG_PAD_JTAG_TCK_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,PADCFG_PAD_JTAG_TCK_PD_SHIFT,PADCFG_PAD_JTAG_TCK_PD_MASK)
+#define SET_PADCFG_PAD_JTAG_TCK_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,PADCFG_PAD_JTAG_TCK_PD_SHIFT,PADCFG_PAD_JTAG_TCK_PD_MASK)
+#define GET_PADCFG_PAD_JTAG_TCK_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,PADCFG_PAD_JTAG_TCK_PU_SHIFT,PADCFG_PAD_JTAG_TCK_PU_MASK)
+#define SET_PADCFG_PAD_JTAG_TCK_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,PADCFG_PAD_JTAG_TCK_PU_SHIFT,PADCFG_PAD_JTAG_TCK_PU_MASK)
+#define GET_PADCFG_PAD_JTAG_TCK_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,PADCFG_PAD_JTAG_TCK_SLEW_SHIFT,PADCFG_PAD_JTAG_TCK_SLEW_MASK)
+#define SET_PADCFG_PAD_JTAG_TCK_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,PADCFG_PAD_JTAG_TCK_SLEW_SHIFT,PADCFG_PAD_JTAG_TCK_SLEW_MASK)
+#define GET_PADCFG_PAD_JTAG_TCK_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,PADCFG_PAD_JTAG_TCK_SMT_SHIFT,PADCFG_PAD_JTAG_TCK_SMT_MASK)
+#define SET_PADCFG_PAD_JTAG_TCK_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,PADCFG_PAD_JTAG_TCK_SMT_SHIFT,PADCFG_PAD_JTAG_TCK_SMT_MASK)
+#define GET_PADCFG_PAD_JTAG_TRESETN_DS                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,PADCFG_PAD_JTAG_TRESETN_DS_SHIFT,PADCFG_PAD_JTAG_TRESETN_DS_MASK)
+#define SET_PADCFG_PAD_JTAG_TRESETN_DS(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,PADCFG_PAD_JTAG_TRESETN_DS_SHIFT,PADCFG_PAD_JTAG_TRESETN_DS_MASK)
+#define GET_PADCFG_PAD_JTAG_TRESETN_IE                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,PADCFG_PAD_JTAG_TRESETN_IE_SHIFT,PADCFG_PAD_JTAG_TRESETN_IE_MASK)
+#define SET_PADCFG_PAD_JTAG_TRESETN_IE(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,PADCFG_PAD_JTAG_TRESETN_IE_SHIFT,PADCFG_PAD_JTAG_TRESETN_IE_MASK)
+#define GET_PADCFG_PAD_JTAG_TRESETN_PD                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,PADCFG_PAD_JTAG_TRESETN_PD_SHIFT,PADCFG_PAD_JTAG_TRESETN_PD_MASK)
+#define SET_PADCFG_PAD_JTAG_TRESETN_PD(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,PADCFG_PAD_JTAG_TRESETN_PD_SHIFT,PADCFG_PAD_JTAG_TRESETN_PD_MASK)
+#define GET_PADCFG_PAD_JTAG_TRESETN_PU                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,PADCFG_PAD_JTAG_TRESETN_PU_SHIFT,PADCFG_PAD_JTAG_TRESETN_PU_MASK)
+#define SET_PADCFG_PAD_JTAG_TRESETN_PU(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,PADCFG_PAD_JTAG_TRESETN_PU_SHIFT,PADCFG_PAD_JTAG_TRESETN_PU_MASK)
+#define GET_PADCFG_PAD_JTAG_TRESETN_SLEW                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,PADCFG_PAD_JTAG_TRESETN_SLEW_SHIFT,PADCFG_PAD_JTAG_TRESETN_SLEW_MASK)
+#define SET_PADCFG_PAD_JTAG_TRESETN_SLEW(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,PADCFG_PAD_JTAG_TRESETN_SLEW_SHIFT,PADCFG_PAD_JTAG_TRESETN_SLEW_MASK)
+#define GET_PADCFG_PAD_JTAG_TRESETN_SMT                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,PADCFG_PAD_JTAG_TRESETN_SMT_SHIFT,PADCFG_PAD_JTAG_TRESETN_SMT_MASK)
+#define SET_PADCFG_PAD_JTAG_TRESETN_SMT(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,PADCFG_PAD_JTAG_TRESETN_SMT_SHIFT,PADCFG_PAD_JTAG_TRESETN_SMT_MASK)
+#define GET_PADCFG_PAD_JTAG_TMS_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,PADCFG_PAD_JTAG_TMS_DS_SHIFT,PADCFG_PAD_JTAG_TMS_DS_MASK)
+#define SET_PADCFG_PAD_JTAG_TMS_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,data,PADCFG_PAD_JTAG_TMS_DS_SHIFT,PADCFG_PAD_JTAG_TMS_DS_MASK)
+#define GET_PADCFG_PAD_JTAG_TMS_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,PADCFG_PAD_JTAG_TMS_IE_SHIFT,PADCFG_PAD_JTAG_TMS_IE_MASK)
+#define SET_PADCFG_PAD_JTAG_TMS_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,data,PADCFG_PAD_JTAG_TMS_IE_SHIFT,PADCFG_PAD_JTAG_TMS_IE_MASK)
+#define GET_PADCFG_PAD_JTAG_TMS_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,PADCFG_PAD_JTAG_TMS_PD_SHIFT,PADCFG_PAD_JTAG_TMS_PD_MASK)
+#define SET_PADCFG_PAD_JTAG_TMS_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,data,PADCFG_PAD_JTAG_TMS_PD_SHIFT,PADCFG_PAD_JTAG_TMS_PD_MASK)
+#define GET_PADCFG_PAD_JTAG_TMS_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,PADCFG_PAD_JTAG_TMS_PU_SHIFT,PADCFG_PAD_JTAG_TMS_PU_MASK)
+#define SET_PADCFG_PAD_JTAG_TMS_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,data,PADCFG_PAD_JTAG_TMS_PU_SHIFT,PADCFG_PAD_JTAG_TMS_PU_MASK)
+#define GET_PADCFG_PAD_JTAG_TMS_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,PADCFG_PAD_JTAG_TMS_SLEW_SHIFT,PADCFG_PAD_JTAG_TMS_SLEW_MASK)
+#define SET_PADCFG_PAD_JTAG_TMS_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,data,PADCFG_PAD_JTAG_TMS_SLEW_SHIFT,PADCFG_PAD_JTAG_TMS_SLEW_MASK)
+#define GET_PADCFG_PAD_JTAG_TMS_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,PADCFG_PAD_JTAG_TMS_SMT_SHIFT,PADCFG_PAD_JTAG_TMS_SMT_MASK)
+#define SET_PADCFG_PAD_JTAG_TMS_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_156_ADDR,data,PADCFG_PAD_JTAG_TMS_SMT_SHIFT,PADCFG_PAD_JTAG_TMS_SMT_MASK)
+#define GET_PADCFG_PAD_JTAG_TDI_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,PADCFG_PAD_JTAG_TDI_DS_SHIFT,PADCFG_PAD_JTAG_TDI_DS_MASK)
+#define SET_PADCFG_PAD_JTAG_TDI_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,PADCFG_PAD_JTAG_TDI_DS_SHIFT,PADCFG_PAD_JTAG_TDI_DS_MASK)
+#define GET_PADCFG_PAD_JTAG_TDI_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,PADCFG_PAD_JTAG_TDI_IE_SHIFT,PADCFG_PAD_JTAG_TDI_IE_MASK)
+#define SET_PADCFG_PAD_JTAG_TDI_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,PADCFG_PAD_JTAG_TDI_IE_SHIFT,PADCFG_PAD_JTAG_TDI_IE_MASK)
+#define GET_PADCFG_PAD_JTAG_TDI_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,PADCFG_PAD_JTAG_TDI_PD_SHIFT,PADCFG_PAD_JTAG_TDI_PD_MASK)
+#define SET_PADCFG_PAD_JTAG_TDI_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,PADCFG_PAD_JTAG_TDI_PD_SHIFT,PADCFG_PAD_JTAG_TDI_PD_MASK)
+#define GET_PADCFG_PAD_JTAG_TDI_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,PADCFG_PAD_JTAG_TDI_PU_SHIFT,PADCFG_PAD_JTAG_TDI_PU_MASK)
+#define SET_PADCFG_PAD_JTAG_TDI_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,PADCFG_PAD_JTAG_TDI_PU_SHIFT,PADCFG_PAD_JTAG_TDI_PU_MASK)
+#define GET_PADCFG_PAD_JTAG_TDI_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,PADCFG_PAD_JTAG_TDI_SLEW_SHIFT,PADCFG_PAD_JTAG_TDI_SLEW_MASK)
+#define SET_PADCFG_PAD_JTAG_TDI_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,PADCFG_PAD_JTAG_TDI_SLEW_SHIFT,PADCFG_PAD_JTAG_TDI_SLEW_MASK)
+#define GET_PADCFG_PAD_JTAG_TDI_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,PADCFG_PAD_JTAG_TDI_SMT_SHIFT,PADCFG_PAD_JTAG_TDI_SMT_MASK)
+#define SET_PADCFG_PAD_JTAG_TDI_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_160_ADDR,data,PADCFG_PAD_JTAG_TDI_SMT_SHIFT,PADCFG_PAD_JTAG_TDI_SMT_MASK)
+#define GET_PADCFG_PAD_JTAG_TDO_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,PADCFG_PAD_JTAG_TDO_DS_SHIFT,PADCFG_PAD_JTAG_TDO_DS_MASK)
+#define SET_PADCFG_PAD_JTAG_TDO_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,PADCFG_PAD_JTAG_TDO_DS_SHIFT,PADCFG_PAD_JTAG_TDO_DS_MASK)
+#define GET_PADCFG_PAD_JTAG_TDO_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,PADCFG_PAD_JTAG_TDO_IE_SHIFT,PADCFG_PAD_JTAG_TDO_IE_MASK)
+#define SET_PADCFG_PAD_JTAG_TDO_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,PADCFG_PAD_JTAG_TDO_IE_SHIFT,PADCFG_PAD_JTAG_TDO_IE_MASK)
+#define GET_PADCFG_PAD_JTAG_TDO_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,PADCFG_PAD_JTAG_TDO_PD_SHIFT,PADCFG_PAD_JTAG_TDO_PD_MASK)
+#define SET_PADCFG_PAD_JTAG_TDO_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,PADCFG_PAD_JTAG_TDO_PD_SHIFT,PADCFG_PAD_JTAG_TDO_PD_MASK)
+#define GET_PADCFG_PAD_JTAG_TDO_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,PADCFG_PAD_JTAG_TDO_PU_SHIFT,PADCFG_PAD_JTAG_TDO_PU_MASK)
+#define SET_PADCFG_PAD_JTAG_TDO_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,PADCFG_PAD_JTAG_TDO_PU_SHIFT,PADCFG_PAD_JTAG_TDO_PU_MASK)
+#define GET_PADCFG_PAD_JTAG_TDO_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,PADCFG_PAD_JTAG_TDO_SLEW_SHIFT,PADCFG_PAD_JTAG_TDO_SLEW_MASK)
+#define SET_PADCFG_PAD_JTAG_TDO_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,PADCFG_PAD_JTAG_TDO_SLEW_SHIFT,PADCFG_PAD_JTAG_TDO_SLEW_MASK)
+#define GET_PADCFG_PAD_JTAG_TDO_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,PADCFG_PAD_JTAG_TDO_SMT_SHIFT,PADCFG_PAD_JTAG_TDO_SMT_MASK)
+#define SET_PADCFG_PAD_JTAG_TDO_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_164_ADDR,data,PADCFG_PAD_JTAG_TDO_SMT_SHIFT,PADCFG_PAD_JTAG_TDO_SMT_MASK)
+#define GET_PADCFG_PAD_VOUT_HPD_DS                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,PADCFG_PAD_VOUT_HPD_DS_SHIFT,PADCFG_PAD_VOUT_HPD_DS_MASK)
+#define SET_PADCFG_PAD_VOUT_HPD_DS(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,PADCFG_PAD_VOUT_HPD_DS_SHIFT,PADCFG_PAD_VOUT_HPD_DS_MASK)
+#define GET_PADCFG_PAD_VOUT_HPD_IE                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,PADCFG_PAD_VOUT_HPD_IE_SHIFT,PADCFG_PAD_VOUT_HPD_IE_MASK)
+#define SET_PADCFG_PAD_VOUT_HPD_IE(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,PADCFG_PAD_VOUT_HPD_IE_SHIFT,PADCFG_PAD_VOUT_HPD_IE_MASK)
+#define GET_PADCFG_PAD_VOUT_HPD_PD                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,PADCFG_PAD_VOUT_HPD_PD_SHIFT,PADCFG_PAD_VOUT_HPD_PD_MASK)
+#define SET_PADCFG_PAD_VOUT_HPD_PD(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,PADCFG_PAD_VOUT_HPD_PD_SHIFT,PADCFG_PAD_VOUT_HPD_PD_MASK)
+#define GET_PADCFG_PAD_VOUT_HPD_PU                         itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,PADCFG_PAD_VOUT_HPD_PU_SHIFT,PADCFG_PAD_VOUT_HPD_PU_MASK)
+#define SET_PADCFG_PAD_VOUT_HPD_PU(data)                   itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,PADCFG_PAD_VOUT_HPD_PU_SHIFT,PADCFG_PAD_VOUT_HPD_PU_MASK)
+#define GET_PADCFG_PAD_VOUT_HPD_SLEW                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,PADCFG_PAD_VOUT_HPD_SLEW_SHIFT,PADCFG_PAD_VOUT_HPD_SLEW_MASK)
+#define SET_PADCFG_PAD_VOUT_HPD_SLEW(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,PADCFG_PAD_VOUT_HPD_SLEW_SHIFT,PADCFG_PAD_VOUT_HPD_SLEW_MASK)
+#define GET_PADCFG_PAD_VOUT_HPD_SMT                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,PADCFG_PAD_VOUT_HPD_SMT_SHIFT,PADCFG_PAD_VOUT_HPD_SMT_MASK)
+#define SET_PADCFG_PAD_VOUT_HPD_SMT(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,PADCFG_PAD_VOUT_HPD_SMT_SHIFT,PADCFG_PAD_VOUT_HPD_SMT_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O0_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O0_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O0_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O0_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O0_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O0_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O1_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O1_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O1_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O1_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O1_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O1_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O2_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O2_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O2_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O2_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O2_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O2_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O3_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O3_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O3_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O3_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O3_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O3_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O4_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O4_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O4_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O4_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O4_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O4_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O5_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O5_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O5_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O5_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O5_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O5_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O6_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O6_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O6_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O6_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O6_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O6_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O7_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O7_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O7_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O7_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O7_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O7_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O8_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O8_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O8_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O8_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O8_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O8_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O9_SEL                      itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O9_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O9_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O9_SEL(data)                itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O9_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O9_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O10_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O10_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O10_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O10_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O10_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O10_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O11_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O11_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O11_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O11_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O11_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O11_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O12_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O12_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O12_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O12_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O12_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O12_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O13_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O13_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O13_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O13_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O13_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O13_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O14_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O14_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O14_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O14_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O14_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O14_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O15_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O15_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O15_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O15_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O15_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O15_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O16_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O16_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O16_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O16_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O16_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O16_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O17_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O17_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O17_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O17_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O17_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O17_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O18_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O18_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O18_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O18_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O18_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O18_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O19_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O19_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O19_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O19_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O19_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O19_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O20_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O20_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O20_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O20_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O20_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O20_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O21_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O21_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O21_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O21_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O21_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O21_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O22_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O22_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O22_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O22_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O22_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O22_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O23_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O23_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O23_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O23_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O23_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O23_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O24_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O24_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O24_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O24_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O24_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O24_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O25_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O25_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O25_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O25_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O25_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O25_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O26_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O26_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O26_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O26_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O26_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O26_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O27_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O27_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O27_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O27_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O27_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O27_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O28_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O28_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O28_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O28_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O28_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O28_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O29_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O29_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O29_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O29_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O29_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O29_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O30_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O30_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O30_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O30_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O30_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O30_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O31_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,U0_SYS2_IOMUX_FMUX_O31_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O31_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O31_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_172_ADDR,data,U0_SYS2_IOMUX_FMUX_O31_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O31_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O32_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,U0_SYS2_IOMUX_FMUX_O32_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O32_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O32_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,data,U0_SYS2_IOMUX_FMUX_O32_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O32_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O33_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,U0_SYS2_IOMUX_FMUX_O33_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O33_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O33_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,data,U0_SYS2_IOMUX_FMUX_O33_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O33_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O34_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,U0_SYS2_IOMUX_FMUX_O34_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O34_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O34_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,data,U0_SYS2_IOMUX_FMUX_O34_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O34_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O35_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,U0_SYS2_IOMUX_FMUX_O35_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O35_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O35_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,data,U0_SYS2_IOMUX_FMUX_O35_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O35_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_O36_SEL                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,U0_SYS2_IOMUX_FMUX_O36_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O36_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_O36_SEL(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_176_ADDR,data,U0_SYS2_IOMUX_FMUX_O36_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_O36_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN0_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN0_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN0_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN0_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN0_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN0_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN1_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN1_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN1_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN1_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN1_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN1_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN2_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN2_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN2_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN2_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN2_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN2_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN3_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN3_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN3_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN3_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN3_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN3_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN4_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN4_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN4_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN4_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN4_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN4_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN5_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN5_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN5_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN5_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN5_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN5_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN6_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN6_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN6_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN6_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN6_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN6_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN7_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN7_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN7_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN7_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN7_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN7_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN8_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN8_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN8_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN8_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN8_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN8_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN9_SEL                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN9_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN9_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN9_SEL(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN9_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN9_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN10_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN10_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN10_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN10_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN10_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN10_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN11_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN11_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN11_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN11_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN11_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN11_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN12_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN12_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN12_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN12_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN12_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN12_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN13_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN13_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN13_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN13_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN13_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN13_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN14_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN14_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN14_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN14_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN14_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN14_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN15_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN15_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN15_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN15_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN15_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN15_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN16_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN16_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN16_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN16_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN16_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN16_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN17_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN17_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN17_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN17_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN17_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN17_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN18_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN18_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN18_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN18_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN18_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN18_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN19_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN19_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN19_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN19_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN19_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN19_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN20_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN20_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN20_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN20_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN20_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN20_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN21_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN21_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN21_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN21_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN21_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN21_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN22_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN22_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN22_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN22_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN22_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN22_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN23_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN23_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN23_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN23_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN23_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN23_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN24_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN24_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN24_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN24_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN24_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN24_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN25_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN25_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN25_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN25_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN25_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN25_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN26_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN26_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN26_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN26_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN26_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN26_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN27_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN27_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN27_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN27_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN27_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN27_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN28_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN28_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN28_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN28_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN28_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN28_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN29_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN29_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN29_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN29_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN29_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN29_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN30_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN30_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN30_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN30_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN30_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN30_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN31_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_SYS2_IOMUX_FMUX_OEN31_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN31_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN31_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN31_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN31_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN32_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,U0_SYS2_IOMUX_FMUX_OEN32_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN32_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN32_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN32_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN32_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN33_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,U0_SYS2_IOMUX_FMUX_OEN33_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN33_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN33_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN33_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN33_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN34_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,U0_SYS2_IOMUX_FMUX_OEN34_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN34_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN34_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN34_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN34_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN35_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,U0_SYS2_IOMUX_FMUX_OEN35_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN35_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN35_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN35_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN35_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FMUX_OEN36_SEL                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,U0_SYS2_IOMUX_FMUX_OEN36_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN36_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FMUX_OEN36_SEL(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_184_ADDR,data,U0_SYS2_IOMUX_FMUX_OEN36_SEL_SHIFT,U0_SYS2_IOMUX_FMUX_OEN36_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_O_I_31_0_                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_188_ADDR,U0_SYS2_IOMUX_O_I_31_0__SHIFT,U0_SYS2_IOMUX_O_I_31_0__MASK)
+#define GET_U0_SYS2_IOMUX_O_I_36_32_                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_192_ADDR,U0_SYS2_IOMUX_O_I_36_32__SHIFT,U0_SYS2_IOMUX_O_I_36_32__MASK)
+#define GET_U0_SYS2_IOMUX_FUNC0_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC0_SEL_SHIFT,U0_SYS2_IOMUX_FUNC0_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC0_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC0_SEL_SHIFT,U0_SYS2_IOMUX_FUNC0_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC1_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC1_SEL_SHIFT,U0_SYS2_IOMUX_FUNC1_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC1_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC1_SEL_SHIFT,U0_SYS2_IOMUX_FUNC1_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC2_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC2_SEL_SHIFT,U0_SYS2_IOMUX_FUNC2_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC2_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC2_SEL_SHIFT,U0_SYS2_IOMUX_FUNC2_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC3_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC3_SEL_SHIFT,U0_SYS2_IOMUX_FUNC3_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC3_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC3_SEL_SHIFT,U0_SYS2_IOMUX_FUNC3_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC4_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC4_SEL_SHIFT,U0_SYS2_IOMUX_FUNC4_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC4_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC4_SEL_SHIFT,U0_SYS2_IOMUX_FUNC4_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC5_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC5_SEL_SHIFT,U0_SYS2_IOMUX_FUNC5_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC5_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC5_SEL_SHIFT,U0_SYS2_IOMUX_FUNC5_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC6_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC6_SEL_SHIFT,U0_SYS2_IOMUX_FUNC6_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC6_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC6_SEL_SHIFT,U0_SYS2_IOMUX_FUNC6_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC7_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC7_SEL_SHIFT,U0_SYS2_IOMUX_FUNC7_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC7_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC7_SEL_SHIFT,U0_SYS2_IOMUX_FUNC7_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC8_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC8_SEL_SHIFT,U0_SYS2_IOMUX_FUNC8_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC8_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC8_SEL_SHIFT,U0_SYS2_IOMUX_FUNC8_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC9_SEL                        itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC9_SEL_SHIFT,U0_SYS2_IOMUX_FUNC9_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC9_SEL(data)                  itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC9_SEL_SHIFT,U0_SYS2_IOMUX_FUNC9_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC10_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC10_SEL_SHIFT,U0_SYS2_IOMUX_FUNC10_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC10_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC10_SEL_SHIFT,U0_SYS2_IOMUX_FUNC10_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC11_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC11_SEL_SHIFT,U0_SYS2_IOMUX_FUNC11_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC11_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC11_SEL_SHIFT,U0_SYS2_IOMUX_FUNC11_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC12_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC12_SEL_SHIFT,U0_SYS2_IOMUX_FUNC12_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC12_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC12_SEL_SHIFT,U0_SYS2_IOMUX_FUNC12_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC13_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC13_SEL_SHIFT,U0_SYS2_IOMUX_FUNC13_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC13_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC13_SEL_SHIFT,U0_SYS2_IOMUX_FUNC13_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC14_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC14_SEL_SHIFT,U0_SYS2_IOMUX_FUNC14_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC14_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC14_SEL_SHIFT,U0_SYS2_IOMUX_FUNC14_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC15_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_SYS2_IOMUX_FUNC15_SEL_SHIFT,U0_SYS2_IOMUX_FUNC15_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC15_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_SYS2_IOMUX_FUNC15_SEL_SHIFT,U0_SYS2_IOMUX_FUNC15_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC16_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC16_SEL_SHIFT,U0_SYS2_IOMUX_FUNC16_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC16_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC16_SEL_SHIFT,U0_SYS2_IOMUX_FUNC16_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC17_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC17_SEL_SHIFT,U0_SYS2_IOMUX_FUNC17_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC17_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC17_SEL_SHIFT,U0_SYS2_IOMUX_FUNC17_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC18_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC18_SEL_SHIFT,U0_SYS2_IOMUX_FUNC18_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC18_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC18_SEL_SHIFT,U0_SYS2_IOMUX_FUNC18_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC19_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC19_SEL_SHIFT,U0_SYS2_IOMUX_FUNC19_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC19_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC19_SEL_SHIFT,U0_SYS2_IOMUX_FUNC19_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC20_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC20_SEL_SHIFT,U0_SYS2_IOMUX_FUNC20_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC20_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC20_SEL_SHIFT,U0_SYS2_IOMUX_FUNC20_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC21_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC21_SEL_SHIFT,U0_SYS2_IOMUX_FUNC21_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC21_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC21_SEL_SHIFT,U0_SYS2_IOMUX_FUNC21_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC22_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC22_SEL_SHIFT,U0_SYS2_IOMUX_FUNC22_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC22_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC22_SEL_SHIFT,U0_SYS2_IOMUX_FUNC22_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC23_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC23_SEL_SHIFT,U0_SYS2_IOMUX_FUNC23_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC23_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC23_SEL_SHIFT,U0_SYS2_IOMUX_FUNC23_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC24_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC24_SEL_SHIFT,U0_SYS2_IOMUX_FUNC24_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC24_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC24_SEL_SHIFT,U0_SYS2_IOMUX_FUNC24_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC25_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC25_SEL_SHIFT,U0_SYS2_IOMUX_FUNC25_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC25_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC25_SEL_SHIFT,U0_SYS2_IOMUX_FUNC25_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC26_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC26_SEL_SHIFT,U0_SYS2_IOMUX_FUNC26_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC26_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC26_SEL_SHIFT,U0_SYS2_IOMUX_FUNC26_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC27_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC27_SEL_SHIFT,U0_SYS2_IOMUX_FUNC27_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC27_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC27_SEL_SHIFT,U0_SYS2_IOMUX_FUNC27_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC28_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC28_SEL_SHIFT,U0_SYS2_IOMUX_FUNC28_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC28_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC28_SEL_SHIFT,U0_SYS2_IOMUX_FUNC28_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC29_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC29_SEL_SHIFT,U0_SYS2_IOMUX_FUNC29_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC29_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC29_SEL_SHIFT,U0_SYS2_IOMUX_FUNC29_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC30_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC30_SEL_SHIFT,U0_SYS2_IOMUX_FUNC30_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC30_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC30_SEL_SHIFT,U0_SYS2_IOMUX_FUNC30_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC31_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_SYS2_IOMUX_FUNC31_SEL_SHIFT,U0_SYS2_IOMUX_FUNC31_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC31_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_SYS2_IOMUX_FUNC31_SEL_SHIFT,U0_SYS2_IOMUX_FUNC31_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC32_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,U0_SYS2_IOMUX_FUNC32_SEL_SHIFT,U0_SYS2_IOMUX_FUNC32_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC32_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,data,U0_SYS2_IOMUX_FUNC32_SEL_SHIFT,U0_SYS2_IOMUX_FUNC32_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC33_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,U0_SYS2_IOMUX_FUNC33_SEL_SHIFT,U0_SYS2_IOMUX_FUNC33_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC33_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,data,U0_SYS2_IOMUX_FUNC33_SEL_SHIFT,U0_SYS2_IOMUX_FUNC33_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC34_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,U0_SYS2_IOMUX_FUNC34_SEL_SHIFT,U0_SYS2_IOMUX_FUNC34_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC34_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,data,U0_SYS2_IOMUX_FUNC34_SEL_SHIFT,U0_SYS2_IOMUX_FUNC34_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC35_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,U0_SYS2_IOMUX_FUNC35_SEL_SHIFT,U0_SYS2_IOMUX_FUNC35_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC35_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,data,U0_SYS2_IOMUX_FUNC35_SEL_SHIFT,U0_SYS2_IOMUX_FUNC35_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC36_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,U0_SYS2_IOMUX_FUNC36_SEL_SHIFT,U0_SYS2_IOMUX_FUNC36_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC36_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,data,U0_SYS2_IOMUX_FUNC36_SEL_SHIFT,U0_SYS2_IOMUX_FUNC36_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_FUNC42_SEL                       itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,U0_SYS2_IOMUX_FUNC42_SEL_SHIFT,U0_SYS2_IOMUX_FUNC42_SEL_MASK)
+#define SET_U0_SYS2_IOMUX_FUNC42_SEL(data)                 itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_204_ADDR,data,U0_SYS2_IOMUX_FUNC42_SEL_SHIFT,U0_SYS2_IOMUX_FUNC42_SEL_MASK)
+#define GET_U0_SYS2_IOMUX_INT_EN_31_0_                     itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_208_ADDR,U0_SYS2_IOMUX_INT_EN_31_0__SHIFT,U0_SYS2_IOMUX_INT_EN_31_0__MASK)
+#define SET_U0_SYS2_IOMUX_INT_EN_31_0_(data)               itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_208_ADDR,data,U0_SYS2_IOMUX_INT_EN_31_0__SHIFT,U0_SYS2_IOMUX_INT_EN_31_0__MASK)
+#define GET_U0_SYS2_IOMUX_INT_EN_36_32_                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_212_ADDR,U0_SYS2_IOMUX_INT_EN_36_32__SHIFT,U0_SYS2_IOMUX_INT_EN_36_32__MASK)
+#define SET_U0_SYS2_IOMUX_INT_EN_36_32_(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_212_ADDR,data,U0_SYS2_IOMUX_INT_EN_36_32__SHIFT,U0_SYS2_IOMUX_INT_EN_36_32__MASK)
+#define GET_U0_SYS2_IOMUX_INT_STATUS_31_0_                 itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_216_ADDR,U0_SYS2_IOMUX_INT_STATUS_31_0__SHIFT,U0_SYS2_IOMUX_INT_STATUS_31_0__MASK)
+#define GET_U0_SYS2_IOMUX_INT_STATUS_36_32_                itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_220_ADDR,U0_SYS2_IOMUX_INT_STATUS_36_32__SHIFT,U0_SYS2_IOMUX_INT_STATUS_36_32__MASK)
+#define GET_U0_SYS2_IOMUX_INT_CLR_31_0_                    itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_224_ADDR,U0_SYS2_IOMUX_INT_CLR_31_0__SHIFT,U0_SYS2_IOMUX_INT_CLR_31_0__MASK)
+#define SET_U0_SYS2_IOMUX_INT_CLR_31_0_(data)              itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_224_ADDR,data,U0_SYS2_IOMUX_INT_CLR_31_0__SHIFT,U0_SYS2_IOMUX_INT_CLR_31_0__MASK)
+#define GET_U0_SYS2_IOMUX_INT_CLR_36_32_                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_228_ADDR,U0_SYS2_IOMUX_INT_CLR_36_32__SHIFT,U0_SYS2_IOMUX_INT_CLR_36_32__MASK)
+#define SET_U0_SYS2_IOMUX_INT_CLR_36_32_(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_228_ADDR,data,U0_SYS2_IOMUX_INT_CLR_36_32__SHIFT,U0_SYS2_IOMUX_INT_CLR_36_32__MASK)
+#define GET_U0_SYS2_IOMUX_INT_EDGE_31_0_                   itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_232_ADDR,U0_SYS2_IOMUX_INT_EDGE_31_0__SHIFT,U0_SYS2_IOMUX_INT_EDGE_31_0__MASK)
+#define SET_U0_SYS2_IOMUX_INT_EDGE_31_0_(data)             itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_232_ADDR,data,U0_SYS2_IOMUX_INT_EDGE_31_0__SHIFT,U0_SYS2_IOMUX_INT_EDGE_31_0__MASK)
+#define GET_U0_SYS2_IOMUX_INT_EDGE_36_32_                  itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_236_ADDR,U0_SYS2_IOMUX_INT_EDGE_36_32__SHIFT,U0_SYS2_IOMUX_INT_EDGE_36_32__MASK)
+#define SET_U0_SYS2_IOMUX_INT_EDGE_36_32_(data)            itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_236_ADDR,data,U0_SYS2_IOMUX_INT_EDGE_36_32__SHIFT,U0_SYS2_IOMUX_INT_EDGE_36_32__MASK)
+#define GET_U0_SYS2_IOMUX_INT_HIGH_LEVEL_31_0_             itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_240_ADDR,U0_SYS2_IOMUX_INT_HIGH_LEVEL_31_0__SHIFT,U0_SYS2_IOMUX_INT_HIGH_LEVEL_31_0__MASK)
+#define SET_U0_SYS2_IOMUX_INT_HIGH_LEVEL_31_0_(data)       itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_240_ADDR,data,U0_SYS2_IOMUX_INT_HIGH_LEVEL_31_0__SHIFT,U0_SYS2_IOMUX_INT_HIGH_LEVEL_31_0__MASK)
+#define GET_U0_SYS2_IOMUX_INT_HIGH_LEVEL_36_32_            itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_244_ADDR,U0_SYS2_IOMUX_INT_HIGH_LEVEL_36_32__SHIFT,U0_SYS2_IOMUX_INT_HIGH_LEVEL_36_32__MASK)
+#define SET_U0_SYS2_IOMUX_INT_HIGH_LEVEL_36_32_(data)      itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_244_ADDR,data,U0_SYS2_IOMUX_INT_HIGH_LEVEL_36_32__SHIFT,U0_SYS2_IOMUX_INT_HIGH_LEVEL_36_32__MASK)
+#define GET_U0_SYS2_IOMUX_INT_BOTH_EDGE_31_0_              itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_248_ADDR,U0_SYS2_IOMUX_INT_BOTH_EDGE_31_0__SHIFT,U0_SYS2_IOMUX_INT_BOTH_EDGE_31_0__MASK)
+#define SET_U0_SYS2_IOMUX_INT_BOTH_EDGE_31_0_(data)        itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_248_ADDR,data,U0_SYS2_IOMUX_INT_BOTH_EDGE_31_0__SHIFT,U0_SYS2_IOMUX_INT_BOTH_EDGE_31_0__MASK)
+#define GET_U0_SYS2_IOMUX_INT_BOTH_EDGE_36_32_             itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_252_ADDR,U0_SYS2_IOMUX_INT_BOTH_EDGE_36_32__SHIFT,U0_SYS2_IOMUX_INT_BOTH_EDGE_36_32__MASK)
+#define SET_U0_SYS2_IOMUX_INT_BOTH_EDGE_36_32_(data)       itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_252_ADDR,data,U0_SYS2_IOMUX_INT_BOTH_EDGE_36_32__SHIFT,U0_SYS2_IOMUX_INT_BOTH_EDGE_36_32__MASK)
+#define GET_U0_SYS2_IOMUX_INT_RISING_EDGE_31_0_            itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_256_ADDR,U0_SYS2_IOMUX_INT_RISING_EDGE_31_0__SHIFT,U0_SYS2_IOMUX_INT_RISING_EDGE_31_0__MASK)
+#define SET_U0_SYS2_IOMUX_INT_RISING_EDGE_31_0_(data)      itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_256_ADDR,data,U0_SYS2_IOMUX_INT_RISING_EDGE_31_0__SHIFT,U0_SYS2_IOMUX_INT_RISING_EDGE_31_0__MASK)
+#define GET_U0_SYS2_IOMUX_INT_RISING_EDGE_36_32_           itg_get_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_260_ADDR,U0_SYS2_IOMUX_INT_RISING_EDGE_36_32__SHIFT,U0_SYS2_IOMUX_INT_RISING_EDGE_36_32__MASK)
+#define SET_U0_SYS2_IOMUX_INT_RISING_EDGE_36_32_(data)     itg_set_reg(SYS2_IOMUX_CFG__ITG__SYSCFG_260_ADDR,data,U0_SYS2_IOMUX_INT_RISING_EDGE_36_32__SHIFT,U0_SYS2_IOMUX_INT_RISING_EDGE_36_32__MASK)

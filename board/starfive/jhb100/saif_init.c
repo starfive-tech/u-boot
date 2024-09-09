@@ -8,9 +8,9 @@ void u0_dwc_ssi_sfc_enable(void){
   _ENABLE_CLOCK_CLK_U0_DWC_SSI_SFC_HCLK_;
 
   //rstn_u0_dwc_ssi_sfc_ssi_rst_n:['rstn_u0_dwc_ssi_sfc_ssi_rst_n'],dst:['u0_dwc_ssi_sfc.ssi_rst_n']
-  _CLEAR_RESET_RSTGEN_RSTN_U0_DWC_SSI_SFC_SSI_RST_N_;
+  //_CLEAR_RESET_RSTGEN_RSTN_U0_DWC_SSI_SFC_SSI_RST_N_;
   //rstn_u0_dwc_ssi_sfc_hresetn:['rstn_u0_dwc_ssi_sfc_hresetn'],dst:['u0_dwc_ssi_sfc.hresetn']
-  _CLEAR_RESET_RSTGEN_RSTN_U0_DWC_SSI_SFC_HRESETN_;
+  //_CLEAR_RESET_RSTGEN_RSTN_U0_DWC_SSI_SFC_HRESETN_;
 }
 
 void u0_dwc_ether_rmiiandrgmii_enable_patch(void){ /* Get from baremetal - different from bitfile 014 */

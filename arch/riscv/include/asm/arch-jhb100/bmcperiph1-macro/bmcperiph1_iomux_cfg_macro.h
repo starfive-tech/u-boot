@@ -1,3 +1,4 @@
+//commit:06b6362e (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_0_ADDR           (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x0U)
 #define PADCFG_PAD_GPIO_C0_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C0_DS_SHIFT                        0x0U
@@ -17,6 +18,9 @@
 #define PADCFG_PAD_GPIO_C0_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C0_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C0_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C0_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C0_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C0_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_4_ADDR           (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x4U)
 #define PADCFG_PAD_GPIO_C1_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C1_DS_SHIFT                        0x0U
@@ -36,6 +40,9 @@
 #define PADCFG_PAD_GPIO_C1_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C1_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C1_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C1_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C1_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C1_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_8_ADDR           (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x8U)
 #define PADCFG_PAD_GPIO_C2_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C2_DS_SHIFT                        0x0U
@@ -55,6 +62,9 @@
 #define PADCFG_PAD_GPIO_C2_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C2_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C2_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C2_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C2_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C2_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_12_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xcU)
 #define PADCFG_PAD_GPIO_C3_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C3_DS_SHIFT                        0x0U
@@ -74,6 +84,9 @@
 #define PADCFG_PAD_GPIO_C3_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C3_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C3_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C3_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C3_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C3_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_16_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x10U)
 #define PADCFG_PAD_GPIO_C4_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C4_DS_SHIFT                        0x0U
@@ -93,6 +106,9 @@
 #define PADCFG_PAD_GPIO_C4_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C4_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C4_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C4_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C4_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C4_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_20_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x14U)
 #define PADCFG_PAD_GPIO_C5_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C5_DS_SHIFT                        0x0U
@@ -112,6 +128,9 @@
 #define PADCFG_PAD_GPIO_C5_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C5_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C5_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C5_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C5_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C5_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_24_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x18U)
 #define PADCFG_PAD_GPIO_C6_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C6_DS_SHIFT                        0x0U
@@ -131,6 +150,9 @@
 #define PADCFG_PAD_GPIO_C6_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C6_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C6_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C6_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C6_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C6_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_28_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x1cU)
 #define PADCFG_PAD_GPIO_C7_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C7_DS_SHIFT                        0x0U
@@ -150,6 +172,9 @@
 #define PADCFG_PAD_GPIO_C7_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C7_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C7_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C7_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C7_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C7_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_32_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x20U)
 #define PADCFG_PAD_GPIO_C8_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C8_DS_SHIFT                        0x0U
@@ -169,6 +194,9 @@
 #define PADCFG_PAD_GPIO_C8_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C8_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C8_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C8_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C8_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C8_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_36_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x24U)
 #define PADCFG_PAD_GPIO_C9_DS_WIDTH                        0x2U
 #define PADCFG_PAD_GPIO_C9_DS_SHIFT                        0x0U
@@ -188,6 +216,9 @@
 #define PADCFG_PAD_GPIO_C9_SMT_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C9_SMT_SHIFT                       0x6U
 #define PADCFG_PAD_GPIO_C9_SMT_MASK                        0x40U
+#define PADCFG_PAD_GPIO_C9_DEBOUNCE_WIDTH                  0x11U
+#define PADCFG_PAD_GPIO_C9_DEBOUNCE_SHIFT                  0xFU
+#define PADCFG_PAD_GPIO_C9_DEBOUNCE_MASK                   0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_40_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x28U)
 #define PADCFG_PAD_GPIO_C10_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C10_DS_SHIFT                       0x0U
@@ -207,6 +238,9 @@
 #define PADCFG_PAD_GPIO_C10_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C10_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C10_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C10_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C10_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C10_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_44_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x2cU)
 #define PADCFG_PAD_GPIO_C11_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C11_DS_SHIFT                       0x0U
@@ -226,6 +260,9 @@
 #define PADCFG_PAD_GPIO_C11_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C11_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C11_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C11_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C11_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C11_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_48_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x30U)
 #define PADCFG_PAD_GPIO_C12_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C12_DS_SHIFT                       0x0U
@@ -245,6 +282,9 @@
 #define PADCFG_PAD_GPIO_C12_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C12_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C12_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C12_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C12_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C12_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_52_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x34U)
 #define PADCFG_PAD_GPIO_C13_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C13_DS_SHIFT                       0x0U
@@ -264,6 +304,9 @@
 #define PADCFG_PAD_GPIO_C13_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C13_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C13_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C13_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C13_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C13_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_56_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x38U)
 #define PADCFG_PAD_GPIO_C14_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C14_DS_SHIFT                       0x0U
@@ -283,6 +326,9 @@
 #define PADCFG_PAD_GPIO_C14_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C14_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C14_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C14_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C14_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C14_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_60_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x3cU)
 #define PADCFG_PAD_GPIO_C15_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C15_DS_SHIFT                       0x0U
@@ -302,6 +348,9 @@
 #define PADCFG_PAD_GPIO_C15_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C15_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C15_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C15_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C15_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C15_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_64_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x40U)
 #define PADCFG_PAD_GPIO_C16_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C16_DS_SHIFT                       0x0U
@@ -321,6 +370,9 @@
 #define PADCFG_PAD_GPIO_C16_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C16_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C16_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C16_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C16_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C16_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_68_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x44U)
 #define PADCFG_PAD_GPIO_C17_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C17_DS_SHIFT                       0x0U
@@ -340,6 +392,9 @@
 #define PADCFG_PAD_GPIO_C17_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C17_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C17_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C17_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C17_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C17_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_72_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x48U)
 #define PADCFG_PAD_GPIO_C18_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C18_DS_SHIFT                       0x0U
@@ -359,6 +414,9 @@
 #define PADCFG_PAD_GPIO_C18_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C18_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C18_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C18_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C18_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C18_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_76_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x4cU)
 #define PADCFG_PAD_GPIO_C19_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C19_DS_SHIFT                       0x0U
@@ -378,6 +436,9 @@
 #define PADCFG_PAD_GPIO_C19_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C19_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C19_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C19_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C19_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C19_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_80_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x50U)
 #define PADCFG_PAD_GPIO_C20_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C20_DS_SHIFT                       0x0U
@@ -397,6 +458,9 @@
 #define PADCFG_PAD_GPIO_C20_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C20_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C20_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C20_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C20_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C20_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_84_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x54U)
 #define PADCFG_PAD_GPIO_C21_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C21_DS_SHIFT                       0x0U
@@ -416,6 +480,9 @@
 #define PADCFG_PAD_GPIO_C21_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C21_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C21_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C21_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C21_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C21_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_88_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x58U)
 #define PADCFG_PAD_GPIO_C22_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C22_DS_SHIFT                       0x0U
@@ -435,6 +502,9 @@
 #define PADCFG_PAD_GPIO_C22_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C22_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C22_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C22_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C22_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C22_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_92_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x5cU)
 #define PADCFG_PAD_GPIO_C23_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C23_DS_SHIFT                       0x0U
@@ -454,6 +524,9 @@
 #define PADCFG_PAD_GPIO_C23_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C23_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C23_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C23_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C23_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C23_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_96_ADDR          (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x60U)
 #define PADCFG_PAD_GPIO_C24_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C24_DS_SHIFT                       0x0U
@@ -473,6 +546,9 @@
 #define PADCFG_PAD_GPIO_C24_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C24_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C24_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C24_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C24_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C24_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_100_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x64U)
 #define PADCFG_PAD_GPIO_C25_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C25_DS_SHIFT                       0x0U
@@ -492,6 +568,9 @@
 #define PADCFG_PAD_GPIO_C25_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C25_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C25_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C25_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C25_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C25_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_104_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x68U)
 #define PADCFG_PAD_GPIO_C26_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C26_DS_SHIFT                       0x0U
@@ -511,6 +590,9 @@
 #define PADCFG_PAD_GPIO_C26_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C26_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C26_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C26_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C26_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C26_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_108_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x6cU)
 #define PADCFG_PAD_GPIO_C27_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C27_DS_SHIFT                       0x0U
@@ -530,6 +612,9 @@
 #define PADCFG_PAD_GPIO_C27_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C27_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C27_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C27_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C27_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C27_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_112_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x70U)
 #define PADCFG_PAD_GPIO_C28_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C28_DS_SHIFT                       0x0U
@@ -549,6 +634,9 @@
 #define PADCFG_PAD_GPIO_C28_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C28_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C28_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C28_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C28_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C28_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_116_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x74U)
 #define PADCFG_PAD_GPIO_C29_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C29_DS_SHIFT                       0x0U
@@ -568,6 +656,9 @@
 #define PADCFG_PAD_GPIO_C29_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C29_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C29_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C29_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C29_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C29_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_120_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x78U)
 #define PADCFG_PAD_GPIO_C30_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C30_DS_SHIFT                       0x0U
@@ -587,6 +678,9 @@
 #define PADCFG_PAD_GPIO_C30_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C30_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C30_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C30_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C30_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C30_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_124_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x7cU)
 #define PADCFG_PAD_GPIO_C31_DS_WIDTH                       0x2U
 #define PADCFG_PAD_GPIO_C31_DS_SHIFT                       0x0U
@@ -606,82 +700,97 @@
 #define PADCFG_PAD_GPIO_C31_SMT_WIDTH                      0x1U
 #define PADCFG_PAD_GPIO_C31_SMT_SHIFT                      0x6U
 #define PADCFG_PAD_GPIO_C31_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C31_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C31_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C31_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x80U)
-#define PADCFG_PAD_GPIO_C32_DS_WIDTH                       0x2U
-#define PADCFG_PAD_GPIO_C32_DS_SHIFT                       0x0U
-#define PADCFG_PAD_GPIO_C32_DS_MASK                        0x3U
 #define PADCFG_PAD_GPIO_C32_IE_WIDTH                       0x1U
-#define PADCFG_PAD_GPIO_C32_IE_SHIFT                       0x2U
-#define PADCFG_PAD_GPIO_C32_IE_MASK                        0x4U
+#define PADCFG_PAD_GPIO_C32_IE_SHIFT                       0x0U
+#define PADCFG_PAD_GPIO_C32_IE_MASK                        0x1U
+#define PADCFG_PAD_GPIO_C32_MODE_WIDTH                     0x2U
+#define PADCFG_PAD_GPIO_C32_MODE_SHIFT                     0x1U
+#define PADCFG_PAD_GPIO_C32_MODE_MASK                      0x6U
 #define PADCFG_PAD_GPIO_C32_PD_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C32_PD_SHIFT                       0x3U
 #define PADCFG_PAD_GPIO_C32_PD_MASK                        0x8U
 #define PADCFG_PAD_GPIO_C32_PU_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C32_PU_SHIFT                       0x4U
 #define PADCFG_PAD_GPIO_C32_PU_MASK                        0x10U
-#define PADCFG_PAD_GPIO_C32_SLEW_WIDTH                     0x1U
-#define PADCFG_PAD_GPIO_C32_SLEW_SHIFT                     0x5U
-#define PADCFG_PAD_GPIO_C32_SLEW_MASK                      0x20U
+#define PADCFG_PAD_GPIO_C32_PUS_WIDTH                      0x2U
+#define PADCFG_PAD_GPIO_C32_PUS_SHIFT                      0x5U
+#define PADCFG_PAD_GPIO_C32_PUS_MASK                       0x60U
 #define PADCFG_PAD_GPIO_C32_SMT_WIDTH                      0x1U
-#define PADCFG_PAD_GPIO_C32_SMT_SHIFT                      0x6U
-#define PADCFG_PAD_GPIO_C32_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C32_SMT_SHIFT                      0x7U
+#define PADCFG_PAD_GPIO_C32_SMT_MASK                       0x80U
+#define PADCFG_PAD_GPIO_C32_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C32_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C32_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x84U)
-#define PADCFG_PAD_GPIO_C33_DS_WIDTH                       0x2U
-#define PADCFG_PAD_GPIO_C33_DS_SHIFT                       0x0U
-#define PADCFG_PAD_GPIO_C33_DS_MASK                        0x3U
 #define PADCFG_PAD_GPIO_C33_IE_WIDTH                       0x1U
-#define PADCFG_PAD_GPIO_C33_IE_SHIFT                       0x2U
-#define PADCFG_PAD_GPIO_C33_IE_MASK                        0x4U
+#define PADCFG_PAD_GPIO_C33_IE_SHIFT                       0x0U
+#define PADCFG_PAD_GPIO_C33_IE_MASK                        0x1U
+#define PADCFG_PAD_GPIO_C33_MODE_WIDTH                     0x2U
+#define PADCFG_PAD_GPIO_C33_MODE_SHIFT                     0x1U
+#define PADCFG_PAD_GPIO_C33_MODE_MASK                      0x6U
 #define PADCFG_PAD_GPIO_C33_PD_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C33_PD_SHIFT                       0x3U
 #define PADCFG_PAD_GPIO_C33_PD_MASK                        0x8U
 #define PADCFG_PAD_GPIO_C33_PU_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C33_PU_SHIFT                       0x4U
 #define PADCFG_PAD_GPIO_C33_PU_MASK                        0x10U
-#define PADCFG_PAD_GPIO_C33_SLEW_WIDTH                     0x1U
-#define PADCFG_PAD_GPIO_C33_SLEW_SHIFT                     0x5U
-#define PADCFG_PAD_GPIO_C33_SLEW_MASK                      0x20U
+#define PADCFG_PAD_GPIO_C33_PUS_WIDTH                      0x2U
+#define PADCFG_PAD_GPIO_C33_PUS_SHIFT                      0x5U
+#define PADCFG_PAD_GPIO_C33_PUS_MASK                       0x60U
 #define PADCFG_PAD_GPIO_C33_SMT_WIDTH                      0x1U
-#define PADCFG_PAD_GPIO_C33_SMT_SHIFT                      0x6U
-#define PADCFG_PAD_GPIO_C33_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C33_SMT_SHIFT                      0x7U
+#define PADCFG_PAD_GPIO_C33_SMT_MASK                       0x80U
+#define PADCFG_PAD_GPIO_C33_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C33_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C33_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x88U)
-#define PADCFG_PAD_GPIO_C34_DS_WIDTH                       0x2U
-#define PADCFG_PAD_GPIO_C34_DS_SHIFT                       0x0U
-#define PADCFG_PAD_GPIO_C34_DS_MASK                        0x3U
 #define PADCFG_PAD_GPIO_C34_IE_WIDTH                       0x1U
-#define PADCFG_PAD_GPIO_C34_IE_SHIFT                       0x2U
-#define PADCFG_PAD_GPIO_C34_IE_MASK                        0x4U
+#define PADCFG_PAD_GPIO_C34_IE_SHIFT                       0x0U
+#define PADCFG_PAD_GPIO_C34_IE_MASK                        0x1U
+#define PADCFG_PAD_GPIO_C34_MODE_WIDTH                     0x2U
+#define PADCFG_PAD_GPIO_C34_MODE_SHIFT                     0x1U
+#define PADCFG_PAD_GPIO_C34_MODE_MASK                      0x6U
 #define PADCFG_PAD_GPIO_C34_PD_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C34_PD_SHIFT                       0x3U
 #define PADCFG_PAD_GPIO_C34_PD_MASK                        0x8U
 #define PADCFG_PAD_GPIO_C34_PU_WIDTH                       0x1U
 #define PADCFG_PAD_GPIO_C34_PU_SHIFT                       0x4U
 #define PADCFG_PAD_GPIO_C34_PU_MASK                        0x10U
-#define PADCFG_PAD_GPIO_C34_SLEW_WIDTH                     0x1U
-#define PADCFG_PAD_GPIO_C34_SLEW_SHIFT                     0x5U
-#define PADCFG_PAD_GPIO_C34_SLEW_MASK                      0x20U
+#define PADCFG_PAD_GPIO_C34_PUS_WIDTH                      0x2U
+#define PADCFG_PAD_GPIO_C34_PUS_SHIFT                      0x5U
+#define PADCFG_PAD_GPIO_C34_PUS_MASK                       0x60U
 #define PADCFG_PAD_GPIO_C34_SMT_WIDTH                      0x1U
-#define PADCFG_PAD_GPIO_C34_SMT_SHIFT                      0x6U
-#define PADCFG_PAD_GPIO_C34_SMT_MASK                       0x40U
+#define PADCFG_PAD_GPIO_C34_SMT_SHIFT                      0x7U
+#define PADCFG_PAD_GPIO_C34_SMT_MASK                       0x80U
+#define PADCFG_PAD_GPIO_C34_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C34_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C34_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x8cU)
-#define PADCFG_PAD_UFS_REFCLK_OUT_DS_WIDTH                 0x2U
-#define PADCFG_PAD_UFS_REFCLK_OUT_DS_SHIFT                 0x0U
-#define PADCFG_PAD_UFS_REFCLK_OUT_DS_MASK                  0x3U
-#define PADCFG_PAD_UFS_REFCLK_OUT_IE_WIDTH                 0x1U
-#define PADCFG_PAD_UFS_REFCLK_OUT_IE_SHIFT                 0x2U
-#define PADCFG_PAD_UFS_REFCLK_OUT_IE_MASK                  0x4U
-#define PADCFG_PAD_UFS_REFCLK_OUT_PD_WIDTH                 0x1U
-#define PADCFG_PAD_UFS_REFCLK_OUT_PD_SHIFT                 0x3U
-#define PADCFG_PAD_UFS_REFCLK_OUT_PD_MASK                  0x8U
-#define PADCFG_PAD_UFS_REFCLK_OUT_PU_WIDTH                 0x1U
-#define PADCFG_PAD_UFS_REFCLK_OUT_PU_SHIFT                 0x4U
-#define PADCFG_PAD_UFS_REFCLK_OUT_PU_MASK                  0x10U
-#define PADCFG_PAD_UFS_REFCLK_OUT_SLEW_WIDTH               0x1U
-#define PADCFG_PAD_UFS_REFCLK_OUT_SLEW_SHIFT               0x5U
-#define PADCFG_PAD_UFS_REFCLK_OUT_SLEW_MASK                0x20U
-#define PADCFG_PAD_UFS_REFCLK_OUT_SMT_WIDTH                0x1U
-#define PADCFG_PAD_UFS_REFCLK_OUT_SMT_SHIFT                0x6U
-#define PADCFG_PAD_UFS_REFCLK_OUT_SMT_MASK                 0x40U
+#define PADCFG_PAD_GPIO_C35_IE_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_C35_IE_SHIFT                       0x0U
+#define PADCFG_PAD_GPIO_C35_IE_MASK                        0x1U
+#define PADCFG_PAD_GPIO_C35_MODE_WIDTH                     0x2U
+#define PADCFG_PAD_GPIO_C35_MODE_SHIFT                     0x1U
+#define PADCFG_PAD_GPIO_C35_MODE_MASK                      0x6U
+#define PADCFG_PAD_GPIO_C35_PD_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_C35_PD_SHIFT                       0x3U
+#define PADCFG_PAD_GPIO_C35_PD_MASK                        0x8U
+#define PADCFG_PAD_GPIO_C35_PU_WIDTH                       0x1U
+#define PADCFG_PAD_GPIO_C35_PU_SHIFT                       0x4U
+#define PADCFG_PAD_GPIO_C35_PU_MASK                        0x10U
+#define PADCFG_PAD_GPIO_C35_PUS_WIDTH                      0x2U
+#define PADCFG_PAD_GPIO_C35_PUS_SHIFT                      0x5U
+#define PADCFG_PAD_GPIO_C35_PUS_MASK                       0x60U
+#define PADCFG_PAD_GPIO_C35_SMT_WIDTH                      0x1U
+#define PADCFG_PAD_GPIO_C35_SMT_SHIFT                      0x7U
+#define PADCFG_PAD_GPIO_C35_SMT_MASK                       0x80U
+#define PADCFG_PAD_GPIO_C35_DEBOUNCE_WIDTH                 0x11U
+#define PADCFG_PAD_GPIO_C35_DEBOUNCE_SHIFT                 0xFU
+#define PADCFG_PAD_GPIO_C35_DEBOUNCE_MASK                  0xFFFF8000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_144_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x90U)
 #define U0_BMCPERIPH1_IOMUX_FMUX_O0_SEL_WIDTH              0x1U
 #define U0_BMCPERIPH1_IOMUX_FMUX_O0_SEL_SHIFT              0x0U
@@ -789,6 +898,9 @@
 #define U0_BMCPERIPH1_IOMUX_FMUX_O34_SEL_WIDTH             0x1U
 #define U0_BMCPERIPH1_IOMUX_FMUX_O34_SEL_SHIFT             0x2U
 #define U0_BMCPERIPH1_IOMUX_FMUX_O34_SEL_MASK              0x4U
+#define U0_BMCPERIPH1_IOMUX_FMUX_O35_SEL_WIDTH             0x1U
+#define U0_BMCPERIPH1_IOMUX_FMUX_O35_SEL_SHIFT             0x3U
+#define U0_BMCPERIPH1_IOMUX_FMUX_O35_SEL_MASK              0x8U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_152_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0x98U)
 #define U0_BMCPERIPH1_IOMUX_FMUX_OEN0_SEL_WIDTH            0x1U
 #define U0_BMCPERIPH1_IOMUX_FMUX_OEN0_SEL_SHIFT            0x0U
@@ -896,14 +1008,17 @@
 #define U0_BMCPERIPH1_IOMUX_FMUX_OEN34_SEL_WIDTH           0x1U
 #define U0_BMCPERIPH1_IOMUX_FMUX_OEN34_SEL_SHIFT           0x2U
 #define U0_BMCPERIPH1_IOMUX_FMUX_OEN34_SEL_MASK            0x4U
+#define U0_BMCPERIPH1_IOMUX_FMUX_OEN35_SEL_WIDTH           0x1U
+#define U0_BMCPERIPH1_IOMUX_FMUX_OEN35_SEL_SHIFT           0x3U
+#define U0_BMCPERIPH1_IOMUX_FMUX_OEN35_SEL_MASK            0x8U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_160_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xa0U)
-#define O_I_31_0__WIDTH                                    0x20U
-#define O_I_31_0__SHIFT                                    0x0U
-#define O_I_31_0__MASK                                     0xFFFFFFFFU
+#define U0_BMCPERIPH1_IOMUX_O_I_31_0__WIDTH                0x20U
+#define U0_BMCPERIPH1_IOMUX_O_I_31_0__SHIFT                0x0U
+#define U0_BMCPERIPH1_IOMUX_O_I_31_0__MASK                 0xFFFFFFFFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_164_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xa4U)
-#define O_I_34_32__WIDTH                                   0x3U
-#define O_I_34_32__SHIFT                                   0x0U
-#define O_I_34_32__MASK                                    0x7U
+#define U0_BMCPERIPH1_IOMUX_O_I_35_32__WIDTH               0x4U
+#define U0_BMCPERIPH1_IOMUX_O_I_35_32__SHIFT               0x0U
+#define U0_BMCPERIPH1_IOMUX_O_I_35_32__MASK                0xFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_168_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xa8U)
 #define U0_BMCPERIPH1_IOMUX_FUNC0_SEL_WIDTH                0x1U
 #define U0_BMCPERIPH1_IOMUX_FUNC0_SEL_SHIFT                0x0U
@@ -999,9 +1114,9 @@
 #define U0_BMCPERIPH1_IOMUX_FUNC30_SEL_WIDTH               0x1U
 #define U0_BMCPERIPH1_IOMUX_FUNC30_SEL_SHIFT               0x1CU
 #define U0_BMCPERIPH1_IOMUX_FUNC30_SEL_MASK                0x10000000U
-#define U0_BMCPERIPH1_IOMUX_FUNC31_SEL_WIDTH               0x2U
+#define U0_BMCPERIPH1_IOMUX_FUNC31_SEL_WIDTH               0x1U
 #define U0_BMCPERIPH1_IOMUX_FUNC31_SEL_SHIFT               0x1EU
-#define U0_BMCPERIPH1_IOMUX_FUNC31_SEL_MASK                0xC0000000U
+#define U0_BMCPERIPH1_IOMUX_FUNC31_SEL_MASK                0x40000000U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_176_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xb0U)
 #define U0_BMCPERIPH1_IOMUX_FUNC32_SEL_WIDTH               0x2U
 #define U0_BMCPERIPH1_IOMUX_FUNC32_SEL_SHIFT               0x0U
@@ -1012,62 +1127,65 @@
 #define U0_BMCPERIPH1_IOMUX_FUNC34_SEL_WIDTH               0x2U
 #define U0_BMCPERIPH1_IOMUX_FUNC34_SEL_SHIFT               0x4U
 #define U0_BMCPERIPH1_IOMUX_FUNC34_SEL_MASK                0x30U
+#define U0_BMCPERIPH1_IOMUX_FUNC35_SEL_WIDTH               0x2U
+#define U0_BMCPERIPH1_IOMUX_FUNC35_SEL_SHIFT               0x6U
+#define U0_BMCPERIPH1_IOMUX_FUNC35_SEL_MASK                0xC0U
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_180_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xb4U)
-#define INT_EN_31_0__WIDTH                                 0x20U
-#define INT_EN_31_0__SHIFT                                 0x0U
-#define INT_EN_31_0__MASK                                  0xFFFFFFFFU
+#define U0_BMCPERIPH1_IOMUX_INT_EN_31_0__WIDTH             0x20U
+#define U0_BMCPERIPH1_IOMUX_INT_EN_31_0__SHIFT             0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_EN_31_0__MASK              0xFFFFFFFFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_184_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xb8U)
-#define INT_EN_34_32__WIDTH                                0x3U
-#define INT_EN_34_32__SHIFT                                0x0U
-#define INT_EN_34_32__MASK                                 0x7U
+#define U0_BMCPERIPH1_IOMUX_INT_EN_35_32__WIDTH            0x4U
+#define U0_BMCPERIPH1_IOMUX_INT_EN_35_32__SHIFT            0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_EN_35_32__MASK             0xFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_188_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xbcU)
-#define INT_STATUS_31_0__WIDTH                             0x20U
-#define INT_STATUS_31_0__SHIFT                             0x0U
-#define INT_STATUS_31_0__MASK                              0xFFFFFFFFU
+#define U0_BMCPERIPH1_IOMUX_INT_STATUS_31_0__WIDTH         0x20U
+#define U0_BMCPERIPH1_IOMUX_INT_STATUS_31_0__SHIFT         0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_STATUS_31_0__MASK          0xFFFFFFFFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_192_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xc0U)
-#define INT_STATUS_34_32__WIDTH                            0x3U
-#define INT_STATUS_34_32__SHIFT                            0x0U
-#define INT_STATUS_34_32__MASK                             0x7U
+#define U0_BMCPERIPH1_IOMUX_INT_STATUS_35_32__WIDTH        0x4U
+#define U0_BMCPERIPH1_IOMUX_INT_STATUS_35_32__SHIFT        0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_STATUS_35_32__MASK         0xFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_196_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xc4U)
-#define INT_CLR_31_0__WIDTH                                0x20U
-#define INT_CLR_31_0__SHIFT                                0x0U
-#define INT_CLR_31_0__MASK                                 0xFFFFFFFFU
+#define U0_BMCPERIPH1_IOMUX_INT_CLR_31_0__WIDTH            0x20U
+#define U0_BMCPERIPH1_IOMUX_INT_CLR_31_0__SHIFT            0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_CLR_31_0__MASK             0xFFFFFFFFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_200_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xc8U)
-#define INT_CLR_34_32__WIDTH                               0x3U
-#define INT_CLR_34_32__SHIFT                               0x0U
-#define INT_CLR_34_32__MASK                                0x7U
+#define U0_BMCPERIPH1_IOMUX_INT_CLR_35_32__WIDTH           0x4U
+#define U0_BMCPERIPH1_IOMUX_INT_CLR_35_32__SHIFT           0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_CLR_35_32__MASK            0xFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_204_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xccU)
-#define INT_EDGE_31_0__WIDTH                               0x20U
-#define INT_EDGE_31_0__SHIFT                               0x0U
-#define INT_EDGE_31_0__MASK                                0xFFFFFFFFU
+#define U0_BMCPERIPH1_IOMUX_INT_EDGE_31_0__WIDTH           0x20U
+#define U0_BMCPERIPH1_IOMUX_INT_EDGE_31_0__SHIFT           0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_EDGE_31_0__MASK            0xFFFFFFFFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_208_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xd0U)
-#define INT_EDGE_34_32__WIDTH                              0x3U
-#define INT_EDGE_34_32__SHIFT                              0x0U
-#define INT_EDGE_34_32__MASK                               0x7U
+#define U0_BMCPERIPH1_IOMUX_INT_EDGE_35_32__WIDTH          0x4U
+#define U0_BMCPERIPH1_IOMUX_INT_EDGE_35_32__SHIFT          0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_EDGE_35_32__MASK           0xFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_212_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xd4U)
-#define INT_HIGH_LEVEL_31_0__WIDTH                         0x20U
-#define INT_HIGH_LEVEL_31_0__SHIFT                         0x0U
-#define INT_HIGH_LEVEL_31_0__MASK                          0xFFFFFFFFU
+#define U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_31_0__WIDTH     0x20U
+#define U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_31_0__SHIFT     0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_31_0__MASK      0xFFFFFFFFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_216_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xd8U)
-#define INT_HIGH_LEVEL_34_32__WIDTH                        0x3U
-#define INT_HIGH_LEVEL_34_32__SHIFT                        0x0U
-#define INT_HIGH_LEVEL_34_32__MASK                         0x7U
+#define U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_35_32__WIDTH    0x4U
+#define U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_35_32__SHIFT    0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_35_32__MASK     0xFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_220_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xdcU)
-#define INT_BOTH_EDGE_31_0__WIDTH                          0x20U
-#define INT_BOTH_EDGE_31_0__SHIFT                          0x0U
-#define INT_BOTH_EDGE_31_0__MASK                           0xFFFFFFFFU
+#define U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_31_0__WIDTH      0x20U
+#define U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_31_0__SHIFT      0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_31_0__MASK       0xFFFFFFFFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_224_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xe0U)
-#define INT_BOTH_EDGE_34_32__WIDTH                         0x3U
-#define INT_BOTH_EDGE_34_32__SHIFT                         0x0U
-#define INT_BOTH_EDGE_34_32__MASK                          0x7U
+#define U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_35_32__WIDTH     0x4U
+#define U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_35_32__SHIFT     0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_35_32__MASK      0xFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_228_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xe4U)
-#define INT_RISING_EDGE_31_0__WIDTH                        0x20U
-#define INT_RISING_EDGE_31_0__SHIFT                        0x0U
-#define INT_RISING_EDGE_31_0__MASK                         0xFFFFFFFFU
+#define U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_31_0__WIDTH    0x20U
+#define U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_31_0__SHIFT    0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_31_0__MASK     0xFFFFFFFFU
 #define BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_232_ADDR         (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xe8U)
-#define INT_RISING_EDGE_34_32__WIDTH                       0x3U
-#define INT_RISING_EDGE_34_32__SHIFT                       0x0U
-#define INT_RISING_EDGE_34_32__MASK                        0x7U
+#define U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_35_32__WIDTH   0x4U
+#define U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_35_32__SHIFT   0x0U
+#define U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_35_32__MASK    0xFU
 #define BMCPERIPH1_IOMUX_CFGITG__SYSCFG_236_ADDR           (U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__BASE_ADDR + 0xecU)
 #define GET_PADCFG_PAD_GPIO_C0_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_0_ADDR,PADCFG_PAD_GPIO_C0_DS_SHIFT,PADCFG_PAD_GPIO_C0_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C0_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_0_ADDR,data,PADCFG_PAD_GPIO_C0_DS_SHIFT,PADCFG_PAD_GPIO_C0_DS_MASK)
@@ -1081,6 +1199,8 @@
 #define SET_PADCFG_PAD_GPIO_C0_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_0_ADDR,data,PADCFG_PAD_GPIO_C0_SLEW_SHIFT,PADCFG_PAD_GPIO_C0_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C0_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_0_ADDR,PADCFG_PAD_GPIO_C0_SMT_SHIFT,PADCFG_PAD_GPIO_C0_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C0_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_0_ADDR,data,PADCFG_PAD_GPIO_C0_SMT_SHIFT,PADCFG_PAD_GPIO_C0_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C0_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_0_ADDR,PADCFG_PAD_GPIO_C0_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C0_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C0_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_0_ADDR,data,PADCFG_PAD_GPIO_C0_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C0_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C1_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_4_ADDR,PADCFG_PAD_GPIO_C1_DS_SHIFT,PADCFG_PAD_GPIO_C1_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C1_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_4_ADDR,data,PADCFG_PAD_GPIO_C1_DS_SHIFT,PADCFG_PAD_GPIO_C1_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C1_IE                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_4_ADDR,PADCFG_PAD_GPIO_C1_IE_SHIFT,PADCFG_PAD_GPIO_C1_IE_MASK)
@@ -1093,6 +1213,8 @@
 #define SET_PADCFG_PAD_GPIO_C1_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_4_ADDR,data,PADCFG_PAD_GPIO_C1_SLEW_SHIFT,PADCFG_PAD_GPIO_C1_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C1_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_4_ADDR,PADCFG_PAD_GPIO_C1_SMT_SHIFT,PADCFG_PAD_GPIO_C1_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C1_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_4_ADDR,data,PADCFG_PAD_GPIO_C1_SMT_SHIFT,PADCFG_PAD_GPIO_C1_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C1_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_4_ADDR,PADCFG_PAD_GPIO_C1_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C1_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C1_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_4_ADDR,data,PADCFG_PAD_GPIO_C1_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C1_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C2_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_8_ADDR,PADCFG_PAD_GPIO_C2_DS_SHIFT,PADCFG_PAD_GPIO_C2_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C2_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_8_ADDR,data,PADCFG_PAD_GPIO_C2_DS_SHIFT,PADCFG_PAD_GPIO_C2_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C2_IE                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_8_ADDR,PADCFG_PAD_GPIO_C2_IE_SHIFT,PADCFG_PAD_GPIO_C2_IE_MASK)
@@ -1105,6 +1227,8 @@
 #define SET_PADCFG_PAD_GPIO_C2_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_8_ADDR,data,PADCFG_PAD_GPIO_C2_SLEW_SHIFT,PADCFG_PAD_GPIO_C2_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C2_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_8_ADDR,PADCFG_PAD_GPIO_C2_SMT_SHIFT,PADCFG_PAD_GPIO_C2_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C2_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_8_ADDR,data,PADCFG_PAD_GPIO_C2_SMT_SHIFT,PADCFG_PAD_GPIO_C2_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C2_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_8_ADDR,PADCFG_PAD_GPIO_C2_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C2_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C2_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_8_ADDR,data,PADCFG_PAD_GPIO_C2_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C2_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C3_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_12_ADDR,PADCFG_PAD_GPIO_C3_DS_SHIFT,PADCFG_PAD_GPIO_C3_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C3_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_12_ADDR,data,PADCFG_PAD_GPIO_C3_DS_SHIFT,PADCFG_PAD_GPIO_C3_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C3_IE                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_12_ADDR,PADCFG_PAD_GPIO_C3_IE_SHIFT,PADCFG_PAD_GPIO_C3_IE_MASK)
@@ -1117,6 +1241,8 @@
 #define SET_PADCFG_PAD_GPIO_C3_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_12_ADDR,data,PADCFG_PAD_GPIO_C3_SLEW_SHIFT,PADCFG_PAD_GPIO_C3_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C3_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_12_ADDR,PADCFG_PAD_GPIO_C3_SMT_SHIFT,PADCFG_PAD_GPIO_C3_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C3_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_12_ADDR,data,PADCFG_PAD_GPIO_C3_SMT_SHIFT,PADCFG_PAD_GPIO_C3_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C3_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_12_ADDR,PADCFG_PAD_GPIO_C3_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C3_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C3_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_12_ADDR,data,PADCFG_PAD_GPIO_C3_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C3_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C4_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_16_ADDR,PADCFG_PAD_GPIO_C4_DS_SHIFT,PADCFG_PAD_GPIO_C4_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C4_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_16_ADDR,data,PADCFG_PAD_GPIO_C4_DS_SHIFT,PADCFG_PAD_GPIO_C4_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C4_IE                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_16_ADDR,PADCFG_PAD_GPIO_C4_IE_SHIFT,PADCFG_PAD_GPIO_C4_IE_MASK)
@@ -1129,6 +1255,8 @@
 #define SET_PADCFG_PAD_GPIO_C4_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_16_ADDR,data,PADCFG_PAD_GPIO_C4_SLEW_SHIFT,PADCFG_PAD_GPIO_C4_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C4_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_16_ADDR,PADCFG_PAD_GPIO_C4_SMT_SHIFT,PADCFG_PAD_GPIO_C4_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C4_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_16_ADDR,data,PADCFG_PAD_GPIO_C4_SMT_SHIFT,PADCFG_PAD_GPIO_C4_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C4_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_16_ADDR,PADCFG_PAD_GPIO_C4_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C4_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C4_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_16_ADDR,data,PADCFG_PAD_GPIO_C4_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C4_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C5_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_20_ADDR,PADCFG_PAD_GPIO_C5_DS_SHIFT,PADCFG_PAD_GPIO_C5_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C5_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_20_ADDR,data,PADCFG_PAD_GPIO_C5_DS_SHIFT,PADCFG_PAD_GPIO_C5_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C5_IE                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_20_ADDR,PADCFG_PAD_GPIO_C5_IE_SHIFT,PADCFG_PAD_GPIO_C5_IE_MASK)
@@ -1141,6 +1269,8 @@
 #define SET_PADCFG_PAD_GPIO_C5_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_20_ADDR,data,PADCFG_PAD_GPIO_C5_SLEW_SHIFT,PADCFG_PAD_GPIO_C5_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C5_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_20_ADDR,PADCFG_PAD_GPIO_C5_SMT_SHIFT,PADCFG_PAD_GPIO_C5_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C5_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_20_ADDR,data,PADCFG_PAD_GPIO_C5_SMT_SHIFT,PADCFG_PAD_GPIO_C5_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C5_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_20_ADDR,PADCFG_PAD_GPIO_C5_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C5_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C5_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_20_ADDR,data,PADCFG_PAD_GPIO_C5_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C5_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C6_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_24_ADDR,PADCFG_PAD_GPIO_C6_DS_SHIFT,PADCFG_PAD_GPIO_C6_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C6_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_24_ADDR,data,PADCFG_PAD_GPIO_C6_DS_SHIFT,PADCFG_PAD_GPIO_C6_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C6_IE                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_24_ADDR,PADCFG_PAD_GPIO_C6_IE_SHIFT,PADCFG_PAD_GPIO_C6_IE_MASK)
@@ -1153,6 +1283,8 @@
 #define SET_PADCFG_PAD_GPIO_C6_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_24_ADDR,data,PADCFG_PAD_GPIO_C6_SLEW_SHIFT,PADCFG_PAD_GPIO_C6_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C6_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_24_ADDR,PADCFG_PAD_GPIO_C6_SMT_SHIFT,PADCFG_PAD_GPIO_C6_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C6_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_24_ADDR,data,PADCFG_PAD_GPIO_C6_SMT_SHIFT,PADCFG_PAD_GPIO_C6_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C6_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_24_ADDR,PADCFG_PAD_GPIO_C6_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C6_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C6_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_24_ADDR,data,PADCFG_PAD_GPIO_C6_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C6_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C7_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_28_ADDR,PADCFG_PAD_GPIO_C7_DS_SHIFT,PADCFG_PAD_GPIO_C7_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C7_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_28_ADDR,data,PADCFG_PAD_GPIO_C7_DS_SHIFT,PADCFG_PAD_GPIO_C7_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C7_IE                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_28_ADDR,PADCFG_PAD_GPIO_C7_IE_SHIFT,PADCFG_PAD_GPIO_C7_IE_MASK)
@@ -1165,6 +1297,8 @@
 #define SET_PADCFG_PAD_GPIO_C7_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_28_ADDR,data,PADCFG_PAD_GPIO_C7_SLEW_SHIFT,PADCFG_PAD_GPIO_C7_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C7_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_28_ADDR,PADCFG_PAD_GPIO_C7_SMT_SHIFT,PADCFG_PAD_GPIO_C7_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C7_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_28_ADDR,data,PADCFG_PAD_GPIO_C7_SMT_SHIFT,PADCFG_PAD_GPIO_C7_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C7_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_28_ADDR,PADCFG_PAD_GPIO_C7_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C7_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C7_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_28_ADDR,data,PADCFG_PAD_GPIO_C7_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C7_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C8_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_32_ADDR,PADCFG_PAD_GPIO_C8_DS_SHIFT,PADCFG_PAD_GPIO_C8_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C8_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_32_ADDR,data,PADCFG_PAD_GPIO_C8_DS_SHIFT,PADCFG_PAD_GPIO_C8_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C8_IE                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_32_ADDR,PADCFG_PAD_GPIO_C8_IE_SHIFT,PADCFG_PAD_GPIO_C8_IE_MASK)
@@ -1177,6 +1311,8 @@
 #define SET_PADCFG_PAD_GPIO_C8_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_32_ADDR,data,PADCFG_PAD_GPIO_C8_SLEW_SHIFT,PADCFG_PAD_GPIO_C8_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C8_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_32_ADDR,PADCFG_PAD_GPIO_C8_SMT_SHIFT,PADCFG_PAD_GPIO_C8_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C8_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_32_ADDR,data,PADCFG_PAD_GPIO_C8_SMT_SHIFT,PADCFG_PAD_GPIO_C8_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C8_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_32_ADDR,PADCFG_PAD_GPIO_C8_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C8_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C8_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_32_ADDR,data,PADCFG_PAD_GPIO_C8_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C8_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C9_DS                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_36_ADDR,PADCFG_PAD_GPIO_C9_DS_SHIFT,PADCFG_PAD_GPIO_C9_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C9_DS(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_36_ADDR,data,PADCFG_PAD_GPIO_C9_DS_SHIFT,PADCFG_PAD_GPIO_C9_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C9_IE                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_36_ADDR,PADCFG_PAD_GPIO_C9_IE_SHIFT,PADCFG_PAD_GPIO_C9_IE_MASK)
@@ -1189,6 +1325,8 @@
 #define SET_PADCFG_PAD_GPIO_C9_SLEW(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_36_ADDR,data,PADCFG_PAD_GPIO_C9_SLEW_SHIFT,PADCFG_PAD_GPIO_C9_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C9_SMT                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_36_ADDR,PADCFG_PAD_GPIO_C9_SMT_SHIFT,PADCFG_PAD_GPIO_C9_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C9_SMT(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_36_ADDR,data,PADCFG_PAD_GPIO_C9_SMT_SHIFT,PADCFG_PAD_GPIO_C9_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C9_DEBOUNCE                    itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_36_ADDR,PADCFG_PAD_GPIO_C9_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C9_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C9_DEBOUNCE(data)              itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_36_ADDR,data,PADCFG_PAD_GPIO_C9_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C9_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C10_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_40_ADDR,PADCFG_PAD_GPIO_C10_DS_SHIFT,PADCFG_PAD_GPIO_C10_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C10_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_40_ADDR,data,PADCFG_PAD_GPIO_C10_DS_SHIFT,PADCFG_PAD_GPIO_C10_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C10_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_40_ADDR,PADCFG_PAD_GPIO_C10_IE_SHIFT,PADCFG_PAD_GPIO_C10_IE_MASK)
@@ -1201,6 +1339,8 @@
 #define SET_PADCFG_PAD_GPIO_C10_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_40_ADDR,data,PADCFG_PAD_GPIO_C10_SLEW_SHIFT,PADCFG_PAD_GPIO_C10_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C10_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_40_ADDR,PADCFG_PAD_GPIO_C10_SMT_SHIFT,PADCFG_PAD_GPIO_C10_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C10_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_40_ADDR,data,PADCFG_PAD_GPIO_C10_SMT_SHIFT,PADCFG_PAD_GPIO_C10_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C10_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_40_ADDR,PADCFG_PAD_GPIO_C10_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C10_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C10_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_40_ADDR,data,PADCFG_PAD_GPIO_C10_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C10_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C11_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_44_ADDR,PADCFG_PAD_GPIO_C11_DS_SHIFT,PADCFG_PAD_GPIO_C11_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C11_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_44_ADDR,data,PADCFG_PAD_GPIO_C11_DS_SHIFT,PADCFG_PAD_GPIO_C11_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C11_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_44_ADDR,PADCFG_PAD_GPIO_C11_IE_SHIFT,PADCFG_PAD_GPIO_C11_IE_MASK)
@@ -1213,6 +1353,8 @@
 #define SET_PADCFG_PAD_GPIO_C11_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_44_ADDR,data,PADCFG_PAD_GPIO_C11_SLEW_SHIFT,PADCFG_PAD_GPIO_C11_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C11_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_44_ADDR,PADCFG_PAD_GPIO_C11_SMT_SHIFT,PADCFG_PAD_GPIO_C11_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C11_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_44_ADDR,data,PADCFG_PAD_GPIO_C11_SMT_SHIFT,PADCFG_PAD_GPIO_C11_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C11_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_44_ADDR,PADCFG_PAD_GPIO_C11_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C11_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C11_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_44_ADDR,data,PADCFG_PAD_GPIO_C11_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C11_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C12_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_48_ADDR,PADCFG_PAD_GPIO_C12_DS_SHIFT,PADCFG_PAD_GPIO_C12_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C12_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_48_ADDR,data,PADCFG_PAD_GPIO_C12_DS_SHIFT,PADCFG_PAD_GPIO_C12_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C12_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_48_ADDR,PADCFG_PAD_GPIO_C12_IE_SHIFT,PADCFG_PAD_GPIO_C12_IE_MASK)
@@ -1225,6 +1367,8 @@
 #define SET_PADCFG_PAD_GPIO_C12_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_48_ADDR,data,PADCFG_PAD_GPIO_C12_SLEW_SHIFT,PADCFG_PAD_GPIO_C12_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C12_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_48_ADDR,PADCFG_PAD_GPIO_C12_SMT_SHIFT,PADCFG_PAD_GPIO_C12_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C12_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_48_ADDR,data,PADCFG_PAD_GPIO_C12_SMT_SHIFT,PADCFG_PAD_GPIO_C12_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C12_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_48_ADDR,PADCFG_PAD_GPIO_C12_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C12_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C12_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_48_ADDR,data,PADCFG_PAD_GPIO_C12_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C12_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C13_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_52_ADDR,PADCFG_PAD_GPIO_C13_DS_SHIFT,PADCFG_PAD_GPIO_C13_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C13_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_52_ADDR,data,PADCFG_PAD_GPIO_C13_DS_SHIFT,PADCFG_PAD_GPIO_C13_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C13_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_52_ADDR,PADCFG_PAD_GPIO_C13_IE_SHIFT,PADCFG_PAD_GPIO_C13_IE_MASK)
@@ -1237,6 +1381,8 @@
 #define SET_PADCFG_PAD_GPIO_C13_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_52_ADDR,data,PADCFG_PAD_GPIO_C13_SLEW_SHIFT,PADCFG_PAD_GPIO_C13_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C13_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_52_ADDR,PADCFG_PAD_GPIO_C13_SMT_SHIFT,PADCFG_PAD_GPIO_C13_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C13_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_52_ADDR,data,PADCFG_PAD_GPIO_C13_SMT_SHIFT,PADCFG_PAD_GPIO_C13_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C13_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_52_ADDR,PADCFG_PAD_GPIO_C13_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C13_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C13_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_52_ADDR,data,PADCFG_PAD_GPIO_C13_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C13_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C14_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_56_ADDR,PADCFG_PAD_GPIO_C14_DS_SHIFT,PADCFG_PAD_GPIO_C14_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C14_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_56_ADDR,data,PADCFG_PAD_GPIO_C14_DS_SHIFT,PADCFG_PAD_GPIO_C14_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C14_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_56_ADDR,PADCFG_PAD_GPIO_C14_IE_SHIFT,PADCFG_PAD_GPIO_C14_IE_MASK)
@@ -1249,6 +1395,8 @@
 #define SET_PADCFG_PAD_GPIO_C14_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_56_ADDR,data,PADCFG_PAD_GPIO_C14_SLEW_SHIFT,PADCFG_PAD_GPIO_C14_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C14_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_56_ADDR,PADCFG_PAD_GPIO_C14_SMT_SHIFT,PADCFG_PAD_GPIO_C14_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C14_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_56_ADDR,data,PADCFG_PAD_GPIO_C14_SMT_SHIFT,PADCFG_PAD_GPIO_C14_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C14_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_56_ADDR,PADCFG_PAD_GPIO_C14_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C14_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C14_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_56_ADDR,data,PADCFG_PAD_GPIO_C14_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C14_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C15_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_60_ADDR,PADCFG_PAD_GPIO_C15_DS_SHIFT,PADCFG_PAD_GPIO_C15_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C15_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_60_ADDR,data,PADCFG_PAD_GPIO_C15_DS_SHIFT,PADCFG_PAD_GPIO_C15_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C15_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_60_ADDR,PADCFG_PAD_GPIO_C15_IE_SHIFT,PADCFG_PAD_GPIO_C15_IE_MASK)
@@ -1261,6 +1409,8 @@
 #define SET_PADCFG_PAD_GPIO_C15_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_60_ADDR,data,PADCFG_PAD_GPIO_C15_SLEW_SHIFT,PADCFG_PAD_GPIO_C15_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C15_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_60_ADDR,PADCFG_PAD_GPIO_C15_SMT_SHIFT,PADCFG_PAD_GPIO_C15_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C15_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_60_ADDR,data,PADCFG_PAD_GPIO_C15_SMT_SHIFT,PADCFG_PAD_GPIO_C15_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C15_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_60_ADDR,PADCFG_PAD_GPIO_C15_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C15_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C15_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_60_ADDR,data,PADCFG_PAD_GPIO_C15_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C15_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C16_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_64_ADDR,PADCFG_PAD_GPIO_C16_DS_SHIFT,PADCFG_PAD_GPIO_C16_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C16_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_64_ADDR,data,PADCFG_PAD_GPIO_C16_DS_SHIFT,PADCFG_PAD_GPIO_C16_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C16_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_64_ADDR,PADCFG_PAD_GPIO_C16_IE_SHIFT,PADCFG_PAD_GPIO_C16_IE_MASK)
@@ -1273,6 +1423,8 @@
 #define SET_PADCFG_PAD_GPIO_C16_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_64_ADDR,data,PADCFG_PAD_GPIO_C16_SLEW_SHIFT,PADCFG_PAD_GPIO_C16_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C16_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_64_ADDR,PADCFG_PAD_GPIO_C16_SMT_SHIFT,PADCFG_PAD_GPIO_C16_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C16_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_64_ADDR,data,PADCFG_PAD_GPIO_C16_SMT_SHIFT,PADCFG_PAD_GPIO_C16_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C16_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_64_ADDR,PADCFG_PAD_GPIO_C16_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C16_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C16_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_64_ADDR,data,PADCFG_PAD_GPIO_C16_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C16_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C17_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_68_ADDR,PADCFG_PAD_GPIO_C17_DS_SHIFT,PADCFG_PAD_GPIO_C17_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C17_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_68_ADDR,data,PADCFG_PAD_GPIO_C17_DS_SHIFT,PADCFG_PAD_GPIO_C17_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C17_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_68_ADDR,PADCFG_PAD_GPIO_C17_IE_SHIFT,PADCFG_PAD_GPIO_C17_IE_MASK)
@@ -1285,6 +1437,8 @@
 #define SET_PADCFG_PAD_GPIO_C17_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_68_ADDR,data,PADCFG_PAD_GPIO_C17_SLEW_SHIFT,PADCFG_PAD_GPIO_C17_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C17_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_68_ADDR,PADCFG_PAD_GPIO_C17_SMT_SHIFT,PADCFG_PAD_GPIO_C17_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C17_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_68_ADDR,data,PADCFG_PAD_GPIO_C17_SMT_SHIFT,PADCFG_PAD_GPIO_C17_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C17_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_68_ADDR,PADCFG_PAD_GPIO_C17_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C17_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C17_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_68_ADDR,data,PADCFG_PAD_GPIO_C17_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C17_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C18_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_72_ADDR,PADCFG_PAD_GPIO_C18_DS_SHIFT,PADCFG_PAD_GPIO_C18_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C18_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_72_ADDR,data,PADCFG_PAD_GPIO_C18_DS_SHIFT,PADCFG_PAD_GPIO_C18_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C18_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_72_ADDR,PADCFG_PAD_GPIO_C18_IE_SHIFT,PADCFG_PAD_GPIO_C18_IE_MASK)
@@ -1297,6 +1451,8 @@
 #define SET_PADCFG_PAD_GPIO_C18_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_72_ADDR,data,PADCFG_PAD_GPIO_C18_SLEW_SHIFT,PADCFG_PAD_GPIO_C18_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C18_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_72_ADDR,PADCFG_PAD_GPIO_C18_SMT_SHIFT,PADCFG_PAD_GPIO_C18_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C18_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_72_ADDR,data,PADCFG_PAD_GPIO_C18_SMT_SHIFT,PADCFG_PAD_GPIO_C18_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C18_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_72_ADDR,PADCFG_PAD_GPIO_C18_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C18_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C18_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_72_ADDR,data,PADCFG_PAD_GPIO_C18_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C18_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C19_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_76_ADDR,PADCFG_PAD_GPIO_C19_DS_SHIFT,PADCFG_PAD_GPIO_C19_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C19_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_76_ADDR,data,PADCFG_PAD_GPIO_C19_DS_SHIFT,PADCFG_PAD_GPIO_C19_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C19_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_76_ADDR,PADCFG_PAD_GPIO_C19_IE_SHIFT,PADCFG_PAD_GPIO_C19_IE_MASK)
@@ -1309,6 +1465,8 @@
 #define SET_PADCFG_PAD_GPIO_C19_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_76_ADDR,data,PADCFG_PAD_GPIO_C19_SLEW_SHIFT,PADCFG_PAD_GPIO_C19_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C19_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_76_ADDR,PADCFG_PAD_GPIO_C19_SMT_SHIFT,PADCFG_PAD_GPIO_C19_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C19_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_76_ADDR,data,PADCFG_PAD_GPIO_C19_SMT_SHIFT,PADCFG_PAD_GPIO_C19_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C19_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_76_ADDR,PADCFG_PAD_GPIO_C19_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C19_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C19_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_76_ADDR,data,PADCFG_PAD_GPIO_C19_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C19_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C20_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_80_ADDR,PADCFG_PAD_GPIO_C20_DS_SHIFT,PADCFG_PAD_GPIO_C20_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C20_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_80_ADDR,data,PADCFG_PAD_GPIO_C20_DS_SHIFT,PADCFG_PAD_GPIO_C20_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C20_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_80_ADDR,PADCFG_PAD_GPIO_C20_IE_SHIFT,PADCFG_PAD_GPIO_C20_IE_MASK)
@@ -1321,6 +1479,8 @@
 #define SET_PADCFG_PAD_GPIO_C20_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_80_ADDR,data,PADCFG_PAD_GPIO_C20_SLEW_SHIFT,PADCFG_PAD_GPIO_C20_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C20_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_80_ADDR,PADCFG_PAD_GPIO_C20_SMT_SHIFT,PADCFG_PAD_GPIO_C20_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C20_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_80_ADDR,data,PADCFG_PAD_GPIO_C20_SMT_SHIFT,PADCFG_PAD_GPIO_C20_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C20_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_80_ADDR,PADCFG_PAD_GPIO_C20_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C20_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C20_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_80_ADDR,data,PADCFG_PAD_GPIO_C20_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C20_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C21_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_84_ADDR,PADCFG_PAD_GPIO_C21_DS_SHIFT,PADCFG_PAD_GPIO_C21_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C21_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_84_ADDR,data,PADCFG_PAD_GPIO_C21_DS_SHIFT,PADCFG_PAD_GPIO_C21_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C21_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_84_ADDR,PADCFG_PAD_GPIO_C21_IE_SHIFT,PADCFG_PAD_GPIO_C21_IE_MASK)
@@ -1333,6 +1493,8 @@
 #define SET_PADCFG_PAD_GPIO_C21_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_84_ADDR,data,PADCFG_PAD_GPIO_C21_SLEW_SHIFT,PADCFG_PAD_GPIO_C21_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C21_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_84_ADDR,PADCFG_PAD_GPIO_C21_SMT_SHIFT,PADCFG_PAD_GPIO_C21_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C21_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_84_ADDR,data,PADCFG_PAD_GPIO_C21_SMT_SHIFT,PADCFG_PAD_GPIO_C21_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C21_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_84_ADDR,PADCFG_PAD_GPIO_C21_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C21_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C21_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_84_ADDR,data,PADCFG_PAD_GPIO_C21_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C21_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C22_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_88_ADDR,PADCFG_PAD_GPIO_C22_DS_SHIFT,PADCFG_PAD_GPIO_C22_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C22_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_88_ADDR,data,PADCFG_PAD_GPIO_C22_DS_SHIFT,PADCFG_PAD_GPIO_C22_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C22_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_88_ADDR,PADCFG_PAD_GPIO_C22_IE_SHIFT,PADCFG_PAD_GPIO_C22_IE_MASK)
@@ -1345,6 +1507,8 @@
 #define SET_PADCFG_PAD_GPIO_C22_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_88_ADDR,data,PADCFG_PAD_GPIO_C22_SLEW_SHIFT,PADCFG_PAD_GPIO_C22_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C22_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_88_ADDR,PADCFG_PAD_GPIO_C22_SMT_SHIFT,PADCFG_PAD_GPIO_C22_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C22_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_88_ADDR,data,PADCFG_PAD_GPIO_C22_SMT_SHIFT,PADCFG_PAD_GPIO_C22_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C22_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_88_ADDR,PADCFG_PAD_GPIO_C22_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C22_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C22_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_88_ADDR,data,PADCFG_PAD_GPIO_C22_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C22_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C23_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_92_ADDR,PADCFG_PAD_GPIO_C23_DS_SHIFT,PADCFG_PAD_GPIO_C23_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C23_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_92_ADDR,data,PADCFG_PAD_GPIO_C23_DS_SHIFT,PADCFG_PAD_GPIO_C23_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C23_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_92_ADDR,PADCFG_PAD_GPIO_C23_IE_SHIFT,PADCFG_PAD_GPIO_C23_IE_MASK)
@@ -1357,6 +1521,8 @@
 #define SET_PADCFG_PAD_GPIO_C23_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_92_ADDR,data,PADCFG_PAD_GPIO_C23_SLEW_SHIFT,PADCFG_PAD_GPIO_C23_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C23_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_92_ADDR,PADCFG_PAD_GPIO_C23_SMT_SHIFT,PADCFG_PAD_GPIO_C23_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C23_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_92_ADDR,data,PADCFG_PAD_GPIO_C23_SMT_SHIFT,PADCFG_PAD_GPIO_C23_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C23_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_92_ADDR,PADCFG_PAD_GPIO_C23_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C23_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C23_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_92_ADDR,data,PADCFG_PAD_GPIO_C23_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C23_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C24_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_96_ADDR,PADCFG_PAD_GPIO_C24_DS_SHIFT,PADCFG_PAD_GPIO_C24_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C24_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_96_ADDR,data,PADCFG_PAD_GPIO_C24_DS_SHIFT,PADCFG_PAD_GPIO_C24_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C24_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_96_ADDR,PADCFG_PAD_GPIO_C24_IE_SHIFT,PADCFG_PAD_GPIO_C24_IE_MASK)
@@ -1369,6 +1535,8 @@
 #define SET_PADCFG_PAD_GPIO_C24_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_96_ADDR,data,PADCFG_PAD_GPIO_C24_SLEW_SHIFT,PADCFG_PAD_GPIO_C24_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C24_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_96_ADDR,PADCFG_PAD_GPIO_C24_SMT_SHIFT,PADCFG_PAD_GPIO_C24_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C24_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_96_ADDR,data,PADCFG_PAD_GPIO_C24_SMT_SHIFT,PADCFG_PAD_GPIO_C24_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C24_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_96_ADDR,PADCFG_PAD_GPIO_C24_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C24_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C24_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_96_ADDR,data,PADCFG_PAD_GPIO_C24_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C24_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C25_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_100_ADDR,PADCFG_PAD_GPIO_C25_DS_SHIFT,PADCFG_PAD_GPIO_C25_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C25_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_100_ADDR,data,PADCFG_PAD_GPIO_C25_DS_SHIFT,PADCFG_PAD_GPIO_C25_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C25_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_100_ADDR,PADCFG_PAD_GPIO_C25_IE_SHIFT,PADCFG_PAD_GPIO_C25_IE_MASK)
@@ -1381,6 +1549,8 @@
 #define SET_PADCFG_PAD_GPIO_C25_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_100_ADDR,data,PADCFG_PAD_GPIO_C25_SLEW_SHIFT,PADCFG_PAD_GPIO_C25_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C25_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_100_ADDR,PADCFG_PAD_GPIO_C25_SMT_SHIFT,PADCFG_PAD_GPIO_C25_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C25_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_100_ADDR,data,PADCFG_PAD_GPIO_C25_SMT_SHIFT,PADCFG_PAD_GPIO_C25_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C25_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_100_ADDR,PADCFG_PAD_GPIO_C25_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C25_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C25_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_100_ADDR,data,PADCFG_PAD_GPIO_C25_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C25_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C26_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_104_ADDR,PADCFG_PAD_GPIO_C26_DS_SHIFT,PADCFG_PAD_GPIO_C26_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C26_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_104_ADDR,data,PADCFG_PAD_GPIO_C26_DS_SHIFT,PADCFG_PAD_GPIO_C26_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C26_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_104_ADDR,PADCFG_PAD_GPIO_C26_IE_SHIFT,PADCFG_PAD_GPIO_C26_IE_MASK)
@@ -1393,6 +1563,8 @@
 #define SET_PADCFG_PAD_GPIO_C26_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_104_ADDR,data,PADCFG_PAD_GPIO_C26_SLEW_SHIFT,PADCFG_PAD_GPIO_C26_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C26_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_104_ADDR,PADCFG_PAD_GPIO_C26_SMT_SHIFT,PADCFG_PAD_GPIO_C26_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C26_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_104_ADDR,data,PADCFG_PAD_GPIO_C26_SMT_SHIFT,PADCFG_PAD_GPIO_C26_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C26_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_104_ADDR,PADCFG_PAD_GPIO_C26_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C26_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C26_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_104_ADDR,data,PADCFG_PAD_GPIO_C26_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C26_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C27_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_108_ADDR,PADCFG_PAD_GPIO_C27_DS_SHIFT,PADCFG_PAD_GPIO_C27_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C27_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_108_ADDR,data,PADCFG_PAD_GPIO_C27_DS_SHIFT,PADCFG_PAD_GPIO_C27_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C27_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_108_ADDR,PADCFG_PAD_GPIO_C27_IE_SHIFT,PADCFG_PAD_GPIO_C27_IE_MASK)
@@ -1405,6 +1577,8 @@
 #define SET_PADCFG_PAD_GPIO_C27_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_108_ADDR,data,PADCFG_PAD_GPIO_C27_SLEW_SHIFT,PADCFG_PAD_GPIO_C27_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C27_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_108_ADDR,PADCFG_PAD_GPIO_C27_SMT_SHIFT,PADCFG_PAD_GPIO_C27_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C27_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_108_ADDR,data,PADCFG_PAD_GPIO_C27_SMT_SHIFT,PADCFG_PAD_GPIO_C27_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C27_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_108_ADDR,PADCFG_PAD_GPIO_C27_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C27_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C27_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_108_ADDR,data,PADCFG_PAD_GPIO_C27_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C27_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C28_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_112_ADDR,PADCFG_PAD_GPIO_C28_DS_SHIFT,PADCFG_PAD_GPIO_C28_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C28_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_112_ADDR,data,PADCFG_PAD_GPIO_C28_DS_SHIFT,PADCFG_PAD_GPIO_C28_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C28_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_112_ADDR,PADCFG_PAD_GPIO_C28_IE_SHIFT,PADCFG_PAD_GPIO_C28_IE_MASK)
@@ -1417,6 +1591,8 @@
 #define SET_PADCFG_PAD_GPIO_C28_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_112_ADDR,data,PADCFG_PAD_GPIO_C28_SLEW_SHIFT,PADCFG_PAD_GPIO_C28_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C28_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_112_ADDR,PADCFG_PAD_GPIO_C28_SMT_SHIFT,PADCFG_PAD_GPIO_C28_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C28_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_112_ADDR,data,PADCFG_PAD_GPIO_C28_SMT_SHIFT,PADCFG_PAD_GPIO_C28_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C28_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_112_ADDR,PADCFG_PAD_GPIO_C28_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C28_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C28_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_112_ADDR,data,PADCFG_PAD_GPIO_C28_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C28_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C29_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_116_ADDR,PADCFG_PAD_GPIO_C29_DS_SHIFT,PADCFG_PAD_GPIO_C29_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C29_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_116_ADDR,data,PADCFG_PAD_GPIO_C29_DS_SHIFT,PADCFG_PAD_GPIO_C29_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C29_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_116_ADDR,PADCFG_PAD_GPIO_C29_IE_SHIFT,PADCFG_PAD_GPIO_C29_IE_MASK)
@@ -1429,6 +1605,8 @@
 #define SET_PADCFG_PAD_GPIO_C29_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_116_ADDR,data,PADCFG_PAD_GPIO_C29_SLEW_SHIFT,PADCFG_PAD_GPIO_C29_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C29_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_116_ADDR,PADCFG_PAD_GPIO_C29_SMT_SHIFT,PADCFG_PAD_GPIO_C29_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C29_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_116_ADDR,data,PADCFG_PAD_GPIO_C29_SMT_SHIFT,PADCFG_PAD_GPIO_C29_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C29_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_116_ADDR,PADCFG_PAD_GPIO_C29_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C29_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C29_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_116_ADDR,data,PADCFG_PAD_GPIO_C29_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C29_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C30_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_120_ADDR,PADCFG_PAD_GPIO_C30_DS_SHIFT,PADCFG_PAD_GPIO_C30_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C30_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_120_ADDR,data,PADCFG_PAD_GPIO_C30_DS_SHIFT,PADCFG_PAD_GPIO_C30_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C30_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_120_ADDR,PADCFG_PAD_GPIO_C30_IE_SHIFT,PADCFG_PAD_GPIO_C30_IE_MASK)
@@ -1441,6 +1619,8 @@
 #define SET_PADCFG_PAD_GPIO_C30_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_120_ADDR,data,PADCFG_PAD_GPIO_C30_SLEW_SHIFT,PADCFG_PAD_GPIO_C30_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C30_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_120_ADDR,PADCFG_PAD_GPIO_C30_SMT_SHIFT,PADCFG_PAD_GPIO_C30_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C30_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_120_ADDR,data,PADCFG_PAD_GPIO_C30_SMT_SHIFT,PADCFG_PAD_GPIO_C30_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C30_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_120_ADDR,PADCFG_PAD_GPIO_C30_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C30_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C30_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_120_ADDR,data,PADCFG_PAD_GPIO_C30_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C30_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C31_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_124_ADDR,PADCFG_PAD_GPIO_C31_DS_SHIFT,PADCFG_PAD_GPIO_C31_DS_MASK)
 #define SET_PADCFG_PAD_GPIO_C31_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_124_ADDR,data,PADCFG_PAD_GPIO_C31_DS_SHIFT,PADCFG_PAD_GPIO_C31_DS_MASK)
 #define GET_PADCFG_PAD_GPIO_C31_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_124_ADDR,PADCFG_PAD_GPIO_C31_IE_SHIFT,PADCFG_PAD_GPIO_C31_IE_MASK)
@@ -1453,54 +1633,64 @@
 #define SET_PADCFG_PAD_GPIO_C31_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_124_ADDR,data,PADCFG_PAD_GPIO_C31_SLEW_SHIFT,PADCFG_PAD_GPIO_C31_SLEW_MASK)
 #define GET_PADCFG_PAD_GPIO_C31_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_124_ADDR,PADCFG_PAD_GPIO_C31_SMT_SHIFT,PADCFG_PAD_GPIO_C31_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C31_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_124_ADDR,data,PADCFG_PAD_GPIO_C31_SMT_SHIFT,PADCFG_PAD_GPIO_C31_SMT_MASK)
-#define GET_PADCFG_PAD_GPIO_C32_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_C32_DS_SHIFT,PADCFG_PAD_GPIO_C32_DS_MASK)
-#define SET_PADCFG_PAD_GPIO_C32_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_C32_DS_SHIFT,PADCFG_PAD_GPIO_C32_DS_MASK)
+#define GET_PADCFG_PAD_GPIO_C31_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_124_ADDR,PADCFG_PAD_GPIO_C31_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C31_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C31_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_124_ADDR,data,PADCFG_PAD_GPIO_C31_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C31_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C32_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_C32_IE_SHIFT,PADCFG_PAD_GPIO_C32_IE_MASK)
 #define SET_PADCFG_PAD_GPIO_C32_IE(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_C32_IE_SHIFT,PADCFG_PAD_GPIO_C32_IE_MASK)
+#define GET_PADCFG_PAD_GPIO_C32_MODE                       itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_C32_MODE_SHIFT,PADCFG_PAD_GPIO_C32_MODE_MASK)
+#define SET_PADCFG_PAD_GPIO_C32_MODE(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_C32_MODE_SHIFT,PADCFG_PAD_GPIO_C32_MODE_MASK)
 #define GET_PADCFG_PAD_GPIO_C32_PD                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_C32_PD_SHIFT,PADCFG_PAD_GPIO_C32_PD_MASK)
 #define SET_PADCFG_PAD_GPIO_C32_PD(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_C32_PD_SHIFT,PADCFG_PAD_GPIO_C32_PD_MASK)
 #define GET_PADCFG_PAD_GPIO_C32_PU                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_C32_PU_SHIFT,PADCFG_PAD_GPIO_C32_PU_MASK)
 #define SET_PADCFG_PAD_GPIO_C32_PU(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_C32_PU_SHIFT,PADCFG_PAD_GPIO_C32_PU_MASK)
-#define GET_PADCFG_PAD_GPIO_C32_SLEW                       itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_C32_SLEW_SHIFT,PADCFG_PAD_GPIO_C32_SLEW_MASK)
-#define SET_PADCFG_PAD_GPIO_C32_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_C32_SLEW_SHIFT,PADCFG_PAD_GPIO_C32_SLEW_MASK)
+#define GET_PADCFG_PAD_GPIO_C32_PUS                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_C32_PUS_SHIFT,PADCFG_PAD_GPIO_C32_PUS_MASK)
+#define SET_PADCFG_PAD_GPIO_C32_PUS(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_C32_PUS_SHIFT,PADCFG_PAD_GPIO_C32_PUS_MASK)
 #define GET_PADCFG_PAD_GPIO_C32_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_C32_SMT_SHIFT,PADCFG_PAD_GPIO_C32_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C32_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_C32_SMT_SHIFT,PADCFG_PAD_GPIO_C32_SMT_MASK)
-#define GET_PADCFG_PAD_GPIO_C33_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_C33_DS_SHIFT,PADCFG_PAD_GPIO_C33_DS_MASK)
-#define SET_PADCFG_PAD_GPIO_C33_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_C33_DS_SHIFT,PADCFG_PAD_GPIO_C33_DS_MASK)
+#define GET_PADCFG_PAD_GPIO_C32_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,PADCFG_PAD_GPIO_C32_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C32_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C32_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_128_ADDR,data,PADCFG_PAD_GPIO_C32_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C32_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C33_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_C33_IE_SHIFT,PADCFG_PAD_GPIO_C33_IE_MASK)
 #define SET_PADCFG_PAD_GPIO_C33_IE(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_C33_IE_SHIFT,PADCFG_PAD_GPIO_C33_IE_MASK)
+#define GET_PADCFG_PAD_GPIO_C33_MODE                       itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_C33_MODE_SHIFT,PADCFG_PAD_GPIO_C33_MODE_MASK)
+#define SET_PADCFG_PAD_GPIO_C33_MODE(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_C33_MODE_SHIFT,PADCFG_PAD_GPIO_C33_MODE_MASK)
 #define GET_PADCFG_PAD_GPIO_C33_PD                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_C33_PD_SHIFT,PADCFG_PAD_GPIO_C33_PD_MASK)
 #define SET_PADCFG_PAD_GPIO_C33_PD(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_C33_PD_SHIFT,PADCFG_PAD_GPIO_C33_PD_MASK)
 #define GET_PADCFG_PAD_GPIO_C33_PU                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_C33_PU_SHIFT,PADCFG_PAD_GPIO_C33_PU_MASK)
 #define SET_PADCFG_PAD_GPIO_C33_PU(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_C33_PU_SHIFT,PADCFG_PAD_GPIO_C33_PU_MASK)
-#define GET_PADCFG_PAD_GPIO_C33_SLEW                       itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_C33_SLEW_SHIFT,PADCFG_PAD_GPIO_C33_SLEW_MASK)
-#define SET_PADCFG_PAD_GPIO_C33_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_C33_SLEW_SHIFT,PADCFG_PAD_GPIO_C33_SLEW_MASK)
+#define GET_PADCFG_PAD_GPIO_C33_PUS                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_C33_PUS_SHIFT,PADCFG_PAD_GPIO_C33_PUS_MASK)
+#define SET_PADCFG_PAD_GPIO_C33_PUS(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_C33_PUS_SHIFT,PADCFG_PAD_GPIO_C33_PUS_MASK)
 #define GET_PADCFG_PAD_GPIO_C33_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_C33_SMT_SHIFT,PADCFG_PAD_GPIO_C33_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C33_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_C33_SMT_SHIFT,PADCFG_PAD_GPIO_C33_SMT_MASK)
-#define GET_PADCFG_PAD_GPIO_C34_DS                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_C34_DS_SHIFT,PADCFG_PAD_GPIO_C34_DS_MASK)
-#define SET_PADCFG_PAD_GPIO_C34_DS(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_C34_DS_SHIFT,PADCFG_PAD_GPIO_C34_DS_MASK)
+#define GET_PADCFG_PAD_GPIO_C33_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,PADCFG_PAD_GPIO_C33_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C33_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C33_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_132_ADDR,data,PADCFG_PAD_GPIO_C33_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C33_DEBOUNCE_MASK)
 #define GET_PADCFG_PAD_GPIO_C34_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_C34_IE_SHIFT,PADCFG_PAD_GPIO_C34_IE_MASK)
 #define SET_PADCFG_PAD_GPIO_C34_IE(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_C34_IE_SHIFT,PADCFG_PAD_GPIO_C34_IE_MASK)
+#define GET_PADCFG_PAD_GPIO_C34_MODE                       itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_C34_MODE_SHIFT,PADCFG_PAD_GPIO_C34_MODE_MASK)
+#define SET_PADCFG_PAD_GPIO_C34_MODE(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_C34_MODE_SHIFT,PADCFG_PAD_GPIO_C34_MODE_MASK)
 #define GET_PADCFG_PAD_GPIO_C34_PD                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_C34_PD_SHIFT,PADCFG_PAD_GPIO_C34_PD_MASK)
 #define SET_PADCFG_PAD_GPIO_C34_PD(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_C34_PD_SHIFT,PADCFG_PAD_GPIO_C34_PD_MASK)
 #define GET_PADCFG_PAD_GPIO_C34_PU                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_C34_PU_SHIFT,PADCFG_PAD_GPIO_C34_PU_MASK)
 #define SET_PADCFG_PAD_GPIO_C34_PU(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_C34_PU_SHIFT,PADCFG_PAD_GPIO_C34_PU_MASK)
-#define GET_PADCFG_PAD_GPIO_C34_SLEW                       itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_C34_SLEW_SHIFT,PADCFG_PAD_GPIO_C34_SLEW_MASK)
-#define SET_PADCFG_PAD_GPIO_C34_SLEW(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_C34_SLEW_SHIFT,PADCFG_PAD_GPIO_C34_SLEW_MASK)
+#define GET_PADCFG_PAD_GPIO_C34_PUS                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_C34_PUS_SHIFT,PADCFG_PAD_GPIO_C34_PUS_MASK)
+#define SET_PADCFG_PAD_GPIO_C34_PUS(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_C34_PUS_SHIFT,PADCFG_PAD_GPIO_C34_PUS_MASK)
 #define GET_PADCFG_PAD_GPIO_C34_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_C34_SMT_SHIFT,PADCFG_PAD_GPIO_C34_SMT_MASK)
 #define SET_PADCFG_PAD_GPIO_C34_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_C34_SMT_SHIFT,PADCFG_PAD_GPIO_C34_SMT_MASK)
-#define GET_PADCFG_PAD_UFS_REFCLK_OUT_DS                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_UFS_REFCLK_OUT_DS_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_DS_MASK)
-#define SET_PADCFG_PAD_UFS_REFCLK_OUT_DS(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_UFS_REFCLK_OUT_DS_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_DS_MASK)
-#define GET_PADCFG_PAD_UFS_REFCLK_OUT_IE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_UFS_REFCLK_OUT_IE_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_IE_MASK)
-#define SET_PADCFG_PAD_UFS_REFCLK_OUT_IE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_UFS_REFCLK_OUT_IE_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_IE_MASK)
-#define GET_PADCFG_PAD_UFS_REFCLK_OUT_PD                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_UFS_REFCLK_OUT_PD_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_PD_MASK)
-#define SET_PADCFG_PAD_UFS_REFCLK_OUT_PD(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_UFS_REFCLK_OUT_PD_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_PD_MASK)
-#define GET_PADCFG_PAD_UFS_REFCLK_OUT_PU                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_UFS_REFCLK_OUT_PU_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_PU_MASK)
-#define SET_PADCFG_PAD_UFS_REFCLK_OUT_PU(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_UFS_REFCLK_OUT_PU_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_PU_MASK)
-#define GET_PADCFG_PAD_UFS_REFCLK_OUT_SLEW                 itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_UFS_REFCLK_OUT_SLEW_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_SLEW_MASK)
-#define SET_PADCFG_PAD_UFS_REFCLK_OUT_SLEW(data)           itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_UFS_REFCLK_OUT_SLEW_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_SLEW_MASK)
-#define GET_PADCFG_PAD_UFS_REFCLK_OUT_SMT                  itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_UFS_REFCLK_OUT_SMT_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_SMT_MASK)
-#define SET_PADCFG_PAD_UFS_REFCLK_OUT_SMT(data)            itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_UFS_REFCLK_OUT_SMT_SHIFT,PADCFG_PAD_UFS_REFCLK_OUT_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C34_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,PADCFG_PAD_GPIO_C34_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C34_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C34_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_136_ADDR,data,PADCFG_PAD_GPIO_C34_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C34_DEBOUNCE_MASK)
+#define GET_PADCFG_PAD_GPIO_C35_IE                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_C35_IE_SHIFT,PADCFG_PAD_GPIO_C35_IE_MASK)
+#define SET_PADCFG_PAD_GPIO_C35_IE(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_C35_IE_SHIFT,PADCFG_PAD_GPIO_C35_IE_MASK)
+#define GET_PADCFG_PAD_GPIO_C35_MODE                       itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_C35_MODE_SHIFT,PADCFG_PAD_GPIO_C35_MODE_MASK)
+#define SET_PADCFG_PAD_GPIO_C35_MODE(data)                 itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_C35_MODE_SHIFT,PADCFG_PAD_GPIO_C35_MODE_MASK)
+#define GET_PADCFG_PAD_GPIO_C35_PD                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_C35_PD_SHIFT,PADCFG_PAD_GPIO_C35_PD_MASK)
+#define SET_PADCFG_PAD_GPIO_C35_PD(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_C35_PD_SHIFT,PADCFG_PAD_GPIO_C35_PD_MASK)
+#define GET_PADCFG_PAD_GPIO_C35_PU                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_C35_PU_SHIFT,PADCFG_PAD_GPIO_C35_PU_MASK)
+#define SET_PADCFG_PAD_GPIO_C35_PU(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_C35_PU_SHIFT,PADCFG_PAD_GPIO_C35_PU_MASK)
+#define GET_PADCFG_PAD_GPIO_C35_PUS                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_C35_PUS_SHIFT,PADCFG_PAD_GPIO_C35_PUS_MASK)
+#define SET_PADCFG_PAD_GPIO_C35_PUS(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_C35_PUS_SHIFT,PADCFG_PAD_GPIO_C35_PUS_MASK)
+#define GET_PADCFG_PAD_GPIO_C35_SMT                        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_C35_SMT_SHIFT,PADCFG_PAD_GPIO_C35_SMT_MASK)
+#define SET_PADCFG_PAD_GPIO_C35_SMT(data)                  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_C35_SMT_SHIFT,PADCFG_PAD_GPIO_C35_SMT_MASK)
+#define GET_PADCFG_PAD_GPIO_C35_DEBOUNCE                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,PADCFG_PAD_GPIO_C35_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C35_DEBOUNCE_MASK)
+#define SET_PADCFG_PAD_GPIO_C35_DEBOUNCE(data)             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_140_ADDR,data,PADCFG_PAD_GPIO_C35_DEBOUNCE_SHIFT,PADCFG_PAD_GPIO_C35_DEBOUNCE_MASK)
 #define GET_U0_BMCPERIPH1_IOMUX_FMUX_O0_SEL                itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_144_ADDR,U0_BMCPERIPH1_IOMUX_FMUX_O0_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_O0_SEL_MASK)
 #define SET_U0_BMCPERIPH1_IOMUX_FMUX_O0_SEL(data)          itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_144_ADDR,data,U0_BMCPERIPH1_IOMUX_FMUX_O0_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_O0_SEL_MASK)
 #define GET_U0_BMCPERIPH1_IOMUX_FMUX_O1_SEL                itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_144_ADDR,U0_BMCPERIPH1_IOMUX_FMUX_O1_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_O1_SEL_MASK)
@@ -1571,6 +1761,8 @@
 #define SET_U0_BMCPERIPH1_IOMUX_FMUX_O33_SEL(data)         itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_BMCPERIPH1_IOMUX_FMUX_O33_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_O33_SEL_MASK)
 #define GET_U0_BMCPERIPH1_IOMUX_FMUX_O34_SEL               itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_BMCPERIPH1_IOMUX_FMUX_O34_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_O34_SEL_MASK)
 #define SET_U0_BMCPERIPH1_IOMUX_FMUX_O34_SEL(data)         itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_BMCPERIPH1_IOMUX_FMUX_O34_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_O34_SEL_MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_FMUX_O35_SEL               itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_148_ADDR,U0_BMCPERIPH1_IOMUX_FMUX_O35_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_O35_SEL_MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_FMUX_O35_SEL(data)         itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_148_ADDR,data,U0_BMCPERIPH1_IOMUX_FMUX_O35_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_O35_SEL_MASK)
 #define GET_U0_BMCPERIPH1_IOMUX_FMUX_OEN0_SEL              itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_BMCPERIPH1_IOMUX_FMUX_OEN0_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_OEN0_SEL_MASK)
 #define SET_U0_BMCPERIPH1_IOMUX_FMUX_OEN0_SEL(data)        itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_152_ADDR,data,U0_BMCPERIPH1_IOMUX_FMUX_OEN0_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_OEN0_SEL_MASK)
 #define GET_U0_BMCPERIPH1_IOMUX_FMUX_OEN1_SEL              itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_152_ADDR,U0_BMCPERIPH1_IOMUX_FMUX_OEN1_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_OEN1_SEL_MASK)
@@ -1641,8 +1833,10 @@
 #define SET_U0_BMCPERIPH1_IOMUX_FMUX_OEN33_SEL(data)       itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_156_ADDR,data,U0_BMCPERIPH1_IOMUX_FMUX_OEN33_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_OEN33_SEL_MASK)
 #define GET_U0_BMCPERIPH1_IOMUX_FMUX_OEN34_SEL             itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_156_ADDR,U0_BMCPERIPH1_IOMUX_FMUX_OEN34_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_OEN34_SEL_MASK)
 #define SET_U0_BMCPERIPH1_IOMUX_FMUX_OEN34_SEL(data)       itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_156_ADDR,data,U0_BMCPERIPH1_IOMUX_FMUX_OEN34_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_OEN34_SEL_MASK)
-// #define GET_O_I_31_0_                                      itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_160_ADDR,O_I_31_0__SHIFT,O_I_31_0__MASK)
-#define GET_O_I_34_32_                                     itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_164_ADDR,O_I_34_32__SHIFT,O_I_34_32__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_FMUX_OEN35_SEL             itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_156_ADDR,U0_BMCPERIPH1_IOMUX_FMUX_OEN35_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_OEN35_SEL_MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_FMUX_OEN35_SEL(data)       itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_156_ADDR,data,U0_BMCPERIPH1_IOMUX_FMUX_OEN35_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FMUX_OEN35_SEL_MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_O_I_31_0_                  itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_160_ADDR,U0_BMCPERIPH1_IOMUX_O_I_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_O_I_31_0__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_O_I_35_32_                 itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_164_ADDR,U0_BMCPERIPH1_IOMUX_O_I_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_O_I_35_32__MASK)
 #define GET_U0_BMCPERIPH1_IOMUX_FUNC0_SEL                  itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_168_ADDR,U0_BMCPERIPH1_IOMUX_FUNC0_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FUNC0_SEL_MASK)
 #define SET_U0_BMCPERIPH1_IOMUX_FUNC0_SEL(data)            itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_168_ADDR,data,U0_BMCPERIPH1_IOMUX_FUNC0_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FUNC0_SEL_MASK)
 #define GET_U0_BMCPERIPH1_IOMUX_FUNC1_SEL                  itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_168_ADDR,U0_BMCPERIPH1_IOMUX_FUNC1_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FUNC1_SEL_MASK)
@@ -1713,29 +1907,31 @@
 #define SET_U0_BMCPERIPH1_IOMUX_FUNC33_SEL(data)           itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_176_ADDR,data,U0_BMCPERIPH1_IOMUX_FUNC33_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FUNC33_SEL_MASK)
 #define GET_U0_BMCPERIPH1_IOMUX_FUNC34_SEL                 itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_176_ADDR,U0_BMCPERIPH1_IOMUX_FUNC34_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FUNC34_SEL_MASK)
 #define SET_U0_BMCPERIPH1_IOMUX_FUNC34_SEL(data)           itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_176_ADDR,data,U0_BMCPERIPH1_IOMUX_FUNC34_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FUNC34_SEL_MASK)
-// #define GET_INT_EN_31_0_                                   itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_180_ADDR,INT_EN_31_0__SHIFT,INT_EN_31_0__MASK)
-// #define SET_INT_EN_31_0_(data)                             itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,INT_EN_31_0__SHIFT,INT_EN_31_0__MASK)
-#define GET_INT_EN_34_32_                                  itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_184_ADDR,INT_EN_34_32__SHIFT,INT_EN_34_32__MASK)
-#define SET_INT_EN_34_32_(data)                            itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_184_ADDR,data,INT_EN_34_32__SHIFT,INT_EN_34_32__MASK)
-// #define GET_INT_STATUS_31_0_                               itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_188_ADDR,INT_STATUS_31_0__SHIFT,INT_STATUS_31_0__MASK)
-#define GET_INT_STATUS_34_32_                              itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_192_ADDR,INT_STATUS_34_32__SHIFT,INT_STATUS_34_32__MASK)
-// #define GET_INT_CLR_31_0_                                  itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_196_ADDR,INT_CLR_31_0__SHIFT,INT_CLR_31_0__MASK)
-// #define SET_INT_CLR_31_0_(data)                            itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,INT_CLR_31_0__SHIFT,INT_CLR_31_0__MASK)
-#define GET_INT_CLR_34_32_                                 itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_200_ADDR,INT_CLR_34_32__SHIFT,INT_CLR_34_32__MASK)
-#define SET_INT_CLR_34_32_(data)                           itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,INT_CLR_34_32__SHIFT,INT_CLR_34_32__MASK)
-// #define GET_INT_EDGE_31_0_                                 itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_204_ADDR,INT_EDGE_31_0__SHIFT,INT_EDGE_31_0__MASK)
-// #define SET_INT_EDGE_31_0_(data)                           itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_204_ADDR,data,INT_EDGE_31_0__SHIFT,INT_EDGE_31_0__MASK)
-#define GET_INT_EDGE_34_32_                                itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_208_ADDR,INT_EDGE_34_32__SHIFT,INT_EDGE_34_32__MASK)
-#define SET_INT_EDGE_34_32_(data)                          itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_208_ADDR,data,INT_EDGE_34_32__SHIFT,INT_EDGE_34_32__MASK)
-// #define GET_INT_HIGH_LEVEL_31_0_                           itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_212_ADDR,INT_HIGH_LEVEL_31_0__SHIFT,INT_HIGH_LEVEL_31_0__MASK)
-// #define SET_INT_HIGH_LEVEL_31_0_(data)                     itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_212_ADDR,data,INT_HIGH_LEVEL_31_0__SHIFT,INT_HIGH_LEVEL_31_0__MASK)
-#define GET_INT_HIGH_LEVEL_34_32_                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_216_ADDR,INT_HIGH_LEVEL_34_32__SHIFT,INT_HIGH_LEVEL_34_32__MASK)
-#define SET_INT_HIGH_LEVEL_34_32_(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_216_ADDR,data,INT_HIGH_LEVEL_34_32__SHIFT,INT_HIGH_LEVEL_34_32__MASK)
-// #define GET_INT_BOTH_EDGE_31_0_                            itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_220_ADDR,INT_BOTH_EDGE_31_0__SHIFT,INT_BOTH_EDGE_31_0__MASK)
-// #define SET_INT_BOTH_EDGE_31_0_(data)                      itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_220_ADDR,data,INT_BOTH_EDGE_31_0__SHIFT,INT_BOTH_EDGE_31_0__MASK)
-#define GET_INT_BOTH_EDGE_34_32_                           itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_224_ADDR,INT_BOTH_EDGE_34_32__SHIFT,INT_BOTH_EDGE_34_32__MASK)
-#define SET_INT_BOTH_EDGE_34_32_(data)                     itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_224_ADDR,data,INT_BOTH_EDGE_34_32__SHIFT,INT_BOTH_EDGE_34_32__MASK)
-// #define GET_INT_RISING_EDGE_31_0_                          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_228_ADDR,INT_RISING_EDGE_31_0__SHIFT,INT_RISING_EDGE_31_0__MASK)
-// #define SET_INT_RISING_EDGE_31_0_(data)                    itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_228_ADDR,data,INT_RISING_EDGE_31_0__SHIFT,INT_RISING_EDGE_31_0__MASK)
-#define GET_INT_RISING_EDGE_34_32_                         itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_232_ADDR,INT_RISING_EDGE_34_32__SHIFT,INT_RISING_EDGE_34_32__MASK)
-#define SET_INT_RISING_EDGE_34_32_(data)                   itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_232_ADDR,data,INT_RISING_EDGE_34_32__SHIFT,INT_RISING_EDGE_34_32__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_FUNC35_SEL                 itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_176_ADDR,U0_BMCPERIPH1_IOMUX_FUNC35_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FUNC35_SEL_MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_FUNC35_SEL(data)           itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_176_ADDR,data,U0_BMCPERIPH1_IOMUX_FUNC35_SEL_SHIFT,U0_BMCPERIPH1_IOMUX_FUNC35_SEL_MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_EN_31_0_               itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_180_ADDR,U0_BMCPERIPH1_IOMUX_INT_EN_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_EN_31_0__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_EN_31_0_(data)         itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_180_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_EN_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_EN_31_0__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_EN_35_32_              itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_184_ADDR,U0_BMCPERIPH1_IOMUX_INT_EN_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_EN_35_32__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_EN_35_32_(data)        itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_184_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_EN_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_EN_35_32__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_STATUS_31_0_           itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_188_ADDR,U0_BMCPERIPH1_IOMUX_INT_STATUS_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_STATUS_31_0__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_STATUS_35_32_          itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_192_ADDR,U0_BMCPERIPH1_IOMUX_INT_STATUS_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_STATUS_35_32__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_CLR_31_0_              itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_196_ADDR,U0_BMCPERIPH1_IOMUX_INT_CLR_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_CLR_31_0__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_CLR_31_0_(data)        itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_196_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_CLR_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_CLR_31_0__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_CLR_35_32_             itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_200_ADDR,U0_BMCPERIPH1_IOMUX_INT_CLR_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_CLR_35_32__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_CLR_35_32_(data)       itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_200_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_CLR_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_CLR_35_32__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_EDGE_31_0_             itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_204_ADDR,U0_BMCPERIPH1_IOMUX_INT_EDGE_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_EDGE_31_0__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_EDGE_31_0_(data)       itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_204_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_EDGE_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_EDGE_31_0__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_EDGE_35_32_            itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_208_ADDR,U0_BMCPERIPH1_IOMUX_INT_EDGE_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_EDGE_35_32__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_EDGE_35_32_(data)      itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_208_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_EDGE_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_EDGE_35_32__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_31_0_       itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_212_ADDR,U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_31_0__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_31_0_(data) itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_212_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_31_0__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_35_32_      itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_216_ADDR,U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_35_32__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_35_32_(data) itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_216_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_HIGH_LEVEL_35_32__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_31_0_        itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_220_ADDR,U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_31_0__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_31_0_(data)  itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_220_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_31_0__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_35_32_       itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_224_ADDR,U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_35_32__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_35_32_(data) itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_224_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_BOTH_EDGE_35_32__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_31_0_      itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_228_ADDR,U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_31_0__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_31_0_(data) itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_228_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_31_0__SHIFT,U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_31_0__MASK)
+#define GET_U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_35_32_     itg_get_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_232_ADDR,U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_35_32__MASK)
+#define SET_U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_35_32_(data) itg_set_reg(BMCPERIPH1_IOMUX_CFG__ITG__SYSCFG_232_ADDR,data,U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_35_32__SHIFT,U0_BMCPERIPH1_IOMUX_INT_RISING_EDGE_35_32__MASK)

@@ -1,3 +1,4 @@
+//commit:06b6362e (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 #define  U1_DW_AXI_DMAC_1CH__ITG_BD_APB__BASE_ADDR                                                            0x0011A80000
 #define  U2_DW_AXI_DMAC_1CH__ITG_BD_APB__BASE_ADDR                                                            0x0011A80400
 #define  U3_DW_AXI_DMAC_1CH__ITG_BD_APB__BASE_ADDR                                                            0x0011A80800
@@ -13,7 +14,7 @@
 #define  U1_DWC_SSI_SFC__ITG_BD_AHB_FILTER__BASE_ADDR                                                         0x0014091000
 #define  U2_DWC_SSI_SFC__ITG_BD_AHB_FILTER__BASE_ADDR                                                         0x0014092000
 #define  U0_BMCPERIPH1_SECURE_CRG__ITG_BD_APBS__BASE_ADDR                                                     0x001413A000 
-// #define  U0_BMCPERIPH1_SYSCON__ITG_BD_APBS__BASE_ADDR                                                         0x001413B000 
+#define  U0_BMCPERIPH1_SECURE_SYSCON__ITG_BD_APBS__BASE_ADDR                                                  0x001413B000 
 #define  U1_DWC_SSI_SFC__ITG_BD_AHB__BASE_ADDR                                                                0x0017F00000 
 #define  U2_DWC_SSI_SFC__ITG_BD_AHB__BASE_ADDR                                                                0x0017F10000 
 #define  U0_DWC_SSI_SPI__ITG_BD_AHB__BASE_ADDR                                                                0x0017F20000 
@@ -29,13 +30,13 @@
 #define  U6_DWC_SENSORS_PD__ITG_BD_APBS__END_ADDR                                                             0x0011B33FFF
 #define  U0_BMCPERIPH1_CRG__ITG_BD_APBS__END_ADDR                                                             0x0011B40FFF
 #define  U0_BMCPERIPH1_SYSCON__ITG_BD_APBS__END_ADDR                                                          0x0011B41FFF
-#define  U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__END_ADDR                                                           0x0011B42FFF
+#define  U0_BMCPERIPH1_IOMUX__ITG_BD_APBS__END_ADDR                                                           0x0011B427FF
 #define  U0_NCNOC_BMCPERIPH1__ITG_BD_NCNOC_INIT__END_ADDR                                                     0x001402EFFF
 #define  U0_DWC_SSI_SFC__ITG_BD_AHB_FILTER__END_ADDR                                                          0x0014090FFF
 #define  U1_DWC_SSI_SFC__ITG_BD_AHB_FILTER__END_ADDR                                                          0x0014091FFF
 #define  U2_DWC_SSI_SFC__ITG_BD_AHB_FILTER__END_ADDR                                                          0x0014092FFF
 #define  U0_BMCPERIPH1_SECURE_CRG__ITG_BD_APBS__END_ADDR                                                      0x001413AFFF
-// #define  U0_BMCPERIPH1_SYSCON__ITG_BD_APBS__END_ADDR                                                          0x001413BFFF
+#define  U0_BMCPERIPH1_SECURE_SYSCON__ITG_BD_APBS__END_ADDR                                                   0x001413BFFF
 #define  U1_DWC_SSI_SFC__ITG_BD_AHB__END_ADDR                                                                 0x0017F0FFFF
 #define  U2_DWC_SSI_SFC__ITG_BD_AHB__END_ADDR                                                                 0x0017F1FFFF
 #define  U0_DWC_SSI_SPI__ITG_BD_AHB__END_ADDR                                                                 0x0017F2FFFF

@@ -1,5 +1,4 @@
-//RTL tag v0.5.1
-
+//commit:06b6362e (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 
 #ifndef _SYS2_CRG_MACRO_H_
 #define _SYS2_CRG_MACRO_H_
@@ -7,49 +6,61 @@
 //#define SYS2_CRG_BASE_ADDR 0x0
 #define CLK_APB_MAIN_SYS2_CTRL_REG_ADDR                              (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x0U)
 #define CLK_APB_OSC_SYS2_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x4U)
-#define CLK_JTAGM_200_CTRL_REG_ADDR                                  (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x8U)
-#define CLK_JTAGM_100_CTRL_REG_ADDR                                  (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xCU)
-#define CLK_HOSTUSB_600_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x10U)
-#define CLK_HOSTUSB_INIT_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x14U)
-#define CLK_HOSTUSB_200_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x18U)
-#define CLK_HOSTUSB_TARG_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x1CU)
-#define CLK_HOSTUSB_100_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x20U)
-#define CLK_HOSTUSBCMN_TARG_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x24U)
-#define CLK_HOSTUSBCMN_500_CTRL_REG_ADDR                             (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x28U)
-#define CLK_HOSTUSBCMN_500_OSC_CTRL_REG_ADDR                         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x2CU)
-#define CLK_HOSTUSBCMN_480_CTRL_REG_ADDR                             (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x30U)
-#define CLK_HOSTUSBCMN_480_OSC_CTRL_REG_ADDR                         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x34U)
-#define CLK_SEC_600_CTRL_REG_ADDR                                    (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x38U)
-#define CLK_SEC_DATA_INIT_CTRL_REG_ADDR                              (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x3CU)
-#define CLK_SEC_200_CTRL_REG_ADDR                                    (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x40U)
-#define CLK_SEC_CFG_INIT_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x44U)
-#define CLK_SEC_TARG_CTRL_REG_ADDR                                   (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x48U)
-#define CLK_BMCPER1_600_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x4CU)
-#define CLK_BMCPER1_INIT_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x50U)
-#define CLK_BMCPER1_200_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x54U)
-#define CLK_BMCPER1_TARG_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x58U)
-#define CLK_BMCPER1_400_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x5CU)
-#define CLK_BMCPER1_400_OSC_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x60U)
-#define CLK_UFS_REF_CTRL_REG_ADDR                                    (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x64U)
-#define CLK_BMCPER1_250_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x68U)
-#define CLK_BMCPER1_250_OSC_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x6CU)
-#define CLK_BMCPER1_143_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x70U)
-#define CLK_BMCPER1_800_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x74U)
-#define CLK_BMCPER1_800_OSC_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x78U)
-#define CLK_BMCPER0_600_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x7CU)
-#define CLK_BMCPER0_INIT_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x80U)
-#define CLK_BMCPER0_200_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x84U)
-#define CLK_BMCPER0_TARG_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x88U)
-#define CLK_BMCPER0_400_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x8CU)
-#define CLK_BMCPER0_400_OSC_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x90U)
-#define CLK_BMCPER0_125_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x94U)
-#define CLK_BMCPER0_125_OSC_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x98U)
-#define CLK_BMCPER0_PLL6_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x9CU)
+#define DFT_GPIO_50_CTRL_REG_ADDR                                    (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x8U)
+#define CLK_DEBUG_JTAG_CTRL_REG_ADDR                                 (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xCU)
+#define CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_CTRL_REG_ADDR        (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x10U)
+#define CLK_JTAGM0_200_CTRL_REG_ADDR                                 (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x14U)
+#define CLK_JTAGM1_200_CTRL_REG_ADDR                                 (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x18U)
+#define CLK_JTAGM0_100_CTRL_REG_ADDR                                 (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x1CU)
+#define CLK_JTAGM1_100_CTRL_REG_ADDR                                 (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x20U)
+#define CLK_JTAGM0_ATPG_TCLOCK_CTRL_REG_ADDR                         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x24U)
+#define CLK_JTAGM1_ATPG_TCLOCK_CTRL_REG_ADDR                         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x28U)
+#define CLK_U0_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR                      (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x2CU)
+#define CLK_U0_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR                  (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x30U)
+#define CLK_U0_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR                  (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x34U)
+#define CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x38U)
+#define CLK_U1_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR                      (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x3CU)
+#define CLK_U1_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR                  (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x40U)
+#define CLK_U1_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR                  (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x44U)
+#define CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x48U)
+#define CLK_HOSTUSB_100_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x4CU)
+#define CLK_HOSTUSBCMN_TARG_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x50U)
+#define CLK_HOSTUSBCMN_500_CTRL_REG_ADDR                             (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x54U)
+#define CLK_HOSTUSBCMN_500_OSC_CTRL_REG_ADDR                         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x58U)
+#define CLK_SEC_200_CTRL_REG_ADDR                                    (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x5CU)
+#define CLK_SEC_CFG_INIT_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x60U)
+#define CLK_SEC_TARG_CTRL_REG_ADDR                                   (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x64U)
+#define CLK_SEC_CORE_CTRL_REG_ADDR                                   (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x68U)
+#define CLK_SEC_CORE_OSC_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x6CU)
+#define CLK_BMCPER1_200_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x70U)
+#define CLK_BMCPER1_TARG_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x74U)
+#define CLK_BMCPER1_250_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x78U)
+#define CLK_BMCPER1_250_OSC_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x7CU)
+#define CLK_BMCPER1_143_DFT_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x80U)
+#define CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_CTRL_REG_ADDR (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x84U)
+#define CLK_BMCPER0_200_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x88U)
+#define CLK_BMCPER0_TARG_CTRL_REG_ADDR                               (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x8CU)
+#define CLK_BMCPER0_125_CTRL_REG_ADDR                                (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x90U)
+#define CLK_BMCPER0_125_OSC_CTRL_REG_ADDR                            (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x94U)
+#define CLK_GPU0_100_CTRL_REG_ADDR                                   (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x98U)
+#define CLK_GPU0_TARG_CTRL_REG_ADDR                                  (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0x9CU)
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xA0U)
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xA4U)
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xA8U)
+#define CLK_GPU1_100_CTRL_REG_ADDR                                   (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xACU)
+#define CLK_GPU1_TARG_CTRL_REG_ADDR                                  (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xB0U)
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xB4U)
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xB8U)
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR         (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xBCU)
 
 
-#define SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR              (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xBCU)
+#define MAIN_ICG_EN_JTAG0_CTRL_REG_ADDR                              (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xC0U)
+#define MAIN_ICG_EN_JTAG1_CTRL_REG_ADDR                              (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xC4U)
 
-#define SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR              (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xC0U)
+
+#define SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR              (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xC8U)
+
+#define SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR              (U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR + 0xCCU)
 
 
 #define CLK_APB_MAIN_SYS2_DIV_SHIFT                                  0
@@ -58,209 +69,163 @@
 #define CLK_APB_OSC_SYS2_SW_MASK                                     0x1000000U
 #define CLK_APB_OSC_SYS2_SW_CLK_OSC_DATA                             0
 #define CLK_APB_OSC_SYS2_SW_CLK_APB_MAIN_SYS2_DATA                   1
-#define CLK_JTAGM_200_ENABLE_DATA                                    1
-#define CLK_JTAGM_200_DISABLE_DATA                                   0
-#define CLK_JTAGM_200_EN_SHIFT                                       31
-#define CLK_JTAGM_200_EN_MASK                                        0x80000000U
-#define CLK_JTAGM_200_DIV_SHIFT                                      0
-#define CLK_JTAGM_200_DIV_MASK                                       0x7U
-#define CLK_JTAGM_100_ENABLE_DATA                                    1
-#define CLK_JTAGM_100_DISABLE_DATA                                   0
-#define CLK_JTAGM_100_EN_SHIFT                                       31
-#define CLK_JTAGM_100_EN_MASK                                        0x80000000U
-#define CLK_JTAGM_100_DIV_SHIFT                                      0
-#define CLK_JTAGM_100_DIV_MASK                                       0xFU
-#define CLK_HOSTUSB_600_ENABLE_DATA                                  1
-#define CLK_HOSTUSB_600_DISABLE_DATA                                 0
-#define CLK_HOSTUSB_600_EN_SHIFT                                     31
-#define CLK_HOSTUSB_600_EN_MASK                                      0x80000000U
-#define CLK_HOSTUSB_600_DIV_SHIFT                                    0
-#define CLK_HOSTUSB_600_DIV_MASK                                     0x7U
-#define CLK_HOSTUSB_INIT_SW_SHIFT                                    24
-#define CLK_HOSTUSB_INIT_SW_MASK                                     0x1000000U
-#define CLK_HOSTUSB_INIT_SW_CLK_OSC_DATA                             0
-#define CLK_HOSTUSB_INIT_SW_CLK_HOSTUSB_600_DATA                     1
-#define CLK_HOSTUSB_200_ENABLE_DATA                                  1
-#define CLK_HOSTUSB_200_DISABLE_DATA                                 0
-#define CLK_HOSTUSB_200_EN_SHIFT                                     31
-#define CLK_HOSTUSB_200_EN_MASK                                      0x80000000U
-#define CLK_HOSTUSB_200_DIV_SHIFT                                    0
-#define CLK_HOSTUSB_200_DIV_MASK                                     0x7U
-#define CLK_HOSTUSB_TARG_SW_SHIFT                                    24
-#define CLK_HOSTUSB_TARG_SW_MASK                                     0x1000000U
-#define CLK_HOSTUSB_TARG_SW_CLK_OSC_DATA                             0
-#define CLK_HOSTUSB_TARG_SW_CLK_HOSTUSB_200_DATA                     1
-#define CLK_HOSTUSB_100_ENABLE_DATA                                  1
-#define CLK_HOSTUSB_100_DISABLE_DATA                                 0
-#define CLK_HOSTUSB_100_EN_SHIFT                                     31
-#define CLK_HOSTUSB_100_EN_MASK                                      0x80000000U
+#define DFT_GPIO_50_DIV_SHIFT                                        0
+#define DFT_GPIO_50_DIV_MASK                                         0x1FU
+#define CLK_DEBUG_JTAG_SW_SHIFT                                      24
+#define CLK_DEBUG_JTAG_SW_MASK                                       0x1000000U
+#define CLK_DEBUG_JTAG_SW_SECJTAG_TCK_EXT_DATA                       0
+#define CLK_DEBUG_JTAG_SW_DFT_GPIO_50_DATA                           1
+#define CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_ENABLE_DATA          1
+#define CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_DISABLE_DATA         0
+#define CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_SHIFT             31
+#define CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_MASK              0x80000000U
+#define CLK_JTAGM0_200_DIV_SHIFT                                     0
+#define CLK_JTAGM0_200_DIV_MASK                                      0x7U
+#define CLK_JTAGM1_200_DIV_SHIFT                                     0
+#define CLK_JTAGM1_200_DIV_MASK                                      0x7U
+#define CLK_JTAGM0_100_DIV_SHIFT                                     0
+#define CLK_JTAGM0_100_DIV_MASK                                      0xFU
+#define CLK_JTAGM1_100_DIV_SHIFT                                     0
+#define CLK_JTAGM1_100_DIV_MASK                                      0xFU
+#define CLK_JTAGM0_ATPG_TCLOCK_DIV_SHIFT                             0
+#define CLK_JTAGM0_ATPG_TCLOCK_DIV_MASK                              0x3U
+#define CLK_JTAGM1_ATPG_TCLOCK_DIV_SHIFT                             0
+#define CLK_JTAGM1_ATPG_TCLOCK_DIV_MASK                              0x3U
+#define CLK_U0_JTAG_MST_WRAP_HCLK_ENABLE_DATA                        1
+#define CLK_U0_JTAG_MST_WRAP_HCLK_DISABLE_DATA                       0
+#define CLK_U0_JTAG_MST_WRAP_HCLK_EN_SHIFT                           31
+#define CLK_U0_JTAG_MST_WRAP_HCLK_EN_MASK                            0x80000000U
+#define CLK_U0_JTAG_MST_WRAP_CLK_JTAG_ENABLE_DATA                    1
+#define CLK_U0_JTAG_MST_WRAP_CLK_JTAG_DISABLE_DATA                   0
+#define CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT                       31
+#define CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_MASK                        0x80000000U
+#define CLK_U0_JTAG_MST_WRAP_APB_PCLK_ENABLE_DATA                    1
+#define CLK_U0_JTAG_MST_WRAP_APB_PCLK_DISABLE_DATA                   0
+#define CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT                       31
+#define CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_MASK                        0x80000000U
+#define CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_ENABLE_DATA                 1
+#define CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_DISABLE_DATA                0
+#define CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT                    31
+#define CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK                     0x80000000U
+#define CLK_U1_JTAG_MST_WRAP_HCLK_ENABLE_DATA                        1
+#define CLK_U1_JTAG_MST_WRAP_HCLK_DISABLE_DATA                       0
+#define CLK_U1_JTAG_MST_WRAP_HCLK_EN_SHIFT                           31
+#define CLK_U1_JTAG_MST_WRAP_HCLK_EN_MASK                            0x80000000U
+#define CLK_U1_JTAG_MST_WRAP_CLK_JTAG_ENABLE_DATA                    1
+#define CLK_U1_JTAG_MST_WRAP_CLK_JTAG_DISABLE_DATA                   0
+#define CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT                       31
+#define CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_MASK                        0x80000000U
+#define CLK_U1_JTAG_MST_WRAP_APB_PCLK_ENABLE_DATA                    1
+#define CLK_U1_JTAG_MST_WRAP_APB_PCLK_DISABLE_DATA                   0
+#define CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT                       31
+#define CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_MASK                        0x80000000U
+#define CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_ENABLE_DATA                 1
+#define CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_DISABLE_DATA                0
+#define CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT                    31
+#define CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK                     0x80000000U
 #define CLK_HOSTUSB_100_DIV_SHIFT                                    0
 #define CLK_HOSTUSB_100_DIV_MASK                                     0xFU
 #define CLK_HOSTUSBCMN_TARG_SW_SHIFT                                 24
 #define CLK_HOSTUSBCMN_TARG_SW_MASK                                  0x1000000U
 #define CLK_HOSTUSBCMN_TARG_SW_CLK_OSC_DATA                          0
 #define CLK_HOSTUSBCMN_TARG_SW_CLK_HOSTUSB_100_DATA                  1
-#define CLK_HOSTUSBCMN_500_ENABLE_DATA                               1
-#define CLK_HOSTUSBCMN_500_DISABLE_DATA                              0
-#define CLK_HOSTUSBCMN_500_EN_SHIFT                                  31
-#define CLK_HOSTUSBCMN_500_EN_MASK                                   0x80000000U
 #define CLK_HOSTUSBCMN_500_DIV_SHIFT                                 0
 #define CLK_HOSTUSBCMN_500_DIV_MASK                                  0x7U
 #define CLK_HOSTUSBCMN_500_OSC_SW_SHIFT                              24
 #define CLK_HOSTUSBCMN_500_OSC_SW_MASK                               0x1000000U
 #define CLK_HOSTUSBCMN_500_OSC_SW_CLK_OSC_DATA                       0
 #define CLK_HOSTUSBCMN_500_OSC_SW_CLK_HOSTUSBCMN_500_DATA            1
-#define CLK_HOSTUSBCMN_480_ENABLE_DATA                               1
-#define CLK_HOSTUSBCMN_480_DISABLE_DATA                              0
-#define CLK_HOSTUSBCMN_480_EN_SHIFT                                  31
-#define CLK_HOSTUSBCMN_480_EN_MASK                                   0x80000000U
-#define CLK_HOSTUSBCMN_480_DIV_SHIFT                                 0
-#define CLK_HOSTUSBCMN_480_DIV_MASK                                  0x7U
-#define CLK_HOSTUSBCMN_480_OSC_SW_SHIFT                              24
-#define CLK_HOSTUSBCMN_480_OSC_SW_MASK                               0x1000000U
-#define CLK_HOSTUSBCMN_480_OSC_SW_CLK_OSC_DATA                       0
-#define CLK_HOSTUSBCMN_480_OSC_SW_CLK_HOSTUSBCMN_480_DATA            1
-#define CLK_SEC_600_ENABLE_DATA                                      1
-#define CLK_SEC_600_DISABLE_DATA                                     0
-#define CLK_SEC_600_EN_SHIFT                                         31
-#define CLK_SEC_600_EN_MASK                                          0x80000000U
-#define CLK_SEC_600_DIV_SHIFT                                        0
-#define CLK_SEC_600_DIV_MASK                                         0x7U
-#define CLK_SEC_DATA_INIT_SW_SHIFT                                   24
-#define CLK_SEC_DATA_INIT_SW_MASK                                    0x1000000U
-#define CLK_SEC_DATA_INIT_SW_CLK_OSC_DATA                            0
-#define CLK_SEC_DATA_INIT_SW_CLK_SEC_600_DATA                        1
-#define CLK_SEC_200_ENABLE_DATA                                      1
-#define CLK_SEC_200_DISABLE_DATA                                     0
-#define CLK_SEC_200_EN_SHIFT                                         31
-#define CLK_SEC_200_EN_MASK                                          0x80000000U
 #define CLK_SEC_200_DIV_SHIFT                                        0
 #define CLK_SEC_200_DIV_MASK                                         0x7U
 #define CLK_SEC_CFG_INIT_SW_SHIFT                                    24
 #define CLK_SEC_CFG_INIT_SW_MASK                                     0x1000000U
 #define CLK_SEC_CFG_INIT_SW_CLK_OSC_DATA                             0
 #define CLK_SEC_CFG_INIT_SW_CLK_SEC_200_DATA                         1
-#define CLK_SEC_TARG_ENABLE_DATA                                     1
-#define CLK_SEC_TARG_DISABLE_DATA                                    0
-#define CLK_SEC_TARG_EN_SHIFT                                        31
-#define CLK_SEC_TARG_EN_MASK                                         0x80000000U
 #define CLK_SEC_TARG_SW_SHIFT                                        24
 #define CLK_SEC_TARG_SW_MASK                                         0x1000000U
 #define CLK_SEC_TARG_SW_CLK_OSC_DATA                                 0
 #define CLK_SEC_TARG_SW_CLK_SEC_200_DATA                             1
-#define CLK_SEC_TARG_DIV_SHIFT                                       0
-#define CLK_SEC_TARG_DIV_MASK                                        0x7U
-#define CLK_BMCPER1_600_ENABLE_DATA                                  1
-#define CLK_BMCPER1_600_DISABLE_DATA                                 0
-#define CLK_BMCPER1_600_EN_SHIFT                                     31
-#define CLK_BMCPER1_600_EN_MASK                                      0x80000000U
-#define CLK_BMCPER1_600_DIV_SHIFT                                    0
-#define CLK_BMCPER1_600_DIV_MASK                                     0x7U
-#define CLK_BMCPER1_INIT_SW_SHIFT                                    24
-#define CLK_BMCPER1_INIT_SW_MASK                                     0x1000000U
-#define CLK_BMCPER1_INIT_SW_CLK_OSC_DATA                             0
-#define CLK_BMCPER1_INIT_SW_CLK_BMCPER1_600_DATA                     1
-#define CLK_BMCPER1_200_ENABLE_DATA                                  1
-#define CLK_BMCPER1_200_DISABLE_DATA                                 0
-#define CLK_BMCPER1_200_EN_SHIFT                                     31
-#define CLK_BMCPER1_200_EN_MASK                                      0x80000000U
+#define CLK_SEC_CORE_DIV_SHIFT                                       0
+#define CLK_SEC_CORE_DIV_MASK                                        0x7U
+#define CLK_SEC_CORE_OSC_SW_SHIFT                                    24
+#define CLK_SEC_CORE_OSC_SW_MASK                                     0x1000000U
+#define CLK_SEC_CORE_OSC_SW_CLK_OSC_DATA                             0
+#define CLK_SEC_CORE_OSC_SW_CLK_SEC_CORE_DATA                        1
 #define CLK_BMCPER1_200_DIV_SHIFT                                    0
 #define CLK_BMCPER1_200_DIV_MASK                                     0x7U
 #define CLK_BMCPER1_TARG_SW_SHIFT                                    24
 #define CLK_BMCPER1_TARG_SW_MASK                                     0x1000000U
 #define CLK_BMCPER1_TARG_SW_CLK_OSC_DATA                             0
 #define CLK_BMCPER1_TARG_SW_CLK_BMCPER1_200_DATA                     1
-#define CLK_BMCPER1_400_ENABLE_DATA                                  1
-#define CLK_BMCPER1_400_DISABLE_DATA                                 0
-#define CLK_BMCPER1_400_EN_SHIFT                                     31
-#define CLK_BMCPER1_400_EN_MASK                                      0x80000000U
-#define CLK_BMCPER1_400_DIV_SHIFT                                    0
-#define CLK_BMCPER1_400_DIV_MASK                                     0xFU
-#define CLK_BMCPER1_400_OSC_SW_SHIFT                                 24
-#define CLK_BMCPER1_400_OSC_SW_MASK                                  0x1000000U
-#define CLK_BMCPER1_400_OSC_SW_CLK_OSC_DATA                          0
-#define CLK_BMCPER1_400_OSC_SW_CLK_BMCPER1_400_DATA                  1
-#define CLK_UFS_REF_ENABLE_DATA                                      1
-#define CLK_UFS_REF_DISABLE_DATA                                     0
-#define CLK_UFS_REF_EN_SHIFT                                         31
-#define CLK_UFS_REF_EN_MASK                                          0x80000000U
-#define CLK_UFS_REF_DIV_SHIFT                                        0
-#define CLK_UFS_REF_DIV_MASK                                         0x1FU
-#define CLK_BMCPER1_250_ENABLE_DATA                                  1
-#define CLK_BMCPER1_250_DISABLE_DATA                                 0
-#define CLK_BMCPER1_250_EN_SHIFT                                     31
-#define CLK_BMCPER1_250_EN_MASK                                      0x80000000U
 #define CLK_BMCPER1_250_DIV_SHIFT                                    0
 #define CLK_BMCPER1_250_DIV_MASK                                     0x7U
 #define CLK_BMCPER1_250_OSC_SW_SHIFT                                 24
 #define CLK_BMCPER1_250_OSC_SW_MASK                                  0x1000000U
 #define CLK_BMCPER1_250_OSC_SW_CLK_OSC_DATA                          0
 #define CLK_BMCPER1_250_OSC_SW_CLK_BMCPER1_250_DATA                  1
-#define CLK_BMCPER1_143_ENABLE_DATA                                  1
-#define CLK_BMCPER1_143_DISABLE_DATA                                 0
-#define CLK_BMCPER1_143_EN_SHIFT                                     31
-#define CLK_BMCPER1_143_EN_MASK                                      0x80000000U
-#define CLK_BMCPER1_143_DIV_SHIFT                                    0
-#define CLK_BMCPER1_143_DIV_MASK                                     0xFU
-#define CLK_BMCPER1_800_ENABLE_DATA                                  1
-#define CLK_BMCPER1_800_DISABLE_DATA                                 0
-#define CLK_BMCPER1_800_EN_SHIFT                                     31
-#define CLK_BMCPER1_800_EN_MASK                                      0x80000000U
-#define CLK_BMCPER1_800_DIV_SHIFT                                    0
-#define CLK_BMCPER1_800_DIV_MASK                                     0x7U
-#define CLK_BMCPER1_800_OSC_SW_SHIFT                                 24
-#define CLK_BMCPER1_800_OSC_SW_MASK                                  0x1000000U
-#define CLK_BMCPER1_800_OSC_SW_CLK_OSC_DATA                          0
-#define CLK_BMCPER1_800_OSC_SW_CLK_BMCPER1_800_DATA                  1
-#define CLK_BMCPER0_600_ENABLE_DATA                                  1
-#define CLK_BMCPER0_600_DISABLE_DATA                                 0
-#define CLK_BMCPER0_600_EN_SHIFT                                     31
-#define CLK_BMCPER0_600_EN_MASK                                      0x80000000U
-#define CLK_BMCPER0_600_DIV_SHIFT                                    0
-#define CLK_BMCPER0_600_DIV_MASK                                     0x7U
-#define CLK_BMCPER0_INIT_SW_SHIFT                                    24
-#define CLK_BMCPER0_INIT_SW_MASK                                     0x1000000U
-#define CLK_BMCPER0_INIT_SW_CLK_OSC_DATA                             0
-#define CLK_BMCPER0_INIT_SW_CLK_BMCPER0_600_DATA                     1
-#define CLK_BMCPER0_200_ENABLE_DATA                                  1
-#define CLK_BMCPER0_200_DISABLE_DATA                                 0
-#define CLK_BMCPER0_200_EN_SHIFT                                     31
-#define CLK_BMCPER0_200_EN_MASK                                      0x80000000U
+#define CLK_BMCPER1_143_DFT_DIV_SHIFT                                0
+#define CLK_BMCPER1_143_DFT_DIV_MASK                                 0xFU
+#define CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_ENABLE_DATA 1
+#define CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_DISABLE_DATA 0
+#define CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_SHIFT 31
+#define CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_MASK 0x80000000U
 #define CLK_BMCPER0_200_DIV_SHIFT                                    0
 #define CLK_BMCPER0_200_DIV_MASK                                     0x7U
 #define CLK_BMCPER0_TARG_SW_SHIFT                                    24
 #define CLK_BMCPER0_TARG_SW_MASK                                     0x1000000U
 #define CLK_BMCPER0_TARG_SW_CLK_OSC_DATA                             0
 #define CLK_BMCPER0_TARG_SW_CLK_BMCPER0_200_DATA                     1
-#define CLK_BMCPER0_400_ENABLE_DATA                                  1
-#define CLK_BMCPER0_400_DISABLE_DATA                                 0
-#define CLK_BMCPER0_400_EN_SHIFT                                     31
-#define CLK_BMCPER0_400_EN_MASK                                      0x80000000U
-#define CLK_BMCPER0_400_DIV_SHIFT                                    0
-#define CLK_BMCPER0_400_DIV_MASK                                     0xFU
-#define CLK_BMCPER0_400_OSC_SW_SHIFT                                 24
-#define CLK_BMCPER0_400_OSC_SW_MASK                                  0x1000000U
-#define CLK_BMCPER0_400_OSC_SW_CLK_OSC_DATA                          0
-#define CLK_BMCPER0_400_OSC_SW_CLK_BMCPER0_400_DATA                  1
-#define CLK_BMCPER0_125_ENABLE_DATA                                  1
-#define CLK_BMCPER0_125_DISABLE_DATA                                 0
-#define CLK_BMCPER0_125_EN_SHIFT                                     31
-#define CLK_BMCPER0_125_EN_MASK                                      0x80000000U
 #define CLK_BMCPER0_125_DIV_SHIFT                                    0
 #define CLK_BMCPER0_125_DIV_MASK                                     0xFU
 #define CLK_BMCPER0_125_OSC_SW_SHIFT                                 24
 #define CLK_BMCPER0_125_OSC_SW_MASK                                  0x1000000U
 #define CLK_BMCPER0_125_OSC_SW_CLK_OSC_DATA                          0
 #define CLK_BMCPER0_125_OSC_SW_CLK_BMCPER0_125_DATA                  1
-#define CLK_BMCPER0_PLL6_ENABLE_DATA                                 1
-#define CLK_BMCPER0_PLL6_DISABLE_DATA                                0
-#define CLK_BMCPER0_PLL6_EN_SHIFT                                    31
-#define CLK_BMCPER0_PLL6_EN_MASK                                     0x80000000U
-#define CLK_BMCPER0_PLL6_SW_SHIFT                                    24
-#define CLK_BMCPER0_PLL6_SW_MASK                                     0x1000000U
-#define CLK_BMCPER0_PLL6_SW_CLK_OSC_DATA                             0
-#define CLK_BMCPER0_PLL6_SW_CLK_PLL6_DATA                            1
+#define CLK_GPU0_100_DIV_SHIFT                                       0
+#define CLK_GPU0_100_DIV_MASK                                        0xFU
+#define CLK_GPU0_TARG_SW_SHIFT                                       24
+#define CLK_GPU0_TARG_SW_MASK                                        0x1000000U
+#define CLK_GPU0_TARG_SW_CLK_OSC_DATA                                0
+#define CLK_GPU0_TARG_SW_CLK_GPU0_100_DATA                           1
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ENABLE_DATA           1
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_DISABLE_DATA          0
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT              31
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK               0x80000000U
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ENABLE_DATA           1
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_DISABLE_DATA          0
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT              31
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK               0x80000000U
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ENABLE_DATA           1
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_DISABLE_DATA          0
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT              31
+#define CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK               0x80000000U
+#define CLK_GPU1_100_DIV_SHIFT                                       0
+#define CLK_GPU1_100_DIV_MASK                                        0xFU
+#define CLK_GPU1_TARG_SW_SHIFT                                       24
+#define CLK_GPU1_TARG_SW_MASK                                        0x1000000U
+#define CLK_GPU1_TARG_SW_CLK_OSC_DATA                                0
+#define CLK_GPU1_TARG_SW_CLK_GPU1_100_DATA                           1
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ENABLE_DATA           1
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_DISABLE_DATA          0
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT              31
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK               0x80000000U
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ENABLE_DATA           1
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_DISABLE_DATA          0
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT              31
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK               0x80000000U
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ENABLE_DATA           1
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_DISABLE_DATA          0
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT              31
+#define CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK               0x80000000U
 
+#define MAIN_ICG_EN_JTAG0_ENABLE_DATA                                1
+#define MAIN_ICG_EN_JTAG0_DISABLE_DATA                               0
+#define MAIN_ICG_EN_JTAG0_EN_SHIFT                                   31
+#define MAIN_ICG_EN_JTAG0_EN_MASK                                    0x80000000U
+#define MAIN_ICG_EN_JTAG1_ENABLE_DATA                                1
+#define MAIN_ICG_EN_JTAG1_DISABLE_DATA                               0
+#define MAIN_ICG_EN_JTAG1_EN_SHIFT                                   31
+#define MAIN_ICG_EN_JTAG1_EN_MASK                                    0x80000000U
 
 
 
@@ -272,50 +237,50 @@
 #define RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_MASK                          (0x1 << 1)
 #define RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_ASSERT                        1
 #define RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_CLEAR                         0
-#define MAIN_RSTN_SYS2_IOMUX_SHIFT                                   2
-#define MAIN_RSTN_SYS2_IOMUX_MASK                                    (0x1 << 2)
-#define MAIN_RSTN_SYS2_IOMUX_ASSERT                                  1
-#define MAIN_RSTN_SYS2_IOMUX_CLEAR                                   0
-#define RSTN_U0_JTAG_MST_WRAP_HRESETN_SHIFT                          3
-#define RSTN_U0_JTAG_MST_WRAP_HRESETN_MASK                           (0x1 << 3)
+#define RSTN_U0_JTAG_MST_WRAP_HRESETN_SHIFT                          2
+#define RSTN_U0_JTAG_MST_WRAP_HRESETN_MASK                           (0x1 << 2)
 #define RSTN_U0_JTAG_MST_WRAP_HRESETN_ASSERT                         1
 #define RSTN_U0_JTAG_MST_WRAP_HRESETN_CLEAR                          0
-#define RSTN_U0_JTAG_MST_WRAP_APB_PRESETN_SHIFT                      4
-#define RSTN_U0_JTAG_MST_WRAP_APB_PRESETN_MASK                       (0x1 << 4)
+#define RSTN_U0_JTAG_MST_WRAP_APB_PRESETN_SHIFT                      3
+#define RSTN_U0_JTAG_MST_WRAP_APB_PRESETN_MASK                       (0x1 << 3)
 #define RSTN_U0_JTAG_MST_WRAP_APB_PRESETN_ASSERT                     1
 #define RSTN_U0_JTAG_MST_WRAP_APB_PRESETN_CLEAR                      0
-#define RSTN_U1_JTAG_MST_WRAP_HRESETN_SHIFT                          5
-#define RSTN_U1_JTAG_MST_WRAP_HRESETN_MASK                           (0x1 << 5)
+#define RSTN_U1_JTAG_MST_WRAP_HRESETN_SHIFT                          4
+#define RSTN_U1_JTAG_MST_WRAP_HRESETN_MASK                           (0x1 << 4)
 #define RSTN_U1_JTAG_MST_WRAP_HRESETN_ASSERT                         1
 #define RSTN_U1_JTAG_MST_WRAP_HRESETN_CLEAR                          0
-#define RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_SHIFT                      6
-#define RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_MASK                       (0x1 << 6)
+#define RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_SHIFT                      5
+#define RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_MASK                       (0x1 << 5)
 #define RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_ASSERT                     1
 #define RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_CLEAR                      0
-#define RSTN_U4_PCU_CORE_RST_SHIFT                                   7
-#define RSTN_U4_PCU_CORE_RST_MASK                                    (0x1 << 7)
-#define RSTN_U4_PCU_CORE_RST_ASSERT                                  1
-#define RSTN_U4_PCU_CORE_RST_CLEAR                                   0
-#define RSTN_U4_PCU_APB_RST_SHIFT                                    8
-#define RSTN_U4_PCU_APB_RST_MASK                                     (0x1 << 8)
-#define RSTN_U4_PCU_APB_RST_ASSERT                                   1
-#define RSTN_U4_PCU_APB_RST_CLEAR                                    0
-#define RSTN_U5_PCU_CORE_RST_SHIFT                                   9
-#define RSTN_U5_PCU_CORE_RST_MASK                                    (0x1 << 9)
-#define RSTN_U5_PCU_CORE_RST_ASSERT                                  1
-#define RSTN_U5_PCU_CORE_RST_CLEAR                                   0
-#define RSTN_U5_PCU_APB_RST_SHIFT                                    10
-#define RSTN_U5_PCU_APB_RST_MASK                                     (0x1 << 10)
-#define RSTN_U5_PCU_APB_RST_ASSERT                                   1
-#define RSTN_U5_PCU_APB_RST_CLEAR                                    0
-#define RSTN_U10_PCU_CORE_RST_SHIFT                                  11
-#define RSTN_U10_PCU_CORE_RST_MASK                                   (0x1 << 11)
-#define RSTN_U10_PCU_CORE_RST_ASSERT                                 1
-#define RSTN_U10_PCU_CORE_RST_CLEAR                                  0
-#define RSTN_U10_PCU_APB_RST_SHIFT                                   12
-#define RSTN_U10_PCU_APB_RST_MASK                                    (0x1 << 12)
-#define RSTN_U10_PCU_APB_RST_ASSERT                                  1
-#define RSTN_U10_PCU_APB_RST_CLEAR                                   0
+#define RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_SHIFT   6
+#define RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_MASK    (0x1 << 6)
+#define RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_ASSERT  1
+#define RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_CLEAR   0
+#define RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_SHIFT                  7
+#define RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_MASK                   (0x1 << 7)
+#define RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_ASSERT                 1
+#define RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_CLEAR                  0
+#define MAIN_RSTN_PCU_HOSTUSB0_SHIFT                                 8
+#define MAIN_RSTN_PCU_HOSTUSB0_MASK                                  (0x1 << 8)
+#define MAIN_RSTN_PCU_HOSTUSB0_ASSERT                                1
+#define MAIN_RSTN_PCU_HOSTUSB0_CLEAR                                 0
+#define MAIN_RSTN_PCU_HOSTUSB1_SHIFT                                 9
+#define MAIN_RSTN_PCU_HOSTUSB1_MASK                                  (0x1 << 9)
+#define MAIN_RSTN_PCU_HOSTUSB1_ASSERT                                1
+#define MAIN_RSTN_PCU_HOSTUSB1_CLEAR                                 0
+#define MAIN_RSTN_PCU_UFS_SHIFT                                      10
+#define MAIN_RSTN_PCU_UFS_MASK                                       (0x1 << 10)
+#define MAIN_RSTN_PCU_UFS_ASSERT                                     1
+#define MAIN_RSTN_PCU_UFS_CLEAR                                      0
+#define MAIN_RSTN_PCU_GPU0_SHIFT                                     11
+#define MAIN_RSTN_PCU_GPU0_MASK                                      (0x1 << 11)
+#define MAIN_RSTN_PCU_GPU0_ASSERT                                    1
+#define MAIN_RSTN_PCU_GPU0_CLEAR                                     0
+#define MAIN_RSTN_PCU_GPU1_SHIFT                                     12
+#define MAIN_RSTN_PCU_GPU1_MASK                                      (0x1 << 12)
+#define MAIN_RSTN_PCU_GPU1_ASSERT                                    1
+#define MAIN_RSTN_PCU_GPU1_CLEAR                                     0
 
 #define _DIVIDE_CLOCK_CLK_APB_MAIN_SYS2_(div) 			itg_set_reg(CLK_APB_MAIN_SYS2_CTRL_REG_ADDR, div, CLK_APB_MAIN_SYS2_DIV_SHIFT, CLK_APB_MAIN_SYS2_DIV_MASK)
 #define _GET_CLOCK_DIVIDE_STATUS_CLK_APB_MAIN_SYS2_ 		itg_get_reg(CLK_APB_MAIN_SYS2_CTRL_REG_ADDR, CLK_APB_MAIN_SYS2_DIV_SHIFT, CLK_APB_MAIN_SYS2_DIV_MASK)
@@ -323,209 +288,163 @@
 #define _SWITCH_CLOCK_CLK_APB_OSC_SYS2_SOURCE_CLK_APB_MAIN_SYS2_ 	itg_set_reg(CLK_APB_OSC_SYS2_CTRL_REG_ADDR, CLK_APB_OSC_SYS2_SW_CLK_APB_MAIN_SYS2_DATA, CLK_APB_OSC_SYS2_SW_SHIFT, CLK_APB_OSC_SYS2_SW_MASK)
 #define _GET_CLOCK_SOURCE_STATUS_CLK_APB_OSC_SYS2_ 		itg_get_reg(CLK_APB_OSC_SYS2_CTRL_REG_ADDR, CLK_APB_OSC_SYS2_SW_SHIFT, CLK_APB_OSC_SYS2_SW_MASK)
 #define _SET_CLOCK_SOURCE_STATUS_CLK_APB_OSC_SYS2_(x) 		itg_set_reg(CLK_APB_OSC_SYS2_CTRL_REG_ADDR, x, CLK_APB_OSC_SYS2_SW_SHIFT, CLK_APB_OSC_SYS2_SW_MASK)
-#define _ENABLE_CLOCK_CLK_JTAGM_200_ 			itg_set_reg(CLK_JTAGM_200_CTRL_REG_ADDR, CLK_JTAGM_200_ENABLE_DATA, CLK_JTAGM_200_EN_SHIFT, CLK_JTAGM_200_EN_MASK)
-#define _DISABLE_CLOCK_CLK_JTAGM_200_ 			itg_set_reg(CLK_JTAGM_200_CTRL_REG_ADDR, CLK_JTAGM_200_DISABLE_DATA, CLK_JTAGM_200_EN_SHIFT, CLK_JTAGM_200_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_JTAGM_200_ 		itg_get_reg(CLK_JTAGM_200_CTRL_REG_ADDR, CLK_JTAGM_200_EN_SHIFT, CLK_JTAGM_200_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_JTAGM_200_(x) 		itg_set_reg(CLK_JTAGM_200_CTRL_REG_ADDR, x, CLK_JTAGM_200_EN_SHIFT, CLK_JTAGM_200_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_JTAGM_200_(div) 			itg_set_reg(CLK_JTAGM_200_CTRL_REG_ADDR, div, CLK_JTAGM_200_DIV_SHIFT, CLK_JTAGM_200_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_JTAGM_200_ 		itg_get_reg(CLK_JTAGM_200_CTRL_REG_ADDR, CLK_JTAGM_200_DIV_SHIFT, CLK_JTAGM_200_DIV_MASK)
-#define _ENABLE_CLOCK_CLK_JTAGM_100_ 			itg_set_reg(CLK_JTAGM_100_CTRL_REG_ADDR, CLK_JTAGM_100_ENABLE_DATA, CLK_JTAGM_100_EN_SHIFT, CLK_JTAGM_100_EN_MASK)
-#define _DISABLE_CLOCK_CLK_JTAGM_100_ 			itg_set_reg(CLK_JTAGM_100_CTRL_REG_ADDR, CLK_JTAGM_100_DISABLE_DATA, CLK_JTAGM_100_EN_SHIFT, CLK_JTAGM_100_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_JTAGM_100_ 		itg_get_reg(CLK_JTAGM_100_CTRL_REG_ADDR, CLK_JTAGM_100_EN_SHIFT, CLK_JTAGM_100_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_JTAGM_100_(x) 		itg_set_reg(CLK_JTAGM_100_CTRL_REG_ADDR, x, CLK_JTAGM_100_EN_SHIFT, CLK_JTAGM_100_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_JTAGM_100_(div) 			itg_set_reg(CLK_JTAGM_100_CTRL_REG_ADDR, div, CLK_JTAGM_100_DIV_SHIFT, CLK_JTAGM_100_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_JTAGM_100_ 		itg_get_reg(CLK_JTAGM_100_CTRL_REG_ADDR, CLK_JTAGM_100_DIV_SHIFT, CLK_JTAGM_100_DIV_MASK)
-#define _ENABLE_CLOCK_CLK_HOSTUSB_600_ 			itg_set_reg(CLK_HOSTUSB_600_CTRL_REG_ADDR, CLK_HOSTUSB_600_ENABLE_DATA, CLK_HOSTUSB_600_EN_SHIFT, CLK_HOSTUSB_600_EN_MASK)
-#define _DISABLE_CLOCK_CLK_HOSTUSB_600_ 			itg_set_reg(CLK_HOSTUSB_600_CTRL_REG_ADDR, CLK_HOSTUSB_600_DISABLE_DATA, CLK_HOSTUSB_600_EN_SHIFT, CLK_HOSTUSB_600_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_HOSTUSB_600_ 		itg_get_reg(CLK_HOSTUSB_600_CTRL_REG_ADDR, CLK_HOSTUSB_600_EN_SHIFT, CLK_HOSTUSB_600_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_HOSTUSB_600_(x) 		itg_set_reg(CLK_HOSTUSB_600_CTRL_REG_ADDR, x, CLK_HOSTUSB_600_EN_SHIFT, CLK_HOSTUSB_600_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_HOSTUSB_600_(div) 			itg_set_reg(CLK_HOSTUSB_600_CTRL_REG_ADDR, div, CLK_HOSTUSB_600_DIV_SHIFT, CLK_HOSTUSB_600_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_HOSTUSB_600_ 		itg_get_reg(CLK_HOSTUSB_600_CTRL_REG_ADDR, CLK_HOSTUSB_600_DIV_SHIFT, CLK_HOSTUSB_600_DIV_MASK)
-#define _SWITCH_CLOCK_CLK_HOSTUSB_INIT_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_HOSTUSB_INIT_CTRL_REG_ADDR, CLK_HOSTUSB_INIT_SW_CLK_OSC_DATA, CLK_HOSTUSB_INIT_SW_SHIFT, CLK_HOSTUSB_INIT_SW_MASK)
-#define _SWITCH_CLOCK_CLK_HOSTUSB_INIT_SOURCE_CLK_HOSTUSB_600_ 	itg_set_reg(CLK_HOSTUSB_INIT_CTRL_REG_ADDR, CLK_HOSTUSB_INIT_SW_CLK_HOSTUSB_600_DATA, CLK_HOSTUSB_INIT_SW_SHIFT, CLK_HOSTUSB_INIT_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_HOSTUSB_INIT_ 		itg_get_reg(CLK_HOSTUSB_INIT_CTRL_REG_ADDR, CLK_HOSTUSB_INIT_SW_SHIFT, CLK_HOSTUSB_INIT_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_HOSTUSB_INIT_(x) 		itg_set_reg(CLK_HOSTUSB_INIT_CTRL_REG_ADDR, x, CLK_HOSTUSB_INIT_SW_SHIFT, CLK_HOSTUSB_INIT_SW_MASK)
-#define _ENABLE_CLOCK_CLK_HOSTUSB_200_ 			itg_set_reg(CLK_HOSTUSB_200_CTRL_REG_ADDR, CLK_HOSTUSB_200_ENABLE_DATA, CLK_HOSTUSB_200_EN_SHIFT, CLK_HOSTUSB_200_EN_MASK)
-#define _DISABLE_CLOCK_CLK_HOSTUSB_200_ 			itg_set_reg(CLK_HOSTUSB_200_CTRL_REG_ADDR, CLK_HOSTUSB_200_DISABLE_DATA, CLK_HOSTUSB_200_EN_SHIFT, CLK_HOSTUSB_200_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_HOSTUSB_200_ 		itg_get_reg(CLK_HOSTUSB_200_CTRL_REG_ADDR, CLK_HOSTUSB_200_EN_SHIFT, CLK_HOSTUSB_200_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_HOSTUSB_200_(x) 		itg_set_reg(CLK_HOSTUSB_200_CTRL_REG_ADDR, x, CLK_HOSTUSB_200_EN_SHIFT, CLK_HOSTUSB_200_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_HOSTUSB_200_(div) 			itg_set_reg(CLK_HOSTUSB_200_CTRL_REG_ADDR, div, CLK_HOSTUSB_200_DIV_SHIFT, CLK_HOSTUSB_200_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_HOSTUSB_200_ 		itg_get_reg(CLK_HOSTUSB_200_CTRL_REG_ADDR, CLK_HOSTUSB_200_DIV_SHIFT, CLK_HOSTUSB_200_DIV_MASK)
-#define _SWITCH_CLOCK_CLK_HOSTUSB_TARG_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_HOSTUSB_TARG_CTRL_REG_ADDR, CLK_HOSTUSB_TARG_SW_CLK_OSC_DATA, CLK_HOSTUSB_TARG_SW_SHIFT, CLK_HOSTUSB_TARG_SW_MASK)
-#define _SWITCH_CLOCK_CLK_HOSTUSB_TARG_SOURCE_CLK_HOSTUSB_200_ 	itg_set_reg(CLK_HOSTUSB_TARG_CTRL_REG_ADDR, CLK_HOSTUSB_TARG_SW_CLK_HOSTUSB_200_DATA, CLK_HOSTUSB_TARG_SW_SHIFT, CLK_HOSTUSB_TARG_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_HOSTUSB_TARG_ 		itg_get_reg(CLK_HOSTUSB_TARG_CTRL_REG_ADDR, CLK_HOSTUSB_TARG_SW_SHIFT, CLK_HOSTUSB_TARG_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_HOSTUSB_TARG_(x) 		itg_set_reg(CLK_HOSTUSB_TARG_CTRL_REG_ADDR, x, CLK_HOSTUSB_TARG_SW_SHIFT, CLK_HOSTUSB_TARG_SW_MASK)
-#define _ENABLE_CLOCK_CLK_HOSTUSB_100_ 			itg_set_reg(CLK_HOSTUSB_100_CTRL_REG_ADDR, CLK_HOSTUSB_100_ENABLE_DATA, CLK_HOSTUSB_100_EN_SHIFT, CLK_HOSTUSB_100_EN_MASK)
-#define _DISABLE_CLOCK_CLK_HOSTUSB_100_ 			itg_set_reg(CLK_HOSTUSB_100_CTRL_REG_ADDR, CLK_HOSTUSB_100_DISABLE_DATA, CLK_HOSTUSB_100_EN_SHIFT, CLK_HOSTUSB_100_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_HOSTUSB_100_ 		itg_get_reg(CLK_HOSTUSB_100_CTRL_REG_ADDR, CLK_HOSTUSB_100_EN_SHIFT, CLK_HOSTUSB_100_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_HOSTUSB_100_(x) 		itg_set_reg(CLK_HOSTUSB_100_CTRL_REG_ADDR, x, CLK_HOSTUSB_100_EN_SHIFT, CLK_HOSTUSB_100_EN_MASK)
+#define _DIVIDE_CLOCK_DFT_GPIO_50_(div) 			itg_set_reg(DFT_GPIO_50_CTRL_REG_ADDR, div, DFT_GPIO_50_DIV_SHIFT, DFT_GPIO_50_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_DFT_GPIO_50_ 		itg_get_reg(DFT_GPIO_50_CTRL_REG_ADDR, DFT_GPIO_50_DIV_SHIFT, DFT_GPIO_50_DIV_MASK)
+#define _SWITCH_CLOCK_CLK_DEBUG_JTAG_SOURCE_SECJTAG_TCK_EXT_ 	itg_set_reg(CLK_DEBUG_JTAG_CTRL_REG_ADDR, CLK_DEBUG_JTAG_SW_SECJTAG_TCK_EXT_DATA, CLK_DEBUG_JTAG_SW_SHIFT, CLK_DEBUG_JTAG_SW_MASK)
+#define _SWITCH_CLOCK_CLK_DEBUG_JTAG_SOURCE_DFT_GPIO_50_ 	itg_set_reg(CLK_DEBUG_JTAG_CTRL_REG_ADDR, CLK_DEBUG_JTAG_SW_DFT_GPIO_50_DATA, CLK_DEBUG_JTAG_SW_SHIFT, CLK_DEBUG_JTAG_SW_MASK)
+#define _GET_CLOCK_SOURCE_STATUS_CLK_DEBUG_JTAG_ 		itg_get_reg(CLK_DEBUG_JTAG_CTRL_REG_ADDR, CLK_DEBUG_JTAG_SW_SHIFT, CLK_DEBUG_JTAG_SW_MASK)
+#define _SET_CLOCK_SOURCE_STATUS_CLK_DEBUG_JTAG_(x) 		itg_set_reg(CLK_DEBUG_JTAG_CTRL_REG_ADDR, x, CLK_DEBUG_JTAG_SW_SHIFT, CLK_DEBUG_JTAG_SW_MASK)
+#define _ENABLE_CLOCK_CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_ 			itg_set_reg(CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_CTRL_REG_ADDR, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_ENABLE_DATA, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_SHIFT, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_ 			itg_set_reg(CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_CTRL_REG_ADDR, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_DISABLE_DATA, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_SHIFT, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_ 		itg_get_reg(CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_CTRL_REG_ADDR, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_SHIFT, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_(x) 		itg_set_reg(CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_CTRL_REG_ADDR, x, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_SHIFT, CLK_U0_DEBUG_SUBSYS_RELEASE_SECJTAG_TCK_EN_MASK)
+#define _DIVIDE_CLOCK_CLK_JTAGM0_200_(div) 			itg_set_reg(CLK_JTAGM0_200_CTRL_REG_ADDR, div, CLK_JTAGM0_200_DIV_SHIFT, CLK_JTAGM0_200_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_JTAGM0_200_ 		itg_get_reg(CLK_JTAGM0_200_CTRL_REG_ADDR, CLK_JTAGM0_200_DIV_SHIFT, CLK_JTAGM0_200_DIV_MASK)
+#define _DIVIDE_CLOCK_CLK_JTAGM1_200_(div) 			itg_set_reg(CLK_JTAGM1_200_CTRL_REG_ADDR, div, CLK_JTAGM1_200_DIV_SHIFT, CLK_JTAGM1_200_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_JTAGM1_200_ 		itg_get_reg(CLK_JTAGM1_200_CTRL_REG_ADDR, CLK_JTAGM1_200_DIV_SHIFT, CLK_JTAGM1_200_DIV_MASK)
+#define _DIVIDE_CLOCK_CLK_JTAGM0_100_(div) 			itg_set_reg(CLK_JTAGM0_100_CTRL_REG_ADDR, div, CLK_JTAGM0_100_DIV_SHIFT, CLK_JTAGM0_100_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_JTAGM0_100_ 		itg_get_reg(CLK_JTAGM0_100_CTRL_REG_ADDR, CLK_JTAGM0_100_DIV_SHIFT, CLK_JTAGM0_100_DIV_MASK)
+#define _DIVIDE_CLOCK_CLK_JTAGM1_100_(div) 			itg_set_reg(CLK_JTAGM1_100_CTRL_REG_ADDR, div, CLK_JTAGM1_100_DIV_SHIFT, CLK_JTAGM1_100_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_JTAGM1_100_ 		itg_get_reg(CLK_JTAGM1_100_CTRL_REG_ADDR, CLK_JTAGM1_100_DIV_SHIFT, CLK_JTAGM1_100_DIV_MASK)
+#define _DIVIDE_CLOCK_CLK_JTAGM0_ATPG_TCLOCK_(div) 			itg_set_reg(CLK_JTAGM0_ATPG_TCLOCK_CTRL_REG_ADDR, div, CLK_JTAGM0_ATPG_TCLOCK_DIV_SHIFT, CLK_JTAGM0_ATPG_TCLOCK_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_JTAGM0_ATPG_TCLOCK_ 		itg_get_reg(CLK_JTAGM0_ATPG_TCLOCK_CTRL_REG_ADDR, CLK_JTAGM0_ATPG_TCLOCK_DIV_SHIFT, CLK_JTAGM0_ATPG_TCLOCK_DIV_MASK)
+#define _DIVIDE_CLOCK_CLK_JTAGM1_ATPG_TCLOCK_(div) 			itg_set_reg(CLK_JTAGM1_ATPG_TCLOCK_CTRL_REG_ADDR, div, CLK_JTAGM1_ATPG_TCLOCK_DIV_SHIFT, CLK_JTAGM1_ATPG_TCLOCK_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_JTAGM1_ATPG_TCLOCK_ 		itg_get_reg(CLK_JTAGM1_ATPG_TCLOCK_CTRL_REG_ADDR, CLK_JTAGM1_ATPG_TCLOCK_DIV_SHIFT, CLK_JTAGM1_ATPG_TCLOCK_DIV_MASK)
+#define _ENABLE_CLOCK_CLK_U0_JTAG_MST_WRAP_HCLK_ 			itg_set_reg(CLK_U0_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_HCLK_ENABLE_DATA, CLK_U0_JTAG_MST_WRAP_HCLK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_HCLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U0_JTAG_MST_WRAP_HCLK_ 			itg_set_reg(CLK_U0_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_HCLK_DISABLE_DATA, CLK_U0_JTAG_MST_WRAP_HCLK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_HCLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U0_JTAG_MST_WRAP_HCLK_ 		itg_get_reg(CLK_U0_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_HCLK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_HCLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U0_JTAG_MST_WRAP_HCLK_(x) 		itg_set_reg(CLK_U0_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR, x, CLK_U0_JTAG_MST_WRAP_HCLK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_HCLK_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U0_JTAG_MST_WRAP_CLK_JTAG_ 			itg_set_reg(CLK_U0_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_ENABLE_DATA, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U0_JTAG_MST_WRAP_CLK_JTAG_ 			itg_set_reg(CLK_U0_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_DISABLE_DATA, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U0_JTAG_MST_WRAP_CLK_JTAG_ 		itg_get_reg(CLK_U0_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U0_JTAG_MST_WRAP_CLK_JTAG_(x) 		itg_set_reg(CLK_U0_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR, x, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_CLK_JTAG_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U0_JTAG_MST_WRAP_APB_PCLK_ 			itg_set_reg(CLK_U0_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_APB_PCLK_ENABLE_DATA, CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U0_JTAG_MST_WRAP_APB_PCLK_ 			itg_set_reg(CLK_U0_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_APB_PCLK_DISABLE_DATA, CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U0_JTAG_MST_WRAP_APB_PCLK_ 		itg_get_reg(CLK_U0_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U0_JTAG_MST_WRAP_APB_PCLK_(x) 		itg_set_reg(CLK_U0_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR, x, CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_APB_PCLK_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_ 			itg_set_reg(CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_ENABLE_DATA, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_ 			itg_set_reg(CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_DISABLE_DATA, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_ 		itg_get_reg(CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_(x) 		itg_set_reg(CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR, x, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT, CLK_U0_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U1_JTAG_MST_WRAP_HCLK_ 			itg_set_reg(CLK_U1_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_HCLK_ENABLE_DATA, CLK_U1_JTAG_MST_WRAP_HCLK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_HCLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U1_JTAG_MST_WRAP_HCLK_ 			itg_set_reg(CLK_U1_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_HCLK_DISABLE_DATA, CLK_U1_JTAG_MST_WRAP_HCLK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_HCLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U1_JTAG_MST_WRAP_HCLK_ 		itg_get_reg(CLK_U1_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_HCLK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_HCLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U1_JTAG_MST_WRAP_HCLK_(x) 		itg_set_reg(CLK_U1_JTAG_MST_WRAP_HCLK_CTRL_REG_ADDR, x, CLK_U1_JTAG_MST_WRAP_HCLK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_HCLK_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U1_JTAG_MST_WRAP_CLK_JTAG_ 			itg_set_reg(CLK_U1_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_ENABLE_DATA, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U1_JTAG_MST_WRAP_CLK_JTAG_ 			itg_set_reg(CLK_U1_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_DISABLE_DATA, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U1_JTAG_MST_WRAP_CLK_JTAG_ 		itg_get_reg(CLK_U1_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U1_JTAG_MST_WRAP_CLK_JTAG_(x) 		itg_set_reg(CLK_U1_JTAG_MST_WRAP_CLK_JTAG_CTRL_REG_ADDR, x, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_CLK_JTAG_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U1_JTAG_MST_WRAP_APB_PCLK_ 			itg_set_reg(CLK_U1_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_APB_PCLK_ENABLE_DATA, CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U1_JTAG_MST_WRAP_APB_PCLK_ 			itg_set_reg(CLK_U1_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_APB_PCLK_DISABLE_DATA, CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U1_JTAG_MST_WRAP_APB_PCLK_ 		itg_get_reg(CLK_U1_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U1_JTAG_MST_WRAP_APB_PCLK_(x) 		itg_set_reg(CLK_U1_JTAG_MST_WRAP_APB_PCLK_CTRL_REG_ADDR, x, CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_APB_PCLK_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_ 			itg_set_reg(CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_ENABLE_DATA, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_ 			itg_set_reg(CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_DISABLE_DATA, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_ 		itg_get_reg(CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_(x) 		itg_set_reg(CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_CTRL_REG_ADDR, x, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_SHIFT, CLK_U1_JTAG_MST_WRAP_ATPG_TCLOCK_EN_MASK)
 #define _DIVIDE_CLOCK_CLK_HOSTUSB_100_(div) 			itg_set_reg(CLK_HOSTUSB_100_CTRL_REG_ADDR, div, CLK_HOSTUSB_100_DIV_SHIFT, CLK_HOSTUSB_100_DIV_MASK)
 #define _GET_CLOCK_DIVIDE_STATUS_CLK_HOSTUSB_100_ 		itg_get_reg(CLK_HOSTUSB_100_CTRL_REG_ADDR, CLK_HOSTUSB_100_DIV_SHIFT, CLK_HOSTUSB_100_DIV_MASK)
 #define _SWITCH_CLOCK_CLK_HOSTUSBCMN_TARG_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_HOSTUSBCMN_TARG_CTRL_REG_ADDR, CLK_HOSTUSBCMN_TARG_SW_CLK_OSC_DATA, CLK_HOSTUSBCMN_TARG_SW_SHIFT, CLK_HOSTUSBCMN_TARG_SW_MASK)
 #define _SWITCH_CLOCK_CLK_HOSTUSBCMN_TARG_SOURCE_CLK_HOSTUSB_100_ 	itg_set_reg(CLK_HOSTUSBCMN_TARG_CTRL_REG_ADDR, CLK_HOSTUSBCMN_TARG_SW_CLK_HOSTUSB_100_DATA, CLK_HOSTUSBCMN_TARG_SW_SHIFT, CLK_HOSTUSBCMN_TARG_SW_MASK)
 #define _GET_CLOCK_SOURCE_STATUS_CLK_HOSTUSBCMN_TARG_ 		itg_get_reg(CLK_HOSTUSBCMN_TARG_CTRL_REG_ADDR, CLK_HOSTUSBCMN_TARG_SW_SHIFT, CLK_HOSTUSBCMN_TARG_SW_MASK)
 #define _SET_CLOCK_SOURCE_STATUS_CLK_HOSTUSBCMN_TARG_(x) 		itg_set_reg(CLK_HOSTUSBCMN_TARG_CTRL_REG_ADDR, x, CLK_HOSTUSBCMN_TARG_SW_SHIFT, CLK_HOSTUSBCMN_TARG_SW_MASK)
-#define _ENABLE_CLOCK_CLK_HOSTUSBCMN_500_ 			itg_set_reg(CLK_HOSTUSBCMN_500_CTRL_REG_ADDR, CLK_HOSTUSBCMN_500_ENABLE_DATA, CLK_HOSTUSBCMN_500_EN_SHIFT, CLK_HOSTUSBCMN_500_EN_MASK)
-#define _DISABLE_CLOCK_CLK_HOSTUSBCMN_500_ 			itg_set_reg(CLK_HOSTUSBCMN_500_CTRL_REG_ADDR, CLK_HOSTUSBCMN_500_DISABLE_DATA, CLK_HOSTUSBCMN_500_EN_SHIFT, CLK_HOSTUSBCMN_500_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_HOSTUSBCMN_500_ 		itg_get_reg(CLK_HOSTUSBCMN_500_CTRL_REG_ADDR, CLK_HOSTUSBCMN_500_EN_SHIFT, CLK_HOSTUSBCMN_500_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_HOSTUSBCMN_500_(x) 		itg_set_reg(CLK_HOSTUSBCMN_500_CTRL_REG_ADDR, x, CLK_HOSTUSBCMN_500_EN_SHIFT, CLK_HOSTUSBCMN_500_EN_MASK)
 #define _DIVIDE_CLOCK_CLK_HOSTUSBCMN_500_(div) 			itg_set_reg(CLK_HOSTUSBCMN_500_CTRL_REG_ADDR, div, CLK_HOSTUSBCMN_500_DIV_SHIFT, CLK_HOSTUSBCMN_500_DIV_MASK)
 #define _GET_CLOCK_DIVIDE_STATUS_CLK_HOSTUSBCMN_500_ 		itg_get_reg(CLK_HOSTUSBCMN_500_CTRL_REG_ADDR, CLK_HOSTUSBCMN_500_DIV_SHIFT, CLK_HOSTUSBCMN_500_DIV_MASK)
 #define _SWITCH_CLOCK_CLK_HOSTUSBCMN_500_OSC_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_HOSTUSBCMN_500_OSC_CTRL_REG_ADDR, CLK_HOSTUSBCMN_500_OSC_SW_CLK_OSC_DATA, CLK_HOSTUSBCMN_500_OSC_SW_SHIFT, CLK_HOSTUSBCMN_500_OSC_SW_MASK)
 #define _SWITCH_CLOCK_CLK_HOSTUSBCMN_500_OSC_SOURCE_CLK_HOSTUSBCMN_500_ 	itg_set_reg(CLK_HOSTUSBCMN_500_OSC_CTRL_REG_ADDR, CLK_HOSTUSBCMN_500_OSC_SW_CLK_HOSTUSBCMN_500_DATA, CLK_HOSTUSBCMN_500_OSC_SW_SHIFT, CLK_HOSTUSBCMN_500_OSC_SW_MASK)
 #define _GET_CLOCK_SOURCE_STATUS_CLK_HOSTUSBCMN_500_OSC_ 		itg_get_reg(CLK_HOSTUSBCMN_500_OSC_CTRL_REG_ADDR, CLK_HOSTUSBCMN_500_OSC_SW_SHIFT, CLK_HOSTUSBCMN_500_OSC_SW_MASK)
 #define _SET_CLOCK_SOURCE_STATUS_CLK_HOSTUSBCMN_500_OSC_(x) 		itg_set_reg(CLK_HOSTUSBCMN_500_OSC_CTRL_REG_ADDR, x, CLK_HOSTUSBCMN_500_OSC_SW_SHIFT, CLK_HOSTUSBCMN_500_OSC_SW_MASK)
-#define _ENABLE_CLOCK_CLK_HOSTUSBCMN_480_ 			itg_set_reg(CLK_HOSTUSBCMN_480_CTRL_REG_ADDR, CLK_HOSTUSBCMN_480_ENABLE_DATA, CLK_HOSTUSBCMN_480_EN_SHIFT, CLK_HOSTUSBCMN_480_EN_MASK)
-#define _DISABLE_CLOCK_CLK_HOSTUSBCMN_480_ 			itg_set_reg(CLK_HOSTUSBCMN_480_CTRL_REG_ADDR, CLK_HOSTUSBCMN_480_DISABLE_DATA, CLK_HOSTUSBCMN_480_EN_SHIFT, CLK_HOSTUSBCMN_480_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_HOSTUSBCMN_480_ 		itg_get_reg(CLK_HOSTUSBCMN_480_CTRL_REG_ADDR, CLK_HOSTUSBCMN_480_EN_SHIFT, CLK_HOSTUSBCMN_480_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_HOSTUSBCMN_480_(x) 		itg_set_reg(CLK_HOSTUSBCMN_480_CTRL_REG_ADDR, x, CLK_HOSTUSBCMN_480_EN_SHIFT, CLK_HOSTUSBCMN_480_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_HOSTUSBCMN_480_(div) 			itg_set_reg(CLK_HOSTUSBCMN_480_CTRL_REG_ADDR, div, CLK_HOSTUSBCMN_480_DIV_SHIFT, CLK_HOSTUSBCMN_480_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_HOSTUSBCMN_480_ 		itg_get_reg(CLK_HOSTUSBCMN_480_CTRL_REG_ADDR, CLK_HOSTUSBCMN_480_DIV_SHIFT, CLK_HOSTUSBCMN_480_DIV_MASK)
-#define _SWITCH_CLOCK_CLK_HOSTUSBCMN_480_OSC_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_HOSTUSBCMN_480_OSC_CTRL_REG_ADDR, CLK_HOSTUSBCMN_480_OSC_SW_CLK_OSC_DATA, CLK_HOSTUSBCMN_480_OSC_SW_SHIFT, CLK_HOSTUSBCMN_480_OSC_SW_MASK)
-#define _SWITCH_CLOCK_CLK_HOSTUSBCMN_480_OSC_SOURCE_CLK_HOSTUSBCMN_480_ 	itg_set_reg(CLK_HOSTUSBCMN_480_OSC_CTRL_REG_ADDR, CLK_HOSTUSBCMN_480_OSC_SW_CLK_HOSTUSBCMN_480_DATA, CLK_HOSTUSBCMN_480_OSC_SW_SHIFT, CLK_HOSTUSBCMN_480_OSC_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_HOSTUSBCMN_480_OSC_ 		itg_get_reg(CLK_HOSTUSBCMN_480_OSC_CTRL_REG_ADDR, CLK_HOSTUSBCMN_480_OSC_SW_SHIFT, CLK_HOSTUSBCMN_480_OSC_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_HOSTUSBCMN_480_OSC_(x) 		itg_set_reg(CLK_HOSTUSBCMN_480_OSC_CTRL_REG_ADDR, x, CLK_HOSTUSBCMN_480_OSC_SW_SHIFT, CLK_HOSTUSBCMN_480_OSC_SW_MASK)
-#define _ENABLE_CLOCK_CLK_SEC_600_ 			itg_set_reg(CLK_SEC_600_CTRL_REG_ADDR, CLK_SEC_600_ENABLE_DATA, CLK_SEC_600_EN_SHIFT, CLK_SEC_600_EN_MASK)
-#define _DISABLE_CLOCK_CLK_SEC_600_ 			itg_set_reg(CLK_SEC_600_CTRL_REG_ADDR, CLK_SEC_600_DISABLE_DATA, CLK_SEC_600_EN_SHIFT, CLK_SEC_600_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_SEC_600_ 		itg_get_reg(CLK_SEC_600_CTRL_REG_ADDR, CLK_SEC_600_EN_SHIFT, CLK_SEC_600_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_SEC_600_(x) 		itg_set_reg(CLK_SEC_600_CTRL_REG_ADDR, x, CLK_SEC_600_EN_SHIFT, CLK_SEC_600_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_SEC_600_(div) 			itg_set_reg(CLK_SEC_600_CTRL_REG_ADDR, div, CLK_SEC_600_DIV_SHIFT, CLK_SEC_600_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_SEC_600_ 		itg_get_reg(CLK_SEC_600_CTRL_REG_ADDR, CLK_SEC_600_DIV_SHIFT, CLK_SEC_600_DIV_MASK)
-#define _SWITCH_CLOCK_CLK_SEC_DATA_INIT_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_SEC_DATA_INIT_CTRL_REG_ADDR, CLK_SEC_DATA_INIT_SW_CLK_OSC_DATA, CLK_SEC_DATA_INIT_SW_SHIFT, CLK_SEC_DATA_INIT_SW_MASK)
-#define _SWITCH_CLOCK_CLK_SEC_DATA_INIT_SOURCE_CLK_SEC_600_ 	itg_set_reg(CLK_SEC_DATA_INIT_CTRL_REG_ADDR, CLK_SEC_DATA_INIT_SW_CLK_SEC_600_DATA, CLK_SEC_DATA_INIT_SW_SHIFT, CLK_SEC_DATA_INIT_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_SEC_DATA_INIT_ 		itg_get_reg(CLK_SEC_DATA_INIT_CTRL_REG_ADDR, CLK_SEC_DATA_INIT_SW_SHIFT, CLK_SEC_DATA_INIT_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_SEC_DATA_INIT_(x) 		itg_set_reg(CLK_SEC_DATA_INIT_CTRL_REG_ADDR, x, CLK_SEC_DATA_INIT_SW_SHIFT, CLK_SEC_DATA_INIT_SW_MASK)
-#define _ENABLE_CLOCK_CLK_SEC_200_ 			itg_set_reg(CLK_SEC_200_CTRL_REG_ADDR, CLK_SEC_200_ENABLE_DATA, CLK_SEC_200_EN_SHIFT, CLK_SEC_200_EN_MASK)
-#define _DISABLE_CLOCK_CLK_SEC_200_ 			itg_set_reg(CLK_SEC_200_CTRL_REG_ADDR, CLK_SEC_200_DISABLE_DATA, CLK_SEC_200_EN_SHIFT, CLK_SEC_200_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_SEC_200_ 		itg_get_reg(CLK_SEC_200_CTRL_REG_ADDR, CLK_SEC_200_EN_SHIFT, CLK_SEC_200_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_SEC_200_(x) 		itg_set_reg(CLK_SEC_200_CTRL_REG_ADDR, x, CLK_SEC_200_EN_SHIFT, CLK_SEC_200_EN_MASK)
 #define _DIVIDE_CLOCK_CLK_SEC_200_(div) 			itg_set_reg(CLK_SEC_200_CTRL_REG_ADDR, div, CLK_SEC_200_DIV_SHIFT, CLK_SEC_200_DIV_MASK)
 #define _GET_CLOCK_DIVIDE_STATUS_CLK_SEC_200_ 		itg_get_reg(CLK_SEC_200_CTRL_REG_ADDR, CLK_SEC_200_DIV_SHIFT, CLK_SEC_200_DIV_MASK)
 #define _SWITCH_CLOCK_CLK_SEC_CFG_INIT_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_SEC_CFG_INIT_CTRL_REG_ADDR, CLK_SEC_CFG_INIT_SW_CLK_OSC_DATA, CLK_SEC_CFG_INIT_SW_SHIFT, CLK_SEC_CFG_INIT_SW_MASK)
 #define _SWITCH_CLOCK_CLK_SEC_CFG_INIT_SOURCE_CLK_SEC_200_ 	itg_set_reg(CLK_SEC_CFG_INIT_CTRL_REG_ADDR, CLK_SEC_CFG_INIT_SW_CLK_SEC_200_DATA, CLK_SEC_CFG_INIT_SW_SHIFT, CLK_SEC_CFG_INIT_SW_MASK)
 #define _GET_CLOCK_SOURCE_STATUS_CLK_SEC_CFG_INIT_ 		itg_get_reg(CLK_SEC_CFG_INIT_CTRL_REG_ADDR, CLK_SEC_CFG_INIT_SW_SHIFT, CLK_SEC_CFG_INIT_SW_MASK)
 #define _SET_CLOCK_SOURCE_STATUS_CLK_SEC_CFG_INIT_(x) 		itg_set_reg(CLK_SEC_CFG_INIT_CTRL_REG_ADDR, x, CLK_SEC_CFG_INIT_SW_SHIFT, CLK_SEC_CFG_INIT_SW_MASK)
-#define _ENABLE_CLOCK_CLK_SEC_TARG_ 			itg_set_reg(CLK_SEC_TARG_CTRL_REG_ADDR, CLK_SEC_TARG_ENABLE_DATA, CLK_SEC_TARG_EN_SHIFT, CLK_SEC_TARG_EN_MASK)
-#define _DISABLE_CLOCK_CLK_SEC_TARG_ 			itg_set_reg(CLK_SEC_TARG_CTRL_REG_ADDR, CLK_SEC_TARG_DISABLE_DATA, CLK_SEC_TARG_EN_SHIFT, CLK_SEC_TARG_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_SEC_TARG_ 		itg_get_reg(CLK_SEC_TARG_CTRL_REG_ADDR, CLK_SEC_TARG_EN_SHIFT, CLK_SEC_TARG_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_SEC_TARG_(x) 		itg_set_reg(CLK_SEC_TARG_CTRL_REG_ADDR, x, CLK_SEC_TARG_EN_SHIFT, CLK_SEC_TARG_EN_MASK)
 #define _SWITCH_CLOCK_CLK_SEC_TARG_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_SEC_TARG_CTRL_REG_ADDR, CLK_SEC_TARG_SW_CLK_OSC_DATA, CLK_SEC_TARG_SW_SHIFT, CLK_SEC_TARG_SW_MASK)
 #define _SWITCH_CLOCK_CLK_SEC_TARG_SOURCE_CLK_SEC_200_ 	itg_set_reg(CLK_SEC_TARG_CTRL_REG_ADDR, CLK_SEC_TARG_SW_CLK_SEC_200_DATA, CLK_SEC_TARG_SW_SHIFT, CLK_SEC_TARG_SW_MASK)
 #define _GET_CLOCK_SOURCE_STATUS_CLK_SEC_TARG_ 		itg_get_reg(CLK_SEC_TARG_CTRL_REG_ADDR, CLK_SEC_TARG_SW_SHIFT, CLK_SEC_TARG_SW_MASK)
 #define _SET_CLOCK_SOURCE_STATUS_CLK_SEC_TARG_(x) 		itg_set_reg(CLK_SEC_TARG_CTRL_REG_ADDR, x, CLK_SEC_TARG_SW_SHIFT, CLK_SEC_TARG_SW_MASK)
-#define _DIVIDE_CLOCK_CLK_SEC_TARG_(div) 			itg_set_reg(CLK_SEC_TARG_CTRL_REG_ADDR, div, CLK_SEC_TARG_DIV_SHIFT, CLK_SEC_TARG_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_SEC_TARG_ 		itg_get_reg(CLK_SEC_TARG_CTRL_REG_ADDR, CLK_SEC_TARG_DIV_SHIFT, CLK_SEC_TARG_DIV_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER1_600_ 			itg_set_reg(CLK_BMCPER1_600_CTRL_REG_ADDR, CLK_BMCPER1_600_ENABLE_DATA, CLK_BMCPER1_600_EN_SHIFT, CLK_BMCPER1_600_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER1_600_ 			itg_set_reg(CLK_BMCPER1_600_CTRL_REG_ADDR, CLK_BMCPER1_600_DISABLE_DATA, CLK_BMCPER1_600_EN_SHIFT, CLK_BMCPER1_600_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_600_ 		itg_get_reg(CLK_BMCPER1_600_CTRL_REG_ADDR, CLK_BMCPER1_600_EN_SHIFT, CLK_BMCPER1_600_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_600_(x) 		itg_set_reg(CLK_BMCPER1_600_CTRL_REG_ADDR, x, CLK_BMCPER1_600_EN_SHIFT, CLK_BMCPER1_600_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_BMCPER1_600_(div) 			itg_set_reg(CLK_BMCPER1_600_CTRL_REG_ADDR, div, CLK_BMCPER1_600_DIV_SHIFT, CLK_BMCPER1_600_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER1_600_ 		itg_get_reg(CLK_BMCPER1_600_CTRL_REG_ADDR, CLK_BMCPER1_600_DIV_SHIFT, CLK_BMCPER1_600_DIV_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER1_INIT_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER1_INIT_CTRL_REG_ADDR, CLK_BMCPER1_INIT_SW_CLK_OSC_DATA, CLK_BMCPER1_INIT_SW_SHIFT, CLK_BMCPER1_INIT_SW_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER1_INIT_SOURCE_CLK_BMCPER1_600_ 	itg_set_reg(CLK_BMCPER1_INIT_CTRL_REG_ADDR, CLK_BMCPER1_INIT_SW_CLK_BMCPER1_600_DATA, CLK_BMCPER1_INIT_SW_SHIFT, CLK_BMCPER1_INIT_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_INIT_ 		itg_get_reg(CLK_BMCPER1_INIT_CTRL_REG_ADDR, CLK_BMCPER1_INIT_SW_SHIFT, CLK_BMCPER1_INIT_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_INIT_(x) 		itg_set_reg(CLK_BMCPER1_INIT_CTRL_REG_ADDR, x, CLK_BMCPER1_INIT_SW_SHIFT, CLK_BMCPER1_INIT_SW_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER1_200_ 			itg_set_reg(CLK_BMCPER1_200_CTRL_REG_ADDR, CLK_BMCPER1_200_ENABLE_DATA, CLK_BMCPER1_200_EN_SHIFT, CLK_BMCPER1_200_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER1_200_ 			itg_set_reg(CLK_BMCPER1_200_CTRL_REG_ADDR, CLK_BMCPER1_200_DISABLE_DATA, CLK_BMCPER1_200_EN_SHIFT, CLK_BMCPER1_200_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_200_ 		itg_get_reg(CLK_BMCPER1_200_CTRL_REG_ADDR, CLK_BMCPER1_200_EN_SHIFT, CLK_BMCPER1_200_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_200_(x) 		itg_set_reg(CLK_BMCPER1_200_CTRL_REG_ADDR, x, CLK_BMCPER1_200_EN_SHIFT, CLK_BMCPER1_200_EN_MASK)
+#define _DIVIDE_CLOCK_CLK_SEC_CORE_(div) 			itg_set_reg(CLK_SEC_CORE_CTRL_REG_ADDR, div, CLK_SEC_CORE_DIV_SHIFT, CLK_SEC_CORE_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_SEC_CORE_ 		itg_get_reg(CLK_SEC_CORE_CTRL_REG_ADDR, CLK_SEC_CORE_DIV_SHIFT, CLK_SEC_CORE_DIV_MASK)
+#define _SWITCH_CLOCK_CLK_SEC_CORE_OSC_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_SEC_CORE_OSC_CTRL_REG_ADDR, CLK_SEC_CORE_OSC_SW_CLK_OSC_DATA, CLK_SEC_CORE_OSC_SW_SHIFT, CLK_SEC_CORE_OSC_SW_MASK)
+#define _SWITCH_CLOCK_CLK_SEC_CORE_OSC_SOURCE_CLK_SEC_CORE_ 	itg_set_reg(CLK_SEC_CORE_OSC_CTRL_REG_ADDR, CLK_SEC_CORE_OSC_SW_CLK_SEC_CORE_DATA, CLK_SEC_CORE_OSC_SW_SHIFT, CLK_SEC_CORE_OSC_SW_MASK)
+#define _GET_CLOCK_SOURCE_STATUS_CLK_SEC_CORE_OSC_ 		itg_get_reg(CLK_SEC_CORE_OSC_CTRL_REG_ADDR, CLK_SEC_CORE_OSC_SW_SHIFT, CLK_SEC_CORE_OSC_SW_MASK)
+#define _SET_CLOCK_SOURCE_STATUS_CLK_SEC_CORE_OSC_(x) 		itg_set_reg(CLK_SEC_CORE_OSC_CTRL_REG_ADDR, x, CLK_SEC_CORE_OSC_SW_SHIFT, CLK_SEC_CORE_OSC_SW_MASK)
 #define _DIVIDE_CLOCK_CLK_BMCPER1_200_(div) 			itg_set_reg(CLK_BMCPER1_200_CTRL_REG_ADDR, div, CLK_BMCPER1_200_DIV_SHIFT, CLK_BMCPER1_200_DIV_MASK)
 #define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER1_200_ 		itg_get_reg(CLK_BMCPER1_200_CTRL_REG_ADDR, CLK_BMCPER1_200_DIV_SHIFT, CLK_BMCPER1_200_DIV_MASK)
 #define _SWITCH_CLOCK_CLK_BMCPER1_TARG_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER1_TARG_CTRL_REG_ADDR, CLK_BMCPER1_TARG_SW_CLK_OSC_DATA, CLK_BMCPER1_TARG_SW_SHIFT, CLK_BMCPER1_TARG_SW_MASK)
 #define _SWITCH_CLOCK_CLK_BMCPER1_TARG_SOURCE_CLK_BMCPER1_200_ 	itg_set_reg(CLK_BMCPER1_TARG_CTRL_REG_ADDR, CLK_BMCPER1_TARG_SW_CLK_BMCPER1_200_DATA, CLK_BMCPER1_TARG_SW_SHIFT, CLK_BMCPER1_TARG_SW_MASK)
 #define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_TARG_ 		itg_get_reg(CLK_BMCPER1_TARG_CTRL_REG_ADDR, CLK_BMCPER1_TARG_SW_SHIFT, CLK_BMCPER1_TARG_SW_MASK)
 #define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_TARG_(x) 		itg_set_reg(CLK_BMCPER1_TARG_CTRL_REG_ADDR, x, CLK_BMCPER1_TARG_SW_SHIFT, CLK_BMCPER1_TARG_SW_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER1_400_ 			itg_set_reg(CLK_BMCPER1_400_CTRL_REG_ADDR, CLK_BMCPER1_400_ENABLE_DATA, CLK_BMCPER1_400_EN_SHIFT, CLK_BMCPER1_400_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER1_400_ 			itg_set_reg(CLK_BMCPER1_400_CTRL_REG_ADDR, CLK_BMCPER1_400_DISABLE_DATA, CLK_BMCPER1_400_EN_SHIFT, CLK_BMCPER1_400_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_400_ 		itg_get_reg(CLK_BMCPER1_400_CTRL_REG_ADDR, CLK_BMCPER1_400_EN_SHIFT, CLK_BMCPER1_400_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_400_(x) 		itg_set_reg(CLK_BMCPER1_400_CTRL_REG_ADDR, x, CLK_BMCPER1_400_EN_SHIFT, CLK_BMCPER1_400_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_BMCPER1_400_(div) 			itg_set_reg(CLK_BMCPER1_400_CTRL_REG_ADDR, div, CLK_BMCPER1_400_DIV_SHIFT, CLK_BMCPER1_400_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER1_400_ 		itg_get_reg(CLK_BMCPER1_400_CTRL_REG_ADDR, CLK_BMCPER1_400_DIV_SHIFT, CLK_BMCPER1_400_DIV_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER1_400_OSC_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER1_400_OSC_CTRL_REG_ADDR, CLK_BMCPER1_400_OSC_SW_CLK_OSC_DATA, CLK_BMCPER1_400_OSC_SW_SHIFT, CLK_BMCPER1_400_OSC_SW_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER1_400_OSC_SOURCE_CLK_BMCPER1_400_ 	itg_set_reg(CLK_BMCPER1_400_OSC_CTRL_REG_ADDR, CLK_BMCPER1_400_OSC_SW_CLK_BMCPER1_400_DATA, CLK_BMCPER1_400_OSC_SW_SHIFT, CLK_BMCPER1_400_OSC_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_400_OSC_ 		itg_get_reg(CLK_BMCPER1_400_OSC_CTRL_REG_ADDR, CLK_BMCPER1_400_OSC_SW_SHIFT, CLK_BMCPER1_400_OSC_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_400_OSC_(x) 		itg_set_reg(CLK_BMCPER1_400_OSC_CTRL_REG_ADDR, x, CLK_BMCPER1_400_OSC_SW_SHIFT, CLK_BMCPER1_400_OSC_SW_MASK)
-#define _ENABLE_CLOCK_CLK_UFS_REF_ 			itg_set_reg(CLK_UFS_REF_CTRL_REG_ADDR, CLK_UFS_REF_ENABLE_DATA, CLK_UFS_REF_EN_SHIFT, CLK_UFS_REF_EN_MASK)
-#define _DISABLE_CLOCK_CLK_UFS_REF_ 			itg_set_reg(CLK_UFS_REF_CTRL_REG_ADDR, CLK_UFS_REF_DISABLE_DATA, CLK_UFS_REF_EN_SHIFT, CLK_UFS_REF_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_UFS_REF_ 		itg_get_reg(CLK_UFS_REF_CTRL_REG_ADDR, CLK_UFS_REF_EN_SHIFT, CLK_UFS_REF_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_UFS_REF_(x) 		itg_set_reg(CLK_UFS_REF_CTRL_REG_ADDR, x, CLK_UFS_REF_EN_SHIFT, CLK_UFS_REF_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_UFS_REF_(div) 			itg_set_reg(CLK_UFS_REF_CTRL_REG_ADDR, div, CLK_UFS_REF_DIV_SHIFT, CLK_UFS_REF_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_UFS_REF_ 		itg_get_reg(CLK_UFS_REF_CTRL_REG_ADDR, CLK_UFS_REF_DIV_SHIFT, CLK_UFS_REF_DIV_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER1_250_ 			itg_set_reg(CLK_BMCPER1_250_CTRL_REG_ADDR, CLK_BMCPER1_250_ENABLE_DATA, CLK_BMCPER1_250_EN_SHIFT, CLK_BMCPER1_250_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER1_250_ 			itg_set_reg(CLK_BMCPER1_250_CTRL_REG_ADDR, CLK_BMCPER1_250_DISABLE_DATA, CLK_BMCPER1_250_EN_SHIFT, CLK_BMCPER1_250_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_250_ 		itg_get_reg(CLK_BMCPER1_250_CTRL_REG_ADDR, CLK_BMCPER1_250_EN_SHIFT, CLK_BMCPER1_250_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_250_(x) 		itg_set_reg(CLK_BMCPER1_250_CTRL_REG_ADDR, x, CLK_BMCPER1_250_EN_SHIFT, CLK_BMCPER1_250_EN_MASK)
 #define _DIVIDE_CLOCK_CLK_BMCPER1_250_(div) 			itg_set_reg(CLK_BMCPER1_250_CTRL_REG_ADDR, div, CLK_BMCPER1_250_DIV_SHIFT, CLK_BMCPER1_250_DIV_MASK)
 #define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER1_250_ 		itg_get_reg(CLK_BMCPER1_250_CTRL_REG_ADDR, CLK_BMCPER1_250_DIV_SHIFT, CLK_BMCPER1_250_DIV_MASK)
 #define _SWITCH_CLOCK_CLK_BMCPER1_250_OSC_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER1_250_OSC_CTRL_REG_ADDR, CLK_BMCPER1_250_OSC_SW_CLK_OSC_DATA, CLK_BMCPER1_250_OSC_SW_SHIFT, CLK_BMCPER1_250_OSC_SW_MASK)
 #define _SWITCH_CLOCK_CLK_BMCPER1_250_OSC_SOURCE_CLK_BMCPER1_250_ 	itg_set_reg(CLK_BMCPER1_250_OSC_CTRL_REG_ADDR, CLK_BMCPER1_250_OSC_SW_CLK_BMCPER1_250_DATA, CLK_BMCPER1_250_OSC_SW_SHIFT, CLK_BMCPER1_250_OSC_SW_MASK)
 #define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_250_OSC_ 		itg_get_reg(CLK_BMCPER1_250_OSC_CTRL_REG_ADDR, CLK_BMCPER1_250_OSC_SW_SHIFT, CLK_BMCPER1_250_OSC_SW_MASK)
 #define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_250_OSC_(x) 		itg_set_reg(CLK_BMCPER1_250_OSC_CTRL_REG_ADDR, x, CLK_BMCPER1_250_OSC_SW_SHIFT, CLK_BMCPER1_250_OSC_SW_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER1_143_ 			itg_set_reg(CLK_BMCPER1_143_CTRL_REG_ADDR, CLK_BMCPER1_143_ENABLE_DATA, CLK_BMCPER1_143_EN_SHIFT, CLK_BMCPER1_143_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER1_143_ 			itg_set_reg(CLK_BMCPER1_143_CTRL_REG_ADDR, CLK_BMCPER1_143_DISABLE_DATA, CLK_BMCPER1_143_EN_SHIFT, CLK_BMCPER1_143_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_143_ 		itg_get_reg(CLK_BMCPER1_143_CTRL_REG_ADDR, CLK_BMCPER1_143_EN_SHIFT, CLK_BMCPER1_143_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_143_(x) 		itg_set_reg(CLK_BMCPER1_143_CTRL_REG_ADDR, x, CLK_BMCPER1_143_EN_SHIFT, CLK_BMCPER1_143_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_BMCPER1_143_(div) 			itg_set_reg(CLK_BMCPER1_143_CTRL_REG_ADDR, div, CLK_BMCPER1_143_DIV_SHIFT, CLK_BMCPER1_143_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER1_143_ 		itg_get_reg(CLK_BMCPER1_143_CTRL_REG_ADDR, CLK_BMCPER1_143_DIV_SHIFT, CLK_BMCPER1_143_DIV_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER1_800_ 			itg_set_reg(CLK_BMCPER1_800_CTRL_REG_ADDR, CLK_BMCPER1_800_ENABLE_DATA, CLK_BMCPER1_800_EN_SHIFT, CLK_BMCPER1_800_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER1_800_ 			itg_set_reg(CLK_BMCPER1_800_CTRL_REG_ADDR, CLK_BMCPER1_800_DISABLE_DATA, CLK_BMCPER1_800_EN_SHIFT, CLK_BMCPER1_800_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_800_ 		itg_get_reg(CLK_BMCPER1_800_CTRL_REG_ADDR, CLK_BMCPER1_800_EN_SHIFT, CLK_BMCPER1_800_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER1_800_(x) 		itg_set_reg(CLK_BMCPER1_800_CTRL_REG_ADDR, x, CLK_BMCPER1_800_EN_SHIFT, CLK_BMCPER1_800_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_BMCPER1_800_(div) 			itg_set_reg(CLK_BMCPER1_800_CTRL_REG_ADDR, div, CLK_BMCPER1_800_DIV_SHIFT, CLK_BMCPER1_800_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER1_800_ 		itg_get_reg(CLK_BMCPER1_800_CTRL_REG_ADDR, CLK_BMCPER1_800_DIV_SHIFT, CLK_BMCPER1_800_DIV_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER1_800_OSC_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER1_800_OSC_CTRL_REG_ADDR, CLK_BMCPER1_800_OSC_SW_CLK_OSC_DATA, CLK_BMCPER1_800_OSC_SW_SHIFT, CLK_BMCPER1_800_OSC_SW_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER1_800_OSC_SOURCE_CLK_BMCPER1_800_ 	itg_set_reg(CLK_BMCPER1_800_OSC_CTRL_REG_ADDR, CLK_BMCPER1_800_OSC_SW_CLK_BMCPER1_800_DATA, CLK_BMCPER1_800_OSC_SW_SHIFT, CLK_BMCPER1_800_OSC_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_800_OSC_ 		itg_get_reg(CLK_BMCPER1_800_OSC_CTRL_REG_ADDR, CLK_BMCPER1_800_OSC_SW_SHIFT, CLK_BMCPER1_800_OSC_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER1_800_OSC_(x) 		itg_set_reg(CLK_BMCPER1_800_OSC_CTRL_REG_ADDR, x, CLK_BMCPER1_800_OSC_SW_SHIFT, CLK_BMCPER1_800_OSC_SW_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER0_600_ 			itg_set_reg(CLK_BMCPER0_600_CTRL_REG_ADDR, CLK_BMCPER0_600_ENABLE_DATA, CLK_BMCPER0_600_EN_SHIFT, CLK_BMCPER0_600_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER0_600_ 			itg_set_reg(CLK_BMCPER0_600_CTRL_REG_ADDR, CLK_BMCPER0_600_DISABLE_DATA, CLK_BMCPER0_600_EN_SHIFT, CLK_BMCPER0_600_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_600_ 		itg_get_reg(CLK_BMCPER0_600_CTRL_REG_ADDR, CLK_BMCPER0_600_EN_SHIFT, CLK_BMCPER0_600_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_600_(x) 		itg_set_reg(CLK_BMCPER0_600_CTRL_REG_ADDR, x, CLK_BMCPER0_600_EN_SHIFT, CLK_BMCPER0_600_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_BMCPER0_600_(div) 			itg_set_reg(CLK_BMCPER0_600_CTRL_REG_ADDR, div, CLK_BMCPER0_600_DIV_SHIFT, CLK_BMCPER0_600_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER0_600_ 		itg_get_reg(CLK_BMCPER0_600_CTRL_REG_ADDR, CLK_BMCPER0_600_DIV_SHIFT, CLK_BMCPER0_600_DIV_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER0_INIT_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER0_INIT_CTRL_REG_ADDR, CLK_BMCPER0_INIT_SW_CLK_OSC_DATA, CLK_BMCPER0_INIT_SW_SHIFT, CLK_BMCPER0_INIT_SW_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER0_INIT_SOURCE_CLK_BMCPER0_600_ 	itg_set_reg(CLK_BMCPER0_INIT_CTRL_REG_ADDR, CLK_BMCPER0_INIT_SW_CLK_BMCPER0_600_DATA, CLK_BMCPER0_INIT_SW_SHIFT, CLK_BMCPER0_INIT_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_INIT_ 		itg_get_reg(CLK_BMCPER0_INIT_CTRL_REG_ADDR, CLK_BMCPER0_INIT_SW_SHIFT, CLK_BMCPER0_INIT_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_INIT_(x) 		itg_set_reg(CLK_BMCPER0_INIT_CTRL_REG_ADDR, x, CLK_BMCPER0_INIT_SW_SHIFT, CLK_BMCPER0_INIT_SW_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER0_200_ 			itg_set_reg(CLK_BMCPER0_200_CTRL_REG_ADDR, CLK_BMCPER0_200_ENABLE_DATA, CLK_BMCPER0_200_EN_SHIFT, CLK_BMCPER0_200_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER0_200_ 			itg_set_reg(CLK_BMCPER0_200_CTRL_REG_ADDR, CLK_BMCPER0_200_DISABLE_DATA, CLK_BMCPER0_200_EN_SHIFT, CLK_BMCPER0_200_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_200_ 		itg_get_reg(CLK_BMCPER0_200_CTRL_REG_ADDR, CLK_BMCPER0_200_EN_SHIFT, CLK_BMCPER0_200_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_200_(x) 		itg_set_reg(CLK_BMCPER0_200_CTRL_REG_ADDR, x, CLK_BMCPER0_200_EN_SHIFT, CLK_BMCPER0_200_EN_MASK)
+#define _DIVIDE_CLOCK_CLK_BMCPER1_143_DFT_(div) 			itg_set_reg(CLK_BMCPER1_143_DFT_CTRL_REG_ADDR, div, CLK_BMCPER1_143_DFT_DIV_SHIFT, CLK_BMCPER1_143_DFT_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER1_143_DFT_ 		itg_get_reg(CLK_BMCPER1_143_DFT_CTRL_REG_ADDR, CLK_BMCPER1_143_DFT_DIV_SHIFT, CLK_BMCPER1_143_DFT_DIV_MASK)
+#define _ENABLE_CLOCK_CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_ 			itg_set_reg(CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_CTRL_REG_ADDR, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_ENABLE_DATA, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_SHIFT, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_ 			itg_set_reg(CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_CTRL_REG_ADDR, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_DISABLE_DATA, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_SHIFT, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_ 		itg_get_reg(CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_CTRL_REG_ADDR, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_SHIFT, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_(x) 		itg_set_reg(CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_CTRL_REG_ADDR, x, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_SHIFT, CLK_U0_DOM_BMCPERIPH1_CLK_DOM_BMCPERIPH1_CLK_BMCPERIPH1_143_EN_MASK)
 #define _DIVIDE_CLOCK_CLK_BMCPER0_200_(div) 			itg_set_reg(CLK_BMCPER0_200_CTRL_REG_ADDR, div, CLK_BMCPER0_200_DIV_SHIFT, CLK_BMCPER0_200_DIV_MASK)
 #define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER0_200_ 		itg_get_reg(CLK_BMCPER0_200_CTRL_REG_ADDR, CLK_BMCPER0_200_DIV_SHIFT, CLK_BMCPER0_200_DIV_MASK)
 #define _SWITCH_CLOCK_CLK_BMCPER0_TARG_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER0_TARG_CTRL_REG_ADDR, CLK_BMCPER0_TARG_SW_CLK_OSC_DATA, CLK_BMCPER0_TARG_SW_SHIFT, CLK_BMCPER0_TARG_SW_MASK)
 #define _SWITCH_CLOCK_CLK_BMCPER0_TARG_SOURCE_CLK_BMCPER0_200_ 	itg_set_reg(CLK_BMCPER0_TARG_CTRL_REG_ADDR, CLK_BMCPER0_TARG_SW_CLK_BMCPER0_200_DATA, CLK_BMCPER0_TARG_SW_SHIFT, CLK_BMCPER0_TARG_SW_MASK)
 #define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_TARG_ 		itg_get_reg(CLK_BMCPER0_TARG_CTRL_REG_ADDR, CLK_BMCPER0_TARG_SW_SHIFT, CLK_BMCPER0_TARG_SW_MASK)
 #define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_TARG_(x) 		itg_set_reg(CLK_BMCPER0_TARG_CTRL_REG_ADDR, x, CLK_BMCPER0_TARG_SW_SHIFT, CLK_BMCPER0_TARG_SW_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER0_400_ 			itg_set_reg(CLK_BMCPER0_400_CTRL_REG_ADDR, CLK_BMCPER0_400_ENABLE_DATA, CLK_BMCPER0_400_EN_SHIFT, CLK_BMCPER0_400_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER0_400_ 			itg_set_reg(CLK_BMCPER0_400_CTRL_REG_ADDR, CLK_BMCPER0_400_DISABLE_DATA, CLK_BMCPER0_400_EN_SHIFT, CLK_BMCPER0_400_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_400_ 		itg_get_reg(CLK_BMCPER0_400_CTRL_REG_ADDR, CLK_BMCPER0_400_EN_SHIFT, CLK_BMCPER0_400_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_400_(x) 		itg_set_reg(CLK_BMCPER0_400_CTRL_REG_ADDR, x, CLK_BMCPER0_400_EN_SHIFT, CLK_BMCPER0_400_EN_MASK)
-#define _DIVIDE_CLOCK_CLK_BMCPER0_400_(div) 			itg_set_reg(CLK_BMCPER0_400_CTRL_REG_ADDR, div, CLK_BMCPER0_400_DIV_SHIFT, CLK_BMCPER0_400_DIV_MASK)
-#define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER0_400_ 		itg_get_reg(CLK_BMCPER0_400_CTRL_REG_ADDR, CLK_BMCPER0_400_DIV_SHIFT, CLK_BMCPER0_400_DIV_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER0_400_OSC_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER0_400_OSC_CTRL_REG_ADDR, CLK_BMCPER0_400_OSC_SW_CLK_OSC_DATA, CLK_BMCPER0_400_OSC_SW_SHIFT, CLK_BMCPER0_400_OSC_SW_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER0_400_OSC_SOURCE_CLK_BMCPER0_400_ 	itg_set_reg(CLK_BMCPER0_400_OSC_CTRL_REG_ADDR, CLK_BMCPER0_400_OSC_SW_CLK_BMCPER0_400_DATA, CLK_BMCPER0_400_OSC_SW_SHIFT, CLK_BMCPER0_400_OSC_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_400_OSC_ 		itg_get_reg(CLK_BMCPER0_400_OSC_CTRL_REG_ADDR, CLK_BMCPER0_400_OSC_SW_SHIFT, CLK_BMCPER0_400_OSC_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_400_OSC_(x) 		itg_set_reg(CLK_BMCPER0_400_OSC_CTRL_REG_ADDR, x, CLK_BMCPER0_400_OSC_SW_SHIFT, CLK_BMCPER0_400_OSC_SW_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER0_125_ 			itg_set_reg(CLK_BMCPER0_125_CTRL_REG_ADDR, CLK_BMCPER0_125_ENABLE_DATA, CLK_BMCPER0_125_EN_SHIFT, CLK_BMCPER0_125_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER0_125_ 			itg_set_reg(CLK_BMCPER0_125_CTRL_REG_ADDR, CLK_BMCPER0_125_DISABLE_DATA, CLK_BMCPER0_125_EN_SHIFT, CLK_BMCPER0_125_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_125_ 		itg_get_reg(CLK_BMCPER0_125_CTRL_REG_ADDR, CLK_BMCPER0_125_EN_SHIFT, CLK_BMCPER0_125_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_125_(x) 		itg_set_reg(CLK_BMCPER0_125_CTRL_REG_ADDR, x, CLK_BMCPER0_125_EN_SHIFT, CLK_BMCPER0_125_EN_MASK)
 #define _DIVIDE_CLOCK_CLK_BMCPER0_125_(div) 			itg_set_reg(CLK_BMCPER0_125_CTRL_REG_ADDR, div, CLK_BMCPER0_125_DIV_SHIFT, CLK_BMCPER0_125_DIV_MASK)
 #define _GET_CLOCK_DIVIDE_STATUS_CLK_BMCPER0_125_ 		itg_get_reg(CLK_BMCPER0_125_CTRL_REG_ADDR, CLK_BMCPER0_125_DIV_SHIFT, CLK_BMCPER0_125_DIV_MASK)
 #define _SWITCH_CLOCK_CLK_BMCPER0_125_OSC_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER0_125_OSC_CTRL_REG_ADDR, CLK_BMCPER0_125_OSC_SW_CLK_OSC_DATA, CLK_BMCPER0_125_OSC_SW_SHIFT, CLK_BMCPER0_125_OSC_SW_MASK)
 #define _SWITCH_CLOCK_CLK_BMCPER0_125_OSC_SOURCE_CLK_BMCPER0_125_ 	itg_set_reg(CLK_BMCPER0_125_OSC_CTRL_REG_ADDR, CLK_BMCPER0_125_OSC_SW_CLK_BMCPER0_125_DATA, CLK_BMCPER0_125_OSC_SW_SHIFT, CLK_BMCPER0_125_OSC_SW_MASK)
 #define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_125_OSC_ 		itg_get_reg(CLK_BMCPER0_125_OSC_CTRL_REG_ADDR, CLK_BMCPER0_125_OSC_SW_SHIFT, CLK_BMCPER0_125_OSC_SW_MASK)
 #define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_125_OSC_(x) 		itg_set_reg(CLK_BMCPER0_125_OSC_CTRL_REG_ADDR, x, CLK_BMCPER0_125_OSC_SW_SHIFT, CLK_BMCPER0_125_OSC_SW_MASK)
-#define _ENABLE_CLOCK_CLK_BMCPER0_PLL6_ 			itg_set_reg(CLK_BMCPER0_PLL6_CTRL_REG_ADDR, CLK_BMCPER0_PLL6_ENABLE_DATA, CLK_BMCPER0_PLL6_EN_SHIFT, CLK_BMCPER0_PLL6_EN_MASK)
-#define _DISABLE_CLOCK_CLK_BMCPER0_PLL6_ 			itg_set_reg(CLK_BMCPER0_PLL6_CTRL_REG_ADDR, CLK_BMCPER0_PLL6_DISABLE_DATA, CLK_BMCPER0_PLL6_EN_SHIFT, CLK_BMCPER0_PLL6_EN_MASK)
-#define _GET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_PLL6_ 		itg_get_reg(CLK_BMCPER0_PLL6_CTRL_REG_ADDR, CLK_BMCPER0_PLL6_EN_SHIFT, CLK_BMCPER0_PLL6_EN_MASK)
-#define _SET_CLOCK_ENABLE_STATUS_CLK_BMCPER0_PLL6_(x) 		itg_set_reg(CLK_BMCPER0_PLL6_CTRL_REG_ADDR, x, CLK_BMCPER0_PLL6_EN_SHIFT, CLK_BMCPER0_PLL6_EN_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER0_PLL6_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_BMCPER0_PLL6_CTRL_REG_ADDR, CLK_BMCPER0_PLL6_SW_CLK_OSC_DATA, CLK_BMCPER0_PLL6_SW_SHIFT, CLK_BMCPER0_PLL6_SW_MASK)
-#define _SWITCH_CLOCK_CLK_BMCPER0_PLL6_SOURCE_CLK_PLL6_ 	itg_set_reg(CLK_BMCPER0_PLL6_CTRL_REG_ADDR, CLK_BMCPER0_PLL6_SW_CLK_PLL6_DATA, CLK_BMCPER0_PLL6_SW_SHIFT, CLK_BMCPER0_PLL6_SW_MASK)
-#define _GET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_PLL6_ 		itg_get_reg(CLK_BMCPER0_PLL6_CTRL_REG_ADDR, CLK_BMCPER0_PLL6_SW_SHIFT, CLK_BMCPER0_PLL6_SW_MASK)
-#define _SET_CLOCK_SOURCE_STATUS_CLK_BMCPER0_PLL6_(x) 		itg_set_reg(CLK_BMCPER0_PLL6_CTRL_REG_ADDR, x, CLK_BMCPER0_PLL6_SW_SHIFT, CLK_BMCPER0_PLL6_SW_MASK)
+#define _DIVIDE_CLOCK_CLK_GPU0_100_(div) 			itg_set_reg(CLK_GPU0_100_CTRL_REG_ADDR, div, CLK_GPU0_100_DIV_SHIFT, CLK_GPU0_100_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_GPU0_100_ 		itg_get_reg(CLK_GPU0_100_CTRL_REG_ADDR, CLK_GPU0_100_DIV_SHIFT, CLK_GPU0_100_DIV_MASK)
+#define _SWITCH_CLOCK_CLK_GPU0_TARG_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_GPU0_TARG_CTRL_REG_ADDR, CLK_GPU0_TARG_SW_CLK_OSC_DATA, CLK_GPU0_TARG_SW_SHIFT, CLK_GPU0_TARG_SW_MASK)
+#define _SWITCH_CLOCK_CLK_GPU0_TARG_SOURCE_CLK_GPU0_100_ 	itg_set_reg(CLK_GPU0_TARG_CTRL_REG_ADDR, CLK_GPU0_TARG_SW_CLK_GPU0_100_DATA, CLK_GPU0_TARG_SW_SHIFT, CLK_GPU0_TARG_SW_MASK)
+#define _GET_CLOCK_SOURCE_STATUS_CLK_GPU0_TARG_ 		itg_get_reg(CLK_GPU0_TARG_CTRL_REG_ADDR, CLK_GPU0_TARG_SW_SHIFT, CLK_GPU0_TARG_SW_MASK)
+#define _SET_CLOCK_SOURCE_STATUS_CLK_GPU0_TARG_(x) 		itg_set_reg(CLK_GPU0_TARG_CTRL_REG_ADDR, x, CLK_GPU0_TARG_SW_SHIFT, CLK_GPU0_TARG_SW_MASK)
+#define _ENABLE_CLOCK_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ 			itg_set_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ENABLE_DATA, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ 			itg_set_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_DISABLE_DATA, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ 		itg_get_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_(x) 		itg_set_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR, x, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ 			itg_set_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ENABLE_DATA, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ 			itg_set_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_DISABLE_DATA, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ 		itg_get_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_(x) 		itg_set_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR, x, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ 			itg_set_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ENABLE_DATA, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ 			itg_set_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_DISABLE_DATA, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ 		itg_get_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_(x) 		itg_set_reg(CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR, x, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT, CLK_U0_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK)
+#define _DIVIDE_CLOCK_CLK_GPU1_100_(div) 			itg_set_reg(CLK_GPU1_100_CTRL_REG_ADDR, div, CLK_GPU1_100_DIV_SHIFT, CLK_GPU1_100_DIV_MASK)
+#define _GET_CLOCK_DIVIDE_STATUS_CLK_GPU1_100_ 		itg_get_reg(CLK_GPU1_100_CTRL_REG_ADDR, CLK_GPU1_100_DIV_SHIFT, CLK_GPU1_100_DIV_MASK)
+#define _SWITCH_CLOCK_CLK_GPU1_TARG_SOURCE_CLK_OSC_ 	itg_set_reg(CLK_GPU1_TARG_CTRL_REG_ADDR, CLK_GPU1_TARG_SW_CLK_OSC_DATA, CLK_GPU1_TARG_SW_SHIFT, CLK_GPU1_TARG_SW_MASK)
+#define _SWITCH_CLOCK_CLK_GPU1_TARG_SOURCE_CLK_GPU1_100_ 	itg_set_reg(CLK_GPU1_TARG_CTRL_REG_ADDR, CLK_GPU1_TARG_SW_CLK_GPU1_100_DATA, CLK_GPU1_TARG_SW_SHIFT, CLK_GPU1_TARG_SW_MASK)
+#define _GET_CLOCK_SOURCE_STATUS_CLK_GPU1_TARG_ 		itg_get_reg(CLK_GPU1_TARG_CTRL_REG_ADDR, CLK_GPU1_TARG_SW_SHIFT, CLK_GPU1_TARG_SW_MASK)
+#define _SET_CLOCK_SOURCE_STATUS_CLK_GPU1_TARG_(x) 		itg_set_reg(CLK_GPU1_TARG_CTRL_REG_ADDR, x, CLK_GPU1_TARG_SW_SHIFT, CLK_GPU1_TARG_SW_MASK)
+#define _ENABLE_CLOCK_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ 			itg_set_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ENABLE_DATA, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ 			itg_set_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_DISABLE_DATA, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_ 		itg_get_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_(x) 		itg_set_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_CTRL_REG_ADDR, x, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_BUS_CLK_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ 			itg_set_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ENABLE_DATA, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ 			itg_set_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_DISABLE_DATA, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_ 		itg_get_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_(x) 		itg_set_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_CTRL_REG_ADDR, x, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_APB_CLK_EN_MASK)
+#define _ENABLE_CLOCK_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ 			itg_set_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ENABLE_DATA, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK)
+#define _DISABLE_CLOCK_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ 			itg_set_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_DISABLE_DATA, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_ 		itg_get_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_(x) 		itg_set_reg(CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_CTRL_REG_ADDR, x, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_SHIFT, CLK_U1_DOM_GPU_CLK_DOM_GPU_GPU_OSC_CLK_EN_MASK)
 
+#define _ENABLE_CLOCK_MAIN_ICG_EN_JTAG0_ 			itg_set_reg(MAIN_ICG_EN_JTAG0_CTRL_REG_ADDR, MAIN_ICG_EN_JTAG0_ENABLE_DATA, MAIN_ICG_EN_JTAG0_EN_SHIFT, MAIN_ICG_EN_JTAG0_EN_MASK)
+#define _DISABLE_CLOCK_MAIN_ICG_EN_JTAG0_ 			itg_set_reg(MAIN_ICG_EN_JTAG0_CTRL_REG_ADDR, MAIN_ICG_EN_JTAG0_DISABLE_DATA, MAIN_ICG_EN_JTAG0_EN_SHIFT, MAIN_ICG_EN_JTAG0_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_MAIN_ICG_EN_JTAG0_ 		itg_get_reg(MAIN_ICG_EN_JTAG0_CTRL_REG_ADDR, MAIN_ICG_EN_JTAG0_EN_SHIFT, MAIN_ICG_EN_JTAG0_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_MAIN_ICG_EN_JTAG0_(x) 		itg_set_reg(MAIN_ICG_EN_JTAG0_CTRL_REG_ADDR, x, MAIN_ICG_EN_JTAG0_EN_SHIFT, MAIN_ICG_EN_JTAG0_EN_MASK)
+#define _ENABLE_CLOCK_MAIN_ICG_EN_JTAG1_ 			itg_set_reg(MAIN_ICG_EN_JTAG1_CTRL_REG_ADDR, MAIN_ICG_EN_JTAG1_ENABLE_DATA, MAIN_ICG_EN_JTAG1_EN_SHIFT, MAIN_ICG_EN_JTAG1_EN_MASK)
+#define _DISABLE_CLOCK_MAIN_ICG_EN_JTAG1_ 			itg_set_reg(MAIN_ICG_EN_JTAG1_CTRL_REG_ADDR, MAIN_ICG_EN_JTAG1_DISABLE_DATA, MAIN_ICG_EN_JTAG1_EN_SHIFT, MAIN_ICG_EN_JTAG1_EN_MASK)
+#define _GET_CLOCK_ENABLE_STATUS_MAIN_ICG_EN_JTAG1_ 		itg_get_reg(MAIN_ICG_EN_JTAG1_CTRL_REG_ADDR, MAIN_ICG_EN_JTAG1_EN_SHIFT, MAIN_ICG_EN_JTAG1_EN_MASK)
+#define _SET_CLOCK_ENABLE_STATUS_MAIN_ICG_EN_JTAG1_(x) 		itg_set_reg(MAIN_ICG_EN_JTAG1_CTRL_REG_ADDR, x, MAIN_ICG_EN_JTAG1_EN_SHIFT, MAIN_ICG_EN_JTAG1_EN_MASK)
 
 
 #define _READ_RESET_STATUS_RSTGEN_RSTN_U0_SYS2_SYSCON_PRESETN_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_SYS2_SYSCON_PRESETN_SHIFT, RSTN_U0_SYS2_SYSCON_PRESETN_MASK)
@@ -534,9 +453,6 @@
 #define _READ_RESET_STATUS_RSTGEN_RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_SHIFT, RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_MASK)
 #define _ASSERT_RESET_RSTGEN_RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_MASK)
 #define _CLEAR_RESET_RSTGEN_RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_NCNOC_SYSTOP_RSTN_CSR2_MASK)
-#define _READ_RESET_STATUS_RSTGEN_MAIN_RSTN_SYS2_IOMUX_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_SYS2_IOMUX_SHIFT, MAIN_RSTN_SYS2_IOMUX_MASK)
-#define _ASSERT_RESET_RSTGEN_MAIN_RSTN_SYS2_IOMUX_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_SYS2_IOMUX_MASK)
-#define _CLEAR_RESET_RSTGEN_MAIN_RSTN_SYS2_IOMUX_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_SYS2_IOMUX_MASK)
 #define _READ_RESET_STATUS_RSTGEN_RSTN_U0_JTAG_MST_WRAP_HRESETN_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_JTAG_MST_WRAP_HRESETN_SHIFT, RSTN_U0_JTAG_MST_WRAP_HRESETN_MASK)
 #define _ASSERT_RESET_RSTGEN_RSTN_U0_JTAG_MST_WRAP_HRESETN_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_JTAG_MST_WRAP_HRESETN_MASK)
 #define _CLEAR_RESET_RSTGEN_RSTN_U0_JTAG_MST_WRAP_HRESETN_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_JTAG_MST_WRAP_HRESETN_MASK)
@@ -549,24 +465,27 @@
 #define _READ_RESET_STATUS_RSTGEN_RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_SHIFT, RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_MASK)
 #define _ASSERT_RESET_RSTGEN_RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_MASK)
 #define _CLEAR_RESET_RSTGEN_RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U1_JTAG_MST_WRAP_APB_PRESETN_MASK)
-#define _READ_RESET_STATUS_RSTGEN_RSTN_U4_PCU_CORE_RST_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U4_PCU_CORE_RST_SHIFT, RSTN_U4_PCU_CORE_RST_MASK)
-#define _ASSERT_RESET_RSTGEN_RSTN_U4_PCU_CORE_RST_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U4_PCU_CORE_RST_MASK)
-#define _CLEAR_RESET_RSTGEN_RSTN_U4_PCU_CORE_RST_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U4_PCU_CORE_RST_MASK)
-#define _READ_RESET_STATUS_RSTGEN_RSTN_U4_PCU_APB_RST_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U4_PCU_APB_RST_SHIFT, RSTN_U4_PCU_APB_RST_MASK)
-#define _ASSERT_RESET_RSTGEN_RSTN_U4_PCU_APB_RST_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U4_PCU_APB_RST_MASK)
-#define _CLEAR_RESET_RSTGEN_RSTN_U4_PCU_APB_RST_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U4_PCU_APB_RST_MASK)
-#define _READ_RESET_STATUS_RSTGEN_RSTN_U5_PCU_CORE_RST_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U5_PCU_CORE_RST_SHIFT, RSTN_U5_PCU_CORE_RST_MASK)
-#define _ASSERT_RESET_RSTGEN_RSTN_U5_PCU_CORE_RST_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U5_PCU_CORE_RST_MASK)
-#define _CLEAR_RESET_RSTGEN_RSTN_U5_PCU_CORE_RST_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U5_PCU_CORE_RST_MASK)
-#define _READ_RESET_STATUS_RSTGEN_RSTN_U5_PCU_APB_RST_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U5_PCU_APB_RST_SHIFT, RSTN_U5_PCU_APB_RST_MASK)
-#define _ASSERT_RESET_RSTGEN_RSTN_U5_PCU_APB_RST_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U5_PCU_APB_RST_MASK)
-#define _CLEAR_RESET_RSTGEN_RSTN_U5_PCU_APB_RST_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U5_PCU_APB_RST_MASK)
-#define _READ_RESET_STATUS_RSTGEN_RSTN_U10_PCU_CORE_RST_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U10_PCU_CORE_RST_SHIFT, RSTN_U10_PCU_CORE_RST_MASK)
-#define _ASSERT_RESET_RSTGEN_RSTN_U10_PCU_CORE_RST_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U10_PCU_CORE_RST_MASK)
-#define _CLEAR_RESET_RSTGEN_RSTN_U10_PCU_CORE_RST_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U10_PCU_CORE_RST_MASK)
-#define _READ_RESET_STATUS_RSTGEN_RSTN_U10_PCU_APB_RST_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U10_PCU_APB_RST_SHIFT, RSTN_U10_PCU_APB_RST_MASK)
-#define _ASSERT_RESET_RSTGEN_RSTN_U10_PCU_APB_RST_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U10_PCU_APB_RST_MASK)
-#define _CLEAR_RESET_RSTGEN_RSTN_U10_PCU_APB_RST_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U10_PCU_APB_RST_MASK)
+#define _READ_RESET_STATUS_RSTGEN_RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_SHIFT, RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_MASK)
+#define _ASSERT_RESET_RSTGEN_RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_MASK)
+#define _CLEAR_RESET_RSTGEN_RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RSTN_U0_DEBUG_SUBSYS_RELEASE_RSTN_JTAG_CERTIFICATION_MASK)
+#define _READ_RESET_STATUS_RSTGEN_RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_SHIFT, RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_MASK)
+#define _ASSERT_RESET_RSTGEN_RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_MASK)
+#define _CLEAR_RESET_RSTGEN_RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, RST_U0_DEBUG_SUBSYS_RELEASE_POR_RESET_MASK)
+#define _READ_RESET_STATUS_RSTGEN_MAIN_RSTN_PCU_HOSTUSB0_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_HOSTUSB0_SHIFT, MAIN_RSTN_PCU_HOSTUSB0_MASK)
+#define _ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTUSB0_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_HOSTUSB0_MASK)
+#define _CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTUSB0_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_HOSTUSB0_MASK)
+#define _READ_RESET_STATUS_RSTGEN_MAIN_RSTN_PCU_HOSTUSB1_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_HOSTUSB1_SHIFT, MAIN_RSTN_PCU_HOSTUSB1_MASK)
+#define _ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTUSB1_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_HOSTUSB1_MASK)
+#define _CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTUSB1_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_HOSTUSB1_MASK)
+#define _READ_RESET_STATUS_RSTGEN_MAIN_RSTN_PCU_UFS_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_UFS_SHIFT, MAIN_RSTN_PCU_UFS_MASK)
+#define _ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_UFS_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_UFS_MASK)
+#define _CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_UFS_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_UFS_MASK)
+#define _READ_RESET_STATUS_RSTGEN_MAIN_RSTN_PCU_GPU0_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_GPU0_SHIFT, MAIN_RSTN_PCU_GPU0_MASK)
+#define _ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_GPU0_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_GPU0_MASK)
+#define _CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_GPU0_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_GPU0_MASK)
+#define _READ_RESET_STATUS_RSTGEN_MAIN_RSTN_PCU_GPU1_ 	itg_get_reg(SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_GPU1_SHIFT, MAIN_RSTN_PCU_GPU1_MASK)
+#define _ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_GPU1_ 	itg_assert_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_GPU1_MASK)
+#define _CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_GPU1_ 	itg_clear_rst(SYS2_CRG_RSTGEN_SOFTWARE_RESET_ASSERT0_REG_ADDR, SYS2_CRG_RSTGEN_SOFTWARE_RESET_STATUS0_REG_ADDR, MAIN_RSTN_PCU_GPU1_MASK)
 
 
 #endif //_SYS2_CRG_MACRO_H_
