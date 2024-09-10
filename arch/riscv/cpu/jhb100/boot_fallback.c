@@ -4,10 +4,16 @@
  */
 #include <dm.h>
 #include <hang.h>
+#include <image.h>
+#include <init.h>
 #include <log.h>
+#include <net.h>
 #include <spl.h>
 #include <asm/arch/boot_mapping.h>
 #include <asm/arch/boot_src.h>
+#include <configs/starfive-jhb100.h>
+#include <linux/stringify.h>
+
 
 static int starfive_spl_load_image(struct spl_image_info *spl_image,
 			struct spl_image_loader *loader)
@@ -150,6 +156,14 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 		break;
 	case BOOT_SRC_GMAC:
 		spl_boot_list[0] = BOOT_DEVICE_CPGMAC;
+
+		copy_filename(net_boot_file_name, CONFIG_U_BOOT_ITB,
+				strlen(CONFIG_U_BOOT_ITB) + 1);
+		image_load_addr = CONFIG_SPL_LOAD_FIT_ADDRESS;
+		net_server_ip = string_to_ip(__stringify(CONFIG_SERVERIP));
+
+		dram_init_banksize();
+
 		break;
 	default:
 		debug("Unsupported boot device 0x%x, trying UART..\n", boot_src);
