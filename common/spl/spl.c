@@ -739,22 +739,6 @@ void board_init_r(gd_t *dummy1, ulong dummy2)
 		dm_dump_mem(&mem);
 	}
 
-{
- /* Cannot put this in board/starfive/jhb100/spl.c.
-		uboot will clear all global var before reaching here.
-		Temporary code and need to look for better solution.
- */
-
-	/* file name to load from tftp server */
-	copy_filename(net_boot_file_name, "u-boot.itb", 11);
-	/* dram address to store file */
-	image_load_addr = 0x501000000;
-	/* server ip addr*/
-	net_server_ip = string_to_ip("192.168.152.85");
-
-	dram_init_banksize();
-}
-
 	memset(&spl_image, '\0', sizeof(spl_image));
 	if (IS_ENABLED(CONFIG_SPL_OS_BOOT))
 		spl_image.arg = (void *)SPL_PAYLOAD_ARGS_ADDR;
