@@ -116,6 +116,11 @@ void flexnoc_reset(void)
 
 void plat_gmac_init(void)
 {
+	#define GPIO_OUT  0
+	#define GPIO_IN   1
+	#define GPIO_LOW  0
+	#define GPIO_HIGH 1
+
 	/* Reference from baremetal soc_platform/lib/platform/drivers/dw_gmac.c */
 	/* Reference from baremetal soc_platform/lib/platform/chip_macro/0_5_1/include/platform/drivers/gpio.h */
 	/* Reference from baremetal soc_platform/lib/platform/drivers/phy */
@@ -123,32 +128,30 @@ void plat_gmac_init(void)
 	/* Set IOMUX */
 	SET_U0_BMCPERIPH0_GPIO_IOMUX_FUNC24_SEL(2); //gpio_func_sel(GPIO_B24, 2);	// MDC
 	SET_U0_BMCPERIPH0_GPIO_IOMUX_FUNC25_SEL(2); //gpio_func_sel(GPIO_B25, 2);	// MDIO
-	SET_U0_BMCPERIPH2_IOMUX_FUNC24_SEL(0);      //gpio_func_sel(GPIO_D24, 0);	// RESETN
-	SET_U0_BMCPERIPH2_IOMUX_FUNC25_SEL(2);      //gpio_func_sel(GPIO_D25, 2);	// TXEN
-	//SET_U0_BMCPERIPH2_IOMUX_FUNC43_SEL(1);      //gpio_func_sel(GPIO_D43, 1);	// TXCLK
-	SET_U0_BMCPERIPH2_IOMUX_FUNC27_SEL(2);      //gpio_func_sel(GPIO_D27, 2);	// TXD0
-	SET_U0_BMCPERIPH2_IOMUX_FUNC28_SEL(2);      //gpio_func_sel(GPIO_D28, 2);	// TXD1
-	SET_U0_BMCPERIPH2_IOMUX_FUNC30_SEL(2);      //gpio_func_sel(GPIO_D30, 2);	// TXD2
-	//SET_U0_BMCPERIPH2_IOMUX_FUNC31_SEL(2);      //gpio_func_sel(GPIO_D31, 2);	// TXD3
-	//SET_U0_BMCPERIPH2_IOMUX_FUNC37_SEL(1);      //gpio_func_sel(GPIO_D37, 1);	// RXCLK
-	//SET_U0_BMCPERIPH2_IOMUX_FUNC38_SEL(1);      //gpio_func_sel(GPIO_D38, 1);	// RXDV
-	//SET_U0_BMCPERIPH2_IOMUX_FUNC39_SEL(1);      //gpio_func_sel(GPIO_D39, 1);	// RXD0
-	//SET_U0_BMCPERIPH2_IOMUX_FUNC40_SEL(1);      //gpio_func_sel(GPIO_D40, 1);	// RXD1
-	//SET_U0_BMCPERIPH2_IOMUX_FUNC41_SEL(1);      //gpio_func_sel(GPIO_D41, 1);	// RXD2
-	//SET_U0_BMCPERIPH2_IOMUX_FUNC42_SEL(1);      //gpio_func_sel(GPIO_D42, 1);	// RXD3
+	SET_U0_BMCPERIPH2_IOMUX_FUNC18_SEL(0);      //gpio_func_sel(GPIO_D18, 0);	// RESETN
+	SET_U0_BMCPERIPH2_IOMUX_FUNC19_SEL(1);      //gpio_func_sel(GPIO_D19, 1);	// RXCLK
+	SET_U0_BMCPERIPH2_IOMUX_FUNC20_SEL(1);      //gpio_func_sel(GPIO_D20, 1);	// RXDV
+	SET_U0_BMCPERIPH2_IOMUX_FUNC21_SEL(1);      //gpio_func_sel(GPIO_D21, 1);	// RXD0
+	SET_U0_BMCPERIPH2_IOMUX_FUNC22_SEL(1);      //gpio_func_sel(GPIO_D22, 1);	// RXD1
+	SET_U0_BMCPERIPH2_IOMUX_FUNC23_SEL(1);      //gpio_func_sel(GPIO_D23, 1);	// RXD2
+	SET_U0_BMCPERIPH2_IOMUX_FUNC24_SEL(1);      //gpio_func_sel(GPIO_D24, 1);	// RXD3
+	SET_U0_BMCPERIPH2_IOMUX_FUNC25_SEL(1);      //gpio_func_sel(GPIO_D25, 1);	// TXCLK
+	SET_U0_BMCPERIPH2_IOMUX_FUNC26_SEL(1);      //gpio_func_sel(GPIO_D26, 1);	// TXEN
+	SET_U0_BMCPERIPH2_IOMUX_FUNC27_SEL(1);      //gpio_func_sel(GPIO_D27, 1);	// TXD0
+	SET_U0_BMCPERIPH2_IOMUX_FUNC28_SEL(1);      //gpio_func_sel(GPIO_D28, 1);	// TXD1
+	SET_U0_BMCPERIPH2_IOMUX_FUNC29_SEL(1);      //gpio_func_sel(GPIO_D29, 1);	// TXD2
+	SET_U0_BMCPERIPH2_IOMUX_FUNC30_SEL(1);      //gpio_func_sel(GPIO_D30, 1);	// TXD3
 
-	/* Reset phy - active low */
-	#define GPIO_OUT  0
-	#define GPIO_IN   1
-	#define GPIO_LOW  0
-	#define GPIO_HIGH 1
+	/* Select to use RGMII as PHY interface */
+	SET_U0_BMCPERIPH2_SYSREG__ITG_BD_APB_S_APB__BASE_ADDR_BMCPERIPH2_SYSREG_BMCPERIPH2_SYSREG_ITG_U0_DWC_ETHER_RMIIRGMII_CONTROL0_U0_DWC_ETHER_RMIIANDRGMII_PHY_INTF_SEL(0x1);
 
-	SET_U0_BMCPERIPH2_IOMUX_FMUX_OEN24_SEL(GPIO_OUT); //GPIO_D24
-	SET_U0_BMCPERIPH2_IOMUX_FMUX_O24_SEL(GPIO_HIGH);
+
+	SET_U0_BMCPERIPH2_IOMUX_FMUX_OEN18_SEL(GPIO_OUT); //GPIO_D18
+	SET_U0_BMCPERIPH2_IOMUX_FMUX_O18_SEL(GPIO_HIGH);
 	udelay(15000);
-	SET_U0_BMCPERIPH2_IOMUX_FMUX_O24_SEL(GPIO_LOW);
+	SET_U0_BMCPERIPH2_IOMUX_FMUX_O18_SEL(GPIO_LOW);
 	udelay(15000);
-	SET_U0_BMCPERIPH2_IOMUX_FMUX_O24_SEL(GPIO_HIGH);
+	SET_U0_BMCPERIPH2_IOMUX_FMUX_O18_SEL(GPIO_HIGH);
 	udelay(15000);
 }
 
@@ -156,10 +159,6 @@ void gmac_reset(void)
 {
 	/* Set clk & Assert reset */
 	u0_dwc_ether_rmiiandrgmii_disable_patch();
-
-	/* dwc_eth_qos_gmac_interface_set */
-	//SET_U0_DWC_ETHER_RMIIANDRGMII_PHY_INTF_SEL_I(1); //sys_con
-	//_SET_CLOCK_POLARITY_STATUS_CLK_BMCPERIPH2_GMAC2_RX_125_N_(1);
 
 	/* Set clk & Deassert reset */
 	u0_dwc_ether_rmiiandrgmii_enable_patch();
@@ -388,8 +387,8 @@ void board_init_f(ulong dummy)
 	//starfive_timer_reset();
 
 	/* TODO: Temporarily disable devices until the pins have been updated with the new CMacro */
-	//plat_gmac_init();
-	//gmac_reset();
+	plat_gmac_init();
+	gmac_reset();
 	//subsys_init();
 
 	//sd_reset();
