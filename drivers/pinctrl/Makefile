@@ -36,3 +36,4 @@ obj-$(CONFIG_$(SPL_)PINCTRL_STMFX)	+= pinctrl-stmfx.o
 obj-y				+= broadcom/
 obj-$(CONFIG_PINCTRL_ZYNQMP)	+= pinctrl-zynqmp.o
 obj-$(CONFIG_PINCTRL_STARFIVE_JH7110)	+= starfive/
+obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= starfive/
