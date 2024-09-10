@@ -20,7 +20,7 @@
 #include <dm/device_compat.h>
 #include <dt-bindings/pinctrl/pinctrl-starfive-jh7110.h>
 
-#include "pinctrl-starfive.h"
+#include "pinctrl-starfive-jh7110.h"
 
 /* pad control bits */
 #define STARFIVE_PADCFG_POS	BIT(7)
