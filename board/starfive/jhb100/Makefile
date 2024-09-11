@@ -4,4 +4,6 @@
 
 obj-y += board.o
 obj-y += starfive-jhb100.o
+obj-y += plat_macro.o
+obj-y += saif_init.o
 obj-$(CONFIG_SPL_BUILD) += spl.o
