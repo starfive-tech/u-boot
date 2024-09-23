@@ -1,4 +1,4 @@
-//commit:06b6362e (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
+//commit:8ece02821 (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 #define  U0_DWC_ETHER_RMIIANDRGMII__ITG_BD_APB__BASE_ADDR                                                     0x0011B80000
 #define  U1_DWC_ETHER_SGMII__ITG_BD_SGMII_MAC_APB__BASE_ADDR                                                  0x0011B84000
 #define  U10_DWC_SENSORS_PD__ITG_BD_APBS__BASE_ADDR                                                           0x0011B88000
@@ -10,10 +10,10 @@
 #define  U0_ADC__ITG_BD_IOMUX_APB__BASE_ADDR                                                                  0x0011BC2800
 #define  U1_ADC__ITG_BD_IOMUX_APB__BASE_ADDR                                                                  0x0011BC2C00
 #define  U0_DW_AXI_DMAC_8CH__ITG_BD_APB__BASE_ADDR                                                            0x0011BC3000
+#define  U0_CAN_CTRL__ITG_BD_APB__BASE_ADDR                                                                   0x0011BC4000
+#define  U1_CAN_CTRL__ITG_BD_APB__BASE_ADDR                                                                   0x0011BC6000
 #define  U0_FAN_TACH__ITG_BD_APB__BASE_ADDR                                                                   0x0011BE0000
 #define  U0_PWM_8CH__ITG_BD_APB__BASE_ADDR                                                                    0x0011BE0400
-#define  U0_CAN_CTRL__ITG_BD_APB__BASE_ADDR                                                                   0x0011BE1100
-#define  U1_CAN_CTRL__ITG_BD_APB__BASE_ADDR                                                                   0x0011BE1200
 #define  U0_RTC_HMS__ITG_BD_APB__BASE_ADDR                                                                    0x0011BE1300
 #define  U0_ADC__ITG_BD_APB__BASE_ADDR                                                                        0x0011BE1400
 #define  U1_ADC__ITG_BD_APB__BASE_ADDR                                                                        0x0011BE1800
@@ -33,10 +33,10 @@
 #define  U0_ADC__ITG_BD_IOMUX_APB__END_ADDR                                                                   0x0011BC2BFF
 #define  U1_ADC__ITG_BD_IOMUX_APB__END_ADDR                                                                   0x0011BC2FFF
 #define  U0_DW_AXI_DMAC_8CH__ITG_BD_APB__END_ADDR                                                             0x0011BC3FFF
+#define  U0_CAN_CTRL__ITG_BD_APB__END_ADDR                                                                    0x0011BC5FFF
+#define  U1_CAN_CTRL__ITG_BD_APB__END_ADDR                                                                    0x0011BC7FFF
 #define  U0_FAN_TACH__ITG_BD_APB__END_ADDR                                                                    0x0011BE03FF
 #define  U0_PWM_8CH__ITG_BD_APB__END_ADDR                                                                     0x0011BE07FF
-#define  U0_CAN_CTRL__ITG_BD_APB__END_ADDR                                                                    0x0011BE11FF
-#define  U1_CAN_CTRL__ITG_BD_APB__END_ADDR                                                                    0x0011BE12FF
 #define  U0_RTC_HMS__ITG_BD_APB__END_ADDR                                                                     0x0011BE13FF
 #define  U0_ADC__ITG_BD_APB__END_ADDR                                                                         0x0011BE17FF
 #define  U1_ADC__ITG_BD_APB__END_ADDR                                                                         0x0011BE1BFF
