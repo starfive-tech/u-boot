@@ -16,6 +16,7 @@
 #include <asm/arch/sys-macro/sys2_crg_macro.h>
 #include <asm/arch/sys-macro/sys1_crg_macro.h>
 #include <asm/arch/sys-macro/sys0_crg_macro.h>
+#include <asm/arch/sys-macro/irq_macro.h>
 #include <asm/arch-jhb100/bmcperiph2-macro/bmcperiph2_sysreg_u0_bmcperiph2_sysreg__itg_bd_apb_s_apb__base_addr_macro.h>
 
 void u0_dwc_ssi_sfc_enable(void);

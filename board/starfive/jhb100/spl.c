@@ -28,6 +28,7 @@
 #include <asm/arch/boot_fallback.h>
 #include <asm/arch/boot_mapping.h>
 #include <asm/arch/spl.h>
+#include <asm/arch/starfive_pcu.h>
 #include <asm/arch/saif_init.h>
 
 #define OUTPUT_ENABLE   0
@@ -214,15 +215,7 @@ void otp_reset(void)
 
 void subsys_init(void)
 {
-	/* TODO: Temporary solution for powering up subsys domain */
-	/* Turn on by setting Power Policy Control register */
-	/* FIX for RTL0.5.1 PCU bug, remove later */
-	_CLEAR_RESET_RSTGEN_RSTN_U0_DOM_BMCCPUSS_RSTN_DOM_BMCCPUSS_RSTN_CORE_;
-	_CLEAR_RESET_RSTGEN_RSTN_U0_BCU_DFT_BISR_RST_;
 	/* PD_HOSTSIS_i0 */
-	//_CLEAR_RESET_RSTGEN_RSTN_U8_PCU_CORE_RST_;
-	//_CLEAR_RESET_RSTGEN_RSTN_U8_PCU_APB_RST_;
-
 	debug("before...static on..PD_HOSTSIS_i0..\n");
 	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
 	debug("PCU_STATUS....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
@@ -237,23 +230,7 @@ void subsys_init(void)
 	debug("INTR_MASK....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x28)));
 	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
 
-	udelay(15000);
-	// Check PCU IP capability
-	if (readl((const void *)U8_PCU__ITG_BD_APB__BASE_ADDR) & 0b1000)
-	{
-		// Power on
-		//writel(0x0, (void*)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x8));
-		writel(0x3, (void*)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x8));
-		udelay(15000);
-		//while (readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x4)) & 0b1) {}
-
-		if (((readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x4)) >> 8) & 0b1000) == 0x08)
-		{
-			debug("PD_HOSTSIS_i0 powered on\n");
-		}
-	} else {
-		debug("No static ON capability for HOSTSIS_i0\n");
-	}
+	starfive_pcu_set_pwr_mode(PD_HOSTSS_i0, PM_ON);
 
 	debug("after...static on..PD_HOSTSIS_i0..\n");
 	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
@@ -271,9 +248,6 @@ void subsys_init(void)
 
 #if 0
 	/* PD_HOST0_USB */
-	_CLEAR_RESET_RSTGEN_RSTN_U4_PCU_CORE_RST_;
-	_CLEAR_RESET_RSTGEN_RSTN_U4_PCU_APB_RST_;
-
 	debug("before...static on..PD_HOSTSIS_i0..\n");
 	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
 	debug("PCU_STATUS....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
@@ -288,21 +262,7 @@ void subsys_init(void)
 	debug("INTR_MASK....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x28)));
 	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
 
-	udelay(15000);
-	if (readl((const void *)U4_PCU__ITG_BD_APB__BASE_ADDR) & 0b1000)
-	{
-		//writel(0x0, (void*)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x8));
-		writel(0x3, (void*)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x8));
-		udelay(15000);
-		//while (readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x4)) & 0b1) {}
-
-		if (((readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x4)) >> 8) & 0b1000) == 0x08)
-		{
-			debug("PD_HOST0_USB powered on\n");
-		}
-	} else {
-		debug("No static ON capability for HOST0_USB\n");
-	}
+	starfive_pcu_set_pwr_mode(PD_HOST0_USB, PM_ON);
 
 	debug("after...static on..PD_HOST0_USB..\n");
 	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
@@ -319,9 +279,6 @@ void subsys_init(void)
 	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
 
 	/* PD_DC0 */
-	_CLEAR_RESET_RSTGEN_RSTN_U2_PCU_CORE_RST_;
-	_CLEAR_RESET_RSTGEN_RSTN_U2_PCU_APB_RST_;
-
 	debug("before...static on..PD_DC0..\n");
 	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
 	debug("PCU_STATUS....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
@@ -336,21 +293,8 @@ void subsys_init(void)
 	debug("INTR_MASK....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x28)));
 	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
 
-	udelay(15000);
-	if (readl((const void *)U2_PCU__ITG_BD_APB__BASE_ADDR) & 0b1000)
-	{
-		//writel(0x0, (void*)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x8));
-		writel(0x3, (void*)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x8));
-		udelay(15000);
-		//while (readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x4)) & 0b1) {}
+	starfive_pcu_set_pwr_mode(PD_DC0, PM_ON);
 
-		if (((readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x4)) >> 8) & 0b1000) == 0x08)
-		{
-			debug("PD_DC0 powered on\n");
-		}
-	} else {
-		debug("No static ON capability for PD_DC0\n");
-	}
 	debug("after...static on..PD_DC0..\n");
 	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
 	debug("PCU_STATUS....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
@@ -389,7 +333,7 @@ void board_init_f(ulong dummy)
 	/* TODO: Temporarily disable devices until the pins have been updated with the new CMacro */
 	plat_gmac_init();
 	gmac_reset();
-	//subsys_init();
+	subsys_init();
 
 	//sd_reset();
 	//u0_tvsensor_wrapper_enable();
