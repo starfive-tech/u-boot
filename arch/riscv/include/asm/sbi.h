@@ -35,6 +35,7 @@ enum sbi_ext_id {
 	SBI_EXT_STA = 0x535441,
 	SBI_EXT_DBTR = 0x44425452,
 	SBI_EXT_SSE = 0x535345,
+	SBI_EXT_MPXY = 0x4D505859,
 };
 
 enum sbi_ext_base_fid {
@@ -102,6 +103,76 @@ enum sbi_ext_dbcn_fid {
 	SBI_EXT_DBCN_CONSOLE_WRITE_BYTE,
 };
 
+enum sbi_ext_mpxy_fid {
+	SBI_EXT_MPXY_GET_SHMEM_SIZE = 0,
+	SBI_EXT_MPXY_SET_SHMEM,
+	SBI_EXT_MPXY_GET_CHANNEL_IDS,
+	SBI_EXT_MPXY_READ_ATTRS,
+	SBI_EXT_MPXY_WRITE_ATTRS,
+	SBI_EXT_MPXY_SEND_MSG_WITH_RESP,
+	SBI_EXT_MPXY_SEND_MSG_NO_RESP,
+	SBI_EXT_MPXY_GET_NOTIFICATION_EVENTS,
+};
+
+enum sbi_mpxy_attr_id {
+	/* Standard channel attributes managed by MPXY framework */
+	SBI_MPXY_ATTR_MSG_PROT_ID		= 0x00000000,
+	SBI_MPXY_ATTR_MSG_PROT_VER		= 0x00000001,
+	SBI_MPXY_ATTR_MSG_MAX_LEN		= 0x00000002,
+	SBI_MPXY_ATTR_MSG_SEND_TIMEOUT		= 0x00000003,
+	SBI_MPXY_ATTR_MSG_COMPLETION_TIMEOUT	= 0x00000004,
+	SBI_MPXY_ATTR_CHANNEL_CAPABILITY	= 0x00000005,
+	SBI_MPXY_ATTR_SSE_EVENT_ID		= 0x00000006,
+	SBI_MPXY_ATTR_MSI_CONTROL		= 0x00000007,
+	SBI_MPXY_ATTR_MSI_ADDR_LO		= 0x00000008,
+	SBI_MPXY_ATTR_MSI_ADDR_HI		= 0x00000009,
+	SBI_MPXY_ATTR_MSI_DATA			= 0x0000000A,
+	SBI_MPXY_ATTR_EVENTS_STATE_CONTROL	= 0x0000000B,
+	SBI_MPXY_ATTR_STD_ATTR_MAX_IDX,
+	/* Message protocol specific attributes, managed by
+	 * message protocol driver
+	 */
+	SBI_MPXY_ATTR_MSGPROTO_ATTR_START	= 0x80000000,
+	SBI_MPXY_ATTR_MSGPROTO_ATTR_END		= 0xffffffff
+};
+
+enum sbi_mpxy_msgproto_id {
+	SBI_MPXY_MSGPROTO_RPMI_ID = 0x0,
+};
+
+struct sbi_mpxy_msi_info {
+	u32 msi_addr_lo;
+	u32 msi_addr_hi;
+	u32 msi_data;
+};
+
+/**
+ * Channel attributes.
+ * NOTE: The sequence of attribute fields are as per the
+ * defined sequence in the attribute table in spec(or as
+ * per the enum sbi_mpxy_attr_id).
+ */
+struct sbi_mpxy_channel_attrs {
+	/* Message protocol ID */
+	u32 msg_proto_id;
+	/* Message protocol Version */
+	u32 msg_proto_version;
+	/* Message protocol maximum message length */
+	u32 msg_max_len;
+	/* Message protocol message send timeout in microseconds */
+	u32 msg_send_timeout;
+	/* Bit array for channel capabilities */
+	u32 capability;
+	/* MSI enable/disable control knob */
+	u32 msi_control;
+	/* Channel MSI info */
+	struct sbi_mpxy_msi_info msi_info;
+	/* SSE Event Id */
+	u32 sse_event_id;
+	/* Events State Control */
+	u32 eventsstate_ctrl;
+};
+
 #ifdef CONFIG_SBI_V01
 #define SBI_EXT_SET_TIMER		SBI_EXT_0_1_SET_TIMER
 #define SBI_FID_SET_TIMER		0
@@ -139,7 +210,12 @@ enum sbi_ext_dbcn_fid {
 #define SBI_ERR_INVALID_PARAM		-3
 #define SBI_ERR_DENIED			-4
 #define SBI_ERR_INVALID_ADDRESS		-5
-
+#define SBI_ERR_NO_SHMEM		-9
+#define SBI_ERR_INVALID_STATE		-10
+#define SBI_ERR_BAD_RANGE		-11
+#define SBI_ERR_NOT_IMPLEMENTED		-12
+#define SBI_ERR_TIMEOUT			-13
+#define SBI_ERR_IO			-14
 struct sbiret {
 	long error;
 	long value;
@@ -165,6 +241,15 @@ void sbi_remote_sfence_vma_asid(const unsigned long *hart_mask,
 				unsigned long size,
 				unsigned long asid);
 #endif
+
+/* Make SBI version */
+static inline unsigned long sbi_mk_version(unsigned long major,
+					   unsigned long minor)
+{
+	return ((major & SBI_SPEC_VERSION_MAJOR_MASK) <<
+		SBI_SPEC_VERSION_MAJOR_SHIFT) | minor;
+}
+
 void sbi_set_timer(uint64_t stime_value);
 long sbi_get_spec_version(void);
 int sbi_get_impl_id(void);
@@ -176,4 +261,18 @@ int sbi_get_mimpid(long *mimpid);
 void sbi_srst_reset(unsigned long type, unsigned long reason);
 int sbi_dbcn_write_byte(unsigned char ch);
 unsigned long sbi_get_vendor_extid(void);
+
+#ifdef CONFIG_SBI_MPXY
+int sbi_mpxy_setup_shmem(u64 *buffer);
+int sbi_mpxy_read_attrs(u64 *buffer, u32 channelid, u32 base_attrid, u32 attr_count,
+			void *attrs_buf);
+int sbi_mpxy_write_attrs(u64 *buffer, u32 channelid, u32 base_attrid, u32 attr_count,
+			 void *attrs_buf);
+int sbi_mpxy_send_message_withresp(u64 *buffer, u32 channelid, u32 msgid,
+				   void *tx, u64 tx_msglen,
+				   void *rx, u64 *rx_msglen);
+int sbi_mpxy_send_message_noresp(u64 *buffer, u32 channelid, u32 msgid,
+				 void *tx, unsigned long tx_msglen);
+int sbi_mpxy_get_notifications(u64 *buffer, u32 channelid, void *rx, u64 *rx_msglen);
+#endif
 #endif

@@ -420,6 +420,16 @@ config SBI_IPI
 	default y if RISCV_SMODE || SPL_RISCV_SMODE
 	depends on SMP
 
+config SBI_MPXY
+    bool
+    depends on SBI
+    default y if RISCV_SMODE || SPL_RISCV_SMODE
+    help
+      The SBI specification introduced SBI Message Proxy framework which allows
+      platform specific code or driver to regiester message protocols. This
+      framework allows S-Mode to send messages belonging to different message
+      protocols which are regiesterd via MPXY
+
 config XIP
 	bool "XIP mode"
 	help
