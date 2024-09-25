@@ -2080,7 +2080,7 @@
 
 			sfc0: spi@18000000 {
 				compatible = "starfive,jhb100-spi", "snps,dw-ahb-ssi";
-				reg = <0x0 0x18000000 0x0 0x8000000>;
+				reg = <0x0 0x18000000 0x0 0x8000000>, <0x0 0x14090000 0x0 0x1000>;
 				#address-cells = <1>;
 				#size-cells = <0>;
 				interrupts = <111>;

@@ -151,6 +151,8 @@
 &sfc0 {
 	bootph-pre-ram;
 	status = "okay";
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
 };
 
 &timer0 {
