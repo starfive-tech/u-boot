@@ -8,6 +8,7 @@
 #include <asm/arch/bmcperiph0-macro/dom_bmcperiph0_mem_map.h>
 #include <asm/arch/bmcperiph1-macro/bmcperiph1_crg_macro.h>
 #include <asm/arch/bmcperiph1-macro/dom_bmcperiph1_mem_map.h>
+#include <asm/arch/bmcperiph1-macro/bmcperiph1_iomux_cfg_macro.h>
 #include <asm/arch/bmcperiph2-macro/bmcperiph2_crg_macro.h>
 #include <asm/arch/bmcperiph2-macro/bmcperiph2_iomux_cfg_macro.h>
 #include <asm/arch/bmcperiph2-macro/dom_bmcperiph2_mem_map.h>

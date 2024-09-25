@@ -1,16 +1,18 @@
 #include <asm/arch/saif_init.h>
 
 void u0_dwc_ssi_sfc_enable(void){
-  //clk_u0_dwc_ssi_sfc_ssi_clk:['clk_u0_dwc_ssi_sfc_ssi_clk', 'clk_u0_dwc_ssi_sfc_ssi_clk_icg', 'clk_bmcperiph1_200_div_sfc0', 'clk_bmcperiph1_200_divN0', 'clk_bmcperiph1_200_divN0_div', 'clk_bmcperiph1_400', 'clk_dom_bmcperiph1_clk_bmcperiph1_400'],dst:['u0_dwc_ssi_sfc.ssi_clk']
-  //default:_DIVIDE_CLOCK_CLK_BMCPERIPH1_200_DIVN0_(2);
-  _ENABLE_CLOCK_CLK_U0_DWC_SSI_SFC_SSI_CLK_;
-  //clk_u0_dwc_ssi_sfc_hclk:['clk_u0_dwc_ssi_sfc_hclk', 'clk_u0_dwc_ssi_sfc_hclk_icg', 'clk_bmcperiph1_200_ahb_sfc0', 'clk_bmcperiph1_200', 'clk_dom_bmcperiph1_clk_bmcperiph1_200'],dst:['u0_dwc_ssi_sfc.hclk']
-  _ENABLE_CLOCK_CLK_U0_DWC_SSI_SFC_HCLK_;
+	SET_U0_BMCPERIPH1_IOMUX_FUNC5_SEL(1);
+	SET_U0_BMCPERIPH1_IOMUX_FUNC6_SEL(1);
+	SET_U0_BMCPERIPH1_IOMUX_FUNC7_SEL(1);
+	SET_U0_BMCPERIPH1_IOMUX_FUNC8_SEL(1);
+	SET_U0_BMCPERIPH1_IOMUX_FUNC9_SEL(1);
+	SET_U0_BMCPERIPH1_IOMUX_FUNC10_SEL(1);
+	SET_U0_BMCPERIPH1_IOMUX_FUNC11_SEL(1);
 
-  //rstn_u0_dwc_ssi_sfc_ssi_rst_n:['rstn_u0_dwc_ssi_sfc_ssi_rst_n'],dst:['u0_dwc_ssi_sfc.ssi_rst_n']
-  //_CLEAR_RESET_RSTGEN_RSTN_U0_DWC_SSI_SFC_SSI_RST_N_;
-  //rstn_u0_dwc_ssi_sfc_hresetn:['rstn_u0_dwc_ssi_sfc_hresetn'],dst:['u0_dwc_ssi_sfc.hresetn']
-  //_CLEAR_RESET_RSTGEN_RSTN_U0_DWC_SSI_SFC_HRESETN_;
+	_ENABLE_CLOCK_MAIN_ICG_EN_SFC0_;
+	_ENABLE_CLOCK_CLK_U0_DWC_SSI_SFC_SSI_CLK_;
+	_ENABLE_CLOCK_CLK_U0_DWC_SSI_SFC_HCLK_;
+	_CLEAR_RESET_RSTGEN_MAIN_RSTN_SFC0_;
 }
 
 void u0_dwc_ether_rmiiandrgmii_enable_patch(void){ /* Get from baremetal - different from bitfile 014 */
