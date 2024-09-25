@@ -131,6 +131,22 @@
 #define RX_TIMEOUT			1000		/* timeout in ms */
 #define CLOCK_STRETCH_WAIT_RETRIES	1000000
 
+/* SFC filter registers */
+#define DW_SPI_JHB100_INST			0x1000
+#define DW_SPI_JHB100_ADDR			0x1004
+#define DW_SPI_JHB100_FILTER_IMR		0x1008
+#define DW_SPI_JHB100_FILTER_ISR		0x100c
+#define DW_SPI_JHB100_FILTER_RISR		0x1010
+#define DW_SPI_JHB100_FILTER_ICR		0x1014
+
+/* Bit field in FILTER_RISR */
+#define WP_ERR					BIT(0)
+#define ADDR_FILTER_ERR				BIT(1)
+#define ADDR_WIDTH_ERR				BIT(2)
+#define CMD_FILTER_ERR				BIT(3)
+
+#define FILTER_ERR_MASK				GENMASK(3, 0)
+
 struct dw_spi_plat {
 	s32 frequency;		/* Default clock frequency, -1 for none */
 	void __iomem *regs;
@@ -145,6 +161,7 @@ struct dw_spi_priv {
 	u32 (*update_spi_cr0)(struct dw_spi_priv *priv);
 
 	void __iomem *regs;
+	void __iomem *filter;
 	unsigned long bus_clk_rate;
 	unsigned int freq;		/* Default frequency */
 	unsigned int mode;
@@ -166,6 +183,18 @@ struct dw_spi_priv {
 	u8 inst_l;			/* Instruction length */
 	u8 addr_l;			/* Address length */
 	u8 wait_c;			/* Wait cycles */
+};
+
+struct dw_spi_filter_err_map {
+	int flag;
+	const char *error_msg;
+};
+
+struct dw_spi_filter_err_map dw_spi_filter_err_conditions[] = {
+	{ WP_ERR,		"write protected error detected"},
+	{ ADDR_FILTER_ERR,	"address filter error detected"},
+	{ ADDR_WIDTH_ERR,	"address width mismatch error detected"},
+	{ CMD_FILTER_ERR,	"command filter error detected"}
 };
 
 static inline u32 dw_read(struct dw_spi_priv *priv, u32 offset)
@@ -258,7 +287,7 @@ static int dw_spi_dwc_init(struct udevice *bus, struct dw_spi_priv *priv)
 
 static int dw_spi_jhb100_init(struct udevice *bus, struct dw_spi_priv *priv)
 {
-	priv->fifo_len = 16;
+	priv->fifo_len = 64;
 	priv->max_xfer = 32;
 	priv->update_cr0 = dw_spi_jhb100_update_cr0;
 	priv->update_spi_cr0 = dw_spi_dwc_update_spi_cr0;
@@ -412,9 +441,14 @@ static int dw_spi_probe(struct udevice *bus)
 	struct dw_spi_priv *priv = dev_get_priv(bus);
 	int ret;
 	u32 version;
+	void __iomem *filter;
 
-	priv->regs = plat->regs;
+	priv->regs = dev_remap_addr_index(bus, 0);
 	priv->freq = plat->frequency;
+	filter = dev_remap_addr_index(bus, 1);
+
+	if (filter)
+		priv->filter = filter;
 
 	ret = dw_spi_get_clk(bus, &priv->bus_clk_rate);
 	if (ret)
@@ -668,7 +702,7 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 	struct dw_spi_priv *priv = dev_get_priv(bus);
 	u8 op_len = op->cmd.nbytes + op->addr.nbytes + op->dummy.nbytes;
 	u8 op_buf[op_len];
-	u32 cr0, sts, spi_cr0, level, rx_len, retry;
+	u32 cr0, sts, spi_cr0, level, rx_len, retry, cs, filter_sts;
 
 	priv->spi_frf = (op->data.buswidth == 4) ? CTRLR0_SPI_FRF_QUAD :
 		((op->data.buswidth == 2) ? CTRLR0_SPI_FRF_DUAL : CTRLR0_SPI_FRF_BYTE);
@@ -694,11 +728,10 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 	if (priv->update_spi_cr0)
 		dw_write(priv, DW_SPI_SPI_CTRLR0, spi_cr0);
 
-	dw_write(priv, DW_SPI_SSIENR, 1);
-	external_cs_manage(slave->dev, false);
-
 	/* From spi_mem_exec_op */
 	if (!priv->update_spi_cr0) {
+		dw_write(priv, DW_SPI_SSIENR, 1);
+		external_cs_manage(slave->dev, false);
 		pos = 0;
 		op_buf[pos++] = op->cmd.opcode;
 		if (op->addr.nbytes) {
@@ -718,7 +751,14 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 		while (priv->tx != priv->tx_end)
 			dw_writer(priv);
 	} else {
-		dw_write(priv, DW_SPI_DR, (u8)op->cmd.opcode);
+		dw_write(priv, DW_SPI_JHB100_FILTER_IMR, FILTER_ERR_MASK);
+
+		cs = 1 << spi_chip_select(slave->dev);
+
+		/* TODO: add MPXY call for setting 3 or 4-byte addr mode*/
+		writel(op->addr.nbytes == 3 ? 0 : cs, priv->filter);
+
+		dw_write(priv, DW_SPI_JHB100_INST, (u8)op->cmd.opcode);
 
 		/*
 		 * During enhanced SPI mode, the address length can vary to accommodate
@@ -726,9 +766,25 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 		 * for this purpose.
 		 */
 		if (op->addr.nbytes)
-			dw_write(priv, DW_SPI_DR, (u32)op->addr.val);
-		if (op->dummy.nbytes)
-			dw_write(priv, DW_SPI_DR, 0xff);
+			dw_write(priv, DW_SPI_JHB100_ADDR, (u32)op->addr.val);
+
+		dw_write(priv, DW_SPI_SER, cs);
+		dw_write(priv, DW_SPI_SSIENR, 1);
+		external_cs_manage(slave->dev, false);
+
+		filter_sts = dw_read(priv, DW_SPI_JHB100_FILTER_RISR);
+
+		for (int i = 0; i < ARRAY_SIZE(dw_spi_filter_err_conditions); i++) {
+			if (filter_sts & dw_spi_filter_err_conditions[i].flag) {
+				dev_err(bus, "%s\n", dw_spi_filter_err_conditions[i].error_msg);
+				ret = -EIO;
+			}
+		}
+
+		if (ret) {
+			dw_read(priv, DW_SPI_JHB100_FILTER_ICR);
+			return ret;
+		}
 	}
 
 	/*
