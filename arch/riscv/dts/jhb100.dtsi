@@ -3052,6 +3052,28 @@
 				status = "disabled";
 			};
 
+			rpmi_perf {
+				mboxes = <&sbi_mpxy_mbox 0x1003>;
+				#performance-domain-cells = <0x01>;
+				compatible = "riscv,rpmi-performance";
+			};
+
+			rpmi_volt {
+				mboxes = <&sbi_mpxy_mbox 0x1001>;
+				compatible = "riscv,rpmi-voltage";
+			};
+
+			rpmi_clk {
+				mboxes = <&sbi_mpxy_mbox 0x1000>;
+				#clock-cells = <0x01>;
+				compatible = "riscv,rpmi-clock";
+			};
+
+			rpmi_sec {
+				mboxes = <&sbi_mpxy_mbox 0x1011>;
+				compatible = "riscv,rpmi-firmware";
+			};
+
 			reri0: reri0@130e0000 {
 				compatible = "starfive,reri-edac";
 				reg = <0x0 0x130e0000 0x0 0x1000>;

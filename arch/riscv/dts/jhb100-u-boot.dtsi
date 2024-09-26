@@ -82,7 +82,6 @@
 				mboxes = <&rpmi 0x8000>;
 				compatible = "riscv,rpmi-mpxy-jhb100-sec";
 			};
-
 			hsm@4 {
 				reg = <0x0 0x0A200000 0x0 0x4000>;
 					mboxes = <&rpmi 0x05>;
@@ -96,7 +95,6 @@
 				mboxes = <&rpmi 0x03>;
 				compatible = "riscv,jhb100-rpmi-system-reset";
 			};
-
 		};
 	};
 };
