@@ -13,6 +13,7 @@
 
 	aliases {
 		serial0 = &uart5;
+		ethernet0 = &gmac2;
 	};
 
 	chosen {
@@ -25,7 +26,7 @@
 
 	memory {
 		device_type = "memory";
-		reg = <0x0 0x40000000 0x2 0x00000000>;	/* 8GB */
+		reg = <0x0 0x40000000 0x2 0x0>;	/* 8GB */
 	};
 
 	reserved-memory {
@@ -133,62 +134,66 @@
 	};
 };
 
-&pinctrl_sys0 {
+&pinctrl_sys0h {
 
 	gpio-line-names =
 		"", "", "", "",
-		"ESPI_CLK",	"ESPI_CS", "ESPI_IO0", "ESPI_IO1",
-		"ESPI_IO2", "ESPI_IO3", "ESPI_RST", "ESPI_ALT";
+		"ESPI_IO0", "ESPI_IO1", "ESPI_IO2", "ESPI_IO3",
+		"ESPI_CLK", "ESPI_CS", "ESPI_ALERT", "ESPI_RESET";
 
 	espi0_pins: espi0-grp {
 		espi0-rst-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0_ESPI0_RESET,
-					 FUNC_SYSTOP_SYS0_ESPI0_RESET)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0H_GPIO_A11,
+					 FUNC_SYSTOP_SYS0H_ESPI0_RESET)>;
 			input-enable;
 		};
 
 		espi0-alt-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0_ESPI0_ALERT,
-					 FUNC_SYSTOP_SYS0_ESPI0_ALERT)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0H_GPIO_A10,
+					 FUNC_SYSTOP_SYS0H_ESPI0_ALERT)>;
 		};
 
 		espi0-cs-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0_ESPI0_CS,
-					 FUNC_SYSTOP_SYS0_ESPI0_CS)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0H_GPIO_A9,
+					 FUNC_SYSTOP_SYS0H_ESPI0_CS)>;
 			bias-pull-up;
 			input-enable;
 		};
 
 		espi0-clk-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0_ESPI0_CLK,
-					 FUNC_SYSTOP_SYS0_ESPI0_CLK)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0H_GPIO_A8,
+					 FUNC_SYSTOP_SYS0H_ESPI0_CLK)>;
 			bias-pull-down;
 			input-enable;
 		};
 
 		espi0-io0-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0_ESPI0_DATA0,
-					 FUNC_SYSTOP_SYS0_ESPI0_DATA0)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0H_GPIO_A4,
+					 FUNC_SYSTOP_SYS0H_ESPI0_DATA0)>;
 			bias-pull-up;
+			input-enable;
 		};
 
 		espi0-io1-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0_ESPI0_DATA1,
-					 FUNC_SYSTOP_SYS0_ESPI0_DATA1)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0H_GPIO_A5,
+					 FUNC_SYSTOP_SYS0H_ESPI0_DATA1)>;
 			bias-pull-up;
+			input-enable;
 
 		};
 
 		espi0-io2-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0_ESPI0_DATA2,
-					 FUNC_SYSTOP_SYS0_ESPI0_DATA2)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0H_GPIO_A6,
+					 FUNC_SYSTOP_SYS0H_ESPI0_DATA2)>;
 			bias-pull-up;
+			input-enable;
 		};
 
 		espi0-io3-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0_ESPI0_DATA3,
-					 FUNC_SYSTOP_SYS0_ESPI0_DATA3)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS0H_GPIO_A7,
+					 FUNC_SYSTOP_SYS0H_ESPI0_DATA3)>;
 			bias-pull-up;
+			input-enable;
 		};
 	};
 };
@@ -198,15 +203,17 @@
 		"", "", "", "",
 		"", "", "", "",
 		"", "", "", "",
-		"UART5_RX", "UART5_TX", "", "";
+		"UART5_TX", "UART5_RX", "", "";
 
 	uart5_pins: uart5-grp {
 		uart5_tx-pins {
-			pinmux = <PINMUX(13, 1)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A36,
+					 FUNC_SYSTOP_SYS2_UART5_TX)>;
 		};
 
 		uart5_rx-pins {
-			pinmux = <PINMUX(12, 1)>;
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A37,
+					 FUNC_SYSTOP_SYS2_UART5_RX)>;
 			bias-pull-up;
 			input-enable;
 		};
@@ -217,48 +224,77 @@
 	gpio-line-names =
 		"", "", "", "",
 		"", "", "", "",
+		"I3C4_SCL", "I3C4_SDA", "I3C5_SCL", "I3C5_SDA",
+		"I2C6_SCL", "I2C6_SDA", "I2C7_SCL", "I2C7_SDA",
 		"", "", "", "",
 		"", "", "", "",
-		"", "", "", "",
-		"", "", "", "",
-		"MDIO0_MDC", "MDIO0_MDIO", "", "",
-		"", "", "", "",
-		"", "", "", "",
-		"", "", "", "",
-		"", "", "", "I3C0_SCL",
-		"I3C0_SDA", "I3C1_SCL", "I3C1_SDA", "";
+		"MDIO0_MDC", "MDIO0_MDIO", "", "";
+
+	i3c4_pins: i3c4-grp {
+		i3c4_scl-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
+					 FUNC_BMCPERIPH0_MIPI_I3C4_SCL1)>;
+		};
+
+		i3c4_sda-pins{
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B9,
+					 FUNC_BMCPERIPH0_MIPI_I3C4_SDA1)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+
+	i3c5_pins: i3c5-grp {
+		i3c5_scl-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
+					 FUNC_BMCPERIPH0_MIPI_I3C5_SCL1)>;
+		};
+
+		i3c5_sda-pins{
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B11,
+					 FUNC_BMCPERIPH0_MIPI_I3C5_SDA1)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+
+	i2c6_pins: i2c6-grp {
+		i2c6_scl-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B12,
+					 FUNC_BMCPERIPH0_I2C6_CLK)>;
+		};
+
+		i2c6_sda-pins{
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B13,
+					 FUNC_BMCPERIPH0_I2C6_DATA)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+
+	i2c7_pins: i2c7-grp {
+		i2c7_scl-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B14,
+					 FUNC_BMCPERIPH0_I2C7_CLK)>;
+		};
+
+		i2c7_sda-pins{
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B15,
+					 FUNC_BMCPERIPH0_I2C7_DATA)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
 
 	mdio0_pins: mdio0-grp {
 		mdio0_mdc-pins {
-			pinmux = <PINMUX(24, 2)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B24,
+					 FUNC_BMCPERIPH0_ETH2_MDC)>;
 		};
 
 		mdio0_mdio-pins {
-			pinmux = <PINMUX(25, 2)>;
-			bias-pull-up;
-			input-enable;
-		};
-	};
-
-	i3c0_pins: i3c0-grp {
-		i3c0_scl-pins {
-			pinmux = <PINMUX(43, 1)>;
-		};
-
-		i3c0_sda-pins  {
-			pinmux = <PINMUX(44, 1)>;
-			bias-pull-up;
-			input-enable;
-		};
-	};
-
-	i3c1_pins: i3c1-grp {
-		i3c1_scl-pins {
-			pinmux = <PINMUX(45, 1)>;
-		};
-
-		i3c1_sda-pins  {
-			pinmux = <PINMUX(46, 1)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B25,
+					 FUNC_BMCPERIPH0_ETH2_MDIO)>;
 			bias-pull-up;
 			input-enable;
 		};
@@ -271,61 +307,88 @@
 		"", "", "", "",
 		"", "", "", "",
 		"", "", "", "",
-		"", "", "", "",
-		"", "", "", "",
-		"GMAC2_PHY_RESET", "GMAC2_TXEN", "", "GMAC2_TXD0",
-		"GMAC2_TXD1", "", "GMAC2_TXD2", "GMAC2_TXD3",
-		"", "", "", "",
-		"", "GMAC2_RXCLK", "GMAC2_RXDV", "GMAC2_RXD0",
-		"GMAC2_RXD1", "GMAC2_RXD2", "GMAC2_RXD3", "GMAC2_TXCLK";
+		"", "", "GMAC2_PHY_RESET", "GMAC2_RXCLK",
+		"GMAC2_RXDV", "GMAC2_RXD0", "GMAC2_RXD1", "GMAC2_RXD2",
+		"GMAC2_RXD3", "GMAC2_TXCLK", "GMAC2_TXEN", "GMAC2_TXD0",
+		"GMAC2_TXD1", "GMAC2_TXD2", "GMAC2_TXD3", "";
 
 	gmac2_pins: gmac2-grp {
 		gmac2_txen-pins {
-			pinmux = <PINMUX(25, 2)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D26,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TXEN)>;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_txclk-pins {
-			pinmux = <PINMUX(43, 1)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D25,
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_TX_CLK)>;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_txd0-pins {
-			pinmux = <PINMUX(27, 2)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D27,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TX0)>;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_txd1-pins {
-			pinmux = <PINMUX(28, 2)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D28,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TX1)>;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_txd2-pins {
-			pinmux = <PINMUX(30, 2)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D29,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TX2)>;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_txd3-pins {
-			pinmux = <PINMUX(31, 2)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D30,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TX3)>;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxclk-pins {
-			pinmux = <PINMUX(37, 1)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D19,
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_RX_CLK)>;
+			input-enable;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxdv-pins {
-			pinmux = <PINMUX(38, 1)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D20,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXDV)>;
+			input-enable;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxd0-pins {
-			pinmux = <PINMUX(39, 1)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D21,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXD0)>;
+			input-enable;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxd1-pins {
-			pinmux = <PINMUX(40, 1)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D22,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXD1)>;
+			input-enable;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxd2-pins {
-			pinmux = <PINMUX(41, 1)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D23,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXD2)>;
+			input-enable;
+			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxd3-pins {
-			pinmux = <PINMUX(42, 1)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D24,
+					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXD3)>;
+			input-enable;
+			starfive,gmac_vsel = <0>;
 		};
 	};
 
@@ -364,7 +427,11 @@
 	status = "disabled";
 };
 
-&peci {
+&peci0 {
+	status = "okay";
+};
+
+&peci1 {
 	status = "okay";
 };
 
@@ -373,11 +440,11 @@
 	mmbi-osuse = /bits/ 8 <0 0 0 0 0 0 0 0>;
 	memory-region = <&espi0_mmbi_buffer_uncache>;
 	mmbi-src-addr = /bits/ 64 <0x1f4000000>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sio0 {
-	status = "okay";
+	status = "disabled";
 
 	sio0_bt0: bt@0 {
 		status = "okay";
@@ -403,7 +470,7 @@
 
 &espi0 {
 	flash-safs-mode = <0>;
-	perif-memcyc-src-addr = <0x4 0x25000000>;
+	perif-memcyc-src-addr = /bits/ 64 <0x425000000>;
 	perif-memcyc-size = <0x200000>;
 	memory-region = <&espi0_mem_uncache>;
 
@@ -446,7 +513,9 @@
 			reg = <0>;
 			max-speed = <10>;
 			device_type = "ethernet-phy";
-
+			reset-gpios = <&pinctrl_bmcperiph2 18 GPIO_ACTIVE_LOW>;
+			reset-assert-us = <15000>;
+			reset-deassert-us = <15000>;
 			marvell,reg-init =
 				<0x0 0x4 0 0x0441>, /*Page 0, Reg 4 <- 0x0441*/
 				<0x12 0x14 0 0x0>, /*Page 18, Reg 20 <- 0x0*/
@@ -467,21 +536,17 @@
 	status = "okay";
 };
 
-&timer_test {
-	status = "okay";
-};
-
-&i3c0 {
-	status = "okay";
+&i3c4 {
+	status = "disabled";
 	clocks = <&fpga_12mhz_clk>;
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
 	pinctrl-names = "default";
-	pinctrl-0 = <&i3c0_pins>;
+	pinctrl-0 = <&i3c4_pins>;
 };
 
-&i3c1 {
+&i3c5 {
 	status = "okay";
 	clocks = <&fpga_12mhz_clk>;
 	i3c-scl-hz = <1000000>;
@@ -492,5 +557,17 @@
 	hotjoin-request;
 	/* pec-private-transfer; */
 	pinctrl-names = "default";
-	pinctrl-0 = <&i3c1_pins>;
+	pinctrl-0 = <&i3c5_pins>;
+};
+
+&reri0 {
+	status = "okay";
+};
+
+&reri2 {
+	status = "okay";
+};
+
+&reri3 {
+	status = "okay";
 };

@@ -104,6 +104,14 @@
 	bootph-pre-ram;
 };
 
+&sys_espi0 {
+	bootph-pre-ram;
+};
+
+&sys1_espi1 {
+	bootph-pre-ram;
+};
+
 &syscrg {
 	bootph-pre-ram;
 };
@@ -140,7 +148,23 @@
 	bootph-pre-ram;
 };
 
+&per2_gmac3_sgmii_tx {
+	bootph-pre-ram;
+};
+
+&per2_gmac3_sgmii_rx {
+	bootph-pre-ram;
+};
+
 &per3_gmac0_rmii_rclki {
+	bootph-pre-ram;	
+};
+
+&per3_gmac1_sgmii_tx {
+	bootph-pre-ram;	
+};
+
+&per3_gmac1_sgmii_rx {
 	bootph-pre-ram;	
 };
 

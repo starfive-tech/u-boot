@@ -34,7 +34,7 @@
 	pll3: pll3 {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <1200000000>;
+		clock-frequency = <800000000>;
 	};
 
 	pll4: pll4 {
@@ -50,17 +50,27 @@
 	};
 
 	pll6: pll6 {
-		compatible = "fixed-factor-clock";
+		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-div = <1>;
-		clock-mult = <192>;
-		clocks = <&osc>;
+		clock-frequency = <2400000000>;
 	};
 
 	pll7: pll7 {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <650000000>;
+	};
+
+	sys_espi0: sys-espi0 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <66000000>;
+	};
+
+	sys1_espi1: sys1-espi1 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <66000000>;
 	};
 
 	per0_1200: per0_1200 {
@@ -81,10 +91,34 @@
 		clock-frequency = <125000000>;
 	};
 
+	per2_gmac3_sgmii_tx: per2-gmac3-sgmii-tx {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <125000000>;
+	};
+
+	per2_gmac3_sgmii_rx: per2-gmac3-sgmii-rx {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <125000000>;
+	};
+
 	per3_gmac0_rmii_rclki: per3_gmac0_rmii_rclki {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <50000000>;
+	};
+
+	per3_gmac1_sgmii_tx: per3-gmac1-sgmii-tx {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <125000000>;
+	};
+
+	per3_gmac1_sgmii_rx: per3-gmac1-sgmii-rx {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <125000000>;
 	};
 
 	rtc_apb: rtc_apb {
@@ -97,15 +131,15 @@
 		host0crg: clock-controller@10518000 {
 			compatible = "starfive,jhb100-host0crg";
 			reg = <0x0 0x10518000 0x0 0x1000>;
-			clocks = <&syscrg JHB100_SYSCLK_HOSTSS0_PHY_SCAN_500>,
-				 <&syscrg JHB100_SYSCLK_HOSTSS0_PHY_SCAN_200>,
-				 <&syscrg JHB100_SYSCLK_HOSTSS0_DATA>,
+			clocks = <&syscrg JHB100_SYSCLK_HOSTSS0_DATA>,
 				 <&syscrg JHB100_SYSCLK_HOSTSS0_CFG>,
-				 <&osc>;
-			clock-names = "host0_phy_scan_500", "host0_phy_scan_200",
-				      "host0_data", "host0_cfg", "osc";
-			resets = <&syscrg JHB100_SYSRST_PCU8_CORE_RST>,
-				 <&syscrg JHB100_SYSRST_PCU8_APB_RST>;
+				 <&syscrg JHB100_SYSCLK_HOSTSS0_PCIE_PHY_SCAN_400_DFT>,
+				 <&syscrg JHB100_SYSCLK_HOSTSS0_PCIE_PHY_SCAN_1000_DFT>,
+				 <&syscrg JHB100_SYSCLK_ESPI0_EXT_DFT_MUX>;
+			clock-names = "host0_data", "host0_cfg",
+				      "host0_pcie_phy_scan_1000",
+				      "host0_pcie_phy_scan_400",
+				      "host0_espi0_ext_dft_mux";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "okay";
@@ -114,10 +148,6 @@
 		husb0crg: clock-controller@10694000 {
 			compatible = "starfive,jhb100-husb0crg";
 			reg = <0x0 0x10694000 0x0 0x800>;
-			clocks = <&osc>,
-				 <&sys2crg JHB100_SYS2CLK_HOSTUSB_INIT>,
-				 <&sys2crg JHB100_SYS2CLK_HOSTUSBCMN_500>;
-			clock-names = "osc", "husb0_init", "husb0_500";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -126,9 +156,6 @@
 		husbd0crg: clock-controller@10694800 {
 			compatible = "starfive,jhb100-husbd0crg";
 			reg = <0x0 0x10694800 0x0 0x800>;
-			clocks = <&sys2crg JHB100_SYS2CLK_HOSTUSB_TARG>,
-				 <&sys2crg JHB100_SYS2CLK_HOSTUSB_INIT>;
-			clock-names = "husbd0_targ", "husbd0_init";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -137,9 +164,6 @@
 		gpu0crg: clock-controller@10744000 {
 			compatible = "starfive,jhb100-gpu0crg";
 			reg = <0x0 0x10744000 0x0 0x1000>;
-			clocks = <&sys1crg JHB100_SYS1CLK_GPU0_INIT>,
-				 <&sys1crg JHB100_SYS1CLK_GPU0_TARG>;
-			clock-names = "gpu0_init", "gpu0_targ";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -148,13 +172,15 @@
 		host1crg: clock-controller@10d18000 {
 			compatible = "starfive,jhb100-host1crg";
 			reg = <0x0 0x10d18000 0x0 0x1000>;
-			clocks = <&sys1crg JHB100_SYS1CLK_HOSTSS1_PHY_SCAN_500>,
-				 <&sys1crg JHB100_SYS1CLK_HOSTSS1_PHY_SCAN_200>,
-				 <&sys1crg JHB100_SYS1CLK_HOSTSS1_DATA>,
+			clocks = <&syscrg JHB100_SYSCLK_HOSTSS1_DATA>,
 				 <&sys1crg JHB100_SYS1CLK_HOSTSS1_CFG>,
-				 <&osc>;
-			clock-names = "host1_phy_scan_500", "host1_phy_scan_200",
-				      "host1_data",  "host1_cfg", "osc";
+				 <&syscrg JHB100_SYSCLK_HOSTSS1_PHY_SCAN_400_ICG_BUF>,
+				 <&sys1crg JHB100_SYS1CLK_HOSTSS1_PHY_SCAN_1000_ICG_BUF>,
+				 <&sys1crg JHB100_SYS1CLK_ESPI1_EXT_DFT_MUX>;
+			clock-names = "host1_data", "host1_cfg",
+				      "host1_pcie_phy_scan_1000",
+				      "host1_pcie_phy_scan_400",
+				      "host1_espi1_ext_dft_mux";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -163,10 +189,6 @@
 		husb1crg: clock-controller@10e94000 {
 			compatible = "starfive,jhb100-husb1crg";
 			reg = <0x0 0x10e94000 0x0 0x800>;
-			clocks = <&osc>,
-				 <&sys2crg JHB100_SYS2CLK_HOSTUSB_INIT>,
-				 <&sys2crg JHB100_SYS2CLK_HOSTUSBCMN_500>;
-			clock-names = "osc", "husb1_init", "husb1_500";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -175,9 +197,6 @@
 		husbd1crg: clock-controller@10e94800 {
 			compatible = "starfive,jhb100-husbd1crg";
 			reg = <0x0 0x10e94800 0x0 0x800>;
-			clocks = <&sys2crg JHB100_SYS2CLK_HOSTUSB_TARG>,
-				 <&sys2crg JHB100_SYS2CLK_HOSTUSB_INIT>;
-			clock-names = "husbd1_targ", "husbd1_init";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -186,9 +205,6 @@
 		gpu1crg: clock-controller@10f44000 {
 			compatible = "starfive,jhb100-gpu1crg";
 			reg = <0x0 0x10f44000 0x0 0x1000>;
-			clocks = <&sys1crg JHB100_SYS1CLK_GPU1_INIT>,
-				 <&sys1crg JHB100_SYS1CLK_GPU1_TARG>;
-			clock-names = "gpu1_init", "gpu1_targ";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -197,11 +213,6 @@
 		husbcmncrg: clock-controller@11044000 {
 			compatible = "starfive,jhb100-husbcmncrg";
 			reg = <0x0 0x11044000 0x0 0x1000>;
-			clocks = <&sys2crg JHB100_SYS2CLK_HOSTUSBCMN_500>,
-				 <&sys2crg JHB100_SYS2CLK_HOSTUSBCMN_480>,
-				 <&sys2crg JHB100_SYS2CLK_HOSTUSBCMN_TARG>;
-			clock-names = "husbcmn_500", "husbcmn_480",
-				      "husbcmn_targ";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -211,8 +222,12 @@
 			compatible = "starfive,jhb100-voutcrg";
 			reg = <0x0 0x11134000 0x0 0x1000>;
 			clocks = <&pll4>, <&pll5>,
-				 <&sys1crg JHB100_SYS1CLK_VOUT_INIT>;
-			clock-names = "pll4", "pll5", "vout_init";
+				 <&syscrg JHB100_SYSCLK_VOUT_INIT>,
+				 <&sys1crg JHB100_SYS1CLK_VOUT_TARG>,
+				 <&sys1crg JHB100_SYS1CLK_VOUT_CLK_SCAN_1000_DFT>,
+				 <&sys1crg JHB100_SYS1CLK_VOUT_CLK_SCAN_800_DFT>;
+			clock-names = "pll4", "pll5", "vout_init", "vout_targ",
+				      "vout_scan_1000", "vout_scan_800";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -231,10 +246,6 @@
 		pcierpcrg: clock-controller@11718000 {
 			compatible = "starfive,jhb100-pcierpcrg";
 			reg = <0x0 0x11718000 0x0 0x1000>;
-			clocks = <&syscrg JHB100_SYSCLK_BMCPCIERP_CFG>,
-				 <&syscrg JHB100_SYSCLK_BMCPCIERP_MAIN>,
-				 <&osc>;
-			clock-names = "pcierp_cfg", "pcierp_main", "osc";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -243,9 +254,6 @@
 		usbcrg: clock-controller@11834000 {
 			compatible = "starfive,jhb100-usbcrg";
 			reg = <0x0 0x11834000 0x0 0x1000>;
-			clocks = <&syscrg JHB100_SYSCLK_BMCUSB_TARG>,
-				 <&syscrg JHB100_SYSCLK_BMCUSB_INIT>;
-			clock-names = "usb_targ", "usb_init";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 			status = "disabled";
@@ -254,16 +262,15 @@
 		per0crg: clock-controller@11a08000 {
 			compatible = "starfive,jhb100-per0crg";
 			reg = <0x0 0x11a08000 0x0 0x1000>;
-			clocks = <&sys2crg JHB100_SYS2CLK_BMCPER0_TARG>,
-				 <&per0_1200>,
-				 <&sys2crg JHB100_SYS2CLK_BMCPER0_400>,
-				 <&sys2crg JHB100_SYS2CLK_BMCPER0_INIT>,
-				 <&osc>,
-				 <&sys2crg JHB100_SYS2CLK_BMCPER0_125>,
-				 <&sys2crg JHB100_SYS2CLK_BMCPER0_PLL6>;
-			clock-names = "per0_targ", "per0_1200",
-				      "per0_400", "per0_init", "osc",
-				      "per0_125", "per0_pll6";
+			clocks = <&osc>, <&pll6>,
+				 <&syscrg JHB100_SYSCLK_BMCPER0_400>,
+				 <&syscrg JHB100_SYSCLK_BMCPER0_800_OSC>,
+				 <&syscrg JHB100_SYSCLK_BMCPER0_INIT>,
+				 <&sys2crg JHB100_SYS2CLK_BMCPER0_TARG>,
+				 <&sys2crg JHB100_SYS2CLK_BMCPER0_125>;
+			clock-names = "osc", "pll6", "per0_400",
+				      "per0_800_osc", "per0_init",
+				      "per0_targ", "per0_125";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
@@ -271,12 +278,17 @@
 		per1crg: clock-controller@11b40000 {
 			compatible = "starfive,jhb100-per1crg";
 			reg = <0x0 0x11b40000 0x0 0x1000>;
-			clocks = <&sys2crg JHB100_SYS2CLK_BMCPER1_INIT>,
-				 <&sys2crg JHB100_SYS2CLK_BMCPER1_400>,
+			clocks = <&pll7>,
+				 <&syscrg JHB100_SYSCLK_BMCPER1_INIT>,
+				 <&syscrg JHB100_SYSCLK_BMCPER1_400>,
+				 <&syscrg JHB100_SYSCLK_BMCPER1_600>,
+				 <&syscrg JHB100_SYSCLK_BMCPER1_800>,
 				 <&sys2crg JHB100_SYS2CLK_BMCPER1_TARG>,
-				 <&sys2crg JHB100_SYS2CLK_BMCPER1_800>;
-			clock-names = "per1_init", "per1_400",
-				      "per1_targ", "per1_800";
+				 <&sys2crg JHB100_SYS2CLK_BMCPER1_200>,
+				 <&sys2crg JHB100_SYS2CLK_BMCPER1_143>;
+			clock-names = "pll7", "per1_init", "per1_400",
+				      "per1_600", "per1_800", "per1_targ",
+				      "per1_200", "per1_143";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
@@ -289,10 +301,15 @@
 				 <&syscrg JHB100_SYSCLK_BMCPER2_125>,
 				 <&per2_gmac2_rgmii_rx>,
 				 <&per2_gmac2_rmii_ref>,
+				 <&per2_gmac3_sgmii_tx>,
+				 <&per2_gmac3_sgmii_rx>,
 				 <&osc>;
-			clock-names = "per2_targ", "per2_400",
-				      "per2_125", "per2_gmac2_rgmii_rx",
-				      "per2_gmac2_rmii_ref", "osc";
+			clock-names = "per2_targ", "per2_400", "per2_125",
+				      "per2_gmac2_rgmii_rx",
+				      "per2_gmac2_rmii_ref",
+				      "per2_gmac3_sgmii_tx",
+				      "per2_gmac3_sgmii_rx",
+				      "osc";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
@@ -300,12 +317,16 @@
 		per3crg: clock-controller@11c40000 {
 			compatible = "starfive,jhb100-per3crg";
 			reg = <0x0 0x11c40000 0x0 0x1000>;
-			clocks = <&sys1crg JHB100_SYS1CLK_BMCPER3_INIT>,
+			clocks = <&syscrg JHB100_SYSCLK_BMCPER3_600>,
+				 <&sys1crg JHB100_SYS1CLK_BMCPER3_100>,
 				 <&sys1crg JHB100_SYS1CLK_BMCPER3_125>,
-				 <&sys1crg JHB100_SYS1CLK_BMCPER3_TARG>,
-				 <&per3_gmac0_rmii_rclki>;
-			clock-names = "per3_init", "per3_125",
-				      "per3_targ", "per3_gmac0_rmii_rclki";
+				 <&per3_gmac0_rmii_rclki>,
+				 <&per3_gmac1_sgmii_tx>,
+				 <&per3_gmac1_sgmii_rx>;
+			clock-names = "per3_600", "per3_100", "per3_125",
+				      "per3_gmac0_rmii_rclki",
+				      "per3_gmac1_sgmii_tx",
+				      "per3_gmac1_sgmii_rx";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
@@ -314,9 +335,9 @@
 			compatible = "starfive,jhb100-syscrg";
 			reg = <0x0 0x13000000 0x0 0x4000>;
 			clocks = <&osc>, <&pll0>, <&pll1>, <&pll2>,
-				 <&pll3>, <&pll6>, <&pll7>;
+				 <&sys_espi0>;
 			clock-names = "osc", "pll0", "pll1", "pll2",
-				      "pll3", "pll6", "pll7";
+				      "sys_espi0";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
@@ -325,9 +346,9 @@
 			compatible = "starfive,jhb100-sys1crg";
 			reg = <0x0 0x13004000 0x0 0x4000>;
 			clocks = <&osc>, <&pll0>, <&pll1>, <&pll2>,
-				 <&pll3>, <&pll6>, <&pll7>;
+				 <&sys1_espi1>;
 			clock-names = "osc", "pll0", "pll1", "pll2",
-				      "pll3", "pll6", "pll7";
+				      "sys1_espi1";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
@@ -335,10 +356,20 @@
 		sys2crg: clock-controller@13008000 {
 			compatible = "starfive,jhb100-sys2crg";
 			reg = <0x0 0x13008000 0x0 0x4000>;
-			clocks = <&osc>, <&pll0>, <&pll1>, <&pll2>,
-				 <&pll3>, <&pll6>, <&pll7>;
-			clock-names = "osc", "pll0", "pll1", "pll2",
-				      "pll3", "pll6", "pll7";
+			clocks = <&osc>, <&pll1>,
+				 <&syscrg JHB100_SYSCLK_GPU0_INIT>,
+				 <&syscrg JHB100_SYSCLK_GPU1_INIT>;
+			clock-names = "osc", "pll1", "sys2_gpu0_init",
+				      "sys2_gpu1_init";
+			#clock-cells = <1>;
+			#reset-cells = <1>;
+		};
+
+		cpucrg: clock-controller@13214000 {
+			compatible = "starfive,jhb100-cpucrg";
+			reg = <0x0 0x13214000 0x0 0x1000>;
+			clocks = <&syscrg JHB100_SYSCLK_BMCCPUSS_SYS_OSC>;
+			clock-names = "cpu_sys_osc";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};

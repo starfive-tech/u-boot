@@ -4,7 +4,7 @@
  */
 
 &sfc0 {
-	status = "okay";
+	status = "disabled";
 	clocks = <&fpga_12mhz_clk>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&sfc0_pins>;
@@ -113,38 +113,46 @@
 		"", "", "", "",
 		"", "SFC0_CS0", "SFC0_CS1", "SFC0_SCLK",
 		"SFC0_IO0", "SFC0_IO1", "SFC0_IO2", "SFC0_IO3";
+
 	sfc0_pins: sfc0-grp {
 		sfc0_sclk-pins {
-			pinmux = <PINMUX(7, 0)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C7,
+					 FUNC_BMCPERIPH1_SFC0_SCLK_OUT)>;
 		};
 
 		sfc0_cs0-pins {
-			pinmux = <PINMUX(5, 0)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C5,
+					 FUNC_BMCPERIPH1_SFC0_N_SS_OUT_0)>;
 			bias-pull-up;
 		};
 
 		sfc0_cs1-pins {
-			pinmux = <PINMUX(6, 0)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C6,
+					 FUNC_BMCPERIPH1_SFC0_N_SS_OUT_1)>;
 			bias-pull-up;
 		};
 
 		sfc0_io0-pins {
-			pinmux = <PINMUX(8, 0)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C8,
+					 FUNC_BMCPERIPH1_SFC0_IO0)>;
 			input-enable;
 		};
 
 		sfc0_io1-pins {
-			pinmux = <PINMUX(9, 0)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C9,
+					 FUNC_BMCPERIPH1_SFC0_IO1)>;
 			input-enable;
 		};
 
 		sfc0_io2-pins {
-			pinmux = <PINMUX(10, 0)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C10,
+					 FUNC_BMCPERIPH1_SFC0_IO2)>;
 			input-enable;
 		};
 
 		sfc0_io3-pins {
-			pinmux = <PINMUX(11, 0)>;
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C11,
+					 FUNC_BMCPERIPH1_SFC0_IO3)>;
 			input-enable;
 		};
 	};
