@@ -11,3 +11,6 @@ obj-$(CONFIG_SPL_BUILD) += spl_spi_starfive.o
 obj-$(CONFIG_SPL_BUILD) += starfive_pcu.o
 obj-$(CONFIG_SPL_BUILD) += boot_fallback.o
 obj-$(CONFIG_SPL_BUILD) += spl.o
+ifndef CONFIG_SPL_BUILD
+obj-$(CONFIG_SBI) += sbi_ext.o
+endif
