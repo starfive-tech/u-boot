@@ -124,6 +124,8 @@ enum sbi_ext_dbcn_fid {
 #define SBI_FID_REMOTE_SFENCE_VMA	SBI_EXT_RFENCE_REMOTE_SFENCE_VMA
 #define SBI_EXT_REMOTE_SFENCE_VMA_ASID	SBI_EXT_RFENCE
 #define SBI_FID_REMOTE_SFENCE_VMA_ASID	SBI_EXT_RFENCE_REMOTE_SFENCE_VMA_ASID
+#define SBI_EXT_VENDOR_START		0x09000000
+#define SBI_EXT_VENDOR_END		0x09FFFFFF
 #endif
 
 #define SBI_SPEC_VERSION_MAJOR_SHIFT	24
@@ -173,5 +175,5 @@ int sbi_get_marchid(long *marchid);
 int sbi_get_mimpid(long *mimpid);
 void sbi_srst_reset(unsigned long type, unsigned long reason);
 int sbi_dbcn_write_byte(unsigned char ch);
-
+unsigned long sbi_get_vendor_extid(void);
 #endif

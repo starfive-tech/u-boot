@@ -149,6 +149,21 @@ int sbi_get_mvendorid(long *mvendorid)
 }
 
 /**
+ * sbi_get_vendor_extid - get vendor specific extension id
+ *
+ * Return:	vendor specific extension id calculated from mvendorid
+ */
+
+unsigned long sbi_get_vendor_extid(void)
+{
+	long mvendorid;
+
+	sbi_get_mvendorid(&mvendorid);
+
+	return SBI_EXT_VENDOR_START + (mvendorid & (SBI_EXT_VENDOR_END - SBI_EXT_VENDOR_START));
+}
+
+/**
  * sbi_get_marchid() - get machine architecture ID
  *
  * @mimpid:	on return machine architecture ID
