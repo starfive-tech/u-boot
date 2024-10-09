@@ -23,6 +23,7 @@
 #include <spi.h>
 #include <spi-mem.h>
 #include <asm/io.h>
+#include <asm/arch/sbi.h>
 #include <asm-generic/gpio.h>
 #include <linux/bitfield.h>
 #include <linux/bitops.h>
@@ -147,6 +148,19 @@
 
 #define FILTER_ERR_MASK				GENMASK(3, 0)
 
+/* SFC core address */
+#define JHB100_SFC0_CORE_ADDR			(void *)0x18000000
+#define JHB100_SFC1_CORE_ADDR			(void *)0x17f00000
+#define JHB100_SFC2_CORE_ADDR			(void *)0x17f10000
+
+/* SFC filter address */
+#define JHB100_SFC0_FILTER_ADDR			(void *)0x14090000
+#define JHB100_SFC1_FILTER_ADDR			(void *)0x14091000
+#define JHB100_SFC2_FILTER_ADDR			(void *)0x14092000
+
+#define SFC_FILTER_MAP_ENTRY(id)	\
+{ JHB100_SFC##id##_CORE_ADDR, JHB100_SFC##id##_FILTER_ADDR, id }
+
 struct dw_spi_plat {
 	s32 frequency;		/* Default clock frequency, -1 for none */
 	void __iomem *regs;
@@ -161,7 +175,6 @@ struct dw_spi_priv {
 	u32 (*update_spi_cr0)(struct dw_spi_priv *priv);
 
 	void __iomem *regs;
-	void __iomem *filter;
 	unsigned long bus_clk_rate;
 	unsigned int freq;		/* Default frequency */
 	unsigned int mode;
@@ -185,9 +198,21 @@ struct dw_spi_priv {
 	u8 wait_c;			/* Wait cycles */
 };
 
+struct sfc_filter_map {
+	void __iomem *regs;
+	void __iomem *filter;
+	u32 sfc_num;
+};
+
 struct dw_spi_filter_err_map {
 	int flag;
 	const char *error_msg;
+};
+
+struct sfc_filter_map jhb100_sfc_filter_map[] = {
+	SFC_FILTER_MAP_ENTRY(0),	/* SFC0 */
+	SFC_FILTER_MAP_ENTRY(1),	/* SFC1 */
+	SFC_FILTER_MAP_ENTRY(2)		/* SFC2 */
 };
 
 struct dw_spi_filter_err_map dw_spi_filter_err_conditions[] = {
@@ -441,14 +466,9 @@ static int dw_spi_probe(struct udevice *bus)
 	struct dw_spi_priv *priv = dev_get_priv(bus);
 	int ret;
 	u32 version;
-	void __iomem *filter;
 
-	priv->regs = dev_remap_addr_index(bus, 0);
+	priv->regs = plat->regs;
 	priv->freq = plat->frequency;
-	filter = dev_remap_addr_index(bus, 1);
-
-	if (filter)
-		priv->filter = filter;
 
 	ret = dw_spi_get_clk(bus, &priv->bus_clk_rate);
 	if (ret)
@@ -690,6 +710,25 @@ static u32 dw_spi_update_spi_cr0(struct dw_spi_priv *priv, const struct spi_mem_
 	return priv->update_spi_cr0(priv);
 }
 
+static int jhb100_set_sfc_addr_mode(void __iomem *regs, u32 value)
+{
+	int ret = 0;
+
+	for (int i = 0; i < ARRAY_SIZE(jhb100_sfc_filter_map); i++) {
+		if (jhb100_sfc_filter_map[i].regs == regs) {
+#if !defined(CONFIG_SPL_BUILD)
+			ret = sbi_set_sfc_addr_mode(jhb100_sfc_filter_map[i].sfc_num,
+						    value);
+#else
+			writel(value, jhb100_sfc_filter_map[i].filter);
+#endif
+			break;
+		}
+	}
+
+	return ret;
+}
+
 /*
  * This function is necessary for reading SPI flash with the native CS
  * c.f. https://lkml.org/lkml/2015/12/23/132
@@ -754,9 +793,12 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 		dw_write(priv, DW_SPI_JHB100_FILTER_IMR, FILTER_ERR_MASK);
 
 		cs = 1 << spi_chip_select(slave->dev);
+		ret = jhb100_set_sfc_addr_mode(priv->regs, op->addr.nbytes == 3 ? 0 : cs);
 
-		/* TODO: add MPXY call for setting 3 or 4-byte addr mode*/
-		writel(op->addr.nbytes == 3 ? 0 : cs, priv->filter);
+		if (ret) {
+			dev_err(bus, "Error writing to the SFC filter address register\n");
+			return ret;
+		}
 
 		dw_write(priv, DW_SPI_JHB100_INST, (u8)op->cmd.opcode);
 
@@ -811,7 +853,7 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 
 				retry++;
 				if (retry == CLOCK_STRETCH_WAIT_RETRIES) {
-					dev_err(bus, "Retry of dw_spi_exec_op failed\n");
+					dev_err(bus, "Retry of %s failed\n", __func__);
 					return -EIO;
 				}
 			}
@@ -958,7 +1000,7 @@ static const struct udevice_id dw_spi_ids[] = {
 	{ .compatible = "mscc,jaguar2-spi", .data = (ulong)dw_spi_apb_init },
 	{ .compatible = "snps,axs10x-spi", .data = (ulong)dw_spi_apb_init },
 	{ .compatible = "snps,hsdk-spi", .data = (ulong)dw_spi_apb_init },
-	{ .compatible = "starfive,jhb100-spi", .data = (ulong)dw_spi_jhb100_init },
+	{ .compatible = "starfive,jhb100-sfc", .data = (ulong)dw_spi_jhb100_init },
 	{ }
 };
 
