@@ -2222,7 +2222,7 @@
 			};
 
 			sfc1: spi@17f00000  {
-				compatible = "starfive,jhb100-spi", "snps,dw-ahb-ssi";
+				compatible = "starfive,jhb100-sfc";
 				reg = <0x0 0x17f00000 0x0 0x10000>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -2235,12 +2235,12 @@
 			};
 
 			sfc2: spi@17f10000  {
-				compatible = "starfive,jhb100-spi", "snps,dw-ahb-ssi";
+				compatible = "starfive,jhb100-sfc";
 				reg = <0x0 0x17f10000 0x0 0x10000>;
 				#address-cells = <1>;
 				#size-cells = <0>;
 				interrupts = <113>;
-				clocks = <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_SFC0>;
+				clocks = <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_SFC2>;
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_SFC2>;
 				reset-names = "spi";
 				num-cs = <2>;
@@ -2248,12 +2248,12 @@
 			};
 
 			spi0: spi@17f20000 {
-				compatible = "starfive,jhb100-spi", "snps,dw-ahb-ssi";
+				compatible = "starfive,jhb100-spi";
 				reg = <0x0 0x17f20000 0x0 0x10000>;
 				#address-cells = <1>;
 				#size-cells = <0>;
 				interrupts = <110>;
-				clocks = <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_SFC0>;
+				clocks = <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_SPI0>;
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_SPI0>;
 				reset-names = "spi";
 				num-cs = <2>;
@@ -2261,8 +2261,8 @@
 			};
 
 			sfc0: spi@18000000 {
-				compatible = "starfive,jhb100-spi", "snps,dw-ahb-ssi";
-				reg = <0x0 0x18000000 0x0 0x8000000>, <0x0 0x14090000 0x0 0x1000>;
+				compatible = "starfive,jhb100-sfc";
+				reg = <0x0 0x18000000 0x0 0x8000000>;
 				#address-cells = <1>;
 				#size-cells = <0>;
 				interrupts = <111>;
