@@ -104,6 +104,10 @@
 	bootph-pre-ram;
 };
 
+&i2c6_master {
+	bootph-pre-ram;
+};
+
 &sys_espi0 {
 	bootph-pre-ram;
 };
