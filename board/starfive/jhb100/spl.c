@@ -80,6 +80,12 @@ void plat_sfc_init(void)
 	u0_dwc_ssi_sfc_enable();
 }
 
+void plat_i2c_init(void)
+{
+	// i2c6
+	u6_dwc_i2c_smbus_enable();
+}
+
 void plat_uart_init(void)
 {
 	// console UART4 (N25f)
@@ -326,6 +332,7 @@ void board_init_f(ulong dummy)
 	/* Initialize peripherals reset here */
 	plat_sfc_init();
 	plat_uart_init();
+	plat_i2c_init();
 	//flexnoc_reset();
 	//starfive_wdt_reset();
 	//starfive_timer_reset();
