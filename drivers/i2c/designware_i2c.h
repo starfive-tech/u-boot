@@ -13,6 +13,7 @@
 #include <linux/bitops.h>
 
 struct i2c_regs {
+#if !defined(CONFIG_SYS_I2C_DWC)
 	u32 ic_con;		/* 0x00 */
 	u32 ic_tar;		/* 0x04 */
 	u32 ic_sar;		/* 0x08 */
@@ -60,6 +61,61 @@ struct i2c_regs {
 	u32 comp_param1;	/* 0xf4 */
 	u32 comp_version;
 	u32 comp_type;
+#else
+	u32 ic_hci_version;		/* 0x00 */
+	u32 ic_enable;			/* 0x04 */
+	u32 ic_reset_ctrl;		/* 0x08 */
+	u32 ic_capabilities;		/* 0x0c */
+	u32 ic_i2c_capabilities;	/* 0x10 */
+	u32 ic_i2c_block_offset;	/* 0x14 */
+	u32 ic_smbus_capabilities;	/* 0x18 */
+	u32 ic_smbus_block_offset;	/* 0x1c */
+	u32 ic_i2c_core_header;		/* 0x20 */
+	u32 ic_con;			/* 0x24 */
+	u32 ic_tar;			/* 0x28 */
+	u32 ic_sar;			/* 0x2c */
+	u32 ic_hs_caddr;		/* 0x30 */
+	u32 ic_tgt_data_nack_only;	/* 0x34 */
+	u32 ic_ack_general_call;	/* 0x38 */
+	u32 ic_timing_ctrl_header;	/* 0x3c */
+	u32 ic_ufm_tbuf_cnt;		/* 0x40 */
+	u32 ic_scl_hcnt;		/* 0x44 */
+	u32 ic_scl_lcnt;		/* 0x48 */
+	u32 ic_hs_scl_hcnt;		/* 0x4c */
+	u32 ic_hs_scl_lcnt;		/* 0x50 */
+	u32 ic_sda_hold;		/* 0x54 */
+	u32 ic_sda_setup;		/* 0x58 */
+	u32 fs_spklen;			/* 0x5c */
+	u32 hs_spklen;			/* 0x60 */
+	u32 scl_stuck_low_timeout;	/* 0x64 */
+	u32 scl_stuck_low_timeout_max;	/* 0x68 */
+	u32 sda_stuck_low_timeout;	/* 0x6c */
+	u32 reg_timeout_rst;		/* 0x70 */
+	u32 fifo_ctrl_header;		/* 0x74 */
+	u32 ic_cmd_data;		/* 0x78 */
+	u32 ic_rx_tl;			/* 0x7c */
+	u32 ic_tx_tl;			/* 0x80 */
+	u32 ic_dma_cr;			/* 0x84 */
+	u32 ic_dma_tdlr;		/* 0x88 */
+	u32 ic_dma_rdlr;		/* 0x8c */
+	u32 ic_intr_debug_header;	/* 0x90 */
+	u32 ic_intr_stat;		/* 0x94 */
+	u32 ic_intr_mask;		/* 0x98 */
+	u32 ic_raw_intr_stat;		/* 0x9c */
+	u32 ic_clr_intr;		/* 0xa0 */
+	u32 ic_enable_status;		/* 0xa4 */
+	u32 ic_tx_trmnt_source;		/* 0xa8 */
+	u32 ic_status;			/* 0xac */
+	u32 ic_txflr;			/* 0xb0 */
+	u32 ic_rxflr;			/* 0xb4 */
+	u32 ic_scr;			/* 0xb8 */
+	u32 ic_hwid_header;		/* 0xbc */
+	u32 ic_device_id;		/* 0xc0 */
+	u32 comp_version;		/* 0xc4 */
+	u32 comp_type;			/* 0xc8 */
+	u8 reserved[0xf4 - 0xcc];
+	u32 comp_param1;		/* 0xf4 */
+#endif
 };
 
 #define IC_CLK			166666666
@@ -81,6 +137,7 @@ struct i2c_regs {
 #define I2C_BYTE_TO_BB		(I2C_BYTE_TO * 16)
 
 /* i2c control register definitions */
+#if !defined(CONFIG_SYS_I2C_DWC)
 #define IC_CON_SD		0x0040
 #define IC_CON_RE		0x0020
 #define IC_CON_10BITADDRMASTER	0x0010
@@ -89,6 +146,12 @@ struct i2c_regs {
 #define IC_CON_SPD_SS		0x0002
 #define IC_CON_SPD_FS		0x0004
 #define IC_CON_SPD_HS		0x0006
+#else
+#define IC_CON_SPD_MSK		GENMASK(5, 4)
+#define IC_CON_SPD_SS		0x0010
+#define IC_CON_SPD_FS		0x0020
+#define IC_CON_SPD_HS		0x0030
+#endif
 #define IC_CON_MM		0x0001
 
 /* i2c target address register definitions */
@@ -114,6 +177,17 @@ struct i2c_regs {
 #define IC_RX_FULL		0x0004
 #define IC_RX_OVER		0x0002
 #define IC_RX_UNDER		0x0001
+
+/* i2c interrupt clear register definitions */
+#if defined(CONFIG_SYS_I2C_DWC)
+#define DWC_IC_CLR_STOP_DET	BIT(8)
+#endif
+
+/* i2c min high and low counts definitions */
+#if defined(CONFIG_SYS_I2C_DWC)
+#define DWC_MIN_HCNT		5
+#define DWC_MIN_LCNT		6
+#endif
 
 /* fifo threshold register definitions */
 #define IC_TL0			0x00

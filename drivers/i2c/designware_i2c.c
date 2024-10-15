@@ -164,6 +164,7 @@ static int dw_i2c_calc_timing(struct dw_i2c *priv, enum i2c_speed_mode mode,
 	      mode, ic_clk, info->speed, period_cnt, rise_cnt, fall_cnt,
 	      min_tlow_cnt, min_thigh_cnt, spk_cnt);
 
+#if !defined(CONFIG_SYS_I2C_DWC)
 	/*
 	 * Back-solve for hcnt and lcnt according to the following equations:
 	 * SCL_High_time = [(HCNT + IC_*_SPKLEN + T_HD_STA_OFFSET) * ic_clk] + SCL_Fall_time
@@ -176,6 +177,17 @@ static int dw_i2c_calc_timing(struct dw_i2c *priv, enum i2c_speed_mode mode,
 		debug("dw_i2c: bad counts. hcnt = %d lcnt = %d\n", hcnt, lcnt);
 		return log_msg_ret("counts", -EINVAL);
 	}
+#else
+	/*
+	 * Back-solve for hcnt and lcnt according to the following equations:
+	 * SCL_High_time = [(HCNT + IC_*_SPKLEN + T_HD_STA_OFFSET) * ic_clk] + SCL_Fall_time
+	 * SCL_Low_time = [LCNT * ic_clk] - SCL_Fall_time + SCL_Rise_time
+	 */
+	hcnt = (min_thigh_cnt > fall_cnt + T_HD_STA_OFFSET + spk_cnt + DWC_MIN_HCNT) ?
+	       min_thigh_cnt - fall_cnt - T_HD_STA_OFFSET - spk_cnt : DWC_MIN_HCNT;
+	lcnt = (min_tlow_cnt > rise_cnt - fall_cnt + DWC_MIN_LCNT) ?
+	       min_tlow_cnt - rise_cnt + fall_cnt : DWC_MIN_LCNT;
+#endif
 
 	/*
 	 * Now add things back up to ensure the period is hit. If it is off,
@@ -312,15 +324,25 @@ static int _dw_i2c_set_bus_speed(struct dw_i2c *priv, struct i2c_regs *i2c_base,
 		break;
 	case IC_SPEED_MODE_STANDARD:
 		cntl |= IC_CON_SPD_SS;
+#if !defined(CONFIG_SYS_I2C_DWC)
 		writel(config.scl_hcnt, &i2c_base->ic_ss_scl_hcnt);
 		writel(config.scl_lcnt, &i2c_base->ic_ss_scl_lcnt);
+#else
+		writel(config.scl_hcnt, &i2c_base->ic_scl_hcnt);
+		writel(config.scl_lcnt, &i2c_base->ic_scl_lcnt);
+#endif
 		break;
 	case IC_SPEED_MODE_FAST_PLUS:
 	case IC_SPEED_MODE_FAST:
 	default:
 		cntl |= IC_CON_SPD_FS;
+#if !defined(CONFIG_SYS_I2C_DWC)
 		writel(config.scl_hcnt, &i2c_base->ic_fs_scl_hcnt);
 		writel(config.scl_lcnt, &i2c_base->ic_fs_scl_lcnt);
+#else
+		writel(config.scl_hcnt, &i2c_base->ic_scl_hcnt);
+		writel(config.scl_lcnt, &i2c_base->ic_scl_lcnt);
+#endif
 		break;
 	}
 
@@ -433,7 +455,11 @@ static int i2c_xfer_finish(struct i2c_regs *i2c_base)
 
 	while (1) {
 		if ((readl(&i2c_base->ic_raw_intr_stat) & IC_STOP_DET)) {
+#if !defined(CONFIG_SYS_I2C_DWC)
 			readl(&i2c_base->ic_clr_stop_det);
+#else
+			writel(DWC_IC_CLR_STOP_DET, &i2c_base->ic_clr_intr);
+#endif
 			break;
 		} else if (get_timer(start_stop_det) > I2C_STOPDET_TO) {
 			break;
@@ -593,8 +619,12 @@ static int __dw_i2c_init(struct i2c_regs *i2c_base, int speed, int slaveaddr)
 	if (ret)
 		return ret;
 
+#if !defined(CONFIG_SYS_I2C_DWC)
 	writel(IC_CON_SD | IC_CON_RE | IC_CON_SPD_FS | IC_CON_MM,
 	       &i2c_base->ic_con);
+#else
+	writel(IC_CON_SPD_FS | IC_CON_MM, &i2c_base->ic_con);
+#endif
 	writel(IC_RX_TL, &i2c_base->ic_rx_tl);
 	writel(IC_TX_TL, &i2c_base->ic_tx_tl);
 	writel(IC_STOP_DET, &i2c_base->ic_intr_mask);
@@ -736,10 +766,26 @@ static int designware_i2c_probe_chip(struct udevice *bus, uint chip_addr,
 	u32 tmp;
 	int ret;
 
+#if !defined(CONFIG_SYS_I2C_DWC)
 	/* Try to read the first location of the chip */
 	ret = __dw_i2c_read(i2c_base, chip_addr, 0, 1, (uchar *)&tmp, 1);
 	if (ret)
 		__dw_i2c_init(i2c_base, 0, 0);
+#else
+	/* Set the offset to the first location of the chip */
+	ret = __dw_i2c_write(i2c_base, chip_addr, 0, 0, (uchar *)&tmp, 1);
+	if (ret) {
+		__dw_i2c_init(i2c_base, 0, 0);
+		return ret;
+	}
+
+	/* Try to read the first location of the chip */
+	ret = __dw_i2c_read(i2c_base, chip_addr, 0, 0, (uchar *)&tmp, 1);
+	if (ret) {
+		__dw_i2c_init(i2c_base, 0, 0);
+		return ret;
+	}
+#endif
 
 	return ret;
 }
@@ -755,6 +801,8 @@ int designware_i2c_of_to_plat(struct udevice *bus)
 	dev_read_u32(bus, "i2c-scl-falling-time-ns", &priv->scl_fall_time_ns);
 	dev_read_u32(bus, "i2c-sda-hold-time-ns", &priv->sda_hold_time_ns);
 
+#if 0
+	/* TODO: Remove preprocessor directive once SoC is ready */
 	ret = reset_get_bulk(bus, &priv->resets);
 	if (ret) {
 		if (ret != -ENOTSUPP)
@@ -762,6 +810,7 @@ int designware_i2c_of_to_plat(struct udevice *bus)
 	} else {
 		reset_deassert_bulk(&priv->resets);
 	}
+#endif
 
 #if CONFIG_IS_ENABLED(CLK)
 	ret = clk_get_by_index(bus, 0, &priv->clk);
@@ -815,6 +864,7 @@ const struct dm_i2c_ops designware_i2c_ops = {
 
 static const struct udevice_id designware_i2c_ids[] = {
 	{ .compatible = "snps,designware-i2c" },
+	{ .compatible = "snps,dwc-i2c" },
 	{ }
 };
 
