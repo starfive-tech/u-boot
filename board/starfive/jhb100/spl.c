@@ -101,9 +101,14 @@ void plat_uart_init(void)
 	SET_U0_SYS2_IOMUX_FUNC13_SEL(1);
 }
 
-void starfive_wdt_reset(void)
+void starfive_wdt_init(void)
 {
-
+	/* TODO: Align with Linux and FW on wdt instances, for now enable all */
+	starfive_wdt0_jhb100_enable();
+	starfive_wdt1_jhb100_enable();
+	starfive_wdt2_jhb100_enable();
+	starfive_wdt3_jhb100_enable();
+	starfive_wdt4_jhb100_enable();
 }
 
 void rtc_reset(void)
@@ -334,7 +339,7 @@ void board_init_f(ulong dummy)
 	plat_uart_init();
 	plat_i2c_init();
 	//flexnoc_reset();
-	//starfive_wdt_reset();
+	starfive_wdt_init();
 	//starfive_timer_reset();
 
 	/* TODO: Temporarily disable devices until the pins have been updated with the new CMacro */
