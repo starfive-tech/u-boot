@@ -24,6 +24,9 @@ void u6_dwc_i2c_smbus_enable(void){
 	_ENABLE_CLOCK_CLK_GRP_100_APB_I2CF_I2CF6_;
 	_ENABLE_CLOCK_CLK_CORE_I2C6_;
 	_CLEAR_RESET_RSTGEN_MAIN_RSTN_I2C6_;
+
+	// TODO: Disable filter controller in I2C6. This will be removed in the next phase.
+	SET_U6_DWC_I2C_SMBUS__ITG_BD_APB_F__BASE_ADDR_SMBUS_FILTER_FILTER_CONTROL_SMBUS_FILTER_ENABLE(0);
 }
 
 void u0_dwc_ether_rmiiandrgmii_enable_patch(void){ /* Get from baremetal - different from bitfile 014 */
