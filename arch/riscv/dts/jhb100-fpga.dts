@@ -618,7 +618,7 @@
 };
 
 &i2c6_master {
-	status = "disabled";
+	status = "okay";
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
 	clock-frequency = <100000>;
 	clock-names = "ic_clk", "pclk";
