@@ -25,99 +25,45 @@
 #define NUM_RESETS(x)		((x) + 1)
 
 static const struct starfive_reset_info jhb100_sys_info = {
-	.nr_resets = NUM_RESETS(JHB100_SYSRST_BMCPCIERP_PCIE_RP_PERST_N),
-	.assert_offset = 0xcc,
-	.status_offset = 0xd0,
+	.nr_resets = NUM_RESETS(JHB100_SYSRST_BMCPCIERP_RSTN_CRG),
+	.assert_offset = 0x1b0,
+	.status_offset = 0x1b4,
 };
 
 static const struct starfive_reset_info jhb100_sys1_info = {
-	.nr_resets = NUM_RESETS(JHB100_SYS1RST_PCU9_APB),
-	.assert_offset = 0x90,
-	.status_offset = 0x94,
+	.nr_resets = NUM_RESETS(JHB100_SYS1RST_MAIN_RSTN_PCU_HOSTSS1),
+	.assert_offset = 0x74,
+	.status_offset = 0x78,
 };
 
 static const struct starfive_reset_info jhb100_sys2_info = {
-	.nr_resets = NUM_RESETS(JHB100_SYS2RST_PCU10_APB),
-	.assert_offset = 0xbc,
-	.status_offset = 0xc0,
+	.nr_resets = NUM_RESETS(JHB100_SYS2RST_MAIN_RSTN_PCU_GPU1),
+	.assert_offset = 0xc8,
+	.status_offset = 0xcc,
 };
 
 static const struct starfive_reset_info jhb100_per0_info = {
-	.nr_resets = NUM_RESETS(JHB100_PER0RST_MAIN_RSTN_SOL14),
-	.assert_offset = 0x344,
-	.status_offset = 0x350,
+	.nr_resets = NUM_RESETS(JHB100_PER0RST_GPIO_IOMUX_PRESETN),
+	.assert_offset = 0x550,
+	.status_offset = 0x55c,
 };
 
 static const struct starfive_reset_info jhb100_per1_info = {
-	.nr_resets = NUM_RESETS(JHB100_PER1RST_DMAC4_1CH_ARESETN_M1),
-	.assert_offset = 0x100,
-	.status_offset = 0x10c,
+	.nr_resets = NUM_RESETS(JHB100_PER1RST_MAIN_RSTN_PERIPH1_RAS),
+	.assert_offset = 0x134,
+	.status_offset = 0x138,
 };
 
 static const struct starfive_reset_info jhb100_per2_info = {
-	.nr_resets = NUM_RESETS(JHB100_PER2RST_ADC_PRESETN),
-	.assert_offset = 0xe4,
-	.status_offset = 0xec,
+	.nr_resets = NUM_RESETS(JHB100_PER2RST_MAIN_RSTN_SENSORS10),
+	.assert_offset = 0x11c,
+	.status_offset = 0x120,
 };
 
 static const struct starfive_reset_info jhb100_per3_info = {
-	.nr_resets = NUM_RESETS(JHB100_PER3RST_MAIN_RSTN_IOMUX),
-	.assert_offset = 0x98,
-	.status_offset = 0x9c,
-};
-
-static const struct starfive_reset_info jhb100_vout_info = {
-	.nr_resets = NUM_RESETS(JHB100_VOUTRST_MAIN_RSTN_U3_VOUT_DYNSW),
-	.assert_offset = 0x44,
-	.status_offset = 0x48,
-};
-
-static const struct starfive_reset_info jhb100_vce_info = {
-	.nr_resets = NUM_RESETS(JHB100_VCERST_NCNOC_VCE1_VREC_INIT),
-	.assert_offset = 0x28,
-	.status_offset = 0x2c,
-};
-
-static const struct starfive_reset_info jhb100_gpu_info = {
-	.nr_resets = NUM_RESETS(JHB100_GPU0RST_MAIN_RSTN_GC620L),
-	.assert_offset = 0x14,
-	.status_offset = 0x18,
-};
-
-static const struct starfive_reset_info jhb100_usb_info = {
-	.nr_resets = NUM_RESETS(JHB100_USBRST_SENSORS3_PD_INF),
-	.assert_offset = 0x20,
-	.status_offset = 0x24,
-};
-
-static const struct starfive_reset_info jhb100_host_info = {
-	.nr_resets = NUM_RESETS(JHB100_HOST0RST_APB_UART1_RST_N),
-	.assert_offset = 0x8c,
-	.status_offset = 0x94,
-};
-
-static const struct starfive_reset_info jhb100_pcierp_info = {
-	.nr_resets = NUM_RESETS(JHB100_PCIERPRST_PCIE_RP_SW_DBI_RESETN),
-	.assert_offset = 0x40,
-	.status_offset = 0x44,
-};
-
-static const struct starfive_reset_info jhb100_hostusb_info = {
-	.nr_resets = NUM_RESETS(JHB100_HUSB0RST_XHCI_WRAP_VAUX),
-	.assert_offset = 0x60,
-	.status_offset = 0x64,
-};
-
-static const struct starfive_reset_info jhb100_hostusbcmn_info = {
-	.nr_resets = NUM_RESETS(JHB100_HUSBCMNRST_SENSORS9_PD_INF),
-	.assert_offset = 0x8,
-	.status_offset = 0xc,
-};
-
-static const struct starfive_reset_info jhb100_hostusbdev_info = {
-	.nr_resets = NUM_RESETS(JHB100_HUSBD0RST_SENSORS7_PD_INF),
-	.assert_offset = 0x84,
-	.status_offset = 0x88,
+	.nr_resets = NUM_RESETS(JHB100_PER3RST_IOMUX_PRESETN),
+	.assert_offset = 0x94,
+	.status_offset = 0x98,
 };
 
 static const struct udevice_id jhb100_reset_ids[] = {
@@ -148,58 +94,6 @@ static const struct udevice_id jhb100_reset_ids[] = {
 	{
 		.compatible = "starfive,jhb100-per3crg",
 		.data = (ulong)&jhb100_per3_info,
-	},
-	{
-		.compatible = "starfive,jhb100-voutcrg",
-		.data = (ulong)&jhb100_vout_info,
-	},
-	{
-		.compatible = "starfive,jhb100-vcecrg",
-		.data = (ulong)&jhb100_vce_info,
-	},
-	{
-		.compatible = "starfive,jhb100-gpu0crg",
-		.data = (ulong)&jhb100_gpu_info,
-	},
-	{
-		.compatible = "starfive,jhb100-gpu1crg",
-		.data = (ulong)&jhb100_gpu_info,
-	},
-	{
-		.compatible = "starfive,jhb100-usbcrg",
-		.data = (ulong)&jhb100_usb_info,
-	},
-	{
-		.compatible = "starfive,jhb100-host0crg",
-		.data = (ulong)&jhb100_host_info,
-	},
-	{
-		.compatible = "starfive,jhb100-host1crg",
-		.data = (ulong)&jhb100_host_info,
-	},
-	{
-		.compatible = "starfive,jhb100-pcierpcrg",
-		.data = (ulong)&jhb100_pcierp_info,
-	},
-	{
-		.compatible = "starfive,jhb100-husb0crg",
-		.data = (ulong)&jhb100_hostusb_info,
-	},
-	{
-		.compatible = "starfive,jhb100-husb1crg",
-		.data = (ulong)&jhb100_hostusb_info,
-	},
-	{
-		.compatible = "starfive,jhb100-husbcmncrg",
-		.data = (ulong)&jhb100_hostusbcmn_info,
-	},
-	{
-		.compatible = "starfive,jhb100-husbd0crg",
-		.data = (ulong)&jhb100_hostusbdev_info,
-	},
-	{
-		.compatible = "starfive,jhb100-husbd1crg",
-		.data = (ulong)&jhb100_hostusbdev_info,
 	},
 	{ /* sentinel */ }
 };
