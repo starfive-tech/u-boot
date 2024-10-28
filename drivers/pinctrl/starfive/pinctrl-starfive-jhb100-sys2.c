@@ -12,22 +12,29 @@
 
 #include "pinctrl-starfive-jhb100.h"
 
-#define JHB100_SYSTOP_SYS2_NGPIO		32
+#define JHB100_SYSTOP_SYS2_NGPIO		37
 #define JHB100_SYSTOP_SYS2_PADCFG_BASE		0x0
 
 /* registers */
-#define JHB100_SYSTOP_SYS2_GPIO_O_SEL		0x094
-#define JHB100_SYSTOP_SYS2_GPIO_OEN_SEL		0x098
-#define JHB100_SYSTOP_SYS2_GPIOIN		0x09c
-#define JHB100_SYSTOP_SYS2_FUNC_SEL		0x0a0
+#define JHB100_SYSTOP_SYS2_GPIO_O_SEL		0x0ac
+#define JHB100_SYSTOP_SYS2_GPIO_OEN_SEL		0x0b4
+#define JHB100_SYSTOP_SYS2_GPIOIN		0x0bc
+#define JHB100_SYSTOP_SYS2_FUNC_SEL		0x0c4
 
-#define JHB100_SYSTOP_SYS2_GPIOEN0		0x0ac
-#define JHB100_SYSTOP_SYS2_GPIOIS0		0x0b0
-#define JHB100_SYSTOP_SYS2_GPIOIC0		0x0b4
-#define JHB100_SYSTOP_SYS2_GPIOIE0		0x0b8
-#define JHB100_SYSTOP_SYS2_GPIOIHL0		0x0bc
-#define JHB100_SYSTOP_SYS2_GPIOIBE0		0x0c0
-#define JHB100_SYSTOP_SYS2_GPIOIEV0		0x0c4
+#define JHB100_SYSTOP_SYS2_GPIOEN0		0x0d0
+#define JHB100_SYSTOP_SYS2_GPIOEN1		0x0d4
+#define JHB100_SYSTOP_SYS2_GPIOIS0		0x0d8
+#define JHB100_SYSTOP_SYS2_GPIOIS1		0x0dc
+#define JHB100_SYSTOP_SYS2_GPIOIC0		0x0e0
+#define JHB100_SYSTOP_SYS2_GPIOIC1		0x0e4
+#define JHB100_SYSTOP_SYS2_GPIOIE0		0x0e8
+#define JHB100_SYSTOP_SYS2_GPIOIE1		0x0ec
+#define JHB100_SYSTOP_SYS2_GPIOIHL0		0x0f0
+#define JHB100_SYSTOP_SYS2_GPIOIHL1		0x0f4
+#define JHB100_SYSTOP_SYS2_GPIOIBE0		0x0f8
+#define JHB100_SYSTOP_SYS2_GPIOIBE1		0x0fc
+#define JHB100_SYSTOP_SYS2_GPIOIEV0		0x100
+#define JHB100_SYSTOP_SYS2_GPIOIEV1		0x104
 
 static const struct starfive_pinctrl_pin jhb100_systop_sys2_pins[] = {
 	STARFIVE_PINCTRL(0,	"SYSTOP_SYS2_GPIO0"),
@@ -62,42 +69,52 @@ static const struct starfive_pinctrl_pin jhb100_systop_sys2_pins[] = {
 	STARFIVE_PINCTRL(29,	"SYSTOP_SYS2_GPIO29"),
 	STARFIVE_PINCTRL(30,	"SYSTOP_SYS2_GPIO30"),
 	STARFIVE_PINCTRL(31,	"SYSTOP_SYS2_GPIO31"),
+	STARFIVE_PINCTRL(32,	"SYSTOP_SYS2_GPIO32"),
+	STARFIVE_PINCTRL(33,	"SYSTOP_SYS2_GPIO33"),
+	STARFIVE_PINCTRL(34,	"SYSTOP_SYS2_GPIO34"),
+	STARFIVE_PINCTRL(35,	"SYSTOP_SYS2_GPIO35"),
+	STARFIVE_PINCTRL(36,	"SYSTOP_SYS2_GPIO36"),
 };
 
 static const struct jhb100_gpio_func_sel
 	jhb100_systop_sys2_func_sel[ARRAY_SIZE(jhb100_systop_sys2_pins)] = {
-	[0]	= { 0xa0,	0,	2 },
-	[1]	= { 0xa0,	2,	2 },
-	[2]	= { 0xa0,	4,	2 },
-	[3]	= { 0xa0,	6,	2 },
-	[4]	= { 0xa0,	8,	2 },
-	[5]	= { 0xa0,	10,	2 },
-	[6]	= { 0xa0,	12,	2 },
-	[7]	= { 0xa0,	14,	2 },
-	[8]	= { 0xa0,	16,	1 },
-	[9]	= { 0xa0,	18,	1 },
-	[10]	= { 0xa0,	20,	1 },
-	[11]	= { 0xa0,	22,	1 },
-	[12]	= { 0xa0,	24,	2 },
-	[13]	= { 0xa0,	26,	2 },
-	[14]	= { 0xa0,	28,	2 },
-	[15]	= { 0xa0,	30,	2 },
-	[16]	= { 0xa4,	0,	2 },
-	[17]	= { 0xa4,	2,	2 },
-	[18]	= { 0xa4,	4,	2 },
-	[19]	= { 0xa4,	6,	2 },
-	[20]	= { 0xa4,	8,	1 },
-	[21]	= { 0xa4,	10,	1 },
-	[22]	= { 0xa4,	12,	1 },
-	[23]	= { 0xa4,	14,	1 },
-	[24]	= { 0xa4,	16,	1 },
-	[25]	= { 0xa4,	18,	1 },
-	[26]	= { 0xa4,	20,	1 },
-	[27]	= { 0xa4,	22,	2 },
-	[28]	= { 0xa4,	24,	2 },
-	[29]	= { 0xa4,	26,	2 },
-	[30]	= { 0xa4,	28,	2 },
-	[31]	= { 0xa4,	30,	2 },
+	[0]	= { 0xc4,	0,	1 },
+	[1]	= { 0xc4,	2,	1 },
+	[2]	= { 0xc4,	4,	1 },
+	[3]	= { 0xc4,	6,	1 },
+	[4]	= { 0xc4,	8,	1 },
+	[5]	= { 0xc4,	10,	1 },
+	[6]	= { 0xc4,	12,	1 },
+	[7]	= { 0xc4,	14,	1 },
+	[8]	= { 0xc4,	16,	1 },
+	[9]	= { 0xc4,	18,	1 },
+	[10]	= { 0xc4,	20,	1 },
+	[11]	= { 0xc4,	22,	1 },
+	[12]	= { 0xc4,	24,	3 },
+	[13]	= { 0xc4,	26,	3 },
+	[14]	= { 0xc4,	28,	3 },
+	[15]	= { 0xc4,	30,	3 },
+	[16]	= { 0xc8,	0,	3 },
+	[17]	= { 0xc8,	2,	3 },
+	[18]	= { 0xc8,	4,	2 },
+	[19]	= { 0xc8,	6,	2 },
+	[20]	= { 0xc8,	8,	3 },
+	[21]	= { 0xc8,	10,	3 },
+	[22]	= { 0xc8,	12,	3 },
+	[23]	= { 0xc8,	14,	3 },
+	[24]	= { 0xc8,	16,	3 },
+	[25]	= { 0xc8,	18,	3 },
+	[26]	= { 0xc8,	20,	3 },
+	[27]	= { 0xc8,	22,	3 },
+	[28]	= { 0xc8,	24,	2 },
+	[29]	= { 0xc8,	26,	2 },
+	[30]	= { 0xc8,	28,	2 },
+	[31]	= { 0xc8,	30,	2 },
+	[32]	= { 0xcc,	0,	2 },
+	[33]	= { 0xcc,	2,	1 },
+	[34]	= { 0xcc,	4,	1 },
+	[35]	= { 0xcc,	6,	1 },
+	[36]	= { 0xcc,	8,	1 },
 };
 
 static void jhb100_systop_sys2_init_hw(struct udevice *dev)
@@ -106,8 +123,10 @@ static void jhb100_systop_sys2_init_hw(struct udevice *dev)
 
 	/* mask all GPIO interrupts */
 	writel(0U, priv->base + JHB100_SYSTOP_SYS2_GPIOEN0);
+	writel(0U, priv->base + JHB100_SYSTOP_SYS2_GPIOEN1);
 	/* clear all interrupts */
 	writel(0U, priv->base + JHB100_SYSTOP_SYS2_GPIOIC0);
+	writel(0U, priv->base + JHB100_SYSTOP_SYS2_GPIOIC1);
 }
 
 static int jhb100_systop_sys2_set_one_pin_mux(struct udevice *dev, u32 pin,

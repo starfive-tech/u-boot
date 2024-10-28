@@ -33,8 +33,6 @@ struct jhb100_pinctrl_soc_info {
 	unsigned int gpio_o_sel_mask;
 	unsigned int gpio_oen_sel_reg_base;
 	unsigned int gpio_oen_sel_mask;
-	unsigned int gpio_vsel_mask;
-	unsigned int gpio_vselcfg_base;
 	unsigned int gpio_func_sel_reg_base;
 	unsigned int gpio_func_sel_mask;
 	unsigned int gpioin_reg_base;
@@ -44,7 +42,7 @@ struct jhb100_pinctrl_soc_info {
 	int (*set_one_pinmux)(struct udevice *dev, u32 pin,
 			      u32 func, int gpioval);
 	int (*get_padcfg_base)(struct udevice *dev, u32 pin);
-	unsigned int (*get_offset)(struct udevice *dev, u32 pin);
+	bool (*is_vselcfg)(u32 pin);
 };
 
 /*
@@ -60,8 +58,6 @@ struct starfive_pinctrl_priv {
 
 void starfive_set_gpioval(struct udevice *dev, unsigned int pin,
 			  unsigned int val);
-void starfive_set_gmacvsel(struct udevice *dev, u32 pin,
-			   unsigned int val);
 void starfive_set_function(struct udevice *dev, u32 pin, u32 func);
 int starfive_set_one_pin_mux(struct udevice *dev, u32 pin,
 			     u32 func, int gpioval);

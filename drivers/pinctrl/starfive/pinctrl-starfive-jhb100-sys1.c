@@ -15,6 +15,8 @@
 #define JHB100_SYSTOP_SYS1_NGPIO		8
 #define JHB100_SYSTOP_SYS1_PADCFG_BASE		0x0
 
+#define JHB100_SYSTOP_SYS1_ESPI1_PIN		7
+
 /* registers */
 #define JHB100_SYSTOP_SYS1_GPIO_O_SEL		0x020
 #define JHB100_SYSTOP_SYS1_GPIO_OEN_SEL		0x024
@@ -37,19 +39,19 @@ static const struct starfive_pinctrl_pin jhb100_systop_sys1_pins[] = {
 	STARFIVE_PINCTRL(4,	"SYSTOP_SYS1_GPIO4"),
 	STARFIVE_PINCTRL(5,	"SYSTOP_SYS1_GPIO5"),
 	STARFIVE_PINCTRL(6,	"SYSTOP_SYS1_GPIO6"),
-	STARFIVE_PINCTRL(7,	"SYSTOP_SYS1_GPIO7"),
+	STARFIVE_PINCTRL(7,	"SYSTOP_SYS1_ESPI1_RESET"),
 };
 
 static const struct jhb100_gpio_func_sel
 	jhb100_systop_sys1_func_sel[ARRAY_SIZE(jhb100_systop_sys1_pins)] = {
-	[0]	= { 0x2c,	0,	1 },
-	[1]	= { 0x2c,	2,	1 },
-	[2]	= { 0x2c,	4,	1 },
-	[3]	= { 0x2c,	6,	1 },
-	[4]	= { 0x2c,	8,	1 },
-	[5]	= { 0x2c,	10,	1 },
-	[6]	= { 0x2c,	12,	1 },
-	[7]	= { 0x2c,	14,	1 },
+	[0]	= { 0x2c,	0,	3 },
+	[1]	= { 0x2c,	2,	3 },
+	[2]	= { 0x2c,	4,	3 },
+	[3]	= { 0x2c,	6,	3 },
+	[4]	= { 0x2c,	8,	3 },
+	[5]	= { 0x2c,	10,	3 },
+	[6]	= { 0x2c,	12,	3 },
+	[7]	= { 0x2c,	14,	3 },
 };
 
 static void jhb100_systop_sys1_init_hw(struct udevice *dev)
@@ -62,10 +64,27 @@ static void jhb100_systop_sys1_init_hw(struct udevice *dev)
 	writel(0U, priv->base + JHB100_SYSTOP_SYS1_GPIOIC0);
 }
 
+static bool jhb100_systop_sys1_is_espi_pin(u32 pin)
+{
+	return (pin == JHB100_SYSTOP_SYS1_ESPI1_PIN);
+}
+
 static int jhb100_systop_sys1_set_one_pin_mux(struct udevice *dev, u32 pin,
 					      u32 func, int gpioval)
 {
-	return starfive_set_one_pin_mux(dev, pin, func, gpioval);
+	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
+
+	starfive_set_function(dev, pin, func);
+
+	if (pin < priv->info->ngpios) {
+		if (jhb100_systop_sys1_is_espi_pin(pin) && func == 1)
+			starfive_set_gpioval(dev, pin, gpioval);
+
+		if (!jhb100_systop_sys1_is_espi_pin(pin) && func == 0)
+			starfive_set_gpioval(dev, pin, gpioval);
+	}
+
+	return 0;
 }
 
 static int jhb100_systop_sys1_get_padcfg_base(struct udevice *dev, u32 pin)

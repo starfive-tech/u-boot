@@ -12,22 +12,25 @@
 
 #include "pinctrl-starfive-jhb100.h"
 
-#define JHB100_BMCPERIPH3_NGPIO			0
-#define JHB100_BMCPERIPH3_VSELCFG_BASE		0x0
+#define JHB100_BMCPERIPH3_NGPIO			11
+#define JHB100_BMCPERIPH3_PADCFG_BASE		0x00
+
+#define JHB100_BMCPERIPH3_VSELCFG_PIN_START	2
+#define JHB100_BMCPERIPH3_VSELCFG_PIN_END	10
 
 /* registers */
-#define JHB100_BMCPERIPH3_GPIO_O_SEL		0x030
-#define JHB100_BMCPERIPH3_GPIO_OEN_SEL		0x034
-#define JHB100_BMCPERIPH3_GPIOIN		0x038
-#define JHB100_BMCPERIPH3_FUNC_SEL		0x03c
+#define JHB100_BMCPERIPH3_GPIO_O_SEL	0x02c
+#define JHB100_BMCPERIPH3_GPIO_OEN_SEL	0x030
+#define JHB100_BMCPERIPH3_GPIOIN	0x034
+#define JHB100_BMCPERIPH3_FUNC_SEL	0x038
 
-#define JHB100_BMCPERIPH3_GPIOEN0		0x040
-#define JHB100_BMCPERIPH3_GPIOIS0		0x044
-#define JHB100_BMCPERIPH3_GPIOIC0		0x048
-#define JHB100_BMCPERIPH3_GPIOIE0		0x04c
-#define JHB100_BMCPERIPH3_GPIOIHL0		0x050
-#define JHB100_BMCPERIPH3_GPIOIBE0		0x054
-#define JHB100_BMCPERIPH3_GPIOIEV0		0x058
+#define JHB100_BMCPERIPH3_GPIOEN0	0x03c
+#define JHB100_BMCPERIPH3_GPIOIS0	0x040
+#define JHB100_BMCPERIPH3_GPIOIC0	0x044
+#define JHB100_BMCPERIPH3_GPIOIE0	0x048
+#define JHB100_BMCPERIPH3_GPIOIHL0	0x040
+#define JHB100_BMCPERIPH3_GPIOIBE0	0x050
+#define JHB100_BMCPERIPH3_GPIOIEV0	0x054
 
 static const struct starfive_pinctrl_pin jhb100_bmcperiph3_pins[] = {
 	STARFIVE_PINCTRL(0,	"BMCPERIPH3_GPIO0"),
@@ -41,21 +44,25 @@ static const struct starfive_pinctrl_pin jhb100_bmcperiph3_pins[] = {
 	STARFIVE_PINCTRL(8,	"BMCPERIPH3_GPIO8"),
 	STARFIVE_PINCTRL(9,	"BMCPERIPH3_GPIO9"),
 	STARFIVE_PINCTRL(10,	"BMCPERIPH3_GPIO10"),
+	STARFIVE_PINCTRL(11,	"BMCPERIPH3_PECI1_OUT"),
+	STARFIVE_PINCTRL(12,	"BMCPERIPH3_PECI2_OUT"),
 };
 
 static const struct jhb100_gpio_func_sel
 	jhb100_bmcperiph3_func_sel[ARRAY_SIZE(jhb100_bmcperiph3_pins)] = {
-	[0]	= { 0x03c,	0,	1 },
-	[1]	= { 0x03c,	2,	1 },
-	[2]	= { 0x03c,	4,	1 },
-	[3]	= { 0x03c,	6,	1 },
-	[4]	= { 0x03c,	8,	1 },
-	[5]	= { 0x03c,	10,	1 },
-	[6]	= { 0x03c,	12,	1 },
-	[7]	= { 0x03c,	14,	1 },
-	[8]	= { 0x03c,	16,	1 },
-	[9]	= { 0x03c,	18,	1 },
-	[10]	= { 0x03c,	20,	1 },
+	[0]	= { 0x038,	0,	1 },
+	[1]	= { 0x038,	2,	1 },
+	[2]	= { 0x038,	4,	1 },
+	[3]	= { 0x038,	6,	1 },
+	[4]	= { 0x038,	8,	1 },
+	[5]	= { 0x038,	10,	1 },
+	[6]	= { 0x038,	12,	1 },
+	[7]	= { 0x038,	14,	1 },
+	[8]	= { 0x038,	16,	1 },
+	[9]	= { 0x038,	18,	1 },
+	[10]	= { 0x038,	20,	1 },
+	[11]	= { 0x038,	22,	0 },
+	[12]	= { 0x038,	24,	0 },
 };
 
 static void jhb100_bmcperiph3_init_hw(struct udevice *dev)
@@ -68,15 +75,24 @@ static void jhb100_bmcperiph3_init_hw(struct udevice *dev)
 	writel(0U, priv->base + JHB100_BMCPERIPH3_GPIOIC0);
 }
 
+static bool jhb100_bmcperiph3_is_vselcfg(u32 pin)
+{
+	return (pin >= JHB100_BMCPERIPH3_VSELCFG_PIN_START &&
+		pin <= JHB100_BMCPERIPH3_VSELCFG_PIN_END);
+}
+
 static int jhb100_bmcperiph3_set_one_pin_mux(struct udevice *dev, u32 pin,
 					     u32 func, int gpioval)
 {
-	if (func)
-		starfive_set_function(dev, pin, func);
+	return starfive_set_one_pin_mux(dev, pin, func, gpioval);
+}
 
-	starfive_set_gmacvsel(dev, pin, gpioval);
-
-	return 0;
+static int jhb100_bmcperiph3_get_padcfg_base(struct udevice *dev, u32 pin)
+{
+	if (pin < JHB100_BMCPERIPH3_NGPIO)
+		return JHB100_BMCPERIPH3_PADCFG_BASE;
+	puts("Not a valid BMCPERIPH3 pin number!\n");
+	return -1;
 }
 
 static const struct jhb100_pinctrl_soc_info jhb100_bmcperiph3_pinctrl_info = {
@@ -88,14 +104,14 @@ static const struct jhb100_pinctrl_soc_info jhb100_bmcperiph3_pinctrl_info = {
 	.gpio_o_sel_mask		= GENMASK(0, 0),
 	.gpio_oen_sel_reg_base		= JHB100_BMCPERIPH3_GPIO_OEN_SEL,
 	.gpio_oen_sel_mask		= GENMASK(0, 0),
-	.gpio_vsel_mask			= GENMASK(1, 0),
-	.gpio_vselcfg_base		= JHB100_BMCPERIPH3_VSELCFG_BASE,
 	.gpio_func_sel_reg_base		= JHB100_BMCPERIPH3_FUNC_SEL,
 	.gpio_func_sel_mask		= GENMASK(1, 0),
 	.gpioin_reg_base		= JHB100_BMCPERIPH3_GPIOIN,
 	.func_sel			= jhb100_bmcperiph3_func_sel,
 	.gpio_init_hw			= jhb100_bmcperiph3_init_hw,
 	.set_one_pinmux			= jhb100_bmcperiph3_set_one_pin_mux,
+	.get_padcfg_base		= jhb100_bmcperiph3_get_padcfg_base,
+	.is_vselcfg			= jhb100_bmcperiph3_is_vselcfg,
 };
 
 static int jhb100_bmcperiph3_pinctrl_probe(struct udevice *dev)

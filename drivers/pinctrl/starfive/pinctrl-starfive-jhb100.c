@@ -20,6 +20,7 @@
 #include "pinctrl-starfive-jhb100.h"
 
 /* pad control bits offset */
+#define JHB100_PADCFG_DEBOUNCE_WIDTH	GENMASK(31, 15)
 #define JHB100_PADCFG_SMT		BIT(6)
 #define JHB100_PADCFG_SLEW		BIT(5)
 #define JHB100_PADCFG_PU		BIT(4)
@@ -35,6 +36,7 @@
 #define JHB100_RGMII_VSEL_3_3V		0U
 
 #define JHB100_PADCFG_VSEL_SHIFT	2
+#define JHB100_PADCFG_DB_WIDTH_SHIFT	15
 
 #define JHB100_PADCFG_DS_MASK		GENMASK(1, 0)
 #define JHB100_PADCFG_DS_2MA		0U
@@ -50,33 +52,20 @@
 
 #define GPIO_NUM_PER_WORD		32
 
-#define IS_SET_GMAC_VSEL		BIT(12)
-#define IS_SET_GPIO_VAL			BIT(10)
+#define MAX_DEBOUNCE_WIDTH_STAGES	0x666
+#define DEBOUNCE_WIDTH_NS		80
+
+#define STARFIVE_PIN_CONFIG_GMAC_VSEL		(PIN_CONFIG_END + 1)
+#define STARFIVE_PIN_CONFIG_DEBOUNCE_WIDTH	(PIN_CONFIG_END + 2)
 
 /*
  * mux bits:
- * | 31 - 15  | 14 - 13  |   12     |   11    |   10    |  9 - 8   |  7 - 0  |
- * | reserved | gmacvsel |  is-vsel | gpioval | is-gpio | function | gpio nr |
+ * | 31 - 10  |  9 - 8   |  7 - 0  |
+ * | reserved | function | gpio nr |
  *
- * gmacvsel: RGMII GMAC pads' voltage selection, 0 = 1.8V/3.3V and 1 = 2.5V
- * is-vsel: 1 = set GMAC pads VSEL
- * gpioval: GPIO output value if pad is GPIO, 1 = logic 1 and 0 = logic 0
- * is-gpio: 1 = set GPIO logic level
- * func: function value: 0, 1, or 2
+ * func: function value: 0, 1, 2, and 3
  * gpio nr: gpio pad number, 0 through ngpios - 1
  */
-#define GMACMUX(n, func, gmacvsel) ( \
-		(((gmacvsel)  & 0x3) << 13) | \
-		((1 << 12)) | \
-		(((func) & 0x3) << 8) | \
-		((n) & 0xff))
-
-#define GPIOVAL(n, func, gpioval) ( \
-		(((gpioval) & 0x1) << 11) | \
-		((1 << 10)) | \
-		(((func) & 0x3) << 8) | \
-		((n) & 0xff))
-
 static u32 jhb100_pinmux_function(u32 v)
 {
 	return (v & GENMASK(9, 8)) >> 8;
@@ -85,16 +74,6 @@ static u32 jhb100_pinmux_function(u32 v)
 static unsigned int jhb100_pinmux_pin(u32 v)
 {
 	return v & GENMASK(7, 0);
-}
-
-static u32 jhb100_pinmux_gpioval(u32 v)
-{
-	return (v & GENMASK(11, 11)) >> 11;
-}
-
-static u32 jhb100_pinmux_gmacvsel(u32 v)
-{
-	return (v & GENMASK(14, 13)) >> 13;
 }
 
 void starfive_set_gpioval(struct udevice *dev, unsigned int pin,
@@ -134,24 +113,6 @@ void starfive_set_gpioval(struct udevice *dev, unsigned int pin,
 	writel(doen, reg_gpio_oen);
 }
 
-void starfive_set_gmacvsel(struct udevice *dev, u32 pin,
-			   unsigned int val)
-{
-	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
-	u32 vsel_mask, dout;
-	void __iomem *reg_vsel;
-
-	if (!priv->info->gpio_vsel_mask)
-		return;
-
-	reg_vsel = priv->base + priv->info->gpio_vselcfg_base + 4 * pin;
-	vsel_mask = priv->info->gpio_vsel_mask << JHB100_PADCFG_VSEL_SHIFT;
-	dout = val << JHB100_PADCFG_VSEL_SHIFT;
-
-	dout |= readl(reg_vsel) & ~vsel_mask;
-	writel(dout, reg_vsel);
-}
-
 void starfive_set_function(struct udevice *dev, u32 pin, u32 func)
 {
 	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
@@ -175,8 +136,7 @@ int starfive_set_one_pin_mux(struct udevice *dev, u32 pin,
 {
 	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
 
-	if (func)
-		starfive_set_function(dev, pin, func);
+	starfive_set_function(dev, pin, func);
 
 	if (pin < priv->info->ngpios && func == 0)
 		starfive_set_gpioval(dev, pin, gpioval);
@@ -194,6 +154,8 @@ static const struct pinconf_param starfive_pinconf_params[] = {
 	{ "input-enable",	PIN_CONFIG_INPUT_ENABLE,	1 },
 	{ "input-disable",	PIN_CONFIG_INPUT_ENABLE,	0 },
 	{ "slew-rate",		PIN_CONFIG_SLEW_RATE,		0 },
+	{ "starfive,gmac_vsel",	STARFIVE_PIN_CONFIG_GMAC_VSEL,	0 },
+	{ "starfive,debounce_width",	STARFIVE_PIN_CONFIG_DEBOUNCE_WIDTH,	0 },
 };
 
 static const u8 starfive_drive_strength_mA[4] = { 2, 4, 8, 12 };
@@ -242,6 +204,8 @@ static void starfive_padcfg_rmw(struct udevice *dev,
 static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 				unsigned int param, unsigned int arg)
 {
+	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
+	struct jhb100_pinctrl_soc_info *info = priv->info;
 	u32 mask = 0;
 	u32 value = 0;
 
@@ -273,11 +237,19 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 			starfive_padcfg_ds_from_uA(arg);
 		break;
 	case PIN_CONFIG_INPUT_ENABLE:
-		mask |= JHB100_PADCFG_IE;
-		if (arg)
-			value |= JHB100_PADCFG_IE;
-		else
-			value &= ~JHB100_PADCFG_IE;
+		if (info->is_vselcfg && info->is_vselcfg(pin)) {
+			mask |= JHB100_RGMII_PADCFG_IE;
+			if (arg)
+				value |= JHB100_RGMII_PADCFG_IE;
+			else
+				value &= ~JHB100_RGMII_PADCFG_IE;
+		} else {
+			mask |= JHB100_PADCFG_IE;
+			if (arg)
+				value |= JHB100_PADCFG_IE;
+			else
+				value &= ~JHB100_PADCFG_IE;
+		}
 		break;
 	case PIN_CONFIG_INPUT_SCHMITT_ENABLE:
 		mask |= JHB100_PADCFG_SMT;
@@ -287,11 +259,29 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 			value &= ~JHB100_PADCFG_SMT;
 		break;
 	case PIN_CONFIG_SLEW_RATE:
-		mask |= JHB100_PADCFG_SLEW;
-		if (arg)
-			value |= JHB100_PADCFG_SLEW;
-		else
-			value &= ~JHB100_PADCFG_SLEW;
+		if (info->is_vselcfg && info->is_vselcfg(pin)) {
+			mask |= JHB100_RGMII_PADCFG_IE;
+			if (arg)
+				value |= JHB100_RGMII_PADCFG_IE;
+			else
+				value &= ~JHB100_RGMII_PADCFG_IE;
+		} else {
+			mask |= JHB100_PADCFG_SLEW;
+			if (arg)
+				value |= JHB100_PADCFG_SLEW;
+			else
+				value &= ~JHB100_PADCFG_SLEW;
+		}
+		break;
+	case STARFIVE_PIN_CONFIG_DEBOUNCE_WIDTH:
+		mask |= JHB100_PADCFG_DEBOUNCE_WIDTH;
+		if (arg > MAX_DEBOUNCE_WIDTH_STAGES)
+			arg = MAX_DEBOUNCE_WIDTH_STAGES;
+		value |= arg ? ((DEBOUNCE_WIDTH_NS * arg) << JHB100_PADCFG_DB_WIDTH_SHIFT) : 0;
+		break;
+	case STARFIVE_PIN_CONFIG_GMAC_VSEL:
+		mask |= JHB100_RGMII_PADCFG_VSEL;
+		value |= arg ? (1 << JHB100_PADCFG_VSEL_SHIFT) : 0;
 		break;
 	default:
 		return -EINVAL;
@@ -307,24 +297,11 @@ static int starfive_property_set(struct udevice *dev, u32 pinmux_group)
 	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
 	struct jhb100_pinctrl_soc_info *info = priv->info;
 
-	if (info->set_one_pinmux) {
-		if (pinmux_group & IS_SET_GPIO_VAL) {
-			info->set_one_pinmux(dev,
-				jhb100_pinmux_pin(pinmux_group),
-				jhb100_pinmux_function(pinmux_group),
-				jhb100_pinmux_gpioval(pinmux_group));
-		} else if (pinmux_group & IS_SET_GMAC_VSEL) {
-			info->set_one_pinmux(dev,
-				jhb100_pinmux_pin(pinmux_group),
-				jhb100_pinmux_function(pinmux_group),
-				jhb100_pinmux_gmacvsel(pinmux_group));
-		} else {
-			info->set_one_pinmux(dev,
-				jhb100_pinmux_pin(pinmux_group),
-				jhb100_pinmux_function(pinmux_group),
-				GPI_NONE);
-		}
-	}
+	if (info->set_one_pinmux)
+		info->set_one_pinmux(dev,
+			jhb100_pinmux_pin(pinmux_group),
+			jhb100_pinmux_function(pinmux_group),
+			GPI_NONE);
 
 	return jhb100_pinmux_pin(pinmux_group);
 }
@@ -358,10 +335,12 @@ static int starfive_gpio_direction_input(struct udevice *dev, unsigned int off)
 	struct starfive_pinctrl_priv *priv = dev_get_priv(pdev);
 	struct jhb100_pinctrl_soc_info *info = priv->info;
 
-	/* enable input and schmitt trigger */
-	starfive_padcfg_rmw(pdev, off,
-			    JHB100_PADCFG_IE | JHB100_PADCFG_SMT,
-			    JHB100_PADCFG_IE | JHB100_PADCFG_SMT);
+	if (info->is_vselcfg && info->is_vselcfg(off))
+		starfive_padcfg_rmw(pdev, off, JHB100_RGMII_PADCFG_IE, JHB100_RGMII_PADCFG_IE);
+	else
+		starfive_padcfg_rmw(pdev, off,
+				    JHB100_PADCFG_IE | JHB100_PADCFG_SMT,
+				    JHB100_PADCFG_IE | JHB100_PADCFG_SMT);
 
 	if (info->set_one_pinmux)
 		info->set_one_pinmux(pdev, off, 0, GPI_NONE);
@@ -379,10 +358,12 @@ static int starfive_gpio_direction_output(struct udevice *dev,
 	if (info->set_one_pinmux)
 		info->set_one_pinmux(pdev, off, 0, val ? GPOUT_HIGH : GPOUT_LOW);
 
-	/* disable input, schmitt trigger and bias */
-	starfive_padcfg_rmw(pdev, off,
-			    JHB100_PADCFG_IE | JHB100_PADCFG_SMT |
-			    JHB100_PADCFG_BIAS_MASK, 0);
+	if (info->is_vselcfg && info->is_vselcfg(off))
+		starfive_padcfg_rmw(pdev, off, JHB100_RGMII_PADCFG_IE, 0);
+	else
+		starfive_padcfg_rmw(pdev, off,
+				    JHB100_PADCFG_IE | JHB100_PADCFG_SMT |
+				    JHB100_PADCFG_BIAS_MASK, 0);
 
 	return 0;
 }

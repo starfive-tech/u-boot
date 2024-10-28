@@ -12,11 +12,8 @@
 
 #include "pinctrl-starfive-jhb100.h"
 
-#define JHB100_BMCPERIPH1_NGPIO			35
+#define JHB100_BMCPERIPH1_NGPIO			36
 #define JHB100_BMCPERIPH1_PADCFG_BASE		0x0
-
-#define JHB100_BMCPERIPH1_SFC0_PIN_START	5
-#define JHB100_BMCPERIPH1_SFC0_PIN_END		11
 
 /* registers */
 #define JHB100_BMCPERIPH1_GPIO_O_SEL		0x090
@@ -75,6 +72,7 @@ static const struct starfive_pinctrl_pin jhb100_bmcperiph1_pins[] = {
 	STARFIVE_PINCTRL(32,	"BMCPERIPH1_GPIO32"),
 	STARFIVE_PINCTRL(33,	"BMCPERIPH1_GPIO33"),
 	STARFIVE_PINCTRL(34,	"BMCPERIPH1_GPIO34"),
+	STARFIVE_PINCTRL(35,	"BMCPERIPH1_GPIO35"),
 };
 
 static const struct jhb100_gpio_func_sel
@@ -110,10 +108,11 @@ static const struct jhb100_gpio_func_sel
 	[28]	= { 0x0ac,	24,	1 },
 	[29]	= { 0x0ac,	26,	1 },
 	[30]	= { 0x0ac,	28,	1 },
-	[31]	= { 0x0ac,	30,	2 },
+	[31]	= { 0x0ac,	30,	1 },
 	[32]	= { 0x0b0,	0,	2 },
 	[33]	= { 0x0b0,	2,	2 },
 	[34]	= { 0x0b0,	4,	2 },
+	[35]	= { 0x0b0,	6,	2 },
 };
 
 static void jhb100_bmcperiph1_init_hw(struct udevice *dev)
@@ -128,29 +127,10 @@ static void jhb100_bmcperiph1_init_hw(struct udevice *dev)
 	writel(0U, priv->base + JHB100_BMCPERIPH1_GPIOIC1);
 }
 
-static bool jhb100_bmcperiph1_is_sfc_pin(u32 pin)
-{
-	return (pin >= JHB100_BMCPERIPH1_SFC0_PIN_START &&
-		pin <= JHB100_BMCPERIPH1_SFC0_PIN_END);
-}
-
 static int jhb100_bmcperiph1_set_one_pin_mux(struct udevice *dev, u32 pin,
 					     u32 func, int gpioval)
 {
-	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
-
-	if (func)
-		starfive_set_function(dev, pin, func);
-
-	if (pin < priv->info->ngpios) {
-		if (jhb100_bmcperiph1_is_sfc_pin(pin) && func == 1)
-			starfive_set_gpioval(dev, pin, gpioval);
-
-		if (!jhb100_bmcperiph1_is_sfc_pin(pin) && func == 0)
-			starfive_set_gpioval(dev, pin, gpioval);
-	}
-
-	return 0;
+	return starfive_set_one_pin_mux(dev, pin, func, gpioval);
 }
 
 static int jhb100_bmcperiph1_get_padcfg_base(struct udevice *dev, u32 pin)
