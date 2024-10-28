@@ -54,38 +54,42 @@
 		 * so that kernel will not manage them.
 		 */
 		pcie0_mmbi_buffer_cache: mmbi_buffer@64000000 {
-			reg = <0x0 0x64000000 0 0x800000>;
-			alignment = <0x0 0x800000>;
+			reg = <0x0 0x64000000 0 0x400000>;
+			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
 		pcie0_mmbi_buffer_uncache: mmbi_buffer@424000000 {
-			reg = <0x4 0x24000000 0 0x800000>;
-			alignment = <0x0 0x800000>;
+			reg = <0x4 0x24000000 0 0x400000>;
+			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
+		/*
+		 * There is only one adderss remap window for
+		 * eSPI memory accessing, so merge the reserved memory ranges
+		 * of MMBI over eSPI (1st 4MB) & eSPI memory cycle access(2nd 4MB).
+		 * The size of eSPI remap window must be power of 2.
+		 */
 		espi0_mmbi_buffer_cache: mmbi_buffer@64800000 {
-			reg = <0x0 0x64800000 0 0x800000>;
-			alignment = <0x0 0x800000>;
+			reg = <0x0 0x64800000 0 0x400000>;
+			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
 		espi0_mmbi_buffer_uncache: mmbi_buffer@424800000 {
-			reg = <0x4 0x24800000 0 0x800000>;
-			alignment = <0x0 0x800000>;
+			reg = <0x4 0x24800000 0 0x400000>;
+			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		espi0_mem_cache: espi0-slave@65000000 {
-			compatible = "shared-dma-pool";
-			reg = <0x0 0x65000000 0x0 0x200000>;
+		espi0_mem_cache: espi0-slave@64c00000 {
+			reg = <0x0 0x64c00000 0x0 0x400000>;
 			no-map;
 		};
 
-		espi0_mem_uncache: espi0-slave@425000000 {
-			compatible = "shared-dma-pool";
-			reg = <0x4 0x25000000 0x0 0x200000>;
+		espi0_mem_uncache: espi0-slave@424c00000 {
+			reg = <0x4 0x24c00000 0x0 0x400000>;
 			no-map;
 		};
 
@@ -137,7 +141,6 @@
 &pinctrl_sys0h {
 
 	gpio-line-names =
-		"", "", "", "",
 		"ESPI_IO0", "ESPI_IO1", "ESPI_IO2", "ESPI_IO3",
 		"ESPI_CLK", "ESPI_CS", "ESPI_ALERT", "ESPI_RESET";
 
@@ -233,12 +236,12 @@
 	i3c4_pins: i3c4-grp {
 		i3c4_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
-					 FUNC_BMCPERIPH0_MIPI_I3C4_SCL1)>;
+					 FUNC_BMCPERIPH0_MIPI_I3C4_CLK)>;
 		};
 
 		i3c4_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B9,
-					 FUNC_BMCPERIPH0_MIPI_I3C4_SDA1)>;
+					 FUNC_BMCPERIPH0_MIPI_I3C4_DATA)>;
 			bias-pull-up;
 			input-enable;
 		};
@@ -247,12 +250,12 @@
 	i3c5_pins: i3c5-grp {
 		i3c5_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
-					 FUNC_BMCPERIPH0_MIPI_I3C5_SCL1)>;
+					 FUNC_BMCPERIPH0_MIPI_I3C5_CLK)>;
 		};
 
 		i3c5_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B11,
-					 FUNC_BMCPERIPH0_MIPI_I3C5_SDA1)>;
+					 FUNC_BMCPERIPH0_MIPI_I3C5_DATA)>;
 			bias-pull-up;
 			input-enable;
 		};
@@ -504,7 +507,7 @@
 	mmbi-instance-num = <8>;
 	mmbi-osuse = /bits/ 8 <1 1 1 1 1 1 1 1>;
 	memory-region = <&pcie0_mmbi_buffer_uncache>;
-	mmbi-src-addr = /bits/ 64 <0x1f0000000>;
+	mmbi-src-addr = /bits/ 64 <0xf6820000>;
 	status = "disabled";
 };
 
@@ -520,12 +523,12 @@
 	mmbi-instance-num = <8>;
 	mmbi-osuse = /bits/ 8 <0 0 0 0 0 0 0 0>;
 	memory-region = <&espi0_mmbi_buffer_uncache>;
-	mmbi-src-addr = /bits/ 64 <0x1f4000000>;
+	mmbi-src-addr = /bits/ 64 <0xf6810000>;
 	status = "disabled";
 };
 
 &sio0 {
-	status = "disabled";
+	status = "okay";
 
 	sio0_bt0: bt@0 {
 		status = "okay";
@@ -535,8 +538,12 @@
 		status = "okay";
 	};
 
+	sio0_kcs1: kcs@300 {
+		status = "okay";
+	};
+
 	sio0_pcc: pcc@800 {
-		starfive,pcc-threshold = <2>;
+		starfive,pcc-threshold = <0>;
 		status = "okay";
 	};
 
@@ -550,25 +557,27 @@
 };
 
 &espi0 {
-	flash-safs-mode = <0>;
-	perif-memcyc-src-addr = /bits/ 64 <0x425000000>;
-	perif-memcyc-size = <0x200000>;
-	memory-region = <&espi0_mem_uncache>;
+	espi-dma-mode = <0x11>;
+	flash-safs-mode = <1>;
+	starfive,flash-mtd-device = "Data";
+	perif-memcyc-src-addr = /bits/ 64 <0xf6830000>;
+	perif-memcyc-size = <0x40000>;
+	memory-region = <&espi0_mmbi_buffer_uncache>, <&espi0_mem_uncache>;
 
-	starfive,misc-remap-num = <4>;
 	starfive,bt-remap-num = <1>;
-
-	starfive,mmbi-io-addr = /bits/ 32 <0x1000>;
-	starfive,bt-io-addr = /bits/ 32 <0x200>;
+	starfive,kcs-remap-num = <1>;
+	starfive,uart-remap-num = <1>;
+	starfive,misc-remap-num = <2>;
+	starfive,bt-io-addr = /bits/ 32 <0xe4>;
+	starfive,kcs-io-addr = /bits/ 32 <0xca2>;
+	starfive,uart-io-addr = /bits/ 32 <0x3f8>;
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
-	starfive,misc-io-addr = /bits/ 32 <0x20 0x40
-					   0x3f8 0xca0>;
-	starfive,misc-sys-addr = /bits/ 32 <0x651ff020 0x651ff040
-					    0x651ff3f8 0x651ffca0>;
+	starfive,misc-io-addr = /bits/ 32 <0x2e 0x4e>;
+	starfive,misc-sys-addr = /bits/ 32 <0x10583f00 0x10583ff0>;
+	pinctrl-names = "default";
 	pinctrl-0 = <&espi0_pins>;
-	/* GPIOB_4 for espi reset detection. */
-	espi_rst_det-gpio = <&pinctrl_bmcperiph0 4 GPIO_ACTIVE_LOW>;
+
 	status = "okay";
 };
 
@@ -617,15 +626,8 @@
 	status = "okay";
 };
 
-&i2c6_master {
-	status = "okay";
-	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-	clock-frequency = <100000>;
-	clock-names = "ic_clk", "pclk";
-};
-
 &i3c4 {
-	status = "disabled";
+	status = "okay";
 	clocks = <&fpga_12mhz_clk>;
 	i3c-scl-hz = <1000000>;
 	mode = "master";
@@ -635,7 +637,7 @@
 };
 
 &i3c5 {
-	status = "okay";
+	status = "disabled";
 	clocks = <&fpga_12mhz_clk>;
 	i3c-scl-hz = <1000000>;
 	mode = "target";
@@ -657,5 +659,33 @@
 };
 
 &reri3 {
+	status = "okay";
+};
+
+&dma_uart {
+	status = "okay";
+	clocks = <&fpga_12mhz_clk>,
+		<&fpga_12mhz_clk>;
+};
+
+&dma_sfc0 {
+	status = "okay";
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+};
+
+&spi0 {
+	status = "okay";
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins>;
+
+	spi_dev0: spi@0 {
+		compatible = "rohm,dh2228fv";
+		spi-max-frequency = <200000>;
+		reg = <0>;
+	};
+};
+
+&wdt0 {
 	status = "okay";
 };

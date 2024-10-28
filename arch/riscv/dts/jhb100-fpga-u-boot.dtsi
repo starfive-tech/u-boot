@@ -239,3 +239,12 @@
 &pinctrl_sys2 {
 	bootph-pre-ram;
 };
+
+&wdt0 {
+	bootph-pre-ram;
+	status = "disabled";
+};
+
+&dma_sfc0 {
+	bootph-pre-ram;
+};
