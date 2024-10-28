@@ -45,7 +45,7 @@
 			bootph-pre-ram;
 		};
 	};
-	
+
 	memory {
 		bootph-pre-ram;
 	};
@@ -161,15 +161,15 @@
 };
 
 &per3_gmac0_rmii_rclki {
-	bootph-pre-ram;	
+	bootph-pre-ram;
 };
 
 &per3_gmac1_sgmii_tx {
-	bootph-pre-ram;	
+	bootph-pre-ram;
 };
 
 &per3_gmac1_sgmii_rx {
-	bootph-pre-ram;	
+	bootph-pre-ram;
 };
 
 &per0crg {
@@ -178,9 +178,6 @@
 
 &sfc0 {
 	bootph-pre-ram;
-	status = "okay";
-	/delete-property/ pinctrl-names;
-	/delete-property/ pinctrl-0;
 };
 
 &timer0 {
