@@ -1461,6 +1461,66 @@
 				status = "disabled";
 			};
 
+			wdt0: watchdog@11a11000 {
+				compatible = "starfive,jhb100-wdt";
+				reg = <0x0 0x11a11000 0x0 0x00000400>;
+				interrupts = <155>;
+				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT0>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT0>;
+				clock-names = "core", "pclk";
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT0>;
+				timeout_sec = <15 10>;
+				status = "disabled";
+			};
+
+			wdt1: watchdog@11a11400 {
+				compatible = "starfive,jhb100-wdt";
+				reg = <0x0 0x11a11400 0x0 0x00000400>;
+				interrupts = <156>;
+				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT1>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT1>;
+				clock-names = "core", "pclk";
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT1>;
+				timeout_sec = <15 10>;
+				status = "disabled";
+			};
+
+			wdt2: watchdog@11a11800 {
+				compatible = "starfive,jhb100-wdt";
+				reg = <0x0 0x11a11800 0x0 0x00000400>;
+				interrupts = <157>;
+				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT2>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT2>;
+				clock-names = "core", "pclk";
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT2>;
+				timeout_sec = <15 10>;
+				status = "disabled";
+			};
+
+			wdt3: watchdog@11a11c00 {
+				compatible = "starfive,jhb100-wdt";
+				reg = <0x0 0x11a11c00 0x0 0x00000400>;
+				interrupts = <158>;
+				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT3>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT3>;
+				clock-names = "core", "pclk";
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT3>;
+				timeout_sec = <15 10>;
+				status = "disabled";
+			};
+
+			wdt_ext: watchdog@11a12000 {
+				compatible = "starfive,jhb100-wdt";
+				reg = <0x0 0x11a12000 0x0 0x00000400>;
+				interrupts = <159>;
+				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT_EXTERNAL>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT_EXTERNAL>;
+				clock-names = "core", "pclk";
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT4>;
+				timeout_sec = <15 10>;
+				status = "disabled";
+			};
+
 			i3c0: i3c0@11a18000 {
 				compatible = "snps,dw-i3c-master-1.00a";
 				reg = <0x0 0x11a18000 0x0 0x800>;
@@ -2295,67 +2355,6 @@
 				dma-names = "rx-tx";
 				status = "disabled";
 			};
-
-			wdt0: watchdog@140B0000 {
-				compatible = "starfive,jhb100-wdt";
-				reg = <0x0 0x140B0000 0x0 0x00000400>;
-				interrupts = <145>;
-				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT0>,
-					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT0>;
-				clock-names = "core", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT0>;
-				timeout_sec = <15 10>;
-				status = "disabled";
-			};
-
-			wdt1: watchdog@140B0400 {
-				compatible = "starfive,jhb100-wdt";
-				reg = <0x0 0x140B0000 0x0 0x00000400>;
-				interrupts = <146>;
-				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT1>,
-					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT1>;
-				clock-names = "core", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT1>;
-				timeout_sec = <15 10>;
-				status = "disabled";
-			};
-
-			wdt2: watchdog@140B0800 {
-				compatible = "starfive,jhb100-wdt";
-				reg = <0x0 0x140B0800 0x0 0x00000400>;
-				interrupts = <147>;
-				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT2>,
-					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT2>;
-				clock-names = "core", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT2>;
-				timeout_sec = <15 10>;
-				status = "disabled";
-			};
-
-			wdt3: watchdog@140B0C00 {
-				compatible = "starfive,jhb100-wdt";
-				reg = <0x0 0x140B0C00 0x0 0x00000400>;
-				interrupts = <148>;
-				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT3>,
-					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT3>;
-				clock-names = "core", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT3>;
-				timeout_sec = <15 10>;
-				status = "disabled";
-			};
-
-			wdt_ext: watchdog@140B1000 {
-				compatible = "starfive,jhb100-wdt";
-				reg = <0x0 0x140B1000 0x0 0x00000400>;
-				interrupts = <149>;
-				clocks = <&per0crg JHB100_PER0CLK_WDOGCLK_WDT_EXTERNAL>,
-					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_WDT_EXTERNAL>;
-				clock-names = "core", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT4>;
-				timeout_sec = <15 10>;
-				status = "disabled";
-			};
-
 		};
 
 		bus_ioc: bus_ioc {
