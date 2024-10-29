@@ -487,6 +487,26 @@
 	pinctrl-0 = <&uart5_pins>;
 };
 
+&wdt0 {
+	status = "okay";
+};
+
+&wdt1 {
+	status = "okay";
+};
+
+&wdt2 {
+	status = "okay";
+};
+
+&wdt3 {
+	status = "okay";
+};
+
+&wdt_ext {
+	status = "okay";
+};
+
 &husb0 {
 	snps,no-connect-phy;
 };

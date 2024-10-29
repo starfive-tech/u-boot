@@ -9,6 +9,11 @@
 		timer0 = &timer0;
 		ethernet0 = &gmac2;
 		sfc0 = &sfc0;
+		wdt0 = &wdt0;
+		wdt1 = &wdt1;
+		wdt2 = &wdt2;
+		wdt3 = &wdt3;
+		wdt_ext = &wdt_ext;
 	};
 
 	chosen {
@@ -194,6 +199,56 @@
 
 &timer_test {
 	status = "okay";
+};
+
+&wdt0 {
+	bootph-pre-ram;
+	status = "okay";
+	clocks = <&fpga_3mhz_clk>;
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
+};
+
+&wdt1 {
+	bootph-pre-ram;
+	status = "okay";
+	clocks = <&fpga_3mhz_clk>;
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
+};
+
+&wdt2 {
+	bootph-pre-ram;
+	status = "okay";
+	clocks = <&fpga_3mhz_clk>;
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
+};
+
+&wdt3 {
+	bootph-pre-ram;
+	status = "okay";
+	clocks = <&fpga_3mhz_clk>;
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
+};
+
+&wdt_ext {
+	bootph-pre-ram;
+	status = "disabled";
+	clocks = <&fpga_3mhz_clk>;
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
 };
 
 &fpga_12mhz_clk {
