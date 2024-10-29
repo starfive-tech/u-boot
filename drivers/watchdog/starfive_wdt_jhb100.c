@@ -17,7 +17,7 @@ struct starfive_wdt_jhb100_priv {
 	u64 freq;
 	struct udevice *dev;
 	struct clk *core_clk;
-	struct clk *apb_clk;
+	struct clk *p_clk;
 	u32 count;
 };
 
@@ -492,18 +492,18 @@ static int starfive_wdt_jhb100_enable_clock(struct starfive_wdt_jhb100_priv *pri
 {
 	int ret = 0;
 
-	priv->apb_clk = devm_clk_get(priv->dev, "apb");
-	if (!IS_ERR(priv->apb_clk)) {
-		ret = clk_prepare_enable(priv->apb_clk);
-		if (ret)
-			dev_warn(priv->dev, "enable apb_clk error.\n");
-	}
-
 	priv->core_clk = devm_clk_get(priv->dev, "core");
 	if (!IS_ERR(priv->core_clk)) {
 		ret = clk_prepare_enable(priv->core_clk);
 		if (ret)
 			dev_warn(priv->dev, "enable core_clk error.\n");
+	}
+
+	priv->p_clk = devm_clk_get(priv->dev, "pclk");
+	if (!IS_ERR(priv->p_clk)) {
+		ret = clk_prepare_enable(priv->p_clk);
+		if (ret)
+			dev_warn(priv->dev, "enable p_clk error.\n");
 	}
 
 	return ret;
@@ -588,9 +588,9 @@ static int starfive_wdt_jhb100_set_timeout(struct starfive_wdt_jhb100_priv *priv
 		 timeout, count, count);
 
 	if (wdt_mode == STARFIVE_JHB100_WDT_RESET_TIMEOUT)
-		starfive_wdt_jhb100_set_intr_timeout(priv, count);
-	else if (wdt_mode == STARFIVE_JHB100_WDT_INTERRUPT_TIMEOUT)
 		starfive_wdt_jhb100_set_rst_timeout(priv, count);
+	else if (wdt_mode == STARFIVE_JHB100_WDT_INTERRUPT_TIMEOUT)
+		starfive_wdt_jhb100_set_intr_timeout(priv, count);
 
 	priv->count = count;
 
@@ -611,7 +611,7 @@ static int starfive_wdt_jhb100_probe(struct udevice *dev)
 	int ret;
 	struct udevice *clk_dev;
 
-	ret = uclass_get_device_by_name(UCLASS_CLK, "clock-controller@13008000", &clk_dev);
+	ret = uclass_get_device_by_name(UCLASS_CLK, "clock-controller@13000000", &clk_dev);
 
 	if (ret) {
 		printf("clock device not found!\n");
