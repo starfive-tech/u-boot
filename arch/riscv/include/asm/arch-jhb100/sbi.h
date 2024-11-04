@@ -7,9 +7,9 @@
 #ifndef _STARFIVE_SBI_H
 #define _STARFIVE_SBI_H
 
-enum sbi_ext_starfive_jhb100_sfc_fid {
+enum sbi_ext_starfive_jhb100_fid {
 	SBI_EXT_STARFIVE_JHB100_SET_SFC_ADDR_MODE,
-	SBI_EXT_STARFIVE_JH8100_SFC_FID_MAX,
+	SBI_EXT_STARFIVE_JHB100_FID_MAX,
 };
 
 int sbi_set_sfc_addr_mode(unsigned long sfc_num, unsigned long value);
