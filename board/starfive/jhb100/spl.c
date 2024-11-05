@@ -84,6 +84,8 @@ void plat_i2c_init(void)
 {
 	// i2c6
 	u6_dwc_i2c_smbus_enable();
+	// i2c7
+	u7_dwc_i2c_smbus_enable();
 }
 
 void plat_uart_init(void)
