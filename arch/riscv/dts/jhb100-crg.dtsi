@@ -127,6 +127,12 @@
 		clock-frequency = <100000000>;
 	};
 
+	pvt_aon: pvt_aon {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100000000>;
+	};
+
 	soc {
 		host0crg: clock-controller@10518000 {
 			compatible = "starfive,jhb100-host0crg";

@@ -111,6 +111,12 @@
 
 &i2c6_master {
 	bootph-pre-ram;
+	status = "okay";
+};
+
+&i2c7_master {
+	bootph-pre-ram;
+	status = "okay";
 };
 
 &sys_espi0 {

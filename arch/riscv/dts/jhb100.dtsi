@@ -354,6 +354,24 @@
 				status = "disabled";
 			};
 
+			pvt_cpu: pvt@10514000 {
+				compatible = "moortec,mr75203";
+				reg = <0x0 0x10514000 0x0 0x80>,
+				      <0x0 0x10514080 0x0 0x80>,
+				      <0x0 0x10514100 0x0 0x80>,
+				      <0x0 0x10514400 0x0 0x800>;
+				reg-names = "common", "ts", "pd", "vm";
+				intel,vm-map = [00 ff];
+				clocks = <&cpucrg JHB100_CPUCLK_MAIN_ICG_EN_CPUSS_SENSORS0>;
+				resets = <&cpucrg JHB100_CPURST_MAIN_RSTN_SENSORS0>;
+				moortec,vm-active-channels = <16>;
+				moortec,vm-pre-scaler-x2 = <1 1 1 1 2 1 1 1 1 1 1 1 3 1 1 1>;
+				moortec,ts-coeff-g = <61400>;
+				moortec,ts-coeff-h = <253700>;
+				#thermal-sensor-cells = <1>;
+				status = "disabled";
+			};
+
 			espi0_mmbi: mmbi@10580000 {
 				compatible = "starfive,jhb100-mmbi";
 				reg = <0x0 0x10580000 0x0 0x400>;
@@ -651,6 +669,20 @@
 			husb0syscon: syscon@10695000 {
 				compatible = "starfive,jhb100-husb-syscon", "syscon";
 				reg = <0x0 0x10695000 0x0 0x1000>;
+			};
+
+			pvt_gpu0: pvt@10740000 {
+				compatible = "moortec,mr75203";
+				reg = <0x0 0x10740000 0x0 0x80>,
+				      <0x0 0x10740080 0x0 0x80>,
+				      <0x0 0x10740100 0x0 0x80>;
+				reg-names = "common", "ts", "pd";
+				clocks = <&gpu0crg JHB100_GPU0CLK_MAIN_ICG_EN_SENSORS1>;
+				resets = <&gpu0crg JHB100_GPU0RST_MAIN_RSTN_SENSORS5>;
+				moortec,ts-coeff-g = <61400>;
+				moortec,ts-coeff-h = <253700>;
+				#thermal-sensor-cells = <1>;
+				status = "disabled";
 			};
 
 			pcie_ep1: pcie-ep@10800000 {
@@ -998,6 +1030,48 @@
 			husb1syscon: syscon@10e95000 {
 				compatible = "starfive,jhb100-husb-syscon", "syscon";
 				reg = <0x0 0x10e95000 0x0 0x1000>;
+			};
+
+			pvt_gpu1: pvt@10f40000 {
+				compatible = "moortec,mr75203";
+				reg = <0x0 0x10f40000 0x0 0x80>,
+				      <0x0 0x10f40080 0x0 0x80>,
+				      <0x0 0x10f40100 0x0 0x80>;
+				reg-names = "common", "ts", "pd";
+				clocks = <&gpu1crg JHB100_GPU1CLK_MAIN_ICG_EN_SENSORS2>;
+				resets = <&gpu1crg JHB100_GPU1RST_MAIN_RSTN_SENSORS6>;
+				moortec,ts-coeff-g = <61400>;
+				moortec,ts-coeff-h = <253700>;
+				#thermal-sensor-cells = <1>;
+				status = "disabled";
+			};
+
+			pvt_usb: pvt@11040000 {
+				compatible = "moortec,mr75203";
+				reg = <0x0 0x11040000 0x0 0x80>,
+				      <0x0 0x11040080 0x0 0x80>,
+				      <0x0 0x11040100 0x0 0x80>;
+				reg-names = "common", "ts", "pd";
+				clocks = <&usbcrg JHB100_USBCLK_MAIN_ICG_EN_SENSORS3>;
+				resets = <&usbcrg JHB100_USBRST_MAIN_RSTN_SENSORS3>;
+				moortec,ts-coeff-g = <61400>;
+				moortec,ts-coeff-h = <253700>;
+				#thermal-sensor-cells = <1>;
+				status = "disabled";
+			};
+
+			pvt_vce: pvt@11180000 {
+				compatible = "moortec,mr75203";
+				reg = <0x0 0x11180000 0x0 0x80>,
+				      <0x0 0x11180080 0x0 0x80>,
+				      <0x0 0x11180100 0x0 0x80>;
+				reg-names = "common", "ts", "pd";
+				clocks = <&vcecrg JHB100_VCECLK_MAIN_ICG_EN_SENSORS5>;
+				resets = <&vcecrg JHB100_VCERST_SENSORS5_TSPD_RSTN_MST>;
+				moortec,ts-coeff-g = <61400>;
+				moortec,ts-coeff-h = <253700>;
+				#thermal-sensor-cells = <1>;
+				status = "disabled";
 			};
 
 			pcie: pcie@11200000 {
@@ -1564,7 +1638,7 @@
 			};
 
 			i2c0_slave: i2c@11a20400 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a20400 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1591,7 +1665,7 @@
 			};
 
 			i2c1_slave: i2c@11a20c00 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a20c00 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1618,7 +1692,7 @@
 			};
 
 			i2c2_slave: i2c@11a21400 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a21400 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1645,7 +1719,7 @@
 			};
 
 			i2c3_slave: i2c@11a21c00 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a21c00 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1672,7 +1746,7 @@
 			};
 
 			i2c4_slave: i2c@11a22400 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a22400 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1699,7 +1773,7 @@
 			};
 
 			i2c5_slave: i2c5-slave@11a22c00 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a22c00 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1726,7 +1800,7 @@
 			};
 
 			i2c6_slave: i2c6-slave@11a23400 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a23400 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1753,7 +1827,7 @@
 			};
 
 			i2c7_slave: i2c7-slave@11a23c00 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a23c00 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1780,7 +1854,7 @@
 			};
 
 			i2c8_slave: i2c8-slave@11a24400 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a24400 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1807,7 +1881,7 @@
 			};
 
 			i2c9_slave: i2c@11a24c00 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a24c00 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1834,7 +1908,7 @@
 			};
 
 			i2c10_slave: i2c@11a25400 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a25400 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1861,7 +1935,7 @@
 			};
 
 			i2c11_slave: i2c@11a25c00 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a25c00 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1888,7 +1962,7 @@
 			};
 
 			i2c12_slave: i2c@11a26400 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a26400 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1915,7 +1989,7 @@
 			};
 
 			i2c13_slave: i2c@11a26c00 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a26c00 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1942,7 +2016,7 @@
 			};
 
 			i2c14_slave: i2c@11a27400 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a27400 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -1969,7 +2043,7 @@
 			};
 
 			i2c15_slave: i2c@11a27c00 {
-				compatible = "snps,dwc-i2c-slave";
+				compatible = "starfive,jhb100-dwc-i2c-slave", "snps,dwc-i2c";
 				reg = <0x0 0x11a27c00 0x0 0x400>;
 				#address-cells = <1>;
 				#size-cells = <0>;
@@ -2148,6 +2222,19 @@
 				status = "disabled";
 			};
 
+			pvt_sys: pvt@13020000 {
+				compatible = "moortec,mr75203";
+				reg = <0x0 0x13020000 0x0 0x80>,
+				      <0x0 0x13020080 0x0 0x80>,
+				      <0x0 0x13020100 0x0 0x80>;
+				reg-names = "common", "ts", "pd";
+				clocks = <&pvt_aon>;
+				moortec,ts-coeff-g = <61400>;
+				moortec,ts-coeff-h = <253700>;
+				#thermal-sensor-cells = <1>;
+				status = "disabled";
+			};
+
 			pinctrl_sys0: pinctrl@13080000 {
 				compatible = "starfive,jhb100-sys-pinctrl-systop-sys0";
 				reg = <0x0 0x13080000 0x0 0x800>;
@@ -2275,6 +2362,19 @@
 					    "PCIE AXI slv read",
 					    "PCIE Phy SRAM Ecc",
 					    "MCTP SRAM ECC";
+				status = "disabled";
+			};
+
+			pvt_ddr: pvt@13100000 {
+				compatible = "moortec,mr75203";
+				reg = <0x0 0x13100000 0x0 0x80>,
+				      <0x0 0x13100080 0x0 0x80>,
+				      <0x0 0x13100100 0x0 0x80>;
+				reg-names = "common", "ts", "pd";
+				clocks = <&pvt_aon>;
+				moortec,ts-coeff-g = <61400>;
+				moortec,ts-coeff-h = <253700>;
+				#thermal-sensor-cells = <1>;
 				status = "disabled";
 			};
 

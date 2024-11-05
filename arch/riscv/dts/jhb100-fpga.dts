@@ -6,6 +6,7 @@
 #include "jhb100.dtsi"
 #include "jhb100-fpga-sfc0-flash.dtsi"
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/i2c/i2c.h>
 
 / {
 	model = "StarFive JHB100 FPGA";
@@ -14,6 +15,54 @@
 	aliases {
 		serial0 = &uart5;
 		ethernet0 = &gmac2;
+
+		i2c0 = &i2c0_master;
+		i2c1 = &i2c0_slave;
+
+		i2c2 = &i2c1_master;
+		i2c3 = &i2c1_slave;
+
+		i2c4 = &i2c2_master;
+		i2c5 = &i2c2_slave;
+
+		i2c6 = &i2c3_master;
+		i2c7 = &i2c3_slave;
+
+		i2c8 = &i2c4_master;
+		i2c9 = &i2c4_slave;
+
+		i2c10 = &i2c5_master;
+		i2c11 = &i2c5_slave;
+
+		i2c12 = &i2c6_master;
+		i2c13 = &i2c6_slave;
+
+		i2c14 = &i2c7_master;
+		i2c15 = &i2c7_slave;
+
+		i2c16 = &i2c8_master;
+		i2c17 = &i2c8_slave;
+
+		i2c18 = &i2c9_master;
+		i2c19 = &i2c9_slave;
+
+		i2c20 = &i2c10_master;
+		i2c21 = &i2c10_slave;
+
+		i2c22 = &i2c11_master;
+		i2c23 = &i2c11_slave;
+
+		i2c24 = &i2c12_master;
+		i2c25 = &i2c12_slave;
+
+		i2c26 = &i2c13_master;
+		i2c27 = &i2c13_slave;
+
+		i2c28 = &i2c14_master;
+		i2c29 = &i2c14_slave;
+
+		i2c30 = &i2c15_master;
+		i2c31 = &i2c15_slave;
 	};
 
 	chosen {
@@ -261,6 +310,34 @@
 		};
 	};
 
+	i2c4_pins: i2c4-grp {
+		i2c4_scl-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
+					 FUNC_BMCPERIPH0_I2C4_CLK)>;
+		};
+
+		i2c4_sda-pins{
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B9,
+					 FUNC_BMCPERIPH0_I2C4_DATA)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+
+	i2c5_pins: i2c5-grp {
+		i2c5_scl-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
+					 FUNC_BMCPERIPH0_I2C5_CLK)>;
+		};
+
+		i2c5_sda-pins{
+			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B11,
+					 FUNC_BMCPERIPH0_I2C5_DATA)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
+
 	i2c6_pins: i2c6-grp {
 		i2c6_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B12,
@@ -487,10 +564,6 @@
 	pinctrl-0 = <&uart5_pins>;
 };
 
-&wdt0 {
-	status = "okay";
-};
-
 &wdt1 {
 	status = "okay";
 };
@@ -668,6 +741,67 @@
 	/* pec-private-transfer; */
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c5_pins>;
+};
+
+&i2c4_master {
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+	clock-frequency = <400000>;
+	/* pinctrl-names = "default"; */
+	/* pinctrl-0 = <&i2c4_pins>; */
+};
+
+&i2c4_slave {
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+	clock-frequency = <400000>;
+	/* pinctrl-names = "default"; */
+	/* pinctrl-0 = <&i2c4_pins>; */
+};
+
+&i2c5_master {
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+	clock-frequency = <400000>;
+	/* pinctrl-names = "default"; */
+	/* pinctrl-0 = <&i2c5_pins>; */
+};
+
+&i2c5_slave {
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+	clock-frequency = <400000>;
+	/* pinctrl-names = "default"; */
+	/* pinctrl-0 = <&i2c5_pins>; */
+};
+
+&i2c6_master {
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+	clock-frequency = <400000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c6_pins>;
+};
+
+&i2c6_slave {
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+	clock-frequency = <400000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c6_pins>;
+};
+
+&i2c7_master {
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+	clock-frequency = <400000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c7_pins>;
+};
+
+&i2c7_slave {
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+	clock-frequency = <400000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c7_pins>;
+};
+
+&jtag0 {
+	clocks = <&fpga_12mhz_clk>;
+	status = "okay";
 };
 
 &reri0 {
