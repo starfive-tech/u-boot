@@ -274,6 +274,7 @@
 	"distro_mmc_test_and_boot="					\
 		"if mmc dev ${devnum}; then "				\
 			"echo Try booting from MMC${devnum} ...; "	\
+			"setenv sdev_blk mmcblk${devnum}p${rootpart}; "  \
 			"run bootcmd_distro;"				\
 		"fi;\0" 						\
 	"distro_bootenv_mmc="					\
@@ -302,6 +303,7 @@
 				"if nvme dev ${devnum}; then "	\
 					"echo Try booting from NVME${devnum} ...; "	\
 					"setenv bootdev nvme;"	\
+					"setenv sdev_blk nvme${devnum}n1p${rootpart}; " \
 					"run bootcmd_distro; "	\
 				"fi; "				\
 			"done; "				\
