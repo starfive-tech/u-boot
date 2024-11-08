@@ -1001,6 +1001,7 @@ static const struct udevice_id dw_spi_ids[] = {
 	{ .compatible = "snps,axs10x-spi", .data = (ulong)dw_spi_apb_init },
 	{ .compatible = "snps,hsdk-spi", .data = (ulong)dw_spi_apb_init },
 	{ .compatible = "starfive,jhb100-sfc", .data = (ulong)dw_spi_jhb100_init },
+	{ .compatible = "starfive,jhb100-spi", .data = (ulong)dw_spi_dwc_init },
 	{ }
 };
 
