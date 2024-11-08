@@ -182,7 +182,7 @@
 		"echo Checking FIT image in SPI flash ...;"	\
 		"if checkimgrcmap 1; then "	\
 			"sf probe;"	\
-			"if sf probe 0:1; then "	\
+			"if sf probe 1:1; then "	\
 				"echo Trying to load SPI Primary FIT image ...; "	\
 				"run loadfitimagespiprim;"	\
 				"echo Authenticating SPI Primary FIT image ...; "	\
@@ -193,7 +193,7 @@
 		"fi;"	\
 		"echo SPI Primary FIT image failed authentication ...;"	\
 		"if checkimgrcmap 2; then "	\
-			"if sf probe 0:1; then "	\
+			"if sf probe 1:1; then "	\
 				"echo Trying to load SPI Secondary FIT image ...; "	\
 				"run loadfitimagespisec;"	\
 				"echo Authenticating SPI Secondary FIT image ...; "	\
@@ -208,7 +208,7 @@
 		"if checkimgrcmap 1; then "	\
 			"echo Trying to load SPI Primary FIT image ...; "	\
 			"sf probe;"	\
-			"if sf probe 0:1; then "	\
+			"if sf probe 1:1; then "	\
 				"run loadcompfitimagespiprim;"	\
 				"echo Uncompressing FIT image ...; "	\
 				"run uncompfitimage;"	\
@@ -221,7 +221,7 @@
 		"echo SPI Primary FIT image failed authentication ...;"	\
 		"if checkimgrcmap 2; then "	\
 			"echo Trying to load SPI Secondary FIT image ...; "	\
-			"if sf probe 0:1; then "	\
+			"if sf probe 1:1; then "	\
 				"run loadcompfitimagespisec;"	\
 				"echo Uncompressing FIT image ...; "	\
 				"run uncompfitimage;"	\
