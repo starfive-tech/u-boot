@@ -24,6 +24,7 @@
 #include <asm/arch/sys-macro/irq_macro.h>
 
 void u0_dwc_ssi_sfc_enable(void);
+void u0_dwc_ssi_spi_enable(void);
 void u6_dwc_i2c_smbus_enable(void);
 void u7_dwc_i2c_smbus_enable(void);
 void u0_dwc_ether_rmiiandrgmii_enable_patch(void);

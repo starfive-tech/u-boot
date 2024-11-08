@@ -80,6 +80,12 @@ void plat_sfc_init(void)
 	u0_dwc_ssi_sfc_enable();
 }
 
+void plat_spi_init(void)
+{
+	// spi0
+	u0_dwc_ssi_spi_enable();
+}
+
 void plat_i2c_init(void)
 {
 	// i2c6
@@ -338,6 +344,7 @@ void board_init_f(ulong dummy)
 
 	/* Initialize peripherals reset here */
 	plat_sfc_init();
+	plat_spi_init();
 	plat_uart_init();
 	plat_i2c_init();
 	//flexnoc_reset();
