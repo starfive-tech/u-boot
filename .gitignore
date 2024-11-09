@@ -73,6 +73,9 @@ fit-dtb.blob*
 /capsule.*.efi-capsule
 /capsule*.map
 /keep-syms-lto.*
+/drivers/video/u_boot_logo.S
+/test/overlay/test-fdt-overlay.dtbo.S
+/test/overlay/test-fdt-overlay-stacked.dtbo.S
 
 #
 # Generated include files
@@ -81,6 +84,8 @@ fit-dtb.blob*
 /include/config.h
 /include/config/
 /include/generated/
+/include/bmp_logo.h
+/include/bmp_logo_data.h
 
 # stgit generated dirs
 patches-*
