@@ -6,6 +6,49 @@
 #include <asm/csr.h>
 #include <asm/arch-dubhe/csr.h>
 
+extern void (*__riscv_expected_trap)(void);
+
+#define mmio_read64_allowed(csr_mtvec, mmio_addr, cause)		\
+	({								\
+	register ulong cause_b asm("a3") = (ulong)cause;		\
+	register ulong ttmp asm("a4");					\
+	register ulong mtvec = (ulong)(&__riscv_expected_trap);		\
+	register ulong addr = mmio_addr;				\
+	register ulong ret = 0;						\
+	*cause = 0;							\
+	__asm__ __volatile__(						\
+		"add %[ttmp], %[cause_b], zero\n"			\
+		"csrrw %[mtvec], " __ASM_STR(csr_mtvec) ", %[mtvec]\n"	\
+		"ld %[ret], 0(%[addr])\n"				\
+		"csrw " __ASM_STR(csr_mtvec) ", %[mtvec]"		\
+	    : [mtvec] "+&r"(mtvec), [cause_b] "+&r"(cause_b),		\
+	      [ttmp] "+&r"(ttmp), [ret] "=&r" (ret)			\
+	    : [addr] "r" (addr)						\
+	    : "memory");						\
+	ret;								\
+	})
+
+#define STARLINK_ID_ADDR	0x12900270
+bool check_starlink(void)
+{
+	ulong cause;
+	ulong value, rev_id, sub_rev_id;
+
+	value = mmio_read64_allowed(CSR_MTVEC, STARLINK_ID_ADDR, &cause);
+	if (cause) {
+		printf("StarLink not supported\n");
+		return false;
+	}
+
+	rev_id = value & 0x0f;
+	sub_rev_id = (value >> 4) & 0x0f;
+
+	printf("StarLink supported, Rev ID=%lx.%lx\n", rev_id, sub_rev_id);
+
+	return true;
+}
+
+
 int spl_board_init_f(void)
 {
 	int ret;

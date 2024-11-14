@@ -101,3 +101,13 @@ trap_entry:
 	LREG x2,   2 * REGBYTES(sp)
 	addi sp, sp, 32 * REGBYTES
 	MODE_PREFIX(ret)
+
+	.align 2
+	.global __riscv_expected_trap
+__riscv_expected_trap:
+	csrr	a4, CSR_MCAUSE
+	REG_S	a4, 0(a3)
+	csrr	a4, CSR_MEPC
+	addi	a4, a4, 4
+	csrw	CSR_MEPC, a4
+	mret
