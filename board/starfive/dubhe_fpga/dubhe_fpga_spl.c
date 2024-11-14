@@ -31,8 +31,8 @@ extern void (*__riscv_expected_trap)(void);
 #define STARLINK_ID_ADDR	0x12900270
 bool check_starlink(void)
 {
-	ulong cause;
-	ulong value, rev_id, sub_rev_id;
+	ulong cause, value;
+	u8 rev_id, sub_rev_id;
 
 	value = mmio_read64_allowed(CSR_MTVEC, STARLINK_ID_ADDR, &cause);
 	if (cause) {
@@ -43,11 +43,10 @@ bool check_starlink(void)
 	rev_id = value & 0x0f;
 	sub_rev_id = (value >> 4) & 0x0f;
 
-	printf("StarLink supported, Rev ID=%lx.%lx\n", rev_id, sub_rev_id);
+	printf("StarLink supported, Rev ID=%u.%u\n", rev_id, sub_rev_id);
 
 	return true;
 }
-
 
 int spl_board_init_f(void)
 {
@@ -71,7 +70,7 @@ void board_boot_order(u32 *spl_boot_list)
 
 int board_fit_config_name_match(const char *name)
 {
-	char config_name[8];
+	char config_name[9];
 	u32 marchid;
 
 	marchid = csr_read(CSR_MARCHID);
@@ -86,7 +85,10 @@ int board_fit_config_name_match(const char *name)
 		return strcmp(name, config_name);
 
 	case DUBHE70_MARCHID:
-		sprintf(config_name, "conf-%s", "70");
+		if (check_starlink())
+			sprintf(config_name, "conf-%s", "70s");
+		else
+			sprintf(config_name, "conf-%s", "70a");
 		return strcmp(name, config_name);
 
 	default:
