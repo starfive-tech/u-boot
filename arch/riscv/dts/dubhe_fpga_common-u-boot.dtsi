@@ -112,13 +112,23 @@
 						};
 					};
 
+					fdt-70 {
+						description = "U-Boot proper device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						fdt_70_blob: blob-ext {
+							filename = "arch/riscv/dts/dubhe70_fpga.dtb";
+						};
+					};
+
 					fdt-70a {
 						description = "U-Boot proper device tree binary";
 						type = "flat_dt";
 						arch = "riscv";
 						compression = "none";
 						fdt_70a_blob: blob-ext {
-							filename = "arch/riscv/dts/dubhe70a_fpga.dtb";
+							filename = "arch/riscv/dts/dubhe70a_fpga.dtbo";
 						};
 					};
 
@@ -128,7 +138,7 @@
 						arch = "riscv";
 						compression = "none";
 						fdt_70s_blob: blob-ext {
-							filename = "arch/riscv/dts/dubhe70s_fpga.dtb";
+							filename = "arch/riscv/dts/dubhe70s_fpga.dtbo";
 						};
 					};
 				};
@@ -153,14 +163,14 @@
 						description = "conf-70a";
 						firmware = "opensbi";
 						loadables = "uboot";
-						fdt = "fdt-70a";
+						fdt = "fdt-70", "fdt-70a";
 					};
 
 					conf-70s {
 						description = "conf-70s";
 						firmware = "opensbi";
 						loadables = "uboot";
-						fdt = "fdt-70s";
+						fdt = "fdt-70", "fdt-70s";
 					};
 				};
 			};
