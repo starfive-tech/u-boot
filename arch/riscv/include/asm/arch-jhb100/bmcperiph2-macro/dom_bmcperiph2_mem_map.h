@@ -1,4 +1,3 @@
-//commit:8ece02821 (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 #define  U0_DWC_ETHER_RMIIANDRGMII__ITG_BD_APB__BASE_ADDR                                                     0x0011B80000
 #define  U1_DWC_ETHER_SGMII__ITG_BD_SGMII_MAC_APB__BASE_ADDR                                                  0x0011B84000
 #define  U10_DWC_SENSORS_PD__ITG_BD_APBS__BASE_ADDR                                                           0x0011B88000

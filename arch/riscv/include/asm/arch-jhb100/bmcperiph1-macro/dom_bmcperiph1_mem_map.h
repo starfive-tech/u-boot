@@ -1,8 +1,7 @@
-//commit:8ece02821 (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 #define  U1_DW_AXI_DMAC_1CH__ITG_BD_APB__BASE_ADDR                                                            0x0011A80000
 #define  U2_DW_AXI_DMAC_1CH__ITG_BD_APB__BASE_ADDR                                                            0x0011A80400
 #define  U3_DW_AXI_DMAC_1CH__ITG_BD_APB__BASE_ADDR                                                            0x0011A80800
-#define  U4_DW_AXI_DMAC_1CH__ITG_BD_APB__BASE_ADDR                                                            0x0011A80C00
+#define  U0_DW_AXI_DMAC_2CH__ITG_BD_APB__BASE_ADDR                                                            0x0011A80C00
 #define  U0_SGPIO__ITG_BD_APBS__BASE_ADDR                                                                     0x0011A81000
 #define  U1_SGPIO__ITG_BD_APBS__BASE_ADDR                                                                     0x0011A81400
 #define  U6_DWC_SENSORS_PD__ITG_BD_APBS__BASE_ADDR                                                            0x0011B20000
@@ -24,7 +23,7 @@
 #define  U1_DW_AXI_DMAC_1CH__ITG_BD_APB__END_ADDR                                                             0x0011A803FF
 #define  U2_DW_AXI_DMAC_1CH__ITG_BD_APB__END_ADDR                                                             0x0011A807FF
 #define  U3_DW_AXI_DMAC_1CH__ITG_BD_APB__END_ADDR                                                             0x0011A80BFF
-#define  U4_DW_AXI_DMAC_1CH__ITG_BD_APB__END_ADDR                                                             0x0011A80FFF
+#define  U0_DW_AXI_DMAC_2CH__ITG_BD_APB__END_ADDR                                                             0x0011A80FFF
 #define  U0_SGPIO__ITG_BD_APBS__END_ADDR                                                                      0x0011A813FF
 #define  U1_SGPIO__ITG_BD_APBS__END_ADDR                                                                      0x0011A817FF
 #define  U6_DWC_SENSORS_PD__ITG_BD_APBS__END_ADDR                                                             0x0011B33FFF

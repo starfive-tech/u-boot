@@ -1,4 +1,3 @@
-//commit:8ece02821 (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 
 #ifndef _BMCPERIPH1_SECURE_CRG_MACRO_H_
 #define _BMCPERIPH1_SECURE_CRG_MACRO_H_

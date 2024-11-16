@@ -1,10 +1,11 @@
-//commit:8ece02821 (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 #define  U0_SYS0_CRG__ITG_BD_APBS__BASE_ADDR                                                                  0x0013000000
 #define  U0_SYS1_CRG__ITG_BD_APBS__BASE_ADDR                                                                  0x0013004000
 #define  U0_SYS2_CRG__ITG_BD_APBS__BASE_ADDR                                                                  0x0013008000
 #define  U0_SYS0_SYSCON__ITG_BD_APBS__BASE_ADDR                                                               0x0013010000
+#define  U0_RESOURCE_ARB__ITG_BD_APB__BASE_ADDR                                                               0x0013012000
 #define  U0_SYS1_SYSCON__ITG_BD_APBS__BASE_ADDR                                                               0x0013014000
 #define  U0_SYS2_SYSCON__ITG_BD_APBS__BASE_ADDR                                                               0x0013018000
+#define  U1_STRAP__ITG_BD_APBS__BASE_ADDR                                                                     0x001301A000
 #define  U3_DWC_SENSORS_TSPD__ITG_BD_APBS__BASE_ADDR                                                          0x0013020000
 #define  U0_SYS0_IOMUX__ITG_BD_APBS__BASE_ADDR                                                                0x0013080000
 #define  U0_SYS0H_IOMUX__ITG_BD_APBS__BASE_ADDR                                                               0x0013080800
@@ -36,8 +37,10 @@
 #define  U0_SYS1_SECURE_CRG__ITG_BD_APBS__BASE_ADDR                                                           0x0014104000
 #define  U0_SYS2_SECURE_CRG__ITG_BD_APBS__BASE_ADDR                                                           0x0014108000
 #define  U0_SYS0_SECURE_SYSCON__ITG_BD_APBS__BASE_ADDR                                                        0x0014110000
+#define  U0_SYS0_SECURE_IPREG_TOP__ITG_BD_APBS__BASE_ADDR                                                     0x0014112000
 #define  U0_SYS1_SECURE_SYSCON__ITG_BD_APBS__BASE_ADDR                                                        0x0014114000
 #define  U0_SYS2_SECURE_SYSCON__ITG_BD_APBS__BASE_ADDR                                                        0x0014118000
+#define  U1_STRAP__ITG_BD_APBS_SECURE__BASE_ADDR                                                              0x001411A000
 #define  U0_DOM_DDRSS__ITG_BD_AXI0_CACHEABLE__BASE_ADDR                                                       0x0040000000
 #define  U0_DOM_DDRSS__ITG_BD_AXI1_CACHEABLE__BASE_ADDR                                                       0x0040000000
 #define  U0_DOM_DDRSS__ITG_BD_AXI2_CACHEABLE__BASE_ADDR                                                       0x0040000000
@@ -51,9 +54,11 @@
 #define  U0_SYS0_CRG__ITG_BD_APBS__END_ADDR                                                                   0x0013003FFF
 #define  U0_SYS1_CRG__ITG_BD_APBS__END_ADDR                                                                   0x0013007FFF
 #define  U0_SYS2_CRG__ITG_BD_APBS__END_ADDR                                                                   0x001300BFFF
-#define  U0_SYS0_SYSCON__ITG_BD_APBS__END_ADDR                                                                0x0013013FFF
+#define  U0_SYS0_SYSCON__ITG_BD_APBS__END_ADDR                                                                0x0013011FFF
+#define  U0_RESOURCE_ARB__ITG_BD_APB__END_ADDR                                                                0x0013013FFF
 #define  U0_SYS1_SYSCON__ITG_BD_APBS__END_ADDR                                                                0x0013017FFF
-#define  U0_SYS2_SYSCON__ITG_BD_APBS__END_ADDR                                                                0x001301BFFF
+#define  U0_SYS2_SYSCON__ITG_BD_APBS__END_ADDR                                                                0x0013019FFF
+#define  U1_STRAP__ITG_BD_APBS__END_ADDR                                                                      0x001301BFFF
 #define  U3_DWC_SENSORS_TSPD__ITG_BD_APBS__END_ADDR                                                           0x0013023FFF
 #define  U0_SYS0_IOMUX__ITG_BD_APBS__END_ADDR                                                                 0x00130807FF
 #define  U0_SYS0H_IOMUX__ITG_BD_APBS__END_ADDR                                                                0x0013080FFF
@@ -84,9 +89,11 @@
 #define  U0_SYS0_SECURE_CRG__ITG_BD_APBS__END_ADDR                                                            0x0014103FFF
 #define  U0_SYS1_SECURE_CRG__ITG_BD_APBS__END_ADDR                                                            0x0014107FFF
 #define  U0_SYS2_SECURE_CRG__ITG_BD_APBS__END_ADDR                                                            0x001410BFFF
-#define  U0_SYS0_SECURE_SYSCON__ITG_BD_APBS__END_ADDR                                                         0x0014113FFF
+#define  U0_SYS0_SECURE_SYSCON__ITG_BD_APBS__END_ADDR                                                         0x0014111FFF
+#define  U0_SYS0_SECURE_IPREG_TOP__ITG_BD_APBS__END_ADDR                                                      0x0014113FFF
 #define  U0_SYS1_SECURE_SYSCON__ITG_BD_APBS__END_ADDR                                                         0x0014117FFF
-#define  U0_SYS2_SECURE_SYSCON__ITG_BD_APBS__END_ADDR                                                         0x001411BFFF
+#define  U0_SYS2_SECURE_SYSCON__ITG_BD_APBS__END_ADDR                                                         0x0014119FFF
+#define  U1_STRAP__ITG_BD_APBS_SECURE__END_ADDR                                                               0x001411BFFF
 #define  U0_DOM_DDRSS__ITG_BD_AXI0_CACHEABLE__END_ADDR                                                        0x023FFFFFFF
 #define  U0_DOM_DDRSS__ITG_BD_AXI1_CACHEABLE__END_ADDR                                                        0x023FFFFFFF
 #define  U0_DOM_DDRSS__ITG_BD_AXI2_CACHEABLE__END_ADDR                                                        0x023FFFFFFF

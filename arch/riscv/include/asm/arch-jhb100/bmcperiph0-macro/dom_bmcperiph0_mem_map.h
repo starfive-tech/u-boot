@@ -1,4 +1,3 @@
-//commit:8ece02821 (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 #define  U0_DW_APB_UART__ITG_BD_APB_UART4__BASE_ADDR                                                          0x0011980000
 #define  U0_DW_APB_UART__ITG_BD_APB_UART5__BASE_ADDR                                                          0x0011981000
 #define  U0_DW_APB_UART__ITG_BD_APB_UART6__BASE_ADDR                                                          0x0011982000
@@ -55,7 +54,7 @@
 #define  U12_SOL__ITG_BD_APB_SOL_APB_S__BASE_ADDR                                                             0x0011A42000
 #define  U13_SOL__ITG_BD_APB_SOL_APB_S__BASE_ADDR                                                             0x0011A42400
 #define  U14_SOL__ITG_BD_APB_SOL_APB_S__BASE_ADDR                                                             0x0011A42800
-#define  U2_RESERVED_APB__ITG_BD_APBS_RESERVED__BASE_ADDR                                                     0x0011A42C00
+#define  U0_UART_MUX_REG_WRAP__ITG_BD_APB_UART_MUX_S__BASE_ADDR                                               0x0011A42A00
 #define  U0_DWC_I2C_SMBUS__ITG_BD_APB_F__BASE_ADDR                                                            0x0014080000
 #define  U1_DWC_I2C_SMBUS__ITG_BD_APB_F__BASE_ADDR                                                            0x0014081000
 #define  U2_DWC_I2C_SMBUS__ITG_BD_APB_F__BASE_ADDR                                                            0x0014082000
@@ -142,7 +141,7 @@
 #define  U12_DWC_I2C_SMBUS__ITG_BD_APB__END_ADDR                                                              0x0011A267FF
 #define  U13_DWC_I2C_SMBUS__ITG_BD_APB__END_ADDR                                                              0x0011A26FFF
 #define  U14_DWC_I2C_SMBUS__ITG_BD_APB__END_ADDR                                                              0x0011A277FF
-#define  U15_DWC_I2C_SMBUS__ITG_BD_APB__END_ADDR                                                              0x0011A37FFF
+#define  U15_DWC_I2C_SMBUS__ITG_BD_APB__END_ADDR                                                              0x0011A27FFF
 #define  U4_SOL__ITG_BD_APB_SOL_APB_S__END_ADDR                                                               0x0011A403FF
 #define  U5_SOL__ITG_BD_APB_SOL_APB_S__END_ADDR                                                               0x0011A407FF
 #define  U6_SOL__ITG_BD_APB_SOL_APB_S__END_ADDR                                                               0x0011A40BFF
@@ -153,8 +152,8 @@
 #define  U11_SOL__ITG_BD_APB_SOL_APB_S__END_ADDR                                                              0x0011A41FFF
 #define  U12_SOL__ITG_BD_APB_SOL_APB_S__END_ADDR                                                              0x0011A423FF
 #define  U13_SOL__ITG_BD_APB_SOL_APB_S__END_ADDR                                                              0x0011A427FF
-#define  U14_SOL__ITG_BD_APB_SOL_APB_S__END_ADDR                                                              0x0011A42BFF
-#define  U2_RESERVED_APB__ITG_BD_APBS_RESERVED__END_ADDR                                                      0x0011A43FFF
+#define  U14_SOL__ITG_BD_APB_SOL_APB_S__END_ADDR                                                              0x0011A429FF
+#define  U0_UART_MUX_REG_WRAP__ITG_BD_APB_UART_MUX_S__END_ADDR                                                0x0011A42BFF
 #define  U0_DWC_I2C_SMBUS__ITG_BD_APB_F__END_ADDR                                                             0x0014080FFF
 #define  U1_DWC_I2C_SMBUS__ITG_BD_APB_F__END_ADDR                                                             0x0014081FFF
 #define  U2_DWC_I2C_SMBUS__ITG_BD_APB_F__END_ADDR                                                             0x0014082FFF

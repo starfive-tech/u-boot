@@ -1,4 +1,3 @@
-//commit:8ece02821 (HEAD -> b0.8.1_dv, origin/b0.8.1_dv)
 #define BMCPERIPH1_SECURE_SYSCONITG__SYSCFG_0_ADDR         (U0_BMCPERIPH1_SECURE_SYSCON__ITG_BD_APBS__BASE_ADDR + 0x0U)
 #define U4_DCU_NCNOC_TIMEOUT_EN_I_WIDTH                    0x1U
 #define U4_DCU_NCNOC_TIMEOUT_EN_I_SHIFT                    0x0U
