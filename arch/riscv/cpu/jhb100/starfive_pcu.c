@@ -166,32 +166,32 @@ static void (*pcu_disable[])(void) = {
 
 void dc0_pcu_enable(void)
 {
-	_CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_DC0_;
+	// _CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_DC0_;
 }
 
 void dc0_pcu_disable(void)
 {
-	_ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_DC0_;
+	// _ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_DC0_;
 }
 
 void hostusb0_pcu_enable(void)
 {
-	_CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTUSB0_;
+	// _CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTUSB0_;
 }
 
 void hostusb0_pcu_disable(void)
 {
-	_ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTUSB0_;
+	// _ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTUSB0_;
 }
 
 void hostss0_pcu_enable(void)
 {
-	_CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTSS0_;
+	// _CLEAR_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTSS0_;
 }
 
 void hostss0_pcu_disable(void)
 {
-	_ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTSS0_;
+	// _ASSERT_RESET_RSTGEN_MAIN_RSTN_PCU_HOSTSS0_;
 }
 
 int starfive_pcu_set_pwr_mode(enum pcu_domain pd, enum pcu_pwr_policy_mode pwr_policy_mode)
