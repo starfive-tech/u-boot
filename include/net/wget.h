@@ -18,4 +18,4 @@ enum wget_state {
 
 #define DEBUG_WGET		0	/* Set to 1 for debug messages */
 #define WGET_RETRY_COUNT	30
-#define WGET_TIMEOUT		2000UL
+#define WGET_TIMEOUT		20000000UL
