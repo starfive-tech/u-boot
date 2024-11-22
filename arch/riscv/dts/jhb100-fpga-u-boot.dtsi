@@ -119,15 +119,7 @@
 	status = "okay";
 };
 
-&sys_espi0 {
-	bootph-pre-ram;
-};
-
-&sys1_espi1 {
-	bootph-pre-ram;
-};
-
-&syscrg {
+&sys0crg {
 	bootph-pre-ram;
 };
 
@@ -148,10 +140,6 @@
 };
 
 &per3crg {
-	bootph-pre-ram;
-};
-
-&per0_1200 {
 	bootph-pre-ram;
 };
 
@@ -201,10 +189,6 @@
 
 &timer2 {
 	status = "disabled";
-};
-
-&timer_test {
-	status = "okay";
 };
 
 &wdt0 {

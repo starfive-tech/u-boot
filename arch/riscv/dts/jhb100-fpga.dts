@@ -14,6 +14,7 @@
 
 	aliases {
 		serial0 = &uart5;
+		serial1 = &uart4;
 		ethernet0 = &gmac2;
 
 		i2c0 = &i2c0_master;
@@ -150,12 +151,38 @@
 			pmsg-size = <0x20000>;
 		};
 
+		pcie0_user_mem_cache: user_memory@65300000 {
+			reg = <0x0 0x65300000 0 0x2000000>,
+			<0x0 0x6d300000 0x0 0x100000>,
+			<0x0 0x6d400000 0x0 0x100000>;
+			no-map;
+		};
+
+		pcie0_user_mem_uncache: user_memory@425300000 {
+			reg = <0x4 0x25300000 0 0x2000000>,
+			<0x4 0x2d300000 0x0 0x100000>,
+			<0x4 0x2d400000 0x0 0x100000>;
+			no-map;
+		};
+
+		pcie0_media_mem_cache: media_memory@6d500000 {
+			reg = <0x0 0x6d500000 0 0x2000000>,
+			<0x0 0x7d500000 0x0 0x1000000>;
+			no-map;
+		};
+
+		pcie0_media_mem_uncache: media_memory@42d500000 {
+			reg = <0x4 0x2d500000 0 0x2000000>,
+			<0x4 0x3d500000 0x0 0x1000000>;
+			no-map;
+		};
+
 		linux,cma {
 			compatible = "shared-dma-pool";
 			reusable;
 			size = <0x0 0x10000000>;
 			alignment = <0x0 0x1000>;
-			alloc-ranges = <0x0 0x66000000 0x1 0xda000000>;
+			alloc-ranges = <0x0 0x85500000 0x1 0xda000000>;
 			linux,cma-default;
 		};
 	};
@@ -255,7 +282,21 @@
 		"", "", "", "",
 		"", "", "", "",
 		"", "", "", "",
-		"UART5_TX", "UART5_RX", "", "";
+		"UART5_TX", "UART5_RX", "UART4_TX", "UART4_RX";
+
+	uart4_pins: uart4-grp {
+		uart4_tx-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A34,
+					 FUNC_SYSTOP_SYS2_UART4_TX)>;
+		};
+
+		uart4_rx-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A35,
+					 FUNC_SYSTOP_SYS2_UART4_RX)>;
+			bias-pull-up;
+			input-enable;
+		};
+	};
 
 	uart5_pins: uart5-grp {
 		uart5_tx-pins {
@@ -268,6 +309,29 @@
 					 FUNC_SYSTOP_SYS2_UART5_RX)>;
 			bias-pull-up;
 			input-enable;
+		};
+	};
+
+	jtag0_pins: jtag0-grp {
+		jtag0_tdi-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A52,
+					 FUNC_SYSTOP_SYS2_JTAG_MST_TDI)>;
+		};
+		jtag0_trstn-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A53,
+					 FUNC_SYSTOP_SYS2_JTAG_MST_TRST_N)>;
+		};
+		jtag0_tms-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A54,
+					 FUNC_SYSTOP_SYS2_JTAG_MST_TMS)>;
+		};
+		jtag_tck-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A55,
+					 FUNC_SYSTOP_SYS2_JTAG_MST_TCK)>;
+		};
+		jtag0_tdo-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A56,
+					 FUNC_SYSTOP_SYS2_JTAG_MST_TDO)>;
 		};
 	};
 };
@@ -555,37 +619,41 @@
 
 };
 
-&uart5 {
+&uart4 {
 	status = "okay";
 	clocks = <&fpga_4mhz_clk>, <&fpga_4mhz_clk>;
 	clock-frequency = <4000000>;
 	current-speed = <115200>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&uart5_pins>;
+	pinctrl-0 = <&uart4_pins>;
 };
 
-&wdt1 {
+&uart5 {
 	status = "okay";
-};
-
-&wdt2 {
-	status = "okay";
-};
-
-&wdt3 {
-	status = "okay";
-};
-
-&wdt_ext {
-	status = "okay";
+	clocks = <&fpga_4mhz_clk>, <&fpga_4mhz_clk>;
+	clock-frequency = <4000000>;
+	current-speed = <115200>;
+	/* pinctrl-names = "default"; */
+	/* pinctrl-0 = <&uart5_pins>; */
 };
 
 &husb0 {
 	snps,no-connect-phy;
 };
 
+&pcie_ep0 {
+	memory-region = <&pcie0_media_mem_uncache>,
+	<&pcie0_user_mem_uncache>,
+	<&pcie0_mmbi_buffer_uncache>;
+	status = "okay";
+};
+
 &pcie0_mctp {
 	status = "disabled";
+};
+
+&uart_routing {
+	status = "okay";
 };
 
 &pcie1_mctp {
@@ -720,7 +788,7 @@
 };
 
 &i3c4 {
-	status = "okay";
+	status = "disabled";
 	clocks = <&fpga_12mhz_clk>;
 	i3c-scl-hz = <1000000>;
 	mode = "master";
@@ -801,6 +869,8 @@
 
 &jtag0 {
 	clocks = <&fpga_12mhz_clk>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&jtag0_pins>;
 	status = "okay";
 };
 
@@ -841,5 +911,21 @@
 };
 
 &wdt0 {
-	status = "okay";
+	status = "disabled";
+};
+
+&wdt1 {
+	status = "disabled";
+};
+
+&wdt2 {
+	status = "disabled";
+};
+
+&wdt3 {
+	status = "disabled";
+};
+
+&wdt_ext {
+	status = "disabled";
 };
