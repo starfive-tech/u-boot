@@ -3,7 +3,6 @@
  * Copyright (c) 2021 StarFive Technology Co., Ltd.
  */
 
-#include <common.h>
 #include <dm.h>
 #include <fdtdec.h>
 #include <init.h>

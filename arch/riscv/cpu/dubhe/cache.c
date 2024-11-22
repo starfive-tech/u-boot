@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 /* Copyright (c) 2021 StarFive Technology Co., Ltd. */
 
-#include <common.h>
 #include <asm/sbi.h>
 #include <dm.h>
 

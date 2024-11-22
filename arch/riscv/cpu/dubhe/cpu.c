@@ -3,7 +3,6 @@
  * Copyright (c) 2021 StarFive Technology Co., Ltd.
  */
 
-#include <common.h>
 #include <irq_func.h>
 #include <asm/cache.h>
 
