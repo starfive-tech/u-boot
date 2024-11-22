@@ -10,79 +10,32 @@
  #include <dt-bindings/clock/starfive,jhb100-crg.h>
  #include <linux/clk-provider.h>
 
-static const char *apb_mux[MAX_NUM_PARENTS] = {
-	[0] = "osc",
-	[1] = "apb_main_sys1",
-};
-
-static const char *hostss1_espi1_mux[MAX_NUM_PARENTS] = {
-	[0] = "sys1_espi1",
-	[1] = "gpio_espi1_66",
-};
-
-static const char *hostss1_100_mux[MAX_NUM_PARENTS] = {
-	[0] = "osc",
-	[1] = "hostss1_100",
-};
-
-static const char *vout_100_mux[MAX_NUM_PARENTS] = {
-	[0] = "osc",
-	[1] = "vout_100",
-};
-
-static const char *bmcper3_100_mux[MAX_NUM_PARENTS] = {
-	[0] = "osc",
-	[1] = "per3_100",
-};
-
-static const char *bmcper3_125_mux[MAX_NUM_PARENTS] = {
-	[0] = "osc",
-	[1] = "per3_125",
-};
-
 static struct clk_info sys1crg_clk_info[] = {
 	/* root */
 	{ JHB100_SYS1CLK_APB_MAIN_SYS1,	"apb_main_sys1",
 		"pll1",			NULL,	CLK_DIVIDER,	4 },
-	{ JHB100_SYS1CLK_APB_OSC_SYS1,	"apb_osc_sys1",
-		"",	apb_mux,		CLK_MUX,	0 },
-	/* top noc 0*/
-	{ JHB100_SYS1CLK_NCNOC1_200,	"ncnoc1_200",
-		"pll1",			NULL,	CLK_DIVIDER,	3 },
-	/* bcu */
-	{ JHB100_SYS1CLK_BCU0_PCLK,	"bcu0_pclk",
-		"osc",			NULL,	CLK_GATE,	0 },
-	{ JHB100_SYS1CLK_BCU0_DFT_BISR,	"bcu0_dft_bisr",
-		"osc",			NULL,	CLK_GATE,	0 },
+	/* sensor */
+	{ JHB100_SYS1CLK_APB_SENSOR_ICG_BUF,	"apb_sensor_icg_buf",
+		"apb_main_sys1",	NULL,	CLK_GATE,	0 },
 	/* hostss1 */
 	{ JHB100_SYS1CLK_GPIO_ESPI1_66,	"gpio_espi1_66",
-		"pll2",			NULL,	CLK_GDIV,	4 },
-	{ JHB100_SYS1CLK_ESPI1_EXT_DFT_MUX,	"espi1_ext_dft_mux",
-		"",	hostss1_espi1_mux,	CLK_MUX,	0 },
+		"pll2",			NULL,	CLK_DIVIDER,	4 },
 	{ JHB100_SYS1CLK_HOSTSS1_100,	"hostss1_100",
-		"pll1",			NULL,	CLK_GDIV,	4 },
-	{ JHB100_SYS1CLK_HOSTSS1_CFG,	"hostss1_cfg",
-		"",	hostss1_100_mux,	CLK_MUX,	0 },
+		"pll1",			NULL,	CLK_DIVIDER,	4 },
 	{ JHB100_SYS1CLK_HOSTSS1_PHY_SCAN_1000_ICG_BUF,	"hostss1_phy_scan_1000_icg_buf",
 		"pll1",			NULL,	CLK_GATE,	0 },
 	/* vout */
 	{ JHB100_SYS1CLK_VOUT_100,	"vout_100",
-		"pll1",			NULL,	CLK_DIVIDER,	3 },
-	{ JHB100_SYS1CLK_VOUT_TARG,	"vout_targ",
-		"",	vout_100_mux,		CLK_MUX,	0 },
-	{ JHB100_SYS1CLK_VOUT_CLK_SCAN_1000_DFT,	"vout_clk_scan_1000_dft",
-		"pll1",			NULL,	CLK_GATE,	0 },
-	{ JHB100_SYS1CLK_VOUT_CLK_SCAN_800_DFT,	"vout_clk_scan_800_dft",
-		"pll0",			NULL,	CLK_GATE,	0 },
+		"pll1",			NULL,	CLK_DIVIDER,	4 },
+	{ JHB100_SYS1CLK_VOUT_PIX0,	"vout_pix0",
+		"pll4",			NULL,	CLK_DIVIDER,	3 },
+	{ JHB100_SYS1CLK_VOUT_PIX1,	"vout_pix1",
+		"pll5",			NULL,	CLK_DIVIDER,	3 },
 	/* bmcperiph3 */
 	{ JHB100_SYS1CLK_BMCPER3_100,	"per3_100",
 		"pll1",			NULL,	CLK_DIVIDER,	4 },
-	{ JHB100_SYS1CLK_BMCPER3_TARG,	"bmcper3_targ",
-		"",	bmcper3_100_mux,	CLK_MUX,	0 },
 	{ JHB100_SYS1CLK_BMCPER3_125,	"per3_125",
 		"pll1",			NULL,	CLK_DIVIDER,	4 },
-	{ JHB100_SYS1CLK_BMCPER3_125_OSC,	"bmcper3_125_osc",
-		"",	bmcper3_125_mux,	CLK_MUX,	0 },
 };
 
 static int jhb100_sys1crg_probe(struct udevice *dev)

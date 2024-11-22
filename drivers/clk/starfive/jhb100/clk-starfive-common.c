@@ -81,7 +81,7 @@ static struct clk *starfive_clk_composite(void __iomem *reg, const char *name,
 			goto fail;
 
 		gate->reg = reg + offset;
-		gate->bit_idx = STARFIVE_CLK_ENABLE_SHIFT;
+		gate->bit_idx = gate_width;
 		gate->flags = 0;
 	}
 
@@ -192,20 +192,31 @@ void starfive_clk_init(void __iomem *reg, enum clk_type_t type,
 			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
 			       starfive_clk_fix_parent_composite(reg, init_data[i].name,
 								 init_data[i].parent_name,
-								 OFFSET(init_data[i].id), 0, 1,
+								 OFFSET(init_data[i].id), 0,
+								 STARFIVE_CLK_ENABLE_SHIFT,
+								 init_data[i].div_width));
+			break;
+		case CLK_IDIV:
+			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
+			       starfive_clk_fix_parent_composite(reg, init_data[i].name,
+								 init_data[i].parent_name,
+								 OFFSET(init_data[i].id), 0,
+								 STARFIVE_CLK_INVERT_SHIFT,
 								 init_data[i].div_width));
 			break;
 		case CLK_GMUX:
 			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
 			       starfive_clk_composite(reg, init_data[i].name,
 						      init_data[i].parent_names, MAX_NUM_PARENTS,
-						      OFFSET(init_data[i].id), 1, 1, 0));
+						      OFFSET(init_data[i].id), 1,
+						      STARFIVE_CLK_ENABLE_SHIFT, 0));
 			break;
 		case CLK_COMPOSITE:
 			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
 			       starfive_clk_composite(reg, init_data[i].name,
 						      init_data[i].parent_names, MAX_NUM_PARENTS,
-						      OFFSET(init_data[i].id), 1, 1,
+						      OFFSET(init_data[i].id), 1,
+						      STARFIVE_CLK_ENABLE_SHIFT,
 						      init_data[i].div_width));
 			break;
 		default:
