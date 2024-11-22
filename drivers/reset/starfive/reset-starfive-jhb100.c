@@ -24,28 +24,28 @@
 #define BITS_PER_REG 32
 #define NUM_RESETS(x)		((x) + 1)
 
-static const struct starfive_reset_info jhb100_sys_info = {
-	.nr_resets = NUM_RESETS(JHB100_SYSRST_BMCPCIERP_RSTN_CRG),
-	.assert_offset = 0x1b0,
-	.status_offset = 0x1b4,
+static const struct starfive_reset_info jhb100_sys0_info = {
+	.nr_resets = NUM_RESETS(JHB100_SYS0RST_BMCUSB_RSTN_CRG),
+	.assert_offset = 0x12c,
+	.status_offset = 0x130,
 };
 
 static const struct starfive_reset_info jhb100_sys1_info = {
-	.nr_resets = NUM_RESETS(JHB100_SYS1RST_MAIN_RSTN_PCU_HOSTSS1),
-	.assert_offset = 0x74,
-	.status_offset = 0x78,
+	.nr_resets = NUM_RESETS(JHB100_SYS1RST_BMCPERIPH3_RSTN_BUS),
+	.assert_offset = 0x54,
+	.status_offset = 0x58,
 };
 
 static const struct starfive_reset_info jhb100_sys2_info = {
-	.nr_resets = NUM_RESETS(JHB100_SYS2RST_MAIN_RSTN_PCU_GPU1),
-	.assert_offset = 0xc8,
-	.status_offset = 0xcc,
+	.nr_resets = NUM_RESETS(JHB100_SYS2RST_GPU1_HOST_PCIE_RST_N),
+	.assert_offset = 0x88,
+	.status_offset = 0x8c,
 };
 
 static const struct starfive_reset_info jhb100_per0_info = {
-	.nr_resets = NUM_RESETS(JHB100_PER0RST_GPIO_IOMUX_PRESETN),
-	.assert_offset = 0x550,
-	.status_offset = 0x55c,
+	.nr_resets = NUM_RESETS(JHB100_PER0RST_UART_MUX_REG_WRAP),
+	.assert_offset = 0x554,
+	.status_offset = 0x560,
 };
 
 static const struct starfive_reset_info jhb100_per1_info = {
@@ -55,21 +55,21 @@ static const struct starfive_reset_info jhb100_per1_info = {
 };
 
 static const struct starfive_reset_info jhb100_per2_info = {
-	.nr_resets = NUM_RESETS(JHB100_PER2RST_MAIN_RSTN_SENSORS10),
+	.nr_resets = NUM_RESETS(JHB100_PER2RST_MAIN_RSTN_PERIPH2_SENSORS),
 	.assert_offset = 0x11c,
 	.status_offset = 0x120,
 };
 
 static const struct starfive_reset_info jhb100_per3_info = {
 	.nr_resets = NUM_RESETS(JHB100_PER3RST_IOMUX_PRESETN),
-	.assert_offset = 0x94,
-	.status_offset = 0x98,
+	.assert_offset = 0x98,
+	.status_offset = 0x9c,
 };
 
 static const struct udevice_id jhb100_reset_ids[] = {
 	{
-		.compatible = "starfive,jhb100-syscrg",
-		.data = (ulong)&jhb100_sys_info,
+		.compatible = "starfive,jhb100-sys0crg",
+		.data = (ulong)&jhb100_sys0_info,
 	},
 	{
 		.compatible = "starfive,jhb100-sys1crg",
