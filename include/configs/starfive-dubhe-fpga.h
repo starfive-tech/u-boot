@@ -4,7 +4,7 @@
 #define CFG_EXTRA_ENV_SETTINGS								\
 	"ipaddr=192.168.152.100\0"                          				\
 	"netmask=255.255.255.0\0"                       				\
-	"serverip=192.168.153.221\0"							\
+	"serverip=192.168.188.11\0"							\
 	"gatewayip=192.168.152.1\0"							\
 	"rootpath=/tftpboot/nfs\0"							\
 	"dubhe_boot=booti 0xa1000000 - 0xa0000000;\0"			\
