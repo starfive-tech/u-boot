@@ -5,3 +5,4 @@
 obj-$(CONFIG_DM_HWSPINLOCK) += hwspinlock-uclass.o
 obj-$(CONFIG_HWSPINLOCK_SANDBOX) += sandbox_hwspinlock.o
 obj-$(CONFIG_HWSPINLOCK_STM32) += stm32_hwspinlock.o
+obj-$(CONFIG_HWSPINLOCK_STARFIVE_JHB100) += starfive_jhb100_hwspinlock.o

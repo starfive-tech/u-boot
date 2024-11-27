@@ -21,4 +21,12 @@ config HWSPINLOCK_STM32
 	  hardware mutex which provide a synchronisation mechanism for the
 	  various processors on the SoC.
 
+config HWSPINLOCK_STARFIVE_JHB100
+	bool "Enable Hardware Spinlock support for Starfive JHB100"
+	depends on DM_HWSPINLOCK
+	help
+	  Enable hardware spinlock support in Starfive JHB100. Hardware spinlocks are
+	  hardware mutex which provide a synchronisation mechanism for the
+	  various processors on the SoC.
+
 endmenu
