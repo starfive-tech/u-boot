@@ -80,6 +80,10 @@ int board_fit_config_name_match(const char *name)
 		sprintf(config_name, "conf-%s", "90");
 		return strcmp(name, config_name);
 
+	case DUBHE83_MARCHID:
+		sprintf(config_name, "conf-%s", "83");
+		return strcmp(name, config_name);
+
 	case DUBHE80_MARCHID:
 		sprintf(config_name, "conf-%s", "80");
 		return strcmp(name, config_name);
