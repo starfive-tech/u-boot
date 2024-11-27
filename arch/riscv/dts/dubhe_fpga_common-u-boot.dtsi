@@ -102,6 +102,16 @@
 						};
 					};
 
+					fdt-83 {
+						description = "U-Boot proper device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						fdt_83_blob: blob-ext {
+							filename = "arch/riscv/dts/dubhe83_fpga.dtb";
+						};
+					};
+
 					fdt-80 {
 						description = "U-Boot proper device tree binary";
 						type = "flat_dt";
@@ -150,6 +160,13 @@
 						firmware = "opensbi";
 						loadables = "uboot";
 						fdt = "fdt-90";
+					};
+
+					conf-83 {
+						description = "conf-83";
+						firmware = "opensbi";
+						loadables = "uboot";
+						fdt = "fdt-83";
 					};
 
 					conf-80 {
