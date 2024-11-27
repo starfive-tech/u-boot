@@ -253,6 +253,47 @@
 #define PADNUM_BMCPERIPH3_GPIO_E10			10
 #define PADNUM_BMCPERIPH3_GPIO_E11			11
 
+/* adc0 pad numbers */
+#define PADNUM_ADC0_GPIO_G0				0
+#define PADNUM_ADC0_GPIO_G1				1
+#define PADNUM_ADC0_GPIO_G2				2
+#define PADNUM_ADC0_GPIO_G3				3
+#define PADNUM_ADC0_GPIO_G4				4
+#define PADNUM_ADC0_GPIO_G5				5
+#define PADNUM_ADC0_GPIO_G6				6
+#define PADNUM_ADC0_GPIO_G7				7
+
+/* adc1 pad numbers */
+#define PADNUM_ADC1_GPIO_H0				0
+#define PADNUM_ADC1_GPIO_H1				1
+#define PADNUM_ADC1_GPIO_H2				2
+#define PADNUM_ADC1_GPIO_H3				3
+#define PADNUM_ADC1_GPIO_H4				4
+#define PADNUM_ADC1_GPIO_H5				5
+#define PADNUM_ADC1_GPIO_H6				6
+#define PADNUM_ADC1_GPIO_H7				7
+#define PADNUM_ADC1_GPIO_H8				8
+
+/* emmc pad numbers */
+#define PADNUM_EMMC_GPIO_F0				0
+#define PADNUM_EMMC_GPIO_F1				1
+#define PADNUM_EMMC_GPIO_F2				2
+#define PADNUM_EMMC_GPIO_F3				3
+#define PADNUM_EMMC_GPIO_F4				4
+#define PADNUM_EMMC_GPIO_F5				5
+#define PADNUM_EMMC_GPIO_F6				6
+#define PADNUM_EMMC_GPIO_F7				7
+#define PADNUM_EMMC_GPIO_F8				8
+#define PADNUM_EMMC_GPIO_F9				9
+#define PADNUM_EMMC_GPIO_F10				10
+#define PADNUM_EMMC_GPIO_F11				11
+
+/* vga_vdac pad numbers */
+#define PADNUM_VGA_VDAC_GPIO_I0				0
+#define PADNUM_VGA_VDAC_GPIO_I1				1
+#define PADNUM_VGA_VDAC_GPIO_I2				2
+#define PADNUM_VGA_VDAC_GPIO_I3				3
+
 /* Function Selection */
 
 /* systop sys0h pad function selection */
@@ -509,6 +550,15 @@
 #define FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXER		2
 
 /* bmcperiph2_pok function selection */
+#define FUNC_BMCPERIPH2_PWM0_CHANNEL0			0
+#define FUNC_BMCPERIPH2_PWM0_CHANNEL1			0
+#define FUNC_BMCPERIPH2_PWM0_CHANNEL2			0
+#define FUNC_BMCPERIPH2_PWM0_CHANNEL3			0
+#define FUNC_BMCPERIPH2_PWM0_CHANNEL4			0
+#define FUNC_BMCPERIPH2_PWM0_CHANNEL5			0
+#define FUNC_BMCPERIPH2_PWM0_CHANNEL6			0
+#define FUNC_BMCPERIPH2_PWM0_CHANNEL7			0
+
 #define FUNC_BMCPERIPH2_POK_CAN0_TXD			1
 #define FUNC_BMCPERIPH2_POK_CAN0_RXD			1
 #define FUNC_BMCPERIPH2_POK_CAN0_STBY			1
@@ -547,5 +597,80 @@
 #define FUNC_BMCPERIPH2_POK_HOSTSS1_PORT80_DATA_OUT5	3
 #define FUNC_BMCPERIPH2_POK_HOSTSS1_PORT80_DATA_OUT6	3
 #define FUNC_BMCPERIPH2_POK_HOSTSS1_PORT80_DATA_OUT7	3
+
+/* adc0 function selection */
+#define FUNC_ADC1_VIN0					1
+#define FUNC_ADC1_VIN1					1
+#define FUNC_ADC1_VIN2					1
+#define FUNC_ADC1_VIN3					1
+#define FUNC_ADC1_VIN4					1
+#define FUNC_ADC1_VIN5					1
+#define FUNC_ADC1_VIN6					1
+#define FUNC_ADC1_VIN7					1
+
+#define FUNC_SMB9_ALT_A					2
+#define FUNC_SMB10_ALT_A				2
+#define FUNC_SMB11_ALT_A				2
+#define FUNC_SMB12_ALT_A				2
+#define FUNC_SMB13_ALT_A				2
+#define FUNC_SMB14_ALT_A				2
+#define FUNC_SMB15_ALT_A				2
+#define FUNC_SMB16_ALT_A				2
+
+#define FUNC_ADC1_PORT80_0_HOST0			3
+#define FUNC_ADC1_PORT80_1_HOST0			3
+#define FUNC_ADC1_PORT80_2_HOST0			3
+#define FUNC_ADC1_PORT80_3_HOST0			3
+#define FUNC_ADC1_PORT80_4_HOST0			3
+#define FUNC_ADC1_PORT80_5_HOST0			3
+#define FUNC_ADC1_PORT80_6_HOST0			3
+#define FUNC_ADC1_PORT80_7_HOST0			3
+
+/* adc1 function selection */
+#define FUNC_ADC2_VIN0					1
+#define FUNC_ADC2_VIN1					1
+#define FUNC_ADC2_VIN2					1
+#define FUNC_ADC2_VIN3					1
+#define FUNC_ADC2_VIN4					1
+#define FUNC_ADC2_VIN5					1
+#define FUNC_ADC2_VIN6					1
+#define FUNC_ADC2_VIN7					1
+
+#define FUNC_ADC2_PORT80_0_HOST0			2
+#define FUNC_ADC2_PORT80_1_HOST1			2
+#define FUNC_ADC2_PORT80_2_HOST2			2
+#define FUNC_ADC2_PORT80_3_HOST3			2
+#define FUNC_ADC2_PORT80_4_HOST4			2
+#define FUNC_ADC2_PORT80_5_HOST5			2
+#define FUNC_ADC2_PORT80_6_HOST6			2
+#define FUNC_ADC2_PORT80_7_HOST7			2
+
+#define FUNC_ADC2_SCAP_TRIG0_B				3
+#define FUNC_ADC2_SCAP_TRIG1_B				3
+
+/* emmc function selection */
+#define FUNC_EMMC1_DAT0					1
+#define FUNC_EMMC1_DAT1					1
+#define FUNC_EMMC1_DAT2					1
+#define FUNC_EMMC1_DAT3					1
+#define FUNC_EMMC1_CMD					1
+#define FUNC_EMMC1_CLK					1
+#define FUNC_EMMC1_DAT7					1
+#define FUNC_EMMC1_DAT6					1
+#define FUNC_EMMC1_DAT5					1
+#define FUNC_EMMC1_DAT4					1
+#define FUNC_EMMC1_RST_N				1
+#define FUNC_EMMC1_DQS					1
+
+/* vga_vdac function selection */
+#define FUNC_VGA_VDAC_VGAHS				0
+#define FUNC_VGA_VDAC_VGAVS				0
+#define FUNC_VGA_VDAC_DDCCLK				0
+#define FUNC_VGA_VDAC_DDCDAT				0
+
+#define FUNC_VGA_VDAC_GPIO_I0				1
+#define FUNC_VGA_VDAC_GPIO_I1				1
+#define FUNC_VGA_VDAC_GPIO_I2				1
+#define FUNC_VGA_VDAC_GPIO_I3				1
 
 #endif

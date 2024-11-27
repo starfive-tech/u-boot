@@ -84,33 +84,19 @@
 		#size-cells = <0x2>;
 		ranges;
 
-		/* DMA global pool cached address */
-		dma-reserved@44000000 {
-			reg = <0x0 0x44000000 0x0 0x20000000>;
-			no-map;
-		};
-
-		/* DMA global pool uncached address (alias) */
-		linux,dma@404000000 {
-			compatible = "shared-dma-pool";
-			reg = <0x4 0x04000000 0x0 0x20000000>;
-			no-map;
-			linux,dma-default;
-		};
-
 		/*
 		 * eSPI & MMBI dma accesses uncached address.
 		 * Also need to reserve corresponding cache addresses,
 		 * so that kernel will not manage them.
 		 */
-		pcie0_mmbi_buffer_cache: mmbi_buffer@64000000 {
-			reg = <0x0 0x64000000 0 0x400000>;
+		pcie0_mmbi_buffer_cache: mmbi_buffer@44000000 {
+			reg = <0x0 0x44000000 0x0 0x400000>;
 			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		pcie0_mmbi_buffer_uncache: mmbi_buffer@424000000 {
-			reg = <0x4 0x24000000 0 0x400000>;
+		pcie0_mmbi_buffer_uncache: mmbi_buffer@404000000 {
+			reg = <0x4 0x04000000 0x0 0x400000>;
 			alignment = <0x0 0x100000>;
 			no-map;
 		};
@@ -121,68 +107,90 @@
 		 * of MMBI over eSPI (1st 4MB) & eSPI memory cycle access(2nd 4MB).
 		 * The size of eSPI remap window must be power of 2.
 		 */
-		espi0_mmbi_buffer_cache: mmbi_buffer@64800000 {
-			reg = <0x0 0x64800000 0 0x400000>;
+		espi0_mmbi_buffer_cache: mmbi_buffer@44400000 {
+			reg = <0x0 0x44400000 0x0 0x400000>;
 			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		espi0_mmbi_buffer_uncache: mmbi_buffer@424800000 {
-			reg = <0x4 0x24800000 0 0x400000>;
+		espi0_mmbi_buffer_uncache: mmbi_buffer@404400000 {
+			reg = <0x4 0x04400000 0x0 0x400000>;
 			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		espi0_mem_cache: espi0-slave@64c00000 {
-			reg = <0x0 0x64c00000 0x0 0x400000>;
+		espi0_mem_cache: espi0-slave@44800000 {
+			reg = <0x0 0x44800000 0x0 0x400000>;
 			no-map;
 		};
 
-		espi0_mem_uncache: espi0-slave@424c00000 {
-			reg = <0x4 0x24c00000 0x0 0x400000>;
+		espi0_mem_uncache: espi0-slave@404800000 {
+			reg = <0x4 0x04800000 0x0 0x400000>;
 			no-map;
 		};
 
-		ramoops@65200000 {
+		pcie0_user_mem_cache: user_memory@44c00000 {
+			reg = <0x0 0x44c00000 0x0 0x2000000>,
+			      <0x0 0x46c00000 0x0 0x100000>,
+			      <0x0 0x46d00000 0x0 0x100000>;
+			no-map;
+		};
+
+		pcie0_user_mem_uncache: user_memory@404c00000 {
+			reg = <0x4 0x04c00000 0x0 0x2000000>,
+			      <0x4 0x06c00000 0x0 0x100000>,
+			      <0x4 0x06d00000 0x0 0x100000>;
+			no-map;
+		};
+
+		pcie0_media_mem_cache: media_memory@46e00000 {
+			reg = <0x0 0x46e00000 0x0 0x4000000>;
+			no-map;
+		};
+
+		pcie0_media_mem_uncache: media_emory@406e00000 {
+			reg = <0x4 0x06e00000 0x0 0x4000000>;
+			no-map;
+		};
+
+		pcie0_hdma_mem_cache: hdma_memory@4ae00000 {
+			reg = <0x0 0x4ae00000 0x0 0x1000000>;
+			no-map;
+		};
+
+		pcie0_hdma_mem_uncache: hdma_memory@40ae00000 {
+			reg = <0x4 0x0ae00000 0x0 0x1000000>;
+			no-map;
+		};
+
+		ramoops@4be00000 {
 			compatible = "ramoops";
-			reg = <0x0 0x65200000 0x0 0xc0000>;
+			reg = <0x0 0x4be00000 0x0 0xc0000>;
 			record-size = <0x20000>;
 			console-size = <0x20000>;
 			pmsg-size = <0x20000>;
 		};
 
-		pcie0_user_mem_cache: user_memory@65300000 {
-			reg = <0x0 0x65300000 0 0x2000000>,
-			<0x0 0x6d300000 0x0 0x100000>,
-			<0x0 0x6d400000 0x0 0x100000>;
+		/* DMA global pool cached address */
+		dma-reserved@4bf00000 {
+			reg = <0x0 0x4bf00000 0x0 0x08000000>;
 			no-map;
 		};
 
-		pcie0_user_mem_uncache: user_memory@425300000 {
-			reg = <0x4 0x25300000 0 0x2000000>,
-			<0x4 0x2d300000 0x0 0x100000>,
-			<0x4 0x2d400000 0x0 0x100000>;
+		/* DMA global pool uncached address (alias) */
+		linux,dma@40bf00000 {
+			compatible = "shared-dma-pool";
+			reg = <0x4 0x0bf00000 0x0 0x08000000>;
 			no-map;
-		};
-
-		pcie0_media_mem_cache: media_memory@6d500000 {
-			reg = <0x0 0x6d500000 0 0x2000000>,
-			<0x0 0x7d500000 0x0 0x1000000>;
-			no-map;
-		};
-
-		pcie0_media_mem_uncache: media_memory@42d500000 {
-			reg = <0x4 0x2d500000 0 0x2000000>,
-			<0x4 0x3d500000 0x0 0x1000000>;
-			no-map;
+			linux,dma-default;
 		};
 
 		linux,cma {
 			compatible = "shared-dma-pool";
 			reusable;
-			size = <0x0 0x10000000>;
+			size = <0x0 0x08000000>;
 			alignment = <0x0 0x1000>;
-			alloc-ranges = <0x0 0x85500000 0x1 0xda000000>;
+			alloc-ranges = <0x0 0x40000000 0x2 0x0>;
 			linux,cma-default;
 		};
 	};
@@ -281,8 +289,13 @@
 	gpio-line-names =
 		"", "", "", "",
 		"", "", "", "",
+		"", "", "UART4_TX", "UART4_RX",
+		"UART5_TX", "UART5_RX", "", "",
 		"", "", "", "",
-		"UART5_TX", "UART5_RX", "UART4_TX", "UART4_RX";
+		"", "", "", "",
+		"", "", "", "",
+		"JTAGM_TDI", "JTAGM_TRST", "JTAGM_TMS", "JTAGM_TCK",
+		"JTAGM_TDO", "", "", "";
 
 	uart4_pins: uart4-grp {
 		uart4_tx-pins {
@@ -633,8 +646,8 @@
 	clocks = <&fpga_4mhz_clk>, <&fpga_4mhz_clk>;
 	clock-frequency = <4000000>;
 	current-speed = <115200>;
-	/* pinctrl-names = "default"; */
-	/* pinctrl-0 = <&uart5_pins>; */
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart5_pins>;
 };
 
 &husb0 {
@@ -643,8 +656,9 @@
 
 &pcie_ep0 {
 	memory-region = <&pcie0_media_mem_uncache>,
-	<&pcie0_user_mem_uncache>,
-	<&pcie0_mmbi_buffer_uncache>;
+			<&pcie0_user_mem_uncache>,
+			<&pcie0_mmbi_buffer_uncache>,
+			<&pcie0_hdma_mem_uncache>;
 	status = "okay";
 };
 
@@ -739,7 +753,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&espi0_pins>;
 
-	status = "okay";
+	status = "disabled";
 };
 
 &gmac2 {
@@ -911,21 +925,5 @@
 };
 
 &wdt0 {
-	status = "disabled";
-};
-
-&wdt1 {
-	status = "disabled";
-};
-
-&wdt2 {
-	status = "disabled";
-};
-
-&wdt3 {
-	status = "disabled";
-};
-
-&wdt_ext {
 	status = "disabled";
 };

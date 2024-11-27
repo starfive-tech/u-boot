@@ -101,6 +101,14 @@
 	bootph-pre-ram;
 };
 
+&pll4 {
+	bootph-pre-ram;
+};
+
+&pll5 {
+	bootph-pre-ram;
+};
+
 &pll6 {
 	bootph-pre-ram;
 };

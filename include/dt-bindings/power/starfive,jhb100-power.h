@@ -18,6 +18,5 @@
 #define PD_HOSTSS_i0	7
 #define PD_HOSTSS_i1	8
 #define PD_UFS		9
-#define PD_NPU		10
 
 #endif /* __DT_BINDINGS_POWER_STARFIVE_JHB100_H__ */

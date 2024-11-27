@@ -28,7 +28,7 @@
 	pll2: pll2 {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <921600000>;
+		clock-frequency = <903168000>;
 	};
 
 	pll3: pll3 {
@@ -40,13 +40,13 @@
 	pll4: pll4 {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <193250000>;
+		clock-frequency = <100700000>;
 	};
 
 	pll5: pll5 {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <193250000>;
+		clock-frequency = <100700000>;
 	};
 
 	pll6: pll6 {
@@ -58,7 +58,7 @@
 	pll7: pll7 {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <650000000>;
+		clock-frequency = <1950000000>;
 	};
 
 	per2_gmac2_rgmii_rx: per2_gmac2_rgmii_rx {

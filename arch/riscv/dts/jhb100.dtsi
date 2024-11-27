@@ -1138,6 +1138,17 @@
 				reg = <0x0 0x11045000 0x0 0x1000>;
 			};
 
+			pinctrl_vga_vdac: vga_vdac@11136100 {
+				compatible = "starfive,jhb100-pinctrl-vga-vdac";
+				reg = <0x0 0x11136100 0x0 0x100>;
+				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA_IOMUX>;
+				interrupts = <236>;
+				interrupt-controller;
+				gpio-controller;
+				#gpio-cells = <2>;
+				gpio-ranges = <&pinctrl_vga_vdac 0 0 4>;
+			};
+
 			pvt_vce: pvt@11180000 {
 				compatible = "moortec,mr75203";
 				reg = <0x0 0x11180000 0x0 0x80>,
@@ -1590,7 +1601,6 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph0 0 0 60>;
-				status = "disabled";
 			};
 
 			timer0: timer@11a10000 {
@@ -2174,19 +2184,20 @@
 				compatible = "starfive,jhb100-ufs", "jedec,ufs-3.1";
 				reg = <0x0 0x11b10000 0x0 0x10000>;
 				interrupts = <104>, <105>;
-				interrupts-name = "ufs", "err";
+				interrupts-names = "ufs", "err";
 				clocks = <&per1crg JHB100_PER1CLK_UFS_REF>,
 					 <&per1crg JHB100_PER1CLK_UFS_150>,
 					 <&per1crg JHB100_PER1CLK_UFS_300>,
 					 <&per1crg JHB100_PER1CLK_UFS_400>;
-				clock-name = "ref_clk", "clk_150", "clk_300", "clk_400";
+				clock-names = "ref_clk", "clk_150", "clk_300", "clk_400";
 				freq-table-hz = <26000000 26000000>,
 						<150000000 150000000>,
 						<300000000 300000000>,
 						<400000000 400000000>;
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_UFS>,
 					 <&per1crg JHB100_PER1RST_MAIN_RSTN_UFS_PHY>;
-				reset-name = "main", "phy";
+				reset-names = "main", "phy";
+				hwlocks = <&hwspinlock 0>;
 				status = "disabled";
 			};
 
@@ -2204,7 +2215,16 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph1 0 0 36>;
-				status = "disabled";
+			};
+
+			pinctrl_emmc: emmc@11b42800 {
+				compatible = "starfive,jhb100-pinctrl-emmc";
+				reg = <0x0 0x11b42800 0x0 0x800>;
+				interrupts = <119>;
+				interrupt-controller;
+				gpio-controller;
+				#gpio-cells = <2>;
+				gpio-ranges = <&pinctrl_emmc 0 0 12>;
 			};
 
 			pinctrl_bmcperiph2: pinctrl@11bc2000 {
@@ -2216,7 +2236,6 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph2 0 0 31>;
-				status = "disabled";
 			};
 
 			pinctrl_bmcperiph2_pok: pinctrl@11bc2400 {
@@ -2228,6 +2247,29 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph2_pok 0 0 18>;
+			};
+
+			pinctrl_adc0: pinctrl@11bc2800 {
+				compatible = "starfive,jhb100-pinctrl-adc0";
+				reg = <0x0 0x11bc2800 0x0 0x400>;
+				resets = <&per2crg JHB100_PER2RST_ADC0_IOMUX_PRESETN>;
+				interrupts = <147>;
+				interrupt-controller;
+				gpio-controller;
+				#gpio-cells = <2>;
+				gpio-ranges = <&pinctrl_adc0 0 0 8>;
+				status = "disabled";
+			};
+
+			pinctrl_adc1: pinctrl@11bc2c00 {
+				compatible = "starfive,jhb100-pinctrl-adc1";
+				reg = <0x0 0x11bc2c00 0x0 0x400>;
+				resets = <&per2crg JHB100_PER2RST_ADC1_IOMUX_PRESETN>;
+				interrupts = <148>;
+				interrupt-controller;
+				gpio-controller;
+				#gpio-cells = <2>;
+				gpio-ranges = <&pinctrl_adc1 0 0 8>;
 				status = "disabled";
 			};
 
@@ -2302,7 +2344,6 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph3 0 0 11>;
-				status = "disabled";
 			};
 
 			peci0: peci-controller@11c60000 {
@@ -2357,7 +2398,6 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_sys0 0 0 4>;
-				status = "disabled";
 			};
 
 			pinctrl_sys0h: pinctrl@13080800 {
@@ -2369,7 +2409,6 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_sys0h 0 0 12>;
-				status = "disabled";
 			};
 
 			pinctrl_sys1: pinctrl@13081000 {
@@ -2381,7 +2420,6 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_sys1 0 0 8>;
-				status = "disabled";
 			};
 
 			pinctrl_sys2: pinctrl@13082000 {
@@ -2392,7 +2430,6 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_sys2 0 0 37>;
-				status = "disabled";
 			};
 
 			jtag0: jtag-master@130c0000 {
@@ -2499,16 +2536,9 @@
 
 			l3_pmu: pmu@13216000 {
 				compatible = "starfive,jhb100-starlink-pmu", "starfive,jh8100-starlink-pmu";
-				reg = <0x0 0x13216000 0x0 0x10000>;
+				reg = <0x0 0x13216000 0x0 0x1000>;
 				interrupts = <11>, <10>, <12>;
 				interrupt-names = "pmu", "llc_irq", "ecc_irq";
-			};
-
-			ddrc_edac: ddr_controller_edac@16100000 {
-				compatible = "starfive,jhb100-ddrc";
-				reg = <0x0 0x16100000 0x0 0x100000>;
-				interrupts = <70>;
-				status = "disabled";
 			};
 
 			intc: interrupt-controller@13220000 {
@@ -2517,6 +2547,13 @@
 				interrupts = <1>;
 				interrupt-controller;
 				#interrupt-cells = <1>;
+			};
+
+			ddrc_edac: ddr_controller_edac@16100000 {
+				compatible = "starfive,jhb100-ddrc";
+				reg = <0x0 0x16100000 0x0 0x100000>;
+				interrupts = <70>;
+				status = "disabled";
 			};
 
 			sfc1: spi@17f00000  {
