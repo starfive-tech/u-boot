@@ -277,6 +277,10 @@
 	bootph-pre-ram;
 };
 
+&pinctrl_bmcperiph2_pok {
+	bootph-pre-ram;
+};
+
 &pinctrl_bmcperiph3 {
 	bootph-pre-ram;
 };
