@@ -13,24 +13,24 @@
 #include "pinctrl-starfive-jhb100.h"
 
 #define JHB100_BMCPERIPH2_NGPIO			31
-#define JHB100_BMCPERIPH2_PADCFG_BASE		0x0
+#define JHB100_BMCPERIPH2_PADCFG_BASE		0x04
 
 #define JHB100_BMCPERIPH2_VSELCFG_PIN_START	19
 #define JHB100_BMCPERIPH2_VSELCFG_PIN_END	30
 
 /* registers */
-#define JHB100_BMCPERIPH2_GPIO_O_SEL		0x07c
-#define JHB100_BMCPERIPH2_GPIO_OEN_SEL		0x080
-#define JHB100_BMCPERIPH2_GPIOIN		0x084
-#define JHB100_BMCPERIPH2_FUNC_SEL		0x088
+#define JHB100_BMCPERIPH2_GPIO_O_SEL		0x080
+#define JHB100_BMCPERIPH2_GPIO_OEN_SEL		0x084
+#define JHB100_BMCPERIPH2_GPIOIN		0x088
+#define JHB100_BMCPERIPH2_FUNC_SEL		0x08c
 
-#define JHB100_BMCPERIPH2_GPIOEN0		0x090
-#define JHB100_BMCPERIPH2_GPIOIS0		0x094
-#define JHB100_BMCPERIPH2_GPIOIC0		0x098
-#define JHB100_BMCPERIPH2_GPIOIE0		0x09c
-#define JHB100_BMCPERIPH2_GPIOIHL0		0x0a0
-#define JHB100_BMCPERIPH2_GPIOIBE0		0x0a4
-#define JHB100_BMCPERIPH2_GPIOIEV0		0x0a8
+#define JHB100_BMCPERIPH2_GPIOEN0		0x094
+#define JHB100_BMCPERIPH2_GPIOIS0		0x098
+#define JHB100_BMCPERIPH2_GPIOIC0		0x09c
+#define JHB100_BMCPERIPH2_GPIOIE0		0x0a0
+#define JHB100_BMCPERIPH2_GPIOIHL0		0x0a4
+#define JHB100_BMCPERIPH2_GPIOIBE0		0x0a8
+#define JHB100_BMCPERIPH2_GPIOIEV0		0x0ac
 
 static const struct starfive_pinctrl_pin jhb100_bmcperiph2_pins[] = {
 	STARFIVE_PINCTRL(0,	"BMCPERIPH2_GPIO0"),
@@ -68,37 +68,37 @@ static const struct starfive_pinctrl_pin jhb100_bmcperiph2_pins[] = {
 
 static const struct jhb100_gpio_func_sel
 	jhb100_bmcperiph2_func_sel[ARRAY_SIZE(jhb100_bmcperiph2_pins)] = {
-	[0]	= { 0x088,	0,	3 },
-	[1]	= { 0x088,	2,	3 },
-	[2]	= { 0x088,	4,	3 },
-	[3]	= { 0x088,	6,	3 },
-	[4]	= { 0x088,	8,	3 },
-	[5]	= { 0x088,	10,	3 },
-	[6]	= { 0x088,	12,	3 },
-	[7]	= { 0x088,	14,	3 },
-	[8]	= { 0x088,	16,	3 },
-	[9]	= { 0x088,	18,	3 },
-	[10]	= { 0x088,	20,	3 },
-	[11]	= { 0x088,	22,	3 },
-	[12]	= { 0x088,	24,	3 },
-	[13]	= { 0x088,	26,	3 },
-	[14]	= { 0x088,	28,	3 },
-	[15]	= { 0x088,	30,	3 },
-	[16]	= { 0x08c,	0,	1 },
-	[17]	= { 0x08c,	2,	1 },
-	[18]	= { 0x08c,	4,	1 },
-	[19]	= { 0x08c,	6,	2 },
-	[20]	= { 0x08c,	8,	1 },
-	[21]	= { 0x08c,	10,	1 },
-	[22]	= { 0x08c,	12,	1 },
-	[23]	= { 0x08c,	14,	2 },
-	[24]	= { 0x08c,	16,	2 },
-	[25]	= { 0x08c,	18,	1 },
-	[26]	= { 0x08c,	20,	1 },
-	[27]	= { 0x08c,	22,	1 },
-	[28]	= { 0x08c,	24,	1 },
-	[29]	= { 0x08c,	26,	1 },
-	[30]	= { 0x08c,	28,	1 },
+	[0]	= { 0x08c,	0,	3 },
+	[1]	= { 0x08c,	2,	3 },
+	[2]	= { 0x08c,	4,	3 },
+	[3]	= { 0x08c,	6,	3 },
+	[4]	= { 0x08c,	8,	3 },
+	[5]	= { 0x08c,	10,	3 },
+	[6]	= { 0x08c,	12,	3 },
+	[7]	= { 0x08c,	14,	3 },
+	[8]	= { 0x08c,	16,	3 },
+	[9]	= { 0x08c,	18,	3 },
+	[10]	= { 0x08c,	20,	3 },
+	[11]	= { 0x08c,	22,	3 },
+	[12]	= { 0x08c,	24,	3 },
+	[13]	= { 0x08c,	26,	3 },
+	[14]	= { 0x08c,	28,	3 },
+	[15]	= { 0x08c,	30,	3 },
+	[16]	= { 0x090,	0,	1 },
+	[17]	= { 0x090,	2,	1 },
+	[18]	= { 0x090,	4,	1 },
+	[19]	= { 0x090,	6,	2 },
+	[20]	= { 0x090,	8,	2 },
+	[21]	= { 0x090,	10,	2 },
+	[22]	= { 0x090,	12,	2 },
+	[23]	= { 0x090,	14,	1 },
+	[24]	= { 0x090,	16,	1 },
+	[25]	= { 0x090,	18,	2 },
+	[26]	= { 0x090,	20,	2 },
+	[27]	= { 0x090,	22,	2 },
+	[28]	= { 0x090,	24,	2 },
+	[29]	= { 0x090,	26,	1 },
+	[30]	= { 0x090,	28,	1 },
 };
 
 static void jhb100_bmcperiph2_init_hw(struct udevice *dev)

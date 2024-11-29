@@ -13,24 +13,24 @@
 #include "pinctrl-starfive-jhb100.h"
 
 #define JHB100_BMCPERIPH3_NGPIO			11
-#define JHB100_BMCPERIPH3_PADCFG_BASE		0x00
+#define JHB100_BMCPERIPH3_PADCFG_BASE		0x04
 
 #define JHB100_BMCPERIPH3_VSELCFG_PIN_START	2
 #define JHB100_BMCPERIPH3_VSELCFG_PIN_END	10
 
 /* registers */
-#define JHB100_BMCPERIPH3_GPIO_O_SEL	0x02c
-#define JHB100_BMCPERIPH3_GPIO_OEN_SEL	0x030
-#define JHB100_BMCPERIPH3_GPIOIN	0x034
-#define JHB100_BMCPERIPH3_FUNC_SEL	0x038
+#define JHB100_BMCPERIPH3_GPIO_O_SEL	0x030
+#define JHB100_BMCPERIPH3_GPIO_OEN_SEL	0x034
+#define JHB100_BMCPERIPH3_GPIOIN	0x038
+#define JHB100_BMCPERIPH3_FUNC_SEL	0x03c
 
-#define JHB100_BMCPERIPH3_GPIOEN0	0x03c
-#define JHB100_BMCPERIPH3_GPIOIS0	0x040
-#define JHB100_BMCPERIPH3_GPIOIC0	0x044
-#define JHB100_BMCPERIPH3_GPIOIE0	0x048
-#define JHB100_BMCPERIPH3_GPIOIHL0	0x040
-#define JHB100_BMCPERIPH3_GPIOIBE0	0x050
-#define JHB100_BMCPERIPH3_GPIOIEV0	0x054
+#define JHB100_BMCPERIPH3_GPIOEN0	0x040
+#define JHB100_BMCPERIPH3_GPIOIS0	0x044
+#define JHB100_BMCPERIPH3_GPIOIC0	0x048
+#define JHB100_BMCPERIPH3_GPIOIE0	0x04c
+#define JHB100_BMCPERIPH3_GPIOIHL0	0x050
+#define JHB100_BMCPERIPH3_GPIOIBE0	0x054
+#define JHB100_BMCPERIPH3_GPIOIEV0	0x058
 
 static const struct starfive_pinctrl_pin jhb100_bmcperiph3_pins[] = {
 	STARFIVE_PINCTRL(0,	"BMCPERIPH3_GPIO0"),
@@ -50,19 +50,17 @@ static const struct starfive_pinctrl_pin jhb100_bmcperiph3_pins[] = {
 
 static const struct jhb100_gpio_func_sel
 	jhb100_bmcperiph3_func_sel[ARRAY_SIZE(jhb100_bmcperiph3_pins)] = {
-	[0]	= { 0x038,	0,	1 },
-	[1]	= { 0x038,	2,	1 },
-	[2]	= { 0x038,	4,	1 },
-	[3]	= { 0x038,	6,	1 },
-	[4]	= { 0x038,	8,	1 },
-	[5]	= { 0x038,	10,	1 },
-	[6]	= { 0x038,	12,	1 },
-	[7]	= { 0x038,	14,	1 },
-	[8]	= { 0x038,	16,	1 },
-	[9]	= { 0x038,	18,	1 },
-	[10]	= { 0x038,	20,	1 },
-	[11]	= { 0x038,	22,	0 },
-	[12]	= { 0x038,	24,	0 },
+	[0]	= { 0x03c,	0,	1 },
+	[1]	= { 0x03c,	2,	1 },
+	[2]	= { 0x03c,	4,	1 },
+	[3]	= { 0x03c,	6,	1 },
+	[4]	= { 0x03c,	8,	1 },
+	[5]	= { 0x03c,	10,	1 },
+	[6]	= { 0x03c,	12,	1 },
+	[7]	= { 0x03c,	14,	1 },
+	[8]	= { 0x03c,	16,	1 },
+	[9]	= { 0x03c,	18,	1 },
+	[10]	= { 0x03c,	20,	1 },
 };
 
 static void jhb100_bmcperiph3_init_hw(struct udevice *dev)

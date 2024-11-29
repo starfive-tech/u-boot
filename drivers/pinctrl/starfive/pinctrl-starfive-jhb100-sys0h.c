@@ -13,23 +13,23 @@
 #include "pinctrl-starfive-jhb100.h"
 
 #define JHB100_SYSTOP_SYS0H_NGPIO		12
-#define JHB100_SYSTOP_SYS0H_PADCFG_BASE		0x0
+#define JHB100_SYSTOP_SYS0H_PADCFG_BASE		0x04
 
 #define JHB100_SYSTOP_SYS0H_ESPI0_PIN		7
 
 /* registers */
-#define JHB100_SYSTOP_SYS0H_GPIO_O_SEL		0x030
-#define JHB100_SYSTOP_SYS0H_GPIO_OEN_SEL	0x034
-#define JHB100_SYSTOP_SYS0H_GPIOIN		0x038
-#define JHB100_SYSTOP_SYS0H_FUNC_SEL		0x03c
+#define JHB100_SYSTOP_SYS0H_GPIO_O_SEL		0x034
+#define JHB100_SYSTOP_SYS0H_GPIO_OEN_SEL	0x038
+#define JHB100_SYSTOP_SYS0H_GPIOIN		0x03c
+#define JHB100_SYSTOP_SYS0H_FUNC_SEL		0x040
 
-#define JHB100_SYSTOP_SYS0H_GPIOEN0		0x040
-#define JHB100_SYSTOP_SYS0H_GPIOIS0		0x044
-#define JHB100_SYSTOP_SYS0H_GPIOIC0		0x048
-#define JHB100_SYSTOP_SYS0H_GPIOIE0		0x04c
-#define JHB100_SYSTOP_SYS0H_GPIOIHL0		0x050
-#define JHB100_SYSTOP_SYS0H_GPIOIBE0		0x054
-#define JHB100_SYSTOP_SYS0H_GPIOIEV0		0x058
+#define JHB100_SYSTOP_SYS0H_GPIOEN0		0x044
+#define JHB100_SYSTOP_SYS0H_GPIOIS0		0x048
+#define JHB100_SYSTOP_SYS0H_GPIOIC0		0x04c
+#define JHB100_SYSTOP_SYS0H_GPIOIE0		0x050
+#define JHB100_SYSTOP_SYS0H_GPIOIHL0		0x054
+#define JHB100_SYSTOP_SYS0H_GPIOIBE0		0x058
+#define JHB100_SYSTOP_SYS0H_GPIOIEV0		0x05c
 
 static const struct starfive_pinctrl_pin jhb100_systop_sys0h_pins[] = {
 	STARFIVE_PINCTRL(0,	"SYSTOP_SYS0H_GPIO0"),
@@ -48,18 +48,18 @@ static const struct starfive_pinctrl_pin jhb100_systop_sys0h_pins[] = {
 
 static const struct jhb100_gpio_func_sel
 	jhb100_systop_sys0h_func_sel[ARRAY_SIZE(jhb100_systop_sys0h_pins)] = {
-	[0]	= { 0x3c,	0,	1 },
-	[1]	= { 0x3c,	2,	1 },
-	[2]	= { 0x3c,	4,	1 },
-	[3]	= { 0x3c,	6,	1 },
-	[4]	= { 0x3c,	8,	1 },
-	[5]	= { 0x3c,	10,	1 },
-	[6]	= { 0x3c,	12,	1 },
-	[7]	= { 0x3c,	14,	1 },
-	[8]	= { 0x3c,	16,	3 },
-	[9]	= { 0x3c,	18,	3 },
-	[10]	= { 0x3c,	20,	2 },
-	[11]	= { 0x3c,	22,	2 },
+	[0]	= { 0x40,	0,	1 },
+	[1]	= { 0x40,	2,	1 },
+	[2]	= { 0x40,	4,	1 },
+	[3]	= { 0x40,	6,	1 },
+	[4]	= { 0x40,	8,	1 },
+	[5]	= { 0x40,	10,	1 },
+	[6]	= { 0x40,	12,	1 },
+	[7]	= { 0x40,	14,	1 },
+	[8]	= { 0x40,	16,	3 },
+	[9]	= { 0x40,	18,	3 },
+	[10]	= { 0x40,	20,	2 },
+	[11]	= { 0x40,	22,	2 },
 };
 
 static void jhb100_systop_sys0h_init_hw(struct udevice *dev)

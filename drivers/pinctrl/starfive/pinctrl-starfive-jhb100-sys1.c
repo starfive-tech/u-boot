@@ -13,23 +13,23 @@
 #include "pinctrl-starfive-jhb100.h"
 
 #define JHB100_SYSTOP_SYS1_NGPIO		8
-#define JHB100_SYSTOP_SYS1_PADCFG_BASE		0x0
+#define JHB100_SYSTOP_SYS1_PADCFG_BASE		0x04
 
 #define JHB100_SYSTOP_SYS1_ESPI1_PIN		7
 
 /* registers */
-#define JHB100_SYSTOP_SYS1_GPIO_O_SEL		0x020
-#define JHB100_SYSTOP_SYS1_GPIO_OEN_SEL		0x024
-#define JHB100_SYSTOP_SYS1_GPIOIN		0x028
-#define JHB100_SYSTOP_SYS1_FUNC_SEL		0x02c
+#define JHB100_SYSTOP_SYS1_GPIO_O_SEL		0x024
+#define JHB100_SYSTOP_SYS1_GPIO_OEN_SEL		0x028
+#define JHB100_SYSTOP_SYS1_GPIOIN		0x02c
+#define JHB100_SYSTOP_SYS1_FUNC_SEL		0x030
 
-#define JHB100_SYSTOP_SYS1_GPIOEN0		0x030
-#define JHB100_SYSTOP_SYS1_GPIOIS0		0x034
-#define JHB100_SYSTOP_SYS1_GPIOIC0		0x038
-#define JHB100_SYSTOP_SYS1_GPIOIE0		0x03c
-#define JHB100_SYSTOP_SYS1_GPIOIHL0		0x040
-#define JHB100_SYSTOP_SYS1_GPIOIBE0		0x044
-#define JHB100_SYSTOP_SYS1_GPIOIEV0		0x048
+#define JHB100_SYSTOP_SYS1_GPIOEN0		0x034
+#define JHB100_SYSTOP_SYS1_GPIOIS0		0x038
+#define JHB100_SYSTOP_SYS1_GPIOIC0		0x03c
+#define JHB100_SYSTOP_SYS1_GPIOIE0		0x040
+#define JHB100_SYSTOP_SYS1_GPIOIHL0		0x044
+#define JHB100_SYSTOP_SYS1_GPIOIBE0		0x048
+#define JHB100_SYSTOP_SYS1_GPIOIEV0		0x04c
 
 static const struct starfive_pinctrl_pin jhb100_systop_sys1_pins[] = {
 	STARFIVE_PINCTRL(0,	"SYSTOP_SYS1_GPIO0"),
@@ -44,14 +44,14 @@ static const struct starfive_pinctrl_pin jhb100_systop_sys1_pins[] = {
 
 static const struct jhb100_gpio_func_sel
 	jhb100_systop_sys1_func_sel[ARRAY_SIZE(jhb100_systop_sys1_pins)] = {
-	[0]	= { 0x2c,	0,	3 },
-	[1]	= { 0x2c,	2,	3 },
-	[2]	= { 0x2c,	4,	3 },
-	[3]	= { 0x2c,	6,	3 },
-	[4]	= { 0x2c,	8,	3 },
-	[5]	= { 0x2c,	10,	3 },
-	[6]	= { 0x2c,	12,	3 },
-	[7]	= { 0x2c,	14,	3 },
+	[0]	= { 0x30,	0,	3 },
+	[1]	= { 0x30,	2,	3 },
+	[2]	= { 0x30,	4,	3 },
+	[3]	= { 0x30,	6,	3 },
+	[4]	= { 0x30,	8,	3 },
+	[5]	= { 0x30,	10,	3 },
+	[6]	= { 0x30,	12,	3 },
+	[7]	= { 0x30,	14,	3 },
 };
 
 static void jhb100_systop_sys1_init_hw(struct udevice *dev)

@@ -9,6 +9,7 @@ obj-$(CONFIG_$(SPL_TPL_)PINCTRL_STARFIVE_JH7110) += pinctrl-starfive-jh7110-aon.
 obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-bmcperiph0.o
 obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-bmcperiph1.o
 obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-bmcperiph2.o
+obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-bmcperiph2-pok.o
 obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-bmcperiph3.o
 obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-sys0.o
 obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-sys0h.o

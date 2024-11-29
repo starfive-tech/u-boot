@@ -13,28 +13,28 @@
 #include "pinctrl-starfive-jhb100.h"
 
 #define JHB100_BMCPERIPH1_NGPIO			36
-#define JHB100_BMCPERIPH1_PADCFG_BASE		0x0
+#define JHB100_BMCPERIPH1_PADCFG_BASE		0x14
 
 /* registers */
-#define JHB100_BMCPERIPH1_GPIO_O_SEL		0x090
-#define JHB100_BMCPERIPH1_GPIO_OEN_SEL		0x098
-#define JHB100_BMCPERIPH1_GPIOIN		0x0a0
-#define JHB100_BMCPERIPH1_FUNC_SEL		0x0a8
+#define JHB100_BMCPERIPH1_GPIO_O_SEL		0x0a4
+#define JHB100_BMCPERIPH1_GPIO_OEN_SEL		0x0ac
+#define JHB100_BMCPERIPH1_GPIOIN		0x0b4
+#define JHB100_BMCPERIPH1_FUNC_SEL		0x0bc
 
-#define JHB100_BMCPERIPH1_GPIOEN0		0x0b4
-#define JHB100_BMCPERIPH1_GPIOEN1		0x0b8
-#define JHB100_BMCPERIPH1_GPIOIS0		0x0bc
-#define JHB100_BMCPERIPH1_GPIOIS1		0x0c0
-#define JHB100_BMCPERIPH1_GPIOIC0		0x0c4
-#define JHB100_BMCPERIPH1_GPIOIC1		0x0c8
-#define JHB100_BMCPERIPH1_GPIOIE0		0x0cc
-#define JHB100_BMCPERIPH1_GPIOIE1		0x0d0
-#define JHB100_BMCPERIPH1_GPIOIHL0		0x0d4
-#define JHB100_BMCPERIPH1_GPIOIHL1		0x0d8
-#define JHB100_BMCPERIPH1_GPIOIBE0		0x0dc
-#define JHB100_BMCPERIPH1_GPIOIBE1		0x0e0
-#define JHB100_BMCPERIPH1_GPIOIEV0		0x0e4
-#define JHB100_BMCPERIPH1_GPIOIEV1		0x0e8
+#define JHB100_BMCPERIPH1_GPIOEN0		0x0c8
+#define JHB100_BMCPERIPH1_GPIOEN1		0x0cc
+#define JHB100_BMCPERIPH1_GPIOIS0		0x0d0
+#define JHB100_BMCPERIPH1_GPIOIS1		0x0d4
+#define JHB100_BMCPERIPH1_GPIOIC0		0x0d8
+#define JHB100_BMCPERIPH1_GPIOIC1		0x0dc
+#define JHB100_BMCPERIPH1_GPIOIE0		0x0e0
+#define JHB100_BMCPERIPH1_GPIOIE1		0x0e4
+#define JHB100_BMCPERIPH1_GPIOIHL0		0x0e8
+#define JHB100_BMCPERIPH1_GPIOIHL1		0x0ec
+#define JHB100_BMCPERIPH1_GPIOIBE0		0x0f0
+#define JHB100_BMCPERIPH1_GPIOIBE1		0x0f4
+#define JHB100_BMCPERIPH1_GPIOIEV0		0x0f8
+#define JHB100_BMCPERIPH1_GPIOIEV1		0x0fc
 
 static const struct starfive_pinctrl_pin jhb100_bmcperiph1_pins[] = {
 	STARFIVE_PINCTRL(0,	"BMCPERIPH1_GPIO0"),
@@ -42,13 +42,13 @@ static const struct starfive_pinctrl_pin jhb100_bmcperiph1_pins[] = {
 	STARFIVE_PINCTRL(2,	"BMCPERIPH1_GPIO2"),
 	STARFIVE_PINCTRL(3,	"BMCPERIPH1_GPIO3"),
 	STARFIVE_PINCTRL(4,	"BMCPERIPH1_GPIO4"),
-	STARFIVE_PINCTRL(5,	"BMCPERIPH1_SFC0_SS0"),
-	STARFIVE_PINCTRL(6,	"BMCPERIPH1_SFC0_SS1"),
-	STARFIVE_PINCTRL(7,	"BMCPERIPH1_SFC0_SCLK_OUT"),
-	STARFIVE_PINCTRL(8,	"BMCPERIPH1_SFC0_MOSI0"),
-	STARFIVE_PINCTRL(9,	"BMCPERIPH1_SFC0_MISO0"),
-	STARFIVE_PINCTRL(10,	"BMCPERIPH1_SFC0_MOSI1"),
-	STARFIVE_PINCTRL(11,	"BMCPERIPH1_SFC0_MISO1"),
+	STARFIVE_PINCTRL(5,	"BMCPERIPH1_GPIO5"),
+	STARFIVE_PINCTRL(6,	"BMCPERIPH1_GPIO6"),
+	STARFIVE_PINCTRL(7,	"BMCPERIPH1_GPIO7"),
+	STARFIVE_PINCTRL(8,	"BMCPERIPH1_GPIO8"),
+	STARFIVE_PINCTRL(9,	"BMCPERIPH1_GPIO9"),
+	STARFIVE_PINCTRL(10,	"BMCPERIPH1_GPIO10"),
+	STARFIVE_PINCTRL(11,	"BMCPERIPH1_GPIO11"),
 	STARFIVE_PINCTRL(12,	"BMCPERIPH1_GPIO12"),
 	STARFIVE_PINCTRL(13,	"BMCPERIPH1_GPIO13"),
 	STARFIVE_PINCTRL(14,	"BMCPERIPH1_GPIO14"),
@@ -77,42 +77,42 @@ static const struct starfive_pinctrl_pin jhb100_bmcperiph1_pins[] = {
 
 static const struct jhb100_gpio_func_sel
 	jhb100_bmcperiph1_func_sel[ARRAY_SIZE(jhb100_bmcperiph1_pins)] = {
-	[0]	= { 0x0a8,	0,	1 },
-	[1]	= { 0x0a8,	2,	1 },
-	[2]	= { 0x0a8,	4,	1 },
-	[3]	= { 0x0a8,	6,	1 },
-	[4]	= { 0x0a8,	8,	1 },
-	[5]	= { 0x0a8,	10,	1 },
-	[6]	= { 0x0a8,	12,	1 },
-	[7]	= { 0x0a8,	14,	1 },
-	[8]	= { 0x0a8,	16,	1 },
-	[9]	= { 0x0a8,	18,	1 },
-	[10]	= { 0x0a8,	20,	1 },
-	[11]	= { 0x0a8,	22,	1 },
-	[12]	= { 0x0a8,	24,	1 },
-	[13]	= { 0x0a8,	26,	1 },
-	[14]	= { 0x0a8,	28,	1 },
-	[15]	= { 0x0a8,	30,	1 },
-	[16]	= { 0x0ac,	0,	1 },
-	[17]	= { 0x0ac,	2,	1 },
-	[18]	= { 0x0ac,	4,	1 },
-	[19]	= { 0x0ac,	6,	1 },
-	[20]	= { 0x0ac,	8,	1 },
-	[21]	= { 0x0ac,	10,	1 },
-	[22]	= { 0x0ac,	12,	1 },
-	[23]	= { 0x0ac,	14,	1 },
-	[24]	= { 0x0ac,	16,	1 },
-	[25]	= { 0x0ac,	18,	1 },
-	[26]	= { 0x0ac,	20,	1 },
-	[27]	= { 0x0ac,	22,	1 },
-	[28]	= { 0x0ac,	24,	1 },
-	[29]	= { 0x0ac,	26,	1 },
-	[30]	= { 0x0ac,	28,	1 },
-	[31]	= { 0x0ac,	30,	1 },
-	[32]	= { 0x0b0,	0,	2 },
-	[33]	= { 0x0b0,	2,	2 },
-	[34]	= { 0x0b0,	4,	2 },
-	[35]	= { 0x0b0,	6,	2 },
+	[0]	= { 0x0bc,	0,	2 },
+	[1]	= { 0x0bc,	2,	2 },
+	[2]	= { 0x0bc,	4,	1 },
+	[3]	= { 0x0bc,	6,	1 },
+	[4]	= { 0x0bc,	8,	1 },
+	[5]	= { 0x0bc,	10,	1 },
+	[6]	= { 0x0bc,	12,	1 },
+	[7]	= { 0x0bc,	14,	1 },
+	[8]	= { 0x0bc,	16,	1 },
+	[9]	= { 0x0bc,	18,	1 },
+	[10]	= { 0x0bc,	20,	1 },
+	[11]	= { 0x0bc,	22,	1 },
+	[12]	= { 0x0bc,	24,	1 },
+	[13]	= { 0x0bc,	26,	1 },
+	[14]	= { 0x0bc,	28,	1 },
+	[15]	= { 0x0bc,	30,	1 },
+	[16]	= { 0x0c0,	0,	1 },
+	[17]	= { 0x0c0,	2,	1 },
+	[18]	= { 0x0c0,	4,	1 },
+	[19]	= { 0x0c0,	6,	1 },
+	[20]	= { 0x0c0,	8,	1 },
+	[21]	= { 0x0c0,	10,	1 },
+	[22]	= { 0x0c0,	12,	1 },
+	[23]	= { 0x0c0,	14,	1 },
+	[24]	= { 0x0c0,	16,	1 },
+	[25]	= { 0x0c0,	18,	1 },
+	[26]	= { 0x0c0,	20,	1 },
+	[27]	= { 0x0c0,	22,	1 },
+	[28]	= { 0x0c0,	24,	1 },
+	[29]	= { 0x0c0,	26,	1 },
+	[30]	= { 0x0c0,	28,	1 },
+	[31]	= { 0x0c0,	30,	1 },
+	[32]	= { 0x0c4,	0,	2 },
+	[33]	= { 0x0c4,	2,	2 },
+	[34]	= { 0x0c4,	4,	2 },
+	[35]	= { 0x0c4,	6,	2 },
 };
 
 static void jhb100_bmcperiph1_init_hw(struct udevice *dev)

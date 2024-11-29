@@ -13,28 +13,28 @@
 #include "pinctrl-starfive-jhb100.h"
 
 #define JHB100_SYSTOP_SYS2_NGPIO		37
-#define JHB100_SYSTOP_SYS2_PADCFG_BASE		0x0
+#define JHB100_SYSTOP_SYS2_PADCFG_BASE		0x10
 
 /* registers */
-#define JHB100_SYSTOP_SYS2_GPIO_O_SEL		0x0ac
-#define JHB100_SYSTOP_SYS2_GPIO_OEN_SEL		0x0b4
-#define JHB100_SYSTOP_SYS2_GPIOIN		0x0bc
-#define JHB100_SYSTOP_SYS2_FUNC_SEL		0x0c4
+#define JHB100_SYSTOP_SYS2_GPIO_O_SEL		0x0bc
+#define JHB100_SYSTOP_SYS2_GPIO_OEN_SEL		0x0c4
+#define JHB100_SYSTOP_SYS2_GPIOIN		0x0cc
+#define JHB100_SYSTOP_SYS2_FUNC_SEL		0x0d4
 
-#define JHB100_SYSTOP_SYS2_GPIOEN0		0x0d0
-#define JHB100_SYSTOP_SYS2_GPIOEN1		0x0d4
-#define JHB100_SYSTOP_SYS2_GPIOIS0		0x0d8
-#define JHB100_SYSTOP_SYS2_GPIOIS1		0x0dc
-#define JHB100_SYSTOP_SYS2_GPIOIC0		0x0e0
-#define JHB100_SYSTOP_SYS2_GPIOIC1		0x0e4
-#define JHB100_SYSTOP_SYS2_GPIOIE0		0x0e8
-#define JHB100_SYSTOP_SYS2_GPIOIE1		0x0ec
-#define JHB100_SYSTOP_SYS2_GPIOIHL0		0x0f0
-#define JHB100_SYSTOP_SYS2_GPIOIHL1		0x0f4
-#define JHB100_SYSTOP_SYS2_GPIOIBE0		0x0f8
-#define JHB100_SYSTOP_SYS2_GPIOIBE1		0x0fc
-#define JHB100_SYSTOP_SYS2_GPIOIEV0		0x100
-#define JHB100_SYSTOP_SYS2_GPIOIEV1		0x104
+#define JHB100_SYSTOP_SYS2_GPIOEN0		0x0e0
+#define JHB100_SYSTOP_SYS2_GPIOEN1		0x0e4
+#define JHB100_SYSTOP_SYS2_GPIOIS0		0x0e8
+#define JHB100_SYSTOP_SYS2_GPIOIS1		0x0ec
+#define JHB100_SYSTOP_SYS2_GPIOIC0		0x0f0
+#define JHB100_SYSTOP_SYS2_GPIOIC1		0x0f4
+#define JHB100_SYSTOP_SYS2_GPIOIE0		0x0f8
+#define JHB100_SYSTOP_SYS2_GPIOIE1		0x0fc
+#define JHB100_SYSTOP_SYS2_GPIOIHL0		0x100
+#define JHB100_SYSTOP_SYS2_GPIOIHL1		0x104
+#define JHB100_SYSTOP_SYS2_GPIOIBE0		0x108
+#define JHB100_SYSTOP_SYS2_GPIOIBE1		0x10c
+#define JHB100_SYSTOP_SYS2_GPIOIEV0		0x110
+#define JHB100_SYSTOP_SYS2_GPIOIEV1		0x114
 
 static const struct starfive_pinctrl_pin jhb100_systop_sys2_pins[] = {
 	STARFIVE_PINCTRL(0,	"SYSTOP_SYS2_GPIO0"),
@@ -78,43 +78,43 @@ static const struct starfive_pinctrl_pin jhb100_systop_sys2_pins[] = {
 
 static const struct jhb100_gpio_func_sel
 	jhb100_systop_sys2_func_sel[ARRAY_SIZE(jhb100_systop_sys2_pins)] = {
-	[0]	= { 0xc4,	0,	1 },
-	[1]	= { 0xc4,	2,	1 },
-	[2]	= { 0xc4,	4,	1 },
-	[3]	= { 0xc4,	6,	1 },
-	[4]	= { 0xc4,	8,	1 },
-	[5]	= { 0xc4,	10,	1 },
-	[6]	= { 0xc4,	12,	1 },
-	[7]	= { 0xc4,	14,	1 },
-	[8]	= { 0xc4,	16,	1 },
-	[9]	= { 0xc4,	18,	1 },
-	[10]	= { 0xc4,	20,	1 },
-	[11]	= { 0xc4,	22,	1 },
-	[12]	= { 0xc4,	24,	3 },
-	[13]	= { 0xc4,	26,	3 },
-	[14]	= { 0xc4,	28,	3 },
-	[15]	= { 0xc4,	30,	3 },
-	[16]	= { 0xc8,	0,	3 },
-	[17]	= { 0xc8,	2,	3 },
-	[18]	= { 0xc8,	4,	2 },
-	[19]	= { 0xc8,	6,	2 },
-	[20]	= { 0xc8,	8,	3 },
-	[21]	= { 0xc8,	10,	3 },
-	[22]	= { 0xc8,	12,	3 },
-	[23]	= { 0xc8,	14,	3 },
-	[24]	= { 0xc8,	16,	3 },
-	[25]	= { 0xc8,	18,	3 },
-	[26]	= { 0xc8,	20,	3 },
-	[27]	= { 0xc8,	22,	3 },
-	[28]	= { 0xc8,	24,	2 },
-	[29]	= { 0xc8,	26,	2 },
-	[30]	= { 0xc8,	28,	2 },
-	[31]	= { 0xc8,	30,	2 },
-	[32]	= { 0xcc,	0,	2 },
-	[33]	= { 0xcc,	2,	1 },
-	[34]	= { 0xcc,	4,	1 },
-	[35]	= { 0xcc,	6,	1 },
-	[36]	= { 0xcc,	8,	1 },
+	[0]	= { 0xd4,	0,	1 },
+	[1]	= { 0xd4,	2,	1 },
+	[2]	= { 0xd4,	4,	1 },
+	[3]	= { 0xd4,	6,	1 },
+	[4]	= { 0xd4,	8,	1 },
+	[5]	= { 0xd4,	10,	1 },
+	[6]	= { 0xd4,	12,	1 },
+	[7]	= { 0xd4,	14,	1 },
+	[8]	= { 0xd4,	16,	1 },
+	[9]	= { 0xd4,	18,	1 },
+	[10]	= { 0xd4,	20,	1 },
+	[11]	= { 0xd4,	22,	1 },
+	[12]	= { 0xd4,	24,	3 },
+	[13]	= { 0xd4,	26,	3 },
+	[14]	= { 0xd4,	28,	3 },
+	[15]	= { 0xd4,	30,	3 },
+	[16]	= { 0xd8,	0,	3 },
+	[17]	= { 0xd8,	2,	3 },
+	[18]	= { 0xd8,	4,	2 },
+	[19]	= { 0xd8,	6,	2 },
+	[20]	= { 0xd8,	8,	3 },
+	[21]	= { 0xd8,	10,	3 },
+	[22]	= { 0xd8,	12,	3 },
+	[23]	= { 0xd8,	14,	3 },
+	[24]	= { 0xd8,	16,	3 },
+	[25]	= { 0xd8,	18,	3 },
+	[26]	= { 0xd8,	20,	3 },
+	[27]	= { 0xd8,	22,	3 },
+	[28]	= { 0xd8,	24,	2 },
+	[29]	= { 0xd8,	26,	2 },
+	[30]	= { 0xd8,	28,	2 },
+	[31]	= { 0xd8,	30,	2 },
+	[32]	= { 0xdc,	0,	2 },
+	[33]	= { 0xdc,	2,	1 },
+	[34]	= { 0xdc,	4,	1 },
+	[35]	= { 0xdc,	6,	1 },
+	[36]	= { 0xdc,	8,	1 },
 };
 
 static void jhb100_systop_sys2_init_hw(struct udevice *dev)
