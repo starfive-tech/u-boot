@@ -102,6 +102,16 @@
 						};
 					};
 
+					fdt-83 {
+						description = "U-Boot proper device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						fdt_83_blob: blob-ext {
+							filename = "arch/riscv/dts/dubhe83_fpga.dtb";
+						};
+					};
+
 					fdt-80 {
 						description = "U-Boot proper device tree binary";
 						type = "flat_dt";
@@ -112,13 +122,23 @@
 						};
 					};
 
+					fdt-70 {
+						description = "U-Boot proper device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						fdt_70_blob: blob-ext {
+							filename = "arch/riscv/dts/dubhe70_fpga.dtb";
+						};
+					};
+
 					fdt-70a {
 						description = "U-Boot proper device tree binary";
 						type = "flat_dt";
 						arch = "riscv";
 						compression = "none";
 						fdt_70a_blob: blob-ext {
-							filename = "arch/riscv/dts/dubhe70a_fpga.dtb";
+							filename = "arch/riscv/dts/dubhe70a_fpga.dtbo";
 						};
 					};
 
@@ -128,7 +148,7 @@
 						arch = "riscv";
 						compression = "none";
 						fdt_70s_blob: blob-ext {
-							filename = "arch/riscv/dts/dubhe70s_fpga.dtb";
+							filename = "arch/riscv/dts/dubhe70s_fpga.dtbo";
 						};
 					};
 				};
@@ -142,6 +162,13 @@
 						fdt = "fdt-90";
 					};
 
+					conf-83 {
+						description = "conf-83";
+						firmware = "opensbi";
+						loadables = "uboot";
+						fdt = "fdt-83";
+					};
+
 					conf-80 {
 						description = "conf-80";
 						firmware = "opensbi";
@@ -153,14 +180,136 @@
 						description = "conf-70a";
 						firmware = "opensbi";
 						loadables = "uboot";
-						fdt = "fdt-70a";
+						fdt = "fdt-70", "fdt-70a";
 					};
 
 					conf-70s {
 						description = "conf-70s";
 						firmware = "opensbi";
 						loadables = "uboot";
-						fdt = "fdt-70s";
+						fdt = "fdt-70", "fdt-70s";
+					};
+				};
+			};
+		};
+
+		kernel_fit {
+			filename = "kernel.itb";
+
+			fit {
+				description = "FIT with Linux kernel image, FDT";
+				#address-cells = <1>;
+				images {
+					kernel {
+						description = "Linux kernel";
+						type = "kernel";
+						arch = "riscv";
+						os = "linux";
+						compression = "none";
+						load = /bits/ 64 <0xa1000000>;
+						entry = /bits/ 64 <0xa1000000>;
+						kernel_blob: blob-ext {
+							filename = "Image";
+						};
+					};
+
+					kernel-fdt-90 {
+						description = "Linux kernel device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						load = /bits/ 64 <0xa0000000>;
+						kernel_fdt_90_blob: blob-ext {
+							filename = "dubhe90_fpga.dtb";
+						};
+					};
+
+					kernel-fdt-83 {
+						description = "Linux kernel device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						load = /bits/ 64 <0xa0000000>;
+						kernel_fdt_83_blob: blob-ext {
+							filename = "dubhe83_fpga.dtb";
+						};
+					};
+
+					kernel-fdt-80 {
+						description = "Linux kernel device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						load = /bits/ 64 <0xa0000000>;
+						kernel_fdt_80_blob: blob-ext {
+							filename = "dubhe80_fpga.dtb";
+						};
+					};
+
+					kernel-fdt-70 {
+						description = "Linux kernel device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						load = /bits/ 64 <0xa0000000>;
+						kernel_fdt_70_blob: blob-ext {
+							filename = "dubhe70_fpga.dtb";
+						};
+					};
+
+					kernel-fdt-70a {
+						description = "Linux kernel device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						load = /bits/ 64 <0xa0010000>;
+						kernel_fdt_70a_blob: blob-ext {
+							filename = "dubhe70a_fpga.dtbo";
+						};
+					};
+
+					kernel-fdt-70s {
+						description = "Linux kernel device tree binary";
+						type = "flat_dt";
+						arch = "riscv";
+						compression = "none";
+						load = /bits/ 64 <0xa0010000>;
+						kernel_fdt_70s_blob: blob-ext {
+							filename = "dubhe70s_fpga.dtbo";
+						};
+					};
+				};
+
+				configurations {
+					default = "dubhe-90";
+					dubhe-90 {
+						description = "Starfive Dubhe-90 FPGA";
+						kernel = "kernel";
+						fdt = "kernel-fdt-90";
+					};
+
+					dubhe-83 {
+						description = "Starfive Dubhe-83 FPGA";
+						kernel = "kernel";
+						fdt = "kernel-fdt-83";
+					};
+
+					dubhe-80 {
+						description = "Starfive Dubhe-80 FPGA";
+						kernel = "kernel";
+						fdt = "kernel-fdt-80";
+					};
+
+					dubhe-70a {
+						description = "Starfive Dubhe-70 AXI FPGA";
+						kernel = "kernel";
+						fdt = "kernel-fdt-70", "kernel-fdt-70a";
+					};
+
+					dubhe-70s {
+						description = "Starfive Dubhe-70 StarLink FPGA";
+						kernel = "kernel";
+						fdt = "kernel-fdt-70", "kernel-fdt-70s";
 					};
 				};
 			};

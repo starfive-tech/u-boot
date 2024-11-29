@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
-/* Copyright (c) 2023 StarFive Technology Co., Ltd. */
+/* Copyright (c) 2024 StarFive Technology Co., Ltd. */
 
-#include "dubhe80.dtsi"
+#include "dubhe83.dtsi"
 #include "dubhe_fpga_common.dtsi"
 
 / {
