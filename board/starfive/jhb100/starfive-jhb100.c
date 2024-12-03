@@ -129,19 +129,19 @@ static int env_get_spi_flash_offs(void)
 	if (!ofnode_valid(sbnode0))
 		return log_msg_ret("Cannot find partition node", -EPERM);
 
-	sbnode1 = ofnode_find_subnode(sbnode0, "partition@0");
+	sbnode1 = ofnode_find_subnode(sbnode0, "partition@6");
 	if (!ofnode_valid(sbnode1))
 		return log_msg_ret("Cannot find kernel primary node", -EPERM);
 
-	env_set("kernel_fit_spi_prim_off", "0x0");
+	env_set("kernel_fit_spi_prim_off", "0x690000");
 	if (!ofnode_read_u32_array(sbnode1, "reg", reg, 2))
 		env_set_hex("kernel_fit_spi_prim_off", (ulong)reg[0]);
 
-	sbnode1 = ofnode_find_subnode(sbnode0, "partition@1");
+	sbnode1 = ofnode_find_subnode(sbnode0, "partition@7");
 	if (!ofnode_valid(sbnode1))
 		return log_msg_ret("Cannot find kernel secondary node", -EPERM);
 
-	env_set("kernel_fit_spi_sec_off", "0xd00000");
+	env_set("kernel_fit_spi_sec_off", "0x1690000");
 	if (!ofnode_read_u32_array(sbnode1, "reg", reg, 2))
 		env_set_hex("kernel_fit_spi_sec_off", (ulong)reg[0]);
 

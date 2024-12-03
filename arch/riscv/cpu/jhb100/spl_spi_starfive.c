@@ -42,6 +42,18 @@ u32 spl_spi_boot_bus(void)
 
 u32 spl_spi_boot_cs(void)
 {
+	int fb_rec_spi = starfive_get_fb_rec_map();
+	int map_stat = starfive_fb_rec_map_handler(&fb_rec_spi,
+				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
+				BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
+				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+				CHECK);
+
+	if (!map_stat) {
+		/* Get to CS 1 for recovery partition */
+		/* TODO: OF_REAL DTB handling */
+		return 1;
+	}
 	return CONFIG_SF_DEFAULT_CS;
 }
 

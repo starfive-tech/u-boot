@@ -28,7 +28,7 @@
 
 	config {
 		u-boot,spl-primary-payload-offset = <0x210000>;
-		u-boot,spl-payload-offset = <0x590000>;
+		u-boot,spl-payload-offset = <0x210000>;
 		bootph-pre-ram;
 	};
 
