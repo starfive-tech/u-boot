@@ -35,7 +35,7 @@
 #define INPUT_ENABLE    1
 
 /* I2C filter */
-#define JHB100_I2C0_FILTER_ADDR		0x14080000
+#define JHB100_I2C0_FILTER_ADDR		0x14080000UL
 #define JHB100_I2C_FILTER_OFFSET	0x1000
 #define JHB100_I2C_FILTER_MAX_NUM	16
 
@@ -82,8 +82,10 @@ struct legacy_img_hdr *spl_get_load_buffer(ssize_t offset, size_t size)
 void jhb100_smbus_filter_disable(void)
 {
 	/* Disable smbus filter for all I2C filters */
-	for (int i = 0; i < JHB100_I2C_FILTER_MAX_NUM; i++)
-		writel(0x00, (void *)(JHB100_I2C0_FILTER_ADDR + (i * JHB100_I2C_FILTER_OFFSET)));
+	for (unsigned int i = 0; i < JHB100_I2C_FILTER_MAX_NUM; i++) {
+		void *addr = (void *)(JHB100_I2C0_FILTER_ADDR + (i * JHB100_I2C_FILTER_OFFSET));
+		writel(0x00, addr);
+	}
 }
 
 void plat_gmac_init(void)
