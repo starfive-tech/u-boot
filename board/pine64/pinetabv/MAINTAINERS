@@ -1,0 +1,7 @@
+PINE64 PineTabV BOARD
+M: pinetabv
+S:	Maintained
+F:	arch/riscv/include/asm/arch-jh7110/
+F:	board/pine64/pinetabv/
+F:	include/configs/pine64-pinetabv.h
+F:	configs/pine64_pinetabv_defconfig

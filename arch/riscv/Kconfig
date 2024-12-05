@@ -32,6 +32,9 @@ config TARGET_STARFIVE_VISIONFIVE2
 config TARGET_PINE64_STAR64
 	bool "Support Pine64 Star64 Board"
 
+config TARGET_PINE64_PINETABV
+	bool "Support Pine64 PineTabV Board"
+
 config TARGET_STARFIVE_EVB
 	bool "Support StarFive Evb Board"
 
@@ -81,6 +84,8 @@ source "board/starfive/devkits/Kconfig"
 source "board/starfive/visionfive2/Kconfig"
 source "board/starfive/evb/Kconfig"
 source "board/pine64/star64/Kconfig"
+source "board/pine64/pinetabv/Kconfig"
+
 
 # platform-specific options below
 source "arch/riscv/cpu/ax25/Kconfig"

@@ -11,6 +11,7 @@ dtb-$(CONFIG_TARGET_STARFIVE_DEVKITS) += starfive_devkits.dtb starfive_jh7110-am
 dtb-$(CONFIG_TARGET_STARFIVE_VISIONFIVE2) += starfive_visionfive2.dtb starfive_jh7110-amp.dtb
 dtb-$(CONFIG_TARGET_STARFIVE_EVB) += starfive_evb.dtb
 dtb-$(CONFIG_TARGET_PINE64_STAR64) += pine64_star64.dtb
+dtb-$(CONFIG_TARGET_PINE64_PINETABV) += pine64_pinetabv.dtb
 
 targets += $(dtb-y)
 
