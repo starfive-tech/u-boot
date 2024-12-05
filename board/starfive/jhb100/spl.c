@@ -34,6 +34,11 @@
 #define OUTPUT_ENABLE   0
 #define INPUT_ENABLE    1
 
+/* I2C filter */
+#define JHB100_I2C0_FILTER_ADDR		0x14080000
+#define JHB100_I2C_FILTER_OFFSET	0x1000
+#define JHB100_I2C_FILTER_MAX_NUM	16
+
 int spl_board_init_f(void)
 {
 	int ret;
@@ -74,39 +79,11 @@ struct legacy_img_hdr *spl_get_load_buffer(ssize_t offset, size_t size)
 	return (struct legacy_img_hdr *)(STARFIVE_SPL_BOOT_LOAD_ADDR);
 }
 
-void plat_sfc_init(void)
+void jhb100_smbus_filter_disable(void)
 {
-	// sfc0
-	u0_dwc_ssi_sfc_enable();
-}
-
-void plat_spi_init(void)
-{
-	// spi0
-	u0_dwc_ssi_spi_enable();
-}
-
-void plat_i2c_init(void)
-{
-	// i2c6
-	u6_dwc_i2c_smbus_enable();
-	// i2c7
-	u7_dwc_i2c_smbus_enable();
-}
-
-void plat_uart_init(void)
-{
-	// console UART4 (N25f)
-	SET_PADCFG_PAD_GPIO_A34_IE(1);
-	SET_PADCFG_PAD_GPIO_A35_IE(0);
-	SET_U0_SYS2_IOMUX_FUNC10_SEL(1);
-	SET_U0_SYS2_IOMUX_FUNC11_SEL(1);
-
-	// console UART5 (Merak)
-	SET_PADCFG_PAD_GPIO_A36_IE(1);
-	SET_PADCFG_PAD_GPIO_A37_IE(0);
-	SET_U0_SYS2_IOMUX_FUNC12_SEL(1);
-	SET_U0_SYS2_IOMUX_FUNC13_SEL(1);
+	/* Disable smbus filter for all I2C filters */
+	for (int i = 0; i < JHB100_I2C_FILTER_MAX_NUM; i++)
+		writel(0x00, (void *)(JHB100_I2C0_FILTER_ADDR + (i * JHB100_I2C_FILTER_OFFSET)));
 }
 
 void starfive_wdt_init(void)
@@ -117,21 +94,6 @@ void starfive_wdt_init(void)
 	starfive_wdt2_jhb100_enable();
 	starfive_wdt3_jhb100_enable();
 	starfive_wdt4_jhb100_enable();
-}
-
-void rtc_reset(void)
-{
-
-}
-
-void starfive_timer_reset(void)
-{
-
-}
-
-void flexnoc_reset(void)
-{
-
 }
 
 void plat_gmac_init(void)
@@ -185,51 +147,6 @@ void gmac_reset(void)
 
 	/* dwc_eth_qos_gmac_clk_set */
 	/* baremetal: do nothing for bitfile 041 */
-}
-
-void sd_reset(void)
-{
-
-}
-
-void emmc_reset(void)
-{
-
-}
-
-void xspi_reset(void)
-{
-
-}
-
-void smbus_reset(void)
-{
-
-}
-
-void pwm_reset(void)
-{
-
-}
-
-void spi_reset(void)
-{
-
-}
-
-void can_reset(void)
-{
-
-}
-
-void sec_reset(void)
-{
-
-}
-
-void otp_reset(void)
-{
-
 }
 
 void subsys_init(void)
@@ -342,30 +259,13 @@ void board_init_f(ulong dummy)
 
 	riscv_cpu_setup();
 
-	/* Initialize peripherals reset here */
-	plat_sfc_init();
-	plat_spi_init();
-	plat_uart_init();
-	plat_i2c_init();
-	//flexnoc_reset();
-	starfive_wdt_init();
-	//starfive_timer_reset();
+	jhb100_smbus_filter_disable();
 
-	/* TODO: Temporarily disable devices until the pins have been updated with the new CMacro */
+	/* Initialize peripherals reset here */
+	starfive_wdt_init();
 	plat_gmac_init();
 	gmac_reset();
 	subsys_init();
-
-	//sd_reset();
-	//u0_tvsensor_wrapper_enable();
-	//smbus_reset();
-	//pwm_reset();
-	//spi_reset();
-	//xspi_reset();
-	//rtc_reset();
-	//can_reset();
-	//sec_reset();
-	//otp_reset();
 
 	ret = spl_board_init_f();
 	if (ret) {
