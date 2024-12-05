@@ -1,0 +1,7 @@
+PINE64 STAR64 BOARD
+M: pine64
+S:	Maintained
+F:	arch/riscv/include/asm/arch-jh7110/
+F:	board/pine64/star64/
+F:	include/configs/pine64-star64.h
+F:	configs/pine64_star64_defconfig

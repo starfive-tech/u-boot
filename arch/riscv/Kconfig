@@ -29,6 +29,9 @@ config TARGET_STARFIVE_DEVKITS
 config TARGET_STARFIVE_VISIONFIVE2
 	bool "Support StarFive VisionFive2 Board"
 
+config TARGET_PINE64_STAR64
+	bool "Support Pine64 Star64 Board"
+
 config TARGET_STARFIVE_EVB
 	bool "Support StarFive Evb Board"
 
@@ -77,6 +80,7 @@ source "board/sipeed/maix/Kconfig"
 source "board/starfive/devkits/Kconfig"
 source "board/starfive/visionfive2/Kconfig"
 source "board/starfive/evb/Kconfig"
+source "board/pine64/star64/Kconfig"
 
 # platform-specific options below
 source "arch/riscv/cpu/ax25/Kconfig"
