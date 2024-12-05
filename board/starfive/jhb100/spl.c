@@ -86,16 +86,6 @@ void jhb100_smbus_filter_disable(void)
 		writel(0x00, (void *)(JHB100_I2C0_FILTER_ADDR + (i * JHB100_I2C_FILTER_OFFSET)));
 }
 
-void starfive_wdt_init(void)
-{
-	/* TODO: Align with Linux and FW on wdt instances, for now enable all */
-	starfive_wdt0_jhb100_enable();
-	starfive_wdt1_jhb100_enable();
-	starfive_wdt2_jhb100_enable();
-	starfive_wdt3_jhb100_enable();
-	starfive_wdt4_jhb100_enable();
-}
-
 void plat_gmac_init(void)
 {
 	#define GPIO_OUT  0
@@ -262,7 +252,6 @@ void board_init_f(ulong dummy)
 	jhb100_smbus_filter_disable();
 
 	/* Initialize peripherals reset here */
-	starfive_wdt_init();
 	plat_gmac_init();
 	gmac_reset();
 	subsys_init();
