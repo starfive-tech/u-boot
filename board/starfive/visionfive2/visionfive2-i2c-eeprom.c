@@ -689,6 +689,7 @@ static int print_usage(void)
 int do_mac(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 {
 	char *cmd;
+	int ret;
 
 	if (argc == 1) {
 		show_eeprom(&einfo);
@@ -703,7 +704,11 @@ int do_mac(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 	/* Commands with no argument */
 	if (!strcmp(cmd, "read_eeprom")) {
 		has_been_read = 0;
-		return read_eeprom(eeprom_wp_buff);
+		ret = read_eeprom(eeprom_wp_buff);
+		if (!ret)
+			show_eeprom(&einfo);
+
+		return ret;
 	} else if (!strcmp(cmd, "initialize")) {
 		init_local_copy(eeprom_wp_buff);
 		return 0;
