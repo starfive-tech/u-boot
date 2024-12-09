@@ -7,6 +7,7 @@ obj-y += boot_recovery.o
 obj-y += cpu.o
 obj-y += dram.o
 obj-y += secure_vab.o
+obj-y += starfive_reset.o
 obj-$(CONFIG_SPL_BUILD) += spl_spi_starfive.o
 obj-$(CONFIG_SPL_BUILD) += starfive_pcu.o
 obj-$(CONFIG_SPL_BUILD) += boot_fallback.o
