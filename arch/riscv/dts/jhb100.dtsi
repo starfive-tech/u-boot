@@ -2180,6 +2180,18 @@
 				status = "disabled";
 			};
 
+			emmc0: mmc@11b00000 {
+				compatible = "snps,dwcmshc-sdhci";
+				status = "disabled";
+				reg = <0x0 0x11b00000 0x0 0x10000>;
+				interrupts = <118>;
+				clocks = <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_EMMC0>;
+				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_EMMC0>;
+				bus-width = <8>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+			};
+
 			ufs0: ufs@11b10000 {
 				compatible = "starfive,jhb100-ufs", "jedec,ufs-3.1";
 				reg = <0x0 0x11b10000 0x0 0x10000>;

@@ -927,3 +927,8 @@
 &wdt0 {
 	status = "disabled";
 };
+
+&emmc0 {
+	clocks = <&fpga_12mhz_clk>;
+	status = "okay";
+};
