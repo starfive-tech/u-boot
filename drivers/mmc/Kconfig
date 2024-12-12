@@ -694,11 +694,12 @@ config MMC_SDHCI_PIC32
 
 config MMC_SDHCI_ROCKCHIP
 	bool "Arasan SDHCI controller for Rockchip support"
-	depends on ARCH_ROCKCHIP
+	depends on ARCH_ROCKCHIP || STARFIVE_JHB100
 	depends on DM_MMC && BLK
 	depends on MMC_SDHCI
 	help
-	  Support for Arasan SDHCI host controller on Rockchip ARM SoCs platform
+	  Support for Arasan SDHCI host controller on Rockchip ARM SoCs or the
+	  StarFive JHB100 platform.
 
 config MMC_SDHCI_S5P
 	bool "SDHCI support on Samsung S5P SoC"
