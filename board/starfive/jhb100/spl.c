@@ -39,6 +39,11 @@
 #define JHB100_I2C_FILTER_OFFSET	0x1000
 #define JHB100_I2C_FILTER_MAX_NUM	16
 
+/* CPUSS_SECURE_CRG */
+#define JHB100_CPUSS_SECURE_CRG_ADDR		0x14142000UL
+#define JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET	0x60
+#define JHB100_MAIN_CLK_ENABLE			BIT(31)
+
 int spl_board_init_f(void)
 {
 	int ret;
@@ -86,6 +91,16 @@ void jhb100_smbus_filter_disable(void)
 		void *addr = (void *)(JHB100_I2C0_FILTER_ADDR + (i * JHB100_I2C_FILTER_OFFSET));
 		writel(0x00, addr);
 	}
+}
+
+void jhb100_plat_init(void)
+{
+	/* CPUSS Secure CRG is now in PMP region. Enable main_icg clock during SPL init to ensure
+	 * Linux can boot successfully to the console in emulator environment
+	 */
+	void *addr = (void *)(JHB100_CPUSS_SECURE_CRG_ADDR + JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET);
+
+	writel(JHB100_MAIN_CLK_ENABLE, addr);
 }
 
 void plat_gmac_init(void)
@@ -252,6 +267,8 @@ void board_init_f(ulong dummy)
 	riscv_cpu_setup();
 
 	jhb100_smbus_filter_disable();
+
+	jhb100_plat_init();
 
 	/* Initialize peripherals reset here */
 	plat_gmac_init();
