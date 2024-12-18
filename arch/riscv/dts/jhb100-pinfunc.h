@@ -275,18 +275,18 @@
 #define PADNUM_ADC1_GPIO_H8				8
 
 /* emmc pad numbers */
-#define PADNUM_EMMC_GPIO_F0				0
-#define PADNUM_EMMC_GPIO_F1				1
-#define PADNUM_EMMC_GPIO_F2				2
-#define PADNUM_EMMC_GPIO_F3				3
-#define PADNUM_EMMC_GPIO_F4				4
-#define PADNUM_EMMC_GPIO_F5				5
-#define PADNUM_EMMC_GPIO_F6				6
-#define PADNUM_EMMC_GPIO_F7				7
-#define PADNUM_EMMC_GPIO_F8				8
-#define PADNUM_EMMC_GPIO_F9				9
-#define PADNUM_EMMC_GPIO_F10				10
-#define PADNUM_EMMC_GPIO_F11				11
+#define PADNUM_EMMC0_GPIO_F0				0
+#define PADNUM_EMMC0_GPIO_F1				1
+#define PADNUM_EMMC0_GPIO_F2				2
+#define PADNUM_EMMC0_GPIO_F3				3
+#define PADNUM_EMMC0_GPIO_F4				4
+#define PADNUM_EMMC0_GPIO_F5				5
+#define PADNUM_EMMC0_GPIO_F6				6
+#define PADNUM_EMMC0_GPIO_F7				7
+#define PADNUM_EMMC0_GPIO_F8				8
+#define PADNUM_EMMC0_GPIO_F9				9
+#define PADNUM_EMMC0_GPIO_F10				10
+#define PADNUM_EMMC0_GPIO_F11				11
 
 /* vga_vdac pad numbers */
 #define PADNUM_VGA_VDAC_GPIO_I0				0
@@ -475,6 +475,9 @@
 #define FUNC_BMCPERIPH0_ETH3_MDIO			2
 #define FUNC_BMCPERIPH0_ETH1_MDC			2
 #define FUNC_BMCPERIPH0_ETH1_MDIO			2
+#define FUNC_BMCPERIPH0_WDT0_3_OR_RESET_OUTPUT		2
+#define FUNC_BMCPERIPH0_WDT4_RESET_OUTPUT		2
+#define FUNC_BMCPERIPH0_WDT4_RESTART_INPUT		2
 
 /* bmcperiph1 pad function selection */
 #define FUNC_BMCPERIPH1_SPI0_N_SS_OUT_0			1
@@ -649,18 +652,18 @@
 #define FUNC_ADC2_SCAP_TRIG1_B				3
 
 /* emmc function selection */
-#define FUNC_EMMC1_DAT0					1
-#define FUNC_EMMC1_DAT1					1
-#define FUNC_EMMC1_DAT2					1
-#define FUNC_EMMC1_DAT3					1
-#define FUNC_EMMC1_CMD					1
-#define FUNC_EMMC1_CLK					1
-#define FUNC_EMMC1_DAT7					1
-#define FUNC_EMMC1_DAT6					1
-#define FUNC_EMMC1_DAT5					1
-#define FUNC_EMMC1_DAT4					1
-#define FUNC_EMMC1_RST_N				1
-#define FUNC_EMMC1_DQS					1
+#define FUNC_EMMC0_CLK					1
+#define FUNC_EMMC0_RST_N				1
+#define FUNC_EMMC0_CMD					1
+#define FUNC_EMMC0_DQS					1
+#define FUNC_EMMC0_DATA0				1
+#define FUNC_EMMC0_DATA1				1
+#define FUNC_EMMC0_DATA2				1
+#define FUNC_EMMC0_DATA3				1
+#define FUNC_EMMC0_DATA4				1
+#define FUNC_EMMC0_DATA5				1
+#define FUNC_EMMC0_DATA6				1
+#define FUNC_EMMC0_DATA7				1
 
 /* vga_vdac function selection */
 #define FUNC_VGA_VDAC_VGAHS				0

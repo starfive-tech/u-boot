@@ -326,8 +326,11 @@
 				<0x0 0x10100000 0x0 0x100000>,
 				<0x0 0x10300000 0x0 0x1ff24>,
 				<0x0 0x10680000 0x0 0x8000>,
+				<0x0 0x11120000 0x0 0x8000>,
+				<0x0 0x11135000 0x0 0x1000>,
 				<0x0 0x20000000 0x0 0x4000000>;
-				reg-names = "dbi", "dbi2", "atu", "usb", "addr_space";
+				reg-names = "dbi", "dbi2", "atu", "usb", "dc", "vout",
+					"addr_space";
 				interrupts-extended = <&intc 53>, <&intc 54>,
 					<&plic 263>, <&plic 264>, <&plic 266>, <&plic 268>;
 				interrupt-names = "perst_pe", "perst_ne", "pm_link", "flr",
@@ -351,6 +354,7 @@
 				max-link-speed = <1>;
 				num-lanes = <1>;
 				ecsr-syscon = <&pcie_ep0_ecsr>;
+				starfive,ep-id = <0>;
 				status = "disabled";
 			};
 
@@ -376,8 +380,9 @@
 			pcie0_mmbi: mmbi@10512000 {
 				compatible = "starfive,jhb100-mmbi";
 				reg = <0x0 0x10512000 0x0 0x400>;
-				interrupts = <289>, <290>, <291>, <292>,
-					     <293>, <294>, <295>, <296>, <354>;
+				interrupts-extended = <&plic 289>, <&plic 290>, <&plic 291>, <&plic 292>,
+						      <&plic 293>, <&plic 294>, <&plic 295>, <&plic 296>,
+						      <&intc 53>;
 				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MMBI_PCIE0>;
 				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_MMBI_PCIE0>;
 				status = "disabled";
@@ -404,8 +409,9 @@
 			espi0_mmbi: mmbi@10580000 {
 				compatible = "starfive,jhb100-mmbi";
 				reg = <0x0 0x10580000 0x0 0x400>;
-				interrupts = <272>, <273>, <274>, <275>,
-					     <276>, <277>, <278>, <279>, <352>;
+				interrupts-extended = <&plic 272>, <&plic 273>, <&plic 274>, <&plic 275>,
+						      <&plic 276>, <&plic 277>, <&plic 278>, <&plic 279>,
+						      <&intc 57>;
 				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MMBI_ESPI0>;
 				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_MMBI_ESPI0>;
 				status = "disabled";
@@ -422,63 +428,72 @@
 				sio0_bt0: bt@0 {
 					compatible = "starfive,jhb100-bt-bmc";
 					reg = <0x0 0x0 0x0 0x100>;
-					interrupts = <280>;
+					interrupts-extended = <&plic 280>, <&intc 57>;
+					interrupt-names = "bt", "espi_rst";
 					status = "disabled";
 				};
 
 				sio0_bt1: bt@100 {
 					compatible = "starfive,jhb100-bt-bmc";
 					reg = <0x0 0x100 0x0 0x100>;
-					interrupts = <281>;
+					interrupts-extended = <&plic 281>, <&intc 57>;
+					interrupt-names = "bt", "espi_rst";
 					status = "disabled";
 				};
 
 				sio0_kcs0: kcs@200 {
 					compatible = "starfive,jhb100-kcs-bmc";
 					reg = <0x0 0x200 0x0 0x100>;
-					interrupts = <282>;
+					interrupts-extended = <&plic 282>, <&intc 57>;
+					interrupt-names = "kcs", "espi_rst";
 					status = "disabled";
 				};
 
 				sio0_kcs1: kcs@300 {
 					compatible = "starfive,jhb100-kcs-bmc";
 					reg = <0x0 0x300 0x0 0x100>;
-					interrupts = <283>;
+					interrupts-extended = <&plic 283>, <&intc 57>;
+					interrupt-names = "kcs", "espi_rst";
 					status = "disabled";
 				};
 
 				sio0_kcs2: kcs@400 {
 					compatible = "starfive,jhb100-kcs-bmc";
 					reg = <0x0 0x400 0x0 0x100>;
-					interrupts = <284>;
+					interrupts-extended = <&plic 284>, <&intc 57>;
+					interrupt-names = "kcs", "espi_rst";
 					status = "disabled";
 				};
 
 				sio0_kcs3: kcs@500 {
 					compatible = "starfive,jhb100-kcs-bmc";
 					reg = <0x0 0x500 0x0 0x100>;
-					interrupts = <285>;
+					interrupts-extended = <&plic 285>, <&intc 57>;
+					interrupt-names = "kcs", "espi_rst";
 					status = "disabled";
 				};
 
 				sio0_mbox: mbox@600 {
 					compatible = "starfive,jhb100-sio-mbox";
 					reg = <0x0 0x600 0x0 0x100>;
-					interrupts = <286>;
+					interrupts-extended = <&plic 286>, <&intc 57>;
+					interrupt-names = "mbox", "espi_rst";
 					status = "disabled";
 				};
 
 				sio0_pcc: pcc@800 {
 					compatible = "starfive,jhb100-sio-pcc";
 					reg = <0x0 0x800 0x0 0x100>;
-					interrupts = <287>;
+					interrupts-extended = <&plic 287>, <&intc 57>;
+					interrupt-names = "pcc", "espi_rst";
 					status = "disabled";
 				};
 
 				sio0_wdi: wdi@900 {
 					compatible = "starfive,jhb100-sio-wdi";
 					reg = <0x0 0x900 0x0 0x100>;
-					interrupts = <288>;
+					interrupts-extended = <&plic 288>, <&intc 57>;
+					interrupt-names = "wdi", "espi_rst";
 					status = "disabled";
 				};
 			};
@@ -486,11 +501,12 @@
 			espi0: espi-slave@10584000 {
 				compatible = "starfive,jhb100-espi-slave";
 				reg = <0x0 0x10584000 0x0 0x2000>;
-				espi-dma-mode = <0xff>;
+				espi-dma-mode = <0x01>;
 				espi-wait-state = <15>;
 				perif-memcyc-enable;
 				flash-safs-mode = <1>;
 				interrupts = <297>, <298>;
+				interrupt-names = "espi", "safs";
 				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_ESPI0_EDAF>,
 					 <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_SUPERIO0>;
 				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_ESPI0_SLAVE_POK>,
@@ -766,8 +782,9 @@
 			pcie1_mmbi: mmbi@10d12000 {
 				compatible = "starfive,jhb100-mmbi";
 				reg = <0x0 0x10d12000 0x0 0x400>;
-				interrupts = <333>, <334>, <335>, <336>,
-					     <337>, <338>, <339>, <340>, <402>;
+				interrupts-extended = <&plic 333>, <&plic 334>, <&plic 335>, <&plic 336>,
+						      <&plic 337>, <&plic 338>, <&plic 339>, <&plic 340>,
+						      <&intc 55>;
 				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_MMBI_PCIE1>;
 				resets = <&host1crg JHB100_HOST1RST_MAIN_RSTN_MMBI_PCIE1>;
 				status = "disabled";
@@ -776,8 +793,9 @@
 			espi1_mmbi: mmbi@10d80000 {
 				compatible = "starfive,jhb100-mmbi";
 				reg = <0x0 0x10d80000 0x0 0x400>;
-				interrupts = <316>, <317>, <318>, <319>,
-					     <320>, <321>, <322>, <323>, <403>;
+				interrupts-extended = <&plic 316>, <&plic 316>, <&plic 318>, <&plic 319>,
+						      <&plic 320>, <&plic 321>, <&plic 322>, <&plic 323>,
+						      <&intc 58>;
 				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_MMBI_ESPI1>;
 				resets = <&host1crg JHB100_HOST1RST_MAIN_RSTN_MMBI_ESPI1>;
 				status = "disabled";
@@ -794,63 +812,72 @@
 				sio1_bt0: bt@0 {
 					compatible = "starfive,jhb100-bt-bmc";
 					reg = <0x0 0x0 0x0 0x100>;
-					interrupts = <324>;
+					interrupts-extended = <&plic 324>, <&intc 58>;
+					interrupt-names = "bt", "espi_rst";
 					status = "disabled";
 				};
 
 				sio1_bt1: bt@100 {
 					compatible = "starfive,jhb100-bt-bmc";
 					reg = <0x0 0x100 0x0 0x100>;
-					interrupts = <325>;
+					interrupts-extended = <&plic 325>, <&intc 58>;
+					interrupt-names = "bt", "espi_rst";
 					status = "disabled";
 				};
 
 				sio1_kcs0: kcs@200 {
 					compatible = "starfive,jhb100-kcs-bmc";
 					reg = <0x0 0x200 0x0 0x100>;
-					interrupts = <326>;
+					interrupts-extended = <&plic 326>, <&intc 58>;
+					interrupt-names = "kcs", "espi_rst";
 					status = "disabled";
 				};
 
 				sio1_kcs1: kcs@300 {
 					compatible = "starfive,jhb100-kcs-bmc";
 					reg = <0x0 0x300 0x0 0x100>;
-					interrupts = <327>;
+					interrupts-extended = <&plic 327>, <&intc 58>;
+					interrupt-names = "kcs", "espi_rst";
 					status = "disabled";
 				};
 
 				sio1_kcs2: kcs@400 {
 					compatible = "starfive,jhb100-kcs-bmc";
 					reg = <0x0 0x400 0x0 0x100>;
-					interrupts = <328>;
+					interrupts-extended = <&plic 328>, <&intc 58>;
+					interrupt-names = "kcs", "espi_rst";
 					status = "disabled";
 				};
 
 				sio1_kcs3: kcs@500 {
 					compatible = "starfive,jhb100-kcs-bmc";
 					reg = <0x0 0x500 0x0 0x100>;
-					interrupts = <329>;
+					interrupts-extended = <&plic 329>, <&intc 58>;
+					interrupt-names = "kcs", "espi_rst";
 					status = "disabled";
 				};
 
 				sio1_mbox: mbox@600 {
 					compatible = "starfive,jhb100-sio-mbox";
 					reg = <0x0 0x600 0x0 0x100>;
-					interrupts = <330>;
+					interrupts-extended = <&plic 330>, <&intc 58>;
+					interrupt-names = "mbox", "espi_rst";
 					status = "disabled";
 				};
 
 				sio1_pcc: pcc@800 {
 					compatible = "starfive,jhb100-sio-pcc";
 					reg = <0x0 0x800 0x0 0x100>;
-					interrupts = <331>;
+					interrupts-extended = <&plic 331>, <&intc 58>;
+					interrupt-names = "pcc", "espi_rst";
 					status = "disabled";
 				};
 
 				sio1_wdi: wdi@900 {
 					compatible = "starfive,jhb100-sio-wdi";
 					reg = <0x0 0x900 0x0 0x100>;
-					interrupts = <332>;
+					interrupts-extended = <&plic 332>, <&intc 58>;
+					interrupt-names = "wdi", "espi_rst";
 					status = "disabled";
 				};
 			};
@@ -863,6 +890,7 @@
 				perif-memcyc-enable;
 				flash-safs-mode = <1>;
 				interrupts = <341>, <342>;
+				interrupt-names = "espi", "safs";
 				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_ESPI1_EDAF>,
 					 <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_SUPERIO1>;
 				resets = <&host1crg JHB100_HOST1RST_MAIN_RSTN_ESPI1_SLAVE_POK>,
@@ -1147,6 +1175,7 @@
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_vga_vdac 0 0 4>;
+				status = "disabled";
 			};
 
 			pvt_vce: pvt@11180000 {
@@ -1156,10 +1185,30 @@
 				      <0x0 0x11180100 0x0 0x80>;
 				reg-names = "common", "ts", "pd";
 				clocks = <&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE_SENSORS>;
-				resets = <&vcecrg JHB100_VCERST_VCE_SENSORS_RSTN_MST>;
+				resets = <&vcecrg JHB100_VCERST_MAIN_RSTN_VCE_SENSORS>;
 				moortec,ts-coeff-g = <61400>;
 				moortec,ts-coeff-h = <253700>;
 				#thermal-sensor-cells = <1>;
+				status = "disabled";
+			};
+
+			vce0: vce@11185000 {
+				compatible = "starfive,jhb100-vce";
+				reg = <0x0 0x11185000 0x0 0x800>;
+				clocks = <&vcecrg JHB100_VCECLK_CORE_CLK_VCE0_DIV>,
+					<&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE0>;
+				resets = <&vcecrg JHB100_VCERST_VCE0_TOP_ASYNC_RSTN>;
+				interrupts = <240>;
+				status = "disabled";
+			};
+
+			vce1: vce@11185800 {
+				compatible = "starfive,jhb100-vce";
+				reg = <0x0 0x11185800 0x0 0x800>;
+				clocks = <&vcecrg JHB100_VCECLK_CORE_CLK_VCE1_DIV>,
+					<&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE1>;
+				resets = <&vcecrg JHB100_VCERST_VCE1_TOP_ASYNC_RSTN>;
+				interrupts = <241>;
 				status = "disabled";
 			};
 
@@ -2180,16 +2229,97 @@
 				status = "disabled";
 			};
 
-			emmc0: mmc@11b00000 {
-				compatible = "snps,dwcmshc-sdhci";
+			dma_sfc1: dma-controller@11a80400 {
+				compatible = "starfive,jhb100-axi-dma-sfc";
+				reg = <0x0 0x11a80400 0x0 0x400>;
+				clocks = <&per1crg JHB100_PER1CLK_DMAC2_1CH_CORE>,
+					<&per1crg JHB100_PER1CLK_DMAC2_1CH_ACLK>;
+				clock-names = "core-clk", "cfgr-clk";
+				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_DMAC_SFC1>;
+				interrupts = <121>;
+				#dma-cells = <3>;
+				dma-channels = <1>;
+				snps,dma-masters = <1>;
+				snps,data-width = <3>;
+				snps,block-size = <65536>;
+				snps,priority = <0>;
+				snps,axi-max-burst-len = <16>;
 				status = "disabled";
+			};
+
+			dma_sfc2: dma-controller@11a80800 {
+				compatible = "starfive,jhb100-axi-dma-sfc";
+				reg = <0x0 0x11a80800 0x0 0x400>;
+				clocks = <&per1crg JHB100_PER1CLK_DMAC3_1CH_CORE>,
+					<&per1crg JHB100_PER1CLK_DMAC3_1CH_ACLK>;
+				clock-names = "core-clk", "cfgr-clk";
+				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_DMAC_SFC2>;
+				interrupts = <122>;
+				#dma-cells = <3>;
+				dma-channels = <1>;
+				snps,dma-masters = <1>;
+				snps,data-width = <3>;
+				snps,block-size = <65536>;
+				snps,priority = <0>;
+				snps,axi-max-burst-len = <16>;
+			};
+
+			dma_spi0: dma-controller@11a80c00 {
+				compatible = "starfive,jhb100-axi-dma-spi";
+				reg = <0x0 0x11a80c00 0x0 0x400>;
+				clocks = <&per1crg JHB100_PER1CLK_DMAC0_2CH_CORE>,
+					<&per1crg JHB100_PER1CLK_DMAC0_2CH_ACLK>;
+				clock-names = "core-clk", "cfgr-clk";
+				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_DMAC_SPI0>;
+				interrupts = <123>;
+				#dma-cells = <1>;
+				dma-channels = <2>;
+				snps,dma-masters = <1>;
+				snps,data-width = <3>;
+				snps,block-size = <65536 65536>;
+				snps,priority = <0 1>;
+				snps,axi-max-burst-len = <16>;
+				status = "disabled";
+			};
+
+			sgpio0: sgpio@11a81000 {
+				#gpio-cell = <2>;
+				gpio-controller;
+				compatible = "starfive,jhb100-sgpio";
+				reg = <0x0 0x11a81000 0x0 0x400>;
+				clocks = <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_SGPIO0>;
+				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_SGPIO0>;
+				interrupts = <114>;
+				ngpios = <128>;
+				bus-frequency = <12000000>;
+				status = "disabled";
+			};
+
+			sgpio1: sgpio@11a81400 {
+				#gpio-cell = <2>;
+				gpio-controller;
+				compatible = "starfive,jhb100-sgpio";
+				reg = <0x0 0x11a81400 0x0 0x400>;
+				clocks = <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_SGPIO1>;
+				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_SGPIO1>;
+				interrupts = <115>;
+				ngpios = <128>;
+				bus-frequency = <12000000>;
+				status = "disabled";
+			};
+
+			emmc0: mmc@11b00000 {
+				compatible = "starfive,jhb100-dwcmshc";
 				reg = <0x0 0x11b00000 0x0 0x10000>;
 				interrupts = <118>;
-				clocks = <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_EMMC0>;
+				clocks = <&per1crg JHB100_PER1CLK_EMMC0_BCLK>,
+					 <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_EMMC0>;
+				clock-names = "core", "bus";
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_EMMC0>;
 				bus-width = <8>;
-				#address-cells = <1>;
-				#size-cells = <0>;
+				hwlocks = <&hwspinlock 0>;
+				supports-cqe;
+				status = "disabled";
 			};
 
 			ufs0: ufs@11b10000 {
@@ -2211,11 +2341,6 @@
 				reset-names = "main", "phy";
 				hwlocks = <&hwspinlock 0>;
 				status = "disabled";
-			};
-
-			bmcperiph1_syscon: syscon@11b41000 {
-				compatible = "starfive,jhb100-bmcperiph1-syscon", "syscon";
-				reg = <0x0 0x11b41000 0x0 0x1000>;
 			};
 
 			pinctrl_bmcperiph1: pinctrl@11b42000 {
@@ -2380,9 +2505,8 @@
 
 			hwspinlock: hwspinlock@13012000 {
 				compatible = "starfive,jhb100-hwspinlock";
-				reg = <0x0 0x13012000 0x0 0x100>;
-				/* clocks = <>; */
-				/* resets = <>; */
+				reg = <0x0 0x13012000 0x0 0x2000>;
+				resets = <&sys0crg JHB100_SYS0RST_RESOURCE_ARB>;
 				#hwlock-cells = <1>;
 				status = "disabled";
 			};
@@ -2473,8 +2597,7 @@
 				bank-desc = "Port 0 Read SRAM ECC",
 					    "Port 1 Read SRAM ECC",
 					    "Port 2 Read SRAM ECC",
-					    "Port 3 Read SRAM ECC",
-					    "PCIE Phy SRAM";
+					    "Port 3 Read SRAM ECC";
 				status = "disabled";
 			};
 
@@ -2578,6 +2701,8 @@
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_SFC1>;
 				reset-names = "spi";
 				num-cs = <3>;
+				dmas = <&dma_sfc1 0 1 0>;
+				dma-names = "rx-tx";
 				status = "disabled";
 			};
 
@@ -2590,7 +2715,9 @@
 				clocks = <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_SFC2>;
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_SFC2>;
 				reset-names = "spi";
-				num-cs = <2>;
+				num-cs = <3>;
+				dmas = <&dma_sfc2 0 1 0>;
+				dma-names = "rx-tx";
 				status = "disabled";
 			};
 
@@ -2604,6 +2731,8 @@
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_SPI0>;
 				reset-names = "spi";
 				num-cs = <2>;
+				dmas = <&dma_spi0 0>, <&dma_spi0 1>;
+				dma-names = "tx", "rx";
 				status = "disabled";
 			};
 

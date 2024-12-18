@@ -297,6 +297,10 @@
 	bootph-pre-ram;
 };
 
+&pinctrl_emmc {
+	bootph-pre-ram;
+};
+
 &wdt0 {
 	bootph-pre-ram;
 	status = "disabled";
@@ -306,7 +310,15 @@
 	bootph-pre-ram;
 };
 
+&dma_spi0 {
+	bootph-pre-ram;
+};
+
 &spi0 {
+	bootph-pre-ram;
+};
+
+&hwspinlock {
 	bootph-pre-ram;
 };
 

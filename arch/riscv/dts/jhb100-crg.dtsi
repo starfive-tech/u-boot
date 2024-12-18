@@ -377,8 +377,8 @@
 		cpucrg: clock-controller@13214000 {
 			compatible = "starfive,jhb100-cpucrg";
 			reg = <0x0 0x13214000 0x0 0x1000>;
-			clocks = <&sys0crg JHB100_SYS0CLK_BMCCPUSS_SYS_ICG_BUF>;
-			clock-names = "cpu_sys";
+			clocks = <&pvt_aon>;
+			clock-names = "cpu_sensor";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};

@@ -83,49 +83,46 @@
 		#address-cells = <0x2>;
 		#size-cells = <0x2>;
 		ranges;
-
 		/*
 		 * eSPI & MMBI dma accesses uncached address.
 		 * Also need to reserve corresponding cache addresses,
 		 * so that kernel will not manage them.
-		 */
-		pcie0_mmbi_buffer_cache: mmbi_buffer@44000000 {
-			reg = <0x0 0x44000000 0x0 0x400000>;
-			alignment = <0x0 0x100000>;
-			no-map;
-		};
-
-		pcie0_mmbi_buffer_uncache: mmbi_buffer@404000000 {
-			reg = <0x4 0x04000000 0x0 0x400000>;
-			alignment = <0x0 0x100000>;
-			no-map;
-		};
-
-		/*
-		 * There is only one adderss remap window for
-		 * eSPI memory accessing, so merge the reserved memory ranges
+		 * There is only one adderss remap window for eSPI memory accessing,
+		 * so espi drive merges the reserved memory ranges
 		 * of MMBI over eSPI (1st 4MB) & eSPI memory cycle access(2nd 4MB).
 		 * The size of eSPI remap window must be power of 2.
 		 */
-		espi0_mmbi_buffer_cache: mmbi_buffer@44400000 {
+		espi0_mmbi_buffer_cache: mmbi_buffer@44000000 {
+			reg = <0x0 0x44000000 0x0 0x400000>;
+			alignment = <0x0 0x800000>;
+			no-map;
+		};
+
+		espi0_mmbi_buffer_uncache: mmbi_buffer@404000000 {
+			reg = <0x4 0x04000000 0x0 0x400000>;
+			alignment = <0x0 0x800000>;
+			no-map;
+		};
+
+		espi0_mem_cache: espi0-slave@44400000 {
 			reg = <0x0 0x44400000 0x0 0x400000>;
-			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		espi0_mmbi_buffer_uncache: mmbi_buffer@404400000 {
+		espi0_mem_uncache: espi0-slave@404400000 {
 			reg = <0x4 0x04400000 0x0 0x400000>;
+			no-map;
+		};
+
+		pcie0_mmbi_buffer_cache: mmbi_buffer@44800000 {
+			reg = <0x0 0x44800000 0x0 0x400000>;
 			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		espi0_mem_cache: espi0-slave@44800000 {
-			reg = <0x0 0x44800000 0x0 0x400000>;
-			no-map;
-		};
-
-		espi0_mem_uncache: espi0-slave@404800000 {
+		pcie0_mmbi_buffer_uncache: mmbi_buffer@404800000 {
 			reg = <0x4 0x04800000 0x0 0x400000>;
+			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
@@ -539,6 +536,75 @@
 	};
 };
 
+&pinctrl_emmc {
+	gpio-line-names =
+		"EMMC0_CLK", "EMMC0_RST", "EMMC0_CMD", "EMMC0_DQS",
+		"EMMC0_DATA0", "EMMC0_DATA1", "EMMC0_DATA2", "EMMC0_DATA3",
+		"EMMC0_DATA4", "EMMC0_DATA5", "EMMC0_DATA6", "EMMC0_DATA7";
+
+	emmc0_pins: emmc0-grp {
+		emmc0_clk-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F5,
+					 FUNC_EMMC0_CLK)>;
+		};
+
+		emmc0_rst-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F10,
+					 FUNC_EMMC0_RST_N)>;
+		};
+
+		emmc0_cmd-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F4,
+					 FUNC_EMMC0_CMD)>;
+		};
+
+		emmc0_dqs-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F11,
+					 FUNC_EMMC0_DQS)>;
+		};
+
+		emmc0_data0-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F0,
+					 FUNC_EMMC0_DATA0)>;
+		};
+
+		emmc0_data1-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F1,
+					 FUNC_EMMC0_DATA1)>;
+		};
+
+		emmc0_data2-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F2,
+					 FUNC_EMMC0_DATA2)>;
+		};
+
+		emmc0_data3-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F3,
+					 FUNC_EMMC0_DATA3)>;
+		};
+
+		emmc0_data4-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F9,
+					 FUNC_EMMC0_DATA4)>;
+		};
+
+		emmc0_data5-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F8,
+					 FUNC_EMMC0_DATA5)>;
+		};
+
+		emmc0_data6-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F7,
+					 FUNC_EMMC0_DATA6)>;
+		};
+
+		emmc0_data7-pins {
+			pinmux = <PINMUX(PADNUM_EMMC0_GPIO_F6,
+					 FUNC_EMMC0_DATA7)>;
+		};
+	};
+};
+
 &pinctrl_bmcperiph2 {
 	gpio-line-names =
 		"", "", "", "",
@@ -654,6 +720,10 @@
 	snps,no-connect-phy;
 };
 
+&vce0 {
+	status = "okay";
+};
+
 &pcie_ep0 {
 	memory-region = <&pcie0_media_mem_uncache>,
 			<&pcie0_user_mem_uncache>,
@@ -682,7 +752,7 @@
 	mmbi-instance-num = <8>;
 	mmbi-osuse = /bits/ 8 <1 1 1 1 1 1 1 1>;
 	memory-region = <&pcie0_mmbi_buffer_uncache>;
-	mmbi-src-addr = /bits/ 64 <0xf6820000>;
+	mmbi-src-addr = /bits/ 64 <0xf7000000>;
 	status = "disabled";
 };
 
@@ -698,7 +768,6 @@
 	mmbi-instance-num = <8>;
 	mmbi-osuse = /bits/ 8 <0 0 0 0 0 0 0 0>;
 	memory-region = <&espi0_mmbi_buffer_uncache>;
-	mmbi-src-addr = /bits/ 64 <0xf6810000>;
 	status = "disabled";
 };
 
@@ -732,12 +801,13 @@
 };
 
 &espi0 {
-	espi-dma-mode = <0x11>;
+	espi-dma-mode = <0x1>;
 	flash-safs-mode = <1>;
 	starfive,flash-mtd-device = "Data";
-	perif-memcyc-src-addr = /bits/ 64 <0xf6830000>;
-	perif-memcyc-size = <0x40000>;
+	starfive,host-src-addr = /bits/ 64 <0xf6810000>;
+	perif-memcyc-size = <0x400000>;
 	memory-region = <&espi0_mmbi_buffer_uncache>, <&espi0_mem_uncache>;
+	starfive,vw-hw-enable;
 
 	starfive,bt-remap-num = <1>;
 	starfive,kcs-remap-num = <1>;
@@ -753,7 +823,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&espi0_pins>;
 
-	status = "disabled";
+	status = "okay";
 };
 
 &gmac2 {
@@ -801,6 +871,10 @@
 	status = "okay";
 };
 
+&hwspinlock {
+	status = "okay";
+};
+
 &i3c4 {
 	status = "disabled";
 	clocks = <&fpga_12mhz_clk>;
@@ -827,58 +901,68 @@
 
 &i2c4_master {
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-	clock-frequency = <400000>;
+	clock-frequency = <100000>;
 	/* pinctrl-names = "default"; */
 	/* pinctrl-0 = <&i2c4_pins>; */
 };
 
 &i2c4_slave {
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-	clock-frequency = <400000>;
+	clock-frequency = <100000>;
 	/* pinctrl-names = "default"; */
 	/* pinctrl-0 = <&i2c4_pins>; */
 };
 
 &i2c5_master {
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-	clock-frequency = <400000>;
+	clock-frequency = <100000>;
 	/* pinctrl-names = "default"; */
 	/* pinctrl-0 = <&i2c5_pins>; */
 };
 
 &i2c5_slave {
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-	clock-frequency = <400000>;
+	clock-frequency = <100000>;
 	/* pinctrl-names = "default"; */
 	/* pinctrl-0 = <&i2c5_pins>; */
 };
 
 &i2c6_master {
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-	clock-frequency = <400000>;
+	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c6_pins>;
 };
 
 &i2c6_slave {
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-	clock-frequency = <400000>;
+	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c6_pins>;
 };
 
 &i2c7_master {
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-	clock-frequency = <400000>;
+	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c7_pins>;
+	status = "okay";
 };
 
 &i2c7_slave {
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-	clock-frequency = <400000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c7_pins>;
+	clock-frequency = <100000>;
+	/* pinctrl-names = "default"; */
+	/* pinctrl-0 = <&i2c7_pins>; */
+	compatible = "starfive,jhb100-dwc-i2c-slave";
+	status = "okay";
+
+	starfive,mctp-i2c-ms = <&i2c7_master>;
+	mctp-controller;
+	mctp@15 {
+		compatible = "mctp-i2c-controller";
+		reg = <(0x15 | I2C_OWN_SLAVE_ADDRESS)>;
+	};
 };
 
 &jtag0 {
@@ -911,6 +995,15 @@
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
 };
 
+&dma_spi0 {
+	status = "okay";
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+};
+
+&rtc {
+	status = "okay";
+};
+
 &spi0 {
 	status = "okay";
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
@@ -925,10 +1018,30 @@
 };
 
 &wdt0 {
+	status = "okay";
+};
+
+&wdt1 {
+	status = "okay";
+};
+
+&wdt2 {
+	status = "okay";
+};
+
+&wdt3 {
+	status = "okay";
+};
+
+&wdt_ext {
 	status = "disabled";
 };
 
 &emmc0 {
-	clocks = <&fpga_12mhz_clk>;
 	status = "okay";
+	mmc-hs400-1_8v;
+	max-frequency = <200000000>;
+	non-removable;
+	pinctrl-names = "default";
+	pinctrl-0 = <&emmc0_pins>;
 };
