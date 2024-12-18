@@ -44,9 +44,6 @@ static struct clk_info syscrg_clk_info[] = {
 		"pll0",			NULL,	CLK_DIVIDER,	3 },
 	{ JHB100_SYS0CLK_BMCUSB_480M_SCANCLK,	"bmcusb_480m_scanclk",
 		"bmcusb_scanclk",	NULL,	CLK_GATE,	0 },
-	/* bmccpuss */
-	{ JHB100_SYS0CLK_BMCCPUSS_SYS_ICG_BUF,	"bmccpuss_sys_icg_buf",
-		"pll1",			NULL,	CLK_GATE,	0 },
 	/* vce */
 	{ JHB100_SYS0CLK_VCE_600,	"vce_600",
 		"pll0",			NULL,	CLK_DIVIDER,	4 },
