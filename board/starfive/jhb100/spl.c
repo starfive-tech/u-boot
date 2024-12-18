@@ -44,6 +44,12 @@
 #define JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET	0x60
 #define JHB100_MAIN_CLK_ENABLE			BIT(31)
 
+/* SYS2_IOMUX */
+#define JHB100_SYS2_IOMUX_ADDR		0x13082000UL
+#define JHB100_SYS2_FUNC_SEL_OFFSET	0x0d4
+#define JHB100_SYS2_FUNC12_SEL		BIT(24)
+#define JHB100_SYS2_FUNC13_SEL		BIT(26)
+
 int spl_board_init_f(void)
 {
 	int ret;
@@ -95,12 +101,21 @@ void jhb100_smbus_filter_disable(void)
 
 void jhb100_plat_init(void)
 {
+	void *addr;
+
 	/* CPUSS Secure CRG is now in PMP region. Enable main_icg clock during SPL init to ensure
 	 * Linux can boot successfully to the console in emulator environment
 	 */
-	void *addr = (void *)(JHB100_CPUSS_SECURE_CRG_ADDR + JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET);
+	addr = (void *)(JHB100_CPUSS_SECURE_CRG_ADDR + JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET);
 
 	writel(JHB100_MAIN_CLK_ENABLE, addr);
+
+	/* SPL has limited DT parsing and does not automatically initialize pinmux settings.
+	 * Use writel() directly to set UART5 pins in SPL.
+	 */
+	addr = (void *)(JHB100_SYS2_IOMUX_ADDR + JHB100_SYS2_FUNC_SEL_OFFSET);
+
+	writel(readl(addr) | JHB100_SYS2_FUNC12_SEL | JHB100_SYS2_FUNC13_SEL, addr);
 }
 
 void plat_gmac_init(void)
