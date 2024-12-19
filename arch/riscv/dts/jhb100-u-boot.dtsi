@@ -38,6 +38,66 @@
 			status = "disabled";
 			bootph-pre-ram;
 		};
+
+		rpmi: rpmi-shmem@12c10000 {
+			compatible = "riscv,rpmi-shmem-mbox";
+			reg =	<0x0 0x12c10000 0x0 0x400>,
+				<0x0 0x12c10400 0x0 0x400>,
+				<0x0 0x12c10800 0x0 0x400>,
+				<0x0 0x12c10c00 0x0 0x400>,
+				<0x0 0x12c08000 0x0 0x8000>;
+			reg-names = "a2p-req", "p2a-ack", "p2a-req",
+					"a2p-ack", "db-reg";
+			#mbox-cells = <0x01>;
+			riscv,slot-size = <0x40>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			performance@9 {
+				reg = <0x09>;
+				riscv,sbi-mpxy-channel-id = <0x1003>;
+				mboxes = <&rpmi 0x09>;
+				compatible = "riscv,rpmi-mpxy-perf";
+			};
+			power-domain@8 {
+				reg = <0x08>;
+				riscv,sbi-mpxy-channel-id = <0x1002>;
+				mboxes = <&rpmi 0x08>;
+				compatible = "riscv,rpmi-mpxy-dpwr";
+			};
+			voltage@6 {
+				reg = <0x06>;
+				riscv,sbi-mpxy-channel-id = <0x1001>;
+				mboxes = <&rpmi 0x06>;
+				compatible = "riscv,rpmi-mpxy-volt";
+			};
+			clock@7 {
+				reg = <0x07>;
+				riscv,sbi-mpxy-channel-id = <0x1000>;
+				mboxes = <&rpmi 0x07>;
+				compatible = "riscv,rpmi-mpxy-clk";
+			};
+			sec-boot@8000 {
+				reg = <0x8000>;
+				riscv,sbi-mpxy-channel-id = <0x1011>;
+				mboxes = <&rpmi 0x8000>;
+				compatible = "riscv,rpmi-mpxy-jhb100-sec";
+			};
+
+			hsm@4 {
+				reg = <0x0 0x0A200000 0x0 0x4000>;
+					mboxes = <&rpmi 0x04>;
+					compatible = "riscv,jhb100-rpmi-hsm";
+			};
+
+			sysreset@2 {
+				reg = <0x0 0x14110000 0x0 0x2000>,
+							<0x0 0x13010000 0x0 0x4000>,
+							<0x0 0x14112000 0x0 0x2000>;
+				mboxes = <&rpmi 0x02>;
+				compatible = "riscv,jhb100-rpmi-system-reset";
+			};
+
+		};
 	};
 };
 
