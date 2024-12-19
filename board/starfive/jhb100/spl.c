@@ -47,8 +47,13 @@
 /* SYS2_IOMUX */
 #define JHB100_SYS2_IOMUX_ADDR		0x13082000UL
 #define JHB100_SYS2_FUNC_SEL_OFFSET	0x0d4
+#define JHB100_SYS2_PADCFG_A36_OFFSET	0x040
+#define JHB100_SYS2_PADCFG_A37_OFFSET	0x044
 #define JHB100_SYS2_FUNC12_SEL		BIT(24)
 #define JHB100_SYS2_FUNC13_SEL		BIT(26)
+
+#define JHB100_PINCONF_IE		BIT(2)
+#define JHB100_PINCONF_DS_12mA		BIT(0) | BIT(1)
 
 int spl_board_init_f(void)
 {
@@ -107,15 +112,19 @@ void jhb100_plat_init(void)
 	 * Linux can boot successfully to the console in emulator environment
 	 */
 	addr = (void *)(JHB100_CPUSS_SECURE_CRG_ADDR + JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET);
-
 	writel(JHB100_MAIN_CLK_ENABLE, addr);
 
 	/* SPL has limited DT parsing and does not automatically initialize pinmux settings.
 	 * Use writel() directly to set UART5 pins in SPL.
 	 */
 	addr = (void *)(JHB100_SYS2_IOMUX_ADDR + JHB100_SYS2_FUNC_SEL_OFFSET);
-
 	writel(readl(addr) | JHB100_SYS2_FUNC12_SEL | JHB100_SYS2_FUNC13_SEL, addr);
+
+	addr = (void *)(JHB100_SYS2_IOMUX_ADDR + JHB100_SYS2_PADCFG_A36_OFFSET);
+	writel(JHB100_PINCONF_DS_12mA, addr);
+
+	addr = (void *)(JHB100_SYS2_IOMUX_ADDR + JHB100_SYS2_PADCFG_A37_OFFSET);
+	writel(JHB100_PINCONF_DS_12mA | JHB100_PINCONF_IE, addr);
 }
 
 void plat_gmac_init(void)
