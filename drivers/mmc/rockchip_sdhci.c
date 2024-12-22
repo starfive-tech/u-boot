@@ -598,13 +598,16 @@ static int rockchip_sdhci_probe(struct udevice *dev)
 
 	host->max_clk = cfg->f_max;
 	ret = clk_get_by_index(dev, 0, &clk);
+	if (ret)
+		printf("%s fail to get clk\n", __func__);
+
+#if CONFIG_IS_ENABLED(ARCH_ROCKCHIP)
 	if (!ret) {
 		ret = clk_set_rate(&clk, host->max_clk);
 		if (IS_ERR_VALUE(ret))
 			printf("%s clk set rate fail!\n", __func__);
-	} else {
-		printf("%s fail to get clk\n", __func__);
 	}
+#endif
 
 	priv->emmc_clk = clk;
 	priv->dev = dev;
