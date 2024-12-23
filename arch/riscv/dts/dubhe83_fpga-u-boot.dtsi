@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/* Copyright (c) 2024 StarFive Technology Co., Ltd. */
+
+#include "dubhe_fpga_common-u-boot.dtsi"
+
+&cpu0 {
+	riscv,isa = "rv64imafdchv_zba_zbb_zbc_zbs_zicbom_zicbop_zicboz_zicclsm_zicntr_zicond_zicsr_zifencei_zihintpause_zihpm_smstateen_svinval_svnapot_sscofpmf_sstc_zvbb_zvbc_zvkb_zvkg_zvkned_zvknha_zvknhb_zvksed_zvksh";
+};
+
+&cpu1 {
+	riscv,isa = "rv64imafdchv_zba_zbb_zbc_zbs_zicbom_zicbop_zicboz_zicclsm_zicntr_zicond_zicsr_zifencei_zihintpause_zihpm_smstateen_svinval_svnapot_sscofpmf_sstc_zvbb_zvbc_zvkb_zvkg_zvkned_zvknha_zvknhb_zvksed_zvksh";
+};
+
+&cpu2 {
+	riscv,isa = "rv64imafdchv_zba_zbb_zbc_zbs_zicbom_zicbop_zicboz_zicclsm_zicntr_zicond_zicsr_zifencei_zihintpause_zihpm_smstateen_svinval_svnapot_sscofpmf_sstc_zvbb_zvbc_zvkb_zvkg_zvkned_zvknha_zvknhb_zvksed_zvksh";
+};
+
+&cpu3 {
+	riscv,isa = "rv64imafdchv_zba_zbb_zbc_zbs_zicbom_zicbop_zicboz_zicclsm_zicntr_zicond_zicsr_zifencei_zihintpause_zihpm_smstateen_svinval_svnapot_sscofpmf_sstc_zvbb_zvbc_zvkb_zvkg_zvkned_zvknha_zvknhb_zvksed_zvksh";
+};
