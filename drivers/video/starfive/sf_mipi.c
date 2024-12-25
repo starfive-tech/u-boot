@@ -118,7 +118,7 @@ static void dsi_phy_post_set_mode(void *priv_data, unsigned long mode_flags)
 	debug("dsi_phy_post_set_mode priv->timings.hactive.typ %d----\n",priv->timings.hactive.typ);
 	debug("dsi_phy_post_set_mode priv->timings.vactive.typ %d----\n",priv->timings.vactive.typ);
 	if (priv->timings.hactive.typ == 800)
-		bitrate = 750000000;
+		bitrate = 400000000;
 	else if(priv->timings.hactive.typ == 1920)
 		bitrate = 900000000;//1188M 60fps
 
@@ -320,13 +320,14 @@ static int dsi_sf_set_backlight(struct udevice *dev, int percent)
 	struct dsi_sf_priv *priv = dev_get_priv(dev);
 	int ret;
 
-	ret = dsi_host_enable(priv->dsi_host);
+	ret = panel_enable_backlight(priv->panel);
 	if (ret) {
-		debug("failed to enable mipi dsi host\n");
+		debug("panel %s enable backlight error %d\n",
+					priv->panel->name, ret);
 		return ret;
 	}
 
-	ret = panel_enable_backlight(priv->panel);
+	ret = dsi_host_enable(priv->dsi_host);
 	if (ret) {
 		debug("panel %s enable backlight error %d\n",
 			priv->panel->name, ret);

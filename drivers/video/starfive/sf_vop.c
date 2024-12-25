@@ -631,7 +631,7 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 
 		if(uc_priv->xsize == 800)
 		{
-			ulong new_rate = clk_set_rate(&priv->dc_pix_src, 29700000);
+			ulong new_rate = clk_set_rate(&priv->dc_pix_src, 66000000);
 			debug("new_rate  %ld\n", new_rate);
 		}
 		if(uc_priv->xsize == 1920)
@@ -674,10 +674,10 @@ static int sf_display_init(struct udevice *dev, ulong fbbase, ofnode ep_node)
 		writel(0x0016110e, priv->regs_hi+0x0000154c); //csr_reg
 		writel(0x00000001, priv->regs_hi+0x00002518); //csr_reg
 		writel(0x00000000, priv->regs_hi+0x00001a28); //csr_reg
-		writel(0x03840320, priv->regs_hi+0x00001430); //csr_reg, hsize, htotal
-		writel(0xc1bf837a, priv->regs_hi+0x00001438); //csr_reg, hsize blanking
-		writel(0x022601e0, priv->regs_hi+0x00001440); //csr_reg, vsize
-		writel(0xc110021c, priv->regs_hi+0x00001448); //csr_reg, vsize blanking
+		writel(0x03560320, priv->regs_hi+0x00001430); //csr_reg, hsize, htotal
+		writel(0xc1a8834c, priv->regs_hi+0x00001438); //csr_reg, hsize blanking
+		writel(0x050f0500, priv->regs_hi+0x00001440); //csr_reg, vsize
+		writel(0xc2848506, priv->regs_hi+0x00001448); //csr_reg, vsize blanking
 		writel(0x00000000, priv->regs_hi+0x000014b0); //csr_reg
 		writel(0x000000e2, priv->regs_hi+0x00001cd0); //csr_reg
 		writel(0x000000af, priv->regs_hi+0x000014d0); //csr_reg

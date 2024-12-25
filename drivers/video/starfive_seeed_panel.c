@@ -149,22 +149,77 @@ enum REG_ADDR {
 #define WCMDQUEUE 0x0500
 #define RCMDQUEUE 0x0504
 
+enum cmd_type {
+	CMD_TYPE_DCS,
+	CMD_TYPE_DELAY,
+};
+
+struct jadard_init_cmd {
+	enum cmd_type type;
+	const char *data;
+	size_t len;
+};
+
+#define _INIT_CMD_DCS(...)					\
+	{							\
+		.type	= CMD_TYPE_DCS,				\
+		.data	= (char[]){__VA_ARGS__},		\
+		.len	= sizeof((char[]){__VA_ARGS__})		\
+	}							\
+
+#define _INIT_CMD_DELAY(...)					\
+	{							\
+		.type	= CMD_TYPE_DELAY,			\
+		.data	= (char[]){__VA_ARGS__},		\
+		.len	= sizeof((char[]){__VA_ARGS__})		\
+	}
+
+static const struct jadard_init_cmd cz101b4001_init_cmds[] = {
+	_INIT_CMD_DCS(0xE0,0xAB,0xBA),
+	_INIT_CMD_DCS(0xE1,0xBA,0xAB),
+	_INIT_CMD_DCS(0xB1,0x10,0x01,0x47,0xFF),
+	_INIT_CMD_DCS(0xB2,0x0C,0x14,0x04,0x50,0x50,0x14),
+	_INIT_CMD_DCS(0xB3,0x56,0x53,0x00),
+	_INIT_CMD_DCS(0xB4,0x33,0x30,0x04),
+	_INIT_CMD_DCS(0xB6,0xB0,0x00,0x00,0x10,0x00,0x10,0x00),
+	_INIT_CMD_DCS(0xB8,0x05,0x12,0x29,0x49,0x48,0x00,0x00),
+	_INIT_CMD_DCS(0xB9,0x7C,0x65,0x55,0x49,0x46,0x36,0x3B,0x24,0x3D,0x3C,0x3D,0x5C,0x4C,0x55,0x47,0x46,0x39,0x26,0x06,0x7C,0x65,0x55,0x49,0x46,0x36,0x3B,0x24,0x3D,0x3C,0x3D,0x5C,0x4C,0x55,0x47,0x46,0x39,0x26,0x06),
+	_INIT_CMD_DCS(0xC0,0xFF,0x87,0x12,0x34,0x44,0x44,0x44,0x44,0x98,0x04,0x98,0x04,0x0F,0x00,0x00,0xC1),
+	_INIT_CMD_DCS(0xC1,0x54,0x94,0x02,0x85,0x9F,0x00,0x7F,0x00,0x54,0x00),
+	_INIT_CMD_DCS(0xC2,0x17,0x09,0x08,0x89,0x08,0x11,0x22,0x20,0x44,0xFF,0x18,0x00),
+	_INIT_CMD_DCS(0xC3,0x86,0x46,0x05,0x05,0x1C,0x1C,0x1D,0x1D,0x02,0x1F,0x1F,0x1E,0x1E,0x0F,0x0F,0x0D,0x0D,0x13,0x13,0x11,0x11,0x00),
+	_INIT_CMD_DCS(0xC4,0x07,0x07,0x04,0x04,0x1C,0x1C,0x1D,0x1D,0x02,0x1F,0x1F,0x1E,0x1E,0x0E,0x0E,0x0C,0x0C,0x12,0x12,0x10,0x10,0x00),
+	_INIT_CMD_DCS(0xC6,0x2A,0x2A),
+	_INIT_CMD_DCS(0xC8,0x21,0x00,0x31,0x42,0x34,0x16),
+	_INIT_CMD_DCS(0xCA,0xCB,0x43),
+	_INIT_CMD_DCS(0xCD,0x0E,0x4B,0x4B,0x20,0x19,0x6B,0x06,0xB3),
+	_INIT_CMD_DCS(0xD2,0xE3,0x2B,0x38,0x00),
+	_INIT_CMD_DCS(0xD4,0x00,0x01,0x00,0x0E,0x04,0x44,0x08,0x10,0x00,0x00,0x00),
+	_INIT_CMD_DCS(0xE6,0x80,0x01,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF),
+	_INIT_CMD_DCS(0xF0,0x12,0x03,0x20,0x00,0xFF),
+	_INIT_CMD_DCS(0xF3,0x00),
+
+	_INIT_CMD_DELAY(120),
+};
+
+#define msleep(a) udelay(a * 1000)
 
 struct seeed_panel_priv {
 	struct udevice *reg;
 	struct udevice *backlight;
 	struct gpio_desc *sel_gpio;   //select
-
+	struct gpio_desc blen;
+	struct gpio_desc enable;
 };
 
 static const struct display_timing default_timing = {
-	.pixelclock.typ		= 29700000,
+	.pixelclock.typ		= 66000000,
 	.hactive.typ		= 800,
-	.hfront_porch.typ	= 90,
+	.hfront_porch.typ	= 44,
 	.hback_porch.typ	= 5,
 	.hsync_len.typ		= 5,
-	.vactive.typ		= 480,
-	.vfront_porch.typ	= 60,
+	.vactive.typ		= 1280,
+	.vfront_porch.typ	= 5,
 	.vback_porch.typ	= 5,
 	.vsync_len.typ		= 5,
 };
@@ -228,52 +283,48 @@ static int rm68200_panel_enable_backlight(struct udevice *dev)
 	int ret;
 	int i;
 	u8 reg_value = 0;
+	u32 num_init_cmds;
+	int err;
+
+	num_init_cmds = ARRAY_SIZE(cz101b4001_init_cmds);
 
 	ret = mipi_dsi_attach(device);
 	if (ret < 0)
 		return ret;
 
-	seeed_panel_i2c_write(dev, REG_POWERON, 0xff, 1);
-
-	mdelay(100);
-	/* Wait for nPWRDWN to go low to indicate poweron is done. */
-	for (i = 0; i < 100; i++) {
-		seeed_panel_i2c_read(dev, REG_PORTB, &reg_value);
-		if (reg_value & 1)
+	for (i = 0; i < num_init_cmds; i++) {
+		//const struct jadard_init_cmd *cmd = cz101b4001_init_cmds[i];
+		switch (cz101b4001_init_cmds[i].type) {
+		case CMD_TYPE_DELAY:
+			msleep(cz101b4001_init_cmds[i].data[0]);
+			err = 0;
 			break;
+
+		case CMD_TYPE_DCS:
+			/*err = mipi_dsi_dcs_write(dsi, cmd->data[0],
+						 cmd->len <= 1 ? NULL : &cmd->data[1],
+						 cmd->len - 1);
+			*/
+			err = mipi_dsi_dcs_write_buffer(device, cz101b4001_init_cmds[i].data, cz101b4001_init_cmds[i].len);
+			break;
+		default:
+			err = -EINVAL;
+		}
+
+		if (err < 0) {
+			printf("failed to write CMD#0x%x\n", cz101b4001_init_cmds[i].data[0]);
+			return err;
+		}
 	}
 
-	rpi_touchscreen_write(dev, DSI_LANEENABLE,
-				DSI_LANEENABLE_CLOCK |
-				DSI_LANEENABLE_D0);
+	err = mipi_dsi_dcs_exit_sleep_mode(device);
+	if (err < 0)
+		printf("failed to exit sleep mode ret = %d\n", err);
+	msleep(120);
 
-	rpi_touchscreen_write(dev,PPI_D0S_CLRSIPOCOUNT, 0x05);
-	rpi_touchscreen_write(dev,PPI_D1S_CLRSIPOCOUNT, 0x05);
-	rpi_touchscreen_write(dev,PPI_D0S_ATMR, 0x00);
-	rpi_touchscreen_write(dev,PPI_D1S_ATMR, 0x00);
-	rpi_touchscreen_write(dev,PPI_LPTXTIMECNT, 0x03);
-
-	rpi_touchscreen_write(dev,SPICMR, 0x00);
-	rpi_touchscreen_write(dev,LCDCTRL, 0x00100150);
-	rpi_touchscreen_write(dev,SYSCTRL, 0x040f);
-	mdelay(100);
-
-	rpi_touchscreen_write(dev,PPI_STARTPPI, 0x01);
-	rpi_touchscreen_write(dev,DSI_STARTDSI, 0x01);
-	mdelay(100);
-
-	/* Turn on the backlight. */
-	seeed_panel_i2c_write(dev,REG_PWM,	255, 255);
-	mdelay(100);
-
-	/* Default to the same orientation as the closed source
-	* firmware used for the panel.  Runtime rotation
-	* configuration will be supported using VC4's plane
-	* orientation bits.
-	*/
-	seeed_panel_i2c_write(dev,REG_PORTA,255, BIT(2));
-	mdelay(100);
-
+	err =  mipi_dsi_dcs_set_display_on(device);
+	if (err < 0)
+		printf(dev, "failed to set display on ret = %d\n", err);
 
 	return 0;
 }
@@ -293,42 +344,19 @@ static int rm68200_panel_of_to_plat(struct udevice *dev)
 static int rm68200_panel_probe(struct udevice *dev)
 {
 	struct mipi_dsi_panel_plat *plat = dev_get_plat(dev);
-#if CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
 	struct seeed_panel_priv *priv = dev_get_priv(dev);
-#endif
+	int ret;
+
+	printf("%s,-----------\n", __func__);
 
 	u8 reg_value = 0;
 
 	/* fill characteristics of DSI data link */
-	plat->lanes = 1;
+	plat->lanes = 4;
 	plat->format = MIPI_DSI_FMT_RGB888;
 	plat->mode_flags = MIPI_DSI_MODE_VIDEO |
 			   MIPI_DSI_MODE_VIDEO_BURST |
 			   MIPI_DSI_MODE_LPM;
-
-	seeed_panel_i2c_read(dev, 0x80, &reg_value);
-
-	debug("%s,reg_value = %d\n", __func__,reg_value);
-	switch (reg_value) {
-	   case 0xde: /* ver 1 */
-	   case 0xc3: /* ver 2 */
-	   break;
-
-	   default:
-		   debug("Unknown Atmel firmware revision: 0x%02x\n", reg_value);
-		   return -ENODEV;
-	}
-
-#if CONFIG_IS_ENABLED(TARGET_STARFIVE_DEVKITS)
-	priv->sel_gpio = devm_gpiod_get_optional(dev, "sel", GPIOD_IS_OUT);
-
-	if (IS_ERR(priv->sel_gpio)) {
-		pr_err("Failed get reset sel gpio\n");
-		return PTR_ERR(priv->sel_gpio);
-	}
-
-	dm_gpio_set_value(priv->sel_gpio, 0);
-#endif
 
 	return 0;
 }

@@ -98,7 +98,7 @@ static void cdns_dsi_init_link(struct mipi_dsi_northwest_info *mipi_dsi, struct 
 
 	writel(LINK_EN, mipi_dsi->dsi_base + MCTL_MAIN_DATA_CTL);
 
-	val = CLK_LANE_EN | PLL_START ; // | PLL_START; unused bit
+	val = CLK_LANE_EN | CLK_FORCE_STOP ; // | PLL_START; unused bit
 	for (i = 0; i < mipi_dsi->max_data_lanes; i++)
 		val |= DATA_LANE_START(i);
 
@@ -223,7 +223,7 @@ static ssize_t cdns_dsi_transfer(struct mipi_dsi_host *host,
 		debug("wait tx done timeout!\n");
 		return -ETIMEDOUT;
 	}
-	udelay(10);
+	udelay(1000);
 	sts = readl(dsi->dsi_base + DIRECT_CMD_STS);
 	writel(wait, dsi->dsi_base + DIRECT_CMD_STS_CLR);
 	writel(0, dsi->dsi_base + DIRECT_CMD_STS_CTL);
@@ -289,6 +289,9 @@ static int mipi_dsi_northwest_init(struct udevice *dev,
 		return -EINVAL;
 	}
 	priv->link_initialized = false;
+	priv->phy_ops->init(priv->device);
+	priv->phy_ops->post_set_mode(priv->device, MIPI_DSI_MODE_VIDEO);
+	cdns_dsi_init_link(priv, priv->device);
 
 	return 0;
 }
@@ -297,41 +300,24 @@ static int mipi_dsi_enable(struct udevice *dev)
 {
 	struct mipi_dsi_northwest_info *priv = dev_get_priv(dev);
 
-	priv->phy_ops->init(priv->device);
-	priv->phy_ops->post_set_mode(priv->device, MIPI_DSI_MODE_VIDEO);
-	cdns_dsi_init_link(priv, priv->device);
-	debug("priv->timings.hactive.typ %d----\n",priv->timings.hactive.typ);
-	debug("priv->timings.vactive.typ %d----\n",priv->timings.vactive.typ);
-	if (priv->timings.hactive.typ == 800)
-	{
-		writel(0x00670067, priv->dsi_base + 0x000000c0);
-		writel(0x00cb0960, priv->dsi_base + 0x000000c4);
-		writel(0x0003b145, priv->dsi_base + 0x000000b4);
-		writel(0x000001e0, priv->dsi_base + 0x000000b8);
-		writel(0x00000a9e, priv->dsi_base + 0x000000d0);
-		writel(0x0a980000, priv->dsi_base + 0x000000f8);
-		writel(0x00000b0f, priv->dsi_base + 0x000000cc);
-		writel(0x7c3c0aae, priv->dsi_base + 0x000000dc);
-		writel(0x0032dcd3, priv->dsi_base + 0x00000014);
-		writel(0x00032dcd, priv->dsi_base + 0x00000018);
-		writel(0x80b8fe00, priv->dsi_base + 0x000000b0);
-		writel(0x00020027, priv->dsi_base + 0x00000004);
-		writel(0x00004018, priv->dsi_base + 0x0000000c);
-	}else if (priv->timings.hactive.typ == 1920){
-		writel(0x01d30081, priv->dsi_base + 0x000000c0);
-		writel(0x01171680, priv->dsi_base + 0x000000c4);
-		writel(0x00003905, priv->dsi_base + 0x000000b4);
-		writel(0x00000438, priv->dsi_base + 0x000000b8);
-		writel(0x00001976, priv->dsi_base + 0x000000d0);
-		writel(0x19700000, priv->dsi_base + 0x000000f8);
-		writel(0x00001a01, priv->dsi_base + 0x000000cc);
-		writel(0x98900661, priv->dsi_base + 0x000000dc);
-		writel(0x003f9403, priv->dsi_base + 0x00000014);
-		writel(0x0003f940, priv->dsi_base + 0x00000018);
-		writel(0x80b8fe00, priv->dsi_base + 0x000000b0);
-		writel(0x00020027, priv->dsi_base + 0x00000004);
-		writel(0x000040f8, priv->dsi_base + 0x0000000c);
-	}
+	writel(0x00340034 ,priv->dsi_base + 0x000000c0);
+	writel(0x00340960 ,priv->dsi_base + 0x000000c4);
+	writel(0x00004145 ,priv->dsi_base + 0x000000b4);
+	writel(0x00000500 ,priv->dsi_base + 0x000000b8);
+	writel(0x000009d4 ,priv->dsi_base + 0x000000d0);
+	writel(0x09ce0000 ,priv->dsi_base + 0x000000f8);
+	writel(0x00000a12 ,priv->dsi_base + 0x000000cc);
+	writel(0x42820279 ,priv->dsi_base + 0x000000dc);
+	writel(0x0033b982 ,priv->dsi_base + 0x00000014);
+	writel(0x00033b98 ,priv->dsi_base + 0x00000018);
+	writel(0x80b8fe00 ,priv->dsi_base + 0x000000b0);
+	writel(0x00003c07 ,priv->dsi_base + 0x00000008);
+	writel(0x0914d828 ,priv->dsi_base + 0x0000001c);
+	writel(0x00000001 ,priv->dsi_base + 0x00000004);
+	writel(0x000000f8 ,priv->dsi_base + 0x0000000c);
+	writel(0x00020027 ,priv->dsi_base + 0x00000004);
+	writel(0x000040f8 ,priv->dsi_base + 0x0000000c);
+
 	return 0;
 }
 
