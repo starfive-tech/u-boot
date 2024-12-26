@@ -70,3 +70,10 @@ config STARFIVE_JHB100_SECURE_VAB_AUTH
 	select STARFIVE_SHA
 	help
 	 All images loaded from FIT will be authenticated by Starfive JHB100 VAB
+
+config SPL_FS_LOAD_RECOVERY_PAYLOAD_NAME
+	string "MMC recovery image for u-boot.itb"
+	depends on TARGET_STARFIVE_JHB100
+	default "u-boot-recovery.itb"
+	help
+	 This is a customised string configuration for StarFive JHB100
