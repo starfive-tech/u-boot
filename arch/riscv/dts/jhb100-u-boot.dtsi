@@ -77,10 +77,11 @@
 				compatible = "riscv,rpmi-mpxy-clock";
 			};
 			sec-boot@8000 {
+				bootph-pre-ram;
 				reg = <0x8000>;
 				riscv,sbi-mpxy-channel-id = <0x1005>;
 				mboxes = <&rpmi 0x8000>;
-				compatible = "riscv,rpmi-mpxy-jhb100-sec";
+				compatible = "riscv,rpmi-mpxy-jhb100-sec", "riscv,rpmi-jhb100-sec";
 			};
 			hsm@4 {
 				reg = <0x0 0x0A200000 0x0 0x4000>;

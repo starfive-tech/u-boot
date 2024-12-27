@@ -58,4 +58,7 @@ config ZYNQMP_IPI
 	help
 	  This enables support for the Xilinx ZynqMP Inter Processor Interrupt
 	  communication controller.
+
+source "drivers/mailbox/rpmi/Kconfig"
+
 endmenu

@@ -823,6 +823,13 @@ config SPL_DM_MAILBOX
 	  this option to build the drivers in drivers/mailbox as part of
 	  SPL build.
 
+config SPL_DM_RPMI_SRV_GRP
+	bool "Enable RPMI service group using Driver Model"
+	depends on DM && OF_CONTROL
+	help
+	  Enable support for the RPMI service group. This allows user to create a service group
+	  and register its services to communicate through RPMI protocol via the mailbox channels.
+
 config SPL_MEMORY
 	bool "Support Memory controller drivers"
 	help

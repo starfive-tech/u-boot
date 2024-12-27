@@ -1,0 +1,20 @@
+config DM_RPMI_SRV_GRP
+	bool "Enable RPMI service group using Driver Model"
+	depends on DM && OF_CONTROL
+	help
+	  Enable support for the RPMI service group. This allows user to create a service group
+	  and register its services to communicate through RPMI protocol via the mailbox channels.
+
+config RPMI_SHMEM_MBOX
+	bool "Enable RPMI mailbox shmem controller support"
+	depends on SPL_DM_MAILBOX && RISCV && SPL_DM_RPMI_SRV_GRP
+	help
+	  This enables support for the RPMI mailbox shmem controller support, which
+	  implements doorbells between 2 processors.
+
+config RPMI_STARFIVE_SEC_SERVICE_RUNTIME_GRP
+    bool "Enable StarFive Secure Runtime Service group"
+    depends on SPL_DM_RPMI_SRV_GRP && RPMI_SHMEM_MBOX
+    help
+        Enable support for StarFive secure runtime service group. This allows
+        user to request secure services from L1 Firmware via mailbox secure channel
