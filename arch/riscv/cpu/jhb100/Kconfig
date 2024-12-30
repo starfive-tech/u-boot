@@ -7,6 +7,7 @@ config STARFIVE_JHB100
 	select SUPPORT_SPL
 	select RAM
 	select SPL_RAM if SPL
+	select SYS_CACHE_SHIFT_6
 	imply CPU
 	imply CPU_RISCV
 	imply RISCV_TIMER if (RISCV_SMODE || SPL_RISCV_SMODE)
