@@ -291,6 +291,17 @@
 			input-enable;
 		};
 	};
+
+	usb_pins: usb-0 {
+		usb-pins {
+			pinmux = <GPIOMUX(43, GPOUT_LOW,
+					      GPOEN_DISABLE,
+					      GPI_NONE)>;
+			bias-disable;
+		};
+	};
+
+
 };
 
 &sdio0 {
@@ -384,6 +395,8 @@
 
 &usbdrd30 {
 	starfive,usb2-only = <1>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&usb_pins>;
 	status = "okay";
 };
 
