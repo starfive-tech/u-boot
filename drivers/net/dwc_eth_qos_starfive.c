@@ -411,6 +411,26 @@ static int eqos_probe_resources_jhb100(struct udevice *dev)
 	return eqos_interface_init_jhb100(dev);
 }
 
+static void eqos_inval_desc_jhb100(void *desc)
+{
+	/* Do nothing */
+}
+
+static void eqos_flush_desc_jhb100(void *desc)
+{
+	/* Do nothing */
+}
+
+static void eqos_inval_buffer_jhb100(void *buf, size_t size)
+{
+	/* Do nothing */
+}
+
+static void eqos_flush_buffer_jhb100(void *buf, size_t size)
+{
+	/* Do nothing */
+}
+
 static struct eqos_ops eqos_jh7110_ops = {
 	.eqos_inval_desc = eqos_inval_desc_generic,
 	.eqos_flush_desc = eqos_flush_desc_generic,
@@ -430,10 +450,10 @@ static struct eqos_ops eqos_jh7110_ops = {
 };
 
 static struct eqos_ops eqos_jhb100_ops = {
-	.eqos_inval_desc = eqos_inval_desc_generic,
-	.eqos_flush_desc = eqos_flush_desc_generic,
-	.eqos_inval_buffer = eqos_inval_buffer_generic,
-	.eqos_flush_buffer = eqos_flush_buffer_generic,
+	.eqos_inval_desc = eqos_inval_desc_jhb100,
+	.eqos_flush_desc = eqos_flush_desc_jhb100,
+	.eqos_inval_buffer = eqos_inval_buffer_jhb100,
+	.eqos_flush_buffer = eqos_flush_buffer_jhb100,
 	.eqos_probe_resources = eqos_probe_resources_jhb100,
 	.eqos_remove_resources = eqos_remove_resources_jhb100,
 	.eqos_stop_resets = eqos_stop_resets_jhb100,
