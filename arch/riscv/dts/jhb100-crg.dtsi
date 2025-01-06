@@ -374,6 +374,18 @@
 			#reset-cells = <1>;
 		};
 
+		sys_syscon: syscon@13010000 {
+			compatible = "starfive,jhb100-sys-syscon", "syscon",
+				     "simple-mfd";
+			reg = <0x0 0x13010000 0x0 0x4000>;
+
+			syspll: clock-controller {
+				compatible = "starfive,jhb100-sys-pll";
+				clocks = <&osc>;
+				#clock-cells = <1>;
+			};
+		};
+
 		cpucrg: clock-controller@13214000 {
 			compatible = "starfive,jhb100-cpucrg";
 			reg = <0x0 0x13214000 0x0 0x1000>;

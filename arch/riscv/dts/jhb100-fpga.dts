@@ -104,12 +104,12 @@
 			no-map;
 		};
 
-		espi0_mem_cache: espi0-slave@44400000 {
+		espi0_perif_mem_cache: espi0-slave@44400000 {
 			reg = <0x0 0x44400000 0x0 0x400000>;
 			no-map;
 		};
 
-		espi0_mem_uncache: espi0-slave@404400000 {
+		espi0_perif_mem_uncache: espi0-slave@404400000 {
 			reg = <0x4 0x04400000 0x0 0x400000>;
 			no-map;
 		};
@@ -126,58 +126,79 @@
 			no-map;
 		};
 
-		pcie0_user_mem_cache: user_memory@44c00000 {
-			reg = <0x0 0x44c00000 0x0 0x2000000>,
-			      <0x0 0x46c00000 0x0 0x100000>,
-			      <0x0 0x46d00000 0x0 0x100000>;
+		espi0_vw_mem_cache: espi0@44c00000 {
+			reg = <0x0 0x44c00000 0x0 0x1000>;
 			no-map;
 		};
 
-		pcie0_user_mem_uncache: user_memory@404c00000 {
-			reg = <0x4 0x04c00000 0x0 0x2000000>,
-			      <0x4 0x06c00000 0x0 0x100000>,
-			      <0x4 0x06d00000 0x0 0x100000>;
+		espi0_vw_mem_uncache: espi0@404c00000 {
+			reg = <0x4 0x04c00000 0x0 0x1000>;
 			no-map;
 		};
 
-		pcie0_media_mem_cache: media_memory@46e00000 {
-			reg = <0x0 0x46e00000 0x0 0x4000000>;
+		pcie0_hdma_mem_cache: hdma_memory@45000000 {
+			reg = <0x0 0x45000000 0x0 0x1000000>;
+			alignment = <0x0 0x1000000>;
 			no-map;
 		};
 
-		pcie0_media_mem_uncache: media_emory@406e00000 {
-			reg = <0x4 0x06e00000 0x0 0x4000000>;
+		pcie0_hdma_mem_uncache: hdma_memory@405000000 {
+			reg = <0x4 0x05000000 0x0 0x1000000>;
+			alignment = <0x0 0x1000000>;
 			no-map;
 		};
 
-		pcie0_hdma_mem_cache: hdma_memory@4ae00000 {
-			reg = <0x0 0x4ae00000 0x0 0x1000000>;
+		pcie0_media_mem_cache: media_memory@48000000 {
+			reg = <0x0 0x48000000 0x0 0x4000000>;
+			alignment = <0x0 0x4000000>;
 			no-map;
 		};
 
-		pcie0_hdma_mem_uncache: hdma_memory@40ae00000 {
-			reg = <0x4 0x0ae00000 0x0 0x1000000>;
+		pcie0_media_mem_uncache: media_emory@408000000 {
+			reg = <0x4 0x08000000 0x0 0x4000000>;
+			alignment = <0x0 0x4000000>;
 			no-map;
 		};
 
-		ramoops@4be00000 {
+		/*
+		 * As the ATU configuration required the dest_addr to keep align
+		 * with its size, the first reg below required to be aligned with
+		 * 0x2000000 too.
+		 */
+		pcie0_user_mem_cache: user_memory@4c000000 {
+			reg = <0x0 0x4c000000 0x0 0x2000000>,
+			      <0x0 0x4e000000 0x0 0x100000>,
+			      <0x0 0x4e100000 0x0 0x100000>;
+			alignment = <0x0 0x100000>;
+			no-map;
+		};
+
+		pcie0_user_mem_uncache: user_memory@40c000000 {
+			reg = <0x4 0x0c000000 0x0 0x2000000>,
+			      <0x4 0x0e000000 0x0 0x100000>,
+			      <0x4 0x0e100000 0x0 0x100000>;
+			alignment = <0x0 0x100000>;
+			no-map;
+		};
+
+		ramoops@4e200000 {
 			compatible = "ramoops";
-			reg = <0x0 0x4be00000 0x0 0xc0000>;
+			reg = <0x0 0x4e200000 0x0 0xc0000>;
 			record-size = <0x20000>;
 			console-size = <0x20000>;
 			pmsg-size = <0x20000>;
 		};
 
 		/* DMA global pool cached address */
-		dma-reserved@4bf00000 {
-			reg = <0x0 0x4bf00000 0x0 0x08000000>;
+		dma-reserved@4e300000 {
+			reg = <0x0 0x4e300000 0x0 0x08000000>;
 			no-map;
 		};
 
 		/* DMA global pool uncached address (alias) */
 		linux,dma@40bf00000 {
 			compatible = "shared-dma-pool";
-			reg = <0x4 0x0bf00000 0x0 0x08000000>;
+			reg = <0x4 0x0e300000 0x0 0x08000000>;
 			no-map;
 			linux,dma-default;
 		};
@@ -459,7 +480,13 @@
 	gpio-line-names =
 		"SPI0_CS0", "SPI0_CS1", "SPI0_SCLK", "SPI0_TX",
 		"SPI0_RX", "SFC0_CS0", "SFC0_CS1", "SFC0_SCLK",
-		"SFC0_IO0", "SFC0_IO1", "SFC0_IO2", "SFC0_IO3";
+		"SFC0_IO0", "SFC0_IO1", "SFC0_IO2", "SFC0_IO3",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"SGPIO0_CLK", "SGPIO0_LD", "SGPIO0_DO", "SGPIO0_DI",
+		"SGPIO1_CLK", "SGPIO1_LD", "SGPIO1_DO", "SGPIO1_DI";
 
 	spi0_pins: spi0-grp {
 		spi0_sclk-pins {
@@ -531,6 +558,52 @@
 		sfc0_io3-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C11,
 					 FUNC_BMCPERIPH1_SFC0_IO3)>;
+			input-enable;
+		};
+	};
+
+	sgpio0_pins: sgpio0-grp {
+		sgpio0_mclk-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C28,
+					FUNC_BMCPERIPH1_SGPIO0_M_CLK)>;
+		};
+
+		sgpio0_mld-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C29,
+					FUNC_BMCPERIPH1_SGPIO0_M_LOAD)>;
+		};
+
+		sgpio0_mdo-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C30,
+					FUNC_BMCPERIPH1_SGPIO0_M_DATA_OUT)>;
+		};
+
+		sgpio0_mdi-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C31,
+					FUNC_BMCPERIPH1_SGPIO0_M_DATA_IN)>;
+			input-enable;
+		};
+	};
+
+	sgpio1_pins: sgpio1-grp {
+		sgpio1_mclk-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C32,
+					FUNC_BMCPERIPH1_SGPIO1_M_CLK)>;
+		};
+
+		sgpio1_mld-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C33,
+					FUNC_BMCPERIPH1_SGPIO1_M_LOAD)>;
+		};
+
+		sgpio1_mdo-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C34,
+					FUNC_BMCPERIPH1_SGPIO1_M_DATA_OUT)>;
+		};
+
+		sgpio1_mdi-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C35,
+					FUNC_BMCPERIPH1_SGPIO1_M_DATA_IN)>;
 			input-enable;
 		};
 	};
@@ -801,25 +874,27 @@
 };
 
 &espi0 {
-	espi-dma-mode = <0x1>;
-	flash-safs-mode = <1>;
+	espi-wait-state = <15>;
 	starfive,flash-mtd-device = "Data";
 	starfive,host-src-addr = /bits/ 64 <0xf6810000>;
 	perif-memcyc-size = <0x400000>;
-	memory-region = <&espi0_mmbi_buffer_uncache>, <&espi0_mem_uncache>;
-	starfive,vw-hw-enable;
+	memory-region = <&espi0_mmbi_buffer_uncache>,
+			<&espi0_perif_mem_uncache>,
+			<&espi0_vw_mem_uncache>;
 
 	starfive,bt-remap-num = <1>;
 	starfive,kcs-remap-num = <1>;
 	starfive,uart-remap-num = <1>;
-	starfive,misc-remap-num = <2>;
 	starfive,bt-io-addr = /bits/ 32 <0xe4>;
 	starfive,kcs-io-addr = /bits/ 32 <0xca2>;
 	starfive,uart-io-addr = /bits/ 32 <0x3f8>;
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
-	starfive,misc-io-addr = /bits/ 32 <0x2e 0x4e>;
-	starfive,misc-sys-addr = /bits/ 32 <0x10583f00 0x10583ff0>;
+
+	starfive,vgpio_dir_bits = /bits/ 64 <0x00000000ffffffff 0x0000000000000000>;
+	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
+	starfive,vgpio_phy_bits = /bits/ 64 <0x000000000000000f 0x0000000000000000>;
+
 	pinctrl-names = "default";
 	pinctrl-0 = <&espi0_pins>;
 
@@ -875,6 +950,11 @@
 	status = "okay";
 };
 
+&dma_i3c {
+	status = "okay";
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+};
+
 &i3c4 {
 	status = "disabled";
 	clocks = <&fpga_12mhz_clk>;
@@ -883,6 +963,54 @@
 	hotjoin;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c4_pins>;
+
+	hub@0,0 {
+		cp0-ldo-en = "disabled";
+		cp1-ldo-en = "disabled";
+		cp0-ldo-volt = "1.8V";
+		cp1-ldo-volt = "1.8V";
+		tp0145-ldo-en = "disabled";
+		tp2367-ldo-en = "disabled";
+		tp0145-ldo-volt = "1.0V";
+		tp2367-ldo-volt = "1.0V";
+		tp0145-pullup = "2k";
+		tp2367-pullup = "2k";
+		tp0145-io-strength = "50Ohms";
+		tp2367-io-strength = "50Ohms";
+
+		target-port@0 {
+			mode = "i3c";
+			pullup = "enabled";
+		};
+		target-port@1 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@2 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@3 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@4 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@5 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@6 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@7 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+	};
 };
 
 &i3c5 {
@@ -932,6 +1060,12 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c6_pins>;
+	status = "okay";
+
+	tda998x@70 {
+		compatible = "nxp,tda998x";
+		reg = <0x70>;
+	};
 };
 
 &i2c6_slave {
@@ -1044,4 +1178,84 @@
 	non-removable;
 	pinctrl-names = "default";
 	pinctrl-0 = <&emmc0_pins>;
+};
+
+&sgpio0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sgpio0_pins>;
+	status = "okay";
+
+	gpio-line-names =
+		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",
+		"", "P80_DOUT4", "", "P80_DOUT5", "", "P80_DOUT6", "", "P80_DOUT7",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "BMC_BOOT_DONE",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "";
+};
+
+&sgpio1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sgpio1_pins>;
+	status = "disabled";
+
+	gpio-line-names =
+		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",
+		"", "P80_DOUT4", "", "P80_DOUT5", "", "P80_DOUT6", "", "P80_DOUT7",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "BMC_BOOT_DONE",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "";
 };

@@ -8,7 +8,7 @@
 #define __JHB100_PINFUNC_H__
 
 /*
- * mux bits:
+ * pinmux bits:
  *  | 31 - 10  |  9 - 8   |  7 - 0  |
  *  | reserved | function | gpio nr |
  *
@@ -16,6 +16,26 @@
  * gpio nr:  gpio pad number, 0 through ngpios - 1
  */
 #define PINMUX(n, func) ((((func) & 0x3) << 8) | ((n) & 0xff))
+
+/*
+ * pincfg bits:
+ *  | 31 - 15  |    14 - 8    |  7 - 0  |
+ *  | reserved |  signal type | offset  |
+ *
+ * offset: register index
+ * type: signal type
+ */
+#define PINCFG(offset, type) ((((type) & 0xff) << 8) | ((offset) & 0xff))
+
+/*
+ * vrefcfg bits:
+ *  | 31 - 15  |    14 - 8    |  7 - 0  |
+ *  | reserved |  signal type | offset  |
+ *
+ * offset: register index
+ * vref: voltage reference value
+ */
+#define VREFCFG(offset, vref) ((((vref) & 0xff) << 8) | ((offset) & 0xff))
 
 /* pinctrl_sys0 pad numbers */
 #define PADNUM_SYSTOP_SYS0_GPIO_A0			0
@@ -675,5 +695,98 @@
 #define FUNC_VGA_VDAC_GPIO_I1				1
 #define FUNC_VGA_VDAC_GPIO_I2				1
 #define FUNC_VGA_VDAC_GPIO_I3				1
+
+/************************** pincfg *****************************/
+
+/* signal types */
+#define JHB100_SYSTEM_SIGNAL				(1 << 0)
+#define JHB100_APRSTN_SIGNAL				(1 << 1)
+#define JHB100_PCIERP_WAKE_SIGNAL			(1 << 2)
+#define JHB100_JTAG_SIGNAL				(1 << 3)
+#define JHB100_VOUT_HPD_SIGNAL				(1 << 4)
+
+/* register index */
+/* sys0 system signals register index */
+#define JHB100_SYSTEM_SIGNAL_TESTEN_REG			4
+#define JHB100_SYSTEM_SIGNAL_SYSPOK_IN_REG		5
+#define JHB100_SYSTEM_SIGNAL_SYSRSTN_IN_REG		6
+#define JHB100_SYSTEM_SIGNAL_PERSTN0_IN_REG		7
+#define JHB100_SYSTEM_SIGNAL_PERSTN1_IN_REG		8
+
+/* sys0 aprstn signal register index */
+#define JHB100_APRSTN_OUT_REG				9
+
+/* sys0 pcierp_wake signal register index */
+#define JHB100_PCIERP_WAKE_REG				10
+
+/* sys2 jtag signals register index */
+#define JHB100_JTAG_TCK_REG				37
+#define JHB100_JTAG_TRESETN_REG				38
+#define JHB100_JTAG_TMS_REG				39
+#define JHB100_JTAG_TDI_REG				40
+#define JHB100_JTAG_TD0_REG				41
+
+/* sys2 vout hpd register index */
+#define JHB100_VOUT_HPD_REG				42
+
+/* sys2 vref register index */
+#define SYS2_VREF_VDD1833_GPIOW				43
+#define SYS2_VREF_VDD1833_GPIOW_INNER			44
+
+/* bmcperiph0 vref register index */
+#define PER0_VREF_VDD1833_GPIOE_I3C0_VSEL		60
+#define PER0_VREF_VDD1833_GPIOE_I3C1_VSEL		61
+#define PER0_VREF_VDD1833_GPIOE_I3C2_VSEL		62
+#define PER0_VREF_VDD1833_GPIOE_I3C4_VSEL		63
+
+/* bmcperiph1 vref register index */
+#define PER1_VREF_VDD1833_GPIOE_SPI_VSEL		36
+#define PER1_VREF_VDD1833_GPIOE_QSPI0_VSEL		37
+#define PER1_VREF_VDD1833_GPIOE_QSPI1_VSEL		38
+#define PER1_VREF_VDD1833_GPIOE_QSPI2_VSEL		39
+
+/* bmcperiph2 vref register index */
+#define PER2_VREF_VDD182533_GPIONW_VSEL			31
+
+/* bmcperiph2 gmac register index */
+#define JHB100_GMAC2_RGMII_RX_CLK			0
+#define JHB100_GMAC2_RGMII_RXCTL			1
+#define JHB100_GMAC2_RGMII_PHY_RXD_0			2
+#define JHB100_GMAC2_RGMII_PHY_RXD_1			3
+#define JHB100_GMAC2_RGMII_PHY_RXD_2			4
+#define JHB100_GMAC2_RGMII_PHY_RXD_3			5
+#define JHB100_GMAC2_IP2IO_RGMII_TX_CLK			6
+#define JHB100_GMAC2_IP2IO_RGMII_TX_CTL_O		7
+#define JHB100_GMAC2_IP2IO_RGMII_PHY_TXD_0		8
+#define JHB100_GMAC2_IP2IO_RGMII_PHY_TXD_1		9
+#define JHB100_GMAC2_IP2IO_RGMII_PHY_TXD_2		10
+#define JHB100_GMAC2_IP2IO_RGMII_PHY_TXD_3		11
+
+#define JHB100_GMAC2_RMII_REF_CLK			0
+#define JHB100_GMAC2_RMII_CRSDV				1
+#define JHB100_GMAC2_RMII_PHY_RXD_0			2
+#define JHB100_GMAC2_RMII_PHY_RXD_1			3
+#define JHB100_GMAC2_IP2IO_RMII_RCK_O			6
+#define JHB100_GMAC2_IP2IO_RMII_TXEN_O			7
+#define JHB100_GMAC2_IP2IO_RMII_PHY_TXD_O_0		8
+#define JHB100_GMAC2_IP2IO_RMII_PHY_TXD_O_1		9
+
+/* bmcperiph3 vref register index */
+#define PER3_VREF_VDD182533_GPIOS_VSEL			13
+
+/* bmcperiph3 gmac register index */
+#define JHB100_GMAC0_RMII_PHY_RXD_I_1			0
+#define JHB100_GMAC0_RMII_PHY_RXD_I_0			1
+#define JHB100_GMAC0_RMII_PHY_RXDV_I			2
+#define JHB100_GMAC0_RMII_PHY_TXEN_O			4
+#define JHB100_GMAC0_RMII_PHY_TXD_O_0			5
+#define JHB100_GMAC0_RMII_PHY_TXD_O_1			6
+#define JHB100_GMAC0_RMII_RCLK_I			7
+#define JHB100_GMAC0_RMII_PHY_RCLK_O			8
+
+/* vref value */
+#define JHB100_VREF_3_3V				0
+#define JHB100_VREF_2_5V				1
+#define JHB100_VREF_1_8V				2
 
 #endif
