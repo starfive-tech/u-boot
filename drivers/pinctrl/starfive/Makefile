@@ -15,3 +15,4 @@ obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-sys0.o
 obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-sys0h.o
 obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-sys1.o
 obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-sys2.o
+obj-$(CONFIG_PINCTRL_STARFIVE_JHB100)	+= pinctrl-starfive-jhb100-emmc.o
