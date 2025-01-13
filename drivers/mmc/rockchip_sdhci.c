@@ -23,6 +23,11 @@
 #include <asm/arch-rockchip/clock.h>
 #include <asm/arch-rockchip/hardware.h>
 #endif
+#ifdef CONFIG_STARFIVE_JHB100
+#include <asm/arch/soc.h>
+#include <asm/cache.h>
+#include <cpu_func.h>
+#endif
 
 /* DWCMSHC specific Mode Select value */
 #define DWCMSHC_CTRL_HS400		0x7
@@ -559,6 +564,50 @@ static int rockchip_sdhci_set_enhanced_strobe(struct sdhci_host *host)
 	return 0;
 }
 
+#if defined(CONFIG_SPL_MMC_SDHCI_ADMA) && defined(CONFIG_STARFIVE_JHB100)
+#define JHB100_BMCPERIPH1_SYSCON_MSHC_ADDR	(0x11b41004UL)
+void starfive_jhb100_adma_write_desc(struct sdhci_host *host, void **next_desc,
+				     dma_addr_t addr, int len, bool end)
+{
+	struct sdhci_adma_desc *desc = *next_desc;
+	u8 attr;
+
+	attr = ADMA_DESC_ATTR_VALID | ADMA_DESC_TRANSFER_DATA;
+	if (end) {
+		attr |= ADMA_DESC_ATTR_END;
+
+		host->adma_addr = cpu_to_dma_addr(host->adma_addr);
+
+		/*
+		 * Store the upper 32 bits of the DMA address in syscon
+		 * register, as the SDHCI_ADMA_ADDRESS_HI register is not
+		 * supported in JHB100.
+		 */
+		writel(upper_32_bits(host->adma_addr),
+		       (void *)JHB100_BMCPERIPH1_SYSCON_MSHC_ADDR);
+	}
+
+	/* Flush cacheable region */
+	if (is_cpu_addr(addr))
+		flush_cache(addr, ROUND(len, ARCH_DMA_MINALIGN));
+
+	addr = cpu_to_dma_addr(addr);
+
+	if (upper_32_bits(host->adma_addr) != upper_32_bits(addr))
+		printf("WARNING: Descriptor and buffer are not in the same 4GB space.\n");
+
+	desc->attr = attr;
+	desc->len = len & 0xffff;
+	desc->reserved = 0;
+	desc->addr_lo = lower_32_bits(addr);
+#ifdef CONFIG_MMC_SDHCI_ADMA_64BIT
+	desc->addr_hi = upper_32_bits(addr);
+#endif
+
+	*next_desc += ADMA_DESC_LEN;
+}
+#endif
+
 static struct sdhci_ops rockchip_sdhci_ops = {
 	.set_control_reg = rockchip_sdhci_set_control_reg,
 	.set_ios_post = rockchip_sdhci_set_ios_post,
@@ -566,6 +615,9 @@ static struct sdhci_ops rockchip_sdhci_ops = {
 	.platform_execute_tuning = rockchip_sdhci_execute_tuning,
 	.config_dll = rockchip_sdhci_config_dll,
 	.set_enhanced_strobe = rockchip_sdhci_set_enhanced_strobe,
+#if defined(CONFIG_SPL_MMC_SDHCI_ADMA) && defined(CONFIG_STARFIVE_JHB100)
+	.adma_write_desc = starfive_jhb100_adma_write_desc,
+#endif
 };
 
 static int rockchip_sdhci_probe(struct udevice *dev)
@@ -578,7 +630,7 @@ static int rockchip_sdhci_probe(struct udevice *dev)
 	struct sdhci_host *host = &priv->host;
 	struct clk clk;
 	int ret;
-#if CONFIG_IS_ENABLED(STARFIVE_JHB100)
+#ifdef CONFIG_STARFIVE_JHB100
 	struct udevice *clk_dev;
 
 	ret = uclass_get_device_by_name(UCLASS_CLK, "clock-controller@13000000", &clk_dev);
@@ -692,9 +744,11 @@ static const struct sdhci_data rk3588_data = {
 };
 #endif
 
+#ifdef CONFIG_STARFIVE_JHB100
 static const struct sdhci_data jhb100_data = {
 	.set_ios_post = sdhci_set_ios_post,
 };
+#endif
 
 static const struct udevice_id sdhci_ids[] = {
 #if CONFIG_IS_ENABLED(ARCH_ROCKCHIP)
@@ -711,10 +765,12 @@ static const struct udevice_id sdhci_ids[] = {
 		.data = (ulong)&rk3588_data,
 	},
 #endif
+#ifdef CONFIG_STARFIVE_JHB100
 	{
 		.compatible = "starfive,jhb100-dwcmshc",
 		.data = (ulong)&jhb100_data,
 	},
+#endif
 	{ }
 };
 
