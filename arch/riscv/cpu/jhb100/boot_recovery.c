@@ -38,6 +38,38 @@ static int do_starfive_check_img_rec_map(struct cmd_tbl *cmdtp, int flag, int ar
 				CHECK))
 				return CMD_RET_SUCCESS;
 			break;
+		case 3:
+			if (starfive_fb_rec_map_handler(&fb_rec_map,
+				BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
+				BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
+				FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+				CHECK))
+				return CMD_RET_SUCCESS;
+			break;
+		case 4:
+			if (starfive_fb_rec_map_handler(&fb_rec_map,
+				BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS,
+				BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS,
+				FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+				CHECK))
+				return CMD_RET_SUCCESS;
+			break;
+		case 5:
+			if (starfive_fb_rec_map_handler(&fb_rec_map,
+				BOOT_SRC_PART_UFS_PRIMARY_BIT_POS,
+				BOOT_SRC_PART_UFS_PRIMARY_BIT_POS,
+				FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+				CHECK))
+				return CMD_RET_SUCCESS;
+			break;
+		case 6:
+			if (starfive_fb_rec_map_handler(&fb_rec_map,
+				BOOT_SRC_PART_UFS_SECONDARY_BIT_POS,
+				BOOT_SRC_PART_UFS_SECONDARY_BIT_POS,
+				FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+				CHECK))
+				return CMD_RET_SUCCESS;
+			break;
 		default:
 			printf("Unknown argument, refer to help command...\n");
 		}
@@ -106,6 +138,10 @@ U_BOOT_LONGHELP(checkimgrcmap,
 	"[arg\n    - Check authentication status from recovery mapping\n"
 	"\tpass: 1 - spi primary\n"
 	"\t      2 - spi secondary\n"
+	"\t      3 - emmc primary\n"
+	"\t      4 - emmc secondary\n"
+	"\t      5 - ufs primary\n"
+	"\t      6 - ufs secondary\n"
 );
 
 U_BOOT_LONGHELP(printrcmap,
