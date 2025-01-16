@@ -79,10 +79,11 @@
 	"spibootconfig=tftpcompboot\0"	\
 	"mmcbootconfig=mmcramfitboot\0"	\
 	"fitbootfile=kernel.itb\0"	\
+	"fitbootrecfile=kernel-recovery.itb\0"	\
 	"bootfile=Image\0"	\
 	"fdtfile=jhb100-fpga.dtb\0"	\
 	"ramdiskfile=rootfs.cpio\0"	\
-	"mmcpart=2\0"
+	"mmcpart=1\0"
 
 #define JHB100_KERNEL_BOOTENV	\
 	"importbootenv="	\
@@ -94,7 +95,10 @@
 			"run importbootenv; "	\
 		"fi;\0"	\
 	"loadimagefat=fatload mmc ${mmcdev}:${mmcpart} ${kernel_addr_r} /${bootfile}\0"	\
-	"loadfitimagefat=fatload mmc ${mmcdev}:${mmcpart} ${kernel_addr_r} /${fitbootfile}\0"	\
+	"loadfitimagefatprim=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} /${fitbootfile}\0"	\
+	"loadfitimagefatsec=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} /${fitbootrecfile}\0"	\
+	"loadcompfitimagefatprim=fatload mmc ${mmcdev}:${mmcpart} ${kernel_comp_addr_r} /${fitbootfile}.gz\0"	\
+	"loadcompfitimagefatsec=fatload mmc ${mmcdev}:${mmcpart} ${kernel_comp_addr_r} /${fitbootrecfile}.gz\0"	\
 	"loadfdtfat=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} /${fdtfile}\0"	\
 	"loadramdiskfat=fatload mmc ${mmcdev}:${mmcpart} ${ramdisk_addr_r} /${ramdiskfile}\0"	\
 	"loadfitimagespiprim=sf read ${loadaddr} ${kernel_fit_spi_prim_off} ${kernel_fit_load_size}\0"	\
@@ -113,6 +117,10 @@
 	"gzramboot=booti ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr_r};\0"	\
 	"gznoramboot=booti ${kernel_addr_r} - ${fdt_addr_r};\0"	\
 	"uncompfitimage=unzip ${kernel_comp_addr_r} ${loadaddr} ${kernel_fit_load_size};\0"	\
+	"auth_and_boot="	\
+		"if authbm ${loadaddr}; then "	\
+			"bootm ${loadaddr};"	\
+		"fi;\0"	\
 	"tftpgzramboot="	\
 		"run loadcompimagetftp;"	\
 		"run loadfdttftp;"	\
@@ -122,7 +130,7 @@
 		"run loadfdttftp;"	\
 		"run loadramdisktftp; run ramboot;\0"	\
 	"mmcramfitboot="	\
-		"run loadfitimagefat;"	\
+		"run loadfitimagefatprim;"	\
 		"run bootmfit;\0"	\
 	"mmcboot="	\
 		"run loadimagefat;"	\
@@ -178,16 +186,65 @@
 		"for boot_dev in ${boot_dev_s}; do "	\
 			"run kernel_bootenv_${boot_dev}; "	\
 		"done; \0"	\
+	"kernel_auth_boot_emmc="	\
+		"echo Checking FIT image in eMMC ...;"	\
+		"if checkimgrcmap 3; then "	\
+			"mmc list;"	\
+			"if mmc dev 0; then "	\
+				"echo Trying to load eMMC Primary FIT image ...; "	\
+				"if run loadfitimagefatprim; then "	\
+					"echo Authenticating eMMC Primary FIT image ...; "	\
+					"run auth_and_boot;"	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo eMMC Primary FIT image failed authentication ...;"	\
+		"if checkimgrcmap 4; then "	\
+			"if mmc dev 0; then "	\
+				"echo Trying to load eMMC Secondary FIT image ...; "	\
+				"if run loadfitimagefatsec; then "	\
+					"echo Authenticating eMMC Secondary FIT image ...; "	\
+					"run auth_and_boot;"	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo eMMC Secondary FIT image failed authentication ...;\0"	\
+	"kernel_comp_auth_boot_emmc="	\
+		"echo Checking compressed FIT image in eMMC ...;"	\
+		"if checkimgrcmap 3; then "	\
+			"echo Trying to load eMMC Primary FIT image ...; "	\
+			"mmc list;"	\
+			"if mmc dev 0; then "	\
+				"if run loadcompfitimagefatprim; then "	\
+					"echo Uncompressing FIT image ...; "	\
+					"run uncompfitimage;"	\
+					"echo Authenticating eMMC Primary FIT image ...; "	\
+					"run auth_and_boot;"	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo eMMC Primary FIT image failed authentication ...;"	\
+		"if checkimgrcmap 4; then "	\
+			"echo Trying to load eMMC Secondary FIT image ...; "	\
+			"if mmc dev 0; then "	\
+				"if run loadcompfitimagefatsec; then "	\
+					"echo Uncompressing FIT image ...; "	\
+					"run uncompfitimage;"	\
+					"echo Authenticating eMMC Secondary FIT image ...; "	\
+					"run auth_and_boot;"	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo eMMC Secondary FIT image failed authentication ...;\0"	\
 	"kernel_auth_boot_spi="	\
 		"echo Checking FIT image in SPI flash ...;"	\
 		"if checkimgrcmap 1; then "	\
 			"sf probe;"	\
 			"if sf probe 1:1; then "	\
 				"echo Trying to load SPI Primary FIT image ...; "	\
-				"run loadfitimagespiprim;"	\
-				"echo Authenticating SPI Primary FIT image ...; "	\
-				"if authbm ${loadaddr}; then "	\
-					"bootm ${loadaddr};"	\
+				"if run loadfitimagespiprim; then "	\
+					"echo Authenticating SPI Primary FIT image ...; "	\
+					"run auth_and_boot;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -195,10 +252,9 @@
 		"if checkimgrcmap 2; then "	\
 			"if sf probe 1:1; then "	\
 				"echo Trying to load SPI Secondary FIT image ...; "	\
-				"run loadfitimagespisec;"	\
-				"echo Authenticating SPI Secondary FIT image ...; "	\
-				"if authbm ${loadaddr}; then "	\
-					"bootm ${loadaddr};"	\
+				"if run loadfitimagespisec; then "	\
+					"echo Authenticating SPI Secondary FIT image ...; "	\
+					"run auth_and_boot;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -209,12 +265,11 @@
 			"echo Trying to load SPI Primary FIT image ...; "	\
 			"sf probe;"	\
 			"if sf probe 1:1; then "	\
-				"run loadcompfitimagespiprim;"	\
-				"echo Uncompressing FIT image ...; "	\
-				"run uncompfitimage;"	\
-				"echo Authenticating SPI Primary FIT image ...; "	\
-				"if authbm ${loadaddr}; then "	\
-					"bootm ${loadaddr};"	\
+				"if run loadcompfitimagespiprim; then "	\
+					"echo Uncompressing FIT image ...; "	\
+					"run uncompfitimage;"	\
+					"echo Authenticating SPI Primary FIT image ...; "	\
+					"run auth_and_boot;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -222,20 +277,16 @@
 		"if checkimgrcmap 2; then "	\
 			"echo Trying to load SPI Secondary FIT image ...; "	\
 			"if sf probe 1:1; then "	\
-				"run loadcompfitimagespisec;"	\
-				"echo Uncompressing FIT image ...; "	\
-				"run uncompfitimage;"	\
-				"echo Authenticating SPI Secondary FIT image ...; "	\
-				"if authbm ${loadaddr}; then "	\
-					"bootm ${loadaddr};"	\
+				"if run loadcompfitimagespisec; then "	\
+					"echo Uncompressing FIT image ...; "	\
+					"run uncompfitimage;"	\
+					"echo Authenticating SPI Secondary FIT image ...; "	\
+					"run auth_and_boot;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
 		"echo SPI Secondary FIT image failed authentication ...;\0"
 
-/* TODO: The values of kernel_addr_r, fdt_addr, and ramdisk_addr_r will be confirmed
- * after discussion with the Linux team
- */
 #define CFG_EXTRA_ENV_SETTINGS			\
 	"bootfile=Image\0"	\
 	"fdtfile=jhb100-fpga.dtb\0"	\
