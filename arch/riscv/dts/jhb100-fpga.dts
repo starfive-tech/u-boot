@@ -64,6 +64,23 @@
 
 		i2c30 = &i2c15_master;
 		i2c31 = &i2c15_slave;
+
+		i3c0 = &i3c0;
+		i3c1 = &i3c1;
+		i3c2 = &i3c2;
+		i3c3 = &i3c3;
+		i3c4 = &i3c4;
+		i3c5 = &i3c5;
+		i3c6 = &i3c6;
+		i3c7 = &i3c7;
+		i3c8 = &i3c8;
+		i3c9 = &i3c9;
+		i3c10 = &i3c10;
+		i3c11 = &i3c11;
+		i3c12 = &i3c12;
+		i3c13 = &i3c13;
+		i3c14 = &i3c14;
+		i3c15 = &i3c15;
 	};
 
 	chosen {
@@ -196,11 +213,31 @@
 		};
 
 		/* DMA global pool uncached address (alias) */
-		linux,dma@40bf00000 {
+		linux,dma@40e300000 {
 			compatible = "shared-dma-pool";
 			reg = <0x4 0x0e300000 0x0 0x08000000>;
 			no-map;
 			linux,dma-default;
+		};
+
+		sol_tx_mem_cache: sol@56300000 {
+			reg = <0x0 0x56300000 0x0 0x2000000>;
+			no-map;
+		};
+
+		sol_tx_mem_uncache: sol@416300000 {
+			reg = <0x4 0x16300000 0x0 0x2000000>;
+			no-map;
+		};
+
+		sol_rx_mem_cache: sol@58300000 {
+			reg = <0x0 0x58300000 0x0 0x2000000>;
+			no-map;
+		};
+
+		sol_rx_mem_uncache: sol@418300000 {
+			reg = <0x4 0x18300000 0x0 0x2000000>;
+			no-map;
 		};
 
 		linux,cma {
@@ -789,11 +826,23 @@
 	pinctrl-0 = <&uart5_pins>;
 };
 
-&husb0 {
-	snps,no-connect-phy;
+&sol4 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	starfive,axi-xfer-len = <256>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <4>;
+	status = "okay";
 };
 
-&vce0 {
+&sol5 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	starfive,axi-xfer-len = <256>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <5>;
 	status = "okay";
 };
 
@@ -823,10 +872,13 @@
 
 &pcie0_mmbi {
 	mmbi-instance-num = <8>;
+	mmbi-instance-size = <0x10000>;
+	mmbi-src-addr-offset = <0>;
 	mmbi-osuse = /bits/ 8 <1 1 1 1 1 1 1 1>;
 	memory-region = <&pcie0_mmbi_buffer_uncache>;
-	mmbi-src-addr = /bits/ 64 <0xf7000000>;
-	status = "disabled";
+	starfive,raise-irq-syscon = <&pcie_ep0_ecsr 0x700 0xd>;
+	starfive,rst-en-syscon = <&strap_reg 0x50 0x400>;
+	status = "okay";
 };
 
 &peci0 {
@@ -838,10 +890,12 @@
 };
 
 &espi0_mmbi {
-	mmbi-instance-num = <8>;
+	mmbi-instance-num = <1>;
+	mmbi-instance-size = <0x10000>;
+	mmbi-src-addr-offset = <0x10000>;
 	mmbi-osuse = /bits/ 8 <0 0 0 0 0 0 0 0>;
 	memory-region = <&espi0_mmbi_buffer_uncache>;
-	status = "disabled";
+	status = "okay";
 };
 
 &sio0 {
@@ -956,13 +1010,17 @@
 };
 
 &i3c4 {
-	status = "disabled";
+	status = "okay";
 	clocks = <&fpga_12mhz_clk>;
+	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c4_pins>;
+	is-mng;
+	#address-cells = <3>;
+	#size-cells = <0>;
 
 	hub@0,0 {
 		cp0-ldo-en = "disabled";
@@ -1014,7 +1072,7 @@
 };
 
 &i3c5 {
-	status = "disabled";
+	status = "okay";
 	clocks = <&fpga_12mhz_clk>;
 	i3c-scl-hz = <1000000>;
 	mode = "target";
@@ -1025,6 +1083,8 @@
 	/* pec-private-transfer; */
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c5_pins>;
+	dmas = <&dma_i3c 5 11 10>;
+	dma-names = "rx-tx";
 };
 
 &i2c4_master {
@@ -1173,8 +1233,9 @@
 
 &emmc0 {
 	status = "okay";
-	mmc-hs400-1_8v;
-	max-frequency = <200000000>;
+	mmc-ddr-1_8v;
+	max-frequency = <400000>;
+	/delete-property/ supports-cqe;
 	non-removable;
 	pinctrl-names = "default";
 	pinctrl-0 = <&emmc0_pins>;
@@ -1258,4 +1319,9 @@
 		"", "", "", "", "", "", "", "",
 		"", "", "", "", "", "", "", "",
 		"", "", "", "", "", "", "", "";
+};
+
+&dc0_clk {
+	status = "okay";
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
 };

@@ -379,13 +379,14 @@
 			};
 
 			pcie0_mmbi: mmbi@10512000 {
-				compatible = "starfive,jhb100-mmbi";
-				reg = <0x0 0x10512000 0x0 0x400>;
+				compatible = "starfive,jhb100-mmbi-pcie";
+				reg = <0x0 0x10512000 0x0 0x800>;
 				interrupts-extended = <&plic 289>, <&plic 290>, <&plic 291>, <&plic 292>,
 						      <&plic 293>, <&plic 294>, <&plic 295>, <&plic 296>,
 						      <&intc 53>;
 				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MMBI_PCIE0>;
 				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_MMBI_PCIE0>;
+				mmbi-id = <0>;
 				status = "disabled";
 			};
 
@@ -408,13 +409,14 @@
 			};
 
 			espi0_mmbi: mmbi@10580000 {
-				compatible = "starfive,jhb100-mmbi";
-				reg = <0x0 0x10580000 0x0 0x400>;
+				compatible = "starfive,jhb100-mmbi-espi";
+				reg = <0x0 0x10580000 0x0 0x800>;
 				interrupts-extended = <&plic 272>, <&plic 273>, <&plic 274>, <&plic 275>,
 						      <&plic 276>, <&plic 277>, <&plic 278>, <&plic 279>,
 						      <&intc 57>;
 				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MMBI_ESPI0>;
 				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_MMBI_ESPI0>;
+				mmbi-id = <0>;
 				status = "disabled";
 			};
 
@@ -521,6 +523,26 @@
 				status = "disabled";
 			};
 
+			sol0: sol@105c0800 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x105c0800 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <6>;
+				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_SOL0>;
+				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_SOL0>;
+				status = "disabled";
+			};
+
+			sol1: sol@105c0c00 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x105c0c00 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <7>;
+				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_SOL1>;
+				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_SOL1>;
+				status = "disabled";
+			};
+
 			husb0d0: usb@10600000 {
 				compatible = "starfive,jhb100-dwc3-device";
 				#address-cells = <2>;
@@ -541,6 +563,7 @@
 						<&husbd0crg JHB100_HUSBD0CLK_USB3_DEV0_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -565,6 +588,7 @@
 						<&husbd0crg JHB100_HUSBD0CLK_USB3_DEV1_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -589,6 +613,7 @@
 					clock-names = "bus_early", "suspend";
 					interrupts = <247>;
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -613,6 +638,7 @@
 					clock-names = "bus_early", "suspend";
 					maximum-speed = "super-speed";
 					interrupts = <248>;
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -637,6 +663,7 @@
 					clock-names = "bus_early", "suspend";
 					maximum-speed = "super-speed";
 					interrupts = <249>;
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -661,6 +688,7 @@
 					clock-names = "bus_early", "suspend";
 					interrupts = <250>;
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -683,6 +711,7 @@
 					clock-names = "bus_early";
 					interrupts = <243>;
 					maximum-speed = "high-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -705,6 +734,7 @@
 					clock-name = "bus_early";
 					interrupts = <244>;
 					maximum-speed = "high-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -717,7 +747,8 @@
 					<&husbd0crg JHB100_HUSBD0RST_DEV_SYSCON_RSTN>,
 					<&husbd0crg JHB100_HUSBD0RST_HOST_SYSCON_RSTN>;
 				usb_syscon = <&husb0syscon>;
-				interrupts = <251>;
+				interrupts-extended = <&plic 251>;
+				interrupt-names = "err";
 				status = "disabled";
 				ranges;
 
@@ -728,7 +759,6 @@
 						<&husb0crg JHB100_HUSB0CLK_XHCI_REFCLK>,
 						<&husb0crg JHB100_HUSB0CLK_XHCI_SUSPENDCLK>;
 					clock-names = "bus_early", "ref", "suspend";
-					snps,usb2-lpm-disable;
 					interrupts = <252>;
 					dr_mode = "host";
 				};
@@ -795,24 +825,26 @@
 			};
 
 			pcie1_mmbi: mmbi@10d12000 {
-				compatible = "starfive,jhb100-mmbi";
-				reg = <0x0 0x10d12000 0x0 0x400>;
+				compatible = "starfive,jhb100-mmbi-pcie";
+				reg = <0x0 0x10d12000 0x0 0x800>;
 				interrupts-extended = <&plic 333>, <&plic 334>, <&plic 335>, <&plic 336>,
 						      <&plic 337>, <&plic 338>, <&plic 339>, <&plic 340>,
 						      <&intc 55>;
 				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_MMBI_PCIE1>;
 				resets = <&host1crg JHB100_HOST1RST_MAIN_RSTN_MMBI_PCIE1>;
+				mmbi-id = <1>;
 				status = "disabled";
 			};
 
 			espi1_mmbi: mmbi@10d80000 {
-				compatible = "starfive,jhb100-mmbi";
-				reg = <0x0 0x10d80000 0x0 0x400>;
+				compatible = "starfive,jhb100-mmbi-espi";
+				reg = <0x0 0x10d80000 0x0 0x800>;
 				interrupts-extended = <&plic 316>, <&plic 316>, <&plic 318>, <&plic 319>,
 						      <&plic 320>, <&plic 321>, <&plic 322>, <&plic 323>,
 						      <&intc 58>;
 				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_MMBI_ESPI1>;
 				resets = <&host1crg JHB100_HOST1RST_MAIN_RSTN_MMBI_ESPI1>;
+				mmbi-id = <1>;
 				status = "disabled";
 			};
 
@@ -919,6 +951,26 @@
 				status = "disabled";
 			};
 
+			sol2: sol@10dc0800 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x10dc0800 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <8>;
+				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_SOL2>;
+				resets = <&host1crg JHB100_HOST1RST_MAIN_RSTN_SOL2>;
+				status = "disabled";
+			};
+
+			sol3: sol@10dc0c00 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x10dc0c00 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <9>;
+				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_SOL3>;
+				resets = <&host1crg JHB100_HOST1RST_MAIN_RSTN_SOL3>;
+				status = "disabled";
+			};
+
 			husb1d0: usb@10e00000 {
 				compatible = "starfive,jhb100-dwc3-device";
 				#address-cells = <2>;
@@ -938,6 +990,7 @@
 					clock-names = "bus_early", "suspend";
 					interrupts = <255>;
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -961,6 +1014,7 @@
 					clock-names = "bus_early", "suspend";
 					interrupts = <256>;
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -985,6 +1039,7 @@
 					clock-names = "bus_early", "suspend";
 					interrupts = <257>;
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -1009,6 +1064,7 @@
 					clock-names = "bus_early", "suspend";
 					interrupts = <258>;
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -1033,6 +1089,7 @@
 					clock-names = "bus_early", "suspend";
 					interrupts = <259>;
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -1057,6 +1114,7 @@
 					clock-names = "bus_early", "suspend";
 					interrupts = <260>;
 					maximum-speed = "super-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -1079,6 +1137,7 @@
 					clock-names = "bus_early";
 					interrupts = <253>;
 					maximum-speed = "high-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -1101,6 +1160,7 @@
 					clock-names = "bus_early";
 					interrupts = <254>;
 					maximum-speed = "high-speed";
+					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
 			};
@@ -1113,7 +1173,7 @@
 					<&husbd1crg JHB100_HUSBD1RST_DEV_SYSCON_RSTN>,
 					<&husbd1crg JHB100_HUSBD1RST_HOST_SYSCON_RSTN>;
 				usb_syscon = <&husb1syscon>;
-				interrupts = <261>;
+				interrupts-extended = <&plic 261>;
 				interrupt-names = "err";
 				ranges;
 				status = "disabled";
@@ -1126,7 +1186,6 @@
 						<&husb1crg JHB100_HUSB1CLK_XHCI_SUSPENDCLK>;
 					clock-names = "bus_early", "ref", "suspend";
 					interrupts = <262>;
-					snps,usb2-lpm-disable;
 					dr_mode = "host";
 				};
 			};
@@ -1188,14 +1247,14 @@
 				reg = <0x0 0x11045000 0x0 0x1000>;
 			};
 
-			b2hsyscon: syscon@11135400 {
+			b2hsyscon: syscon@11135000 {
 				compatible = "starfive,jhb100-b2h-syscon", "syscon";
-				reg = <0x0 0x11135400 0x0 0x400>;
+				reg = <0x0 0x11135000 0x0 0x400>;
 			};
 
-			h2bsyscon: syscon@11135800 {
+			h2bsyscon: syscon@11135400 {
 				compatible = "starfive,jhb100-h2b-syscon", "syscon";
-				reg = <0x0 0x11135800 0x0 0x200>;
+				reg = <0x0 0x11135400 0x0 0x200>;
 			};
 
 			pinctrl_vga_vdac: vga_vdac@11136100 {
@@ -1230,7 +1289,9 @@
 				clocks = <&vcecrg JHB100_VCECLK_CORE_CLK_VCE0_DIV>,
 					<&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE0>;
 				resets = <&vcecrg JHB100_VCERST_VCE0_TOP_ASYNC_RSTN>;
-				interrupts = <240>;
+				interrupts = <240>, <237>;
+				interrupt-names = "vce", "host2bmc";
+				h2b-syscon = <&h2bsyscon>;
 				status = "disabled";
 			};
 
@@ -1240,7 +1301,9 @@
 				clocks = <&vcecrg JHB100_VCECLK_CORE_CLK_VCE1_DIV>,
 					<&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE1>;
 				resets = <&vcecrg JHB100_VCERST_VCE1_TOP_ASYNC_RSTN>;
-				interrupts = <241>;
+				interrupts = <241>, <238>;
+				interrupt-names = "vce", "host2bmc";
+				h2b-syscon = <&h2bsyscon>;
 				status = "disabled";
 			};
 
@@ -1803,6 +1866,9 @@
 				compatible = "snps,dw-i3c-master-1.00a";
 				reg = <0x0 0x11a18000 0x0 0x800>;
 				interrupts = <161>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C0>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C0>;
+				reset-names = "core_rst";
 				status = "disabled";
 			};
 
@@ -1810,6 +1876,29 @@
 				compatible = "snps,dw-i3c-master-1.00a";
 				reg = <0x0 0x11a18800 0x0 0x800>;
 				interrupts = <162>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C1>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C1>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c2: i3c2@11a19000 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a19000 0x0 0x800>;
+				interrupts = <163>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C2>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C2>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c3: i3c3@11a19800 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a19800 0x0 0x800>;
+				interrupts = <164>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C3>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C3>;
+				reset-names = "core_rst";
 				status = "disabled";
 			};
 
@@ -1817,6 +1906,9 @@
 				compatible = "snps,dw-i3c-master-1.00a";
 				reg = <0x0 0x11a1a000 0x0 0x800>;
 				interrupts = <165>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C4>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C4>;
+				reset-names = "core_rst";
 				status = "disabled";
 			};
 
@@ -1824,6 +1916,109 @@
 				compatible = "snps,dw-i3c-master-1.00a";
 				reg = <0x0 0x11a1a800 0x0 0x800>;
 				interrupts = <166>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C5>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C5>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c6: i3c6@11a1b000 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1b000 0x0 0x800>;
+				interrupts = <167>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C6>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C6>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c7: i3c7@11a1b800 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1b800 0x0 0x800>;
+				interrupts = <168>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C7>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C7>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c8: i3c8@11a1c000 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1c000 0x0 0x800>;
+				interrupts = <169>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C8>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C8>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c9: i3c9@11a1c800 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1c800 0x0 0x800>;
+				interrupts = <170>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C9>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C9>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c10: i3c10@11a1d000 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1d000 0x0 0x800>;
+				interrupts = <171>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C10>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C10>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c11: i3c11@11a1d800 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1d800 0x0 0x800>;
+				interrupts = <172>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C11>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C11>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c12: i3c12@11a1e000 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1e000 0x0 0x800>;
+				interrupts = <173>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C12>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C12>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c13: i3c13@11a1e800 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1e800 0x0 0x800>;
+				interrupts = <174>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C13>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C13>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c14: i3c14@11a1f000 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1f000 0x0 0x800>;
+				interrupts = <175>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C14>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C14>;
+				reset-names = "core_rst";
+				status = "disabled";
+			};
+
+			i3c15: i3c15@11a1f800 {
+				compatible = "snps,dw-i3c-master-1.00a";
+				reg = <0x0 0x11a1f800 0x0 0x800>;
+				interrupts = <176>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C15>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C15>;
+				reset-names = "core_rst";
 				status = "disabled";
 			};
 
@@ -2259,6 +2454,116 @@
 				status = "disabled";
 			};
 
+			sol4: sol@11a40000 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a40000 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <10>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL4>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL4>;
+				status = "disabled";
+			};
+
+			sol5: sol@11a40400 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a40400 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <11>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL5>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL5>;
+				status = "disabled";
+			};
+
+			sol6: sol@11a40800 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a40800 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <12>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL6>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL6>;
+				status = "disabled";
+			};
+
+			sol7: sol@11a40c00 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a40c00 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <13>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL7>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL7>;
+				status = "disabled";
+			};
+
+			sol8: sol@11a41000 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a41000 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <14>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL8>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL8>;
+				status = "disabled";
+			};
+
+			sol9: sol@11a41400 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a41400 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <15>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL9>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL9>;
+				status = "disabled";
+			};
+
+			sol10: sol@11a41800 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a41800 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <16>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL10>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL10>;
+				status = "disabled";
+			};
+
+			sol11: sol@11a41c00 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a41c00 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <17>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL11>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL11>;
+				status = "disabled";
+			};
+
+			sol12: sol@11a42000 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a42000 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <18>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL12>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL12>;
+				status = "disabled";
+			};
+
+			sol13: sol@11a42400 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a42400 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <19>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL13>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL13>;
+				status = "disabled";
+			};
+
+			sol14: sol@11a42800 {
+				compatible = "starfive,jhb100-sol";
+				reg = <0x0 0x11a42800 0x0 0x400>;
+				interrupt-parent = <&intc>;
+				interrupts = <20>;
+				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_SOL14>;
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_SOL14>;
+				status = "disabled";
+			};
+
 			uart_routing: uart-routing@11a42a00 {
 				compatible = "starfive,jhb100-uart-routing";
 				reg = <0x0 0x11a42a00 0x0 0x100>;
@@ -2573,6 +2878,11 @@
 				status = "disabled";
 			};
 
+			strap_reg: syscon@1301a000 {
+				compatible = "starfive,jhb100-strap-syscon", "syscon";
+				reg = <0x0 0x1301a000 0x0 0x2000>;
+			};
+
 			pvt_sys: pvt@13020000 {
 				compatible = "moortec,mr75203";
 				reg = <0x0 0x13020000 0x0 0x80>,
@@ -2810,6 +3120,20 @@
 				num-cs = <2>;
 				dmas = <&dma_sfc0 0 1 0>;
 				dma-names = "rx-tx";
+				status = "disabled";
+			};
+
+			dc0_clk: dc0@dc8000 {
+				compatible = "verisilicon,dc8000-clk";
+				reg = <0x0 0x11135000 0x0 0x200>,
+					<0x0 0x11135400 0x0 0x100>,
+					<0x0 0x11135800 0x0 0x100>;
+				interrupts-extended = <&plic 237>, <&intc 53>, <&intc 54>, <&intc 57>;
+				interrupt-names = "h2b", "perst_pe", "perst_ne", "espi_rst";
+				clocks = <&voutcrg JHB100_VOUTCLK_MAIN_ICG_EN_U0_DC8000>,
+					<&voutcrg JHB100_VOUTCLK_U0_DC8000_PIXELCLK0>;
+				clock-names = "main_icg", "pix_clk";
+				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U0_DC8000>;
 				status = "disabled";
 			};
 		};
