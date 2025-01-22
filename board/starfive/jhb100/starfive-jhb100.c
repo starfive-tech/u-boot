@@ -21,6 +21,7 @@
 
 #include <asm/arch/boot_src.h>
 #include <asm/arch/starfive_reset.h>
+#include <asm/arch/bootcmd_restore.h>
 #include <dm/ofnode.h>
 #include <env.h>
 #include <env_internal.h>
@@ -192,12 +193,29 @@ void env_filter_add_bootarg(void (*str_fn)(char* str), char *key_str)
 	/* env_save(); */
 }
 
+/* We do critical boot command restoration here in the case user save
+ * and then load their custom environment from persistent storages.
+ * This will not override any additional custom environments added by user,
+ * instead append critical boot command on top of it.
+ * However, this overrides critical boot command if added by user.
+ */
+void env_restore_bootcmd(void)
+{
+	restore_bootcmd_utils();
+
+	if (IS_ENABLED(CONFIG_ENV_IS_IN_SPI_FLASH))
+		restore_bootcmd_sfc();
+	if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
+		restore_bootcmd_emmc();
+}
+
 int board_late_init(void)
 {
 	env_get_boot_dev();
 	env_get_spi_flash_offs();
 	/* Add or replace reset_event argument to bootargs */
 	env_filter_add_bootarg(starfive_get_reset_event, "reset_event=");
+	env_restore_bootcmd();
 
 	return 0;
 }
