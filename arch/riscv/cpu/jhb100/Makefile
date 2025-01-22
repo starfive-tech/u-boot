@@ -4,6 +4,7 @@
 
 obj-y += boot_mapping.o
 obj-y += boot_recovery.o
+obj-y += bootcmd_restore.o
 obj-y += cache.o
 obj-y += cpu.o
 obj-y += dram.o
