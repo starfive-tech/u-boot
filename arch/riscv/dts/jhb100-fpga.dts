@@ -851,6 +851,7 @@
 			<&pcie0_user_mem_uncache>,
 			<&pcie0_mmbi_buffer_uncache>,
 			<&pcie0_hdma_mem_uncache>;
+	starfive,early_ltssm_en;
 	status = "okay";
 };
 
@@ -1163,6 +1164,8 @@
 	clocks = <&fpga_12mhz_clk>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&jtag0_pins>;
+	starfive,jtag_clk_constant;
+	starfive,jtag_bit_quirk;
 	status = "okay";
 };
 
@@ -1196,6 +1199,11 @@
 
 &rtc {
 	status = "okay";
+};
+
+&dma_i2c {
+	status = "disabled";
+	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
 };
 
 &spi0 {
@@ -1233,9 +1241,8 @@
 
 &emmc0 {
 	status = "okay";
-	mmc-ddr-1_8v;
+	mmc-hs400-1_8v;
 	max-frequency = <400000>;
-	/delete-property/ supports-cqe;
 	non-removable;
 	pinctrl-names = "default";
 	pinctrl-0 = <&emmc0_pins>;

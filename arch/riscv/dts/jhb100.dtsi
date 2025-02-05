@@ -362,13 +362,23 @@
 			pcie0_mctp: mctp@10510000 {
 				compatible = "starfive,jhb100-mctp";
 				reg = <0x0 0x10510000 0x0 0x1000>;
-				/*interrupts = <309>, <&sysgpio 28 GPIO_ACTIVE_LOW>;*/
-				/*interrupt-names = "mctp", "pcie"*/
-				/*clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MCTP0>;*/
-				resets = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MCTP0_EP>;
+				interrupts-extended = <&plic 299>, <&plic 300>, <&plic 301>,
+					<&plic 302>, <&plic 303>, <&plic 304>, <&plic 305>,
+					<&plic 306>, <&intc 53>, <&intc 54>;
+				interrupt-names = "tx_cmpl", "rx_cmpl", "rx_rdy", "tx_vdm_full",
+					"rx_vdm_full", "rx_cmd_full", "tx_err", "rx_err",
+					"pcie_deassert", "pcie_assert";
+				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MCTP0_EP>,
+					<&host0crg JHB100_HOST0CLK_PCIE0_MCTP_ACLK_M>,
+					<&host0crg JHB100_HOST0CLK_PCIE0_MCTP_ACLK_S>,
+					<&host0crg JHB100_HOST0CLK_PCIE0_MCTP_PCLK>;
+				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_MCTP0_EP>;
 				starfive,pcie-ecsr = <&pcie_ep0_ecsr>;
-				starfive,rx-packet-count = <64>;
+				starfive,rx-cmd-full-th = <60>;
+				starfive,rx-cmd-empty-th = <0>;
 				starfive,rx-ring-count = <64>;
+				starfive,tx-cmd-full-th = <15>;
+				starfive,tx-cmd-empty-th = <0>;
 				starfive,tx-ring-count = <64>;
 				status = "disabled";
 			};
@@ -1588,6 +1598,33 @@
 				status = "disabled";
 			};
 
+			dma_i2c: dma-controller@1192c000 {
+				compatible = "starfive,jhb100-axi-dma-i2c";
+				reg = <0x0 0x1192c000 0x0 0x4000>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_DMAC1>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_DMAC_I2C>;
+				clock-names = "core-clk", "cfgr-clk";
+				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_DMAC1>;
+				interrupts = <215>;
+				#dma-cells = <1>;
+				dma-channels = <32>;
+				snps,dma-masters = <1>;
+				snps,data-width = <3>;
+				snps,block-size = <65536 65536 65536 65536 65536
+						65536 65536 65536 65536 65536
+						65536 65536 65536 65536 65536
+						65536 65536 65536 65536 65536
+						65536 65536 65536 65536 65536
+						65536 65536 65536 65536 65536
+						65536 65536>;
+				snps,priority = <0 1 2 3 4 5 6 7 8 9 10 11
+						12 13 14 15 16 17 18 19 20
+						21 22 23 24 25 26 27 28 29
+						30 31>;
+				snps,axi-max-burst-len = <64>;
+				status = "disabled";
+			};
+
 			uart4: serial@11980000 {
 				compatible = "snps,dw-apb-uart";
 				reg = <0x0 0x11980000 0x0 0x100>;
@@ -2675,20 +2712,6 @@
 				status = "disabled";
 			};
 
-			emmc0: mmc@11b00000 {
-				compatible = "starfive,jhb100-dwcmshc";
-				reg = <0x0 0x11b00000 0x0 0x10000>;
-				interrupts = <118>;
-				clocks = <&per1crg JHB100_PER1CLK_EMMC0_BCLK>,
-					 <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_EMMC0>;
-				clock-names = "core", "bus";
-				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_EMMC0>;
-				bus-width = <8>;
-				hwlocks = <&hwspinlock 0>;
-				supports-cqe;
-				status = "disabled";
-			};
-
 			ufs0: ufs@11b10000 {
 				compatible = "starfive,jhb100-ufs", "jedec,ufs-3.1";
 				reg = <0x0 0x11b10000 0x0 0x10000>;
@@ -2697,12 +2720,27 @@
 				clocks = <&per1crg JHB100_PER1CLK_UFS_REF>,
 					 <&per1crg JHB100_PER1CLK_UFS_150>,
 					 <&per1crg JHB100_PER1CLK_UFS_300>,
-					 <&per1crg JHB100_PER1CLK_UFS_400>;
-				clock-names = "ref_clk", "clk_150", "clk_300", "clk_400";
+					 <&per1crg JHB100_PER1CLK_UFS_400>,
+					 <&per1crg JHB100_PER1CLK_UFS_75>,
+					 <&per1crg JHB100_PER1CLK_UFS_37_5>,
+					 <&per1crg JHB100_PER1CLK_UFS_7_5>,
+					 <&per1crg JHB100_PER1CLK_UFS_1_875>,
+					 <&per1crg JHB100_PER1CLK_UFS_7_143>,
+					 <&per1crg JHB100_PER1CLK_UFS_3_5715>,
+					 <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_UFS>;
+				clock-names = "ref_clk","clk_150", "clk_300","clk_400",
+					      "clk_75", "clk_37_5", "clk_7_5","clk_1_875",
+					      "clk_7_143", "clk_3_5715", "ufs";
 				freq-table-hz = <26000000 26000000>,
-						<150000000 150000000>,
+						<50000000 150000000>,
 						<300000000 300000000>,
-						<400000000 400000000>;
+						<400000000 400000000>,
+						<75000000 75000000>,
+						<37500000 37500000>,
+						<7500000 7500000>,
+						<1875000 1875000>,
+						<7143000 7143000>,
+						<3571500 3571500>;
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_UFS>,
 					 <&per1crg JHB100_PER1RST_MAIN_RSTN_UFS_PHY>;
 				reset-names = "main", "phy";
@@ -3259,5 +3297,30 @@
 				status = "disabled";
 			};
 		};
+
+		bus_nioc_4g: bus_nioc_4g {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			dma-noncoherent;
+			ranges;
+			dma-ranges = <0x0 0x40000000 0x0 0x40000000 0x1 0x0>,
+				     <0x4 0x00000000 0x4 0x00000000 0x1 0x0>;
+
+			emmc0: mmc@11b00000 {
+				compatible = "starfive,jhb100-dwcmshc";
+				reg = <0x0 0x11b00000 0x0 0x10000>;
+				interrupts = <118>;
+				clocks = <&per1crg JHB100_PER1CLK_EMMC0_BCLK>,
+					 <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_EMMC0>;
+				clock-names = "core", "bus";
+				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_EMMC0>;
+				bus-width = <8>;
+				hwlocks = <&hwspinlock 0>;
+				supports-cqe;
+				status = "disabled";
+			};
+		};
+
 	};
 };
