@@ -13,7 +13,6 @@
 /* Storing register mapping in data segment for now */
 static FB_REC_MAP_BIT_POS primary_bit_pos;
 static FB_REC_MAP_BIT_POS secondary_bit_pos;
-static int fb_rec_map;
 
 /* Get partition type where caller boots from */
 FB_REC_MAP_BIT_POS starfive_get_part(FB_REC_MAP_TYPE p_type)
@@ -24,13 +23,13 @@ FB_REC_MAP_BIT_POS starfive_get_part(FB_REC_MAP_TYPE p_type)
 /* Retrieve register mapping */
 int starfive_get_fb_rec_map(void)
 {
-	return fb_rec_map;
+	return readl((const void *)FALLBACK_RECOVERY_SCRATCHPAD_ADDR);
 }
 
 /* Write to register mapping */
 void starfive_set_fb_rec_map(int val)
 {
-	fb_rec_map = val;
+	writel(val, (void *)FALLBACK_RECOVERY_SCRATCHPAD_ADDR);
 }
 
 /* Custom safe simplified set bit */
