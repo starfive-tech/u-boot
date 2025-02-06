@@ -85,13 +85,12 @@ static int do_starfive_print_rec_map(struct cmd_tbl *cmdtp, int flag, int argc,
 
 	argc--; argv++;
 	if (argv[0]) {
-		static const char *part_name[] = {"SPI Primary", "SPI Secondary",
-					          "EMMC Primary", "EMMC Secondary",
-					          "UFS Primary", "UFS Secondary"};
-		static const char *comp_name[] = {"L0 FW", "L1 FW",
-					          "U-boot SPL", "U-boot Proper",
-					          "Kernel"};
-		int first_bit_pos = FB_RCV_ZSBL_SET_L0_FW_CLEAR_MSK;
+		static const char *part_name[6] = {"SPI Primary", "SPI Secondary",
+						   "EMMC Primary", "EMMC Secondary",
+						   "UFS Primary", "UFS Secondary"};
+		static const char *comp_name[3] = {"U-boot SPL", "U-boot Proper",
+						   "Kernel"};
+		int first_bit_pos = FB_RCV_L1_FW_SET_SPL_CLEAR_MSK;
 		int last_bit_pos = FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK
 				<< BOOT_SRC_PART_UFS_SECONDARY_BIT_POS;
 
@@ -135,30 +134,30 @@ static int do_starfive_authenticate(struct cmd_tbl *cmdtp, int flag, int argc,
 }
 
 U_BOOT_LONGHELP(checkimgrcmap,
-	"[arg\n    - Check authentication status from recovery mapping\n"
-	"\tpass: 1 - spi primary\n"
-	"\t      2 - spi secondary\n"
-	"\t      3 - emmc primary\n"
-	"\t      4 - emmc secondary\n"
-	"\t      5 - ufs primary\n"
-	"\t      6 - ufs secondary\n"
+		"[arg\n    - Check authentication status from recovery mapping\n"
+		"\tpass: 1 - spi primary\n"
+		"\t      2 - spi secondary\n"
+		"\t      3 - emmc primary\n"
+		"\t      4 - emmc secondary\n"
+		"\t      5 - ufs primary\n"
+		"\t      6 - ufs secondary\n"
 );
 
-U_BOOT_LONGHELP(printrcmap,
-	"[arg\n    - Read recovery mapping status register\n"
-	"\tpassing non-zero arg publish descriptive recovery mapping status\n"
+U_BOOT_LONGHELP(printaprcmap,
+		"[arg\n    - Read AP recovery mapping status register\n"
+		"\tpassing non-zero arg publish descriptive recovery mapping status\n"
 );
 
 U_BOOT_LONGHELP(authbm,
-	"[addr [arg ...]]\n    - authenticate image stored in memory\n"
-	"\tpassing arguments 'arg ...'; when verifying a Linux kernel,\n"
+		"[addr [arg ...]]\n    - authenticate image stored in memory\n"
+		"\tpassing arguments 'arg ...'; when verifying a Linux kernel,\n"
 #if defined(CONFIG_OF_LIBFDT)
-	"\tWhen authenticating an initrd image\n"
-	"\ta second argument is required which is the address of the\n"
-	"\tinitrd image. Otherwise, a '-' can be used in place\n"
-	"\tWhen authenticating a flat device-tree\n"
-	"\ta third argument is required which is the address of the\n"
-	"\tdevice-tree blob.\n"
+		"\tWhen authenticating an initrd image\n"
+		"\ta second argument is required which is the address of the\n"
+		"\tinitrd image. Otherwise, a '-' can be used in place\n"
+		"\tWhen authenticating a flat device-tree\n"
+		"\ta third argument is required which is the address of the\n"
+		"\tdevice-tree blob.\n"
 #endif
 );
 
@@ -167,9 +166,9 @@ U_BOOT_CMD(checkimgrcmap, CONFIG_SYS_MAXARGS, 1, do_starfive_check_img_rec_map,
 	   checkimgrcmap_help_text
 );
 
-U_BOOT_CMD(printrcmap, CONFIG_SYS_MAXARGS, 1, do_starfive_print_rec_map,
+U_BOOT_CMD(printaprcmap, CONFIG_SYS_MAXARGS, 1, do_starfive_print_rec_map,
 	   "Get recovery mapping status",
-	   printrcmap_help_text
+	   printaprcmap_help_text
 );
 
 U_BOOT_CMD(authbm, CONFIG_SYS_MAXARGS, 1, do_starfive_authenticate,
