@@ -630,23 +630,6 @@ static int rockchip_sdhci_probe(struct udevice *dev)
 	struct sdhci_host *host = &priv->host;
 	struct clk clk;
 	int ret;
-#ifdef CONFIG_STARFIVE_JHB100
-	struct udevice *clk_dev;
-
-	ret = uclass_get_device_by_name(UCLASS_CLK, "clock-controller@13000000", &clk_dev);
-
-	if (ret) {
-		printf("sys0crg driver not found!\n");
-		return -1;
-	}
-
-	ret = uclass_get_device_by_name(UCLASS_CLK, "clock-controller@13008000", &clk_dev);
-
-	if (ret) {
-		printf("sys2crg driver not found!\n");
-		return -1;
-	}
-#endif
 
 	host->max_clk = cfg->f_max;
 	ret = clk_get_by_index(dev, 0, &clk);
