@@ -82,7 +82,13 @@ static struct clk_info sys2crg_clk_info[] = {
 
 static int jhb100_sys2crg_probe(struct udevice *dev)
 {
+	int ret;
 	void __iomem *reg = (void __iomem *)dev_read_addr_ptr(dev);
+
+	/* Make sure sys0crg driver is instantiated first. */
+	ret = jhb100_clk_check_parent(DM_DRIVER_GET(sys0crg));
+	if (ret)
+		return ret;
 
 	starfive_clk_init(reg, sys2, sys2crg_clk_info, ARRAY_SIZE(sys2crg_clk_info));
 

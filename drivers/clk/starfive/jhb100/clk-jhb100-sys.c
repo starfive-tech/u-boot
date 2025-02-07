@@ -10,7 +10,7 @@
  #include <dt-bindings/clock/starfive,jhb100-crg.h>
  #include <linux/clk-provider.h>
 
-static struct clk_info syscrg_clk_info[] = {
+static struct clk_info sys0crg_clk_info[] = {
 	/* bmcpcierp */
 	{ JHB100_SYS0CLK_BMCPCIERP_600,	"bmcpcierp_600",
 		"pll0",			NULL,	CLK_DIVIDER,	3 },
@@ -99,11 +99,11 @@ static struct clk_info syscrg_clk_info[] = {
 		"pll0",			NULL,	CLK_DIVIDER,	4 },
 };
 
-static int jhb100_syscrg_probe(struct udevice *dev)
+static int jhb100_sys0crg_probe(struct udevice *dev)
 {
 	void __iomem *reg = (void __iomem *)dev_read_addr_ptr(dev);
 
-	starfive_clk_init(reg, sys, syscrg_clk_info, ARRAY_SIZE(syscrg_clk_info));
+	starfive_clk_init(reg, sys, sys0crg_clk_info, ARRAY_SIZE(sys0crg_clk_info));
 
 	return 0;
 }
@@ -112,16 +112,16 @@ JHB100_CLK_OF_XLATE(sys);
 
 JHB100_CLK_OPS(sys);
 
-static const struct udevice_id jhb100_syscrg_match[] = {
+static const struct udevice_id jhb100_sys0crg_match[] = {
 	{ .compatible = "starfive,jhb100-sys0crg" },
 	{ /* sentinel */ }
 };
 
-U_BOOT_DRIVER(syscrg) = {
+U_BOOT_DRIVER(sys0crg) = {
 	.name = "clk-starfive-jhb100-sys0",
 	.id = UCLASS_CLK,
-	.of_match = jhb100_syscrg_match,
-	.probe = jhb100_syscrg_probe,
+	.of_match = jhb100_sys0crg_match,
+	.probe = jhb100_sys0crg_probe,
 	.ops = &jhb100_sys_clk_ops,
 	.bind = jhb100_clk_bind,
 };

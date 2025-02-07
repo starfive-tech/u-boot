@@ -17,3 +17,4 @@ void starfive_clk_init(void __iomem *reg, enum clk_type_t type,
 		       const struct clk_info *init_data,
 		       unsigned long init_data_size);
 int jhb100_clk_bind(struct udevice *dev);
+int jhb100_clk_check_parent(const struct driver *parent_drv);

@@ -231,3 +231,13 @@ int jhb100_clk_bind(struct udevice *dev)
 	return device_bind_driver_to_node(dev, "starfive_reset", dev->name,
 					  dev_ofnode(dev), NULL);
 }
+
+int jhb100_clk_check_parent(const struct driver *parent_drv)
+{
+	int ret;
+	struct udevice *parent;
+
+	ret = uclass_get_device_by_driver(UCLASS_CLK, parent_drv, &parent);
+
+	return ret ? ret : (parent ? 0 : -ENOENT);
+}
