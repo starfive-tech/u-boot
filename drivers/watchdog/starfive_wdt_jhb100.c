@@ -608,16 +608,6 @@ static int starfive_wdt_jhb100_set_timeout(struct starfive_wdt_jhb100_priv *priv
  */
 static int starfive_wdt_jhb100_probe(struct udevice *dev)
 {
-	int ret;
-	struct udevice *clk_dev;
-
-	ret = uclass_get_device_by_name(UCLASS_CLK, "clock-controller@13000000", &clk_dev);
-
-	if (ret) {
-		printf("clock device not found!\n");
-		return -1;
-	}
-
 	struct starfive_wdt_jhb100_priv *priv = dev_get_priv(dev);
 
 	priv->dev = dev;
