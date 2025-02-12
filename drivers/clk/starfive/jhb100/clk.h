@@ -8,7 +8,7 @@
 #define __CLK_STARFIVE_H
 
 /* the number of fixed clocks in DTS */
-#define JHB100_EXTCLK_END		18
+#define JHB100_EXTCLK_END		19
 
 #define JHB100_SYSCLK_NUM_CLKS		(JHB100_SYS0CLK_GPU1_600 + 1)
 #define JHB100_SYS1CLK_NUM_CLKS		(JHB100_SYS1CLK_BMCPER3_125 + 1)
