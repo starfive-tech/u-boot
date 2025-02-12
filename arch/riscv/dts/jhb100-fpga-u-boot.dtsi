@@ -322,6 +322,10 @@
 	bootph-pre-ram;
 };
 
+&pwm {
+	bootph-pre-ram;
+};
+
 &emmc0 {
 	bootph-pre-ram;
 	clocks = <&fpga_12mhz_clk>,

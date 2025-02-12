@@ -2826,6 +2826,14 @@
 				status = "disabled";
 			};
 
+			pwm: pwm@11be0400 {
+				compatible = "starfive,jhb100-pwm", "starfive,jh7110-pwm", "opencores,pwm-v1";
+				reg = <0x0 0x11be0400 0x0 0x400>;
+				clocks = <&pwm_apb>;
+				#pwm-cells = <3>;
+				status = "disabled";
+			};
+
 			can1: can@11be1200 {
 				compatible = "ipms,can";
 				reg = <0x0 0x11be1200 0x0 0x400>;

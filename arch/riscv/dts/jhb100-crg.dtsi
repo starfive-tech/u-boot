@@ -61,6 +61,12 @@
 		clock-frequency = <1950000000>;
 	};
 
+	pwm_apb: pwm_apb {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <25000000>;
+	};
+
 	per2_gmac2_rgmii_rx: per2_gmac2_rgmii_rx {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;

@@ -1332,3 +1332,31 @@
 	status = "okay";
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
 };
+
+&pwm {
+	clocks = <&fpga_12mhz_clk>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm_ch0_pins>;
+	status = "okay";
+};
+
+&pinctrl_bmcperiph2_pok {
+	gpio-line-names =
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "PWM_CH0", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "";
+
+	pwm_ch0_pins: pwm-0 {
+		pwm_ch0-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D41,
+					 FUNC_BMCPERIPH2_PWM0_CHANNEL0)>;
+			bias-disable;
+			input-disable;
+		};
+	};
+};
