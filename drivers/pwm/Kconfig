@@ -96,6 +96,12 @@ config PWM_SIFIVE
 	help
 	  This PWM is found SiFive's FU540 and other SoCs.
 
+config PWM_STARFIVE
+	bool "Enable support for StarFive PWM"
+	depends on DM_PWM
+	help
+	  This PWM is found StarFive's VisionFive and other SoCs.
+
 config PWM_TEGRA
 	bool "Enable support for the Tegra PWM"
 	depends on DM_PWM
