@@ -90,7 +90,7 @@ int dev_read_u32(const struct udevice *dev, const char *propname, u32 *outp);
  * @def:	default value to return if the property has no value
  * Return: property value, or @def if not found
  */
-int dev_read_u32_default(const struct udevice *dev, const char *propname,
+u32 dev_read_u32_default(const struct udevice *dev, const char *propname,
 			 int def);
 
 /**
@@ -895,7 +895,7 @@ static inline int dev_read_u32(const struct udevice *dev,
 	return ofnode_read_u32(dev_ofnode(dev), propname, outp);
 }
 
-static inline int dev_read_u32_default(const struct udevice *dev,
+static inline u32 dev_read_u32_default(const struct udevice *dev,
 				       const char *propname, int def)
 {
 	return ofnode_read_u32_default(dev_ofnode(dev), propname, def);
