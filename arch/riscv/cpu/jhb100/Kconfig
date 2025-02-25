@@ -61,14 +61,11 @@ config STARFIVE_JHB100_SECURE_VAB_AUTH
 	select FIT_IMAGE_POST_PROCESS
 	select SPL_FIT_IMAGE_POST_PROCESS
 	select SPL_DRIVERS_MISC
-	select SPL_CRYPTO
-	select ECDSA
-	select ECDSA_VERIFY
-	select SPL_ECDSA_VERIFY
-	select STARFIVE_OTP
-	select STARFIVE_AES
-	select STARFIVE_ECC
-	select STARFIVE_SHA
+	select STARFIVE_JHB100_MPXY_SEC
+	select SPL_DM_MAILBOX
+	select SPL_DM_RPMI_SRV_GRP
+	select RPMI_SHMEM_MBOX
+	select RPMI_STARFIVE_SEC_SERVICE_RUNTIME_GRP
 	help
 	 All images loaded from FIT will be authenticated by Starfive JHB100 VAB
 

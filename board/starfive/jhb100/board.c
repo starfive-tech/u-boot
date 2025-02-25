@@ -22,6 +22,10 @@
 #include <spl.h>
 #include <asm/arch/boot_src.h>
 #include <asm/arch/spl.h>
+#include <asm/arch/secure_common.h>
+#include <asm/arch/ap_core.h>
+#include <asm/arch/saif_init.h>
+#include <hang.h>
 
 u32 jhb100_get_boot_device(void)
 {
@@ -62,4 +66,50 @@ int mmc_get_env_dev(void)
 		return 0;
 #endif
 	}
+}
+
+void flush_dcache_range(unsigned long start, unsigned long end);
+
+void board_fit_image_post_process(const void *fit, int node, void **p_image, size_t *p_size)
+{
+	flush_dcache_range((u64)(*p_image), (u64)(*p_image + *p_size));
+
+#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
+	if (starfive_jhb100_vendor_authentication(p_image, p_size))
+		hang();
+
+	/* Skip to the actual image */
+	starfive_adjust_image(p_image, p_size);
+#endif
+#ifndef CONFIG_SPL_BUILD
+	/* Important that FDT is modified after authentication */
+	/* Assign new pointer to retain wherever pointed by p_image  */
+	void *payld = *p_image;
+
+	/* Check CPU nodes */
+	int cpus_offset, tmp, idx;
+
+	cpus_offset = fdt_path_offset(payld, "/cpus");
+	if (cpus_offset < 0)
+		return;
+
+	for (tmp = fdt_first_subnode(payld, cpus_offset), idx = 0; tmp >= 0;
+	     tmp = fdt_next_subnode(payld, tmp)) {
+		const char *compat;
+
+		compat = fdt_getprop(payld, tmp, "compatible", NULL);
+		if (!compat)
+			continue;
+		/* Add status properties if not present */
+		if (strcmp(compat, "starfive,dubhe-70") == 0) {
+			if (GET_SOC_OTP_AP_CORE_STAT(idx))
+				fdt_setprop_string(payld, tmp, "status", "disabled");
+			idx++;
+		}
+
+		/* We know we have 4 AP cores, this break save processing time */
+		if (idx > 3)
+			break;
+	}
+#endif
 }
