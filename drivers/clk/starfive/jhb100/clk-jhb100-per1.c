@@ -35,6 +35,8 @@ static struct clk_info per1crg_clk_info[] = {
 		"per1_100",	NULL,	CLK_GATE,	0 },
 	{ JHB100_PER1CLK_EMMC0_BCLK,	"emmc0_bclk",
 		"per1_200",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER1CLK_EMMC0_CCLK,	"emmc0_cclk",
+		"per1_200",	NULL,	CLK_GATE,	0 },
 	{ JHB100_PER1CLK_DMAC1_1CH_CORE,	"dmac1_1ch_core",
 		"per1_200",	NULL,	CLK_GATE,	0 },
 	{ JHB100_PER1CLK_DMAC1_1CH_ACLK,	"dmac1_1ch_aclk",
