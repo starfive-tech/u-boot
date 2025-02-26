@@ -27,6 +27,9 @@
 #include <asm/arch/soc.h>
 #include <asm/cache.h>
 #include <cpu_func.h>
+
+#define usleep_range(a, b) udelay((b))
+#define clk_cycle_usec(x, clk) ((x) * 1000000 / (clk))
 #endif
 
 /* DWCMSHC specific Mode Select value */
@@ -115,6 +118,9 @@ struct rockchip_sdhc {
 	void *base;
 	struct rockchip_emmc_phy *phy;
 	struct clk emmc_clk;
+#ifdef CONFIG_STARFIVE_JHB100
+	struct clk emmc_card_clk;
+#endif
 };
 
 struct sdhci_data {
@@ -564,7 +570,26 @@ static int rockchip_sdhci_set_enhanced_strobe(struct sdhci_host *host)
 	return 0;
 }
 
-#if defined(CONFIG_SPL_MMC_SDHCI_ADMA) && defined(CONFIG_STARFIVE_JHB100)
+#ifdef CONFIG_STARFIVE_JHB100
+static void starfive_jhb100_sdhci_set_card_clock(struct sdhci_host *host, bool enable)
+{
+	int ret;
+	struct rockchip_sdhc *priv = container_of(host, struct rockchip_sdhc, host);
+
+	if (host->mmc->clock) {
+		ret = enable ? clk_enable(&priv->emmc_card_clk)
+			: clk_disable(&priv->emmc_card_clk);
+		if (ret)
+			printf("%s: Failed to %s eMMC card clock\n", __func__, enable ?
+			       "enable" : "disable");
+
+		/* Delay of minimum 4 clock cycle, maximum 6 clock cycle */
+		usleep_range(clk_cycle_usec(4, host->mmc->clock),
+			     clk_cycle_usec(6, host->mmc->clock));
+	}
+}
+
+#if defined(CONFIG_SPL_MMC_SDHCI_ADMA)
 #define JHB100_BMCPERIPH1_SYSCON_MSHC_ADDR	(0x11b41004UL)
 void starfive_jhb100_adma_write_desc(struct sdhci_host *host, void **next_desc,
 				     dma_addr_t addr, int len, bool end)
@@ -607,6 +632,7 @@ void starfive_jhb100_adma_write_desc(struct sdhci_host *host, void **next_desc,
 	*next_desc += ADMA_DESC_LEN;
 }
 #endif
+#endif
 
 static struct sdhci_ops rockchip_sdhci_ops = {
 	.set_control_reg = rockchip_sdhci_set_control_reg,
@@ -615,8 +641,11 @@ static struct sdhci_ops rockchip_sdhci_ops = {
 	.platform_execute_tuning = rockchip_sdhci_execute_tuning,
 	.config_dll = rockchip_sdhci_config_dll,
 	.set_enhanced_strobe = rockchip_sdhci_set_enhanced_strobe,
-#if defined(CONFIG_SPL_MMC_SDHCI_ADMA) && defined(CONFIG_STARFIVE_JHB100)
+#ifdef CONFIG_STARFIVE_JHB100
+	.set_card_clock = starfive_jhb100_sdhci_set_card_clock,
+#if defined(CONFIG_SPL_MMC_SDHCI_ADMA)
 	.adma_write_desc = starfive_jhb100_adma_write_desc,
+#endif
 #endif
 };
 
@@ -628,7 +657,7 @@ static int rockchip_sdhci_probe(struct udevice *dev)
 	struct rockchip_sdhc *priv = dev_get_priv(dev);
 	struct mmc_config *cfg = &plat->cfg;
 	struct sdhci_host *host = &priv->host;
-	struct clk clk;
+	struct clk clk, cclk;
 	int ret;
 
 	host->max_clk = cfg->f_max;
@@ -642,6 +671,18 @@ static int rockchip_sdhci_probe(struct udevice *dev)
 		if (IS_ERR_VALUE(ret))
 			printf("%s clk set rate fail!\n", __func__);
 	}
+#endif
+
+#ifdef CONFIG_STARFIVE_JHB100
+	ret = clk_get_by_index(dev, 2, &cclk);
+	if (ret)
+		printf("%s fail to get cclk\n", __func__);
+
+	ret = clk_enable(&cclk);
+	if (ret)
+		printf("%s: cclk clock enable failed %d\n", __func__, ret);
+
+	priv->emmc_card_clk = cclk;
 #endif
 
 	priv->emmc_clk = clk;
