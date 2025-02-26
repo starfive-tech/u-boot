@@ -389,6 +389,9 @@ int sdhci_set_clock(struct mmc *mmc, unsigned int clock)
 		udelay(100);
 	}
 
+	if (host->ops && host->ops->set_card_clock)
+		host->ops->set_card_clock(host, false);
+
 	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
 
 	if (clock == 0)
@@ -479,6 +482,9 @@ int sdhci_set_clock(struct mmc *mmc, unsigned int clock)
 		timeout--;
 		udelay(1000);
 	}
+
+	if (host->ops && host->ops->set_card_clock)
+		host->ops->set_card_clock(host, true);
 
 	clk |= SDHCI_CLOCK_CARD_EN;
 	sdhci_writew(host, clk, SDHCI_CLOCK_CONTROL);
