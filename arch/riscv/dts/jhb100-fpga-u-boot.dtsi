@@ -328,8 +328,6 @@
 
 &emmc0 {
 	bootph-pre-ram;
-	clocks = <&fpga_12mhz_clk>,
-		 <&fpga_12mhz_clk>;
 
 	/* mmc to sram can't do dma, prevent aborts transferring TF-A parts */
 	u-boot,spl-fifo-mode;

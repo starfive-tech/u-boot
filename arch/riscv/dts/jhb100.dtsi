@@ -3320,8 +3320,9 @@
 				reg = <0x0 0x11b00000 0x0 0x10000>;
 				interrupts = <118>;
 				clocks = <&per1crg JHB100_PER1CLK_EMMC0_BCLK>,
-					 <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_EMMC0>;
-				clock-names = "core", "bus";
+					 <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_EMMC0>,
+					 <&per1crg JHB100_PER1CLK_EMMC0_CCLK>;
+				clock-names = "core", "bus", "cclk";
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_EMMC0>;
 				bus-width = <8>;
 				hwlocks = <&hwspinlock 0>;
