@@ -326,6 +326,10 @@
 	bootph-pre-ram;
 };
 
+&pwm_apb {
+	bootph-pre-ram;
+};
+
 &emmc0 {
 	bootph-pre-ram;
 

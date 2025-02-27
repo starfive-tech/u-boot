@@ -333,7 +333,7 @@
 				reg-names = "dbi", "dbi2", "atu", "hdma", "usb", "dc", "vout",
 					"addr_space";
 				interrupts-extended = <&intc 53>, <&intc 54>,
-					<&plic 263>, <&plic 264>, <&plic 266>, <&plic 268>;
+					<&plic 264>, <&plic 265>, <&plic 267>, <&plic 269>;
 				interrupt-names = "perst_pe", "perst_ne", "pm_link", "flr",
 					"err", "h2b";
 				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_PCIE0_EP>,
@@ -1296,8 +1296,7 @@
 			vce0: vce@11185000 {
 				compatible = "starfive,jhb100-vce";
 				reg = <0x0 0x11185000 0x0 0x800>;
-				clocks = <&vcecrg JHB100_VCECLK_CORE_CLK_VCE0_DIV>,
-					<&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE0>;
+				clocks = <&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE0>;
 				resets = <&vcecrg JHB100_VCERST_VCE0_TOP_ASYNC_RSTN>;
 				interrupts = <240>, <237>;
 				interrupt-names = "vce", "host2bmc";
@@ -1308,8 +1307,7 @@
 			vce1: vce@11185800 {
 				compatible = "starfive,jhb100-vce";
 				reg = <0x0 0x11185800 0x0 0x800>;
-				clocks = <&vcecrg JHB100_VCECLK_CORE_CLK_VCE1_DIV>,
-					<&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE1>;
+				clocks = <&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE1>;
 				resets = <&vcecrg JHB100_VCERST_VCE1_TOP_ASYNC_RSTN>;
 				interrupts = <241>, <238>;
 				interrupt-names = "vce", "host2bmc";
@@ -2815,14 +2813,14 @@
 				status = "disabled";
 			};
 
-			can0: can@11be1100 {
-				compatible = "ipms,can";
-				reg = <0x0 0x11be1100 0x0 0x400>;
-				interrupts = <143>;
-				clocks = <&per2crg JHB100_PER2CLK_CAN0_CORE_DIV>,
-					<&per2crg JHB100_PER2CLK_MAIN_ICG_EN_CAN0>;
-				clock-names = "core_clk", "main_clk";
-				resets = <&per2crg JHB100_PER2RST_MAIN_RSTN_CAN0>;
+			pwm_tach: pwm-tach-controller@11be0000 {
+				compatible = "starfive,jhb100-pwm-tach";
+				reg = <0x0 0x11be0000 0x0 0x400>;
+				interrupts = <128>;
+				clocks = <&per2crg JHB100_PER2CLK_FAN_TACH_PCLK>;
+				resets = <&per2crg JHB100_PER2RST_FAN_TACH_PRESETN>;
+				#pwm-cells = <3>;
+				pwm_syscon = <&strap_reg>;
 				status = "disabled";
 			};
 
@@ -2831,6 +2829,17 @@
 				reg = <0x0 0x11be0400 0x0 0x400>;
 				clocks = <&pwm_apb>;
 				#pwm-cells = <3>;
+				status = "disabled";
+			};
+
+			can0: can@11be1100 {
+				compatible = "ipms,can";
+				reg = <0x0 0x11be1100 0x0 0x400>;
+				interrupts = <143>;
+				clocks = <&per2crg JHB100_PER2CLK_CAN0_CORE_DIV>,
+					<&per2crg JHB100_PER2CLK_MAIN_ICG_EN_CAN0>;
+				clock-names = "core_clk", "main_clk";
+				resets = <&per2crg JHB100_PER2RST_MAIN_RSTN_CAN0>;
 				status = "disabled";
 			};
 

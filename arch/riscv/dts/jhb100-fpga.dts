@@ -717,7 +717,7 @@
 
 &pinctrl_bmcperiph2 {
 	gpio-line-names =
-		"", "", "", "",
+		"PWM_TACH", "", "", "",
 		"", "", "", "",
 		"", "", "", "",
 		"", "", "", "",
@@ -725,6 +725,13 @@
 		"GMAC2_RXDV", "GMAC2_RXD0", "GMAC2_RXD1", "GMAC2_RXD2",
 		"GMAC2_RXD3", "GMAC2_TXCLK", "GMAC2_TXEN", "GMAC2_TXD0",
 		"GMAC2_TXD1", "GMAC2_TXD2", "GMAC2_TXD3", "";
+
+	pwm_tach_pins: pwm-tach-0 {
+		pwm_tach-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D0,
+					 FUNC_BMCPERIPH2_FAN0_TACH_I_0)>;
+		};
+	};
 
 	gmac2_pins: gmac2-grp {
 		gmac2_txen-pins {
@@ -808,6 +815,27 @@
 
 };
 
+&pinctrl_bmcperiph2_pok {
+	gpio-line-names =
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "PWM_CH0", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "",
+		"", "", "", "";
+
+	pwm_ch0_pins: pwm-0 {
+		pwm_ch0-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D41,
+					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL0)>;
+			bias-disable;
+			input-disable;
+		};
+	};
+};
+
 &uart4 {
 	status = "okay";
 	clocks = <&fpga_4mhz_clk>, <&fpga_4mhz_clk>;
@@ -851,7 +879,6 @@
 			<&pcie0_user_mem_uncache>,
 			<&pcie0_mmbi_buffer_uncache>,
 			<&pcie0_hdma_mem_uncache>;
-	starfive,early_ltssm_en;
 	status = "okay";
 };
 
@@ -956,6 +983,26 @@
 	status = "okay";
 };
 
+&pwm {
+	clocks = <&fpga_12mhz_clk>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm_ch0_pins>;
+	#pwm-cells = <1>;
+	status = "okay";
+};
+
+&pwm_tach {
+	clocks = <&fpga_12mhz_clk>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm_tach_pins>;
+	#pwm-cells = <1>;
+	status = "okay";
+	fan@0 {
+		tach-ch = <0x0>;
+		pwms = <&pwm 0>;
+	};
+};
+
 &gmac2 {
 	clocks = <&fpga_12mhz_clk>,
 		 <&fpga_12mhz_clk>,
@@ -978,7 +1025,7 @@
 			reg = <0>;
 			max-speed = <10>;
 			device_type = "ethernet-phy";
-			reset-gpios = <&pinctrl_bmcperiph2 18 GPIO_ACTIVE_LOW>;
+			reset-gpios = <&pinctrl_bmcperiph2 14 GPIO_ACTIVE_LOW>;
 			reset-assert-us = <15000>;
 			reset-deassert-us = <15000>;
 			marvell,reg-init =
@@ -1329,34 +1376,6 @@
 };
 
 &dc0_clk {
-	status = "okay";
+	status = "disabled";
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
-};
-
-&pwm {
-	clocks = <&fpga_12mhz_clk>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&pwm_ch0_pins>;
-	status = "okay";
-};
-
-&pinctrl_bmcperiph2_pok {
-	gpio-line-names =
-		"", "", "", "",
-		"", "", "", "",
-		"", "", "PWM_CH0", "",
-		"", "", "", "",
-		"", "", "", "",
-		"", "", "", "",
-		"", "", "", "",
-		"", "", "", "";
-
-	pwm_ch0_pins: pwm-0 {
-		pwm_ch0-pins {
-			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D41,
-					 FUNC_BMCPERIPH2_PWM0_CHANNEL0)>;
-			bias-disable;
-			input-disable;
-		};
-	};
 };
