@@ -225,4 +225,4 @@ struct rpmi_message {
 
 #define MSG_TOKEN		0xDEAD
 #define RX_TIMEOUT_S(x)		((x) * 1000000)
-#define RPMI_DEF_RX_TIMEOUT_US	RX_TIMEOUT_S(15)
+#define RPMI_DEF_RX_TIMEOUT_US	RX_TIMEOUT_S(300)
