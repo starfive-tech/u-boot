@@ -63,9 +63,7 @@ static int rpmi_shmem_mbox_tx(struct mbox_chan *chan, const void *data)
 		return -ENOMEM;
 
 	/* Tx sanity checks */
-	if (sizeof(msg->data) > (mctl->slot_size - sizeof(struct rpmi_message_header)))
-		return -EINVAL;
-	if (sizeof(msg->data) > header.datalen)
+	if (header.datalen > (mctl->slot_size - sizeof(struct rpmi_message_header)))
 		return -EINVAL;
 
 	tailidx = le32_to_cpu(*qctx->tailptr);
@@ -95,6 +93,7 @@ static int rpmi_shmem_mbox_rx(struct mbox_chan *chan, void *data)
 	struct smq_queue_ctx *qctx;
 	u32 i, tmp, pos, msgidn, headidx, tailidx, rx_datalen;
 	void *dst, *src;
+	struct rpmi_message *msg;
 
 	struct rpmi_mbox_priv *mbox_dev = dev_get_priv(chan->dev);
 
@@ -104,8 +103,7 @@ static int rpmi_shmem_mbox_rx(struct mbox_chan *chan, void *data)
 	}
 
 	struct rpmi_shmem_mbox_controller *mctl = mbox_dev->mctl;
-	struct rpmi_message *msg = (struct rpmi_message *)data;
-	struct rpmi_message_header *header = &msg->header;
+	struct rpmi_message *args = (struct rpmi_message *)data;
 
 	/* Rx */
 	qctx = &mctl->queue_ctx_tbl[RPMI_QUEUE_IDX_P2A_ACK];
@@ -114,21 +112,20 @@ static int rpmi_shmem_mbox_rx(struct mbox_chan *chan, void *data)
 		return -ENODATA;
 
 	/* Rx sanity checks */
-	if (sizeof(msg->data) > (mctl->slot_size - sizeof(struct rpmi_message_header)))
-		return -EINVAL;
-	if (sizeof(msg->data) > header->datalen)
+	if (args->header.datalen > (mctl->slot_size - sizeof(struct rpmi_message_header)))
 		return -EINVAL;
 
 	headidx = *qctx->headptr;
 	tailidx = *qctx->tailptr;
-	msgidn = MAKE_MESSAGE_ID(header->servicegroup_id, header->service_id, header->flags);
+	msgidn = MAKE_MESSAGE_ID(args->header.servicegroup_id,
+				 args->header.service_id,
+				 args->header.flags);
 
 	/* Find the Rx message with matching token */
 	pos = headidx;
 	while (pos != tailidx) {
 		src = (void *)qctx->buffer + (pos * mctl->slot_size);
-		if ((GET_MESSAGE_ID(src) == msgidn) || (GET_TOKEN(src) == header->token)) {
-			rx_datalen = GET_DLEN(src);
+		if ((GET_MESSAGE_ID(src) == msgidn) || (GET_TOKEN(src) == args->header.token)) {
 			break;
 		}
 		pos = (pos + 1) % qctx->num_slots;
@@ -149,8 +146,9 @@ static int rpmi_shmem_mbox_rx(struct mbox_chan *chan, void *data)
 	msg = (void *)qctx->buffer + (headidx * mctl->slot_size);
 
 	/* Extract data from the first message */
+	args->header.datalen = rx_datalen = GET_DLEN(msg);
 	src = (void *)msg + sizeof(struct rpmi_message_header);
-	dst = data;
+	dst = args->data;
 	for (i = 0; i < (rx_datalen / sizeof(u32)); i++)
 		((u32 *)dst)[i] = le32_to_cpu(((u32 *)src)[i]);
 

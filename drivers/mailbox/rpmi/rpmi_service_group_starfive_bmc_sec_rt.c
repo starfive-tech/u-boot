@@ -15,7 +15,7 @@
 #include "mailbox_rpmi_shmem.h"
 #include <mailbox.h>
 #include <rpmi/rpmi-srvgrp-uclass.h>
-#include <rpmi/rpmi_service_group_starfive_bmc_sec_rt.h>
+#include <asm/arch/rpmi-mpxy-sec.h>
 
 static struct rpmi_service starfive_bmc_sec_rt_services[STARFIVE_SEC_SRV_MAX_COUNT] = {
 {
@@ -128,57 +128,58 @@ static struct rpmi_service starfive_bmc_sec_rt_services[STARFIVE_SEC_SRV_MAX_COU
 #define RPMI_REQ_RESP(type) \
 	; \
 	struct type *type = (struct type *)data; \
-	if (starfive_bmc_sec_rt_trans(dev, service_id, &type->req, sizeof(struct type##_req), \
-				     &type->resp, &rxmsg_len)) \
-		return -EINVAL \
+	return starfive_bmc_sec_rt_trans(dev, service_id, &type->req, sizeof(struct type##_req), \
+					 &type->resp, &rxmsg_len)
 
 #define RPMI_RESP(type) \
 	; \
 	struct type *type = (struct type *)data; \
-	if (starfive_bmc_sec_rt_trans(dev, service_id, 0, 0, \
-				     &type, &rxmsg_len)) \
-		return -EINVAL \
+	return starfive_bmc_sec_rt_trans(dev, service_id, 0, 0, \
+					 &type, &rxmsg_len)
 
 static int rpmi_tx_rx(struct mbox_chan *chan, u16 servicegroup_id, u16 service_id, void *tx,
-		      u64 tx_msglen, void *rx, u64 *rx_msglen)
+		      u64 tx_msglen, void *rx, u64 rx_msglen, u64 *out_len)
 {
-	struct rpmi_message msg;
+	struct rpmi_message *msg = calloc(1, sizeof(*msg) +
+					 (tx_msglen > rx_msglen ? tx_msglen : rx_msglen));
 	int ret = 0;
-	struct rpmi_message_header header = {
-		.servicegroup_id = cpu_to_le16(servicegroup_id),
-		.service_id = service_id,
-		.flags = rx ? RPMI_MSG_NORMAL_REQUEST : RPMI_MSG_POSTED_REQUEST,
-		.datalen = tx_msglen,
-		.token = cpu_to_le16(MSG_TOKEN),
-	};
 
-	msg.header = header;
-	memcpy(msg.data, tx, tx_msglen);
-
-	ret = mbox_send(chan, &msg);
+	msg->header.servicegroup_id = cpu_to_le16(servicegroup_id);
+	msg->header.service_id = service_id;
+	msg->header.flags = rx ? RPMI_MSG_NORMAL_REQUEST : RPMI_MSG_POSTED_REQUEST;
+	msg->header.datalen = tx_msglen;
+	msg->header.token = cpu_to_le16(MSG_TOKEN);
+	memcpy(msg->data, tx, tx_msglen);
+	ret = mbox_send(chan, msg);
 	if (ret) {
 		printf("Failed to send message\n");
+		free(msg);
 		return -EINVAL;
 	}
 
 	if (rx) {
-		ret = mbox_recv(chan, &msg, RPMI_DEF_RX_TIMEOUT_US);
+		msg->header.datalen = rx_msglen;
+
+		ret = mbox_recv(chan, msg, RPMI_DEF_RX_TIMEOUT_US);
 		if (ret) {
 			printf("Failed to receive message\n");
+			free(msg);
 			return -EINVAL;
 		}
 
-		*rx_msglen = sizeof(msg);
-		memcpy(rx, &msg, *rx_msglen);
+		*out_len = (u64)msg->header.datalen;
+		memcpy(rx, msg->data, *out_len);
 
+		free(msg);
 		return ((u32 *)rx)[0];
 	}
 
+	free(msg);
 	return 0;
 }
 
 static int starfive_bmc_sec_rt_trans(struct udevice *dev, u16 service_id, void *tx, u64 tx_msglen,
-				     void *rx, u64 *rx_msglen)
+				     void *rx, u64 *out_len)
 {
 	struct rpmi_service *srv = find_rpmi_srvid(dev, service_id);
 
@@ -208,7 +209,8 @@ static int starfive_bmc_sec_rt_trans(struct udevice *dev, u16 service_id, void *
 			  tx,
 			  tx_msglen,
 			  rx,
-			  rx_msglen);
+			  srv->max_rx_len,
+			  out_len);
 }
 
 static int starfive_bmc_sec_rt_process_msg(struct udevice *dev, u16 service_id, void *data)
@@ -288,7 +290,7 @@ static int rpmi_get_base_privilege_level(struct udevice *dev)
 {
 	int ret;
 	struct rpmi_base_get_attributes_resp resp;
-	u64 *rx_msglen = NULL;
+	u64 *out_len = NULL;
 
 	struct rpmi_chan_priv *chan_priv = dev_get_priv(dev);
 
@@ -303,9 +305,10 @@ static int rpmi_get_base_privilege_level(struct udevice *dev)
 			 0,
 			 0,
 			 &resp,
-			 rx_msglen);
+			 sizeof(resp),
+			 out_len);
 
-	if (!rx_msglen)
+	if (!out_len)
 		return -EINVAL;
 
 	if (resp.status_code)
@@ -318,7 +321,7 @@ static int rpmi_get_base_version(struct udevice *dev)
 {
 	int ret;
 	u32 val[2];
-	u64 *rx_msglen = NULL;
+	u64 *out_len = NULL;
 
 	struct rpmi_chan_priv *chan_priv = dev_get_priv(dev);
 
@@ -333,7 +336,8 @@ static int rpmi_get_base_version(struct udevice *dev)
 			 0,
 			 0,
 			 val,
-			 rx_msglen);
+			 sizeof(val),
+			 out_len);
 	if (ret)
 		return ret;
 

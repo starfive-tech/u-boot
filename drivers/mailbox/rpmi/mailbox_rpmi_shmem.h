@@ -48,8 +48,8 @@ enum rpmi_base_service_id {
 	RPMI_BASE_SRV_SET_MSI = 0x08,
 };
 
-#define RPMI_BASE_FLAGS_F0_PRIVILEGE		BIT(2)
-#define RPMI_BASE_FLAGS_F0_EV_NOTIFY		BIT(1)
+#define RPMI_BASE_FLAGS_F0_PRIVILEGE		BIT(1)
+#define RPMI_BASE_FLAGS_F0_EV_NOTIFY		BIT(0)
 #define RPMI_BASE_FLAGS_F0_MSI_EN		(1U)
 
 enum rpmi_base_context_priv_level {
