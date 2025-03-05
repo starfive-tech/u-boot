@@ -49,7 +49,8 @@
 
 #define PHYS_SDRAM_0		0x40000000	/* SDRAM Bank #1 */
 //#define PHYS_SDRAM_0_SIZE	0x80000000	/* 2 GB */
-#define PHYS_SDRAM_0_SIZE	0x100000000	/* 4 GB */
+//#define PHYS_SDRAM_0_SIZE	0x100000000	/* 4 GB */
+#define PHYS_SDRAM_0_SIZE	0x20000000	/* 512 MB */
 
 #define CONFIG_SYS_SDRAM_BASE	(PHYS_SDRAM_0)
 
@@ -68,7 +69,7 @@
 #define CONFIG_U_BOOT_ITB	"u-boot.itb"
 #endif
 
-#define CONFIG_RAMDISK_ADDR 0xA0000000
+#define CONFIG_RAMDISK_ADDR 0x57e00000
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
@@ -292,15 +293,15 @@
 	"fdtfile=jhb100-fpga.dtb\0"	\
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
-	"envloadaddr=0x7a000000\0"	\
-	"kernel_addr_r=0x90000000\0"			\
-	"kernel_comp_addr_r=0x80000000\0"		\
-	"kernel_comp_size=0x2000000\0"			\
-	"kernel_fit_load_size=0x2000000\0"		\
-	"kernel_fit_comp_load_size=0xa00000\0"		\
-	"fdt_addr_r=0x7C000000\0"			\
+	"envloadaddr=0x4fdbe000\0"	\
+	"kernel_addr_r=0x53e00000\0"			\
+	"kernel_comp_addr_r=0x4fe00000\0"		\
+	"kernel_comp_size=0x4000000\0"			\
+	"kernel_fit_load_size=0x4000000\0"		\
+	"kernel_fit_comp_load_size=0x4000000\0"		\
+	"fdt_addr_r=0x4fdce000\0"			\
 	"load_comp_addr=0x47000000\0"	\
-	"ramdisk_size=0x4000000\0"			\
+	"ramdisk_size=0x8000000\0"			\
 	"loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
 	"ramdisk_addr_r=" __stringify(CONFIG_RAMDISK_ADDR) "\0"	\
 	"ipaddr=" __stringify(CONFIG_IPADDR) "\0"	\

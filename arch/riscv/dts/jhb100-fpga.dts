@@ -93,7 +93,7 @@
 
 	memory {
 		device_type = "memory";
-		reg = <0x0 0x40000000 0x2 0x0>;	/* 8GB */
+		reg = <0x0 0x40000000 0x0 0x20000000>;	/* 512MB */
 	};
 
 	reserved-memory {
@@ -110,70 +110,70 @@
 		 * The size of eSPI remap window must be power of 2.
 		 */
 		espi0_mmbi_buffer_cache: mmbi_buffer@44000000 {
-			reg = <0x0 0x44000000 0x0 0x400000>;
-			alignment = <0x0 0x800000>;
+			reg = <0x0 0x44000000 0x0 0x80000>;
+			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
 		espi0_mmbi_buffer_uncache: mmbi_buffer@404000000 {
-			reg = <0x4 0x04000000 0x0 0x400000>;
-			alignment = <0x0 0x800000>;
-			no-map;
-		};
-
-		espi0_perif_mem_cache: espi0-slave@44400000 {
-			reg = <0x0 0x44400000 0x0 0x400000>;
-			no-map;
-		};
-
-		espi0_perif_mem_uncache: espi0-slave@404400000 {
-			reg = <0x4 0x04400000 0x0 0x400000>;
-			no-map;
-		};
-
-		pcie0_mmbi_buffer_cache: mmbi_buffer@44800000 {
-			reg = <0x0 0x44800000 0x0 0x400000>;
+			reg = <0x4 0x04000000 0x0 0x80000>;
 			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		pcie0_mmbi_buffer_uncache: mmbi_buffer@404800000 {
-			reg = <0x4 0x04800000 0x0 0x400000>;
+		espi0_perif_mem_cache: espi0-slave@44080000 {
+			reg = <0x0 0x44080000 0x0 0x80000>;
+			no-map;
+		};
+
+		espi0_perif_mem_uncache: espi0-slave@404080000 {
+			reg = <0x4 0x04080000 0x0 0x80000>;
+			no-map;
+		};
+
+		pcie0_mmbi_buffer_cache: mmbi_buffer@44100000 {
+			reg = <0x0 0x44100000 0x0 0x80000>;
+			alignment = <0x0 0x80000>;
+			no-map;
+		};
+
+		pcie0_mmbi_buffer_uncache: mmbi_buffer@404100000 {
+			reg = <0x4 0x04100000 0x0 0x80000>;
+			alignment = <0x0 0x80000>;
+			no-map;
+		};
+
+		espi0_vw_mem_cache: espi0@44180000 {
+			reg = <0x0 0x44180000 0x0 0x1000>;
+			no-map;
+		};
+
+		espi0_vw_mem_uncache: espi0@404180000 {
+			reg = <0x4 0x04180000 0x0 0x1000>;
+			no-map;
+		};
+
+		pcie0_hdma_mem_cache: hdma_memory@44200000 {
+			reg = <0x0 0x44200000 0x0 0x100000>;
 			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		espi0_vw_mem_cache: espi0@44c00000 {
-			reg = <0x0 0x44c00000 0x0 0x1000>;
+		pcie0_hdma_mem_uncache: hdma_memory@404200000 {
+			reg = <0x4 0x04200000 0x0 0x100000>;
+			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		espi0_vw_mem_uncache: espi0@404c00000 {
-			reg = <0x4 0x04c00000 0x0 0x1000>;
+		pcie0_media_mem_cache: media_memory@46200000 {
+			reg = <0x0 0x46200000 0x0 0x2200000>;
+			alignment = <0x0 0x2200000>;
 			no-map;
 		};
 
-		pcie0_hdma_mem_cache: hdma_memory@45000000 {
-			reg = <0x0 0x45000000 0x0 0x1000000>;
-			alignment = <0x0 0x1000000>;
-			no-map;
-		};
-
-		pcie0_hdma_mem_uncache: hdma_memory@405000000 {
-			reg = <0x4 0x05000000 0x0 0x1000000>;
-			alignment = <0x0 0x1000000>;
-			no-map;
-		};
-
-		pcie0_media_mem_cache: media_memory@48000000 {
-			reg = <0x0 0x48000000 0x0 0x4000000>;
-			alignment = <0x0 0x4000000>;
-			no-map;
-		};
-
-		pcie0_media_mem_uncache: media_emory@408000000 {
-			reg = <0x4 0x08000000 0x0 0x4000000>;
-			alignment = <0x0 0x4000000>;
+		pcie0_media_mem_uncache: media_emory@406a00000 {
+			reg = <0x4 0x06a00000 0x0 0x2200000>;
+			alignment = <0x0 0x2200000>;
 			no-map;
 		};
 
@@ -182,68 +182,68 @@
 		 * with its size, the first reg below required to be aligned with
 		 * 0x2000000 too.
 		 */
-		pcie0_user_mem_cache: user_memory@4c000000 {
-			reg = <0x0 0x4c000000 0x0 0x2000000>,
-			      <0x0 0x4e000000 0x0 0x100000>,
-			      <0x0 0x4e100000 0x0 0x100000>;
+		pcie0_user_mem_cache: user_memory@4a000000 {
+			reg = <0x0 0x4a000000 0x0 0x800000>,
+			      <0x0 0x4a800000 0x0 0x100000>,
+			      <0x0 0x4a900000 0x0 0x100000>;
 			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		pcie0_user_mem_uncache: user_memory@40c000000 {
-			reg = <0x4 0x0c000000 0x0 0x2000000>,
-			      <0x4 0x0e000000 0x0 0x100000>,
-			      <0x4 0x0e100000 0x0 0x100000>;
+		pcie0_user_mem_uncache: user_memory@40a000000 {
+			reg = <0x4 0x0a000000 0x0 0x800000>,
+			      <0x4 0x0a800000 0x0 0x100000>,
+			      <0x4 0x0a900000 0x0 0x100000>;
 			alignment = <0x0 0x100000>;
 			no-map;
 		};
 
-		ramoops@4e200000 {
+		ramoops@4aa00000 {
 			compatible = "ramoops";
-			reg = <0x0 0x4e200000 0x0 0xc0000>;
+			reg = <0x0 0x4aa00000 0x0 0xc0000>;
 			record-size = <0x20000>;
 			console-size = <0x20000>;
 			pmsg-size = <0x20000>;
 		};
 
 		/* DMA global pool cached address */
-		dma-reserved@4e300000 {
-			reg = <0x0 0x4e300000 0x0 0x08000000>;
+		dma-reserved@4ab00000 {
+			reg = <0x0 0x4ab00000 0x0 0x04000000>;
 			no-map;
 		};
 
 		/* DMA global pool uncached address (alias) */
-		linux,dma@40e300000 {
+		linux,dma@40ab00000 {
 			compatible = "shared-dma-pool";
-			reg = <0x4 0x0e300000 0x0 0x08000000>;
+			reg = <0x4 0x0ab00000 0x0 0x04000000>;
 			no-map;
 			linux,dma-default;
 		};
 
-		sol_tx_mem_cache: sol@56300000 {
-			reg = <0x0 0x56300000 0x0 0x2000000>;
+		sol_tx_mem_cache: sol@4eb00000 {
+			reg = <0x0 0x4eb00000 0x0 0x2000000>;
 			no-map;
 		};
 
-		sol_tx_mem_uncache: sol@416300000 {
-			reg = <0x4 0x16300000 0x0 0x2000000>;
+		sol_tx_mem_uncache: sol@40eb00000 {
+			reg = <0x4 0x0eb00000 0x0 0x2000000>;
 			no-map;
 		};
 
-		sol_rx_mem_cache: sol@58300000 {
-			reg = <0x0 0x58300000 0x0 0x2000000>;
+		sol_rx_mem_cache: sol@50b00000 {
+			reg = <0x0 0x50b00000 0x0 0x2000000>;
 			no-map;
 		};
 
-		sol_rx_mem_uncache: sol@418300000 {
-			reg = <0x4 0x18300000 0x0 0x2000000>;
+		sol_rx_mem_uncache: sol@410b00000 {
+			reg = <0x4 0x10b00000 0x0 0x2000000>;
 			no-map;
 		};
 
 		linux,cma {
 			compatible = "shared-dma-pool";
 			reusable;
-			size = <0x0 0x08000000>;
+			size = <0x0 0x04000000>;
 			alignment = <0x0 0x1000>;
 			alloc-ranges = <0x0 0x40000000 0x2 0x0>;
 			linux,cma-default;

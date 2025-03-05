@@ -54,6 +54,8 @@
 	memory {
 		bootph-pre-ram;
 	};
+
+	/delete-node/ reserved-memory;
 };
 
 &uart5 {
@@ -61,6 +63,30 @@
 	dlf-size = <6>;
 	/delete-property/ clock-frequency;
 	/delete-property/ resets;
+};
+
+&sol4 {
+	/delete-property/ memory-region;
+};
+
+&sol5 {
+	/delete-property/ memory-region;
+};
+
+&pcie_ep0 {
+	/delete-property/ memory-region;
+};
+
+&pcie0_mmbi {
+	/delete-property/ memory-region;
+};
+
+&espi0_mmbi {
+	/delete-property/ memory-region;
+};
+
+&espi0 {
+	/delete-property/ memory-region;
 };
 
 &clint {
