@@ -23,27 +23,6 @@
 #define ADDR_HIGH_MASK	(GENMASK(63, 32))
 #define ADDR_LOW_MASK	(GENMASK(31, 0))
 
-static int starfive_sec_plain_text_size(struct bif_image_hdr *hdr)
-{
-	u8 i, *byte_chk, *padding;
-	u8 *img_add = (u8 *)hdr + hdr->img_off;
-
-	padding = (u8 *)(img_add + hdr->img_len - 1);
-	byte_chk = padding;
-
-	/* Verify padding */
-	for (i = 0; i < *padding; i++) {
-		if (*byte_chk != *padding)
-			return -1;
-		byte_chk--;
-	}
-
-	/* Get actual image size */
-	hdr->img_len = hdr->img_len - *padding;
-
-	return 0;
-}
-
 u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 {
 	int ret = 0;
@@ -52,11 +31,11 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 	 * Send RPMI/MPXY message via mailbox to request secure
 	 * core to validate image
 	 */
-	struct secboot_verify_bmcfw_req req;
+	struct secboot_verify_bmcfw secboot;
 
-	req.fw_address_high = ((u64)payld & ADDR_HIGH_MASK) >> BITS_PER_WORD;
-	req.fw_address_low = (u64)payld & ADDR_LOW_MASK;
-	req.size = *p_size;
+	secboot.req.fw_address_high = ((u64)payld & ADDR_HIGH_MASK) >> BITS_PER_WORD;
+	secboot.req.fw_address_low = (u64)payld & ADDR_LOW_MASK;
+	secboot.req.size = *p_size;
 
 #ifndef CONFIG_SPL_BUILD
 	/** Sends MPXY message */
@@ -69,7 +48,7 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 		return ret;
 	}
 
-	ret = misc_ioctl(mpxy_sec_dev, SECBOOT_VERIFY_BMCFW, &req);
+	ret = misc_ioctl(mpxy_sec_dev, SECBOOT_VERIFY_BMCFW, &secboot);
 #else
 	/** Create SHMEM */
 	struct udevice *rpmi_mbox_shmem_dev;
@@ -91,7 +70,7 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 		return ret;
 	}
 
-	ret = rpmi_process_msg(rpmi_sec_dev, SECBOOT_VERIFY_BMCFW, &req);
+	ret = rpmi_process_msg(rpmi_sec_dev, SECBOOT_VERIFY_BMCFW, &secboot);
 #endif
 	if (ret) {
 		printf("Image verification failed\n");
@@ -99,23 +78,9 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 	}
 
 	struct bif_image_hdr *hdr = (struct bif_image_hdr *)*p_image;
-
-	if (hdr->iflags & IMAGE_IS_ENCRYPTED) {
-		ret = starfive_sec_plain_text_size(hdr);
-		if (ret) {
-			printf("Firmware image padding format wrong!\n");
-			return ret;
-		}
-	}
-
-	return 0;
-}
-
-void starfive_adjust_image(void **p_image, size_t *p_size)
-{
-	struct bif_image_hdr *hdr = (struct bif_image_hdr *)*p_image;
-
 	/* Point to image offset and image size */
 	*p_image = (u8 *)hdr + hdr->img_off;
-	*p_size = hdr->img_len;
+	*p_size = secboot.resp.img_len;
+
+	return 0;
 }

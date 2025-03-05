@@ -36,6 +36,7 @@ struct secboot_verify_bmcfw_req {
 
 struct secboot_verify_bmcfw_resp {
 	u32 status;
+	u32 img_len;
 };
 
 struct secboot_verify_bmcfw {

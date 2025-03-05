@@ -22,7 +22,6 @@
 #include <spl.h>
 #include <asm/arch/boot_src.h>
 #include <asm/arch/spl.h>
-#include <asm/arch/secure_common.h>
 #include <asm/arch/ap_core.h>
 #include <asm/arch/saif_init.h>
 #include <hang.h>
@@ -69,6 +68,7 @@ int mmc_get_env_dev(void)
 }
 
 void flush_dcache_range(unsigned long start, unsigned long end);
+u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size);
 
 void board_fit_image_post_process(const void *fit, int node, void **p_image, size_t *p_size)
 {
@@ -77,9 +77,6 @@ void board_fit_image_post_process(const void *fit, int node, void **p_image, siz
 #ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 	if (starfive_jhb100_vendor_authentication(p_image, p_size))
 		hang();
-
-	/* Skip to the actual image */
-	starfive_adjust_image(p_image, p_size);
 #endif
 #ifndef CONFIG_SPL_BUILD
 	/* Important that FDT is modified after authentication */
