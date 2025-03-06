@@ -5,11 +5,10 @@
  * Author: Genevieve Chan <genevieve.chan@starfivetech.com>
  */
 
-#ifndef _RPMI_SERVICE_GROUP_STARFIVE_BMC_SEC_RT_H
-#define _RPMI_SERVICE_GROUP_STARFIVE_BMC_SEC_RT_H
+#ifndef __STARFIVE_MPXY_SEC_H
+#define __STARFIVE_MPXY_SEC_H
 
-/** RPMI Security Service Group Service ID */
-enum rpmi_starfive_jhb100_sec_service_id {
+enum jhb100_firmware {
 	SECBOOT_VERIFY_BMCFW = 0x1,
 	SECBOOT_VERIFY_BIOSFW,
 	SECBOOT_GETBIOS_VERIFY_STATUS,
@@ -25,7 +24,7 @@ enum rpmi_starfive_jhb100_sec_service_id {
 	OTP_GET_USER_REGION_SIZE,
 	OTP_USER_REGION_READ,
 	OTP_USER_REGION_WRITE,
-	STARFIVE_SEC_SRV_MAX_COUNT,
+	STARFIVE_SEC_SRV_MAX_COUNT
 };
 
 struct secboot_verify_bmcfw_req {
@@ -328,5 +327,4 @@ struct otp_user_region_write {
 	struct otp_user_region_write_req req;
 	struct otp_user_region_write_resp resp;
 };
-
 #endif

@@ -9,7 +9,7 @@
 #include <dm.h>
 #include <linux/compat.h>
 #include <misc.h>
-#include <asm/arch/mpxy-sec.h>
+#include <asm/arch/rpmi-mpxy-sec.h>
 #include <asm/rpmi.h>
 #include <asm/sbi.h>
 #include <asm-generic/ioctl.h>

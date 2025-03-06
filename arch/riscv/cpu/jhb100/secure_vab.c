@@ -13,7 +13,7 @@
 #include <asm/sbi.h>
 #include <asm/arch/ap_core.h>
 #include <asm/arch/secure_vab.h>
-#include <asm/arch/mpxy-sec.h>
+#include <asm/arch/rpmi-mpxy-sec.h>
 #include <linux/bitops.h>
 #include <dm/device-internal.h>
 #include <rpmi/rpmi-srvgrp-uclass.h>
