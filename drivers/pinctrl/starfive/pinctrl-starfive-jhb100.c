@@ -473,3 +473,10 @@ int starfive_pinctrl_probe(struct udevice *dev,
 
 	return (ret == 0) ? 0 : ret;
 }
+
+int starfive_pinctrl_bind(struct udevice *dev)
+{
+	/* The io-domain driver does not have a device node, so bind it here */
+	return device_bind_driver_to_node(dev, "starfive_io_domain", dev->name,
+		dev_ofnode(dev), NULL);
+}

@@ -63,3 +63,4 @@ int starfive_set_one_pin_mux(struct udevice *dev, u32 pin,
 			     u32 func, int gpioval);
 int starfive_pinctrl_probe(struct udevice *dev,
 			   const struct jhb100_pinctrl_soc_info *info);
+int starfive_pinctrl_bind(struct udevice *dev);

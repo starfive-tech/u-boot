@@ -135,4 +135,5 @@ U_BOOT_DRIVER(jhb100_bmcperiph3_pinctrl) = {
 	.priv_auto	= sizeof(struct starfive_pinctrl_priv),
 	.ops		= &starfive_pinctrl_ops,
 	.probe		= jhb100_bmcperiph3_pinctrl_probe,
+	.bind		= starfive_pinctrl_bind,
 };

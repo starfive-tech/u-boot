@@ -109,4 +109,5 @@ U_BOOT_DRIVER(jhb100_systop_sys0_pinctrl) = {
 	.priv_auto	= sizeof(struct starfive_pinctrl_priv),
 	.ops		= &starfive_pinctrl_ops,
 	.probe		= jhb100_systop_sys0_pinctrl_probe,
+	.bind		= starfive_pinctrl_bind,
 };
