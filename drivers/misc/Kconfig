@@ -110,6 +110,14 @@ config ROCKCHIP_IODOMAIN
 	  for the IO-domain setting of the SoC to match the voltage supplied
 	  by the regulators.
 
+config STARFIVE_IODOMAIN
+	bool "StarFive IO-domain driver support"
+	depends on STARFIVE_JHB100
+	help
+	  Enable support for IO-domains in StarFive SoCs. It is necessary
+	  for the IO-domain setting of the SoC to match the voltage supplied
+	  by the regulators.
+
 config SIFIVE_OTP
 	bool "SiFive eMemory OTP driver"
 	depends on MISC
