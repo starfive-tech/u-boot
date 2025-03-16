@@ -50,7 +50,7 @@ static const struct starfive_iodomain_data jhb100_soc_data_bmcperiph0 = {
 		"gpioe-i3c0-vsel",
 		"gpioe-i3c1-vsel",
 		"gpioe-i3c2-vsel",
-		"gpioe-i3c3-vsel",
+		"gpioe-i3c4-vsel",
 	},
 };
 
