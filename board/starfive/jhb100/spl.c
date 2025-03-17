@@ -45,15 +45,23 @@
 #define JHB100_MAIN_CLK_ENABLE			BIT(31)
 
 /* SYS2_IOMUX */
-#define JHB100_SYS2_IOMUX_ADDR		0x13082000UL
-#define JHB100_SYS2_FUNC_SEL_OFFSET	0x0d4
-#define JHB100_SYS2_PADCFG_A36_OFFSET	0x040
-#define JHB100_SYS2_PADCFG_A37_OFFSET	0x044
-#define JHB100_SYS2_FUNC12_SEL		BIT(24)
-#define JHB100_SYS2_FUNC13_SEL		BIT(26)
+#define JHB100_SYS2_IOMUX_ADDR			0x13082000UL
+#define JHB100_SYS2_GPIOW_VSEL_OFFSET		0x000
+#define JHB100_SYS2_GPIOW_VSEL_INNER_OFFSET	0x004
+#define JHB100_SYS2_FUNC_SEL_OFFSET		0x0d4
+#define JHB100_SYS2_PADCFG_A36_OFFSET		0x040
+#define JHB100_SYS2_PADCFG_A37_OFFSET		0x044
+#define JHB100_SYS2_FUNC12_SEL			BIT(24)
+#define JHB100_SYS2_FUNC13_SEL			BIT(26)
+
+/* PER2_IOMUX */
+#define JHB100_PER2_IOMUX_ADDR			0x11bc2000UL
+#define JHB100_PER2_GPIONW_VSEL_OFFSET		0x000
 
 #define JHB100_PINCONF_IE		BIT(2)
 #define JHB100_PINCONF_DS_12mA		BIT(0) | BIT(1)
+#define JHB100_VREF_3_3V		0
+#define JHB100_VREF_1_8V		2
 
 int spl_board_init_f(void)
 {
@@ -117,6 +125,12 @@ void jhb100_plat_init(void)
 	/* SPL has limited DT parsing and does not automatically initialize pinmux settings.
 	 * Use writel() directly to set UART5 pins in SPL.
 	 */
+	addr = (void *)(JHB100_SYS2_IOMUX_ADDR + JHB100_SYS2_GPIOW_VSEL_OFFSET);
+	writel(readl(addr) | JHB100_VREF_3_3V, addr);
+
+	addr = (void *)(JHB100_SYS2_IOMUX_ADDR + JHB100_SYS2_GPIOW_VSEL_INNER_OFFSET);
+	writel(readl(addr) | JHB100_VREF_3_3V, addr);
+
 	addr = (void *)(JHB100_SYS2_IOMUX_ADDR + JHB100_SYS2_FUNC_SEL_OFFSET);
 	writel(readl(addr) | JHB100_SYS2_FUNC12_SEL | JHB100_SYS2_FUNC13_SEL, addr);
 
@@ -125,6 +139,12 @@ void jhb100_plat_init(void)
 
 	addr = (void *)(JHB100_SYS2_IOMUX_ADDR + JHB100_SYS2_PADCFG_A37_OFFSET);
 	writel(JHB100_PINCONF_DS_12mA | JHB100_PINCONF_IE, addr);
+
+	/* SPL has limited DT parsing and does not automatically initialize pinmux settings.
+	 * Use writel() directly to set GMAC2 pins in SPL.
+	 */
+	addr = (void *)(JHB100_PER2_IOMUX_ADDR + JHB100_PER2_GPIONW_VSEL_OFFSET);
+	writel(readl(addr) | JHB100_VREF_1_8V, addr);
 }
 
 void plat_gmac_init(void)
