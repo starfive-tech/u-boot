@@ -78,8 +78,7 @@ config SPL_FS_LOAD_RECOVERY_PAYLOAD_NAME
 
 config STARFIVE_JHB100_MPXY_SEC
 	bool "StarFive JHB100 MPXY Sec IOCTL driver"
-	depends on TARGET_STARFIVE_JHB100
-    default y if RISCV_SMODE
+	depends on TARGET_STARFIVE_JHB100 && RISCV_SMODE
 	select MISC
     select SBI_MPXY
 	help
