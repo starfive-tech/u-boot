@@ -5,14 +5,13 @@
 
 &sfc0 {
 	status = "okay";
-	clocks = <&fpga_12mhz_clk>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&sfc0_pins>;
 
 	flash@0 {
 		compatible = "jedec,spi-nor";
 		reg = <0>;
-		spi-max-frequency = <200000>;
+		spi-max-frequency = <100000000>;
 		spi-tx-bus-width = <4>;
 		spi-rx-bus-width = <4>;
 

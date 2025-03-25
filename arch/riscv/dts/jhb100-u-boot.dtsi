@@ -4,7 +4,7 @@
  */
 
 #include "jhb100-img.dtsi"
-#include "jhb100-fpga-sfc0-flash.dtsi"
+#include "jhb100-evb1-sfc0-flash.dtsi"
 / {
 	soc {
 		bootph-pre-ram;

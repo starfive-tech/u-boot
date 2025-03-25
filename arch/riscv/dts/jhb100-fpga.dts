@@ -4,7 +4,7 @@
  */
 
 #include "jhb100.dtsi"
-#include "jhb100-fpga-sfc0-flash.dtsi"
+#include "jhb100-evb1-sfc0-flash.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/i2c/i2c.h>
 
@@ -16,6 +16,9 @@
 		serial0 = &uart5;
 		serial1 = &uart4;
 		ethernet0 = &gmac2;
+		ethernet1 = &gmac3;
+		ethernet2 = &gmac0;
+		ethernet3 = &gmac1;
 
 		i2c0 = &i2c0_master;
 		i2c1 = &i2c0_slave;
@@ -83,6 +86,13 @@
 		i3c15 = &i3c15;
 	};
 
+	reg_vcc_1v8: vcc-1v8 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc-1v8";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+	};
+
 	chosen {
 		stdout-path = "serial0:115200n8";
 	};
@@ -100,145 +110,8 @@
 		#address-cells = <0x2>;
 		#size-cells = <0x2>;
 		ranges;
-		/*
-		 * eSPI & MMBI dma accesses uncached address.
-		 * Also need to reserve corresponding cache addresses,
-		 * so that kernel will not manage them.
-		 * There is only one adderss remap window for eSPI memory accessing,
-		 * so espi drive merges the reserved memory ranges
-		 * of MMBI over eSPI (1st 4MB) & eSPI memory cycle access(2nd 4MB).
-		 * The size of eSPI remap window must be power of 2.
-		 */
-		espi0_mmbi_buffer_cache: mmbi_buffer@44000000 {
-			reg = <0x0 0x44000000 0x0 0x80000>;
-			alignment = <0x0 0x100000>;
-			no-map;
-		};
 
-		espi0_mmbi_buffer_uncache: mmbi_buffer@404000000 {
-			reg = <0x4 0x04000000 0x0 0x80000>;
-			alignment = <0x0 0x100000>;
-			no-map;
-		};
-
-		espi0_perif_mem_cache: espi0-slave@44080000 {
-			reg = <0x0 0x44080000 0x0 0x80000>;
-			no-map;
-		};
-
-		espi0_perif_mem_uncache: espi0-slave@404080000 {
-			reg = <0x4 0x04080000 0x0 0x80000>;
-			no-map;
-		};
-
-		pcie0_mmbi_buffer_cache: mmbi_buffer@44100000 {
-			reg = <0x0 0x44100000 0x0 0x80000>;
-			alignment = <0x0 0x80000>;
-			no-map;
-		};
-
-		pcie0_mmbi_buffer_uncache: mmbi_buffer@404100000 {
-			reg = <0x4 0x04100000 0x0 0x80000>;
-			alignment = <0x0 0x80000>;
-			no-map;
-		};
-
-		espi0_vw_mem_cache: espi0@44180000 {
-			reg = <0x0 0x44180000 0x0 0x1000>;
-			no-map;
-		};
-
-		espi0_vw_mem_uncache: espi0@404180000 {
-			reg = <0x4 0x04180000 0x0 0x1000>;
-			no-map;
-		};
-
-		pcie0_hdma_mem_cache: hdma_memory@44200000 {
-			reg = <0x0 0x44200000 0x0 0x100000>;
-			alignment = <0x0 0x100000>;
-			no-map;
-		};
-
-		pcie0_hdma_mem_uncache: hdma_memory@404200000 {
-			reg = <0x4 0x04200000 0x0 0x100000>;
-			alignment = <0x0 0x100000>;
-			no-map;
-		};
-
-		pcie0_media_mem_cache: media_memory@46200000 {
-			reg = <0x0 0x46200000 0x0 0x2200000>;
-			alignment = <0x0 0x2200000>;
-			no-map;
-		};
-
-		pcie0_media_mem_uncache: media_emory@406a00000 {
-			reg = <0x4 0x06a00000 0x0 0x2200000>;
-			alignment = <0x0 0x2200000>;
-			no-map;
-		};
-
-		/*
-		 * As the ATU configuration required the dest_addr to keep align
-		 * with its size, the first reg below required to be aligned with
-		 * 0x2000000 too.
-		 */
-		pcie0_user_mem_cache: user_memory@4a000000 {
-			reg = <0x0 0x4a000000 0x0 0x800000>,
-			      <0x0 0x4a800000 0x0 0x100000>,
-			      <0x0 0x4a900000 0x0 0x100000>;
-			alignment = <0x0 0x100000>;
-			no-map;
-		};
-
-		pcie0_user_mem_uncache: user_memory@40a000000 {
-			reg = <0x4 0x0a000000 0x0 0x800000>,
-			      <0x4 0x0a800000 0x0 0x100000>,
-			      <0x4 0x0a900000 0x0 0x100000>;
-			alignment = <0x0 0x100000>;
-			no-map;
-		};
-
-		ramoops@4aa00000 {
-			compatible = "ramoops";
-			reg = <0x0 0x4aa00000 0x0 0xc0000>;
-			record-size = <0x20000>;
-			console-size = <0x20000>;
-			pmsg-size = <0x20000>;
-		};
-
-		/* DMA global pool cached address */
-		dma-reserved@4ab00000 {
-			reg = <0x0 0x4ab00000 0x0 0x04000000>;
-			no-map;
-		};
-
-		/* DMA global pool uncached address (alias) */
-		linux,dma@40ab00000 {
-			compatible = "shared-dma-pool";
-			reg = <0x4 0x0ab00000 0x0 0x04000000>;
-			no-map;
-			linux,dma-default;
-		};
-
-		sol_tx_mem_cache: sol@4eb00000 {
-			reg = <0x0 0x4eb00000 0x0 0x2000000>;
-			no-map;
-		};
-
-		sol_tx_mem_uncache: sol@40eb00000 {
-			reg = <0x4 0x0eb00000 0x0 0x2000000>;
-			no-map;
-		};
-
-		sol_rx_mem_cache: sol@50b00000 {
-			reg = <0x0 0x50b00000 0x0 0x2000000>;
-			no-map;
-		};
-
-		sol_rx_mem_uncache: sol@410b00000 {
-			reg = <0x4 0x10b00000 0x0 0x2000000>;
-			no-map;
-		};
+		#include "jhb100-reserved-mem.dtsi"
 
 		linux,cma {
 			compatible = "shared-dma-pool";
@@ -251,6 +124,12 @@
 	};
 
 	soc {
+		fpga_20mhz_clk: fpga_20mhz_clk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <20000000>;
+		};
+
 		fpga_12mhz_clk: fpga_12mhz_clk {
 			compatible = "fixed-clock";
 			#clock-cells = <0>;
@@ -275,6 +154,14 @@
 			clock-frequency = <2500000>;
 		};
 	};
+};
+
+&pinctrl_adc0 {
+	status = "disabled";
+};
+
+&pinctrl_adc1 {
+	status = "disabled";
 };
 
 &pinctrl_sys0h {
@@ -417,12 +304,12 @@
 	i3c4_pins: i3c4-grp {
 		i3c4_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
-					 FUNC_BMCPERIPH0_MIPI_I3C4_CLK)>;
+					 FUNC_BMCPERIPH0_MIPI_I3C4_SCL0)>;
 		};
 
 		i3c4_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B9,
-					 FUNC_BMCPERIPH0_MIPI_I3C4_DATA)>;
+					 FUNC_BMCPERIPH0_MIPI_I3C4_SDA0)>;
 			bias-pull-up;
 			input-enable;
 		};
@@ -431,12 +318,12 @@
 	i3c5_pins: i3c5-grp {
 		i3c5_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
-					 FUNC_BMCPERIPH0_MIPI_I3C5_CLK)>;
+					 FUNC_BMCPERIPH0_MIPI_I3C5_SCL0)>;
 		};
 
 		i3c5_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B11,
-					 FUNC_BMCPERIPH0_MIPI_I3C5_DATA)>;
+					 FUNC_BMCPERIPH0_MIPI_I3C5_SDA0)>;
 			bias-pull-up;
 			input-enable;
 		};
@@ -501,12 +388,12 @@
 	mdio0_pins: mdio0-grp {
 		mdio0_mdc-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B24,
-					 FUNC_BMCPERIPH0_ETH2_MDC)>;
+					 FUNC_BMCPERIPH0_GMAC2_MDC)>;
 		};
 
 		mdio0_mdio-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B25,
-					 FUNC_BMCPERIPH0_ETH2_MDIO)>;
+					 FUNC_BMCPERIPH0_GMAC2_MDIO)>;
 			bias-pull-up;
 			input-enable;
 		};
@@ -717,7 +604,7 @@
 
 &pinctrl_bmcperiph2 {
 	gpio-line-names =
-		"PWM_TACH", "", "", "",
+		"PWM_TACH0", "", "", "",
 		"", "", "", "",
 		"", "", "", "",
 		"", "", "", "",
@@ -726,8 +613,8 @@
 		"GMAC2_RXD3", "GMAC2_TXCLK", "GMAC2_TXEN", "GMAC2_TXD0",
 		"GMAC2_TXD1", "GMAC2_TXD2", "GMAC2_TXD3", "";
 
-	pwm_tach_pins: pwm-tach-0 {
-		pwm_tach-pins {
+	pwm_tach_pins: pwm-tach-grp {
+		pwm_tach0-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D0,
 					 FUNC_BMCPERIPH2_FAN0_TACH_I_0)>;
 		};
@@ -736,7 +623,7 @@
 	gmac2_pins: gmac2-grp {
 		gmac2_txen-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D26,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TXEN)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_TXCTL)>;
 			starfive,gmac_vsel = <0>;
 		};
 
@@ -748,25 +635,25 @@
 
 		gmac2_txd0-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D27,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TX0)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_PHY_TX0)>;
 			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_txd1-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D28,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TX1)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_PHY_TX1)>;
 			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_txd2-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D29,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TX2)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_PHY_TX2)>;
 			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_txd3-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D30,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_TX3)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_PHY_TX3)>;
 			starfive,gmac_vsel = <0>;
 		};
 
@@ -779,40 +666,39 @@
 
 		gmac2_rxdv-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D20,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXDV)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_RXCTL)>;
 			input-enable;
 			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxd0-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D21,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXD0)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_PHY_RXD0)>;
 			input-enable;
 			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxd1-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D22,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXD1)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_PHY_RXD1)>;
 			input-enable;
 			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxd2-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D23,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXD2)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_PHY_RXD2)>;
 			input-enable;
 			starfive,gmac_vsel = <0>;
 		};
 
 		gmac2_rxd3-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_GPIO_D24,
-					 FUNC_BMCPERIPH2_RMII_RGMII_PHY_RXD3)>;
+					 FUNC_BMCPERIPH2_GMAC2_RGMII_PHY_RXD3)>;
 			input-enable;
 			starfive,gmac_vsel = <0>;
 		};
 	};
-
 };
 
 &pinctrl_bmcperiph2_pok {
@@ -826,7 +712,27 @@
 		"", "", "", "",
 		"", "", "", "";
 
-	pwm_ch0_pins: pwm-0 {
+	can0_pins: can0-grp {
+		can0_tx-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D31,
+					 FUNC_BMCPERIPH2_POK_CAN0_TXD)>;
+			input-enable;
+		};
+
+		can0_rx-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D32,
+					 FUNC_BMCPERIPH2_POK_CAN0_RXD)>;
+			input-enable;
+		};
+
+		can0_stby-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D33,
+					 FUNC_BMCPERIPH2_POK_CAN0_STBY)>;
+			input-enable;
+		};
+	};
+
+	pwm_ch_pins: pwm-grp {
 		pwm_ch0-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D41,
 					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL0)>;
@@ -834,6 +740,10 @@
 			input-disable;
 		};
 	};
+};
+
+&pinctrl_vga_vdac {
+	status = "disabled";
 };
 
 &uart4 {
@@ -986,7 +896,7 @@
 &pwm {
 	clocks = <&fpga_12mhz_clk>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&pwm_ch0_pins>;
+	pinctrl-0 = <&pwm_ch_pins>;
 	#pwm-cells = <1>;
 	status = "okay";
 };
@@ -1037,14 +947,23 @@
 };
 
 &timer0 {
+	clocks = <&per0crg JHB100_PER0CLK_PCLK_DUALTIMER0>,
+		 <&fpga_12mhz_clk>,
+		 <&fpga_12mhz_clk>;
 	status = "okay";
 };
 
 &timer1 {
+	clocks = <&per0crg JHB100_PER0CLK_PCLK_DUALTIMER1>,
+		 <&fpga_12mhz_clk>,
+		 <&fpga_12mhz_clk>;
 	status = "okay";
 };
 
 &timer2 {
+	clocks = <&per0crg JHB100_PER0CLK_PCLK_DUALTIMER2>,
+		 <&fpga_12mhz_clk>,
+		 <&fpga_12mhz_clk>;
 	status = "okay";
 };
 
@@ -1067,6 +986,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c4_pins>;
 	is-mng;
+	vcc-supply = <&reg_vcc_1v8>;
 	#address-cells = <3>;
 	#size-cells = <0>;
 
@@ -1133,6 +1053,7 @@
 	pinctrl-0 = <&i3c5_pins>;
 	dmas = <&dma_i3c 5 11 10>;
 	dma-names = "rx-tx";
+	vcc-supply = <&reg_vcc_1v8>;
 };
 
 &i2c4_master {
@@ -1378,4 +1299,19 @@
 &dc0_clk {
 	status = "disabled";
 	clocks = <&fpga_12mhz_clk>, <&fpga_12mhz_clk>;
+};
+
+&sfc0 {
+	clocks = <&fpga_12mhz_clk>;
+
+	flash@0 {
+		spi-max-frequency = <200000>;
+	};
+};
+
+&can0 {
+	status = "okay";
+	clocks = <&fpga_20mhz_clk>, <&fpga_20mhz_clk>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&can0_pins>;
 };

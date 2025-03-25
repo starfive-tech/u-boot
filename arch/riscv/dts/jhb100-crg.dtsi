@@ -308,6 +308,18 @@
 			#reset-cells = <1>;
 		};
 
+		per1_syscon: syscon@11b41000 {
+			compatible = "starfive,jhb100-per1-syscon", "syscon",
+				     "simple-mfd";
+			reg = <0x0 0x11b41000 0x0 0x1000>;
+
+			per1pll: clock-controller {
+				compatible = "starfive,jhb100-per1-pll";
+				clocks = <&osc>;
+				#clock-cells = <1>;
+			};
+		};
+
 		per2crg: clock-controller@11bc0000 {
 			compatible = "starfive,jhb100-per2crg";
 			reg = <0x0 0x11bc0000 0x0 0x1000>;
@@ -329,6 +341,11 @@
 			#reset-cells = <1>;
 		};
 
+		syscon_bmcperiph2: syscon@11bc1000 {
+			compatible = "starfive,jhb100-per-nopll-syscon", "syscon";
+			reg = <0x0 0x11bc1000 0x0 0x1000>;
+		};
+
 		per3crg: clock-controller@11c40000 {
 			compatible = "starfive,jhb100-per3crg";
 			reg = <0x0 0x11c40000 0x0 0x1000>;
@@ -346,6 +363,11 @@
 				      "osc";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
+		};
+
+		syscon_bmcperiph3: syscon@11c41000 {
+			compatible = "starfive,jhb100-per-nopll-syscon", "syscon";
+			reg = <0x0 0x11c41000 0x0 0x1000>;
 		};
 
 		sys0crg: clock-controller@13000000 {
