@@ -17,112 +17,14 @@
 #include <rpmi/rpmi-srvgrp-uclass.h>
 #include <asm/arch/rpmi-mpxy-sec.h>
 
-static struct rpmi_service starfive_bmc_sec_rt_services[STARFIVE_SEC_SRV_MAX_COUNT] = {
+static struct rpmi_service starfive_bmc_sec_rt_services[] = {
 {
-	.id = SECBOOT_VERIFY_BMCFW,
-	.min_tx_len = sizeof(struct secboot_verify_bmcfw_req),
-	.max_tx_len = sizeof(struct secboot_verify_bmcfw_req),
-	.min_rx_len = sizeof(struct secboot_verify_bmcfw_resp),
-	.max_rx_len = sizeof(struct secboot_verify_bmcfw_resp),
-},
-{
-	.id = SECBOOT_VERIFY_BIOSFW,
-	.min_tx_len = sizeof(struct secboot_verify_biosfw_req),
-	.max_tx_len = sizeof(struct secboot_verify_biosfw_req),
-	.min_rx_len = sizeof(struct secboot_verify_biosfw_resp),
-	.max_rx_len = sizeof(struct secboot_verify_biosfw_resp),
-},
-{
-	.id = SECBOOT_GETBIOS_VERIFY_STATUS,
-	.min_tx_len = sizeof(struct secboot_getbios_verify_status_req),
-	.max_tx_len = sizeof(struct secboot_getbios_verify_status_req),
-	.min_rx_len = sizeof(struct secboot_getbios_verify_status_resp),
-	.max_rx_len = sizeof(struct secboot_getbios_verify_status_resp),
-},
-{
-	.id = SECBOOT_GETBIOS_MUX_STATUS,
-	.min_tx_len = sizeof(struct secboot_getbios_mux_status_req),
-	.max_tx_len = sizeof(struct secboot_getbios_mux_status_req),
-	.min_rx_len = sizeof(struct secboot_getbios_mux_status_resp),
-	.max_rx_len = sizeof(struct secboot_getbios_mux_status_resp),
-},
-{
-	.id = SECBOOT_GET_BOOT_STATUS,
-	.min_tx_len = 0,
-	.max_tx_len = 0,
-	.min_rx_len = sizeof(struct secboot_get_boot_status_resp),
-	.max_rx_len = sizeof(struct secboot_get_boot_status_resp),
-},
-{
-	.id = FW_UPDATE_REQ,
-	.min_tx_len = sizeof(struct fw_update_req_req),
-	.max_tx_len = sizeof(struct fw_update_req_req),
-	.min_rx_len = sizeof(struct fw_update_req_resp),
-	.max_rx_len = sizeof(struct fw_update_req_resp),
-},
-{
-	.id = GET_LAST_FW_UPDATE_STATUS,
-	.min_tx_len = sizeof(struct get_last_fw_update_status_req),
-	.max_tx_len = sizeof(struct get_last_fw_update_status_req),
-	.min_rx_len = sizeof(struct get_last_fw_update_status_resp),
-	.max_rx_len = sizeof(struct get_last_fw_update_status_resp),
-},
-{
-	.id = GET_BMCFW_INFO,
-	.min_tx_len = sizeof(struct get_bmcfw_info_req),
-	.max_tx_len = sizeof(struct get_bmcfw_info_req),
-	.min_rx_len = sizeof(struct get_bmcfw_info_resp),
-	.max_rx_len = sizeof(struct get_bmcfw_info_resp),
-},
-{
-	.id = GET_BIOSFW_INFO,
-	.min_tx_len = sizeof(struct get_biosfw_info_req),
-	.max_tx_len = sizeof(struct get_biosfw_info_req),
-	.min_rx_len = sizeof(struct get_biosfw_info_resp),
-	.max_rx_len = sizeof(struct get_biosfw_info_resp),
-},
-{
-	.id = DICE_PROV_CERT0,
-	.min_tx_len = sizeof(struct dice_prov_cert0_req),
-	.max_tx_len = sizeof(struct dice_prov_cert0_req),
-	.min_rx_len = sizeof(struct dice_prov_cert0_resp),
-	.max_rx_len = sizeof(struct dice_prov_cert0_resp),
-},
-{
-	.id = DICE_GET_CERT_N,
-	.min_tx_len = sizeof(struct dice_get_cert_n_req),
-	.max_tx_len = sizeof(struct dice_get_cert_n_req),
-	.min_rx_len = sizeof(struct dice_get_cert_n_resp),
-	.max_rx_len = sizeof(struct dice_get_cert_n_resp),
-},
-{
-	.id = DICE_GET_CSR0,
-	.min_tx_len = sizeof(struct dice_get_csr0_req),
-	.max_tx_len = sizeof(struct dice_get_csr0_req),
-	.min_rx_len = sizeof(struct dice_get_csr0_resp),
-	.max_rx_len = sizeof(struct dice_get_csr0_resp),
-},
-{
-	.id = OTP_GET_USER_REGION_SIZE,
-	.min_tx_len = 0,
-	.max_tx_len = 0,
-	.min_rx_len = sizeof(struct otp_get_user_region_size_resp),
-	.max_rx_len = sizeof(struct otp_get_user_region_size_resp),
-},
-{
-	.id = OTP_USER_REGION_READ,
-	.min_tx_len = sizeof(struct otp_user_region_read_req),
-	.max_tx_len = sizeof(struct otp_user_region_read_req),
-	.min_rx_len = sizeof(struct otp_user_region_read_resp),
-	.max_rx_len = sizeof(struct otp_user_region_read_resp),
-},
-{
-	.id = OTP_USER_REGION_WRITE,
-	.min_tx_len = sizeof(struct otp_user_region_write_req),
-	.max_tx_len = sizeof(struct otp_user_region_write_req),
-	.min_rx_len = sizeof(struct otp_user_region_write_resp),
-	.max_rx_len = sizeof(struct otp_user_region_write_resp),
-},
+	.id = RPMI_JHB100_SECURE_COMMAND,
+	.min_tx_len = sizeof(struct rpmi_secure_req),
+	.max_tx_len = sizeof(struct rpmi_secure_req),
+	.min_rx_len = sizeof(struct rpmi_secure_resp),
+	.max_rx_len = sizeof(struct rpmi_secure_resp),
+}
 };
 
 #define RPMI_REQ_RESP(type) \
@@ -234,50 +136,8 @@ static int starfive_bmc_sec_rt_process_msg(struct udevice *dev, u16 service_id, 
 		return -EINVAL;
 
 	switch (service_id) {
-	case SECBOOT_VERIFY_BMCFW:
-		RPMI_REQ_RESP(secboot_verify_bmcfw);
-		break;
-	case SECBOOT_VERIFY_BIOSFW:
-		RPMI_REQ_RESP(secboot_verify_biosfw);
-		break;
-	case SECBOOT_GETBIOS_VERIFY_STATUS:
-		RPMI_REQ_RESP(secboot_getbios_verify_status);
-		break;
-	case SECBOOT_GETBIOS_MUX_STATUS:
-		RPMI_REQ_RESP(secboot_getbios_mux_status);
-		break;
-	case SECBOOT_GET_BOOT_STATUS:
-		RPMI_RESP(secboot_get_boot_status_resp);
-		break;
-	case FW_UPDATE_REQ:
-		RPMI_REQ_RESP(fw_update_req);
-		break;
-	case GET_LAST_FW_UPDATE_STATUS:
-		RPMI_REQ_RESP(get_last_fw_update_status);
-		break;
-	case GET_BMCFW_INFO:
-		RPMI_REQ_RESP(get_bmcfw_info);
-		break;
-	case GET_BIOSFW_INFO:
-		RPMI_REQ_RESP(get_biosfw_info);
-		break;
-	case DICE_PROV_CERT0:
-		RPMI_REQ_RESP(dice_prov_cert0);
-		break;
-	case DICE_GET_CERT_N:
-		RPMI_REQ_RESP(dice_get_cert_n);
-		break;
-	case DICE_GET_CSR0:
-		RPMI_REQ_RESP(dice_get_csr0);
-		break;
-	case OTP_GET_USER_REGION_SIZE:
-		RPMI_RESP(otp_get_user_region_size_resp);
-		break;
-	case OTP_USER_REGION_READ:
-		RPMI_REQ_RESP(otp_user_region_read);
-		break;
-	case OTP_USER_REGION_WRITE:
-		RPMI_REQ_RESP(otp_user_region_write);
+	case RPMI_JHB100_SECURE_COMMAND:
+		RPMI_REQ_RESP(rpmi_secure);
 		break;
 	default:
 		return -EINVAL;
@@ -379,7 +239,7 @@ static int starfive_bmc_sec_rt_probe(struct udevice *dev)
 	group->servicegroup_version = rpmi_get_base_version(dev);
 	/* Allowed for both M-mode and S-mode RPMI context */
 	group->privilege_level_bitmap = rpmi_get_base_privilege_level(dev);
-	group->max_service_id = STARFIVE_SEC_SRV_MAX_COUNT;
+	group->max_service_id = JHB100_SEC_SRV_ID_MAX_COUNT;
 	group->services = starfive_bmc_sec_rt_services;
 
 	return 0;

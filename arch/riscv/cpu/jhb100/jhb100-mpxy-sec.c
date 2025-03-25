@@ -43,50 +43,8 @@ static int jhb100_mpxy_sec_ioctl(struct udevice *dev, unsigned long cmd, void *a
 	struct jhb100_mpxy_priv *mpxy = dev_get_priv(dev);
 
 	switch (cmd) {
-	case SECBOOT_VERIFY_BMCFW:
-		FIRMWARE_MPXY_REQ_RESP(secboot_verify_bmcfw);
-		break;
-	case SECBOOT_VERIFY_BIOSFW:
-		FIRMWARE_MPXY_REQ_RESP(secboot_verify_biosfw);
-		break;
-	case SECBOOT_GETBIOS_VERIFY_STATUS:
-		FIRMWARE_MPXY_REQ_RESP(secboot_getbios_verify_status);
-		break;
-	case SECBOOT_GETBIOS_MUX_STATUS:
-		FIRMWARE_MPXY_REQ_RESP(secboot_getbios_mux_status);
-		break;
-	case SECBOOT_GET_BOOT_STATUS:
-		FIRMWARE_MPXY_RESP(secboot_get_boot_status_resp);
-		break;
-	case FW_UPDATE_REQ:
-		FIRMWARE_MPXY_REQ_RESP(fw_update_req);
-		break;
-	case GET_LAST_FW_UPDATE_STATUS:
-		FIRMWARE_MPXY_REQ_RESP(get_last_fw_update_status);
-		break;
-	case GET_BMCFW_INFO:
-		FIRMWARE_MPXY_REQ_RESP(get_bmcfw_info);
-		break;
-	case GET_BIOSFW_INFO:
-		FIRMWARE_MPXY_REQ_RESP(get_biosfw_info);
-		break;
-	case DICE_PROV_CERT0:
-		FIRMWARE_MPXY_REQ_RESP(dice_prov_cert0);
-		break;
-	case DICE_GET_CERT_N:
-		FIRMWARE_MPXY_REQ_RESP(dice_get_cert_n);
-		break;
-	case DICE_GET_CSR0:
-		FIRMWARE_MPXY_REQ_RESP(dice_get_csr0);
-		break;
-	case OTP_GET_USER_REGION_SIZE:
-		FIRMWARE_MPXY_RESP(otp_get_user_region_size_resp);
-		break;
-	case OTP_USER_REGION_READ:
-		FIRMWARE_MPXY_REQ_RESP(otp_user_region_read);
-		break;
-	case OTP_USER_REGION_WRITE:
-		FIRMWARE_MPXY_REQ_RESP(otp_user_region_write);
+	case RPMI_JHB100_SECURE_COMMAND:
+		FIRMWARE_MPXY_REQ_RESP(rpmi_secure);
 		break;
 	default:
 		return -EINVAL;
@@ -133,6 +91,7 @@ static int jhb100_mpxy_sec_probe(struct udevice *dev)
 		printf("Failed to set SHMEM\n");
 		return -EINVAL;
 	}
+
 	mpxy->active = true;
 	attr_count = ATTR_COUNT(SBI_MPXY_ATTR_MSG_SEND_TIMEOUT,
 				SBI_MPXY_ATTR_MSG_PROT_ID);
@@ -149,14 +108,14 @@ static int jhb100_mpxy_sec_probe(struct udevice *dev)
 
 	if (attr_buf[0] != SBI_MPXY_MSGPROTO_RPMI_ID) {
 		printf("channel-%u: msgproto mismatch, expect:%u, found:%u\n", mpxy->channel_id,
-		       SBI_MPXY_MSGPROTO_RPMI_ID, attr_buf[0]);
+			SBI_MPXY_MSGPROTO_RPMI_ID, attr_buf[0]);
 		goto fail_free_buff;
 	}
 
 	version = RPMI_MSGPROTO_VERSION(RPMI_MAJOR_VER, RPMI_MINOR_VER);
 	if (attr_buf[1] != version) {
 		printf("channel-%u: msgproto version mismatch, expect:%u, found:%u\n",
-		       mpxy->channel_id, version, attr_buf[1]);
+			mpxy->channel_id, version, attr_buf[1]);
 		goto fail_free_buff;
 	}
 
@@ -169,7 +128,7 @@ static int jhb100_mpxy_sec_probe(struct udevice *dev)
 
 	if (attr_buf[0] != RPMI_SRVGRP_VENDOR_SECURE) {
 		printf("channel-%u ServiceGroup match failed, expected %x, found %x\n",
-		       mpxy->channel_id, RPMI_SRVGRP_VENDOR_SECURE, attr_buf[0]);
+			mpxy->channel_id, RPMI_SRVGRP_VENDOR_SECURE, attr_buf[0]);
 		goto fail_free_buff;
 	}
 
@@ -199,7 +158,7 @@ static const struct misc_ops jhb100_mpxy_sec_ops = {
 };
 
 static const struct udevice_id jhb100_mpxy_sec_ids[] = {
-	{ .compatible = "riscv,rpmi-firmware" },
+	{ .compatible = "riscv,rpmi-starfive-secure" },
 	{}
 };
 
