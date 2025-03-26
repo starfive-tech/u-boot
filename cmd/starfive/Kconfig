@@ -1,0 +1,24 @@
+menu "StarFive specific command line interface"
+
+config CMD_STARFIVE
+	bool "Enable StarFive command line interface in U-Boot"
+	depends on TARGET_STARFIVE_JHB100
+	help
+	  Enable StarFive command line interface in U-Boot
+
+config CMD_STARFIVE_SEC
+	bool "command for Secure Services"
+	depends on CMD_STARFIVE && CRC32
+	help
+	  Support for StarFive Secure Runtime Services. The SEC commands
+	  available includes secure boot, firmware update, attestation and OTP read/
+	  write.
+
+config SPL_CMD_STARFIVE_SEC
+	bool "command for Secure Services"
+	depends on SPL && CMD_STARFIVE && CRC32
+	help
+	  Support for StarFive Secure Runtime Services. The SEC commands
+	  available includes secure boot, firmware update, attestation and OTP read/write.
+
+endmenu

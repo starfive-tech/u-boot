@@ -53,19 +53,30 @@ config STARFIVE_JHB100_FIT_VERIFICATION
 	select FIT_IMAGE_POST_PROCESS
 	select SPL_FIT_IMAGE_POST_PROCESS
 	help
-	 All images loaded from FIT will be verified
+	  All images loaded from FIT will be verified
+
+config STARFIVE_SECURE_SERVICES_TOOL
+	bool "StarFive Secure Services Tool"
+	depends on TARGET_STARFIVE_JHB100
+	select SPL_DRIVERS_MISC
+	select SPL_DM_MAILBOX
+	select SPL_DM_RPMI_SRV_GRP
+	select RPMI_SHMEM_MBOX
+	select RPMI_STARFIVE_SEC_SERVICE_RUNTIME_GRP
+	select CMD_STARFIVE_SEC
+	select SPL_CMD_STARFIVE_SEC
+	select CMD_STARFIVE
+	select STARFIVE_JHB100_MPXY_SEC
+	help
+	  This is a configuration to enable StarFive Secure Service Tools
 
 config STARFIVE_JHB100_SECURE_VAB_AUTH
 	bool "Enable boot image authentication with Starfive JHB100 VAB"
 	depends on TARGET_STARFIVE_JHB100
 	select FIT_IMAGE_POST_PROCESS
 	select SPL_FIT_IMAGE_POST_PROCESS
-	select SPL_DRIVERS_MISC
-	select STARFIVE_JHB100_MPXY_SEC
-	select SPL_DM_MAILBOX
-	select SPL_DM_RPMI_SRV_GRP
-	select RPMI_SHMEM_MBOX
-	select RPMI_STARFIVE_SEC_SERVICE_RUNTIME_GRP
+	select CRC32
+	select STARFIVE_SECURE_SERVICES_TOOL
 	help
 	 All images loaded from FIT will be authenticated by Starfive JHB100 VAB
 
@@ -74,7 +85,7 @@ config SPL_FS_LOAD_RECOVERY_PAYLOAD_NAME
 	depends on TARGET_STARFIVE_JHB100
 	default "u-boot-recovery.itb"
 	help
-	 This is a customised string configuration for StarFive JHB100
+	  This is a customised string configuration for StarFive JHB100
 
 config STARFIVE_JHB100_MPXY_SEC
 	bool "StarFive JHB100 MPXY Sec IOCTL driver"

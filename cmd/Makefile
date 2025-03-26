@@ -249,7 +249,7 @@ obj-$(CONFIG_ARCH_OMAP2PLUS) += ti/
 endif # !CONFIG_SPL_BUILD
 
 obj-$(CONFIG_$(SPL_)CMD_TLV_EEPROM) += tlv_eeprom.o
-
+obj-$(CONFIG_CMD_STARFIVE) +=starfive/
 obj-$(CONFIG_CMD_BCM_EXT_UTILS) += broadcom/
 
 filechk_data_gz = (echo "static const char data_gz[] ="; cat $< | scripts/bin2c; echo ";")
