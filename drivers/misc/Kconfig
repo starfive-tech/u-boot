@@ -118,6 +118,14 @@ config STARFIVE_IODOMAIN
 	  for the IO-domain setting of the SoC to match the voltage supplied
 	  by the regulators.
 
+config SPL_STARFIVE_IODOMAIN
+	bool "StarFive IO-domain driver support in SPL"
+	depends on STARFIVE_JHB100 && SPL_MISC
+	help
+	  Enable support for IO-domains in StarFive SoCs in SPL. It is
+	  necessary for the IO-domain setting of the SoC to match the
+	  voltage supplied by the regulators.
+
 config SIFIVE_OTP
 	bool "SiFive eMemory OTP driver"
 	depends on MISC
