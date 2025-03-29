@@ -297,9 +297,66 @@
 
 &pinctrl_bmcperiph1 {
 	bootph-pre-ram;
+
+	spi0_pins: spi0-grp {
+		bootph-pre-ram;
+
+		spi0_sclk-pins {
+			bootph-pre-ram;
+		};
+
+		spi0_cs0-pins {
+			bootph-pre-ram;
+		};
+
+		spi0_cs1-pins {
+			bootph-pre-ram;
+		};
+
+		spi0_tx-pins {
+			bootph-pre-ram;
+		};
+
+		spi0_rx-pins {
+			bootph-pre-ram;
+		};
+	};
+
+	sfc0_pins: sfc0-grp {
+		bootph-pre-ram;
+
+		sfc0_sclk-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_cs0-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_cs1-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_io0-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_io1-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_io2-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_io3-pins {
+			bootph-pre-ram;
+		};
+	};
 };
 
 &pinctrl_bmcperiph2 {
+	gpionw-vsel = <JHB100_VREF_1_8V>;
 	bootph-pre-ram;
 };
 
@@ -320,11 +377,78 @@
 };
 
 &pinctrl_sys2 {
+	gpiow-vsel = <JHB100_VREF_3_3V>;
 	bootph-pre-ram;
+
+	uart5_pins: uart5-grp {
+		bootph-pre-ram;
+
+		uart5_tx-pins {
+			drive-strength = <12>;
+			bootph-pre-ram;
+		};
+
+		uart5_rx-pins {
+			drive-strength = <12>;
+			bootph-pre-ram;
+		};
+	};
 };
 
 &pinctrl_emmc {
 	bootph-pre-ram;
+
+	emmc0_pins: emmc0-grp {
+		bootph-pre-ram;
+
+		emmc0_clk-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_rst-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_cmd-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_dqs-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data0-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data1-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data2-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data3-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data4-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data5-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data6-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data7-pins {
+			bootph-pre-ram;
+		};
+	};
 };
 
 &dma_sfc0 {
