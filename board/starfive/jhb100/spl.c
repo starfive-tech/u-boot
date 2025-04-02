@@ -132,7 +132,6 @@ void plat_gmac_init(void)
 	/* Select to use RGMII as PHY interface */
 	SET_U0_BMCPERIPH2_SYSREG__ITG_BD_APB_S_APB__BASE_ADDR_BMCPERIPH2_SYSREG_BMCPERIPH2_SYSREG_ITG_U0_DWC_ETHER_RMIIRGMII_CONTROL0_U0_DWC_ETHER_RMIIANDRGMII_PHY_INTF_SEL(0x1);
 
-
 	SET_U0_BMCPERIPH2_IOMUX_FMUX_OEN14_SEL(GPIO_OUT); //GPIO_D14
 	SET_U0_BMCPERIPH2_IOMUX_FMUX_O14_SEL(GPIO_HIGH);
 	udelay(15000);
@@ -158,97 +157,97 @@ void subsys_init(void)
 {
 	/* PD_HOSTSIS_i0 */
 	debug("before...static on..PD_HOSTSIS_i0..\n");
-	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
-	debug("PCU_STATUS....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
-	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x8)));
-	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0xc)));
-	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x10)));
-	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x14)));
-	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x18)));
-	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x1c)));
-	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x20)));
-	debug("INTR_STATUS....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x24)));
-	debug("INTR_MASK....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x28)));
-	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
+	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x0)));
+	debug("PCU_STATUS....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x4)));
+	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x8)));
+	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0xc)));
+	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x10)));
+	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x14)));
+	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x18)));
+	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x1c)));
+	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x20)));
+	debug("INTR_STATUS....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x24)));
+	debug("INTR_MASK....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x28)));
+	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x2c)));
 
 	starfive_pcu_set_pwr_mode(PD_HOSTSS_i0, PM_ON);
 
 	debug("after...static on..PD_HOSTSIS_i0..\n");
-	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
-	debug("PCU_STATUS....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
-	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x8)));
-	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0xc)));
-	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x10)));
-	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x14)));
-	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x18)));
-	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x1c)));
-	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x20)));
-	debug("INTR_STATUS....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x24)));
-	debug("INTR_MASK....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x28)));
-	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U8_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
+	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x0)));
+	debug("PCU_STATUS....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x4)));
+	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x8)));
+	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0xc)));
+	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x10)));
+	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x14)));
+	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x18)));
+	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x1c)));
+	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x20)));
+	debug("INTR_STATUS....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x24)));
+	debug("INTR_MASK....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x28)));
+	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U8_PCU_BASE_ADDR + 0x2c)));
 
 #if 0
 	/* PD_HOST0_USB */
 	debug("before...static on..PD_HOSTSIS_i0..\n");
-	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
-	debug("PCU_STATUS....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
-	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x8)));
-	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0xc)));
-	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x10)));
-	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x14)));
-	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x18)));
-	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x1c)));
-	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x20)));
-	debug("INTR_STATUS....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x24)));
-	debug("INTR_MASK....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x28)));
-	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
+	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x0)));
+	debug("PCU_STATUS....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x4)));
+	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x8)));
+	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0xc)));
+	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x10)));
+	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x14)));
+	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x18)));
+	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x1c)));
+	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x20)));
+	debug("INTR_STATUS....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x24)));
+	debug("INTR_MASK....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x28)));
+	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x2c)));
 
 	starfive_pcu_set_pwr_mode(PD_HOST0_USB, PM_ON);
 
 	debug("after...static on..PD_HOST0_USB..\n");
-	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
-	debug("PCU_STATUS....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
-	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x8)));
-	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0xc)));
-	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x10)));
-	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x14)));
-	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x18)));
-	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x1c)));
-	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x20)));
-	debug("INTR_STATUS....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x24)));
-	debug("INTR_MASK....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x28)));
-	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U4_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
+	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x0)));
+	debug("PCU_STATUS....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x4)));
+	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x8)));
+	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0xc)));
+	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x10)));
+	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x14)));
+	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x18)));
+	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x1c)));
+	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x20)));
+	debug("INTR_STATUS....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x24)));
+	debug("INTR_MASK....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x28)));
+	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U4_PCU_BASE_ADDR + 0x2c)));
 
 	/* PD_DC0 */
 	debug("before...static on..PD_DC0..\n");
-	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
-	debug("PCU_STATUS....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
-	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x8)));
-	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0xc)));
-	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x10)));
-	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x14)));
-	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x18)));
-	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x1c)));
-	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x20)));
-	debug("INTR_STATUS....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x24)));
-	debug("INTR_MASK....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x28)));
-	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
+	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x0)));
+	debug("PCU_STATUS....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x4)));
+	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x8)));
+	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0xc)));
+	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x10)));
+	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x14)));
+	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x18)));
+	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x1c)));
+	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x20)));
+	debug("INTR_STATUS....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x24)));
+	debug("INTR_MASK....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x28)));
+	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x2c)));
 
 	starfive_pcu_set_pwr_mode(PD_DC0, PM_ON);
 
 	debug("after...static on..PD_DC0..\n");
-	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x0)));
-	debug("PCU_STATUS....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x4)));
-	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x8)));
-	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0xc)));
-	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x10)));
-	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x14)));
-	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x18)));
-	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x1c)));
-	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x20)));
-	debug("INTR_STATUS....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x24)));
-	debug("INTR_MASK....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x28)));
-	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U2_PCU__ITG_BD_APB__BASE_ADDR + 0x2c)));
+	debug("PWR_POLICY_CAP....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x0)));
+	debug("PCU_STATUS....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x4)));
+	debug("PWR_POLICY_CTRL....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x8)));
+	debug("PWR_REQ_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0xc)));
+	debug("HARDWARE_EVENT_INDICATION....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x10)));
+	debug("HARDWARE_EVENT_MASK....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x14)));
+	debug("PWR_MODE_ENTRY_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x18)));
+	debug("PWR_SWITCH_N_RETENTION_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x1c)));
+	debug("DEVICE_CTRL_DELAY_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x20)));
+	debug("INTR_STATUS....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x24)));
+	debug("INTR_MASK....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x28)));
+	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x2c)));
 #endif
 }
 
