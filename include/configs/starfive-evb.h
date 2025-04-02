@@ -328,6 +328,7 @@
 	"ramdisk_addr_r=0x46100000\0"			\
 	"fdtoverlay_addr_r=0x4f000000\0"		\
 	"loadaddr=0x60000000\0"				\
+	"verify=no\0"					\
 	EVB_SDK_BOOTENV					\
 	JH7110_SDK_BOOTENV				\
 	JH7110_DISTRO_BOOTENV				\
