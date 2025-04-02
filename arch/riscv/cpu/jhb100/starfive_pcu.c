@@ -7,7 +7,6 @@
 #include <linux/delay.h>
 #include <linux/types.h>
 #include <asm/arch/starfive_pcu.h>
-#include <asm/arch/saif_init.h>
 
 struct pwr_policy_cap_t {
 	u32 sta_off_cap			: 1;
@@ -136,16 +135,16 @@ struct pcu_info {
 static struct pcu_info pcus[] = {
 	{.idx = 0,
 	 .pd = PD_DC0,
-	 .base_addr = (pcu_registers *)U2_PCU__ITG_BD_APB__BASE_ADDR,
-	 .irq_num = U0_DOM_BMCCPUSS_U0_XBAR_TOP_IRQ_SOURCE__U2_PCU_PCU_IRQ_O},  /* pcu dc 0 */
+	 .base_addr = (pcu_registers *)U2_PCU_BASE_ADDR,
+	 .irq_num = U2_PCU_PCU_IRQ_O},	/* pcu dc 0 */
 	{.idx = 1,
 	 .pd = PD_HOST0_USB,
-	 .base_addr = (pcu_registers *)U4_PCU__ITG_BD_APB__BASE_ADDR,
-	 .irq_num = U0_DOM_BMCCPUSS_U0_XBAR_TOP_IRQ_SOURCE__U4_PCU_PCU_IRQ_O},  /* pcu host usb 0 */
+	 .base_addr = (pcu_registers *)U4_PCU_BASE_ADDR,
+	 .irq_num = U4_PCU_PCU_IRQ_O},	/* pcu host usb 0 */
 	{.idx = 2,
 	 .pd = PD_HOSTSS_i0,
-	 .base_addr = (pcu_registers *)U8_PCU__ITG_BD_APB__BASE_ADDR,
-	 .irq_num = U0_DOM_BMCCPUSS_U0_XBAR_TOP_IRQ_SOURCE__U8_PCU_PCU_IRQ_O},  /* pcu hostss 0 */
+	 .base_addr = (pcu_registers *)U8_PCU_BASE_ADDR,
+	 .irq_num = U8_PCU_PCU_IRQ_O},	/* pcu hostss 0 */
 };
 
 static char *power_dom_name[] = {"DC0", "HOST0_USB", "HOSTSS_i0"};

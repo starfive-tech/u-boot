@@ -5,6 +5,14 @@
 #ifndef _STARFIVE_PCU_H
 #define _STARFIVE_PCU_H
 
+#define U2_PCU_BASE_ADDR	0x00140A2C00
+#define U4_PCU_BASE_ADDR	0x00140A2400
+#define U8_PCU_BASE_ADDR	0x00140A2000
+
+#define U2_PCU_PCU_IRQ_O	19
+#define U4_PCU_PCU_IRQ_O	21
+#define U8_PCU_PCU_IRQ_O	25
+
 enum pcu_domain {
 	PD_DC0		= 0,
 	PD_HOST0_USB	= 1,
@@ -30,14 +38,6 @@ enum pcu_hw_event_indication {
 	HW_EVENT_NO_CHANGE	= 0
 };
 
-void u2_pcu_enable(void);
-void u2_pcu_disable(void);
-void u4_pcu_enable(void);
-void u4_pcu_disable(void);
-void u8_pcu_enable(void);
-void u8_pcu_disable(void);
-void starfive_pcu_enable(enum pcu_domain pd);
-void starfive_pcu_disable(enum pcu_domain pd);
 int starfive_pcu_set_pwr_mode(enum pcu_domain pd, enum pcu_pwr_policy_mode pwr_mode);
 
 #endif /* _STARFIVE_PCU_H */
