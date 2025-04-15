@@ -315,6 +315,7 @@
 	"ramdisk_addr_r=0x46100000\0"			\
 	"fdtoverlay_addr_r=0x4f000000\0"		\
 	"loadaddr=0x60000000\0"				\
+	"verify=no\0"					\
 	CHIPA_GMAC_SET					\
 	CHIPA_SET					\
 	CPU_VOL_1020_SET				\
