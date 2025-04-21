@@ -85,7 +85,7 @@
 
 			hsm@4 {
 				reg = <0x0 0x0A200000 0x0 0x4000>;
-					mboxes = <&rpmi 0x04>;
+					mboxes = <&rpmi 0x05>;
 					compatible = "riscv,jhb100-rpmi-hsm";
 			};
 
@@ -93,7 +93,7 @@
 				reg = <0x0 0x14110000 0x0 0x2000>,
 							<0x0 0x13010000 0x0 0x4000>,
 							<0x0 0x14112000 0x0 0x2000>;
-				mboxes = <&rpmi 0x02>;
+				mboxes = <&rpmi 0x03>;
 				compatible = "riscv,jhb100-rpmi-system-reset";
 			};
 
