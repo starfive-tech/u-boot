@@ -78,7 +78,7 @@
 			};
 			sec-boot@8000 {
 				reg = <0x8000>;
-				riscv,sbi-mpxy-channel-id = <0x1011>;
+				riscv,sbi-mpxy-channel-id = <0x1005>;
 				mboxes = <&rpmi 0x8000>;
 				compatible = "riscv,rpmi-mpxy-jhb100-sec";
 			};
