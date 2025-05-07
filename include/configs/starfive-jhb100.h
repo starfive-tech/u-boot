@@ -66,7 +66,7 @@
 #define CONFIG_U_BOOT_ITB	"u-boot.itb"
 #endif
 
-#define CONFIG_RAMDISK_ADDR 0x57e00000
+#define CONFIG_RAMDISK_ADDR 0x5c000000
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
