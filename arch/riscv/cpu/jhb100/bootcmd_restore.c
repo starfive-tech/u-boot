@@ -141,8 +141,8 @@ err:
 
 U_BOOT_LONGHELP(bootcmdrest,
 		"[arg\n    - Set critical boot command into env variables\n"
-		"\tpass: 1 - sfc\n"
-		"\t      2 - emmc\n"
+		"\tpass: 1 - emmc\n"
+		"\t      2 - sfc\n"
 		"\t     -f - deep restore\n"
 		"\tIf no arg passed, restore everything\n"
 		"\tAuthentication and booting function is loaded from default environment\n"
