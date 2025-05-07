@@ -52,29 +52,29 @@
 			riscv,slot-size = <0x40>;
 			#address-cells = <1>;
 			#size-cells = <0>;
-			performance@9 {
-				reg = <0x09>;
+			performance@10 {
+				reg = <0x0A>;
 				riscv,sbi-mpxy-channel-id = <0x1003>;
-				mboxes = <&rpmi 0x09>;
-				compatible = "riscv,rpmi-mpxy-perf";
+				mboxes = <&rpmi 0x0A>;
+				compatible = "riscv,rpmi-mpxy-performance";
 			};
-			power-domain@8 {
-				reg = <0x08>;
+			power-domain@9 {
+				reg = <0x09>;
 				riscv,sbi-mpxy-channel-id = <0x1002>;
-				mboxes = <&rpmi 0x08>;
-				compatible = "riscv,rpmi-mpxy-dpwr";
+				mboxes = <&rpmi 0x09>;
+				compatible = "riscv,rpmi-mpxy-device-power";
 			};
-			voltage@6 {
-				reg = <0x06>;
-				riscv,sbi-mpxy-channel-id = <0x1001>;
-				mboxes = <&rpmi 0x06>;
-				compatible = "riscv,rpmi-mpxy-volt";
-			};
-			clock@7 {
+			voltage@7 {
 				reg = <0x07>;
-				riscv,sbi-mpxy-channel-id = <0x1000>;
+				riscv,sbi-mpxy-channel-id = <0x1001>;
 				mboxes = <&rpmi 0x07>;
-				compatible = "riscv,rpmi-mpxy-clk";
+				compatible = "riscv,rpmi-mpxy-voltage";
+			};
+			clock@8 {
+				reg = <0x08>;
+				riscv,sbi-mpxy-channel-id = <0x1000>;
+				mboxes = <&rpmi 0x08>;
+				compatible = "riscv,rpmi-mpxy-clock";
 			};
 			sec-boot@8000 {
 				reg = <0x8000>;
