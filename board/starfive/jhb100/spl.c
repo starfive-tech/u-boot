@@ -41,6 +41,11 @@
 #define JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET	0x60
 #define JHB100_MAIN_CLK_ENABLE			BIT(31)
 
+/* PER2_SYSREG */
+#define JHB100_PER2_SYSREG_ADDR			0x11bc1000UL
+#define JHB100_ETHER_RMIIRGMII_CONTROL0_OFFSET	0x0
+#define JHB100_ETHER_RGMII_ENABLE		BIT(8)
+
 int spl_board_init_f(void)
 {
 	int ret;
@@ -93,64 +98,22 @@ void jhb100_smbus_filter_disable(void)
 void jhb100_plat_init(void)
 {
 	void *addr;
+	u32 val;
 
 	/* CPUSS Secure CRG is now in PMP region. Enable main_icg clock during SPL init to ensure
 	 * Linux can boot successfully to the console in emulator environment
 	 */
 	addr = (void *)(JHB100_CPUSS_SECURE_CRG_ADDR + JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET);
 	writel(JHB100_MAIN_CLK_ENABLE, addr);
-}
-
-void plat_gmac_init(void)
-{
-	#define GPIO_OUT  0
-	#define GPIO_IN   1
-	#define GPIO_LOW  0
-	#define GPIO_HIGH 1
-
-	/* Reference from baremetal soc_platform/lib/platform/drivers/dw_gmac.c */
-	/* Reference from baremetal soc_platform/lib/platform/chip_macro/0_5_1/include/platform/drivers/gpio.h */
-	/* Reference from baremetal soc_platform/lib/platform/drivers/phy */
-
-	/* Set IOMUX */
-	SET_U0_BMCPERIPH0_GPIO_IOMUX_FUNC24_SEL(2); //gpio_func_sel(GPIO_B24, 2);	// MDC
-	SET_U0_BMCPERIPH0_GPIO_IOMUX_FUNC25_SEL(2); //gpio_func_sel(GPIO_B25, 2);	// MDIO
-	SET_U0_BMCPERIPH2_IOMUX_FUNC18_SEL(0);      //gpio_func_sel(GPIO_D18, 0);	// RESETN
-	SET_U0_BMCPERIPH2_IOMUX_FUNC19_SEL(1);      //gpio_func_sel(GPIO_D19, 1);	// RXCLK
-	SET_U0_BMCPERIPH2_IOMUX_FUNC20_SEL(1);      //gpio_func_sel(GPIO_D20, 1);	// RXDV
-	SET_U0_BMCPERIPH2_IOMUX_FUNC21_SEL(1);      //gpio_func_sel(GPIO_D21, 1);	// RXD0
-	SET_U0_BMCPERIPH2_IOMUX_FUNC22_SEL(1);      //gpio_func_sel(GPIO_D22, 1);	// RXD1
-	SET_U0_BMCPERIPH2_IOMUX_FUNC23_SEL(1);      //gpio_func_sel(GPIO_D23, 1);	// RXD2
-	SET_U0_BMCPERIPH2_IOMUX_FUNC24_SEL(1);      //gpio_func_sel(GPIO_D24, 1);	// RXD3
-	SET_U0_BMCPERIPH2_IOMUX_FUNC25_SEL(1);      //gpio_func_sel(GPIO_D25, 1);	// TXCLK
-	SET_U0_BMCPERIPH2_IOMUX_FUNC26_SEL(1);      //gpio_func_sel(GPIO_D26, 1);	// TXEN
-	SET_U0_BMCPERIPH2_IOMUX_FUNC27_SEL(1);      //gpio_func_sel(GPIO_D27, 1);	// TXD0
-	SET_U0_BMCPERIPH2_IOMUX_FUNC28_SEL(1);      //gpio_func_sel(GPIO_D28, 1);	// TXD1
-	SET_U0_BMCPERIPH2_IOMUX_FUNC29_SEL(1);      //gpio_func_sel(GPIO_D29, 1);	// TXD2
-	SET_U0_BMCPERIPH2_IOMUX_FUNC30_SEL(1);      //gpio_func_sel(GPIO_D30, 1);	// TXD3
 
 	/* Select to use RGMII as PHY interface */
-	SET_U0_BMCPERIPH2_SYSREG__ITG_BD_APB_S_APB__BASE_ADDR_BMCPERIPH2_SYSREG_BMCPERIPH2_SYSREG_ITG_U0_DWC_ETHER_RMIIRGMII_CONTROL0_U0_DWC_ETHER_RMIIANDRGMII_PHY_INTF_SEL(0x1);
+	addr = (void *)(JHB100_PER2_SYSREG_ADDR + JHB100_ETHER_RMIIRGMII_CONTROL0_OFFSET);
 
-	SET_U0_BMCPERIPH2_IOMUX_FMUX_OEN14_SEL(GPIO_OUT); //GPIO_D14
-	SET_U0_BMCPERIPH2_IOMUX_FMUX_O14_SEL(GPIO_HIGH);
-	udelay(15000);
-	SET_U0_BMCPERIPH2_IOMUX_FMUX_O14_SEL(GPIO_LOW);
-	udelay(15000);
-	SET_U0_BMCPERIPH2_IOMUX_FMUX_O14_SEL(GPIO_HIGH);
-	udelay(15000);
-}
+	val = readl(addr);
+	val &= ~(0xF << 8);
+	val |= JHB100_ETHER_RGMII_ENABLE;
 
-void gmac_reset(void)
-{
-	/* Set clk & Assert reset */
-	u0_dwc_ether_rmiiandrgmii_disable_patch();
-
-	/* Set clk & Deassert reset */
-	u0_dwc_ether_rmiiandrgmii_enable_patch();
-
-	/* dwc_eth_qos_gmac_clk_set */
-	/* baremetal: do nothing for bitfile 041 */
+	writel(val, addr);
 }
 
 void subsys_init(void)
@@ -267,9 +230,6 @@ void board_init_f(ulong dummy)
 
 	jhb100_plat_init();
 
-	/* Initialize peripherals reset here */
-	plat_gmac_init();
-	gmac_reset();
 	subsys_init();
 
 	ret = spl_board_init_f();
