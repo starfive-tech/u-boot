@@ -923,9 +923,8 @@
 	phy-mode = "rgmii-id";
 	phy-handle = <&ethernet_phy0>;
 	status = "okay";
-	pinctrl-names = "default", "default";
-	pinctrl-0 = <&gmac2_pins>;
-	pinctrl-1 = <&mdio0_pins>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac2_pins &mdio0_pins>;
 
 	mdio0 {
 		compatible = "snps,dwmac-mdio";

@@ -293,6 +293,18 @@
 
 &pinctrl_bmcperiph0 {
 	bootph-pre-ram;
+
+	mdio0_pins: mdio0-grp {
+		bootph-pre-ram;
+
+		mdio0_mdc-pins {
+			bootph-pre-ram;
+		};
+
+		mdio0_mdio-pins {
+			bootph-pre-ram;
+		};
+	};
 };
 
 &pinctrl_bmcperiph1 {
@@ -358,6 +370,58 @@
 &pinctrl_bmcperiph2 {
 	gpionw-vsel = <JHB100_VREF_1_8V>;
 	bootph-pre-ram;
+
+	gmac2_pins: gmac2-grp {
+		bootph-pre-ram;
+
+		gmac2_txen-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txclk-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txd0-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txd1-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txd2-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txd3-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxclk-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxdv-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxd0-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxd1-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxd2-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxd3-pins {
+			bootph-pre-ram;
+		};
+	};
 };
 
 &pinctrl_bmcperiph2_pok {
