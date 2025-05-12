@@ -251,8 +251,13 @@
 	"mmc_test_and_boot="				\
 		"if mmc dev ${devnum}; then "	\
 			"echo Try booting from MMC${devnum} ...; "	\
-			"setenv sdev_blk mmcblk${devnum}p${rootpart};"	\
-			"run load_sdk_uenv; run boot2;"	\
+			"if test -e mmc ${devnum}:${bootpart} ${bootenv_sdk}; then "	\
+				"setenv sdev_blk mmcblk${devnum}p${rootpart};"	\
+				"run load_sdk_uenv; run boot2;"	\
+			"fi;"	\
+			"setenv devtype mmc;"	\
+			"setenv distro_bootpart ${bootpart};"	\
+			"run scan_dev_for_scripts;"	\
 		"fi;\0"							\
 	"bootenv_mmc="					\
 		"setenv bootdev mmc;"			\
@@ -279,9 +284,14 @@
 				"fi; "				\
 				"if nvme dev ${devnum}; then "	\
 					"echo Try booting from NVME${devnum} ...; "	\
-					"setenv bootdev nvme;"	\
-					"setenv sdev_blk nvme${devnum}n1p${rootpart};"	\
-					"run load_sdk_uenv; run boot2;"	\
+					"if test -e nvme ${devnum}:${bootpart} ${bootenv_sdk}; then " \
+						"setenv bootdev nvme;"	\
+						"setenv sdev_blk nvme${devnum}n1p${rootpart};"	\
+						"run load_sdk_uenv; run boot2;"	\
+					"fi; "	\
+					"setenv devtype nvme;"   \
+					"setenv distro_bootpart ${bootpart};"   \
+					"run scan_dev_for_scripts;" \
 				"fi; "				\
 			"done; "				\
 		"fi; \0"					\
