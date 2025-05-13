@@ -1,1 +1,0 @@
-../../../../../rtl/customized/chip_top/strap/c_macro/strap_secure_reg_u1_strap__itg_bd_apbs_secure__base_addr_macro.h
