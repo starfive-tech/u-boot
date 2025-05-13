@@ -29,7 +29,6 @@
 #include <asm/arch/boot_mapping.h>
 #include <asm/arch/spl.h>
 #include <asm/arch/starfive_pcu.h>
-#include <asm/arch/saif_init.h>
 
 /* I2C filter */
 #define JHB100_I2C0_FILTER_ADDR		0x14080000UL

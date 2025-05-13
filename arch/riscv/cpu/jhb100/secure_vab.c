@@ -11,7 +11,6 @@
 #include <asm/io.h>
 #include <asm/sbi.h>
 #include <asm/arch/ap_core.h>
-#include <asm/arch/saif_init.h>
 #include <asm/arch/secure_vab.h>
 
 void board_fit_image_post_process(const void *fit, int node, void **p_image,
