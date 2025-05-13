@@ -23,7 +23,6 @@
 #include <asm/arch/boot_src.h>
 #include <asm/arch/spl.h>
 #include <asm/arch/ap_core.h>
-#include <asm/arch/saif_init.h>
 #include <hang.h>
 
 u32 jhb100_get_boot_device(void)
