@@ -329,6 +329,8 @@ static int do_bmc_sst(struct cmd_tbl *cmdtp, int flag, int argc, char *const arg
 	int ret = 0;
 	int param_index = 0;
 	int optional_args = 0;
+	u64 addr_low = 0;
+	u64 input_size = 0;
 
 	if (argc < 2) {
 		printf("Error: No request specified\n");
@@ -384,12 +386,21 @@ static int do_bmc_sst(struct cmd_tbl *cmdtp, int flag, int argc, char *const arg
 	for (param_index = 0; param_index < req_spec->param_count; param_index++) {
 		req_data[param_index] = hextoul(argv[param_index + 2], &endptr);
 
+		/* If address exist, store address and size */
+		if (strncmp(req_spec->param_names[param_index], "addr_low", 8) == 0)
+			addr_low = req_data[param_index];
+		if (strncmp(req_spec->param_names[param_index], "size", 4) == 0)
+			input_size = req_data[param_index];
 		if (*endptr != '\0') {
 			printf("Error: Invalid hex value '%s' for parameter %s\n",
 			       argv[param_index + 2], req_spec->param_names[param_index]);
 			return CMD_RET_USAGE;
 		}
 	}
+
+	/* Perform flush cache */
+	if (addr_low && input_size)
+		flush_dcache_range(addr_low, addr_low + input_size);
 
 	/* Parse optional auth and ext parameters */
 	for (int i = 2 + req_spec->param_count; i < argc; i++) {
