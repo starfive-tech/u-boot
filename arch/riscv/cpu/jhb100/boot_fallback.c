@@ -18,6 +18,8 @@
 static int starfive_spl_load_image(struct spl_image_info *spl_image,
 			struct spl_image_loader *loader)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	int ret;
 	struct spl_boot_device bootdev;
 
@@ -30,6 +32,8 @@ static int starfive_spl_load_image(struct spl_image_info *spl_image,
 static int starfive_boot_from_devices(struct spl_image_info *spl_image,
 			u32 spl_boot_list[], int count)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	struct spl_image_loader *drv =
 		ll_entry_start(struct spl_image_loader, spl_image_loader);
 	const int n_ents =
@@ -66,6 +70,8 @@ static int starfive_boot_from_devices(struct spl_image_info *spl_image,
 /* Entry level detect phase for broken images in particular partition */
 void starfive_board_boot_order(u32 *spl_boot_list)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	/* TODO: Change the source before build */
 	int boot_src = GET_BOOT_SRC;
 	int chk_map = 0;
@@ -140,6 +146,8 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 				CHECK);
 		if (!chk_map) {
+			printf("Invalid MMC Active and Golden images found...\n");
+			printf("Booting stop...\n");
 			hang();
 		} else {
 			starfive_fb_rec_map_handler(&fb_rec_map,
@@ -173,6 +181,8 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 
 void starfive_fallback_handler(void)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	u32 spl_boot_list[] = {
 		BOOT_DEVICE_NONE,
 		BOOT_DEVICE_NONE,
