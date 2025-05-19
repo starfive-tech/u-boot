@@ -27,6 +27,7 @@
 #include <asm/arch/boot_src.h>
 #include <asm/arch/boot_fallback.h>
 #include <asm/arch/boot_mapping.h>
+#include <asm/arch/boot_pti.h>
 #include <asm/arch/spl.h>
 #include <asm/arch/starfive_pcu.h>
 
@@ -45,6 +46,99 @@
 #define JHB100_ETHER_RMIIRGMII_CONTROL0_OFFSET	0x0
 #define JHB100_ETHER_RGMII_ENABLE		BIT(8)
 
+u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
+{
+#if defined(CONFIG_SPL_FS_FAT) || defined(CONFIG_SPL_FS_EXT4)
+	return MMCSD_MODE_FS;
+#elif defined(CONFIG_SUPPORT_EMMC_BOOT)
+	return MMCSD_MODE_EMMCBOOT;
+#else
+	return MMCSD_MODE_RAW;
+#endif
+}
+
+unsigned long spl_mmc_get_uboot_raw_sector(struct mmc *mmc,
+					   unsigned long raw_sect)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+	int part = PT_TEMP;
+	int fb_rec_mmc = starfive_get_fb_rec_map();
+	int map_stat = starfive_fb_rec_map_handler(&fb_rec_mmc,
+						   BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
+						   BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS,
+						   FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+						   CHECK);
+
+	if (!map_stat) {
+		part = PT_GOLDEN;
+	} else if (map_stat == (FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK
+				<< BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS)) {
+		part = PT_ACTIVE;
+	}
+	return starfive_get_partition_offset(BOOT_SRC_EMMC,
+					     part,
+					     IMG_TYPE_UBOOT_PROPER);
+}
+
+int spl_mmc_emmc_boot_partition(struct mmc *mmc)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+	int part;
+#ifdef CONFIG_SYS_MMCSD_RAW_MODE_EMMC_BOOT_PARTITION
+	part = CONFIG_SYS_MMCSD_RAW_MODE_EMMC_BOOT_PARTITION;
+	int fb_rec_mmc = starfive_get_fb_rec_map();
+	int map_stat = starfive_fb_rec_map_handler(&fb_rec_mmc,
+						   BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
+						   BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS,
+						   FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+						   CHECK);
+	if (!map_stat) {
+		part = 2;
+	} else if (map_stat == (FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK
+				<< BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS)) {
+		part = 1;
+	}
+#else
+	/*
+	 * We need to check what the partition is configured to.
+	 * 1 and 2 match up to boot0 / boot1 and 7 is user data
+	 * which is the first physical partition (0).
+	 */
+	part = EXT_CSD_EXTRACT_BOOT_PART(mmc->part_config);
+	if (part == 7)
+		part = 0;
+#endif
+	return part;
+}
+
+unsigned int spl_spi_get_uboot_offs(struct spi_flash *flash)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+	/* Check auth or boot status of image */
+	int fb_rec_spi = starfive_get_fb_rec_map();
+	int map_stat = starfive_fb_rec_map_handler(&fb_rec_spi,
+				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
+				BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
+				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+				CHECK);
+	if (!map_stat) {
+		printf("Loading SFC Golden image...\n");
+		return starfive_get_partition_offset(BOOT_SRC_SFC,
+						     PT_GOLDEN,
+						     IMG_TYPE_UBOOT_PROPER);
+	} else if (map_stat == (FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK
+				<< BOOT_SRC_PART_SPI_SECONDARY_BIT_POS)) {
+		printf("Loading SFC Active image...\n");
+		return starfive_get_partition_offset(BOOT_SRC_SFC,
+						     PT_ACTIVE,
+						     IMG_TYPE_UBOOT_PROPER);
+	}
+	return CONFIG_SYS_SPI_U_BOOT_OFFS;
+}
+
 int spl_board_init_f(void)
 {
 	int ret;
@@ -61,13 +155,13 @@ int spl_board_init_f(void)
 void spl_perform_fixups(struct spl_image_info *spl_image)
 {
 	int fb_map_reg = starfive_get_fb_rec_map();
-
 	starfive_fb_rec_map_handler(&fb_map_reg,
 		starfive_get_part(PRIMARY),
 		starfive_get_part(SECONDARY),
 		FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 		CLEAR);
 	starfive_set_fb_rec_map(fb_map_reg);
+	fb_map_reg = starfive_get_fb_rec_map();
 }
 
 u32 spl_boot_device(void)
