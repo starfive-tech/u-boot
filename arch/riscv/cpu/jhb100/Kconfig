@@ -96,3 +96,21 @@ config STARFIVE_JHB100_MPXY_SEC
 	  Enable support for MPXY Secure Runtime Services to communicate with
 	  L1 Firmware of the SoC. This driver allows one to request for secure
 	  services required to perform authentications and firmware updates.
+
+config JHB100_ENABLE_LOAD_TEMP_IMG_FOR_EMMC
+	bool "Load EMMC Temp image from GPP partition"
+	depends on TARGET_STARFIVE_JHB100
+	help
+	 Enable loading of Temp image from GPP
+
+config JHB100_UPD_RCV_TEST_TRACE
+	bool "Starfive JHB100 Update and Recovery Test Trace"
+	depends on TARGET_STARFIVE_JHB100
+	help
+	 Enable update and recovery test trace
+
+config RANDOMIZED_TEST_PATTERN
+	bool "Update and Recovery Test Pattern Randomizer"
+	depends on TARGET_STARFIVE_JHB100
+	help
+	 Enable update and recovery test pattern randomizer

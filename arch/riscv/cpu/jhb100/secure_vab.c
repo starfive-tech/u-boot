@@ -5,16 +5,23 @@
  * Author: Genevieve Chan <genevieve.chan@starfivetech.com>
  */
 
- #include <common.h>
- #include <mailbox.h>
- #include <dm/uclass.h>
- #include <dm/device.h>
- #include <dm/device-internal.h>
- #include <rpmi/rpmi-srvgrp-uclass.h>
- #include <asm/arch/rpmi-mpxy-sec.h>
- #include <u-boot/crc.h>
- #include <malloc.h>
- #include <asm/arch/secure_vab.h>
+#include <common.h>
+#include <mailbox.h>
+#include <dm/uclass.h>
+#include <dm/device.h>
+#include <dm/device-internal.h>
+#include <rpmi/rpmi-srvgrp-uclass.h>
+#include <asm/arch/rpmi-mpxy-sec.h>
+#include <u-boot/crc.h>
+#include <malloc.h>
+#include <asm/arch/secure_vab.h>
+#include <hang.h>
+#include <misc.h>
+#include <asm/io.h>
+#include <asm/sbi.h>
+#include <asm/arch/ap_core.h>
+#include <asm/arch/boot_fallback.h>
+#include <rand.h>
 
 #define ADDR_HIGH_MASK	(GENMASK(63, 32))
 #define ADDR_LOW_MASK	(GENMASK(31, 0))
@@ -23,6 +30,22 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 {
 	int ret = 0;
 
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE)) {
+		printf("fn(): %s\n", __func__);
+		if (IS_ENABLED(CONFIG_RANDOMIZED_TEST_PATTERN)) {
+#ifdef CONFIG_SPL_BUILD
+			int a = rand();
+			int b = rand();
+
+			if (a < b)
+				starfive_fallback_handler();
+#endif
+		}
+	}
+	/* TODO: BIF authentication should be placed here */
+#ifndef CONFIG_SPL_BUILD
+	/* Important that FDT is modified after authentication */
+	/* Assign new pointer to retain wherever pointed by p_image  */
 	void *payld = *p_image;
 	/**
 	 * Send RPMI/MPXY message via mailbox to request secure
@@ -63,4 +86,5 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 	*p_size = resp_data[1];
 
 	return 0;
+#endif
 }
