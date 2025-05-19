@@ -3,6 +3,7 @@
 # Copyright (c) 2025 StarFive Technology Co., Ltd.
 
 obj-y += boot_mapping.o
+obj-y += boot_pti.o
 obj-y += boot_recovery.o
 obj-y += bootcmd_restore.o
 obj-y += cache.o
