@@ -10,12 +10,15 @@
 #include <spi.h>
 #include <spi_flash.h>
 #include <asm/arch/boot_mapping.h>
+#include <asm/arch/boot_pti.h>
+#include <asm/arch/boot_src.h>
 #include <asm/arch/spl.h>
 #include <asm/gpio.h>
 #include <asm/io.h>
 #include <linux/bitops.h>
 #include <linux/delay.h>
 #include <linux/libfdt.h>
+#include <rand.h>
 
 /*
  * Custom SPI loading implementation for Starfive. This is a reduced
@@ -25,6 +28,8 @@
 static ulong spl_spi_fit_read(struct spl_load_info *load, ulong sector,
 			      ulong count, void *buf)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	struct spi_flash *flash = load->priv;
 	ulong ret;
 
@@ -35,13 +40,34 @@ static ulong spl_spi_fit_read(struct spl_load_info *load, ulong sector,
 		return 0;
 }
 
+int starfive_get_sfc_cs_line_num(void)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE)) {
+		printf("fn(): %s\n", __func__);
+		if (IS_ENABLED(CONFIG_RANDOMIZED_TEST_PATTERN)) {
+			int a = rand();
+			int b = rand();
+
+			if (a < b)
+				return 2;
+			return 1;
+		}
+	}
+	// TODO: Get number of cs lines
+	return 1;
+}
+
 u32 spl_spi_boot_bus(void)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	return CONFIG_SF_DEFAULT_BUS;
 }
 
 u32 spl_spi_boot_cs(void)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	int fb_rec_spi = starfive_get_fb_rec_map();
 	int map_stat = starfive_fb_rec_map_handler(&fb_rec_spi,
 				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
@@ -50,11 +76,36 @@ u32 spl_spi_boot_cs(void)
 				CHECK);
 
 	if (!map_stat) {
-		/* Get to CS 1 for recovery partition */
-		/* TODO: OF_REAL DTB handling */
-		return 1;
+		/* Get to CS 1 for Golden partition */
+		return CONFIG_SF_DEFAULT_CS;
+		//return 1;
 	}
 	return CONFIG_SF_DEFAULT_CS;
+}
+
+unsigned int starfive_spl_spi_get_uboot_offs(void)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+	int fb_rec_spi = starfive_get_fb_rec_map();
+	int map_stat = starfive_fb_rec_map_handler(&fb_rec_spi,
+				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
+				BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
+				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+				CHECK);
+	if (!map_stat) {
+		printf("Loading SFC Golden image...\n");
+		return starfive_get_partition_offset(BOOT_SRC_SFC,
+						     PT_GOLDEN,
+						     IMG_TYPE_UBOOT_PROPER);
+	} else if (map_stat == (FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK
+				<< BOOT_SRC_PART_SPI_SECONDARY_BIT_POS)) {
+		printf("Loading SFC Active image...\n");
+		return starfive_get_partition_offset(BOOT_SRC_SFC,
+						     PT_ACTIVE,
+						     IMG_TYPE_UBOOT_PROPER);
+	}
+	return CONFIG_SYS_SPI_U_BOOT_OFFS;
 }
 
 /*
@@ -62,16 +113,17 @@ u32 spl_spi_boot_cs(void)
  * configured and available since this code loads the main U-Boot image
  * from SPI into SDRAM and starts it from there.
  */
-static int spl_spi_load_image(struct spl_image_info *spl_image,
-			      struct spl_boot_device *bootdev)
+static int starfive_spl_spi_load_image(struct spl_image_info *spl_image,
+				       struct spl_boot_device *bootdev)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	int err = 0;
 	unsigned int payload_offs = 0;
 	struct spi_flash *flash;
 	unsigned int sf_bus = spl_spi_boot_bus();
 	unsigned int sf_cs = spl_spi_boot_cs();
 	struct spl_load_info load;
-	int fb_rec_spi = starfive_get_fb_rec_map();
 
 	/*
 	 * Load U-Boot image from SPI flash into RAM
@@ -102,26 +154,7 @@ static int spl_spi_load_image(struct spl_image_info *spl_image,
 					      (void *)CONFIG_SPL_PAYLOAD_ARGS_ADDR);
 	}
 #endif
-	if (CONFIG_IS_ENABLED(OF_REAL)) {
-		/* Check auth or boot status of image */
-		int map_stat = starfive_fb_rec_map_handler(&fb_rec_spi,
-					BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
-					BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
-					FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
-					CHECK);
-		if (!map_stat) {
-			printf("Loading SPI secondary image...\n");
-			payload_offs = ofnode_conf_read_int
-					("u-boot,spl-payload-offset",
-					payload_offs);
-		} else if (map_stat == (FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK
-					<< BOOT_SRC_PART_SPI_SECONDARY_BIT_POS)) {
-			printf("Loading SPI primary image...\n");
-			payload_offs = ofnode_conf_read_int
-					("u-boot,spl-primary-payload-offset",
-					payload_offs);
-		}
-	}
+	payload_offs = starfive_spl_spi_get_uboot_offs();
 
 	err = spl_load(spl_image, bootdev, &load, 0, payload_offs);
 	if (IS_ENABLED(CONFIG_SPI_FLASH_SOFT_RESET))
@@ -132,7 +165,9 @@ static int spl_spi_load_image(struct spl_image_info *spl_image,
 static int spl_spi_load_image_handler(struct spl_image_info *spl_image,
 					struct spl_boot_device *bootdev)
 {
-	int ret = spl_spi_load_image(spl_image, bootdev);
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+	int ret = starfive_spl_spi_load_image(spl_image, bootdev);
 	int fb_rec_spi = starfive_get_fb_rec_map();
 
 	if (ret) {
@@ -143,10 +178,16 @@ static int spl_spi_load_image_handler(struct spl_image_info *spl_image,
 					CHECK);
 		if (!map_stat) {
 			/* Images in primary and secondary partition invalid */
-			printf("primary and secondary images invalid...\n");
+			printf("Invalid SFC Active and Golden images found...\n");
+			printf("Booting stop...\n");
 			hang();
 		} else if (map_stat == (FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK
 					<< BOOT_SRC_PART_SPI_SECONDARY_BIT_POS)) {
+			printf("Invalid SFC Active image found...\n");
+			if (starfive_get_sfc_cs_line_num() < 2) {
+				printf("Booting stop...\n");
+				hang();
+			}
 			starfive_fb_rec_map_handler(&fb_rec_spi,
 				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
 				BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
