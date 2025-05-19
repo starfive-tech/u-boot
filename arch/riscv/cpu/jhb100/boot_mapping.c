@@ -50,11 +50,13 @@ void starfive_clear_bit(int *reg_map, int bit_pos)
 	*reg_map = val;
 }
 
-/* Call this with SET and CLEAR after authentication and before jumping */
-/* If authentication failed, SET immediately before next authentication */
-/* In early phase when called by board_boot_order(), if index is more than 0,
- * need to SET bit accordingly.
- * For example, if index is 1, primary partition of the mapping must be set.
+/* Use this function to CHECK, SET and CLEAR AP Scratchpad Boot Source Partition
+ * USAGE in boot flow:
+ * Call this with SET and CLEAR after authentication and before jumping
+ * USAGE in atomic manner:
+ * CHECK: Check first unset from Lowest Significant Bit (from bit 'x' to bit 'x+n')
+ * SET: Set first unset from Lowest Significant Bit (from bit 'x' to bit 'x+n')
+ * CLEAR: Clear first set from Most Significant Bit (from bit 'x+n' to bit 'x')
  */
 int starfive_fb_rec_map_handler(int *reg_map, FB_REC_MAP_BIT_POS first_part_bit,
 		FB_REC_MAP_BIT_POS last_part_bit, FB_REC_MAP_STATE reg_map_msk, FB_REC_MAP action)
