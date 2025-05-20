@@ -43,7 +43,6 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 		}
 	}
 	/* TODO: BIF authentication should be placed here */
-#ifndef CONFIG_SPL_BUILD
 	/* Important that FDT is modified after authentication */
 	/* Assign new pointer to retain wherever pointed by p_image  */
 	void *payld = *p_image;
@@ -86,5 +85,4 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 	*p_size = resp_data[1];
 
 	return 0;
-#endif
 }
