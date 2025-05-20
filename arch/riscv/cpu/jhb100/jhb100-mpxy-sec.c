@@ -30,12 +30,15 @@ struct jhb100_mpxy_priv {
 	if (sbi_mpxy_send_message_withresp(mpxy->shmem_buf, mpxy->channel_id, cmd, &type->req, \
 					   sizeof(struct type##_req), \
 					   &type->resp, &rxmsg_len)) \
-		return -EACCES
+		return -EACCES; \
+	return type->resp.status
+
 #define FIRMWARE_MPXY_RESP(type) \
 	struct type *type = (struct type *)arg; \
 	if (sbi_mpxy_send_message_withresp(mpxy->shmem_buf, mpxy->channel_id, cmd, 0, 0, \
 					   &type, &rxmsg_len)) \
-		return -EACCES
+		return -EACCES; \
+	return type->resp.status
 
 static int jhb100_mpxy_sec_ioctl(struct udevice *dev, unsigned long cmd, void *arg)
 {
