@@ -66,13 +66,9 @@ int mmc_get_env_dev(void)
 	}
 }
 
-void flush_dcache_range(unsigned long start, unsigned long end);
 u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size);
-
 void board_fit_image_post_process(const void *fit, int node, void **p_image, size_t *p_size)
 {
-	flush_dcache_range((u64)(*p_image), (u64)(*p_image + *p_size));
-
 #ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 	if (starfive_jhb100_vendor_authentication(p_image, p_size))
 		hang();

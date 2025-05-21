@@ -8,10 +8,14 @@
 #ifndef __STARFIVE_RPMI_MPXY_SEC_H
 #define __STARFIVE_RPMI_MPXY_SEC_H
 
+#define BITS_PER_WORD		32
+#define NUM_WORD(n)		((n) / BITS_PER_WORD)
+#define BUF256_WORD_32_NUM	NUM_WORD(256)
 #define ADDR_HIGH_MASK		(GENMASK(63, 32))
 #define ADDR_LOW_MASK		(GENMASK(31, 0))
 #define CRC32_SIZE		4
 #define MAX_REQ_RESP_COUNT	8
+
 struct __attribute__((aligned(4))) request_buf {
 	u32 request_id;
 	u32 req_size;
@@ -83,5 +87,6 @@ const struct request_spec *get_request_spec_by_id(u32 request_id);
 int starfive_sec_rx_tx(const struct request_spec *req_spec, void *tx_params, void *rx,
 		       void *auth_data, size_t auth_size, void *ext_data, size_t ext_size,
 		       bool dump_buf);
+int run_bmc_sst_cmd(const char *cmd, void *resp);
 
 #endif

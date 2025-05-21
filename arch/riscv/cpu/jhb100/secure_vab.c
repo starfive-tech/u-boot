@@ -23,9 +23,6 @@
 #include <asm/arch/boot_fallback.h>
 #include <rand.h>
 
-#define ADDR_HIGH_MASK	(GENMASK(63, 32))
-#define ADDR_LOW_MASK	(GENMASK(31, 0))
-
 u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 {
 	int ret = 0;
@@ -42,9 +39,6 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 #endif
 		}
 	}
-	/* TODO: BIF authentication should be placed here */
-	/* Important that FDT is modified after authentication */
-	/* Assign new pointer to retain wherever pointed by p_image  */
 	void *payld = *p_image;
 	/**
 	 * Send RPMI/MPXY message via mailbox to request secure

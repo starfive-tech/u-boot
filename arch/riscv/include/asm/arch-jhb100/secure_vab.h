@@ -12,10 +12,6 @@
 #include <linux/stddef.h>
 #include <linux/bitops.h>
 
-#define BITS_PER_WORD		32
-#define NUM_WORD(n)		((n) / BITS_PER_WORD)
-#define BUF256_WORD_32_NUM	NUM_WORD(256)
-
 struct bif_image_hdr {
 	u32 bif_magic;		// 0x0 BIF Magic Number. ("BIF\0", 0x42494600)
 #define BIF_MAGIC_NUM					(0x00464942)

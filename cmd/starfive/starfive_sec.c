@@ -23,6 +23,7 @@
  #include <linux/bitfield.h>
  #include <linux/delay.h>
  #include <linux/compat.h>
+ #include <cli.h>
 
 #define CRC32_SIZE	4
 #define CACHE_ALIGN	CONFIG_SYS_CACHELINE_SIZE
@@ -72,6 +73,20 @@ static char *prepare_data_buf(const struct request_spec *req_spec, void *tx_para
 		.auth_msg_size = (req_spec->need_auth ? auth_size : 0),
 	};
 
+	/** Checks if auth_data exist
+	 *  If exist, then extract the tx_params from auth_data
+	 */
+	if (auth_size > 0 && auth_data) {
+		/** Verify that the auth data matches the request id */
+		u32 *auth_param_ptr = (u32 *)auth_data;
+
+		if (*auth_param_ptr != req_spec->request_id)
+			return NULL;
+
+		/** Go to the next word to parse the params to tx_params */
+		tx_params = ++auth_param_ptr;
+	}
+
 	/** Calculate buffer size */
 	u32 buf_size = *data_buf_size = calc_data_buf_size(header);
 	char *data_buf = memalign(CACHE_ALIGN, buf_size);
@@ -95,6 +110,7 @@ static char *prepare_data_buf(const struct request_spec *req_spec, void *tx_para
 
 	/** Offset shift to the larger size */
 	offset += max(header.resp_size, header.auth_msg_size);
+
 	/** Parse ext data if exist */
 	if (ext_size > 0)
 		memcpy(data_buf + offset, ext_data, ext_size);
@@ -134,6 +150,8 @@ int starfive_sec_rx_tx(const struct request_spec *req_spec, void *tx_params, voi
 	int ret = 0;
 	u32 buf_size;
 	struct rpmi_secure sec;
+	u64 addr = 0;
+	u64 input_size = 0;
 	char *data_buf = prepare_data_buf(req_spec,
 					  tx_params,
 					  auth_data,
@@ -150,6 +168,20 @@ int starfive_sec_rx_tx(const struct request_spec *req_spec, void *tx_params, voi
 	sec.req.addr = (u64)data_buf;
 	struct request_buf *buf = (struct request_buf *)data_buf;
 	char *resp_buf = data_buf + sizeof(struct request_buf) + buf->req_size;
+
+	/** Perform cache flush for params with addr to a buffer*/
+	for (int param_index = 0; param_index < req_spec->param_count; param_index++) {
+		if (strncmp(req_spec->param_names[param_index], "addr_low", 8) == 0)
+			addr = (u64)(buf->param[param_index]);
+		if (strncmp(req_spec->param_names[param_index], "addr_high", 9) == 0)
+			addr = ((u64)(buf->param[param_index]) << BITS_PER_WORD) | addr;
+		if (strncmp(req_spec->param_names[param_index], "size", 4) == 0)
+			input_size = buf->param[param_index];
+	}
+
+	if (addr && input_size)
+		flush_dcache_range(addr, addr + input_size);
+
 #ifdef CONFIG_SPL_BUILD
 	struct udevice *rpmi_srv_grp_starfive_bmc_sec_rt_dev;
 	struct udevice *rpmi_mbox_shmem_dev;
@@ -320,42 +352,15 @@ static int parse_auth_ext_param(const char *param, void **addr, u32 *size)
 	return 0;
 }
 
-static int do_bmc_sst(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
+static int bmc_sst_arg_handler(int argc, char *const argv[], void *rx, bool dump_buf)
 {
 	const struct request_spec *req_spec = NULL;
 	u32 auth_size = 0;
 	void *auth_data = NULL;
 	char *ext_data = NULL;
 	u32 ext_size = 0;
-	int ret = 0;
 	int param_index = 0;
 	int optional_args = 0;
-	u64 addr_low = 0;
-	u64 input_size = 0;
-
-	if (argc < 2) {
-		printf("Error: No request specified\n");
-		display_help();
-		return CMD_RET_USAGE;
-	}
-
-	/* Handle help/list/show commands */
-	if (strcmp(argv[1], "help") == 0) {
-		display_help();
-		return CMD_RET_SUCCESS;
-	}
-	if (strcmp(argv[1], "list") == 0) {
-		display_available_requests();
-		return CMD_RET_SUCCESS;
-	}
-	if (strcmp(argv[1], "show") == 0) {
-		if (argc < 3) {
-			printf("Error: No request name specified for show command\n");
-			return CMD_RET_USAGE;
-		}
-		show_request_details(argv[2]);
-		return CMD_RET_SUCCESS;
-	}
 
 	/* Get request specification */
 	req_spec = get_request_spec_by_name(argv[1]);
@@ -386,22 +391,12 @@ static int do_bmc_sst(struct cmd_tbl *cmdtp, int flag, int argc, char *const arg
 
 	for (param_index = 0; param_index < req_spec->param_count; param_index++) {
 		req_data[param_index] = hextoul(argv[param_index + 2], &endptr);
-
-		/* If address exist, store address and size */
-		if (strncmp(req_spec->param_names[param_index], "addr_low", 8) == 0)
-			addr_low = req_data[param_index];
-		if (strncmp(req_spec->param_names[param_index], "size", 4) == 0)
-			input_size = req_data[param_index];
 		if (*endptr != '\0') {
 			printf("Error: Invalid hex value '%s' for parameter %s\n",
 			       argv[param_index + 2], req_spec->param_names[param_index]);
 			return CMD_RET_USAGE;
 		}
 	}
-
-	/* Perform flush cache */
-	if (addr_low && input_size)
-		flush_dcache_range(addr_low, addr_low + input_size);
 
 	/* Parse optional auth and ext parameters */
 	for (int i = 2 + req_spec->param_count; i < argc; i++) {
@@ -438,10 +433,71 @@ static int do_bmc_sst(struct cmd_tbl *cmdtp, int flag, int argc, char *const arg
 
 	/* Execute request */
 	printf("Submitting request %s...\n", req_spec->request_name);
-	ret = starfive_sec_rx_tx(req_spec, req_data, NULL, auth_data,
-				 auth_size, ext_data, ext_size, true);
 
-	return ret ? CMD_RET_FAILURE : CMD_RET_SUCCESS;
+	return starfive_sec_rx_tx(req_spec, req_data, rx, auth_data,
+				 auth_size, ext_data, ext_size, dump_buf);
+}
+
+int run_bmc_sst_cmd(const char *cmd, void *resp)
+{
+	int ret = 0;
+
+	if (!cmd) {
+		printf("Error: cmd string is NULL\n");
+		return -EINVAL;
+	}
+	/** Use strdup to allocate a buffer to process the cmd */
+	char *cmd_buf = strdup(cmd);
+
+	if (!cmd_buf) {
+		printf("Error: Memory allocation failed\n");
+		return -ENOMEM;
+	}
+
+	char *argv[CONFIG_SYS_MAXARGS + 1];
+
+	int argc = cli_simple_parse_line(cmd_buf, argv);
+
+	if (!argc) {
+		printf("Error: Failed to parse command\n");
+		ret = -ENOENT;
+		goto cleanup_ret;
+	}
+
+	ret = bmc_sst_arg_handler(argc, argv, resp, false);
+
+cleanup_ret:
+	free(cmd_buf);
+	return ret;
+}
+
+static int do_bmc_sst(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
+{
+	if (argc < 2) {
+		printf("Error: No request specified\n");
+		display_help();
+		return CMD_RET_USAGE;
+	}
+
+	/* Handle help/list/show commands */
+	if (strcmp(argv[1], "help") == 0) {
+		display_help();
+		return CMD_RET_SUCCESS;
+	}
+	if (strcmp(argv[1], "list") == 0) {
+		display_available_requests();
+		return CMD_RET_SUCCESS;
+	}
+	if (strcmp(argv[1], "show") == 0) {
+		if (argc < 3) {
+			printf("Error: No request name specified for show command\n");
+			return CMD_RET_USAGE;
+		}
+		show_request_details(argv[2]);
+		return CMD_RET_SUCCESS;
+	}
+
+	return bmc_sst_arg_handler(argc, argv, NULL, true) ? CMD_RET_FAILURE : CMD_RET_SUCCESS;
 }
 
 U_BOOT_CMD(bmc_sst, CONFIG_SYS_MAXARGS, 1, do_bmc_sst,
