@@ -119,8 +119,9 @@ static void dump_data_buf(const struct request_spec *req_spec, char *buf, char *
 	for (int i = 0; i < req_spec->param_count; i++)
 		printf("Param[%d] (%s): 0x%08x\n", i, req_spec->param_names[i], data_buf->param[i]);
 
-	for (int i = 0; i < req_spec->resp_count; i++)
-		printf("Resp[%d] (%s): 0x%08x\n", i, req_spec->resp_names[i], ((u32 *)resp_buf)[i]);
+	for (int i = 0; i < req_spec->resp_size / sizeof(u32); i++)
+		printf("Resp[%d] (%s): 0x%08x\n", i, (i == 0 ? req_spec->resp_names[i] : "data"),
+		       ((u32 *)resp_buf)[i]);
 
 	u32 crc_received = *(u32 *)((char *)data_buf + buf_size - CRC32_SIZE);
 		printf("CRC Received: 0x%08x\n", crc_received);
