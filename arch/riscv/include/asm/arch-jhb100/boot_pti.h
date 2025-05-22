@@ -58,5 +58,11 @@ struct boot_stat_reg {
 
 int starfive_get_partition_num(int boot_src, int part_type, int img_type);
 int starfive_get_partition_offset(int boot_src, int part_type, int img_type);
+int starfive_get_sfc_cs_line_num(void);
+int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type);
+int starfive_req_img_auth_memory(int boot_src, int part_type, int img_type);
+void starfive_pre_os_boot_notify(void);
+void starfive_set_boot_ctrl_reg(int img_type);
+void starfive_set_boot_stat_reg(int boot_src, int part_type, int img_type);
 
 #endif /* _BOOT_PTI_H */

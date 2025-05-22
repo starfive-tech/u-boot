@@ -9,6 +9,7 @@
 #include <linux/bitops.h>
 #include <dm.h>
 #include <log.h>
+#include <rand.h>
 #include <spl.h>
 
 int starfive_get_partition_num(int boot_src, int part_type, int img_type)
@@ -66,12 +67,56 @@ int starfive_get_partition_offset(int boot_src, int part_type, int img_type)
 	return 0;
 }
 
+int starfive_get_sfc_cs_line_num(void)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE)) {
+		printf("fn(): %s\n", __func__);
+		if (IS_ENABLED(CONFIG_RANDOMIZED_TEST_PATTERN)) {
+			int a = rand();
+			int b = rand();
+
+			if (a < b)
+				return 2;
+			return 1;
+		}
+	}
+	// TODO: Get number of cs lines
+	return 1;
+}
+
+int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+	// TODO: RPMI secboot_verify_rofs to authenticate image directly on storage
+	return 0;
+}
+
+int starfive_req_img_auth_memory(int boot_src, int part_type, int img_type)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+	// TODO: RPMI service to authenticate image loaded to memory
+	return 0;
+}
+
+void starfive_pre_os_boot_notify(void)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+	// TODO: RPMI pre_os_boot_notify before booting os
+}
+
 void starfive_set_boot_ctrl_reg(int img_type)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	writel(img_type, (void *)BOOT_CTRL_REG_ADDR);
 }
 
 void starfive_set_boot_stat_reg(int boot_src, int part_type, int img_type)
 {
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
 	// TODO: Sync with FW
 }
