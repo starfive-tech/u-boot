@@ -40,23 +40,6 @@ static ulong spl_spi_fit_read(struct spl_load_info *load, ulong sector,
 		return 0;
 }
 
-int starfive_get_sfc_cs_line_num(void)
-{
-	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE)) {
-		printf("fn(): %s\n", __func__);
-		if (IS_ENABLED(CONFIG_RANDOMIZED_TEST_PATTERN)) {
-			int a = rand();
-			int b = rand();
-
-			if (a < b)
-				return 2;
-			return 1;
-		}
-	}
-	// TODO: Get number of cs lines
-	return 1;
-}
-
 u32 spl_spi_boot_bus(void)
 {
 	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
@@ -77,8 +60,9 @@ u32 spl_spi_boot_cs(void)
 
 	if (!map_stat) {
 		/* Get to CS 1 for Golden partition */
-		return CONFIG_SF_DEFAULT_CS;
-		//return 1;
+		if (starfive_get_sfc_cs_line_num() < 2)
+			return CONFIG_SF_DEFAULT_CS;
+		return 1;
 	}
 	return CONFIG_SF_DEFAULT_CS;
 }
