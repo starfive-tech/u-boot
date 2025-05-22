@@ -92,6 +92,11 @@
 			"echo Loaded environment from ${bootenv}; "	\
 			"run importbootenv; "	\
 		"fi;\0"	\
+	"loademmcimgext4="	\
+		"ext4load mmc 0:0 ${loadaddr} ${bootfile};"	\
+		"ext4load mmc 0:0 ${ramdisk_addr_r} ${ramdiskfile};"	\
+		"ext4load mmc 0:0 ${fdt_addr_r} ${fdtfile};\0"	\
+	"loademmcfitimgext4=ext4load mmc 0:0 ${loadaddr} ${fitbootfile}\0"	\
 	"loadimagefat=fatload mmc ${mmcdev}:${mmcpart} ${kernel_addr_r} /${bootfile}\0"	\
 	"loadfitimagefatprim=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} /${fitbootfile}\0"	\
 	"loadfitimagefatsec=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} /${fitbootrecfile}\0"	\
@@ -99,6 +104,8 @@
 	"loadcompfitimagefatsec=fatload mmc ${mmcdev}:${mmcpart} ${kernel_comp_addr_r} /${fitbootrecfile}.gz\0"	\
 	"loadfdtfat=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} /${fdtfile}\0"	\
 	"loadramdiskfat=fatload mmc ${mmcdev}:${mmcpart} ${ramdisk_addr_r} /${ramdiskfile}\0"	\
+	"loadfitimagespiact=sf read ${loadaddr} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
+	"loadfitimagespigol=sf read ${loadaddr} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespiprim=sf read ${loadaddr} ${kernel_fit_spi_prim_off} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespisec=sf read ${loadaddr} ${kernel_fit_spi_sec_off} ${kernel_fit_load_size}\0"	\
 	"loadcompfitimagespiprim=sf read ${kernel_comp_addr_r} ${kernel_fit_spi_prim_off} ${kernel_fit_comp_load_size}\0"	\
@@ -115,7 +122,14 @@
 	"gzramboot=booti ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr_r};\0"	\
 	"gznoramboot=booti ${kernel_addr_r} - ${fdt_addr_r};\0"	\
 	"uncompfitimage=unzip ${kernel_comp_addr_r} ${loadaddr} ${kernel_fit_load_size};\0"	\
-	"auth_and_boot="	\
+	"auth_pre_os_bootm="	\
+		"if authbm ${loadaddr}; then "	\
+			"echo Initiate Pre OS Boot Notify ...; "	\
+			"preosbootnotify;"	\
+			"echo Boot OS ...; "	\
+			"bootm ${loadaddr};"	\
+		"fi;\0"	\
+	"auth_and_bootm="	\
 		"if authbm ${loadaddr}; then "	\
 			"bootm ${loadaddr};"	\
 		"fi;\0"	\
@@ -184,6 +198,110 @@
 		"for boot_dev in ${boot_dev_s}; do "	\
 			"run kernel_bootenv_${boot_dev}; "	\
 		"done; \0"	\
+	"auth_boot_kernel_emmc="	\
+		"echo Checking kernel image in eMMC GPP partition...;"	\
+		"if checkimgrcmap 3; then "	\
+			"getimginfo 1; "	\
+			"mmc list;"	\
+			"if mmc dev 0 ${emmc_kernel_act_part_num}; then "	\
+				"echo Authenticating eMMC Active image ...; "	\
+				"if authbimgstorage 1; then "	\
+					"echo Trying to load eMMC Active image ...; "	\
+					"if run loademmcimgext4; then "	\
+						"echo Initiate Pre OS Boot Notify ...; "	\
+						"preosbootnotify;"	\
+						"echo Boot OS ...; "	\
+						"run ramboot;"	\
+					"fi; "	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid eMMC Active image ...;"	\
+		"if checkimgrcmap 4; then "	\
+			"getimginfo 2; "	\
+			"mmc list;"	\
+			"if mmc dev 0 ${emmc_kernel_gol_part_num}; then "	\
+				"echo Authenticating eMMC Golden image ...; "	\
+				"if authbimgstorage 2; then "	\
+					"echo Trying to load eMMC Golden image ...; "	\
+					"if run loademmcimgext4; then "	\
+						"echo Initiate Pre OS Boot Notify ...; "	\
+						"preosbootnotify;"	\
+						"echo Boot OS ...; "	\
+						"run ramboot;"	\
+					"fi; "	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid eMMC Golden image ...;\0"	\
+	"auth_boot_kernel_fit_emmc="	\
+		"echo Checking kernel FIT image in eMMC GPP partition...;"	\
+		"if checkimgrcmap 3; then "	\
+			"getimginfo 1; "	\
+			"mmc list;"	\
+			"if mmc dev 0 ${emmc_kernel_act_part_num}; then "	\
+				"echo Authenticating eMMC Active image ...; "	\
+				"if authbimgstorage 1; then "	\
+					"echo Trying to load eMMC Active image ...; "	\
+					"if run loademmcfitimgext4; then "	\
+						"echo Initiate Pre OS Boot Notify ...; "	\
+						"preosbootnotify;"	\
+						"echo Boot OS ...; "	\
+						"run bootmfit;"	\
+					"fi; "	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid eMMC Active image ...;"	\
+		"if checkimgrcmap 4; then "	\
+			"getimginfo 2; "	\
+			"mmc list;"	\
+			"if mmc dev 0 ${emmc_kernel_gol_part_num}; then "	\
+				"echo Authenticating eMMC Golden image ...; "	\
+				"if authbimgstorage 2; then "	\
+					"echo Trying to load eMMC Golden image ...; "	\
+					"if run loademmcfitimgext4; then "	\
+						"echo Initiate Pre OS Boot Notify ...; "	\
+						"preosbootnotify;"	\
+						"echo Boot OS ...; "	\
+						"run bootmfit;"	\
+					"fi; "	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid eMMC Golden image ...;\0"	\
+	"auth_boot_kernel_fit_sfc="	\
+		"echo Checking kernel FIT image in SPI flash ...;"	\
+		"if checkimgrcmap 1; then "	\
+			"getimginfo 3; "	\
+			"sf probe;"	\
+			"if sf probe 1:1; then "	\
+				"echo Trying to load SPI Active FIT image ...; "	\
+				"if run loadfitimagespiact; then "	\
+					"echo Authenticating	\
+					SPI Active FIT image ...; "	\
+					"run auth_pre_os_bootm;"	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid SFC Active FIT image ...;"	\
+		"echo Checking if SFC Golden image	\
+		is present in second flash chip ...;"	\
+		"if chksfcdualflash; then "	\
+			"if checkimgrcmap 2; then "	\
+				"getimginfo 4; "	\
+				"sf probe;"	\
+				"if sf probe 1:1; then "	\
+					"echo Trying to load SPI Golden FIT image ...; "	\
+					"if run loadfitimagespigol; then "	\
+						"echo Authenticating	\
+						SPI Golden FIT image ...; "	\
+						"run auth_pre_os_bootm;"	\
+					"fi; "	\
+				"fi; "	\
+			"fi;"	\
+			"echo Found invalid SFC Golden FIT image ...;"	\
+		"fi;\0"	\
 	"kernel_auth_boot_emmc="	\
 		"echo Checking FIT image in eMMC ...;"	\
 		"if checkimgrcmap 3; then "	\
@@ -192,7 +310,7 @@
 				"echo Trying to load eMMC Primary FIT image ...; "	\
 				"if run loadfitimagefatprim; then "	\
 					"echo Authenticating eMMC Primary FIT image ...; "	\
-					"run auth_and_boot;"	\
+					"run auth_and_bootm;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -202,7 +320,7 @@
 				"echo Trying to load eMMC Secondary FIT image ...; "	\
 				"if run loadfitimagefatsec; then "	\
 					"echo Authenticating eMMC Secondary FIT image ...; "	\
-					"run auth_and_boot;"	\
+					"run auth_and_bootm;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -217,7 +335,7 @@
 					"echo Uncompressing FIT image ...; "	\
 					"run uncompfitimage;"	\
 					"echo Authenticating eMMC Primary FIT image ...; "	\
-					"run auth_and_boot;"	\
+					"run auth_and_bootm;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -229,7 +347,7 @@
 					"echo Uncompressing FIT image ...; "	\
 					"run uncompfitimage;"	\
 					"echo Authenticating eMMC Secondary FIT image ...; "	\
-					"run auth_and_boot;"	\
+					"run auth_and_bootm;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -242,7 +360,7 @@
 				"echo Trying to load SPI Primary FIT image ...; "	\
 				"if run loadfitimagespiprim; then "	\
 					"echo Authenticating SPI Primary FIT image ...; "	\
-					"run auth_and_boot;"	\
+					"run auth_and_bootm;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -252,7 +370,7 @@
 				"echo Trying to load SPI Secondary FIT image ...; "	\
 				"if run loadfitimagespisec; then "	\
 					"echo Authenticating SPI Secondary FIT image ...; "	\
-					"run auth_and_boot;"	\
+					"run auth_and_bootm;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -267,7 +385,7 @@
 					"echo Uncompressing FIT image ...; "	\
 					"run uncompfitimage;"	\
 					"echo Authenticating SPI Primary FIT image ...; "	\
-					"run auth_and_boot;"	\
+					"run auth_and_bootm;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -279,7 +397,7 @@
 					"echo Uncompressing FIT image ...; "	\
 					"run uncompfitimage;"	\
 					"echo Authenticating SPI Secondary FIT image ...; "	\
-					"run auth_and_boot;"	\
+					"run auth_and_bootm;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
