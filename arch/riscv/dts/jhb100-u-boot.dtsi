@@ -64,12 +64,6 @@
 				mboxes = <&rpmi 0x09>;
 				compatible = "riscv,rpmi-mpxy-device-power";
 			};
-			voltage@7 {
-				reg = <0x07>;
-				riscv,sbi-mpxy-channel-id = <0x1001>;
-				mboxes = <&rpmi 0x07>;
-				compatible = "riscv,rpmi-mpxy-voltage";
-			};
 			clock@8 {
 				reg = <0x08>;
 				riscv,sbi-mpxy-channel-id = <0x1000>;
