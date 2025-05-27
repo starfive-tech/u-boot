@@ -76,18 +76,18 @@ static const struct request_spec request_specs[] = {
 	},
 	{
 		.request_id = 7,
-		.request_name = "get_bmcfw_update_info",
+		.request_name = "get_bmcfw_update_status",
 		.param_count = 1,
 		.param_names = {"flags"},
 		.resp_count = 1,
 		.resp_names = {"status"},
-		.resp_size = 20,
+		.resp_size = 4,
 		.need_auth = 0,
 		.has_external_data = 0
 	},
 	{
 		.request_id = 8,
-		.request_name = "get_biosfw_update_info",
+		.request_name = "get_bmcfw_info",
 		.param_count = 1,
 		.param_names = {"flags"},
 		.resp_count = 1,
@@ -98,17 +98,28 @@ static const struct request_spec request_specs[] = {
 	},
 	{
 		.request_id = 9,
-		.request_name = "get_biosfw_info",
+		.request_name = "get_biosfw_update_status",
 		.param_count = 1,
 		.param_names = {"flags"},
 		.resp_count = 1,
 		.resp_names = {"status"},
-		.resp_size = 36,
+		.resp_size = 4,
 		.need_auth = 0,
 		.has_external_data = 0
 	},
 	{
 		.request_id = 10,
+		.request_name = "get_biosfw_info",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 20,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
+		.request_id = 11,
 		.request_name = "dice_get_cert_n",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -119,7 +130,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 11,
+		.request_id = 12,
 		.request_name = "otp_get_user_region_size",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -130,7 +141,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 12,
+		.request_id = 13,
 		.request_name = "otp_user_region_read",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -141,7 +152,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 13,
+		.request_id = 14,
 		.request_name = "otp_user_region_write",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -152,7 +163,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 1
 	},
 	{
-		.request_id = 14,
+		.request_id = 15,
 		.request_name = "otp_get_zeroize_status",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -163,7 +174,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 15,
+		.request_id = 16,
 		.request_name = "set_logbuf",
 		.param_count = 4,
 		.param_names = {"flags", "addr_low", "addr_high", "buf_size"},
@@ -174,7 +185,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 16,
+		.request_id = 17,
 		.request_name = "get_logbuf",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -185,7 +196,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 17,
+		.request_id = 18,
 		.request_name = "set_next_boot_param",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -196,7 +207,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 18,
+		.request_id = 19,
 		.request_name = "get_dram_info",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -207,7 +218,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 19,
+		.request_id = 20,
 		.request_name = "biosfw_factory_reset",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -218,7 +229,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 20,
+		.request_id = 21,
 		.request_name = "get_system_event",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -229,7 +240,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 21,
+		.request_id = 22,
 		.request_name = "get_system_status",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -240,7 +251,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 22,
+		.request_id = 23,
 		.request_name = "pre_os_boot_notify",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -251,7 +262,7 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 23,
+		.request_id = 24,
 		.request_name = "os_boot_notify",
 		.param_count = 1,
 		.param_names = {"flags"},
@@ -262,8 +273,19 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 24,
+		.request_id = 25,
 		.request_name = "secboot_verify_rofs",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 4,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
+		.request_id = 26,
+		.request_name = "set_biosfw_mux_to_bmc",
 		.param_count = 1,
 		.param_names = {"flags"},
 		.resp_count = 1,
@@ -288,7 +310,7 @@ static const struct request_spec request_specs[] = {
 		.request_name = "dice_uds_rehash",
 		.param_count = 1,
 		.param_names = {"flags"},
-		.resp_count = 1,
+		.resp_count = 2,
 		.resp_names = {"status", "uds_rehash_bitmap"},
 		.resp_size = 8,
 		.need_auth = 1,
