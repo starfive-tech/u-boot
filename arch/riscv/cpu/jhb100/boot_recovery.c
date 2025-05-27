@@ -16,6 +16,13 @@
 #include <image.h>
 #include <log.h>
 
+#define EMMC_PRIMARY		1
+#define EMMC_SECONDARY		2
+#define UFS_PRIMARY		3
+#define UFS_SECONDARY		4
+#define SFC_PRIMARY		5
+#define SFC_SECONDARY		6
+
 static int do_starfive_check_img_rec_map(struct cmd_tbl *cmdtp, int flag, int argc,
 					 char *const argv[])
 {
@@ -24,23 +31,7 @@ static int do_starfive_check_img_rec_map(struct cmd_tbl *cmdtp, int flag, int ar
 	argc--; argv++;
 	if (argc) {
 		switch (hextoul(argv[0], NULL)) {
-		case 1:
-			if (starfive_fb_rec_map_handler(&fb_rec_map,
-				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
-				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
-				FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
-				CHECK))
-				return CMD_RET_SUCCESS;
-			break;
-		case 2:
-			if (starfive_fb_rec_map_handler(&fb_rec_map,
-				BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
-				BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
-				FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
-				CHECK))
-				return CMD_RET_SUCCESS;
-			break;
-		case 3:
+		case EMMC_PRIMARY:
 			if (starfive_fb_rec_map_handler(&fb_rec_map,
 				BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
 				BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
@@ -48,7 +39,7 @@ static int do_starfive_check_img_rec_map(struct cmd_tbl *cmdtp, int flag, int ar
 				CHECK))
 				return CMD_RET_SUCCESS;
 			break;
-		case 4:
+		case EMMC_SECONDARY:
 			if (starfive_fb_rec_map_handler(&fb_rec_map,
 				BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS,
 				BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS,
@@ -56,7 +47,7 @@ static int do_starfive_check_img_rec_map(struct cmd_tbl *cmdtp, int flag, int ar
 				CHECK))
 				return CMD_RET_SUCCESS;
 			break;
-		case 5:
+		case UFS_PRIMARY:
 			if (starfive_fb_rec_map_handler(&fb_rec_map,
 				BOOT_SRC_PART_UFS_PRIMARY_BIT_POS,
 				BOOT_SRC_PART_UFS_PRIMARY_BIT_POS,
@@ -64,10 +55,26 @@ static int do_starfive_check_img_rec_map(struct cmd_tbl *cmdtp, int flag, int ar
 				CHECK))
 				return CMD_RET_SUCCESS;
 			break;
-		case 6:
+		case UFS_SECONDARY:
 			if (starfive_fb_rec_map_handler(&fb_rec_map,
 				BOOT_SRC_PART_UFS_SECONDARY_BIT_POS,
 				BOOT_SRC_PART_UFS_SECONDARY_BIT_POS,
+				FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+				CHECK))
+				return CMD_RET_SUCCESS;
+			break;
+		case SFC_PRIMARY:
+			if (starfive_fb_rec_map_handler(&fb_rec_map,
+				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
+				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
+				FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+				CHECK))
+				return CMD_RET_SUCCESS;
+			break;
+		case SFC_SECONDARY:
+			if (starfive_fb_rec_map_handler(&fb_rec_map,
+				BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
+				BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
 				FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
 				CHECK))
 				return CMD_RET_SUCCESS;
@@ -87,9 +94,9 @@ static int do_starfive_print_rec_map(struct cmd_tbl *cmdtp, int flag, int argc,
 
 	argc--; argv++;
 	if (argv[0]) {
-		static const char *part_name[6] = {"SPI Primary", "SPI Secondary",
-						   "EMMC Primary", "EMMC Secondary",
-						   "UFS Primary", "UFS Secondary"};
+		static const char *part_name[6] = {"eMMC Active", "eMMC Golden",
+						   "UFS Active", "UFS Golden",
+						   "SFC Active", "SFC Golden"};
 		static const char *comp_name[3] = {"U-boot SPL", "U-boot Proper",
 						   "Kernel"};
 		int first_bit_pos = FB_RCV_L1_FW_SET_SPL_CLEAR_MSK;
@@ -143,22 +150,32 @@ static int do_starfive_authenticate_storage(struct cmd_tbl *cmdtp, int flag, int
 	argc--; argv++;
 	if (argc) {
 		switch (hextoul(argv[0], NULL)) {
-		case 1:
+		case EMMC_PRIMARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_EMMC,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
 			break;
-		case 2:
+		case EMMC_SECONDARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_EMMC,
 							    PT_GOLDEN,
 							    IMG_TYPE_KERNEL);
 			break;
-		case 3:
+		case UFS_PRIMARY:
+			ret = starfive_req_img_auth_storage(BOOT_SRC_UFS,
+							    PT_ACTIVE,
+							    IMG_TYPE_KERNEL);
+			break;
+		case UFS_SECONDARY:
+			ret = starfive_req_img_auth_storage(BOOT_SRC_UFS,
+							    PT_GOLDEN,
+							    IMG_TYPE_KERNEL);
+			break;
+		case SFC_PRIMARY:
 			ret = starfive_req_img_auth_memory(BOOT_SRC_SFC,
 							   PT_ACTIVE,
 							   IMG_TYPE_KERNEL);
 			break;
-		case 4:
+		case SFC_SECONDARY:
 			ret = starfive_req_img_auth_memory(BOOT_SRC_SFC,
 							   PT_GOLDEN,
 							   IMG_TYPE_KERNEL);
@@ -199,7 +216,7 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 	argc--; argv++;
 	if (argc) {
 		switch (hextoul(argv[0], NULL)) {
-		case 1:
+		case EMMC_PRIMARY:
 			val = starfive_get_partition_num(BOOT_SRC_EMMC,
 							 PT_ACTIVE,
 							 IMG_TYPE_KERNEL);
@@ -209,7 +226,7 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 							    IMG_TYPE_KERNEL);
 			env_set_hex("emmc_kernel_act_part_offs", (ulong)val);
 			break;
-		case 2:
+		case EMMC_SECONDARY:
 			val = starfive_get_partition_num(BOOT_SRC_EMMC,
 							 PT_GOLDEN,
 							 IMG_TYPE_KERNEL);
@@ -219,13 +236,33 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 							    IMG_TYPE_KERNEL);
 			env_set_hex("emmc_kernel_gol_part_offs", (ulong)val);
 			break;
-		case 3:
+		case UFS_PRIMARY:
+			val = starfive_get_partition_num(BOOT_SRC_UFS,
+							 PT_ACTIVE,
+							 IMG_TYPE_KERNEL);
+			env_set_hex("ufs_kernel_act_part_num", (ulong)val);
+			val = starfive_get_partition_offset(BOOT_SRC_UFS,
+							    PT_ACTIVE,
+							    IMG_TYPE_KERNEL);
+			env_set_hex("ufs_kernel_act_part_offs", (ulong)val);
+			break;
+		case UFS_SECONDARY:
+			val = starfive_get_partition_num(BOOT_SRC_UFS,
+							 PT_GOLDEN,
+							 IMG_TYPE_KERNEL);
+			env_set_hex("ufs_kernel_gol_part_num", (ulong)val);
+			val = starfive_get_partition_offset(BOOT_SRC_UFS,
+							    PT_GOLDEN,
+							    IMG_TYPE_KERNEL);
+			env_set_hex("ufs_kernel_gol_part_offs", (ulong)val);
+			break;
+		case SFC_PRIMARY:
 			val = starfive_get_partition_offset(BOOT_SRC_SFC,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
 			env_set_hex("sfc_kernel_act_part_offs", (ulong)val);
 			break;
-		case 4:
+		case SFC_SECONDARY:
 			if (starfive_get_sfc_cs_line_num() < 2) {
 				printf("SFC Golden image not found...\n");
 				printf("Golden image is stored in second flash chip...\n");
@@ -245,12 +282,12 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 
 U_BOOT_LONGHELP(checkimgrcmap,
 		"[arg\n    - Check authentication status from recovery mapping\n"
-		"\tpass: 1 - spi primary\n"
-		"\t      2 - spi secondary\n"
-		"\t      3 - emmc primary\n"
-		"\t      4 - emmc secondary\n"
-		"\t      5 - ufs primary\n"
-		"\t      6 - ufs secondary\n"
+		"\tpass: 1 - eMMC Active\n"
+		"\t      2 - eMMC Golden\n"
+		"\t      3 - UFS Active\n"
+		"\t      4 - UFS Golden\n"
+		"\t      5 - SFC Active\n"
+		"\t      6 - SFC Golden\n"
 );
 
 U_BOOT_LONGHELP(printaprcmap,
@@ -294,12 +331,12 @@ U_BOOT_LONGHELP(chksfcdualflash,
 
 U_BOOT_LONGHELP(getimginfo,
 		"[arg\n    - Get image storage information\n"
-		"\tpass: 1 - emmc active\n"
-		"\t      2 - emmc secondary\n"
-		"\t      3 - sfc active\n"
-		"\t      4 - sfc active\n"
-		"\t      5 - ufs active\n"
-		"\t      6 - ufs active\n"
+		"\tpass: 1 - eMMC Active\n"
+		"\t      2 - eMMC Golden\n"
+		"\t      3 - UFS Active\n"
+		"\t      4 - UFS Golden\n"
+		"\t      5 - SFC Active\n"
+		"\t      6 - SFC Golden\n"
 );
 
 U_BOOT_CMD(checkimgrcmap, CONFIG_SYS_MAXARGS, 1, do_starfive_check_img_rec_map,
