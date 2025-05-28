@@ -54,16 +54,6 @@ static u32 calc_data_buf_size(struct request_buf header)
 static char *prepare_data_buf(const struct request_spec *req_spec, void *tx_params, void *auth_data,
 			      u32 auth_size, void *ext_data, u32 ext_size, u32 *data_buf_size)
 {
-	if (req_spec->need_auth && !auth_size) {
-		printf("Error: Missing auth file\n");
-		return NULL;
-	}
-
-	if (req_spec->has_external_data && !ext_size) {
-		printf("Error: Missing ext file\n");
-		return NULL;
-	}
-
 	/** Create header based on spec */
 	struct request_buf header = {
 		.request_id = req_spec->request_id,
@@ -152,6 +142,17 @@ int starfive_sec_rx_tx(const struct request_spec *req_spec, void *tx_params, voi
 	struct rpmi_secure sec;
 	u64 addr = 0;
 	u64 input_size = 0;
+
+	if (req_spec->need_auth && (!auth_data || auth_size == 0)) {
+		printf("Error: Authentication required but no auth data provided\n");
+		return -EINVAL;
+	}
+
+	if (req_spec->has_external_data && (!ext_data || ext_size == 0)) {
+		printf("Error: External data required but none provided\n");
+		return -EINVAL;
+	}
+
 	char *data_buf = prepare_data_buf(req_spec,
 					  tx_params,
 					  auth_data,
@@ -161,7 +162,7 @@ int starfive_sec_rx_tx(const struct request_spec *req_spec, void *tx_params, voi
 					  &buf_size);
 	if (!data_buf) {
 		printf("Error: Memory allocation failed\n");
-		return CMD_RET_FAILURE;
+		return -ENOMEM;
 	}
 
 	/** Sending message via MPXY/RPMI protocol */
@@ -235,12 +236,9 @@ int starfive_sec_rx_tx(const struct request_spec *req_spec, void *tx_params, voi
 		printf("Response received\n");
 	}
 
-	free(data_buf);
-	return CMD_RET_SUCCESS;
-
 cleanup_ret:
 	free(data_buf);
-	return CMD_RET_FAILURE;
+	return ret;
 }
 
 #ifndef CONFIG_SPL_BUILD
@@ -418,17 +416,6 @@ static int bmc_sst_arg_handler(int argc, char *const argv[], void *rx, bool dump
 			printf("Error: Unknown parameter %s\n", argv[i]);
 			return CMD_RET_USAGE;
 		}
-	}
-
-	/* Validate required optionals */
-	if (req_spec->need_auth && (!auth_data || auth_size == 0)) {
-		printf("Error: Authentication required but no auth data provided\n");
-		return CMD_RET_USAGE;
-	}
-
-	if (req_spec->has_external_data && (!ext_data || ext_size == 0)) {
-		printf("Error: External data required but none provided\n");
-		return CMD_RET_USAGE;
 	}
 
 	/* Execute request */
