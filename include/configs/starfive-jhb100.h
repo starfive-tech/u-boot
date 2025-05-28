@@ -83,6 +83,7 @@
 	"ramdiskfile=rootfs.cpio\0"	\
 	"mmcpart=1\0"
 
+	/** STARFIVE_TODO :: Update the preosbootnotify arguments */
 #define JHB100_KERNEL_BOOTENV	\
 	"importbootenv="	\
 		"echo Importing environment variables from uEnv.txt ...; "	\
@@ -210,7 +211,7 @@
 					"echo Trying to load eMMC Active image ...; "	\
 					"if run loademmcimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
-						"preosbootnotify;"	\
+						"preosbootnotify 0;"	\
 						"echo Boot OS ...; "	\
 						"run ramboot;"	\
 					"fi; "	\
@@ -228,7 +229,7 @@
 					"echo Trying to load eMMC Golden image ...; "	\
 					"if run loademmcimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
-						"preosbootnotify;"	\
+						"preosbootnotify 1;"	\
 						"echo Boot OS ...; "	\
 						"run ramboot;"	\
 					"fi; "	\
@@ -248,7 +249,7 @@
 					"echo Trying to load eMMC Active image ...; "	\
 					"if run loademmcfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
-						"preosbootnotify;"	\
+						"preosbootnotify 0;"	\
 						"echo Boot OS ...; "	\
 						"run bootmfit;"	\
 					"fi; "	\
@@ -266,7 +267,7 @@
 					"echo Trying to load eMMC Golden image ...; "	\
 					"if run loademmcfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
-						"preosbootnotify;"	\
+						"preosbootnotify 1;"	\
 						"echo Boot OS ...; "	\
 						"run bootmfit;"	\
 					"fi; "	\

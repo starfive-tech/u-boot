@@ -193,7 +193,10 @@ static int do_starfive_authenticate_storage(struct cmd_tbl *cmdtp, int flag, int
 static int do_starfive_pre_os_boot_notify(struct cmd_tbl *cmdtp, int flag, int argc,
 					  char *const argv[])
 {
-	starfive_pre_os_boot_notify();
+	argc--; argv++;
+	if (argc)
+		starfive_pre_os_boot_notify(hextoul(argv[0], NULL));
+
 	return CMD_RET_SUCCESS;
 }
 
@@ -262,8 +265,9 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 							    IMG_TYPE_KERNEL);
 			env_set_hex("sfc_kernel_act_part_offs", (ulong)val);
 			break;
+
 		case SFC_SECONDARY:
-			if (starfive_get_sfc_cs_line_num() < 2) {
+			if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL) < 1) {
 				printf("SFC Golden image not found...\n");
 				printf("Golden image is stored in second flash chip...\n");
 			} else {
@@ -322,7 +326,10 @@ U_BOOT_LONGHELP(authbimgstorage,
 );
 
 U_BOOT_LONGHELP(preosbootnotify,
-		"[arg\n    - None\n"
+		"[arg\n    - Notify secureity core before booting OS\n"
+		"\tpass: 0 - Active ROFS validated\n"
+		"\t	 1 - Golden ROFS validated\n"
+		"\t	 2 - Temp/Recovery ROFS validated\n"
 );
 
 U_BOOT_LONGHELP(chksfcdualflash,

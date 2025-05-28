@@ -60,9 +60,8 @@ u32 spl_spi_boot_cs(void)
 
 	if (!map_stat) {
 		/* Get to CS 1 for Golden partition */
-		if (starfive_get_sfc_cs_line_num() < 2)
-			return CONFIG_SF_DEFAULT_CS;
-		return 1;
+		if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER) == 1)
+			return 1;
 	}
 	return CONFIG_SF_DEFAULT_CS;
 }
@@ -168,7 +167,7 @@ static int spl_spi_load_image_handler(struct spl_image_info *spl_image,
 		} else if (map_stat == (FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK
 					<< BOOT_SRC_PART_SPI_SECONDARY_BIT_POS)) {
 			printf("Invalid SFC Active image found...\n");
-			if (starfive_get_sfc_cs_line_num() < 2) {
+			if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER) < 1) {
 				printf("Booting stop...\n");
 				hang();
 			}
