@@ -24,10 +24,17 @@
 
 #define EMMC_BOOT0_PART		1
 #define EMMC_BOOT1_PART		2
-#define EMMC_GPP1_PART		3
-#define EMMC_GPP2_PART		4
-#define EMMC_GPP3_PART		5
-#define EMMC_GPP4_PART		6
+/* TODO: Currently these macros are hardcoded to '0' indicating access to UDA
+ * This is because not every FPGA station is fused with GPP partition yet.
+ * So, to test access to GPP, choose MDC fpga 4 which is configured with GP1
+ * partition and change below macro values to select GP1.
+ *
+ * Assign EMMC_GPP1_PART to value '4' to access GP1 and so on.....
+ */
+#define EMMC_GPP1_PART		0
+#define EMMC_GPP2_PART		0
+#define EMMC_GPP3_PART		0
+#define EMMC_GPP4_PART		0
 
 #define SFC_UBOOT_PROPER_ACTIVE_OFFS	0x210000
 #define SFC_UBOOT_PROPER_GOLDEN_OFFS	0x210000

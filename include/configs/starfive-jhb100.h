@@ -203,7 +203,8 @@
 		"if checkimgrcmap 3; then "	\
 			"getimginfo 1; "	\
 			"mmc list;"	\
-			"if mmc dev 0 ${emmc_kernel_act_part_num}; then "	\
+			"if mmc dev 0; then "	\
+				"mmc partconf 0 0 0 ${emmc_kernel_act_part_num}; "	\
 				"echo Authenticating eMMC Active image ...; "	\
 				"if authbimgstorage 1; then "	\
 					"echo Trying to load eMMC Active image ...; "	\
@@ -220,7 +221,8 @@
 		"if checkimgrcmap 4; then "	\
 			"getimginfo 2; "	\
 			"mmc list;"	\
-			"if mmc dev 0 ${emmc_kernel_gol_part_num}; then "	\
+			"if mmc dev 0; then "	\
+				"mmc partconf 0 0 0 ${emmc_kernel_gol_part_num}; "	\
 				"echo Authenticating eMMC Golden image ...; "	\
 				"if authbimgstorage 2; then "	\
 					"echo Trying to load eMMC Golden image ...; "	\
@@ -239,7 +241,8 @@
 		"if checkimgrcmap 3; then "	\
 			"getimginfo 1; "	\
 			"mmc list;"	\
-			"if mmc dev 0 ${emmc_kernel_act_part_num}; then "	\
+			"if mmc dev 0; then "	\
+				"mmc partconf 0 0 0 ${emmc_kernel_act_part_num}; "	\
 				"echo Authenticating eMMC Active image ...; "	\
 				"if authbimgstorage 1; then "	\
 					"echo Trying to load eMMC Active image ...; "	\
@@ -256,7 +259,8 @@
 		"if checkimgrcmap 4; then "	\
 			"getimginfo 2; "	\
 			"mmc list;"	\
-			"if mmc dev 0 ${emmc_kernel_gol_part_num}; then "	\
+			"if mmc dev 0; then "	\
+				"mmc partconf 0 0 0 ${emmc_kernel_gol_part_num}; "	\
 				"echo Authenticating eMMC Golden image ...; "	\
 				"if authbimgstorage 2; then "	\
 					"echo Trying to load eMMC Golden image ...; "	\
