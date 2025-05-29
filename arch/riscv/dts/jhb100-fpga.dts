@@ -116,7 +116,7 @@
 		linux,cma {
 			compatible = "shared-dma-pool";
 			reusable;
-			size = <0x0 0x04000000>;
+			size = <0x0 0x08000000>;
 			alignment = <0x0 0x1000>;
 			alloc-ranges = <0x0 0x40000000 0x2 0x0>;
 			linux,cma-default;
@@ -267,26 +267,41 @@
 		};
 	};
 
-	jtag0_pins: jtag0-grp {
-		jtag0_tdi-pins {
+	jtagm1_pins: jtagm1-grp {
+		jtagm1_tdi-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A52,
 					 FUNC_SYSTOP_SYS2_JTAG_MST_TDI)>;
+			input-enable;
+			bias-pull-up;
 		};
-		jtag0_trstn-pins {
+
+		jtagm1_trstn-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A53,
 					 FUNC_SYSTOP_SYS2_JTAG_MST_TRST_N)>;
+			input-enable;
+			bias-pull-up;
 		};
-		jtag0_tms-pins {
+
+		jtagm1_tms-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A54,
 					 FUNC_SYSTOP_SYS2_JTAG_MST_TMS)>;
+			input-enable;
+			bias-pull-up;
 		};
-		jtag_tck-pins {
+
+		jtagm1_tck-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A55,
 					 FUNC_SYSTOP_SYS2_JTAG_MST_TCK)>;
+
+			input-enable;
+			bias-pull-up;
 		};
-		jtag0_tdo-pins {
+
+		jtagm1_tdo-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A56,
 					 FUNC_SYSTOP_SYS2_JTAG_MST_TDO)>;
+			input-enable;
+			bias-pull-up;
 		};
 	};
 };
@@ -767,7 +782,7 @@
 &sol4 {
 	memory-region = <&sol_tx_mem_uncache>,
 			<&sol_rx_mem_uncache>;
-	starfive,axi-xfer-len = <256>;
+	starfive,axi-xfer-len = <4>;
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <4>;
@@ -777,7 +792,7 @@
 &sol5 {
 	memory-region = <&sol_tx_mem_uncache>,
 			<&sol_rx_mem_uncache>;
-	starfive,axi-xfer-len = <256>;
+	starfive,axi-xfer-len = <4>;
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <5>;
@@ -797,6 +812,7 @@
 };
 
 &uart_routing {
+	starfive,chsel = /bits/ 8 <0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
 	status = "okay";
 };
 
@@ -1127,10 +1143,12 @@
 	};
 };
 
-&jtag0 {
-	clocks = <&fpga_12mhz_clk>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&jtag0_pins>;
+&jtag1 {
+	clocks = <&sys2crg JHB100_SYS2CLK_MAIN_ICG_EN_JTAG1>,
+		 <&fpga_12mhz_clk>,
+		 <&fpga_12mhz_clk>;
+	pinctrl-names = "jtag";
+	pinctrl-0 = <&jtagm1_pins>;
 	starfive,jtag_clk_constant;
 	starfive,jtag_bit_quirk;
 	status = "okay";

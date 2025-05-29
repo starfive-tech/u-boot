@@ -174,7 +174,7 @@
 			clocks = <&sys0crg JHB100_SYS0CLK_HOSTSS1_600>,
 				 <&sys1crg JHB100_SYS1CLK_HOSTSS1_100>,
 				 <&sys1crg JHB100_SYS1CLK_GPIO_ESPI1_66>;
-			clock-names = "host1_data", "host1_cfg",
+			clock-names = "host1_600", "host1_100",
 				      "host1_espi1_66";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
@@ -267,6 +267,21 @@
 			status = "disabled";
 		};
 
+		pcierp_syscon: syscon@11719000 {
+			compatible = "starfive,jhb100-pcierp-syscon", "syscon",
+				     "simple-mfd";
+			reg = <0x0 0x11719000 0x0 0x1000>;
+			#address-cells = <2>;
+			#size-cells = <2>;
+			ranges = <0x0 0x0 0x0 0x11719000 0x0 0x1000>;
+
+			pcierp_syscon_rst: reset-controller@14c {
+				compatible = "starfive,jhb100-reset-pcierp";
+				reg = <0x0 0x14c 0x0 0x4>;
+				#reset-cells = <1>;
+			};
+		};
+
 		usbcrg: clock-controller@11834000 {
 			compatible = "starfive,jhb100-usbcrg";
 			reg = <0x0 0x11834000 0x0 0x1000>;
@@ -291,6 +306,18 @@
 				      "per0_200_init";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
+		};
+
+		per0_syscon: syscon@11a09000 {
+			compatible = "starfive,jhb100-per0-syscon", "syscon",
+				     "simple-mfd";
+			reg = <0x0 0x11a09000 0x0 0x1000>;
+
+			per0pll: clock-controller {
+				compatible = "starfive,jhb100-per0-pll";
+				clocks = <&osc>;
+				#clock-cells = <1>;
+			};
 		};
 
 		per1crg: clock-controller@11b40000 {

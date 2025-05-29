@@ -700,6 +700,7 @@
 #define FUNC_ADC1_VIN6					1
 #define FUNC_ADC1_VIN7					1
 
+#define FUNC_SMB8_ALT_A					2
 #define FUNC_SMB9_ALT_A					2
 #define FUNC_SMB10_ALT_A				2
 #define FUNC_SMB11_ALT_A				2
@@ -707,7 +708,6 @@
 #define FUNC_SMB13_ALT_A				2
 #define FUNC_SMB14_ALT_A				2
 #define FUNC_SMB15_ALT_A				2
-#define FUNC_SMB16_ALT_A				2
 
 #define FUNC_ADC1_PORT80_0_HOST0			3
 #define FUNC_ADC1_PORT80_1_HOST0			3
