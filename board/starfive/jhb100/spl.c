@@ -48,10 +48,10 @@
 
 u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
 {
-#if defined(CONFIG_SPL_FS_FAT) || defined(CONFIG_SPL_FS_EXT4)
-	return MMCSD_MODE_FS;
-#elif defined(CONFIG_SUPPORT_EMMC_BOOT)
+#if defined(CONFIG_SUPPORT_EMMC_BOOT)
 	return MMCSD_MODE_EMMCBOOT;
+#elif defined(CONFIG_SPL_FS_FAT) || defined(CONFIG_SPL_FS_EXT4)
+	return MMCSD_MODE_FS;
 #else
 	return MMCSD_MODE_RAW;
 #endif
