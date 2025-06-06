@@ -239,7 +239,7 @@
 		"echo Found invalid eMMC Golden image ...;\0"	\
 	"auth_boot_kernel_fit_emmc="	\
 		"echo Checking kernel FIT image in eMMC GPP partition...;"	\
-		"if checkimgrcmap 3; then "	\
+		"if checkimgrcmap 1; then "	\
 			"getimginfo 1; "	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
@@ -257,7 +257,7 @@
 			"fi; "	\
 		"fi;"	\
 		"echo Found invalid eMMC Active image ...;"	\
-		"if checkimgrcmap 4; then "	\
+		"if checkimgrcmap 2; then "	\
 			"getimginfo 2; "	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
@@ -277,8 +277,8 @@
 		"echo Found invalid eMMC Golden image ...;\0"	\
 	"auth_boot_kernel_fit_sfc="	\
 		"echo Checking kernel FIT image in SPI flash ...;"	\
-		"if checkimgrcmap 1; then "	\
-			"getimginfo 3; "	\
+		"if checkimgrcmap 5; then "	\
+			"getimginfo 5; "	\
 			"sf probe;"	\
 			"if sf probe 1:1; then "	\
 				"echo Trying to load SPI Active FIT image ...; "	\
@@ -293,8 +293,8 @@
 		"echo Checking if SFC Golden image	\
 		is present in second flash chip ...;"	\
 		"if chksfcdualflash; then "	\
-			"if checkimgrcmap 2; then "	\
-				"getimginfo 4; "	\
+			"if checkimgrcmap 6; then "	\
+				"getimginfo 6; "	\
 				"sf probe;"	\
 				"if sf probe 1:1; then "	\
 					"echo Trying to load SPI Golden FIT image ...; "	\
@@ -309,7 +309,7 @@
 		"fi;\0"	\
 	"kernel_auth_boot_emmc="	\
 		"echo Checking FIT image in eMMC ...;"	\
-		"if checkimgrcmap 3; then "	\
+		"if checkimgrcmap 1; then "	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
 				"echo Trying to load eMMC Primary FIT image ...; "	\
@@ -320,7 +320,7 @@
 			"fi; "	\
 		"fi;"	\
 		"echo eMMC Primary FIT image failed authentication ...;"	\
-		"if checkimgrcmap 4; then "	\
+		"if checkimgrcmap 2; then "	\
 			"if mmc dev 0; then "	\
 				"echo Trying to load eMMC Secondary FIT image ...; "	\
 				"if run loadfitimagefatsec; then "	\
@@ -332,7 +332,7 @@
 		"echo eMMC Secondary FIT image failed authentication ...;\0"	\
 	"kernel_comp_auth_boot_emmc="	\
 		"echo Checking compressed FIT image in eMMC ...;"	\
-		"if checkimgrcmap 3; then "	\
+		"if checkimgrcmap 1; then "	\
 			"echo Trying to load eMMC Primary FIT image ...; "	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
@@ -345,7 +345,7 @@
 			"fi; "	\
 		"fi;"	\
 		"echo eMMC Primary FIT image failed authentication ...;"	\
-		"if checkimgrcmap 4; then "	\
+		"if checkimgrcmap 2; then "	\
 			"echo Trying to load eMMC Secondary FIT image ...; "	\
 			"if mmc dev 0; then "	\
 				"if run loadcompfitimagefatsec; then "	\
@@ -359,7 +359,7 @@
 		"echo eMMC Secondary FIT image failed authentication ...;\0"	\
 	"kernel_auth_boot_spi="	\
 		"echo Checking FIT image in SPI flash ...;"	\
-		"if checkimgrcmap 1; then "	\
+		"if checkimgrcmap 5; then "	\
 			"sf probe;"	\
 			"if sf probe 1:1; then "	\
 				"echo Trying to load SPI Primary FIT image ...; "	\
@@ -370,7 +370,7 @@
 			"fi; "	\
 		"fi;"	\
 		"echo SPI Primary FIT image failed authentication ...;"	\
-		"if checkimgrcmap 2; then "	\
+		"if checkimgrcmap 6; then "	\
 			"if sf probe 1:1; then "	\
 				"echo Trying to load SPI Secondary FIT image ...; "	\
 				"if run loadfitimagespisec; then "	\
@@ -382,7 +382,7 @@
 		"echo SPI Secondary FIT image failed authentication ...;\0"	\
 	"kernel_comp_auth_boot_spi="	\
 		"echo Checking compressed FIT image in SPI flash ...;"	\
-		"if checkimgrcmap 1; then "	\
+		"if checkimgrcmap 5; then "	\
 			"echo Trying to load SPI Primary FIT image ...; "	\
 			"sf probe;"	\
 			"if sf probe 1:1; then "	\
@@ -395,7 +395,7 @@
 			"fi; "	\
 		"fi;"	\
 		"echo SPI Primary FIT image failed authentication ...;"	\
-		"if checkimgrcmap 2; then "	\
+		"if checkimgrcmap 6; then "	\
 			"echo Trying to load SPI Secondary FIT image ...; "	\
 			"if sf probe 1:1; then "	\
 				"if run loadcompfitimagespisec; then "	\
