@@ -28,6 +28,7 @@
 #define PCB_REVISION_SHIFT	4
 #define PCB_REVISION_A		0x0A
 #define PCB_REVISION_B		0x0B
+#define PCB_REVISION_C		0x0C
 #define CHIP_REVISION_SHIFT	80
 
 #define CPU_VOL_BINNING_OFFSET 0x7fc
@@ -44,12 +45,14 @@ enum {
 enum chip_type_t {
 	CHIP_A = 0,
 	CHIP_B,
+	CHIP_S,
 	CHIP_MAX,
 };
 
 enum board_type_t {
 	BOARD_1000M_1000M = 0,
 	BOARD_1000M_100M,
+	BOARD_1000M,
 	BOARD_TYPE_MAX,
 };
 
@@ -188,6 +191,11 @@ static int get_chip_type(void)
 		type = CHIP_B;
 		env_set("chip_vision", "B");
 		break;
+	case 's':
+	case 'S':
+		type = CHIP_S;
+		env_set("chip_vision", "S");
+		break;
 	default:
 		type = CHIP_MAX;
 		env_set("chip_vision", "UNKOWN");
@@ -207,6 +215,8 @@ static int get_board_type(void)
 		type = BOARD_1000M_100M;
 	} else if (pv == PCB_REVISION_B) {
 		type = BOARD_1000M_1000M;
+	} else if (pv == PCB_REVISION_C) {
+		type = BOARD_1000M;
 	} else {
 		type = BOARD_TYPE_MAX;
 	}
@@ -220,6 +230,7 @@ static void jh7110_gmac_init(int chip_type, int pcb_type)
 		case CHIP_A:
 			break;
 		case CHIP_B:
+		case CHIP_S:
 		default:
 			jh7110_gmac_sel_tx_to_rgmii(0);
 			jh7110_gmac_sel_tx_to_rgmii(1);
@@ -233,6 +244,7 @@ static void jh7110_gmac_init(int chip_type, int pcb_type)
 			break;
 
 		case BOARD_1000M_1000M:
+		case BOARD_1000M:
 		default:
 			jh7110_gmac_init_1000M(0);
 			jh7110_gmac_init_1000M(1);
@@ -405,6 +417,28 @@ static void jh7110_gpio_init(void)
 	SYS_IOMUX_SET_PULL(58, GPIO_PULL_UP);
 }
 
+/* vf2_board_type
+ * 0: JH7110B VF2 1.3b or JH7110A VF2 1.2a
+ * 1: JH7110S VF2 CM
+ * 2: JH7110S VF2 Lite
+ */
+static int get_vf2_board_type(void)
+{
+	const char*product_id;
+	unsigned long vf2_board_type = 0;
+
+	product_id = get_product_id_from_eeprom();
+	if (!strncmp(product_id, "VF7110S", 7)) {
+		if (product_id[7] == 'C')
+			vf2_board_type = 1;
+		else if (product_id[7] == 'L')
+			vf2_board_type = 2;
+	}
+
+	env_set_ulong("vf2_board_type", vf2_board_type);
+	return (int)vf2_board_type;
+}
+
 int board_init(void)
 {
 	enable_caches();
@@ -429,6 +463,7 @@ int board_late_init(void)
 	u64 share_ram_addr;
 
 	get_boot_mode();
+	get_vf2_board_type();
 
 	jh7110_gmac_init(get_chip_type(), get_board_type());
 	/*
