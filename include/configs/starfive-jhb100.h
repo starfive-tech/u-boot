@@ -209,6 +209,8 @@
 				"echo Authenticating eMMC Active image ...; "	\
 				"if authbimgstorage 1; then "	\
 					"echo Trying to load eMMC Active image ...; "	\
+					"mmc dev 0;"	\
+					"mmc partconf 0 0 0 ${emmc_kernel_act_part_num}; "	\
 					"if run loademmcimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 0;"	\
@@ -227,6 +229,8 @@
 				"echo Authenticating eMMC Golden image ...; "	\
 				"if authbimgstorage 2; then "	\
 					"echo Trying to load eMMC Golden image ...; "	\
+					"mmc dev 0;"	\
+					"mmc partconf 0 0 0 ${emmc_kernel_gol_part_num}; "	\
 					"if run loademmcimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 1;"	\
@@ -247,6 +251,8 @@
 				"echo Authenticating eMMC Active image ...; "	\
 				"if authbimgstorage 1; then "	\
 					"echo Trying to load eMMC Active image ...; "	\
+					"mmc dev 0;"	\
+					"mmc partconf 0 0 0 ${emmc_kernel_act_part_num}; "	\
 					"if run loademmcfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 0;"	\
@@ -265,6 +271,8 @@
 				"echo Authenticating eMMC Golden image ...; "	\
 				"if authbimgstorage 2; then "	\
 					"echo Trying to load eMMC Golden image ...; "	\
+					"mmc dev 0;"	\
+					"mmc partconf 0 0 0 ${emmc_kernel_gol_part_num}; "	\
 					"if run loademmcfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 1;"	\
