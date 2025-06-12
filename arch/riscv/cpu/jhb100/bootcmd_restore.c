@@ -43,56 +43,68 @@ void restore_deep_bootcmd(void)
 
 void restore_bootcmd_utils(void)
 {
-	const char * const boot_vars[2] = {
+	const char * const boot_vars[7] = {
 		"auth_and_boot",
 		"uncompfitimage",
+		"kernel_autoboot",
+		"bootcmd",
+		"bootdelay",
+		"set_bootargs_root_ram",
+		"set_bootargs_root_storage",
 	};
 
 	/*
 	 * Restore the above SFC boot envs to their default values, in case users
 	 * managed to override or delete them.
 	 */
-	env_set_default_vars(2, (char * const *)boot_vars, 0);
+	env_set_default_vars(7, (char * const *)boot_vars, 0);
 }
 
 void restore_bootcmd_sfc(void)
 {
-	const char * const boot_vars[8] = {
+	const char * const boot_vars[12] = {
 		"loadfitimagespiprim",
 		"loadfitimagespisec",
 		"loadcompfitimagespiprim",
 		"loadcompfitimagespisec",
+		"loadfitimagespiact",
+		"loadfitimagespigol",
 		"kernel_fit_spi_prim_off",
 		"kernel_fit_spi_sec_off",
 		"kernel_auth_boot_spi",
 		"kernel_comp_auth_boot_spi",
+		"auth_boot_kernel_fit_sfc",
+		"auth_pre_os_bootm",
 	};
 
 	/*
 	 * Restore the above SFC boot envs to their default values, in case users
 	 * managed to override or delete them.
 	 */
-	env_set_default_vars(8, (char * const *)boot_vars, 0);
+	env_set_default_vars(12, (char * const *)boot_vars, 0);
 }
 
 void restore_bootcmd_emmc(void)
 {
-	const char * const boot_vars[8] = {
+	const char * const boot_vars[11] = {
 		"mmcdev",
 		"mmcpart",
 		"loadfitimagefatprim",
 		"loadfitimagefatsec",
 		"loadcompfitimagefatprim",
 		"loadcompfitimagefatsec",
+		"loademmcimgext4",
 		"kernel_auth_boot_emmc",
 		"kernel_comp_auth_boot_emmc",
+		"auth_boot_kernel_fit_emmc",
+		"auth_boot_kernel_emmc",
 	};
 
 	/*
 	 * Restore the above eMMC boot envs to their default values, in case users
 	 * managed to override or delete them.
 	 */
-	env_set_default_vars(8, (char * const *)boot_vars, 0);
+	env_set_default_vars(11, (char * const *)boot_vars, 0);
 }
 
 static int do_starfive_bootcmd_restore(struct cmd_tbl *cmdtp, int flag, int argc,
