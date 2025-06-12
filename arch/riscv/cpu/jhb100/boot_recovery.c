@@ -224,6 +224,7 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 							 PT_ACTIVE,
 							 IMG_TYPE_KERNEL);
 			env_set_hex("emmc_kernel_act_part_num", (ulong)val);
+			env_set_hex("blk_num", (ulong)(val - 4));
 			val = starfive_get_partition_offset(BOOT_SRC_EMMC,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
@@ -234,6 +235,7 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 							 PT_GOLDEN,
 							 IMG_TYPE_KERNEL);
 			env_set_hex("emmc_kernel_gol_part_num", (ulong)val);
+			env_set_hex("blk_num", (ulong)(val - 4));
 			val = starfive_get_partition_offset(BOOT_SRC_EMMC,
 							    PT_GOLDEN,
 							    IMG_TYPE_KERNEL);

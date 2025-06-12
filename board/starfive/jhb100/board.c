@@ -27,7 +27,7 @@
 
 u32 jhb100_get_boot_device(void)
 {
-	int boot_mode = BOOT_SRC_SFC;
+	int boot_mode = GET_BOOT_SRC;
 
 	switch (boot_mode) {
 	case BOOT_SRC_SFC:
