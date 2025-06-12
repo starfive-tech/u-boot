@@ -85,6 +85,10 @@
 
 	/** STARFIVE_TODO :: Update the preosbootnotify arguments */
 #define JHB100_KERNEL_BOOTENV	\
+	"set_bootargs_root_ram="		\
+		"setenv bootargs console=ttyS0,115200 debug rootwait earlycon=sbi root=/dev/ram0 rw\0"	\
+	"set_bootargs_root_storage="		\
+		"setenv bootargs console=ttyS0,115200 debug rootwait earlycon=sbi root=/dev/mmcblk0gp${blk_num} rw\0"	\
 	"importbootenv="	\
 		"echo Importing environment variables from uEnv.txt ...; "	\
 		"env import -t $envloadaddr $filesize\0" \
@@ -203,6 +207,7 @@
 		"echo Checking kernel image in eMMC GPP partition...;"	\
 		"if checkimgrcmap 3; then "	\
 			"getimginfo 1; "	\
+			"run set_bootargs_root_storage;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
 				"mmc partconf 0 0 0 ${emmc_kernel_act_part_num}; "	\
@@ -223,6 +228,7 @@
 		"echo Found invalid eMMC Active image ...;"	\
 		"if checkimgrcmap 4; then "	\
 			"getimginfo 2; "	\
+			"run set_bootargs_root_storage;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
 				"mmc partconf 0 0 0 ${emmc_kernel_gol_part_num}; "	\
@@ -235,6 +241,7 @@
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 1;"	\
 						"echo Boot OS ...; "	\
+						"run set_bootargs_root_storage;"	\
 						"run ramboot;"	\
 					"fi; "	\
 				"fi; "	\
@@ -245,6 +252,7 @@
 		"echo Checking kernel FIT image in eMMC GPP partition...;"	\
 		"if checkimgrcmap 1; then "	\
 			"getimginfo 1; "	\
+			"run set_bootargs_root_storage;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
 				"mmc partconf 0 0 0 ${emmc_kernel_act_part_num}; "	\
@@ -265,6 +273,7 @@
 		"echo Found invalid eMMC Active image ...;"	\
 		"if checkimgrcmap 2; then "	\
 			"getimginfo 2; "	\
+			"run set_bootargs_root_storage;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
 				"mmc partconf 0 0 0 ${emmc_kernel_gol_part_num}; "	\
@@ -287,6 +296,7 @@
 		"echo Checking kernel FIT image in SPI flash ...;"	\
 		"if checkimgrcmap 5; then "	\
 			"getimginfo 5; "	\
+			"run set_bootargs_root_ram;"	\
 			"sf probe;"	\
 			"if sf probe 1:1; then "	\
 				"echo Trying to load SPI Active FIT image ...; "	\
@@ -303,6 +313,7 @@
 		"if chksfcdualflash; then "	\
 			"if checkimgrcmap 6; then "	\
 				"getimginfo 6; "	\
+				"run set_bootargs_root_ram;"	\
 				"sf probe;"	\
 				"if sf probe 1:1; then "	\
 					"echo Trying to load SPI Golden FIT image ...; "	\
@@ -414,7 +425,17 @@
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
-		"echo SPI Secondary FIT image failed authentication ...;\0"
+		"echo SPI Secondary FIT image failed authentication ...;\0"	\
+	"kernel_autoboot="	\
+		"if test ${bootdev} = spi; then "	\
+			"run auth_boot_kernel_fit_sfc;"	\
+		"fi; "	\
+		"if test ${bootdev} = mmc1; then "	\
+			"run auth_boot_kernel_fit_emmc;"	\
+		"fi; "	\
+		"if test ${bootdev} = uart; then "	\
+			"echo Detected boot source is UART, please load kernel image...;"	\
+		"fi; \0"
 
 #define CFG_EXTRA_ENV_SETTINGS			\
 	"bootfile=Image\0"	\
