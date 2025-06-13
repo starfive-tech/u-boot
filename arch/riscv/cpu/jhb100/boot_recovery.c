@@ -267,7 +267,6 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 							    IMG_TYPE_KERNEL);
 			env_set_hex("sfc_kernel_act_part_offs", (ulong)val);
 			break;
-
 		case SFC_SECONDARY:
 			if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL) < 1) {
 				printf("SFC Golden image not found...\n");
