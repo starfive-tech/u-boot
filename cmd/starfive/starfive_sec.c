@@ -54,6 +54,25 @@ static u32 calc_data_buf_size(struct request_buf header)
 static char *prepare_data_buf(const struct request_spec *req_spec, void *tx_params, void *auth_data,
 			      u32 auth_size, void *ext_data, u32 ext_size, u32 *data_buf_size)
 {
+	/** Checks if auth_data exist
+	 *  If exist, then extract the tx_params from auth_data
+	 *  Point auth_data to nonce
+	 */
+	if (auth_size > 0 && auth_data) {
+		/** Verify that the auth data matches the request id */
+		char *auth_param_ptr = (char *)auth_data;
+
+		if (*((u32 *)auth_param_ptr) != req_spec->request_id)
+			return NULL;
+
+		size_t auth_offset = sizeof(req_spec->request_id);
+		/** Go to the next word to parse the params to tx_params */
+		tx_params = auth_param_ptr + auth_offset;
+		auth_offset += req_spec->param_count * sizeof(u32);
+		auth_data = auth_param_ptr + auth_offset;
+		auth_size -= auth_offset;
+	}
+
 	/** Create header based on spec */
 	struct request_buf header = {
 		.request_id = req_spec->request_id,
@@ -62,20 +81,6 @@ static char *prepare_data_buf(const struct request_spec *req_spec, void *tx_para
 		.external_buf_size = (req_spec->has_external_data ? ext_size : 0),
 		.auth_msg_size = (req_spec->need_auth ? auth_size : 0),
 	};
-
-	/** Checks if auth_data exist
-	 *  If exist, then extract the tx_params from auth_data
-	 */
-	if (auth_size > 0 && auth_data) {
-		/** Verify that the auth data matches the request id */
-		u32 *auth_param_ptr = (u32 *)auth_data;
-
-		if (*auth_param_ptr != req_spec->request_id)
-			return NULL;
-
-		/** Go to the next word to parse the params to tx_params */
-		tx_params = ++auth_param_ptr;
-	}
 
 	/** Calculate buffer size */
 	u32 buf_size = *data_buf_size = calc_data_buf_size(header);
