@@ -791,6 +791,14 @@ int mac_read_from_eeprom(void)
 	return 0;
 }
 
+const char *get_product_id_from_eeprom(void)
+{
+	if (read_eeprom(eeprom_wp_buff))
+		return NULL;
+
+	return einfo.pstr;
+}
+
 /**
  * get_pcb_revision_from_eeprom - get the PCB revision
  *

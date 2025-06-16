@@ -8,6 +8,7 @@
 #ifndef _ASM_RISCV_EEPROM_H
 #define _ASM_RISCV_EEPROM_H
 
+const char *get_product_id_from_eeprom(void);
 u8 get_pcb_revision_from_eeprom(void);
 int get_data_from_eeprom(int offset, int len, unsigned char *data);
 
