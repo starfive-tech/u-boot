@@ -41,7 +41,7 @@ int starfive_get_partition_num(int boot_src, int part_type, int img_type)
 	switch (boot_src) {
 	case BOOT_SRC_SFC:
 		break;
-	case BOOT_SRC_EMMC:
+	case BOOT_SRC_EMMC: {
 #ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 		/* Send RPMI/MPXY message via mailbox */
 		GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
@@ -55,6 +55,7 @@ int starfive_get_partition_num(int boot_src, int part_type, int img_type)
 			return EMMC_UDA_PART;
 		}
 		break;
+	}
 	default:
 		printf("Unknown boot source\n");
 	}
@@ -67,7 +68,7 @@ int starfive_get_partition_offset(int boot_src, int part_type, int img_type)
 	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
 		printf("fn(): %s\n", __func__);
 	switch (boot_src) {
-	case BOOT_SRC_SFC:
+	case BOOT_SRC_SFC: {
 #ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 		/* Send RPMI/MPXY message via mailbox */
 		GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
@@ -82,7 +83,8 @@ int starfive_get_partition_offset(int boot_src, int part_type, int img_type)
 				SFC_KERNEL_ACTIVE_OFFS : SFC_KERNEL_GOLDEN_OFFS;
 		}
 		break;
-	case BOOT_SRC_EMMC:
+	}
+	case BOOT_SRC_EMMC: {
 #ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 		/* Send RPMI/MPXY message via mailbox */
 		GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
@@ -99,6 +101,7 @@ int starfive_get_partition_offset(int boot_src, int part_type, int img_type)
 				 : (EMMC_KERNEL_GOLDEN_OFFS / MMC_BLK_SIZE);
 		}
 		break;
+	}
 	default:
 		printf("Unknown boot source\n");
 	}
