@@ -9,25 +9,25 @@
 #ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 		spl_sign {
 			signing_image {
-				cmd1 = "cd ../jhb100_cst/; ./mkbif_secure ../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_sec.cfg 0 ../u-boot/spl/ > /dev/null";
+				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_sec.cfg 0 ../../u-boot/spl/ > /dev/null";
 			};
 		};
 
 		uboot_sign {
 			signing_image {
-				cmd1 = "cd ../jhb100_cst/; ./mkbif_secure ../u-boot/u-boot-nodtb.bin ./input_files/jhb100/uboot_sec.cfg 0 ../u-boot/ > /dev/null; ./mkbif_secure ../opensbi/build/platform/generic/firmware/fw_dynamic.bin ./input_files/jhb100/opensbi_sec.cfg 0 ../opensbi/build/platform/generic/firmware/ > /dev/null; ./mkbif_secure ../u-boot/u-boot.dtb ./input_files/jhb100/ubootdtb_sec.cfg 0 ../u-boot/ > /dev/null";
+				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/u-boot-nodtb.bin ./input_files/jhb100/uboot_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../opensbi/build/platform/generic/firmware/fw_dynamic.bin ./input_files/jhb100/opensbi_sec.cfg 0 ../../opensbi/build/platform/generic/firmware/ > /dev/null; ./mkbif_secure ../../u-boot/u-boot.dtb ./input_files/jhb100/ubootdtb_sec.cfg 0 ../../u-boot/ > /dev/null";
 			};
 		};
 
 		kernel_sign {
 			signing_image {
-				cmd1 = "cd ../jhb100_cst/; ./mkbif_secure ../u-boot/Image ./input_files/jhb100/linux_sec.cfg 0 ../u-boot/ > /dev/null; ./mkbif_secure ../u-boot/jhb100-fpga-linux.dtb ./input_files/jhb100/linuxdtb_sec.cfg 0 ../u-boot/ > /dev/null; ./mkbif_secure ../u-boot/rootfs.cpio ./input_files/jhb100/linuxrofs_sec.cfg 0 ../u-boot/ > /dev/null";
+				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/Image ./input_files/jhb100/linux_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../u-boot/jhb100-fpga-linux.dtb ./input_files/jhb100/linuxdtb_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../u-boot/rootfs.cpio ./input_files/jhb100/linuxrofs_sec.cfg 0 ../../u-boot/ > /dev/null";
 			};
 		};
 #else
 		spl_sign {
 			signing_image {
-				cmd1 = "cd ../jhb100_cst/; ./mkbif ../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_nor.cfg 0 ../u-boot/spl/ > /dev/null";
+				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif ../../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_nor.cfg 0 ../../u-boot/spl/ > /dev/null";
 			};
 		};
 #endif
