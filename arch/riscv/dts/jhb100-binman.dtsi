@@ -19,8 +19,8 @@
 					arch = "riscv";
 					os = "linux";
 					compression = "none";
-					load = /bits/ 64 <0x90000000>;
-					entry = /bits/ 64 <0x90000000>;
+					load = /bits/ 64 <0x5c000000>;
+					entry = /bits/ 64 <0x5c000000>;
 					kernel_blob: blob-ext {
 						filename = "Image";
 					};
@@ -30,7 +30,7 @@
 					type = "flat_dt";
 					arch = "riscv";
 					compression = "none";
-					load = /bits/ 64 <0x7c000000>;
+					load = /bits/ 64 <0x4fdce000>;
 					fdt_kernel_blob: blob-ext {
 						filename = "jhb100-fpga-linux.dtb";
 					};
@@ -41,8 +41,8 @@
 					arch = "riscv";
 					os = "linux";
 					compression = "none";
-					load = /bits/ 64 <0xa0000000>;
-					entry = /bits/ 64 <0xa0000000>;
+					load = /bits/ 64 <0x5e000000>;
+					entry = /bits/ 64 <0x5e000000>;
 					ramfs_blob: blob-ext {
 						filename = "rootfs.cpio";
 					};

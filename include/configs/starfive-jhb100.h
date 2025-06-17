@@ -66,7 +66,7 @@
 #define CONFIG_U_BOOT_ITB	"u-boot.itb"
 #endif
 
-#define CONFIG_RAMDISK_ADDR 0x5c000000
+#define CONFIG_RAMDISK_ADDR 0x5e000000
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
@@ -443,7 +443,7 @@
 	"fdt_high=0xffffffffffffffff\0"			\
 	"initrd_high=0xffffffffffffffff\0"		\
 	"envloadaddr=0x4fdbe000\0"	\
-	"kernel_addr_r=0x53e00000\0"			\
+	"kernel_addr_r=0x5c000000\0"			\
 	"kernel_comp_addr_r=0x4fe00000\0"		\
 	"kernel_comp_size=0x4000000\0"			\
 	"kernel_fit_load_size=0x4000000\0"		\
