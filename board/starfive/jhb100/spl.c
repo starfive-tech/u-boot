@@ -155,6 +155,18 @@ int spl_board_init_f(void)
 void spl_perform_fixups(struct spl_image_info *spl_image)
 {
 	int fb_map_reg = starfive_get_fb_rec_map();
+	int map_stat = starfive_fb_rec_map_handler(&fb_map_reg,
+						   starfive_get_part(PRIMARY),
+						   starfive_get_part(SECONDARY),
+						   FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+						   CHECK);
+	starfive_set_ap_ctl_boot_stage(IMG_TYPE_UBOOT_PROPER, U_BOOT_PROPER);
+
+	if (!map_stat) {
+		starfive_set_ap_sts_image_flag(IMG_TYPE_UBOOT_PROPER, BA1_IMG);
+	} else {
+		starfive_set_ap_sts_image_flag(IMG_TYPE_UBOOT_PROPER, BA0_IMG);
+	}
 	starfive_fb_rec_map_handler(&fb_map_reg,
 		starfive_get_part(PRIMARY),
 		starfive_get_part(SECONDARY),
