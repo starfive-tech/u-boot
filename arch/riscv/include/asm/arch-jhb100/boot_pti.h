@@ -42,9 +42,24 @@ enum partition_type {
 
 /* Image Type */
 enum image_type {
+	IMG_TYPE_UBOOT_SPL,
 	IMG_TYPE_UBOOT_PROPER,
 	IMG_TYPE_KERNEL,
 	IMG_TYPE_MAX
+};
+
+enum ctl_boot_stage {
+	U_BOOT_SPL	= 0,
+	U_BOOT_PROPER	= 1,
+	KERNEL		= 2
+};
+
+enum sts_image_flag {
+	ACT_IMG		= 0,
+	GOL_IMG		= 1,
+	TEMP_IMG	= 2,
+	BA0_IMG		= 3,
+	BA1_IMG		= 4
 };
 
 /* GET_BMCFW_INFO EMMC Partition Mapping */
@@ -80,6 +95,23 @@ struct boot_stat_reg {
 	u32 error		: 1;
 };
 
+typedef struct {
+	struct boot_ctrl_reg	boot_ctrl_reg;
+} ap_boot_ctl_reg;
+
+typedef struct {
+	struct boot_stat_reg	boot_stat_reg;
+} ap_boot_sts_reg;
+
+struct boot_reg_info {
+	unsigned int idx;
+	enum image_type img_type;
+	ap_boot_ctl_reg *ctl_base_addr;
+	ap_boot_sts_reg *sts_base_addr;
+};
+
+void starfive_set_ap_ctl_boot_stage(int img_type, int ctl_boot_stage);
+void starfive_set_ap_sts_image_flag(int img_type, int sts_image_flag);
 int starfive_get_partition_num(int boot_src, int part_type, int img_type);
 int starfive_get_partition_offset(int boot_src, int part_type, int img_type);
 int starfive_get_sfc_cs_line_num(void);

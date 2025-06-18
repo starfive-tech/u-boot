@@ -34,6 +34,41 @@
 	if (resp_data[0]) \
 		return resp_data[0]
 
+static struct boot_reg_info boot_reg[] = {
+	{.idx = 0,
+	 .img_type = IMG_TYPE_UBOOT_SPL,
+	 .ctl_base_addr = (ap_boot_ctl_reg *)AP_BOOT_CTL_REG_ADDR,
+	 .sts_base_addr = (ap_boot_sts_reg *)UBOOT_SPL_BOOT_STS_REG_ADDR},
+	{.idx = 1,
+	 .img_type = IMG_TYPE_UBOOT_PROPER,
+	 .ctl_base_addr = (ap_boot_ctl_reg *)AP_BOOT_CTL_REG_ADDR,
+	 .sts_base_addr = (ap_boot_sts_reg *)UBOOT_PROPER_BOOT_STS_REG_ADDR},
+	{.idx = 2,
+	 .img_type = IMG_TYPE_KERNEL,
+	 .ctl_base_addr = (ap_boot_ctl_reg *)AP_BOOT_CTL_REG_ADDR,
+	 .sts_base_addr = (ap_boot_sts_reg *)KERNEL_BOOT_STS_REG_ADDR},
+};
+
+void starfive_set_ap_ctl_boot_stage(int img_type, int ctl_boot_stage)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+
+	struct boot_reg_info *boot_reg_info = &boot_reg[img_type];
+
+	boot_reg_info->ctl_base_addr->boot_ctrl_reg.boot_stage = ctl_boot_stage;
+}
+
+void starfive_set_ap_sts_image_flag(int img_type, int sts_image_flag)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+
+	struct boot_reg_info *boot_reg_info = &boot_reg[img_type];
+
+	boot_reg_info->sts_base_addr->boot_stat_reg.image_flg = sts_image_flag;
+}
+
 int starfive_get_partition_num(int boot_src, int part_type, int img_type)
 {
 	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
