@@ -36,11 +36,30 @@ static struct clk_info sys1crg_clk_info[] = {
 		"pll1",			NULL,	CLK_DIVIDER,	4 },
 	{ JHB100_SYS1CLK_BMCPER3_125,	"per3_125",
 		"pll1",			NULL,	CLK_DIVIDER,	4 },
+	/* npu */
+	{ JHB100_SYS1CLK_NPU_200,	"npu_200",
+		"pll1",			NULL,	CLK_DIVIDER,	3 },
+	{ JHB100_SYS1CLK_NPU_CORE_DIV,	"npu_core_div",
+		"pll0",			NULL,	CLK_DIVIDER,	4 },
+	{ JHB100_SYS1CLK_DOM_NPU_CORE_CLK,	"dom_npu_core_clk",
+		"npu_core_div",		NULL,	CLK_GATE,	0 },
+	{ JHB100_SYS1CLK_DOM_NPU_BUS_CLK,	"dom_npu_bus_clk",
+		"sys1_npu_600",		NULL,	CLK_GATE,	0 },
+	{ JHB100_SYS1CLK_DOM_NPU_INIT_CLK,	"dom_npu_init_clk",
+		"npu_200",		NULL,	CLK_GATE,	0 },
+	{ JHB100_SYS1CLK_DOM_NPU_OSC_CLK,	"dom_npu_osc_clk",
+		"osc",			NULL,	CLK_GATE,	0 },
 };
 
 static int jhb100_sys1crg_probe(struct udevice *dev)
 {
+	int ret;
 	void __iomem *reg = (void __iomem *)dev_read_addr_ptr(dev);
+
+	/* Make sure sys0crg driver is instantiated first. */
+	ret = jhb100_clk_check_parent(DM_DRIVER_GET(sys0crg));
+	if (ret)
+		return ret;
 
 	starfive_clk_init(reg, sys1, sys1crg_clk_info, ARRAY_SIZE(sys1crg_clk_info));
 

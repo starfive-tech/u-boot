@@ -65,6 +65,9 @@ static struct clk_info sys0crg_clk_info[] = {
 		"pll0",			NULL,	CLK_DIVIDER,	3 },
 	{ JHB100_SYS0CLK_HOSTSS1_PHY_SCAN_400_ICG_BUF,	"hostss1_phy_scan_400_icg_buf",
 		"hostss1_phy_scan_400",	NULL,	CLK_GATE,	0 },
+	/* npu */
+	{ JHB100_SYS0CLK_NPU_600,	"sys1_npu_600",
+		"pll0",			NULL,	CLK_DIVIDER,	3 },
 	/* vout */
 	{ JHB100_SYS0CLK_VOUT_600,	"vout_600",
 		"pll0",			NULL,	CLK_DIVIDER,	3 },
