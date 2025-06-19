@@ -61,6 +61,12 @@
 		clock-frequency = <1950000000>;
 	};
 
+	npu_clksh_div2_o: npu-clksh-div2-o {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <460800000>;
+	};
+
 	per2_gmac2_rgmii_rx: per2_gmac2_rgmii_rx {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
@@ -293,6 +299,19 @@
 			status = "disabled";
 		};
 
+		npucrg: clock-controller@118e4000 {
+			compatible = "starfive,jhb100-npucrg";
+			reg = <0x0 0x118e4000 0x0 0x1000>;
+			clocks = <&sys1crg JHB100_SYS1CLK_DOM_NPU_CORE_CLK>,
+				 <&sys1crg JHB100_SYS1CLK_DOM_NPU_BUS_CLK>,
+				 <&npu_clksh_div2_o>;
+			clock-names = "npu_dom_core_clk", "npu_dom_bus_clk",
+				      "npu_clksh_div2_o";
+			#clock-cells = <1>;
+			#reset-cells = <1>;
+			status = "disabled";
+		};
+
 		per0crg: clock-controller@11a08000 {
 			compatible = "starfive,jhb100-per0crg";
 			reg = <0x0 0x11a08000 0x0 0x1000>;
@@ -410,9 +429,9 @@
 			compatible = "starfive,jhb100-sys1crg";
 			reg = <0x0 0x13004000 0x0 0x4000>;
 			clocks = <&osc>, <&pll0>, <&pll1>, <&pll2>,
-				 <&pll4>, <&pll5>;
+				 <&pll4>, <&pll5>, <&sys0crg JHB100_SYS0CLK_NPU_600>;
 			clock-names = "osc", "pll0", "pll1", "pll2",
-				      "pll4", "pll5";
+				      "pll4", "pll5", "sys1_npu_600";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};

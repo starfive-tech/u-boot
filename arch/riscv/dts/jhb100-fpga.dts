@@ -15,10 +15,10 @@
 	aliases {
 		serial0 = &uart5;
 		serial1 = &uart4;
-		ethernet0 = &gmac2;
-		ethernet1 = &gmac3;
-		ethernet2 = &gmac0;
-		ethernet3 = &gmac1;
+		ethernet0 = &gmac0;
+		ethernet1 = &gmac1;
+		ethernet2 = &gmac2;
+		ethernet3 = &gmac3;
 
 		i2c0 = &i2c0_master;
 		i2c1 = &i2c0_slave;
@@ -121,6 +121,15 @@
 			alloc-ranges = <0x0 0x40000000 0x2 0x0>;
 			linux,cma-default;
 		};
+	};
+
+	fan0: pwm-fan0 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 0 40000 0>;
+		cooling-min-state = <0>;
+		cooling-max-state = <3>;
+		#cooling-cells = <2>;
+		cooling-levels = <0 100 180 255>;
 	};
 
 	soc {
@@ -782,7 +791,6 @@
 &sol4 {
 	memory-region = <&sol_tx_mem_uncache>,
 			<&sol_rx_mem_uncache>;
-	starfive,axi-xfer-len = <4>;
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <4>;
@@ -792,7 +800,6 @@
 &sol5 {
 	memory-region = <&sol_tx_mem_uncache>,
 			<&sol_rx_mem_uncache>;
-	starfive,axi-xfer-len = <4>;
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <5>;
@@ -893,11 +900,14 @@
 	starfive,bt-remap-num = <1>;
 	starfive,kcs-remap-num = <1>;
 	starfive,uart-remap-num = <1>;
+	starfive,misc-remap-num = <1>;
 	starfive,bt-io-addr = /bits/ 32 <0xe4>;
 	starfive,kcs-io-addr = /bits/ 32 <0xca2>;
 	starfive,uart-io-addr = /bits/ 32 <0x3f8>;
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
+	starfive,misc-io-addr = /bits/ 32 <0x480>;
+	starfive,misc-sys-addr = /bits/ 32 <0x105c10c0>;
 
 	starfive,vgpio_dir_bits = /bits/ 64 <0x00000000ffffffff 0x0000000000000000>;
 	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
@@ -913,7 +923,7 @@
 	clocks = <&fpga_12mhz_clk>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pwm_ch_pins>;
-	#pwm-cells = <1>;
+	#pwm-cells = <3>;
 	status = "okay";
 };
 
@@ -921,11 +931,9 @@
 	clocks = <&fpga_12mhz_clk>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pwm_tach_pins>;
-	#pwm-cells = <1>;
 	status = "okay";
 	fan@0 {
 		tach-ch = <0x0>;
-		pwms = <&pwm 0>;
 	};
 };
 
@@ -1001,11 +1009,14 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c4_pins>;
 	is-mng;
+	dmas = <&dma_i3c 4 9 8>;
+	dma-names = "rx-tx";
 	vcc-supply = <&reg_vcc_1v8>;
 	#address-cells = <3>;
 	#size-cells = <0>;
 
 	hub@0,0 {
+		reg = <0x0 0x0 0x0>;
 		cp0-ldo-en = "disabled";
 		cp1-ldo-en = "disabled";
 		cp0-ldo-volt = "1.8V";

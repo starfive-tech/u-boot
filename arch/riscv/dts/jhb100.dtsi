@@ -1207,6 +1207,10 @@
 			husbphy0: phy@11000000 {
 				compatible = "starfive,jhb100-phy-snps-femto-host";
 				reg = <0x0 0x11000000 0x0 0x10000>;
+				clocks = <&husbcmncrg JHB100_HUSBD0CLK_MAIN_ICG_EN_HUSB0>;
+				resets = <&husbcmncrg JHB100_HUSBCMNRST_MAIN_RSTN_HOSTUSB0>,
+					 <&husbd0crg JHB100_HUSBD0RST_HOST_SYSCON_RSTN>,
+					 <&husbd0crg JHB100_HUSBD0RST_DEV_SYSCON_RSTN>;
 				#phy-cells = <1>;
 				status = "disabled";
 			};
@@ -1214,6 +1218,10 @@
 			husbphy1: phy@11010000 {
 				compatible = "starfive,jhb100-phy-snps-femto-host";
 				reg = <0x0 0x11010000 0x0 0x10000>;
+				clocks = <&husbcmncrg JHB100_HUSBD0CLK_MAIN_ICG_EN_HUSB1>;
+				resets = <&husbcmncrg JHB100_HUSBCMNRST_MAIN_RSTN_HOSTUSB1>,
+					 <&husbd1crg JHB100_HUSBD1RST_HOST_SYSCON_RSTN>,
+					 <&husbd1crg JHB100_HUSBD1RST_DEV_SYSCON_RSTN>;
 				#phy-cells = <1>;
 				status = "disabled";
 			};
@@ -1404,6 +1412,17 @@
 				compatible = "starfive,jhb100-phy-snps-femto-usb2";
 				reg = <0x0 0x1182002c 0x0 0xfd4>;
 				#phy-cells = <1>;
+				status = "disabled";
+			};
+
+			npu: vipni@11880000 {
+				compatible = "starfive,vipni";
+				reg = <0x0 0x11880000 0x0 0x40000>;
+				interrupts = <136>;
+				clocks = <&npucrg JHB100_NPUCLK_MAIN_ICG_EN_NPU>;
+				resets = <&npucrg JHB100_NPURST_MAIN_RSTN_NPU>;
+				contiguous-base = <0x0>;
+				contiguous-size = <0x1000000>;
 				status = "disabled";
 			};
 
@@ -1827,8 +1846,8 @@
 				status = "disabled";
 			};
 
-			i3c0: i3c0@11a18000 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c0: i3c@11a18000 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a18000 0x0 0x600>;
 				interrupts = <161>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C0>;
@@ -1837,8 +1856,8 @@
 				status = "disabled";
 			};
 
-			i3c1: i3c1@11a18800 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c1: i3c@11a18800 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a18800 0x0 0x600>;
 				interrupts = <162>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C1>;
@@ -1847,8 +1866,8 @@
 				status = "disabled";
 			};
 
-			i3c2: i3c2@11a19000 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c2: i3c@11a19000 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a19000 0x0 0x600>;
 				interrupts = <163>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C2>;
@@ -1857,8 +1876,8 @@
 				status = "disabled";
 			};
 
-			i3c3: i3c3@11a19800 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c3: i3c@11a19800 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a19800 0x0 0x600>;
 				interrupts = <164>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C3>;
@@ -1867,8 +1886,8 @@
 				status = "disabled";
 			};
 
-			i3c4: i3c4@11a1a000 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c4: i3c@11a1a000 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1a000 0x0 0x600>;
 				interrupts = <165>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C4>;
@@ -1878,14 +1897,14 @@
 				status = "disabled";
 			};
 
-			i3c4_syscon: i3c4-syscon@11a1a600 {
+			i3c4_syscon: i3c-syscon@11a1a600 {
 				compatible = "syscon";
 				reg = <0x0 0x11a1a600 0x0 0x4>;
 				gpio-select = <GPIO_LEVEL_BIT GPIO_NORMAL>;
 			};
 
-			i3c5: i3c5@11a1a800 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c5: i3c@11a1a800 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1a800 0x0 0x600>;
 				interrupts = <166>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C5>;
@@ -1895,14 +1914,14 @@
 				status = "disabled";
 			};
 
-			i3c5_syscon: i3c5-syscon@11a1ae00 {
+			i3c5_syscon: i3c-syscon@11a1ae00 {
 				compatible = "syscon";
 				reg = <0x0 0x11a1ae00 0x0 0x4>;
 				gpio-select = <GPIO_LEVEL_BIT GPIO_NORMAL>;
 			};
 
-			i3c6: i3c6@11a1b000 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c6: i3c@11a1b000 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1b000 0x0 0x600>;
 				interrupts = <167>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C6>;
@@ -1912,14 +1931,14 @@
 				status = "disabled";
 			};
 
-			i3c6_syscon: i3c6-syscon@11a1b600 {
+			i3c6_syscon: i3c-syscon@11a1b600 {
 				compatible = "syscon";
 				reg = <0x0 0x11a1b600 0x0 0x4>;
 				gpio-select = <GPIO_LEVEL_BIT GPIO_NORMAL>;
 			};
 
-			i3c7: i3c7@11a1b800 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c7: i3c@11a1b800 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1b800 0x0 0x600>;
 				interrupts = <168>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C7>;
@@ -1929,14 +1948,14 @@
 				status = "disabled";
 			};
 
-			i3c7_syscon: i3c7-syscon@11a1be00 {
+			i3c7_syscon: i3c-syscon@11a1be00 {
 				compatible = "syscon";
 				reg = <0x0 0x11a1be00 0x0 0x4>;
 				gpio-select = <GPIO_LEVEL_BIT GPIO_NORMAL>;
 			};
 
-			i3c8: i3c8@11a1c000 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c8: i3c@11a1c000 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1c000 0x0 0x600>;
 				interrupts = <169>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C8>;
@@ -1945,8 +1964,8 @@
 				status = "disabled";
 			};
 
-			i3c9: i3c9@11a1c800 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c9: i3c@11a1c800 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1c800 0x0 0x600>;
 				interrupts = <170>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C9>;
@@ -1955,8 +1974,8 @@
 				status = "disabled";
 			};
 
-			i3c10: i3c10@11a1d000 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c10: i3c@11a1d000 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1d000 0x0 0x600>;
 				interrupts = <171>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C10>;
@@ -1965,8 +1984,8 @@
 				status = "disabled";
 			};
 
-			i3c11: i3c11@11a1d800 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c11: i3c@11a1d800 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1d800 0x0 0x600>;
 				interrupts = <172>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C11>;
@@ -1975,8 +1994,8 @@
 				status = "disabled";
 			};
 
-			i3c12: i3c12@11a1e000 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c12: i3c@11a1e000 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1e000 0x0 0x600>;
 				interrupts = <173>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C12>;
@@ -1985,8 +2004,8 @@
 				status = "disabled";
 			};
 
-			i3c13: i3c13@11a1e800 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c13: i3c@11a1e800 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1e800 0x0 0x600>;
 				interrupts = <174>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C13>;
@@ -1995,8 +2014,8 @@
 				status = "disabled";
 			};
 
-			i3c14: i3c14@11a1f000 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c14: i3c@11a1f000 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1f000 0x0 0x600>;
 				interrupts = <175>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C14>;
@@ -2005,8 +2024,8 @@
 				status = "disabled";
 			};
 
-			i3c15: i3c15@11a1f800 {
-				compatible = "snps,dw-i3c-master-1.00a";
+			i3c15: i3c@11a1f800 {
+				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1f800 0x0 0x600>;
 				interrupts = <176>;
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C15>;
@@ -2801,8 +2820,6 @@
 				interrupts = <128>;
 				clocks = <&per2crg JHB100_PER2CLK_FAN_TACH_PCLK>;
 				resets = <&per2crg JHB100_PER2RST_FAN_TACH_PRESETN>;
-				#pwm-cells = <3>;
-				pwm_syscon = <&strap_reg>;
 				status = "disabled";
 			};
 
@@ -3233,7 +3250,7 @@
 				reset-names = "stmmaceth";
 				interrupts = <140>;
 				interrupt-names = "macirq";
-				starfive,syscon = <&syscon_bmcperiph2>;
+				starfive,syscon = <&syscon_bmcperiph2 0x0 0x8>;
 				dma-coherent;
 				rx-fifo-depth = <8192>;
 				tx-fifo-depth = <8192>;
@@ -3241,7 +3258,6 @@
 				snps,perfect-filter-entries = <8>;
 				snps,fixed-burst;
 				snps,no-pbl-x8;
-				snps,force_thresh_dma_mode;
 				snps,axi-config = <&stmmac_axi_setup1>;
 				snps,tso;
 				snps,en-tx-lpi-clockgating;
@@ -3264,7 +3280,6 @@
 				reset-names = "stmmaceth";
 				interrupts = <141>;
 				interrupt-names = "macirq";
-				starfive,syscon = <&syscon_bmcperiph2>;
 				dma-coherent;
 				rx-fifo-depth = <8192>;
 				tx-fifo-depth = <8192>;
@@ -3272,7 +3287,6 @@
 				snps,perfect-filter-entries = <8>;
 				snps,fixed-burst;
 				snps,no-pbl-x8;
-				snps,force_thresh_dma_mode;
 				snps,axi-config = <&stmmac_axi_setup1>;
 				snps,tso;
 				snps,en-tx-lpi-clockgating;
@@ -3280,6 +3294,7 @@
 				snps,rxpbl = <16>;
 				phy-mode = "sgmii";
 				phys = <&sgmii_phy0>;
+				phy-names = "serdes";
 				status = "disabled";
 			};
 
@@ -3307,7 +3322,7 @@
 				reset-names = "stmmaceth";
 				interrupts = <224>;
 				interrupt-names = "macirq";
-				starfive,syscon = <&syscon_bmcperiph3>;
+				starfive,syscon = <&syscon_bmcperiph3 0x100 0x8>;
 				dma-coherent;
 				rx-fifo-depth = <8192>;
 				tx-fifo-depth = <8192>;
@@ -3315,7 +3330,6 @@
 				snps,perfect-filter-entries = <8>;
 				snps,fixed-burst;
 				snps,no-pbl-x8;
-				snps,force_thresh_dma_mode;
 				snps,axi-config = <&stmmac_axi_setup0>;
 				snps,tso;
 				snps,txpbl = <16>;
@@ -3337,7 +3351,6 @@
 				reset-names = "stmmaceth";
 				interrupts = <225>;
 				interrupt-names = "macirq";
-				starfive,syscon = <&syscon_bmcperiph3>;
 				dma-coherent;
 				rx-fifo-depth = <8192>;
 				tx-fifo-depth = <8192>;
@@ -3345,7 +3358,6 @@
 				snps,perfect-filter-entries = <8>;
 				snps,fixed-burst;
 				snps,no-pbl-x8;
-				snps,force_thresh_dma_mode;
 				snps,axi-config = <&stmmac_axi_setup1>;
 				snps,tso;
 				snps,en-tx-lpi-clockgating;
@@ -3353,6 +3365,7 @@
 				snps,rxpbl = <16>;
 				phy-mode = "sgmii";
 				phys = <&sgmii_phy1>;
+				phy-names = "serdes";
 				status = "disabled";
 			};
 
