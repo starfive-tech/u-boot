@@ -36,15 +36,15 @@
 
 static struct boot_reg_info boot_reg[] = {
 	{.idx = 0,
-	 .img_type = IMG_TYPE_UBOOT_SPL,
+	 .img_type = BOOTSTG_U_BOOT_SPL,
 	 .ctl_base_addr = (ap_boot_ctl_reg *)AP_BOOT_CTL_REG_ADDR,
 	 .sts_base_addr = (ap_boot_sts_reg *)UBOOT_SPL_BOOT_STS_REG_ADDR},
 	{.idx = 1,
-	 .img_type = IMG_TYPE_UBOOT_PROPER,
+	 .img_type = BOOTSTG_U_BOOT_PROPER,
 	 .ctl_base_addr = (ap_boot_ctl_reg *)AP_BOOT_CTL_REG_ADDR,
 	 .sts_base_addr = (ap_boot_sts_reg *)UBOOT_PROPER_BOOT_STS_REG_ADDR},
 	{.idx = 2,
-	 .img_type = IMG_TYPE_KERNEL,
+	 .img_type = BOOTSTG_KERNEL,
 	 .ctl_base_addr = (ap_boot_ctl_reg *)AP_BOOT_CTL_REG_ADDR,
 	 .sts_base_addr = (ap_boot_sts_reg *)KERNEL_BOOT_STS_REG_ADDR},
 };

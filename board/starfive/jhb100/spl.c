@@ -160,12 +160,12 @@ void spl_perform_fixups(struct spl_image_info *spl_image)
 						   starfive_get_part(SECONDARY),
 						   FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 						   CHECK);
-	starfive_set_ap_ctl_boot_stage(IMG_TYPE_UBOOT_PROPER, U_BOOT_PROPER);
+	starfive_set_ap_ctl_boot_stage(BOOTSTG_U_BOOT_PROPER, BOOTSTG_U_BOOT_PROPER);
 
 	if (!map_stat) {
-		starfive_set_ap_sts_image_flag(IMG_TYPE_UBOOT_PROPER, BA1_IMG);
+		starfive_set_ap_sts_image_flag(BOOTSTG_U_BOOT_PROPER, BA1_IMG);
 	} else {
-		starfive_set_ap_sts_image_flag(IMG_TYPE_UBOOT_PROPER, BA0_IMG);
+		starfive_set_ap_sts_image_flag(BOOTSTG_U_BOOT_PROPER, BA0_IMG);
 	}
 	starfive_fb_rec_map_handler(&fb_map_reg,
 		starfive_get_part(PRIMARY),

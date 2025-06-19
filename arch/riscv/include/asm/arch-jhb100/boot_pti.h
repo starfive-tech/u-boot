@@ -42,16 +42,15 @@ enum partition_type {
 
 /* Image Type */
 enum image_type {
-	IMG_TYPE_UBOOT_SPL,
 	IMG_TYPE_UBOOT_PROPER,
 	IMG_TYPE_KERNEL,
 	IMG_TYPE_MAX
 };
 
 enum ctl_boot_stage {
-	U_BOOT_SPL	= 0,
-	U_BOOT_PROPER	= 1,
-	KERNEL		= 2
+	BOOTSTG_U_BOOT_SPL	= 0,
+	BOOTSTG_U_BOOT_PROPER	= 1,
+	BOOTSTG_KERNEL		= 2
 };
 
 enum sts_image_flag {
