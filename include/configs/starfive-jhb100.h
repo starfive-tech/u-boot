@@ -81,6 +81,7 @@
 	"bootfile=Image\0"	\
 	"fdtfile=jhb100-fpga.dtb\0"	\
 	"ramdiskfile=rootfs.cpio\0"	\
+	"updcapfile=capsule.cap\0"	\
 	"mmcpart=1\0"
 
 	/** STARFIVE_TODO :: Update the preosbootnotify arguments */
@@ -121,6 +122,7 @@
 	"loadcompimagetftp=tftpboot ${kernel_addr_r} /${bootfile}.gz\0"	\
 	"loadfdttftp=tftpboot ${fdt_addr_r} ${fdtfile}\0"	\
 	"loadramdisktftp=tftpboot ${ramdisk_addr_r} ${ramdiskfile}\0"	\
+	"loadupdcaptftp=tftpboot ${loadaddr} /${updcapfile}\0"	\
 	"bootmfit=bootm ${loadaddr};\0"	\
 	"ramboot=booti ${loadaddr} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr_r};\0"	\
 	"noramboot=booti ${loadaddr} - ${fdt_addr_r};\0"	\
@@ -188,6 +190,9 @@
 		"else "	\
 			"echo ERROR: MMC device ${mmcdev} not detected!; "	\
 		"fi; \0"	\
+	"emmc_write_cap="	\
+		"mmc write ${rofs_offs} 0x0 ${rofs_blk_size};"	\
+		"mmc write ${loadaddr} 0xc4000 ${rofs_blk_offs};\0"	\
 	"kernel_bootenv_mmc="	\
 		"if test ${bootdev} = spi; then "	\
 			"run spi_scan_and_run;"	\
@@ -203,6 +208,32 @@
 		"for boot_dev in ${boot_dev_s}; do "	\
 			"run kernel_bootenv_${boot_dev}; "	\
 		"done; \0"	\
+	"parse_write_temp_upd_cap_emmc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"mmc list;"	\
+			"if mmc dev 0; then "	\
+				"mmc partconf 0 0 0 ${emmc_temp_partition}; "	\
+				"echo Writing parsed update capsule to eMMC temp partition ...; "	\
+				"run emmc_write_cap;"	\
+				"echo Writing complete ...; "	\
+			"fi; "	\
+		"fi; \0"	\
+	"parse_write_agt_upd_cap_emmc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"mmc list;"	\
+			"if mmc dev 0; then "	\
+				"mmc partconf 0 0 0 ${emmc_temp_partition}; "	\
+				"echo Writing parsed update capsule to eMMC temp partition ...; "	\
+				"run emmc_write_cap;"	\
+				"mmc partconf 0 0 0 ${emmc_gol_partition}; "	\
+				"echo Writing parsed update capsule to eMMC golden partition ...; "	\
+				"run emmc_write_cap;"	\
+				"mmc partconf 0 0 0 ${emmc_act_partition}; "	\
+				"echo Writing parsed update capsule to eMMC active partition ...; "	\
+				"run emmc_write_cap;"	\
+				"echo Writing complete ...; "	\
+			"fi; "	\
+		"fi; \0"	\
 	"auth_boot_kernel_emmc="	\
 		"echo Checking kernel image in eMMC GPP partition...;"	\
 		"if checkimgrcmap 3; then "	\
