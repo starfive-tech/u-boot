@@ -103,6 +103,7 @@
 #define  SDHCI_DIV_MASK_LEN	8
 #define  SDHCI_DIV_HI_MASK	0x300
 #define  SDHCI_PROG_CLOCK_MODE  BIT(5)
+#define  SDHCI_CLOCK_PLL_EN	BIT(3)
 #define  SDHCI_CLOCK_CARD_EN	BIT(2)
 #define  SDHCI_CLOCK_INT_STABLE	BIT(1)
 #define  SDHCI_CLOCK_INT_EN	BIT(0)
@@ -166,6 +167,8 @@
 #define  SDHCI_CTRL_DRV_TYPE_D	0x0030
 #define  SDHCI_CTRL_EXEC_TUNING	0x0040
 #define  SDHCI_CTRL_TUNED_CLK	0x0080
+#define  SDHCI_ADMA2_LEN_MODE	0x0400
+#define  SDHCI_CTRL_V4_MODE	0x1000
 #define  SDHCI_CTRL_PRESET_VAL_ENABLE	0x8000
 
 #define SDHCI_CAPABILITIES	0x40
@@ -223,6 +226,8 @@
 #define   SDHCI_SPEC_100	0
 #define   SDHCI_SPEC_200	1
 #define   SDHCI_SPEC_300	2
+#define   SDHCI_SPEC_400	3
+#define   SDHCI_SPEC_410	4
 
 #define SDHCI_GET_VERSION(x) (x->version & SDHCI_SPEC_VER_MASK)
 
@@ -302,15 +307,12 @@ struct sdhci_ops {
 };
 
 #define ADMA_MAX_LEN	65532
+#define ADMA_MAX_LEN_V4	0x3FFFFFF
 #ifdef CONFIG_MMC_SDHCI_ADMA_64BIT
 #define ADMA_DESC_LEN	12
 #else
 #define ADMA_DESC_LEN	8
 #endif
-#define ADMA_TABLE_NO_ENTRIES DIV_ROUND_UP(CONFIG_SYS_MMC_MAX_BLK_COUNT * \
-			      MMC_MAX_BLOCK_LEN, ADMA_MAX_LEN)
-
-#define ADMA_TABLE_SZ (ADMA_TABLE_NO_ENTRIES * ADMA_DESC_LEN)
 
 /* Decriptor table defines */
 #define ADMA_DESC_ATTR_VALID		BIT(0)
@@ -323,9 +325,7 @@ struct sdhci_ops {
 #define ADMA_DESC_LINK_DESC	(ADMA_DESC_ATTR_ACT1 | ADMA_DESC_ATTR_ACT2)
 
 struct sdhci_adma_desc {
-	u8 attr;
-	u8 reserved;
-	u16 len;
+	u32 attr_len;
 	u32 addr_lo;
 #ifdef CONFIG_MMC_SDHCI_ADMA_64BIT
 	u32 addr_hi;
@@ -356,6 +356,7 @@ struct sdhci_host {
 	bool force_align_buffer;
 	dma_addr_t start_addr;
 	int flags;
+	bool v4_mode;
 #define USE_SDMA	(0x1 << 0)
 #define USE_ADMA	(0x1 << 1)
 #define USE_ADMA64	(0x1 << 2)
@@ -536,7 +537,7 @@ extern const struct dm_mmc_ops sdhci_ops;
 
 void sdhci_adma_write_desc(struct sdhci_host *host, void **next_desc,
 			   dma_addr_t addr, int len, bool end);
-struct sdhci_adma_desc *sdhci_adma_init(void);
+struct sdhci_adma_desc *sdhci_adma_init(struct sdhci_host *host);
 void sdhci_prepare_adma_table(struct sdhci_host *host,
 			      struct sdhci_adma_desc *table,
 			      struct mmc_data *data, dma_addr_t start_addr);

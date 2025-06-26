@@ -1027,7 +1027,7 @@ static int fsl_esdhc_probe(struct udevice *dev)
 		hostver = esdhc_read32(&priv->esdhc_regs->hostver);
 		if (caps & HOSTCAPBLT_DMAS &&
 		    HOSTVER_VENDOR(hostver) > VENDOR_V_22) {
-			priv->adma_desc_table = sdhci_adma_init();
+			priv->adma_desc_table = sdhci_adma_init(NULL);
 			if (!priv->adma_desc_table)
 				debug("Could not allocate ADMA tables, falling back to SDMA\n");
 		}

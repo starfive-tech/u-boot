@@ -292,7 +292,14 @@ static int sdhci_send_command(struct mmc *mmc, struct mmc_cmd *cmd,
 		sdhci_writew(host, SDHCI_MAKE_BLKSZ(SDHCI_DEFAULT_BOUNDARY_ARG,
 				data->blocksize),
 				SDHCI_BLOCK_SIZE);
-		sdhci_writew(host, data->blocks, SDHCI_BLOCK_COUNT);
+
+		if (SDHCI_GET_VERSION(host) >= SDHCI_SPEC_410 && host->v4_mode) {
+			sdhci_writew(host, 0, SDHCI_BLOCK_COUNT);
+			sdhci_writel(host, data->blocks, SDHCI_DMA_ADDRESS);
+		} else {
+			sdhci_writew(host, data->blocks, SDHCI_BLOCK_COUNT);
+		}
+
 		sdhci_writew(host, mode, SDHCI_TRANSFER_MODE);
 	} else if (cmd->resp_type & MMC_RSP_BUSY) {
 		sdhci_writeb(host, 0xe, SDHCI_TIMEOUT_CONTROL);
@@ -485,6 +492,25 @@ int sdhci_set_clock(struct mmc *mmc, unsigned int clock)
 
 	if (host->ops && host->ops->set_card_clock)
 		host->ops->set_card_clock(host, true);
+
+	if (SDHCI_GET_VERSION(host) >= SDHCI_SPEC_410 && host->v4_mode) {
+		clk |= SDHCI_CLOCK_PLL_EN;
+		clk &= ~SDHCI_CLOCK_INT_STABLE;
+		sdhci_writew(host, clk, SDHCI_CLOCK_CONTROL);
+
+		/* Wait max 20 ms */
+		timeout = 20;
+		while (!((clk = sdhci_readw(host, SDHCI_CLOCK_CONTROL))
+		       & SDHCI_CLOCK_INT_STABLE)) {
+			if (timeout == 0) {
+				printf("%s: PLL clock never stabilised.\n",
+				       __func__);
+				return -EBUSY;
+			}
+			timeout--;
+			udelay(1000);
+		}
+	}
 
 	clk |= SDHCI_CLOCK_CARD_EN;
 	sdhci_writew(host, clk, SDHCI_CLOCK_CONTROL);
@@ -721,6 +747,15 @@ static int sdhci_set_ios(struct mmc *mmc)
 	return 0;
 }
 
+static void sdhci_enable_v4_mode(struct sdhci_host *host)
+{
+	u32 val;
+
+	val = sdhci_readw(host, SDHCI_HOST_CONTROL2);
+	val |= SDHCI_CTRL_V4_MODE;
+	sdhci_writew(host, val, SDHCI_HOST_CONTROL2);
+}
+
 static int sdhci_init(struct mmc *mmc)
 {
 	struct sdhci_host *host = mmc->priv;
@@ -735,6 +770,9 @@ static int sdhci_init(struct mmc *mmc)
 
 	if (host->ops && host->ops->init_phy)
 		host->ops->init_phy(host);
+
+	if (SDHCI_GET_VERSION(host) >= SDHCI_SPEC_400 && host->v4_mode)
+		sdhci_enable_v4_mode(host);
 
 #if defined(CONFIG_FIXED_SDHCI_ALIGNED_BUFFER)
 	host->align_buffer = (void *)CONFIG_FIXED_SDHCI_ALIGNED_BUFFER;
@@ -892,6 +930,13 @@ int sdhci_setup_cfg(struct mmc_config *cfg, struct sdhci_host *host,
 #endif
 	debug("%s, caps: 0x%x\n", __func__, caps);
 
+	if (host->quirks & SDHCI_QUIRK_REG32_RW)
+		host->version =
+			sdhci_readl(host, SDHCI_HOST_VERSION - 2) >> 16;
+	else
+		host->version = sdhci_readw(host, SDHCI_HOST_VERSION);
+
+	cfg->name = host->name;
 #if CONFIG_IS_ENABLED(MMC_SDHCI_SDMA)
 	if ((caps & SDHCI_CAN_DO_SDMA)) {
 		host->flags |= USE_SDMA;
@@ -907,7 +952,7 @@ int sdhci_setup_cfg(struct mmc_config *cfg, struct sdhci_host *host,
 		return -EINVAL;
 	}
 	if (!host->adma_desc_table) {
-		host->adma_desc_table = sdhci_adma_init();
+		host->adma_desc_table = sdhci_adma_init(host);
 		host->adma_addr = virt_to_phys(host->adma_desc_table);
 	}
 
@@ -916,13 +961,6 @@ int sdhci_setup_cfg(struct mmc_config *cfg, struct sdhci_host *host,
 	else
 		host->flags |= USE_ADMA;
 #endif
-	if (host->quirks & SDHCI_QUIRK_REG32_RW)
-		host->version =
-			sdhci_readl(host, SDHCI_HOST_VERSION - 2) >> 16;
-	else
-		host->version = sdhci_readw(host, SDHCI_HOST_VERSION);
-
-	cfg->name = host->name;
 #ifndef CONFIG_DM_MMC
 	cfg->ops = &sdhci_ops;
 #endif

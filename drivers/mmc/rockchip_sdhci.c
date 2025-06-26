@@ -736,9 +736,10 @@ void starfive_jhb100_adma_write_desc(struct sdhci_host *host, void **next_desc,
 	if (upper_32_bits(host->adma_addr) != upper_32_bits(addr))
 		printf("WARNING: Descriptor and buffer are not in the same 4GB space.\n");
 
-	desc->attr = attr;
-	desc->len = len & 0xffff;
-	desc->reserved = 0;
+	desc->attr_len = attr | ((len & 0xffff) << 16);
+	if (SDHCI_GET_VERSION(host) >= SDHCI_SPEC_410 && host->v4_mode)
+		desc->attr_len |= (((len >> 16) & 0x3ff) << 6);
+
 	desc->addr_lo = lower_32_bits(addr);
 #ifdef CONFIG_MMC_SDHCI_ADMA_64BIT
 	desc->addr_hi = upper_32_bits(addr);
@@ -799,6 +800,7 @@ static int rockchip_sdhci_probe(struct udevice *dev)
 		printf("%s: cclk clock enable failed %d\n", __func__, ret);
 
 	priv->emmc_card_clk = cclk;
+	host->v4_mode = true;
 #endif
 
 	priv->emmc_clk = clk;
