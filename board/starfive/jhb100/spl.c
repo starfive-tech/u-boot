@@ -170,10 +170,9 @@ void spl_perform_fixups(struct spl_image_info *spl_image)
 	starfive_fb_rec_map_handler(&fb_map_reg,
 		starfive_get_part(PRIMARY),
 		starfive_get_part(SECONDARY),
-		FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+		FB_RCV_L1_FW_SET_SPL_CLEAR_MSK,
 		CLEAR);
 	starfive_set_fb_rec_map(fb_map_reg);
-	fb_map_reg = starfive_get_fb_rec_map();
 }
 
 u32 spl_boot_device(void)
@@ -318,6 +317,22 @@ void subsys_init(void)
 	debug("HARDWARE_EVENT_EDGE_DETECT_CFG....%x...\n", readl((const void *)(U2_PCU_BASE_ADDR + 0x2c)));
 #endif
 }
+
+#if CONFIG_IS_ENABLED(SHOW_BOOT_PROGRESS)
+/*
+ * Meant to indicate any error, when forcefully hang.
+ * In JHB100 security use case, meant to set the next-level bootstage
+ * for SCP FW to intercept.
+ */
+void show_boot_progress(int progress)
+{
+#ifdef CONFIG_SPL_BUILD
+	starfive_set_ap_ctl_boot_stage(BOOTSTG_U_BOOT_PROPER, BOOTSTG_U_BOOT_PROPER);
+#else
+	starfive_set_ap_ctl_boot_stage(BOOTSTG_KERNEL, BOOTSTG_KERNEL);
+#endif
+}
+#endif
 
 void board_init_f(ulong dummy)
 {
