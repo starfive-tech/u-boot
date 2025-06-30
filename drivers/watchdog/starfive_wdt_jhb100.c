@@ -18,6 +18,7 @@ struct starfive_wdt_jhb100_priv {
 	struct udevice *dev;
 	struct clk *core_clk;
 	struct clk *p_clk;
+	struct reset_ctl_bulk resets;
 	u32 count;
 };
 
@@ -539,6 +540,36 @@ static int starfive_wdt_jhb100_get_clock_rate(struct starfive_wdt_jhb100_priv *p
 	return -ENOENT;
 }
 
+static int starfive_wdt_reset(struct udevice *dev)
+{
+	int ret;
+	struct starfive_wdt_jhb100_priv *priv = dev_get_priv(dev);
+
+	ret = reset_get_bulk(dev, &priv->resets);
+	if (ret) {
+		/*
+		 * Return 0 if error due to !CONFIG_DM_RESET and reset
+		 * DT property is not present.
+		 */
+		if (ret == -ENOENT || ret == -ENOTSUPP)
+			return 0;
+
+		dev_warn(dev, "Couldn't find/assert reset device (error %d)\n",
+			 ret);
+		return ret;
+	}
+
+	ret = reset_deassert_bulk(&priv->resets);
+	if (ret) {
+		reset_release_bulk(&priv->resets);
+		dev_err(dev, "Failed to de-assert reset for WDT (error %d)\n",
+			ret);
+		return ret;
+	}
+
+	return 0;
+}
+
 /**
  * starfive_wdt_jhb100_max_timeout - Get max frequency based on clock frequency
  *
@@ -587,10 +618,10 @@ static int starfive_wdt_jhb100_set_timeout(struct starfive_wdt_jhb100_priv *priv
 	dev_info(priv->dev, "Heartbeat: timeout=%d ms, count/2=%d (%08x)\n",
 		 timeout, count, count);
 
-	if (wdt_mode == STARFIVE_JHB100_WDT_RESET_TIMEOUT)
+	if (wdt_mode == STARFIVE_JHB100_WDT_RESET_TIMEOUT) {
 		starfive_wdt_jhb100_set_rst_timeout(priv, count);
-	else if (wdt_mode == STARFIVE_JHB100_WDT_INTERRUPT_TIMEOUT)
-		starfive_wdt_jhb100_set_intr_timeout(priv, count);
+	} else if (wdt_mode == STARFIVE_JHB100_WDT_INTERRUPT_TIMEOUT) {
+		starfive_wdt_jhb100_set_intr_timeout(priv, count);}
 
 	priv->count = count;
 
@@ -653,12 +684,17 @@ static int starfive_wdt_jhb100_start(struct udevice *dev, u64 timeout, ulong fla
 		return -1;
 	}
 
+	ret = starfive_wdt_reset(dev);
+	if (ret)
+		return ret;
+
 	/* WDT timeout range handling */
 	timeout = max_t(u64, timeout, STARFIVE_JHB100_WDT_MINCNT_MS);
 	timeout = min_t(u64, timeout, starfive_wdt_jhb100_max_timeout(priv->freq));
 
 	/* Set timeout */
 	ret = starfive_wdt_jhb100_set_timeout(priv, timeout, STARFIVE_JHB100_WDT_RESET_TIMEOUT);
+
 	if (ret) {
 		dev_info(dev, "tmr_margin value out of range, default %d used\n",
 				 STARFIVE_JHB100_WDT_DEFAULT_MS);
