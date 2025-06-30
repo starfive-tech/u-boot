@@ -177,6 +177,7 @@ static int spl_spi_load_image_handler(struct spl_image_info *spl_image,
 				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 				SET);
 			starfive_set_fb_rec_map(fb_rec_spi);
+			starfive_add_ap_sts_retry_cnt(BOOTSTG_U_BOOT_PROPER, BOOT_TRIAL_CNT);
 		}
 	}
 	return ret;
