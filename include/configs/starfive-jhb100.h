@@ -236,7 +236,8 @@
 		"fi; \0"	\
 	"auth_boot_kernel_emmc="	\
 		"echo Checking kernel image in eMMC GPP partition...;"	\
-		"if checkimgrcmap 3; then "	\
+		"if checkimgrcmap 1; then "	\
+			"setimgrcmap 1; "	\
 			"getimginfo 1; "	\
 			"run set_bootargs_root_storage;"	\
 			"mmc list;"	\
@@ -257,7 +258,8 @@
 			"fi; "	\
 		"fi;"	\
 		"echo Found invalid eMMC Active image ...;"	\
-		"if checkimgrcmap 4; then "	\
+		"if checkimgrcmap 2; then "	\
+			"setimgrcmap 2; "	\
 			"getimginfo 2; "	\
 			"run set_bootargs_root_storage;"	\
 			"mmc list;"	\
@@ -282,6 +284,7 @@
 	"auth_boot_kernel_fit_emmc="	\
 		"echo Checking kernel FIT image in eMMC GPP partition...;"	\
 		"if checkimgrcmap 1; then "	\
+			"setimgrcmap 1; "	\
 			"getimginfo 1; "	\
 			"run set_bootargs_root_storage;"	\
 			"mmc list;"	\
@@ -303,6 +306,7 @@
 		"fi;"	\
 		"echo Found invalid eMMC Active image ...;"	\
 		"if checkimgrcmap 2; then "	\
+			"setimgrcmap 2; "	\
 			"getimginfo 2; "	\
 			"run set_bootargs_root_storage;"	\
 			"mmc list;"	\
@@ -326,6 +330,7 @@
 	"auth_boot_kernel_fit_sfc="	\
 		"echo Checking kernel FIT image in SPI flash ...;"	\
 		"if checkimgrcmap 5; then "	\
+			"setimgrcmap 5; "	\
 			"getimginfo 5; "	\
 			"run set_bootargs_root_ram;"	\
 			"sf probe;"	\
@@ -343,6 +348,7 @@
 		is present in second flash chip ...;"	\
 		"if chksfcdualflash; then "	\
 			"if checkimgrcmap 6; then "	\
+				"setimgrcmap 6; "	\
 				"getimginfo 6; "	\
 				"run set_bootargs_root_ram;"	\
 				"sf probe;"	\

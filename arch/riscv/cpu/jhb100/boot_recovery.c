@@ -87,6 +87,65 @@ static int do_starfive_check_img_rec_map(struct cmd_tbl *cmdtp, int flag, int ar
 	return CMD_RET_FAILURE;
 }
 
+static int do_starfive_set_img_rec_map(struct cmd_tbl *cmdtp, int flag, int argc,
+				       char *const argv[])
+{
+	int fb_rec_map = starfive_get_fb_rec_map();
+
+	argc--; argv++;
+	if (argc) {
+		switch (hextoul(argv[0], NULL)) {
+		case EMMC_PRIMARY:
+			starfive_fb_rec_map_handler(&fb_rec_map,
+						    BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
+						    BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
+						    FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+						    SET);
+			break;
+		case EMMC_SECONDARY:
+			starfive_fb_rec_map_handler(&fb_rec_map,
+						    BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS,
+						    BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS,
+						    FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+						    SET);
+			break;
+		case UFS_PRIMARY:
+			starfive_fb_rec_map_handler(&fb_rec_map,
+						    BOOT_SRC_PART_UFS_PRIMARY_BIT_POS,
+						    BOOT_SRC_PART_UFS_PRIMARY_BIT_POS,
+						    FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+						    SET);
+			break;
+		case UFS_SECONDARY:
+			starfive_fb_rec_map_handler(&fb_rec_map,
+						    BOOT_SRC_PART_UFS_SECONDARY_BIT_POS,
+						    BOOT_SRC_PART_UFS_SECONDARY_BIT_POS,
+						    FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+						    SET);
+			break;
+		case SFC_PRIMARY:
+			starfive_fb_rec_map_handler(&fb_rec_map,
+						    BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
+						    BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
+						    FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+						    SET);
+			break;
+		case SFC_SECONDARY:
+			starfive_fb_rec_map_handler(&fb_rec_map,
+						    BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
+						    BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
+						    FB_RCV_UBOOT_PROP_SET_KERNEL_CLEAR_MSK,
+						    SET);
+			break;
+		default:
+			printf("Unknown argument, refer to help command...\n");
+			return CMD_RET_USAGE;
+		}
+	}
+	starfive_set_fb_rec_map(fb_rec_map);
+	return CMD_RET_SUCCESS;
+}
+
 static int do_starfive_print_rec_map(struct cmd_tbl *cmdtp, int flag, int argc,
 				     char *const argv[])
 {
@@ -340,6 +399,16 @@ U_BOOT_LONGHELP(checkimgrcmap,
 		"\t      6 - SFC Golden\n"
 );
 
+U_BOOT_LONGHELP(setimgrcmap,
+		"[arg\n    - Set authentication status to recovery mapping\n"
+		"\tpass: 1 - eMMC Active\n"
+		"\t      2 - eMMC Golden\n"
+		"\t      3 - UFS Active\n"
+		"\t      4 - UFS Golden\n"
+		"\t      5 - SFC Active\n"
+		"\t      6 - SFC Golden\n"
+);
+
 U_BOOT_LONGHELP(printaprcmap,
 		"[arg\n    - Read AP recovery mapping status register\n"
 		"\tpassing non-zero arg publish descriptive recovery mapping status\n"
@@ -399,6 +468,11 @@ U_BOOT_LONGHELP(parsecap,
 U_BOOT_CMD(checkimgrcmap, CONFIG_SYS_MAXARGS, 1, do_starfive_check_img_rec_map,
 	   "Check authentication status from recovery mapping",
 	   checkimgrcmap_help_text
+);
+
+U_BOOT_CMD(setimgrcmap, CONFIG_SYS_MAXARGS, 1, do_starfive_set_img_rec_map,
+	   "Set authentication status to recovery mapping",
+	   setimgrcmap_help_text
 );
 
 U_BOOT_CMD(printaprcmap, CONFIG_SYS_MAXARGS, 1, do_starfive_print_rec_map,
