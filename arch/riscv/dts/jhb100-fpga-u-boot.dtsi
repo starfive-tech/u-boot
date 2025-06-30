@@ -228,51 +228,41 @@
 &wdt0 {
 	bootph-pre-ram;
 	status = "okay";
-	clocks = <&fpga_3mhz_clk>;
-	timeout-sec = <15>;
+	timeout-sec = <120>;
 	hw_margin_ms = <1000>;
-	u-boot,noautostart;
-	clock-frequency = <3000000>;
+	u-boot,autostart;
 };
 
 &wdt1 {
 	bootph-pre-ram;
 	status = "okay";
-	clocks = <&fpga_3mhz_clk>;
-	timeout-sec = <15>;
+	timeout-sec = <120>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
-	clock-frequency = <3000000>;
 };
 
 &wdt2 {
 	bootph-pre-ram;
 	status = "okay";
-	clocks = <&fpga_3mhz_clk>;
-	timeout-sec = <15>;
+	timeout-sec = <120>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
-	clock-frequency = <3000000>;
 };
 
 &wdt3 {
 	bootph-pre-ram;
 	status = "okay";
-	clocks = <&fpga_3mhz_clk>;
-	timeout-sec = <15>;
+	timeout-sec = <120>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
-	clock-frequency = <3000000>;
 };
 
 &wdt_ext {
 	bootph-pre-ram;
 	status = "disabled";
-	clocks = <&fpga_3mhz_clk>;
-	timeout-sec = <15>;
+	timeout-sec = <120>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
-	clock-frequency = <3000000>;
 };
 
 &fpga_12mhz_clk {
