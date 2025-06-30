@@ -20,6 +20,7 @@
   */
 
 #include <asm/arch/boot_src.h>
+#include <asm/arch/boot_mapping.h>
 #include <asm/arch/starfive_reset.h>
 #include <asm/arch/bootcmd_restore.h>
 #include <dm/ofnode.h>
@@ -209,6 +210,40 @@ void env_restore_bootcmd(void)
 		restore_bootcmd_emmc();
 }
 
+void uboot_starfive_fb_rec_map_handler(void)
+{
+	int boot_mode = GET_BOOT_SRC;
+	int fb_map_reg = starfive_get_fb_rec_map();
+
+	switch (boot_mode) {
+	case BOOT_SRC_SFC:
+		starfive_fb_rec_map_handler(&fb_map_reg,
+					    BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
+					    BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,
+					    FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+					    CLEAR);
+		break;
+	case BOOT_SRC_EMMC:
+		starfive_fb_rec_map_handler(&fb_map_reg,
+					    BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
+					    BOOT_SRC_PART_EMMC_SECONDARY_BIT_POS,
+					    FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+					    CLEAR);
+		break;
+	case BOOT_SRC_UFS:
+		starfive_fb_rec_map_handler(&fb_map_reg,
+					    BOOT_SRC_PART_UFS_PRIMARY_BIT_POS,
+					    BOOT_SRC_PART_UFS_SECONDARY_BIT_POS,
+					    FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+					    CLEAR);
+		break;
+	default:
+		return;
+	}
+
+	starfive_set_fb_rec_map(fb_map_reg);
+}
+
 int board_late_init(void)
 {
 	env_get_boot_dev();
@@ -216,6 +251,8 @@ int board_late_init(void)
 	/* Add or replace reset_event argument to bootargs */
 	env_filter_add_bootarg(starfive_get_reset_event, "reset_event=");
 	env_restore_bootcmd();
+
+	uboot_starfive_fb_rec_map_handler();
 
 	return 0;
 }
