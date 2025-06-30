@@ -10,6 +10,7 @@
 #include <net.h>
 #include <spl.h>
 #include <asm/arch/boot_mapping.h>
+#include <asm/arch/boot_pti.h>
 #include <asm/arch/boot_src.h>
 #include <configs/starfive-jhb100.h>
 #include <linux/stringify.h>
@@ -86,8 +87,20 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 				CHECK);
 		if (!chk_map) {
-			/* Hang because both images broken */
-			hang();
+			printf("Invalid SFC Active and Golden images found...\n");
+
+			if (starfive_get_ap_sts_retry_cnt
+			    (BOOTSTG_U_BOOT_PROPER) == MAX_BOOT_TRIAL_UART) {
+				printf("Max boot retries exceeded...\n");
+				hang();
+				/* Leave in case needed in future */
+				/* printf("Try booting from UART...\n");
+				spl_boot_list[0] = BOOT_DEVICE_UART; */
+			} else {
+				/* Hang because both images broken */
+				printf("Retry booting...\n");
+				hang();
+			}
 		} else {
 			/* Primary or/and secondary is present */
 			starfive_fb_rec_map_handler(&fb_rec_map,
@@ -96,8 +109,9 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 				SET);
 			starfive_set_fb_rec_map(fb_rec_map);
+			starfive_add_ap_sts_retry_cnt(BOOTSTG_U_BOOT_PROPER, BOOT_TRIAL_CNT);
+			spl_boot_list[0] = BOOT_DEVICE_SPI;
 		}
-		spl_boot_list[0] = BOOT_DEVICE_SPI;
 		break;
 	case BOOT_SRC_AUTO_DETECT:
 	/* AUTO DETECT mode */
@@ -146,9 +160,20 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 				CHECK);
 		if (!chk_map) {
-			printf("Invalid MMC Active and Golden images found...\n");
-			printf("Booting stop...\n");
-			hang();
+			printf("Invalid eMMC Active and Golden images found...\n");
+
+			if (starfive_get_ap_sts_retry_cnt
+			    (BOOTSTG_U_BOOT_PROPER) == MAX_BOOT_TRIAL_UART) {
+				printf("Max boot retries exceeded...\n");
+				hang();
+				/* Leave in case needed in future */
+				/* printf("Try booting from UART...\n");
+				spl_boot_list[0] = BOOT_DEVICE_UART; */
+			} else {
+				/* Hang because both images broken */
+				printf("Retry booting...\n");
+				hang();
+			}
 		} else {
 			starfive_fb_rec_map_handler(&fb_rec_map,
 				BOOT_SRC_PART_EMMC_PRIMARY_BIT_POS,
@@ -156,8 +181,9 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 				SET);
 			starfive_set_fb_rec_map(fb_rec_map);
+			starfive_add_ap_sts_retry_cnt(BOOTSTG_U_BOOT_PROPER, BOOT_TRIAL_CNT);
+			spl_boot_list[0] = BOOT_DEVICE_MMC1;
 		}
-		spl_boot_list[0] = BOOT_DEVICE_MMC1;
 		break;
 	case BOOT_SRC_UART:
 		spl_boot_list[0] = BOOT_DEVICE_UART;
@@ -200,6 +226,7 @@ void starfive_fallback_handler(void)
 
 	if (ret) {
 		printf("Failed to boot from all boot devices\n");
+		printf("Retry booting...\n");
 		hang();
 	}
 }
