@@ -1,0 +1,231 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100-evb1.dtsi"
+#include "jhb100-evb1-ethernet.dtsi"
+#include "jhb100-evb1-sib1.dtsi"
+
+&dma_i3c {
+	status = "disabled";
+};
+
+&dma_spi0 {
+	status = "disabled";
+};
+
+&espi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&espi0_pins &gpio_pass_1_pins &gpio_pass_2_pins>;
+	status = "disabled";
+};
+
+&i2c1_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c1_pins>;
+	status = "disabled";
+};
+
+&i2c2_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c2_pins>;
+	status = "disabled";
+};
+
+&i2c3_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c3_pins>;
+	status = "disabled";
+};
+
+&i2c4_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c4_pins>;
+	status = "disabled";
+};
+
+&i2c6_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c6_pins>;
+	status = "disabled";
+};
+
+&i2c7_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c7_pins>;
+	status = "disabled";
+};
+
+&i2c8_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c8_pins &smbus8_alt_a_pins>;
+	status = "disabled";
+};
+
+&i2c9_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c9_pins>;
+	status = "disabled";
+};
+
+&i2c10_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c10_pins>;
+	status = "disabled";
+};
+
+&i2c11_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c11_pins>;
+	status = "disabled";
+};
+
+&i3c0 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c0lv_pins>;
+	status = "disabled";
+};
+
+&i3c1 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c1lv_pins>;
+	status = "disabled";
+};
+
+&i3c2 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c2lv_pins>;
+	status = "disabled";
+};
+
+&i3c12 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c12_pins>;
+	status = "disabled";
+};
+
+&i3c13 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c13_pins>;
+	status = "disabled";
+};
+
+&jtag1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&jtagm1_pins>;
+	status = "disabled";
+};
+
+&peci0 {
+	status = "disabled";
+};
+
+&pcie_ep0 {
+	status = "disabled";
+};
+
+&pinctrl_adc0 {
+	smbus8_alt_a_pins: smbus8_alt_a-grp {
+		smbus8_alt_a-pins {
+			input-enable;
+		};
+	};
+};
+
+&sfc0 {
+	status = "disabled";
+	pinctrl-names = "default";
+	pinctrl-0 = <&sfc0_1cs_pins>;
+	num-cs = <1>;
+};
+
+&sgpio1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sgpio1_pins>;
+	status = "disabled";
+
+	gpio-line-names =
+		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",
+		"", "P80_DOUT4", "", "P80_DOUT5", "", "P80_DOUT6", "", "P80_DOUT7",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "BMC_BOOT_DONE",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "";
+};
+
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins>;
+	status = "disabled";
+};
+
+&uart9 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart9_pins>;
+};
+
+&uart11 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart11_pins>;
+};

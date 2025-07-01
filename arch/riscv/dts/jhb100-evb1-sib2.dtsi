@@ -1,0 +1,289 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+&adc0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&adc0_vin5_pins>;
+	status = "disabled";
+};
+
+&adc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&adc1_vin5_pins>;
+	status = "disabled";
+};
+
+&dma_i3c {
+	status = "disabled";
+};
+
+&dma_spi0 {
+	status = "disabled";
+};
+
+&dma_sfc1 {
+	status = "disabled";
+};
+
+&dma_sfc2 {
+	status = "disabled";
+};
+
+&espi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&espi0_pins>;
+	status = "disabled";
+};
+
+&espi1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&espi1_pins>;
+	status = "disabled";
+};
+
+&i2c1_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c1_pins>;
+	status = "disabled";
+};
+
+&i2c2_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c2_pins>;
+	status = "disabled";
+};
+
+&i2c3_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c3_pins>;
+	status = "disabled";
+};
+
+&i2c4_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c4_pins>;
+	status = "disabled";
+};
+
+&i2c5_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c5_pins>;
+	status = "disabled";
+};
+
+&i2c6_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c6_pins>;
+	status = "disabled";
+};
+
+&i2c7_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c7_pins>;
+	status = "disabled";
+};
+
+&i2c8_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c7_pins>;
+	status = "disabled";
+};
+
+&i2c9_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c9_pins>;
+	status = "disabled";
+};
+
+&i2c10_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c10_pins>;
+	status = "disabled";
+};
+
+&i2c11_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c11_pins>;
+	status = "disabled";
+};
+
+&i3c0 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c0lv_pins>;
+	status = "disabled";
+};
+
+&i3c1 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c1lv_pins>;
+	status = "disabled";
+};
+
+&i3c4 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c4lv_pins>;
+	status = "disabled";
+};
+
+&i3c5 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c5lv_pins>;
+	status = "disabled";
+};
+
+&i3c12 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c12_pins>;
+	status = "disabled";
+};
+
+&i3c13 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c13_pins>;
+	status = "disabled";
+};
+
+&i3c14 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c14_pins>;
+	status = "disabled";
+};
+
+&i3c15 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c15_pins>;
+	status = "disabled";
+};
+
+&jtag1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&jtagm1_pins>;
+	status = "disabled";
+};
+
+&ltpi0 {
+	status = "disabled";
+};
+
+&ltpi1 {
+	status = "disabled";
+};
+
+&pcie_ep0 {
+	status = "disabled";
+};
+
+&pcie_ep1 {
+	status = "disabled";
+};
+
+&peci0 {
+	status = "disabled";
+};
+
+&peci1 {
+	status = "disabled";
+};
+
+&sfc0 {
+	status = "disabled";
+	pinctrl-names = "default";
+	pinctrl-0 = <&sfc0_1cs_pins>;
+	num-cs = <1>;
+};
+
+&sfc1 {
+	status = "disabled";
+	pinctrl-names = "default";
+	pinctrl-0 = <&sfc1_1cs_pins>;
+	num-cs = <1>;
+};
+
+&sfc2 {
+	status = "disabled";
+	pinctrl-names = "default";
+	pinctrl-0 = <&sfc2_1cs_spi_pins>;
+	spi-tx-bus-width = <1>;
+	spi-rx-bus-width = <1>;
+	num-cs = <1>;
+};
+
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_1cs_pins>;
+	status = "disabled";
+	num-cs = <1>;
+};
+
+&uart9 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart9_pins>;
+};
+
+&uart10 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart10_pins>;
+};
+
+&uart11 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart11_pins>;
+};
+
+&uart12 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart12_pins>;
+};

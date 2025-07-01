@@ -1,0 +1,299 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100.dtsi"
+#include "jhb100-pinctrl.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/i2c/i2c.h>
+
+/ {
+	model = "StarFive JHB100 EVB-1";
+	compatible = "starfive,jhb100-evb1", "starfive,jhb100";
+
+	aliases {
+		serial4 = &uart4;
+		serial5 = &uart5;
+		serial6 = &uart6;
+		serial7 = &uart7;
+		serial8 = &uart8;
+		serial9 = &uart9;
+		serial10 = &uart10;
+		serial11 = &uart11;
+		serial12 = &uart12;
+		serial13 = &uart13;
+		serial14 = &uart14;
+
+		ethernet0 = &gmac0;
+		ethernet1 = &gmac1;
+		ethernet2 = &gmac2;
+		ethernet3 = &gmac3;
+
+		i2c0 = &i2c0_master;
+		i2c1 = &i2c0_slave;
+
+		i2c2 = &i2c1_master;
+		i2c3 = &i2c1_slave;
+
+		i2c4 = &i2c2_master;
+		i2c5 = &i2c2_slave;
+
+		i2c6 = &i2c3_master;
+		i2c7 = &i2c3_slave;
+
+		i2c8 = &i2c4_master;
+		i2c9 = &i2c4_slave;
+
+		i2c10 = &i2c5_master;
+		i2c11 = &i2c5_slave;
+
+		i2c12 = &i2c6_master;
+		i2c13 = &i2c6_slave;
+
+		i2c14 = &i2c7_master;
+		i2c15 = &i2c7_slave;
+
+		i2c16 = &i2c8_master;
+		i2c17 = &i2c8_slave;
+
+		i2c18 = &i2c9_master;
+		i2c19 = &i2c9_slave;
+
+		i2c20 = &i2c10_master;
+		i2c21 = &i2c10_slave;
+
+		i2c22 = &i2c11_master;
+		i2c23 = &i2c11_slave;
+
+		i2c24 = &i2c12_master;
+		i2c25 = &i2c12_slave;
+
+		i2c26 = &i2c13_master;
+		i2c27 = &i2c13_slave;
+
+		i2c28 = &i2c14_master;
+		i2c29 = &i2c14_slave;
+
+		i2c30 = &i2c15_master;
+		i2c31 = &i2c15_slave;
+
+		i3c0 = &i3c0;
+		i3c1 = &i3c1;
+		i3c2 = &i3c2;
+		i3c3 = &i3c3;
+		i3c4 = &i3c4;
+		i3c5 = &i3c5;
+		i3c6 = &i3c6;
+		i3c7 = &i3c7;
+		i3c8 = &i3c8;
+		i3c9 = &i3c9;
+		i3c10 = &i3c10;
+		i3c11 = &i3c11;
+		i3c12 = &i3c12;
+		i3c13 = &i3c13;
+		i3c14 = &i3c14;
+		i3c15 = &i3c15;
+	};
+
+	chosen {
+		stdout-path = "serial6:115200n8";
+	};
+
+	cpus {
+		timebase-frequency = <5000000>;
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0x0 0x40000000 0x0 0x40000000>;	/* 1GB */
+	};
+
+	reserved-memory {
+		#address-cells = <0x2>;
+		#size-cells = <0x2>;
+		ranges;
+
+		#include "jhb100-reserved-mem.dtsi"
+
+		linux,cma {
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0x0 0x08000000>;
+			alignment = <0x0 0x1000>;
+			alloc-ranges = <0x0 0x40000000 0x2 0x0>;
+			linux,cma-default;
+		};
+	};
+};
+
+&dma_i2c {
+	status = "disabled";
+};
+
+&dma_sfc0 {
+	status = "disabled";
+};
+
+&dma_uart {
+	status = "disabled";
+};
+
+&emmc0 {
+	mmc-hs400-1_8v;
+	max-frequency = <200000000>;
+	non-removable;
+	pinctrl-names = "default";
+	pinctrl-0 = <&emmc0_pins>;
+	status = "disabled";
+};
+
+&gmac1 {
+	phy-handle = <&phy0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac1_mdio_pins>;
+	/* PHY reset pin */
+	/* reset-gpios = <&pinctrl_sys2 4 GPIO_ACTIVE_LOW>; */
+	/* reset-assert-us = <15000>; */
+	/* reset-deassert-us = <15000>; */
+	status = "disabled";
+	mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "snps,dwmac-mdio";
+
+		phy0: ethernet-phy@0 {
+			reg = <0>;
+		};
+	};
+};
+
+&husb0 {
+	status = "disabled";
+};
+
+&husb0crg {
+	status = "disabled";
+};
+
+&husb1 {
+	status = "disabled";
+};
+
+&husb1crg {
+	status = "disabled";
+};
+
+&hwspinlock {
+	status = "disabled";
+};
+
+&i2c0_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+	status = "disabled";
+};
+
+&pcie {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pe2rst_pins>;
+	status = "disabled";
+};
+
+&pvt_ddr {
+	status = "disabled";
+};
+
+&reri0 {
+	status = "disabled";
+};
+
+&reri2 {
+	status = "disabled";
+};
+
+&rtc {
+	status = "disabled";
+};
+
+&sfc0 {
+	status = "disabled";
+};
+
+&timer0 {
+	status = "disabled";
+};
+
+
+&timer1 {
+	status = "disabled";
+};
+
+&timer2 {
+	status = "disabled";
+};
+
+&uart4 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart4_pins>;
+};
+
+&uart6 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart6_pins>;
+};
+
+&ufs0 {
+	status = "disabled";
+};
+
+&usb0 {
+	status = "disabled";
+};
+
+&usb0core {
+	dr_mode = "host";
+};
+
+&usb1 {
+	status = "disabled";
+};
+
+&usb1core {
+	dr_mode = "host";
+};
+
+&voutcrg {
+	status = "disabled";
+};
+
+&wdt0 {
+	status = "disabled";
+};
+
+&wdt1 {
+	status = "disabled";
+};
+
+&wdt2 {
+	status = "disabled";
+};
+
+&wdt3 {
+	status = "disabled";
+};
+
+&wdt_ext {
+	status = "disabled";
+};
+
+&led0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&hbled_pins>;
+};

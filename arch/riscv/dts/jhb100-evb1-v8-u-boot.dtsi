@@ -1,0 +1,526 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2021-2022 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100-u-boot.dtsi"
+/ {
+	aliases {
+		timer0 = &timer0;
+		ethernet0 = &gmac2;
+		spi0 = &spi0;
+		wdt0 = &wdt0;
+		wdt1 = &wdt1;
+		wdt2 = &wdt2;
+		wdt3 = &wdt3;
+		wdt_ext = &wdt_ext;
+	};
+
+	chosen {
+		/* tick-timer = "timer0"; */
+		bootph-pre-ram;
+
+		opensbi-domains {
+			compatible = "opensbi,domain,config";
+			jhb100-system-suspend;
+		};
+	};
+
+	config {
+		u-boot,spl-primary-payload-offset = <0x210000>;
+		u-boot,spl-payload-offset = <0x210000>;
+		bootph-pre-ram;
+	};
+
+	cpus {
+		bootph-pre-ram;
+		cpu@0 {
+			bootph-pre-ram;
+		};
+
+		cpu@1 {
+			bootph-pre-ram;
+		};
+
+		cpu@2 {
+			bootph-pre-ram;
+		};
+
+		cpu@3 {
+			bootph-pre-ram;
+		};
+	};
+
+	memory {
+		bootph-pre-ram;
+	};
+
+	/delete-node/ reserved-memory;
+};
+
+&uart5 {
+	bootph-pre-ram;
+	dlf-size = <6>;
+	/delete-property/ clock-frequency;
+	/delete-property/ resets;
+};
+
+&sol4 {
+	/delete-property/ memory-region;
+};
+
+&sol5 {
+	/delete-property/ memory-region;
+};
+
+&pcie_ep0 {
+	/delete-property/ memory-region;
+};
+
+&pcie0_mmbi {
+	/delete-property/ memory-region;
+};
+
+&espi0_mmbi {
+	/delete-property/ memory-region;
+};
+
+&espi0 {
+	/delete-property/ memory-region;
+};
+
+&clint {
+	bootph-pre-ram;
+};
+
+&gmac2 {
+	bootph-pre-ram;
+	mdio0 {
+		bootph-pre-ram;
+		ethernet_phy0: ethernet-phy@0 {
+			bootph-pre-ram;
+		};
+	};
+};
+
+&plic {
+	bootph-pre-ram;
+};
+
+&osc {
+	bootph-pre-ram;
+};
+
+&pll0 {
+	bootph-pre-ram;
+};
+
+&pll1 {
+	bootph-pre-ram;
+};
+
+&pll2 {
+	bootph-pre-ram;
+};
+
+&pll3 {
+	bootph-pre-ram;
+};
+
+&pll4 {
+	bootph-pre-ram;
+};
+
+&pll5 {
+	bootph-pre-ram;
+};
+
+&pll6 {
+	bootph-pre-ram;
+};
+
+&pll7 {
+	bootph-pre-ram;
+};
+
+&i2c6_master {
+	bootph-pre-ram;
+	status = "okay";
+};
+
+&i2c7_master {
+	bootph-pre-ram;
+	status = "okay";
+};
+
+&sys0crg {
+	bootph-pre-ram;
+};
+
+&sys1crg {
+	bootph-pre-ram;
+};
+
+&sys2crg {
+	bootph-pre-ram;
+};
+
+&per1crg {
+	bootph-pre-ram;
+};
+
+&per2crg {
+	bootph-pre-ram;
+};
+
+&per3crg {
+	bootph-pre-ram;
+};
+
+&per2_gmac2_rgmii_rx {
+	bootph-pre-ram;
+};
+
+&per2_gmac2_rmii_ref {
+	bootph-pre-ram;
+};
+
+&per2_gmac3_sgmii_tx {
+	bootph-pre-ram;
+};
+
+&per2_gmac3_sgmii_rx {
+	bootph-pre-ram;
+};
+
+&per3_gmac0_rmii_rclki {
+	bootph-pre-ram;
+};
+
+&per3_gmac1_sgmii_tx {
+	bootph-pre-ram;
+};
+
+&per3_gmac1_sgmii_rx {
+	bootph-pre-ram;
+};
+
+&per0crg {
+	bootph-pre-ram;
+};
+
+&sfc0 {
+	bootph-pre-ram;
+};
+
+&timer0 {
+	status = "disabled";
+};
+
+&timer1 {
+	status = "disabled";
+};
+
+&timer2 {
+	status = "disabled";
+};
+
+&wdt0 {
+	bootph-pre-ram;
+	status = "okay";
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
+};
+
+&wdt1 {
+	bootph-pre-ram;
+	status = "okay";
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
+};
+
+&wdt2 {
+	bootph-pre-ram;
+	status = "okay";
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
+};
+
+&wdt3 {
+	bootph-pre-ram;
+	status = "okay";
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
+};
+
+&wdt_ext {
+	bootph-pre-ram;
+	status = "disabled";
+	timeout-sec = <15>;
+	hw_margin_ms = <1000>;
+	u-boot,noautostart;
+	clock-frequency = <3000000>;
+};
+
+&pinctrl_bmcperiph0 {
+	bootph-pre-ram;
+
+	mdio0_pins: mdio0-grp {
+		bootph-pre-ram;
+
+		mdio0_mdc-pins {
+			bootph-pre-ram;
+		};
+
+		mdio0_mdio-pins {
+			bootph-pre-ram;
+		};
+	};
+};
+
+&pinctrl_bmcperiph1 {
+	bootph-pre-ram;
+
+	spi0_pins: spi0-grp {
+		bootph-pre-ram;
+
+		spi0_sclk-pins {
+			bootph-pre-ram;
+		};
+
+		spi0_cs0-pins {
+			bootph-pre-ram;
+		};
+
+		spi0_cs1-pins {
+			bootph-pre-ram;
+		};
+
+		spi0_tx-pins {
+			bootph-pre-ram;
+		};
+
+		spi0_rx-pins {
+			bootph-pre-ram;
+		};
+	};
+
+	sfc0_pins: sfc0-grp {
+		bootph-pre-ram;
+
+		sfc0_sclk-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_cs0-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_cs1-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_io0-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_io1-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_io2-pins {
+			bootph-pre-ram;
+		};
+
+		sfc0_io3-pins {
+			bootph-pre-ram;
+		};
+	};
+};
+
+&pinctrl_bmcperiph2 {
+	gpionw-vsel = <JHB100_VREF_1_8V>;
+	bootph-pre-ram;
+
+	gmac2_pins: gmac2-grp {
+		bootph-pre-ram;
+
+		gmac2_txen-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txclk-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txd0-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txd1-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txd2-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_txd3-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxclk-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxdv-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxd0-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxd1-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxd2-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_rxd3-pins {
+			bootph-pre-ram;
+		};
+	};
+};
+
+&pinctrl_bmcperiph2_pok {
+	bootph-pre-ram;
+};
+
+&pinctrl_bmcperiph3 {
+	bootph-pre-ram;
+};
+
+&pinctrl_sys0 {
+	bootph-pre-ram;
+};
+
+&pinctrl_sys1 {
+	bootph-pre-ram;
+};
+
+&pinctrl_sys2 {
+	gpiow-vsel = <JHB100_VREF_3_3V>;
+	bootph-pre-ram;
+
+	uart5_pins: uart5-grp {
+		bootph-pre-ram;
+
+		uart5_tx-pins {
+			drive-strength = <12>;
+			bootph-pre-ram;
+		};
+
+		uart5_rx-pins {
+			drive-strength = <12>;
+			bootph-pre-ram;
+		};
+	};
+};
+
+&pinctrl_emmc {
+	bootph-pre-ram;
+
+	emmc0_pins: emmc0-grp {
+		bootph-pre-ram;
+
+		emmc0_clk-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_rst-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_cmd-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_dqs-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data0-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data1-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data2-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data3-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data4-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data5-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data6-pins {
+			bootph-pre-ram;
+		};
+
+		emmc0_data7-pins {
+			bootph-pre-ram;
+		};
+	};
+};
+
+&dma_sfc0 {
+	bootph-pre-ram;
+};
+
+&dma_spi0 {
+	bootph-pre-ram;
+};
+
+&spi0 {
+	bootph-pre-ram;
+};
+
+&hwspinlock {
+	bootph-pre-ram;
+};
+
+&pwm {
+	bootph-pre-ram;
+};
+
+&pwm_apb {
+	bootph-pre-ram;
+};
+
+&emmc0 {
+	bootph-pre-ram;
+
+	/* mmc to sram can't do dma, prevent aborts transferring TF-A parts */
+	u-boot,spl-fifo-mode;
+};

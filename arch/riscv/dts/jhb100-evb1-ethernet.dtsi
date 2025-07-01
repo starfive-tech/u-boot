@@ -1,0 +1,86 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+&gmac0 {
+	assigned-clocks = <&per3crg JHB100_PER3CLK_GMAC0_RMII_PLL>;
+	assigned-clock-parents = <&per3_gmac0_rmii_rclki>;
+	phy-mode = "rmii";
+	phy-handle = <&phy1>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac0_mdio_pins &gmac0_rmii_pins>;
+	/* PHY reset pin */
+	/* reset-gpios = <&pinctrl_sys2 18 GPIO_ACTIVE_LOW>; */
+	/* reset-assert-us = <15000>; */
+	/* reset-deassert-us = <15000>; */
+	status = "disabled";
+
+	mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "snps,dwmac-mdio";
+
+		phy1: ethernet-phy@1 {
+			reg = <0>;
+		};
+	};
+};
+
+&gmac2 {
+	clocks = <&per2crg JHB100_PER2CLK_ETHER0_RMIIANDRGMII_ACLK_I>,
+		 <&per2crg JHB100_PER2CLK_ETHER0_RMIIANDRGMII_CSR_I>,
+		 <&per2crg JHB100_PER2CLK_ETHER0_RMIIANDRGMII_PTP_REF_I>,
+		 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_DIV>,
+		 <&per2crg JHB100_PER2CLK_MAIN_ICG_EN_GMAC2>;
+	assigned-clocks = <&per2crg JHB100_PER2CLK_GMAC2_RGMII_125_MUX>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_RX_MUX_DLY>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TXCK_MUX_DLY>;
+	assigned-clock-parents = <&per2_gmac2_rgmii_rx>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_125_MUX>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_DIV>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>;
+	phy-mode = "rgmii";
+	phy-handle = <&phy2>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac2_mdio_pins &gmac2_rgmii_pins>;
+	/* PHY reset pin */
+	/* reset-gpios = <&pinctrl_sys2 19 GPIO_ACTIVE_LOW>; */
+	/* reset-assert-us = <15000>; */
+	/* reset-deassert-us = <15000>; */
+	status = "disabled";
+
+	mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "snps,dwmac-mdio";
+
+		phy2: ethernet-phy@2 {
+			reg = <0>;
+			/* rx-internal-delay-ps = <1500>; */
+			/* tx-internal-delay-ps = <1500>; */
+		};
+	};
+};
+
+&gmac3 {
+	phy-handle = <&phy3>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac3_mdio_pins>;
+	/* PHY reset pin */
+	/* reset-gpios = <&pinctrl_bmcperiph3 5 GPIO_ACTIVE_LOW>; */
+	/* reset-assert-us = <15000>; */
+	/* reset-deassert-us = <15000>; */
+	status = "disabled";
+	mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "snps,dwmac-mdio";
+
+		phy3: ethernet-phy@3 {
+			reg = <0>;
+		};
+	};
+
+};

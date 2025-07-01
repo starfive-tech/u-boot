@@ -1,0 +1,373 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+&adc0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&adc0_vin0_pins &adc0_vin1_pins &adc0_vin2_pins &adc0_vin3_pins
+		     &adc0_vin4_pins &adc0_vin5_pins &adc0_vin6_pins &adc0_vin7_pins>;
+	status = "disabled";
+};
+
+&adc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&adc1_vin0_pins &adc1_vin1_pins &adc1_vin2_pins &adc1_vin3_pins
+		     &adc1_vin4_pins &adc1_vin5_pins &adc1_vin6_pins &adc1_vin7_pins>;
+	status = "disabled";
+};
+
+&can0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&can0_pins>;
+	status = "disabled";
+};
+
+&can1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&can1_pins>;
+	status = "disabled";
+};
+
+&dma_i3c {
+	status = "disabled";
+};
+
+&dma_spi0 {
+	status = "disabled";
+};
+
+&espi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&espi0_pins>;
+	status = "disabled";
+};
+
+&espi1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&espi1_pins>;
+	status = "disabled";
+};
+
+&i2c1_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c1_pins>;
+	status = "disabled";
+};
+
+&i2c2_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c2_pins>;
+	status = "disabled";
+};
+
+/* SMBus ARP test: I2C3 as SMBus ARP master */
+&i2c3_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c3_pins>;
+	status = "disabled";
+
+	smbus_arp@61 {
+		compatible = "i2c-smbus-arp";
+		reg = <0x61>;
+	};
+};
+
+&i2c4_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c4_pins>;
+	status = "disabled";
+};
+
+&i2c5_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c5_pins>;
+	status = "disabled";
+};
+
+&i2c6_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c6_pins>;
+	status = "disabled";
+};
+
+&i2c7_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c7_pins>;
+	status = "disabled";
+};
+
+/* SMBus loopback test: I2C8 as master, I2C9 as slave acting as an emulated EEPROM */
+&i2c8_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c8_pins>;
+	status = "disabled";
+};
+
+/* SMBus loopback test: I2C8 as master, I2C9 as slave acting as an emulated EEPROM */
+&i2c9_slave {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c9_pins>;
+	status = "disabled";
+
+	slave-eeprom@66 {
+		compatible = "slave-24c02";
+		reg = <(0x66 | I2C_OWN_SLAVE_ADDRESS)>;
+	};
+};
+
+&i2c10_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c10_pins>;
+	status = "disabled";
+};
+
+&i2c11_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c11_pins>;
+	status = "disabled";
+};
+
+&i3c0 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c0lv_pins>;
+	status = "disabled";
+};
+
+&i3c1 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c1lv_pins>;
+	status = "disabled";
+};
+
+&i3c2 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c2lv_pins>;
+	status = "disabled";
+};
+
+&i3c3 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c3lv_pins>;
+	status = "disabled";
+};
+
+&i3c4 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c4lv_pins>;
+	status = "disabled";
+};
+
+&i3c5 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c5lv_pins>;
+	status = "disabled";
+};
+
+&i3c6 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c6lv_pins>;
+	status = "disabled";
+};
+
+&i3c7 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c7lv_pins>;
+	status = "disabled";
+};
+
+&i3c8 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c8_pins>;
+	status = "disabled";
+};
+
+&i3c9 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c9_pins>;
+	status = "disabled";
+};
+
+&i3c10 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c10_pins>;
+	status = "disabled";
+};
+
+&i3c11 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c11_pins>;
+	status = "disabled";
+};
+
+&jtag1 {
+	pinctrl-names = "jtag";
+	pinctrl-0 = <&jtagm1_pins>;
+	status = "disabled";
+};
+
+&pwm {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm_ch0_pins &pwm_ch1_pins &pwm_ch2_pins &pwm_ch3_pins
+		     &pwm_ch4_pins &pwm_ch5_pins &pwm_ch6_pins &pwm_ch7_pins>;
+	status = "disabled";
+};
+
+&pwm_tach {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm_tach0_i0_pins &pwm_tach0_i1_pins
+		     &pwm_tach0_i2_pins &pwm_tach0_i3_pins
+		     &pwm_tach0_i4_pins &pwm_tach0_i5_pins
+		     &pwm_tach0_i6_pins &pwm_tach0_i7_pins
+		     &pwm_tach0_i8_pins &pwm_tach0_i9_pins
+		     &pwm_tach0_i10_pins &pwm_tach0_i11_pins
+		     &pwm_tach0_i12_pins &pwm_tach0_i13_pins
+		     &pwm_tach0_i14_pins &pwm_tach0_i15_pins>;
+	#pwm-cells = <1>;
+	status = "disabled";
+};
+
+&sgpio0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sgpio0_pins>;
+	status = "disabled";
+
+	gpio-line-names =
+		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",
+		"", "P80_DOUT4", "", "P80_DOUT5", "", "P80_DOUT6", "", "P80_DOUT7",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "BMC_BOOT_DONE",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "";
+};
+
+&sgpio1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sgpio1_pins>;
+	status = "disabled";
+
+	gpio-line-names =
+		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",
+		"", "P80_DOUT4", "", "P80_DOUT5", "", "P80_DOUT6", "", "P80_DOUT7",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "BMC_BOOT_DONE",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "";
+};
+
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins>;
+	status = "disabled";
+};
