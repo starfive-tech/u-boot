@@ -295,6 +295,17 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
+		.request_id = 27,
+		.request_name = "get_vendor_device_id",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 2,
+		.resp_names = {"status", "vendor_device_id"},
+		.resp_size = 8,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
 		.request_id = 513,
 		.request_name = "dice_prov_cert0",
 		.param_count = 1,
