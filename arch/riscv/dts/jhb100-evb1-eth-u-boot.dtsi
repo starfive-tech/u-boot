@@ -58,7 +58,7 @@
 	/delete-node/ reserved-memory;
 };
 
-&uart5 {
+&uart6 {
 	bootph-pre-ram;
 	dlf-size = <6>;
 	/delete-property/ clock-frequency;
@@ -423,15 +423,15 @@
 	gpiow-vsel = <JHB100_VREF_3_3V>;
 	bootph-pre-ram;
 
-	uart5_pins: uart5-grp {
+	uart6_pins: uart6-grp {
 		bootph-pre-ram;
 
-		uart5_tx-pins {
+		uart6_tx-pins {
 			drive-strength = <12>;
 			bootph-pre-ram;
 		};
 
-		uart5_rx-pins {
+		uart6_rx-pins {
 			drive-strength = <12>;
 			bootph-pre-ram;
 		};
