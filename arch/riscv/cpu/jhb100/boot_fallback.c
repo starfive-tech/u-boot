@@ -79,6 +79,8 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 	int fb_rec_map = starfive_get_fb_rec_map();
 	int i;
 
+	starfive_set_ap_sts_boot_src(BOOTSTG_U_BOOT_PROPER, boot_src);
+
 	switch (boot_src) {
 	case BOOT_SRC_SFC:
 		chk_map = starfive_fb_rec_map_handler(&fb_rec_map,

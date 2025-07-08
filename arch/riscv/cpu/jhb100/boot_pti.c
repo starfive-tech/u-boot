@@ -69,6 +69,16 @@ void starfive_set_ap_sts_image_flag(int img_type, int sts_image_flag)
 	boot_reg_info->sts_base_addr->boot_stat_reg.image_flg = sts_image_flag;
 }
 
+void starfive_set_ap_sts_boot_src(int img_type, int sts_boot_src)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+
+	struct boot_reg_info *boot_reg_info = &boot_reg[img_type];
+
+	boot_reg_info->sts_base_addr->boot_stat_reg.boot_src = sts_boot_src;
+}
+
 void starfive_add_ap_sts_retry_cnt(int img_type, int cnt)
 {
 	struct boot_reg_info *boot_reg_info = &boot_reg[img_type];

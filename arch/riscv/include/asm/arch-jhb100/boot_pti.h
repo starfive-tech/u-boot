@@ -116,6 +116,7 @@ struct boot_reg_info {
 
 void starfive_set_ap_ctl_boot_stage(int img_type, int ctl_boot_stage);
 void starfive_set_ap_sts_image_flag(int img_type, int sts_image_flag);
+void starfive_set_ap_sts_boot_src(int img_type, int sts_boot_src);
 int starfive_get_partition_num(int boot_src, int part_type, int img_type);
 int starfive_get_partition_offset(int boot_src, int part_type, int img_type);
 int starfive_get_sfc_cs_line_num(void);
