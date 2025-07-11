@@ -9,10 +9,12 @@
 #define _STARFIVE_RESET_H
 
 #include <asm/io.h>
+#include <asm/arch/ap_core.h>
 
 /* Reset Event Status Register */
 #define RESET_EVENT_ADDR			0x0013010034
 #define RESET_EVENT_MSK				0xFFF
+#define SOC_OTP_DUAL_NODE_DISABLE_MSK		0x800
 
 /* Reset Event */
 #define RESET_EVENT_SYSRSTN_POR			0x001	// Power-On Reset
@@ -31,6 +33,11 @@
 /* Read Reset Event Utility */
 #define GET_RESET_EVENT_ID		(readl((const void *)RESET_EVENT_ADDR) & \
 					 RESET_EVENT_MSK)
+
+/* Get BMC AP cores status */
+#define GET_SOC_OTP_DUAL_NODE_STAT	\
+	(readl((const void *)SYS2_SYSCON_SOC_OTPSTRAP_STAT1_ADDR)	\
+	 & (SOC_OTP_DUAL_NODE_DISABLE_MSK))
 
 void starfive_get_reset_event(char *str);
 

@@ -248,9 +248,9 @@ int board_late_init(void)
 {
 	env_get_boot_dev();
 	env_get_spi_flash_offs();
+	env_restore_bootcmd();
 	/* Add or replace reset_event argument to bootargs */
 	env_filter_add_bootarg(starfive_get_reset_event, "reset_event=");
-	env_restore_bootcmd();
 
 	uboot_starfive_fb_rec_map_handler();
 
