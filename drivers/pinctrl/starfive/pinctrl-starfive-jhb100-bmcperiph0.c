@@ -205,6 +205,7 @@ static const struct jhb100_pinctrl_soc_info jhb100_bmcperiph0_pinctrl_info = {
 	.gpio_init_hw			= jhb100_bmcperiph0_init_hw,
 	.set_one_pinmux			= jhb100_bmcperiph0_set_one_pin_mux,
 	.get_padcfg_base		= jhb100_bmcperiph0_get_padcfg_base,
+	.debouce_width_mask		= GENMASK(31, 15),
 };
 
 static int jhb100_bmcperiph0_pinctrl_probe(struct udevice *dev)

@@ -148,6 +148,7 @@ static const struct jhb100_pinctrl_soc_info jhb100_bmcperiph2_pinctrl_info = {
 	.set_one_pinmux			= jhb100_bmcperiph2_set_one_pin_mux,
 	.get_padcfg_base		= jhb100_bmcperiph2_get_padcfg_base,
 	.is_vselcfg			= jhb100_bmcperiph2_is_vselcfg,
+	.debouce_width_mask		= GENMASK(31, 15),
 };
 
 static int jhb100_bmcperiph2_pinctrl_probe(struct udevice *dev)

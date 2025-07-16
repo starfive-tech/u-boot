@@ -20,7 +20,6 @@
 #include "pinctrl-starfive-jhb100.h"
 
 /* pad control bits offset */
-#define JHB100_PADCFG_DEBOUNCE_WIDTH	GENMASK(31, 15)
 #define JHB100_PADCFG_SMT		BIT(6)
 #define JHB100_PADCFG_SLEW		BIT(5)
 #define JHB100_PADCFG_PU		BIT(4)
@@ -52,8 +51,7 @@
 
 #define GPIO_NUM_PER_WORD		32
 
-#define MAX_DEBOUNCE_WIDTH_STAGES	0x666
-#define DEBOUNCE_WIDTH_NS		80
+#define MAX_DEBOUNCE_WIDTH_STAGES	0x1ffff
 
 #define STARFIVE_PIN_CONFIG_GMAC_VSEL		(PIN_CONFIG_END + 1)
 #define STARFIVE_PIN_CONFIG_DEBOUNCE_WIDTH	(PIN_CONFIG_END + 2)
@@ -274,14 +272,18 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 		}
 		break;
 	case STARFIVE_PIN_CONFIG_DEBOUNCE_WIDTH:
-		mask |= JHB100_PADCFG_DEBOUNCE_WIDTH;
+		mask |= info->debouce_width_mask;
 		if (arg > MAX_DEBOUNCE_WIDTH_STAGES)
 			arg = MAX_DEBOUNCE_WIDTH_STAGES;
-		value |= arg ? ((DEBOUNCE_WIDTH_NS * arg) << JHB100_PADCFG_DB_WIDTH_SHIFT) : 0;
+		value |= arg ? (arg << JHB100_PADCFG_DB_WIDTH_SHIFT) : 0;
 		break;
 	case STARFIVE_PIN_CONFIG_GMAC_VSEL:
-		mask |= JHB100_RGMII_PADCFG_VSEL;
-		value |= arg ? (1 << JHB100_PADCFG_VSEL_SHIFT) : 0;
+		if (info->is_vselcfg && info->is_vselcfg(pin)) {
+			mask |= JHB100_RGMII_PADCFG_VSEL;
+			value |= arg ? (1 << JHB100_PADCFG_VSEL_SHIFT) : 0;
+		} else {
+			return -EINVAL;
+		}
 		break;
 	default:
 		return -EINVAL;

@@ -100,6 +100,7 @@ static const struct jhb100_pinctrl_soc_info jhb100_emmc_pinctrl_info = {
 	.gpio_init_hw			= jhb100_emmc_init_hw,
 	.set_one_pinmux			= jhb100_emmc_set_one_pin_mux,
 	.get_padcfg_base		= jhb100_emmc_get_padcfg_base,
+	.debouce_width_mask		= GENMASK(16, 0),
 };
 
 static int jhb100_emmc_pinctrl_probe(struct udevice *dev)
