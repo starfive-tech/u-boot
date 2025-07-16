@@ -145,12 +145,10 @@
 
 &i2c6_master {
 	bootph-pre-ram;
-	status = "okay";
 };
 
 &i2c7_master {
 	bootph-pre-ram;
-	status = "okay";
 };
 
 &sys0crg {
@@ -227,7 +225,6 @@
 
 &wdt0 {
 	bootph-pre-ram;
-	status = "okay";
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
@@ -236,7 +233,6 @@
 
 &wdt1 {
 	bootph-pre-ram;
-	status = "okay";
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
@@ -245,7 +241,6 @@
 
 &wdt2 {
 	bootph-pre-ram;
-	status = "okay";
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
@@ -254,7 +249,6 @@
 
 &wdt3 {
 	bootph-pre-ram;
-	status = "okay";
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
