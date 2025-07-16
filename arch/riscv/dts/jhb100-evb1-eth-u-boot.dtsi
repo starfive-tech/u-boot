@@ -143,14 +143,6 @@
 	bootph-pre-ram;
 };
 
-&i2c6_master {
-	bootph-pre-ram;
-};
-
-&i2c7_master {
-	bootph-pre-ram;
-};
-
 &sys0crg {
 	bootph-pre-ram;
 };
@@ -486,14 +478,6 @@
 			bootph-pre-ram;
 		};
 	};
-};
-
-&dma_sfc0 {
-	bootph-pre-ram;
-};
-
-&dma_spi0 {
-	bootph-pre-ram;
 };
 
 &spi0 {
