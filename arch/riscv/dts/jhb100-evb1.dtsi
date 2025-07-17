@@ -15,7 +15,7 @@
 	aliases {
 		serial4 = &uart4;
 		serial5 = &uart5;
-		serial6 = &uart6;
+		serial0 = &uart6;
 		serial7 = &uart7;
 		serial8 = &uart8;
 		serial9 = &uart9;
@@ -96,8 +96,22 @@
 		i3c15 = &i3c15;
 	};
 
+	soc {
+		fpga_25mhz_clk: fpga_25mhz_clk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <25000000>;
+		};
+
+		fpga_100mhz_clk: fpga_100mhz_clk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <100000000>;
+		};
+	};
+
 	chosen {
-		stdout-path = "serial6:115200n8";
+		stdout-path = "serial0:115200n8";
 	};
 
 	cpus {
@@ -246,6 +260,7 @@
 	current-speed = <115200>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart6_pins>;
+	clocks = <&fpga_25mhz_clk>, <&fpga_100mhz_clk>;
 };
 
 &ufs0 {
