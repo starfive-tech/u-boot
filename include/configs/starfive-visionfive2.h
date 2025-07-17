@@ -319,6 +319,11 @@
 		"fatload ${bootdev} ${devnum}:${bootpart} ${loadaddr} /${bootenv}; " \
 		"env import -t ${loadaddr} ${filesize}; \0" \
 	"bootcmd_distro="	\
+		"if test ${vf2_board_type} = 1; then "   \
+		    "setenv bootenv uEnv_CM.txt;"    \
+		"elif test ${vf2_board_type} = 2; then "    \
+		    "setenv bootenv uEnv_Lite.txt;"    \
+		"fi;" \
 		"run load_distro_uenv; " \
 		"sysboot ${bootdev} ${devnum}:${bootpart} fat ${scriptaddr} /${boot_syslinux_conf}; \0" \
 	"distro_mmc_test_and_boot="					\
