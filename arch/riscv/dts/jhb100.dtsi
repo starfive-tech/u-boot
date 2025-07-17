@@ -2043,7 +2043,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C0>,
 					<&per0crg JHB100_PER0CLK_APB_I2C0>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C0>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2057,7 +2056,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C0>,
 					<&per0crg JHB100_PER0CLK_APB_I2C0>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C0>;
 				status = "disabled";
 			};
 
@@ -2070,7 +2068,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C1>,
 					<&per0crg JHB100_PER0CLK_APB_I2C1>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C1>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2084,7 +2081,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C1>,
 					<&per0crg JHB100_PER0CLK_APB_I2C1>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C1>;
 				status = "disabled";
 			};
 
@@ -2097,7 +2093,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C2>,
 					<&per0crg JHB100_PER0CLK_APB_I2C2>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C2>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2111,7 +2106,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C2>,
 					<&per0crg JHB100_PER0CLK_APB_I2C2>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C2>;
 				status = "disabled";
 			};
 
@@ -2124,7 +2118,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C3>,
 					<&per0crg JHB100_PER0CLK_APB_I2C3>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C3>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2138,7 +2131,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C3>,
 					<&per0crg JHB100_PER0CLK_APB_I2C3>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C3>;
 				status = "disabled";
 			};
 
@@ -2151,7 +2143,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C4>,
 					<&per0crg JHB100_PER0CLK_APB_I2C4>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C4>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2165,7 +2156,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C4>,
 					<&per0crg JHB100_PER0CLK_APB_I2C4>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C4>;
 				status = "disabled";
 			};
 
@@ -2178,7 +2168,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C5>,
 					<&per0crg JHB100_PER0CLK_APB_I2C5>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C5>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2192,7 +2181,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C5>,
 					<&per0crg JHB100_PER0CLK_APB_I2C5>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C5>;
 				status = "disabled";
 			};
 
@@ -2205,7 +2193,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C6>,
 					<&per0crg JHB100_PER0CLK_APB_I2C6>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C6>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2219,7 +2206,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C6>,
 					<&per0crg JHB100_PER0CLK_APB_I2C6>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C6>;
 				status = "disabled";
 			};
 
@@ -2232,7 +2218,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C7>,
 					<&per0crg JHB100_PER0CLK_APB_I2C7>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C7>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2246,7 +2231,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C7>,
 					<&per0crg JHB100_PER0CLK_APB_I2C7>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C7>;
 				status = "disabled";
 			};
 
@@ -2259,7 +2243,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C8>,
 					<&per0crg JHB100_PER0CLK_APB_I2C8>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C8>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2273,7 +2256,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C8>,
 					<&per0crg JHB100_PER0CLK_APB_I2C8>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C8>;
 				status = "disabled";
 			};
 
@@ -2286,7 +2268,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C9>,
 					<&per0crg JHB100_PER0CLK_APB_I2C9>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C9>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2300,7 +2281,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C9>,
 					<&per0crg JHB100_PER0CLK_APB_I2C9>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C9>;
 				status = "disabled";
 			};
 
@@ -2313,7 +2293,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C10>,
 					<&per0crg JHB100_PER0CLK_APB_I2C10>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C10>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2327,7 +2306,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C10>,
 					<&per0crg JHB100_PER0CLK_APB_I2C10>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C10>;
 				status = "disabled";
 			};
 
@@ -2340,7 +2318,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C11>,
 					<&per0crg JHB100_PER0CLK_APB_I2C11>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C11>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2354,7 +2331,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C11>,
 					<&per0crg JHB100_PER0CLK_APB_I2C11>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C11>;
 				status = "disabled";
 			};
 
@@ -2367,7 +2343,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C12>,
 					<&per0crg JHB100_PER0CLK_APB_I2C12>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C12>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2381,7 +2356,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C12>,
 					<&per0crg JHB100_PER0CLK_APB_I2C12>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C12>;
 				status = "disabled";
 			};
 
@@ -2394,7 +2368,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C13>,
 					<&per0crg JHB100_PER0CLK_APB_I2C13>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C13>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2408,7 +2381,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C13>,
 					<&per0crg JHB100_PER0CLK_APB_I2C13>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C13>;
 				status = "disabled";
 			};
 
@@ -2421,7 +2393,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C14>,
 					<&per0crg JHB100_PER0CLK_APB_I2C14>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C14>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2435,7 +2406,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C14>,
 					<&per0crg JHB100_PER0CLK_APB_I2C14>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C14>;
 				status = "disabled";
 			};
 
@@ -2448,7 +2418,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C15>,
 					<&per0crg JHB100_PER0CLK_APB_I2C15>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C15>;
 				starfive,chsel = <0>;
 				status = "disabled";
 			};
@@ -2462,7 +2431,6 @@
 				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I2C15>,
 					<&per0crg JHB100_PER0CLK_APB_I2C15>;
 				clock-names = "ref", "pclk";
-				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I2C15>;
 				status = "disabled";
 			};
 
