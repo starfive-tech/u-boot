@@ -108,6 +108,12 @@
 			#clock-cells = <0>;
 			clock-frequency = <100000000>;
 		};
+
+		fpga_200mhz_clk: fpga_200mhz_clk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <200000000>;
+		};
 	};
 
 	chosen {
@@ -232,7 +238,9 @@
 };
 
 &sfc0 {
-	status = "disabled";
+	status = "okay";
+	clocks = <&fpga_200mhz_clk>;
+	spi-max-frequency = <20000000>;
 };
 
 &timer0 {

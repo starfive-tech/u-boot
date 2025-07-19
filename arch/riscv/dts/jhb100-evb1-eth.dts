@@ -140,8 +140,3 @@
 	gpio-line-names =
 		"VGA_HS", "VGA_VS", "VGA_DDCCLK", "VGA_DDCDAT";		/* GPIOI0-3 */
 };
-
-/* Set to disabled for power on */
-&sfc0 {
-	status = "disabled";
-};

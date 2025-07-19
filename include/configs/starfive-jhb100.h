@@ -339,7 +339,12 @@
 				"if run loadfitimagespiact; then "	\
 					"echo Authenticating	\
 					SPI Active FIT image ...; "	\
-					"run auth_pre_os_bootm;"	\
+					"if authbm ${loadaddr}; then "	\
+						"echo Initiate Pre OS Boot Notify ...; "	\
+						"preosbootnotify 0;"	\
+						"echo Boot OS ...; "	\
+						"bootm ${loadaddr};"	\
+					"fi;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -357,7 +362,12 @@
 					"if run loadfitimagespigol; then "	\
 						"echo Authenticating	\
 						SPI Golden FIT image ...; "	\
-						"run auth_pre_os_bootm;"	\
+						"if authbm ${loadaddr}; then "	\
+							"echo Initiate Pre OS Boot Notify ...; "	\
+							"preosbootnotify 1;"	\
+							"echo Boot OS ...; "	\
+							"bootm ${loadaddr};"	\
+						"fi;"	\
 					"fi; "	\
 				"fi; "	\
 			"fi;"	\

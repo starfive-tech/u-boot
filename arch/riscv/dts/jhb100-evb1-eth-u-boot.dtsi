@@ -510,3 +510,7 @@
 &fpga_100mhz_clk {
 	bootph-pre-ram;
 };
+
+&fpga_200mhz_clk {
+	bootph-pre-ram;
+};
