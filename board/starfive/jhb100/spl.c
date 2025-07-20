@@ -346,7 +346,8 @@ void board_init_f(ulong dummy)
 
 	riscv_cpu_setup();
 
-	jhb100_smbus_filter_disable();
+	/* TODO: to remove */
+	//jhb100_smbus_filter_disable();
 
 	jhb100_plat_init();
 
