@@ -126,7 +126,7 @@ static int clk_mux_set_parent(struct clk *clk, struct clk *parent)
 	int index;
 	u32 val;
 	u32 reg;
-
+	return 0;
 	index = clk_fetch_parent_index(clk, parent);
 	if (index < 0) {
 		log_err("Could not fetch index\n");

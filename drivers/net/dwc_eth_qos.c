@@ -1354,12 +1354,317 @@ static int eqos_remove_resources_tegra186(struct udevice *dev)
 	return 0;
 }
 
+static void IE_select(uint32_t addr) {
+	uint32_t val1 = *(volatile uint32_t *)addr;
+	val1 |=  (0x1); //Input Enable
+	*(volatile uint32_t *)addr = val1;
+}
+
+static void PU_select(uint32_t addr) {
+	uint32_t val1 = *(volatile uint32_t *)addr;
+	val1 &= ~(0x3 << 2);
+	val1 |=  (0x1 << 3) & 0x8; //Pull Up
+	*(volatile uint32_t *)addr = val1;
+}
+
+static void VSEL_select(uint32_t addr) {
+	uint32_t val1 = *(volatile uint32_t *)addr;
+	val1 |=  (0x1 << 2) & 0xC; //VSEL
+	*(volatile uint32_t *)addr = val1;
+}
+
+#define MDIO_B24 0x11a0a074 //MDC
+#define MDIO_B25 0x11a0a078 //MDIO
+
+#define MDIO_D19 0x11bc2050
+#define MDIO_D20 0x11bc2054
+#define MDIO_D21 0x11bc2058
+#define MDIO_D22 0x11bc205C
+#define MDIO_D23 0x11bc2060
+#define MDIO_D24 0x11bc2064
+#define MDIO_D25 0x11bc2068
+#define MDIO_D26 0x11bc206C
+#define MDIO_D27 0x11bc2070
+#define MDIO_D28 0x11bc2074
+#define MDIO_D29 0x11bc2078
+#define MDIO_D30 0x11bc207C
+
+#define VREF_VDD33_GPIOSE 0x11a0a000
+#define VREF_VDD182533_GPIOS 0x11c42000
+
+static void set_pinmux(void) {
+
+	//VREF_VDD33_GPIOSE remain 3.3 (default)
+	uint32_t val1 = *(volatile uint32_t *)VREF_VDD33_GPIOSE;
+    //printf("VREF_VDD33_GPIOSE = 0x%x\n", val1);
+	PU_select(MDIO_B24);
+	val1 = *(volatile uint32_t *)MDIO_B24;
+    //printf("MDIO_B24 = 0x%x\n", val1);
+	val1 = *(volatile uint32_t *)VREF_VDD182533_GPIOS;
+	val1 |=  0x2;
+	*(volatile uint32_t *)VREF_VDD182533_GPIOS = val1;
+	val1 = *(volatile uint32_t *)VREF_VDD182533_GPIOS;
+	//printf("VREF_VDD182533_GPIOS = 0x%x\n", val1);
+	VSEL_select(MDIO_D19);
+	VSEL_select(MDIO_D20);
+	VSEL_select(MDIO_D21);
+	VSEL_select(MDIO_D22);
+	VSEL_select(MDIO_D23);
+	VSEL_select(MDIO_D24);
+	VSEL_select(MDIO_D25);
+	VSEL_select(MDIO_D26);
+	VSEL_select(MDIO_D27);
+	VSEL_select(MDIO_D28);
+	VSEL_select(MDIO_D29);
+	VSEL_select(MDIO_D30);
+
+	#define RGMII_PHY_INTF_SEL 0x0011BC1000
+	val1 = 0;
+	val1 = *(volatile uint32_t *)RGMII_PHY_INTF_SEL;
+	val1 |=  (0x1<<8)&0xF00; //SELECT RGMII
+	*(volatile uint32_t *)RGMII_PHY_INTF_SEL = val1;
+	val1 = *(volatile uint32_t *)RGMII_PHY_INTF_SEL;
+    //printf("RGMII_PHY_INTF_SEL = 0x%x\n", val1);
+
+
+	// IE_select(MDIO_B24);
+	val1 =  0x00000077; //SELECT RGMII
+	*(volatile uint32_t *)MDIO_B24 = val1;
+	val1 = *(volatile uint32_t *)MDIO_B24;
+    //printf("MDIO_B24 = 0x%x\n", val1);
+
+	// IE_select(MDIO_B25);
+	val1 =  0x00000077; //SELECT RGMII
+	*(volatile uint32_t *)MDIO_B25 = val1;
+	val1 = *(volatile uint32_t *)MDIO_B25;
+    //printf("MDIO_B25 = 0x%x\n", val1);
+
+	IE_select(MDIO_D19);
+	IE_select(MDIO_D20);
+	IE_select(MDIO_D21);
+	IE_select(MDIO_D22);
+	IE_select(MDIO_D23);
+	IE_select(MDIO_D24);
+	IE_select(MDIO_D25);
+	IE_select(MDIO_D26);
+	IE_select(MDIO_D27);
+	IE_select(MDIO_D28);
+	IE_select(MDIO_D29);
+	IE_select(MDIO_D30);
+	val1 = *(volatile uint32_t *)MDIO_D30;
+	//printf("MDIO_D30 = 0x%x\n", val1);
+
+	#define MDIO_PINCTRL 0x11a0a120 //[16:17], [17:18] expecting 2
+	val1 = 0;
+	val1 |=  (0x2 << 16);
+	val1 |=  (0x2 << 18);
+	*(volatile uint32_t *)MDIO_PINCTRL = val1;
+	val1 = *(volatile uint32_t *)MDIO_PINCTRL;
+    //printf("MDIO_PINCTRL = 0x%x\n", val1);
+	//printf("func24 (GPIO_B24) = 0x%x\n", (val1 >> 16)  & 0x3);
+	//printf("func25 (GPIO_B25) = 0x%x\n", (val1 >> 18)  & 0x3);
+
+	#define RGMII_PINCTRL 0x11bc2090 //[6:28] expecting 1
+	val1 = 0;
+	val1 |=  (1 << 6);
+	val1 |=  (1 << 8);
+	val1 |=  (1 << 10);
+	val1 |=  (1 << 12);
+	val1 |=  (1 << 14);
+	val1 |=  (1 << 16);
+	val1 |=  (1 << 18);
+	val1 |=  (1 << 20);
+	val1 |=  (1 << 22);
+	val1 |=  (1 << 24);
+	val1 |=  (1 << 26);
+	val1 |=  (1 << 28);
+	*(volatile uint32_t *)RGMII_PINCTRL = val1;
+	val1 = *(volatile uint32_t *)RGMII_PINCTRL;
+	//printf("RGMII_PINCTRL 0x%x\n", val1);
+	//printf("func19 (GPIO_D19) = 0x%x\n", (val1 >> 6)  & 0x3);
+	//printf("func20 (GPIO_D20) = 0x%x\n", (val1 >> 8)  & 0x3);
+	//printf("func21 (GPIO_D21) = 0x%x\n", (val1 >> 10) & 0x3);
+	//printf("func22 (GPIO_D22) = 0x%x\n", (val1 >> 12) & 0x3);
+	//printf("func23 (GPIO_D23) = 0x%x\n", (val1 >> 14) & 0x1);
+	//printf("func24 (GPIO_D24) = 0x%x\n", (val1 >> 16) & 0x1);
+	//printf("func25 (GPIO_D25) = 0x%x\n", (val1 >> 18) & 0x3);
+	//printf("func26 (GPIO_D26) = 0x%x\n", (val1 >> 20) & 0x3);
+	//printf("func27 (GPIO_D27) = 0x%x\n", (val1 >> 22) & 0x3);
+	//printf("func28 (GPIO_D28) = 0x%x\n", (val1 >> 24) & 0x3);
+	//printf("func29 (GPIO_D29) = 0x%x\n", (val1 >> 26) & 0x1);
+	//printf("func30 (GPIO_D30) = 0x%x\n", (val1 >> 28) & 0x1);
+
+	#define RGMII_DIV 0x11bc0040
+	val1 = 0;
+	val1 |=  (50) & 0x3F;
+	*(volatile uint32_t *)RGMII_DIV = val1;
+	val1 = *(volatile uint32_t *)RGMII_DIV;
+	//printf("RGMII_DIV 0x%x\n", val1);
+}
+
+#define RGMII_RMII_MUX_DLY 0x11bc0030
+#define RGMII_RMII_DIV 0x11bc0034
+#define RGMII_FUNC_DELAY 0x11bc0038
+#define RGMII_125_MUX 0x11bc003C
+#define RGMII_DIV 0x11bc0040
+#define RGMII_TX_MUX 0x11bc0044
+#define RGMII_TX_180_BUF 0x11bc0048
+#define RGMII_RX_MUX_DLY 0x11bc004C
+#define RGMII_RX_180_BUF 0x11bc0050
+#define RGMII_TXCK_MUX_DLY 0x11bc0054
+#define RGMII_TX_125_BUF 0x11bc0058
+#define RGMII_RX_125_BUF 0x11bc005C
+#define RGMII_TX_DIV 0x11bc0060
+#define RGMII_RX_DIV 0x11bc0064
+#define RGMII_CLK_TX_I 0x11bc00B0
+#define RGMII_CLK_RX_I 0x11bc00B4
+#define RGMII_CLK_TX_180_I 0x11bc00B8
+#define RGMII_CLK_RX_180_I 0x11bc00BC
+#define RGMII_CLK_PTP_REF_I 0x11bc00C0
+#define RGMII_CLK_RMII_I 0x11bc00C4
+#define RGMII_CLK_CSR_I 0x11bc00C8
+#define RGMII_CLK_ACLK_I 0x11bc00CC
+#define RGMII_CLK_IOMUX_CLK_TXCK 0x11bc00D0
+#define RGMII_MAIN_ICG_EN_GMAC2 0x11bc0114
+#define ASSERT_SEL 0x11bc011C
+#define ASSERT_STS_SEL 0x11bc0120
+
+static void disable_clock(void) {
+
+	uint32_t val;
+
+		val = *(volatile uint32_t *)ASSERT_SEL;
+		val |=  (1 << 7);
+		*(volatile uint32_t *)ASSERT_SEL = val;
+		val = *(volatile uint32_t *)ASSERT_SEL;
+		//printf("ASSERT_SEL = 0x%08X\n", val);
+
+	do {
+		val = *(volatile uint32_t *)ASSERT_STS_SEL;
+		//printf("ASSERT_STS_SEL = 0x%08X\n", val);
+	} while((val&(1<<7))!=0);
+
+	val = *(volatile uint32_t *)RGMII_MAIN_ICG_EN_GMAC2;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)RGMII_MAIN_ICG_EN_GMAC2 = val;
+	val = *(volatile uint32_t *)RGMII_MAIN_ICG_EN_GMAC2;
+    //printf("RGMII_MAIN_ICG_EN_GMAC2 = 0x%08X\n", val);
+
+		val = *(volatile uint32_t *)RGMII_CLK_TX_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)RGMII_CLK_TX_I = val;
+		val = *(volatile uint32_t *)RGMII_CLK_TX_I;
+		//printf("RGMII_CLK_TX_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)RGMII_CLK_RX_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)RGMII_CLK_RX_I = val;
+	val = *(volatile uint32_t *)RGMII_CLK_RX_I;
+    //printf("RGMII_CLK_RX_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)RGMII_CLK_CSR_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)RGMII_CLK_CSR_I = val;
+		val = *(volatile uint32_t *)RGMII_CLK_CSR_I;
+		//printf("RGMII_CLK_CSR_I = 0x%08X \n", val);
+	val = *(volatile uint32_t *)RGMII_CLK_RMII_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)RGMII_CLK_RMII_I = val;
+    val = *(volatile uint32_t *)RGMII_CLK_RMII_I;
+    //printf("RGMII_CLK_RMII_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)RGMII_CLK_TX_180_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)RGMII_CLK_TX_180_I = val;
+		val = *(volatile uint32_t *)RGMII_CLK_TX_180_I;
+		//printf("RGMII_CLK_TX_180_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)RGMII_CLK_RX_180_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)RGMII_CLK_RX_180_I = val;
+	val = *(volatile uint32_t *)RGMII_CLK_RX_180_I;
+    //printf("RGMII_CLK_RX_180_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)RGMII_CLK_PTP_REF_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)RGMII_CLK_PTP_REF_I = val;
+		val = *(volatile uint32_t *)RGMII_CLK_PTP_REF_I;
+		//printf("RGMII_CLK_PTP_REF_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)RGMII_CLK_ACLK_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)RGMII_CLK_ACLK_I = val;
+	val = *(volatile uint32_t *)RGMII_CLK_ACLK_I;
+    //printf("RGMII_CLK_ACLK_I = 0x%08X\n", val);
+}
+
+static void enable_clock(void) {
+	uint32_t val;
+
+	val = *(volatile uint32_t *)RGMII_MAIN_ICG_EN_GMAC2;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)RGMII_MAIN_ICG_EN_GMAC2 = val;
+	val = *(volatile uint32_t *)RGMII_MAIN_ICG_EN_GMAC2;
+    //printf("RGMII_MAIN_ICG_EN_GMAC2 = 0x%08X\n", val);
+
+		val = *(volatile uint32_t *)RGMII_CLK_TX_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)RGMII_CLK_TX_I = val;
+		val = *(volatile uint32_t *)RGMII_CLK_TX_I;
+		//printf("RGMII_CLK_TX_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)RGMII_CLK_RX_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)RGMII_CLK_RX_I = val;
+	val = *(volatile uint32_t *)RGMII_CLK_RX_I;
+    //printf("RGMII_CLK_RX_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)RGMII_CLK_CSR_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)RGMII_CLK_CSR_I = val;
+		val = *(volatile uint32_t *)RGMII_CLK_CSR_I;
+		//printf("RGMII_CLK_CSR_I = 0x%08X \n", val);
+	val = *(volatile uint32_t *)RGMII_CLK_RMII_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)RGMII_CLK_RMII_I = val;
+    val = *(volatile uint32_t *)RGMII_CLK_RMII_I;
+    //printf("RGMII_CLK_RMII_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)RGMII_CLK_TX_180_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)RGMII_CLK_TX_180_I = val;
+		val = *(volatile uint32_t *)RGMII_CLK_TX_180_I;
+		//printf("RGMII_CLK_TX_180_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)RGMII_CLK_RX_180_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)RGMII_CLK_RX_180_I = val;
+	val = *(volatile uint32_t *)RGMII_CLK_RX_180_I;
+    //printf("RGMII_CLK_RX_180_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)RGMII_CLK_PTP_REF_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)RGMII_CLK_PTP_REF_I = val;
+		val = *(volatile uint32_t *)RGMII_CLK_PTP_REF_I;
+		//printf("RGMII_CLK_PTP_REF_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)RGMII_CLK_ACLK_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)RGMII_CLK_ACLK_I = val;
+	val = *(volatile uint32_t *)RGMII_CLK_ACLK_I;
+    //printf("RGMII_CLK_ACLK_I = 0x%08X\n", val);
+
+		val = *(volatile uint32_t *)ASSERT_SEL;
+		val &=  ~(1 << 7);
+		*(volatile uint32_t *)ASSERT_SEL = val;
+		val = *(volatile uint32_t *)ASSERT_SEL;
+		//printf("ASSERT_SEL = 0x%08X\n", val);
+
+	do {
+		val = *(volatile uint32_t *)ASSERT_STS_SEL;
+		//printf("ASSERT_STS_SEL = 0x%08X\n", val);
+	} while((val&(1<<7))!=(1<<7));
+}
+
+
 static int eqos_probe(struct udevice *dev)
 {
 	struct eqos_priv *eqos = dev_get_priv(dev);
 	int ret;
 
 	debug("%s(dev=%p):\n", __func__, dev);
+
+	disable_clock();
+	set_pinmux();
+	enable_clock();
 
 	eqos->dev = dev;
 	eqos->config = (void *)dev_get_driver_data(dev);

@@ -27,6 +27,10 @@
 	};
 };
 
+&syscon_bmcperiph2 {
+	bootph-pre-ram;
+};
+
 &gmac2 {
 	clocks = <&per2crg JHB100_PER2CLK_ETHER0_RMIIANDRGMII_ACLK_I>,
 		 <&per2crg JHB100_PER2CLK_ETHER0_RMIIANDRGMII_CSR_I>,
@@ -41,7 +45,7 @@
 				 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_125_MUX>,
 				 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_DIV>,
 				 <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>;
-	phy-mode = "rgmii";
+	phy-mode = "rgmii-id";
 	phy-handle = <&phy2>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac2_mdio_pins &gmac2_rgmii_pins>;
@@ -49,17 +53,21 @@
 	/* reset-gpios = <&pinctrl_sys2 19 GPIO_ACTIVE_LOW>; */
 	/* reset-assert-us = <15000>; */
 	/* reset-deassert-us = <15000>; */
-	status = "disabled";
+	status = "okay";
+	starfive,syscon = <&syscon_bmcperiph2 0x00 0x8>;
 
 	mdio {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
-
+		bootph-pre-ram;
 		phy2: ethernet-phy@2 {
 			reg = <0>;
+			compatible = "ethernet-phy-id4f51.e91b";
+			motorcomm,tx-clk-adj-enabled;
 			/* rx-internal-delay-ps = <1500>; */
 			/* tx-internal-delay-ps = <1500>; */
+			bootph-pre-ram;
 		};
 	};
 };
