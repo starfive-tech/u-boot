@@ -281,6 +281,7 @@ struct sdhci_ops {
 	int (*config_dll)(struct sdhci_host *host, u32 clock, bool enable);
 	int	(*deferred_probe)(struct sdhci_host *host);
 	void	(*set_card_clock)(struct sdhci_host *host, bool enable);
+	void	(*init_phy)(struct sdhci_host *host);
 
 	/**
 	 * set_enhanced_strobe() - Set HS400 Enhanced Strobe config

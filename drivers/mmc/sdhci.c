@@ -733,6 +733,9 @@ static int sdhci_init(struct mmc *mmc)
 
 	sdhci_reset(host, SDHCI_RESET_ALL);
 
+	if (host->ops && host->ops->init_phy)
+		host->ops->init_phy(host);
+
 #if defined(CONFIG_FIXED_SDHCI_ALIGNED_BUFFER)
 	host->align_buffer = (void *)CONFIG_FIXED_SDHCI_ALIGNED_BUFFER;
 	/*
