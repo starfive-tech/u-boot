@@ -138,4 +138,5 @@ U_BOOT_DRIVER(per1crg) = {
 	.probe = jhb100_per1crg_probe,
 	.ops = &jhb100_per1_clk_ops,
 	.bind = jhb100_clk_bind,
+	.flags = DM_FLAG_PRE_RELOC,
 };

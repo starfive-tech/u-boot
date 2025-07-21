@@ -111,4 +111,5 @@ U_BOOT_DRIVER(sys2crg) = {
 	.probe = jhb100_sys2crg_probe,
 	.ops = &jhb100_sys2_clk_ops,
 	.bind = jhb100_clk_bind,
+	.flags = DM_FLAG_PRE_RELOC,
 };
