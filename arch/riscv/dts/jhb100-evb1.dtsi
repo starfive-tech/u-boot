@@ -165,7 +165,7 @@
 	non-removable;
 	pinctrl-names = "default";
 	pinctrl-0 = <&emmc0_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &gmac1 {
