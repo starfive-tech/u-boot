@@ -241,6 +241,7 @@
 	status = "okay";
 	clocks = <&fpga_200mhz_clk>;
 	spi-max-frequency = <20000000>;
+	rx-sample-delay-ns = <0>;
 };
 
 &timer0 {

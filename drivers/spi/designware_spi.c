@@ -28,8 +28,10 @@
 #include <linux/bitfield.h>
 #include <linux/bitops.h>
 #include <linux/compat.h>
+#include <linux/delay.h>
 #include <linux/iopoll.h>
 #include <linux/sizes.h>
+#include <linux/time.h>
 
 /* Register offsets */
 #define DW_SPI_CTRLR0			0x00
@@ -57,6 +59,7 @@
 #define DW_SPI_IDR			0x58
 #define DW_SPI_VERSION			0x5c
 #define DW_SPI_DR			0x60
+#define DW_SPI_RX_SAMPLE_DLY		0xf0
 #define DW_SPI_SPI_CTRLR0		0xf4
 
 /* Bit fields in CTRLR0 */
@@ -499,6 +502,18 @@ static int dw_spi_probe(struct udevice *bus)
 
 	/* Basic HW init */
 	spi_hw_init(bus, priv);
+
+	dw_write(priv, DW_SPI_SSIENR, 0);
+
+	u32 rx_delay = dev_read_u32_default(bus, "rx-sample-delay-ns", 0);
+	u32 max_freq = dev_read_u32_default(bus, "spi-max-frequency", 0);
+
+	rx_delay = DIV_ROUND_CLOSEST(rx_delay,
+				     NSEC_PER_SEC /
+				     max_freq);
+	dw_write(priv, DW_SPI_RX_SAMPLE_DLY, rx_delay);
+	u32 rx_sample_read = dw_read(priv, DW_SPI_RX_SAMPLE_DLY);
+	dw_write(priv, DW_SPI_SSIENR, 1);
 
 	return 0;
 }
