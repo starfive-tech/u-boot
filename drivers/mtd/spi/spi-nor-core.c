@@ -43,7 +43,7 @@
 
 #define HZ					CONFIG_SYS_HZ
 
-#define DEFAULT_READY_WAIT_JIFFIES		(40UL * HZ)
+#define DEFAULT_READY_WAIT_JIFFIES		(360UL * HZ)
 
 #define ROUND_UP_TO(x, y)	(((x) + (y) - 1) / (y) * (y))
 
