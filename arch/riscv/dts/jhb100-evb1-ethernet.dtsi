@@ -80,14 +80,21 @@
 	/* reset-gpios = <&pinctrl_bmcperiph3 5 GPIO_ACTIVE_LOW>; */
 	/* reset-assert-us = <15000>; */
 	/* reset-deassert-us = <15000>; */
-	status = "disabled";
+	status = "okay";
+	bootph-pre-ram;
+	phy-mode = "sgmii";
+	phy-sgmii-base = <0x11b90000>;
+
 	mdio {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
+		bootph-pre-ram;
 
 		phy3: ethernet-phy@3 {
+			compatible = "ethernet-phy-id4f51.e91a";
 			reg = <0>;
+			bootph-pre-ram;
 		};
 	};
 

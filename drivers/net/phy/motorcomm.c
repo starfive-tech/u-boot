@@ -11,6 +11,7 @@
 #include <malloc.h>
 #include <phy.h>
 #include <linux/bitfield.h>
+#include <asm/io.h>
 
 #define PHY_ID_YT8511				0x0000010a
 #define PHY_ID_YT8531				0x4f51e91b
@@ -1354,13 +1355,6 @@ static int yt8531s_config(struct phy_device *phydev)
 	u16 mask, val;
 	int ret;
 
-	int ctl = phy_read(phydev, MDIO_DEVAD_NONE, MII_PHYSID1);
-	printf("%s: %d  ctl: %x\n", __func__, __LINE__, ctl);
-	ctl = phy_read(phydev, MDIO_DEVAD_NONE, MII_PHYSID2);
-	printf("%s: %d ctl: %x\n",  __func__, __LINE__, ctl);
-
-	while(1);
-
 	ret = genphy_config_aneg(phydev);
 	if (ret < 0)
 		return ret;
@@ -1395,10 +1389,6 @@ static int yt8531s_config(struct phy_device *phydev)
 	if (ret < 0)
 		return ret;
 
-	ret = ytphy_rgmii_clk_delay_config(phydev);
-	if (ret < 0)
-		return ret;
-
 	if (priv->flag & AUTO_SLEEP_DISABLED) {
 		/* disable auto sleep */
 		ret = ytphy_modify_ext(phydev,
@@ -1423,14 +1413,33 @@ static int yt8531s_config(struct phy_device *phydev)
 static int yt8531s_startup(struct phy_device *phydev)
 {
 	int ret;
+	fdt_addr_t base;
 
-	ret = genphy_update_link(phydev);	//failed here;
+	ret = genphy_update_link(phydev);
 	if (ret)
 		return ret;
 
 	ret = yt8531_parse_status(phydev);
 	if (ret)
 		return ret;
+
+	ofnode phy_node = phydev->node;
+	ofnode mdio_node = ofnode_get_parent(phy_node);
+	ofnode gmac_node = ofnode_get_parent(mdio_node);
+	base = ofnode_get_addr(gmac_node);
+	if (!base) {
+		printf("Failed to get GMAC base address\n");
+		return -ENXIO;
+	}
+
+	//autonegotiate internal PHY here
+	// u32 mac_an_counter;			/* 0x0e0 */
+	// u32 mac_an_status;			/* 0x0e4 */
+	uint32_t val;
+	setbits_le32(base + 0xE0, BIT(12));
+	do {
+		val = readl((volatile void*)base + 0xE4);
+	} while((val&(BIT(5))==0));
 
 	return 0;
 }
@@ -1567,8 +1576,8 @@ U_BOOT_PHY_DRIVER(motorcomm8531S) = {
 	.mask		= PHY_ID_MASK,
 	.features	= PHY_GBIT_FEATURES,
 	.probe		= &yt8531_probe,
-	.config		= &yt8531_config,
-	.startup	= &yt8531_startup,
+	.config		= &yt8531s_config,
+	.startup	= &yt8531s_startup,
 	.shutdown	= &genphy_shutdown,
 };
 

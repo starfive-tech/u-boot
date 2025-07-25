@@ -15,7 +15,7 @@
 #include <reset.h>
 #include <syscon.h>
 #include <linux/iopoll.h>
-
+#include <asm/io.h>
 #include "dwc_eth_qos.h"
 
 /* Clk and rst framework not ready (to be remove) */
@@ -226,7 +226,6 @@ static int eqos_interface_init_jhb100(struct udevice *dev)
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
 	unsigned int mode;
-	void *reg;
 	unsigned int val;
 	struct ofnode_phandle_args phy_phandle;
 	int ret;
@@ -251,16 +250,17 @@ static int eqos_interface_init_jhb100(struct udevice *dev)
 
 	if (mode == STARFIVE_DWMAC_PHY_INFT_SGMII) {
 
-		if (dev_read_phandle_with_args(dev, "phy-handle-sgmii", NULL, 0, 0,
-								&phy_phandle)) {
-			debug("Failed to find phy-handle");
-			return -ENODEV;
+		u32 reg;
+		void *phy_base;
+		u32 val;
+
+		if (dev_read_u32(dev, "phy-sgmii-base", &reg)) {
+			printf("Failed to read phy-sgmii-base\n");
+			return -EINVAL;
 		}
 
-		ofnode_read_u32_index(phy_phandle.node, "reg", 1, reg);
-
-		ret = readl_poll_timeout((reg + PLL_LOCK_STATUS), val,
-											(val & PLL_IS_LOCK), PHY_POLL_TIMEOUT_US);
+		ret = readl_poll_timeout((void*)reg + PLL_LOCK_STATUS, val,
+								(val & PLL_IS_LOCK), PHY_POLL_TIMEOUT_US);
 		if (ret) {
 			printf("%s sgmii timeout\n", __func__);
 			return ret;
@@ -436,6 +436,18 @@ static int eqos_probe_resources_jhb100(struct udevice *dev)
 		return -EINVAL;
 	}
 
+	// ret = reset_get_bulk(dev, &data->resets);
+	// if (ret < 0)
+	// 	return ret;
+
+	// ret = clk_get_bulk(dev, &data->clks);
+	// if (ret < 0)
+	// 	return ret;
+
+	// ret = clk_get_by_name(dev, "gtx", &eqos->clk_tx);
+	// if (ret)
+	// 	return ret;
+
 	if ((data->interface == PHY_INTERFACE_MODE_RGMII) ||
 			(data->interface == PHY_INTERFACE_MODE_RGMII_ID))
 		data->tx_use_rgmii_clk = dev_read_bool(dev, "starfive,tx-use-rgmii-clk");
@@ -480,7 +492,7 @@ static struct eqos_ops eqos_jhb100_ops = {
 	.eqos_flush_desc = eqos_inval_flush_desc_jhb100,
 	.eqos_inval_buffer = eqos_inval_flush_buf_jhb100,
 	.eqos_flush_buffer = eqos_inval_flush_buf_jhb100,
-	.eqos_probe_resources = eqos_probe_resources_jh7110,
+	.eqos_probe_resources = eqos_probe_resources_jhb100,
 	.eqos_remove_resources = eqos_remove_resources_jhb100,
 	.eqos_stop_resets = eqos_stop_resets_jhb100,
 	.eqos_start_resets = eqos_start_resets_jhb100,

@@ -1354,6 +1354,10 @@ static int eqos_remove_resources_tegra186(struct udevice *dev)
 	return 0;
 }
 
+#define RGMII
+#define SGMII
+#define SGMII3
+
 static void IE_select(uint32_t addr) {
 	uint32_t val1 = *(volatile uint32_t *)addr;
 	val1 |=  (0x1); //Input Enable
@@ -1373,50 +1377,80 @@ static void VSEL_select(uint32_t addr) {
 	*(volatile uint32_t *)addr = val1;
 }
 
-#define MDIO_B24 0x11a0a074 //MDC
-#define MDIO_B25 0x11a0a078 //MDIO
+#define RGMII_PERI0_B24 0x11a0a074 //MDC
+#define RGMII_PERI0_B25 0x11a0a078 //MDIO
 
-#define MDIO_D19 0x11bc2050
-#define MDIO_D20 0x11bc2054
-#define MDIO_D21 0x11bc2058
-#define MDIO_D22 0x11bc205C
-#define MDIO_D23 0x11bc2060
-#define MDIO_D24 0x11bc2064
-#define MDIO_D25 0x11bc2068
-#define MDIO_D26 0x11bc206C
-#define MDIO_D27 0x11bc2070
-#define MDIO_D28 0x11bc2074
-#define MDIO_D29 0x11bc2078
-#define MDIO_D30 0x11bc207C
+#define RGMII_PERI2_D19 0x11bc2050
+#define RGMII_PERI2_D20 0x11bc2054
+#define RGMII_PERI2_D21 0x11bc2058
+#define RGMII_PERI2_D22 0x11bc205C
+#define RGMII_PERI2_D23 0x11bc2060
+#define RGMII_PERI2_D24 0x11bc2064
+#define RGMII_PERI2_D25 0x11bc2068
+#define RGMII_PERI2_D26 0x11bc206C
+#define RGMII_PERI2_D27 0x11bc2070
+#define RGMII_PERI2_D28 0x11bc2074
+#define RGMII_PERI2_D29 0x11bc2078
+#define RGMII_PERI2_D30 0x11bc207C
 
 #define VREF_VDD33_GPIOSE 0x11a0a000
 #define VREF_VDD182533_GPIOS 0x11c42000
 
+#define SGMII3_PERI0_B26 0x0011A0A07C
+#define SGMII3_PERI0_B27 0x0011A0A080
+#define SGMII_PERI0_B30 0x0011A0A08C
+#define SGMII_PERI0_B31 0x0011A0A090
+#define PERI0_GPIO_IOMUX_PERI0_SEL	0x0011A0A120
+
+#define SYS2_PINCTRL_OE 0x130820C4
+#define SYS2_PINCTRL_OE2 0x130820C8
+#define SYS2_PINCTRL_OUT 0x130820BC
+#define SYS2_PINCTRL_OUT2 0x130820C0
+
 static void set_pinmux(void) {
 
+	uint32_t val1;
+
+	val1 = 0xffe30000;
+	*(volatile uint32_t *)SYS2_PINCTRL_OE = val1;
+	val1 = 0x0000001f;
+	*(volatile uint32_t *)SYS2_PINCTRL_OE2 = val1;
+	val1 = 0x000c0010;
+	*(volatile uint32_t *)SYS2_PINCTRL_OUT = val1;
+	val1 = 0x00000000;
+	*(volatile uint32_t *)SYS2_PINCTRL_OUT2 = val1;
+
+	#define GPIO_E5_OUT 0x11c42030
+	#define GPIO_E5_OE 0x11c42034
+	val1 = 0x00000020; //GPIO E5 OUTPUT High
+	*(volatile uint32_t *)GPIO_E5_OUT = val1;
+	val1 = 0x000007df; //GPIO E5 OUTPUT EN
+	*(volatile uint32_t *)GPIO_E5_OE = val1;
+
+#ifdef RGMII
 	//VREF_VDD33_GPIOSE remain 3.3 (default)
-	uint32_t val1 = *(volatile uint32_t *)VREF_VDD33_GPIOSE;
+	val1 = *(volatile uint32_t *)VREF_VDD33_GPIOSE;
     //printf("VREF_VDD33_GPIOSE = 0x%x\n", val1);
-	PU_select(MDIO_B24);
-	val1 = *(volatile uint32_t *)MDIO_B24;
-    //printf("MDIO_B24 = 0x%x\n", val1);
+	PU_select(RGMII_PERI0_B24);
+	val1 = *(volatile uint32_t *)RGMII_PERI0_B24;
+    //printf("RGMII_PERI0_B24 = 0x%x\n", val1);
 	val1 = *(volatile uint32_t *)VREF_VDD182533_GPIOS;
 	val1 |=  0x2;
 	*(volatile uint32_t *)VREF_VDD182533_GPIOS = val1;
 	val1 = *(volatile uint32_t *)VREF_VDD182533_GPIOS;
 	//printf("VREF_VDD182533_GPIOS = 0x%x\n", val1);
-	VSEL_select(MDIO_D19);
-	VSEL_select(MDIO_D20);
-	VSEL_select(MDIO_D21);
-	VSEL_select(MDIO_D22);
-	VSEL_select(MDIO_D23);
-	VSEL_select(MDIO_D24);
-	VSEL_select(MDIO_D25);
-	VSEL_select(MDIO_D26);
-	VSEL_select(MDIO_D27);
-	VSEL_select(MDIO_D28);
-	VSEL_select(MDIO_D29);
-	VSEL_select(MDIO_D30);
+	VSEL_select(RGMII_PERI2_D19);
+	VSEL_select(RGMII_PERI2_D20);
+	VSEL_select(RGMII_PERI2_D21);
+	VSEL_select(RGMII_PERI2_D22);
+	VSEL_select(RGMII_PERI2_D23);
+	VSEL_select(RGMII_PERI2_D24);
+	VSEL_select(RGMII_PERI2_D25);
+	VSEL_select(RGMII_PERI2_D26);
+	VSEL_select(RGMII_PERI2_D27);
+	VSEL_select(RGMII_PERI2_D28);
+	VSEL_select(RGMII_PERI2_D29);
+	VSEL_select(RGMII_PERI2_D30);
 
 	#define RGMII_PHY_INTF_SEL 0x0011BC1000
 	val1 = 0;
@@ -1427,32 +1461,32 @@ static void set_pinmux(void) {
     //printf("RGMII_PHY_INTF_SEL = 0x%x\n", val1);
 
 
-	// IE_select(MDIO_B24);
+	// IE_select(RGMII_PERI0_B24);
 	val1 =  0x00000077; //SELECT RGMII
-	*(volatile uint32_t *)MDIO_B24 = val1;
-	val1 = *(volatile uint32_t *)MDIO_B24;
-    //printf("MDIO_B24 = 0x%x\n", val1);
+	*(volatile uint32_t *)RGMII_PERI0_B24 = val1;
+	val1 = *(volatile uint32_t *)RGMII_PERI0_B24;
+    //printf("RGMII_PERI0_B24 = 0x%x\n", val1);
 
-	// IE_select(MDIO_B25);
+	// IE_select(RGMII_PERI0_B25);
 	val1 =  0x00000077; //SELECT RGMII
-	*(volatile uint32_t *)MDIO_B25 = val1;
-	val1 = *(volatile uint32_t *)MDIO_B25;
-    //printf("MDIO_B25 = 0x%x\n", val1);
+	*(volatile uint32_t *)RGMII_PERI0_B25 = val1;
+	val1 = *(volatile uint32_t *)RGMII_PERI0_B25;
+    //printf("RGMII_PERI0_B25 = 0x%x\n", val1);
 
-	IE_select(MDIO_D19);
-	IE_select(MDIO_D20);
-	IE_select(MDIO_D21);
-	IE_select(MDIO_D22);
-	IE_select(MDIO_D23);
-	IE_select(MDIO_D24);
-	IE_select(MDIO_D25);
-	IE_select(MDIO_D26);
-	IE_select(MDIO_D27);
-	IE_select(MDIO_D28);
-	IE_select(MDIO_D29);
-	IE_select(MDIO_D30);
-	val1 = *(volatile uint32_t *)MDIO_D30;
-	//printf("MDIO_D30 = 0x%x\n", val1);
+	IE_select(RGMII_PERI2_D19);
+	IE_select(RGMII_PERI2_D20);
+	IE_select(RGMII_PERI2_D21);
+	IE_select(RGMII_PERI2_D22);
+	IE_select(RGMII_PERI2_D23);
+	IE_select(RGMII_PERI2_D24);
+	IE_select(RGMII_PERI2_D25);
+	IE_select(RGMII_PERI2_D26);
+	IE_select(RGMII_PERI2_D27);
+	IE_select(RGMII_PERI2_D28);
+	IE_select(RGMII_PERI2_D29);
+	IE_select(RGMII_PERI2_D30);
+	val1 = *(volatile uint32_t *)RGMII_PERI2_D30;
+	//printf("RGMII_PERI2_D30 = 0x%x\n", val1);
 
 	#define MDIO_PINCTRL 0x11a0a120 //[16:17], [17:18] expecting 2
 	val1 = 0;
@@ -1493,13 +1527,54 @@ static void set_pinmux(void) {
 	//printf("func28 (GPIO_D28) = 0x%x\n", (val1 >> 24) & 0x3);
 	//printf("func29 (GPIO_D29) = 0x%x\n", (val1 >> 26) & 0x1);
 	//printf("func30 (GPIO_D30) = 0x%x\n", (val1 >> 28) & 0x1);
+#endif
 
-	#define RGMII_DIV 0x11bc0040
-	val1 = 0;
-	val1 |=  (50) & 0x3F;
-	*(volatile uint32_t *)RGMII_DIV = val1;
-	val1 = *(volatile uint32_t *)RGMII_DIV;
-	//printf("RGMII_DIV 0x%x\n", val1);
+#ifdef SGMII
+	//VREF_VDD33_GPIOSE remain 3.3 (default)
+	val1 = *(volatile uint32_t *)VREF_VDD33_GPIOSE;
+	//printf("VREF_VDD33_GPIOSE = 0x%x\n", val1);
+	// IE_select(SGMII_PERI0_B30);
+	val1 =  0x00000077;
+	*(volatile uint32_t *)SGMII_PERI0_B30 = val1;
+	val1 = *(volatile uint32_t *)SGMII_PERI0_B30;
+    // printf("SGMII_PERI0_B30 = 0x%x\n", val1);
+
+	// IE_select(SGMII_PERI0_B31);
+	val1 =  0x00000067;
+	*(volatile uint32_t *)SGMII_PERI0_B31 = val1;
+	val1 = *(volatile uint32_t *)SGMII_PERI0_B31;
+    // printf("SGMII_PERI0_B31 = 0x%x\n", val1);
+
+	val1 = *(volatile uint32_t *)PERI0_GPIO_IOMUX_PERI0_SEL;
+	val1 |=  (0x2 << 28);
+	val1 |=  (0x2 << 30);
+	*(volatile uint32_t *)PERI0_GPIO_IOMUX_PERI0_SEL = val1;
+	// printf("PERI0_GPIO_IOMUX_PERI0_SEL = 0x%x\n", val1);
+#endif
+
+#ifdef SGMII3
+	//VREF_VDD33_GPIOSE remain 3.3 (default)
+	val1 = *(volatile uint32_t *)VREF_VDD33_GPIOSE;
+	//printf("VREF_VDD33_GPIOSE = 0x%x\n", val1);
+	// IE_select(SGMII3_PERI0_B26);
+	val1 =  0x00000077;
+	*(volatile uint32_t *)SGMII3_PERI0_B26 = val1;
+	val1 = *(volatile uint32_t *)SGMII3_PERI0_B26;
+    // printf("SGMII3_PERI0_B26 = 0x%x\n", val1);
+
+	// IE_select(SGMII_PERI0_B27);
+	val1 =  0x00000067;
+	*(volatile uint32_t *)SGMII3_PERI0_B27 = val1;
+	val1 = *(volatile uint32_t *)SGMII3_PERI0_B27;
+    // printf("SGMII3_PERI0_B27 = 0x%x\n", val1);
+
+	val1 = *(volatile uint32_t *)PERI0_GPIO_IOMUX_PERI0_SEL;
+	val1 |=  (0x2 << 20);
+	val1 |=  (0x2 << 22);
+	*(volatile uint32_t *)PERI0_GPIO_IOMUX_PERI0_SEL = val1;
+	// printf("PERI0_GPIO_IOMUX_PERI0_SEL = 0x%x\n", val1);
+#endif
+
 }
 
 #define RGMII_RMII_MUX_DLY 0x11bc0030
@@ -1526,22 +1601,49 @@ static void set_pinmux(void) {
 #define RGMII_CLK_ACLK_I 0x11bc00CC
 #define RGMII_CLK_IOMUX_CLK_TXCK 0x11bc00D0
 #define RGMII_MAIN_ICG_EN_GMAC2 0x11bc0114
-#define ASSERT_SEL 0x11bc011C
-#define ASSERT_STS_SEL 0x11bc0120
+#define RGMII_ASSERT_SEL 0x11bc011C
+#define RGMII_ASSERT_STS_SEL 0x11bc0120
+
+#define SGMII_ASSERT_SEL 0x0011C40098
+#define SGMII_ASSERT_STS_SEL 0x0011C4009C
+#define SGMII_MAIN_ICG_EN_GMAC1 0x0011C40094
+#define SGMII_CLK_TX_I 0x0011C40060
+#define SGMII_CLK_RX_I 0x0011C40064
+#define SGMII_CLK_CSR_I 0x0011C40078
+#define SGMII_CLK_PTP_REF_I 0x0011C40070
+#define SGMII_CLK_TX_125_I 0x0011C40068
+#define SGMII_CLK_RX_125_I 0x0011C4006C
+#define SGMII_CLK_REF_25_I 0x0011C40074
+#define SGMII_ACLK_I 0x0011C4007C
+#define SGMII_SGMII_PHY_PCLK_I 0x0011C40080
+
+#define SGMII3_ASSERT_SEL 0x0011BC011C
+#define SGMII3_ASSERT_STS_SEL 0x0011BC0120
+#define SGMII3_MAIN_ICG_EN_GMAC1 0x0011BC0118
+#define SGMII3_CLK_TX_I 0x0011BC00D4
+#define SGMII3_CLK_RX_I 0x0011BC00D8
+#define SGMII3_CLK_CSR_I 0x0011BC00E8
+#define SGMII3_CLK_PTP_REF_I 0x0011BC00E4
+#define SGMII3_CLK_TX_125_I 0x0011BC00DC
+#define SGMII3_CLK_RX_125_I 0x0011BC00E0
+#define SGMII3_CLK_REF_25_I 0x0011BC00F4
+#define SGMII3_ACLK_I 0x0011BC00EC
+#define SGMII3_SGMII_PHY_PCLK_I 0x0011BC00F0
 
 static void disable_clock(void) {
 
 	uint32_t val;
 
-		val = *(volatile uint32_t *)ASSERT_SEL;
+//#ifdef RGMII
+		val = *(volatile uint32_t *)RGMII_ASSERT_SEL;
 		val |=  (1 << 7);
-		*(volatile uint32_t *)ASSERT_SEL = val;
-		val = *(volatile uint32_t *)ASSERT_SEL;
-		//printf("ASSERT_SEL = 0x%08X\n", val);
+		*(volatile uint32_t *)RGMII_ASSERT_SEL = val;
+		val = *(volatile uint32_t *)RGMII_ASSERT_SEL;
+		//printf("RGMII_ASSERT_SEL = 0x%08X\n", val);
 
 	do {
-		val = *(volatile uint32_t *)ASSERT_STS_SEL;
-		//printf("ASSERT_STS_SEL = 0x%08X\n", val);
+		val = *(volatile uint32_t *)RGMII_ASSERT_STS_SEL;
+		//printf("RGMII_ASSERT_STS_SEL = 0x%08X\n", val);
 	} while((val&(1<<7))!=0);
 
 	val = *(volatile uint32_t *)RGMII_MAIN_ICG_EN_GMAC2;
@@ -1590,10 +1692,147 @@ static void disable_clock(void) {
 	*(volatile uint32_t *)RGMII_CLK_ACLK_I = val;
 	val = *(volatile uint32_t *)RGMII_CLK_ACLK_I;
     //printf("RGMII_CLK_ACLK_I = 0x%08X\n", val);
+//#endif
+
+//#ifdef SGMII
+		val = *(volatile uint32_t *)SGMII_ASSERT_SEL;
+		val |=  (1 << 2);
+		*(volatile uint32_t *)SGMII_ASSERT_SEL = val;
+		val = *(volatile uint32_t *)SGMII_ASSERT_SEL;
+		//printf("SGMII_ASSERT_SEL = 0x%08X\n", val);
+
+	do {
+		val = *(volatile uint32_t *)SGMII_ASSERT_STS_SEL;
+		//printf("SGMII_ASSERT_STS_SEL = 0x%08X\n", val);
+	} while((val&(1<<2))!=0);
+
+	val = *(volatile uint32_t *)SGMII_MAIN_ICG_EN_GMAC1;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII_MAIN_ICG_EN_GMAC1 = val;
+	val = *(volatile uint32_t *)SGMII_MAIN_ICG_EN_GMAC1;
+    //printf("SGMII_MAIN_ICG_EN_GMAC1 = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII_CLK_TX_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII_CLK_TX_I = val;
+		val = *(volatile uint32_t *)SGMII_CLK_TX_I;
+		//printf("SGMII_CLK_TX_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII_CLK_RX_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII_CLK_RX_I = val;
+	val = *(volatile uint32_t *)SGMII_CLK_RX_I;
+    //printf("SGMII_CLK_RX_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII_CLK_CSR_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII_CLK_CSR_I = val;
+		val = *(volatile uint32_t *)SGMII_CLK_CSR_I;
+		//printf("SGMII_CLK_CSR_I = 0x%08X \n", val);
+	val = *(volatile uint32_t *)SGMII_CLK_PTP_REF_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII_CLK_PTP_REF_I = val;
+    val = *(volatile uint32_t *)SGMII_CLK_PTP_REF_I;
+	//printf("SGMII_CLK_PTP_REF_I = 0x%08X \n", val);
+		val = *(volatile uint32_t *)SGMII_CLK_TX_125_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII_CLK_TX_125_I = val;
+		val = *(volatile uint32_t *)SGMII_CLK_TX_125_I;
+		//printf("SGMII_CLK_TX_125_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII_CLK_RX_125_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII_CLK_RX_125_I = val;
+	val = *(volatile uint32_t *)SGMII_CLK_RX_125_I;
+    //printf("SGMII_CLK_RX_125_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII_CLK_REF_25_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII_CLK_REF_25_I = val;
+		val = *(volatile uint32_t *)SGMII_CLK_REF_25_I;
+		//printf("SGMII_CLK_REF_25_I = 0x%08X \n", val);
+	val = *(volatile uint32_t *)SGMII_ACLK_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII_ACLK_I = val;
+    val = *(volatile uint32_t *)SGMII_ACLK_I;
+	//printf("SGMII_ACLK_I = 0x%08X \n", val);
+		val = *(volatile uint32_t *)SGMII_SGMII_PHY_PCLK_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII_SGMII_PHY_PCLK_I = val;
+		val = *(volatile uint32_t *)SGMII_SGMII_PHY_PCLK_I;
+		//printf("SGMII_SGMII_PHY_PCLK_I = 0x%08X \n", val);
+//#endif
+
+//#ifdef SGMII3
+		val = *(volatile uint32_t *)SGMII3_ASSERT_SEL;
+		val |=  (1 << 8);
+		*(volatile uint32_t *)SGMII3_ASSERT_SEL = val;
+		val = *(volatile uint32_t *)SGMII3_ASSERT_SEL;
+		//printf("SGMII_ASSERT_SEL = 0x%08X\n", val);
+
+	do {
+		val = *(volatile uint32_t *)SGMII3_ASSERT_STS_SEL;
+		//printf("SGMII3_ASSERT_STS_SEL = 0x%08X\n", val);
+	} while((val&(1<<8))!=0);
+
+	val = *(volatile uint32_t *)SGMII3_MAIN_ICG_EN_GMAC1;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII3_MAIN_ICG_EN_GMAC1 = val;
+	val = *(volatile uint32_t *)SGMII3_MAIN_ICG_EN_GMAC1;
+    //printf("SGMII3_MAIN_ICG_EN_GMAC1 = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII3_CLK_TX_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII3_CLK_TX_I = val;
+		val = *(volatile uint32_t *)SGMII3_CLK_TX_I;
+		//printf("SGMII3_CLK_TX_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII3_CLK_RX_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII3_CLK_RX_I = val;
+	val = *(volatile uint32_t *)SGMII3_CLK_RX_I;
+    //printf("SGMII3_CLK_RX_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII3_CLK_CSR_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII3_CLK_CSR_I = val;
+		val = *(volatile uint32_t *)SGMII3_CLK_CSR_I;
+		//printf("SGMII3_CLK_CSR_I = 0x%08X \n", val);
+	val = *(volatile uint32_t *)SGMII3_CLK_PTP_REF_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII3_CLK_PTP_REF_I = val;
+    val = *(volatile uint32_t *)SGMII3_CLK_PTP_REF_I;
+	//printf("SGMII3_CLK_PTP_REF_I = 0x%08X \n", val);
+		val = *(volatile uint32_t *)SGMII3_CLK_TX_125_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII3_CLK_TX_125_I = val;
+		val = *(volatile uint32_t *)SGMII3_CLK_TX_125_I;
+		//printf("SGMII3_CLK_TX_125_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII3_CLK_RX_125_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII3_CLK_RX_125_I = val;
+	val = *(volatile uint32_t *)SGMII3_CLK_RX_125_I;
+    //printf("SGMII3_CLK_RX_125_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII3_CLK_REF_25_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII3_CLK_REF_25_I = val;
+		val = *(volatile uint32_t *)SGMII3_CLK_REF_25_I;
+		//printf("SGMII3_CLK_REF_25_I = 0x%08X \n", val);
+	val = *(volatile uint32_t *)SGMII3_ACLK_I;
+	val &=  ~(1 << 31);
+	*(volatile uint32_t *)SGMII3_ACLK_I = val;
+    val = *(volatile uint32_t *)SGMII3_ACLK_I;
+	//printf("SGMII3_ACLK_I = 0x%08X \n", val);
+		val = *(volatile uint32_t *)SGMII3_SGMII_PHY_PCLK_I;
+		val &=  ~(1 << 31);
+		*(volatile uint32_t *)SGMII3_SGMII_PHY_PCLK_I = val;
+		val = *(volatile uint32_t *)SGMII3_SGMII_PHY_PCLK_I;
+		//printf("SGMII3_SGMII_PHY_PCLK_I = 0x%08X \n", val);
+//#endif
 }
 
 static void enable_clock(void) {
 	uint32_t val;
+
+#ifdef RGMII
+	#define RGMII_DIV 0x11bc0040
+	uint32_t val1 = 0;
+	val1 |=  (1) & 0x3F; //50:10M 5:100M 1:1000M
+	*(volatile uint32_t *)RGMII_DIV = val1;
+	val1 = *(volatile uint32_t *)RGMII_DIV;
+	//printf("RGMII_DIV 0x%x\n", val1);
 
 	val = *(volatile uint32_t *)RGMII_MAIN_ICG_EN_GMAC2;
 	val |=  (1 << 31);
@@ -1642,16 +1881,148 @@ static void enable_clock(void) {
 	val = *(volatile uint32_t *)RGMII_CLK_ACLK_I;
     //printf("RGMII_CLK_ACLK_I = 0x%08X\n", val);
 
-		val = *(volatile uint32_t *)ASSERT_SEL;
+		val = *(volatile uint32_t *)RGMII_ASSERT_SEL;
 		val &=  ~(1 << 7);
-		*(volatile uint32_t *)ASSERT_SEL = val;
-		val = *(volatile uint32_t *)ASSERT_SEL;
-		//printf("ASSERT_SEL = 0x%08X\n", val);
+		*(volatile uint32_t *)RGMII_ASSERT_SEL = val;
+		val = *(volatile uint32_t *)RGMII_ASSERT_SEL;
+		//printf("RGMII_ASSERT_SEL = 0x%08X\n", val);
 
 	do {
-		val = *(volatile uint32_t *)ASSERT_STS_SEL;
-		//printf("ASSERT_STS_SEL = 0x%08X\n", val);
+		val = *(volatile uint32_t *)RGMII_ASSERT_STS_SEL;
+		//printf("RGMII_ASSERT_STS_SEL = 0x%08X\n", val);
 	} while((val&(1<<7))!=(1<<7));
+#endif
+
+#ifdef SGMII
+	val = *(volatile uint32_t *)SGMII_MAIN_ICG_EN_GMAC1;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII_MAIN_ICG_EN_GMAC1 = val;
+	val = *(volatile uint32_t *)SGMII_MAIN_ICG_EN_GMAC1;
+    //printf("SGMII_MAIN_ICG_EN_GMAC1 = 0x%08X\n", val);
+
+		val = *(volatile uint32_t *)SGMII_CLK_TX_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII_CLK_TX_I = val;
+		val = *(volatile uint32_t *)SGMII_CLK_TX_I;
+		//printf("SGMII_CLK_TX_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII_CLK_RX_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII_CLK_RX_I = val;
+	val = *(volatile uint32_t *)SGMII_CLK_RX_I;
+    //printf("SGMII_CLK_RX_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII_CLK_CSR_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII_CLK_CSR_I = val;
+		val = *(volatile uint32_t *)SGMII_CLK_CSR_I;
+		//printf("SGMII_CLK_CSR_I = 0x%08X \n", val);
+	val = *(volatile uint32_t *)SGMII_CLK_PTP_REF_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII_CLK_PTP_REF_I = val;
+    val = *(volatile uint32_t *)SGMII_CLK_PTP_REF_I;
+    //printf("SGMII_CLK_PTP_REF_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII_CLK_TX_125_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII_CLK_TX_125_I = val;
+		val = *(volatile uint32_t *)SGMII_CLK_TX_125_I;
+		//printf("SGMII_CLK_TX_125_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII_CLK_RX_125_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII_CLK_RX_125_I = val;
+	val = *(volatile uint32_t *)SGMII_CLK_RX_125_I;
+    //printf("SGMII_CLK_RX_125_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII_CLK_REF_25_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII_CLK_REF_25_I = val;
+		val = *(volatile uint32_t *)SGMII_CLK_REF_25_I;
+		//printf("SGMII_CLK_REF_25_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII_ACLK_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII_ACLK_I = val;
+	val = *(volatile uint32_t *)SGMII_ACLK_I;
+    //printf("SGMII_ACLK_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII_SGMII_PHY_PCLK_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII_SGMII_PHY_PCLK_I = val;
+		val = *(volatile uint32_t *)SGMII_SGMII_PHY_PCLK_I;
+		//printf("SGMII_SGMII_PHY_PCLK_I = 0x%08X\n", val);
+
+	val = *(volatile uint32_t *)SGMII_ASSERT_SEL;
+	val &=  ~(1 << 2);
+	*(volatile uint32_t *)SGMII_ASSERT_SEL = val;
+	val = *(volatile uint32_t *)SGMII_ASSERT_SEL;
+	//printf("SGMII_ASSERT_SEL = 0x%08X\n", val);
+
+	do {
+		val = *(volatile uint32_t *)SGMII_ASSERT_STS_SEL;
+		//printf("SGMII_ASSERT_STS_SEL = 0x%08X\n", val);
+	} while((val&(1<<2))!=(1<<2));
+#endif
+
+#ifdef SGMII3
+	val = *(volatile uint32_t *)SGMII3_MAIN_ICG_EN_GMAC1;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII3_MAIN_ICG_EN_GMAC1 = val;
+	val = *(volatile uint32_t *)SGMII3_MAIN_ICG_EN_GMAC1;
+    //printf("SGMII3_MAIN_ICG_EN_GMAC1 = 0x%08X\n", val);
+
+		val = *(volatile uint32_t *)SGMII3_CLK_TX_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII3_CLK_TX_I = val;
+		val = *(volatile uint32_t *)SGMII3_CLK_TX_I;
+		//printf("SGMII3_CLK_TX_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII3_CLK_RX_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII3_CLK_RX_I = val;
+	val = *(volatile uint32_t *)SGMII3_CLK_RX_I;
+    //printf("SGMII3_CLK_RX_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII3_CLK_CSR_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII3_CLK_CSR_I = val;
+		val = *(volatile uint32_t *)SGMII3_CLK_CSR_I;
+		//printf("SGMII3_CLK_CSR_I = 0x%08X \n", val);
+	val = *(volatile uint32_t *)SGMII3_CLK_PTP_REF_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII3_CLK_PTP_REF_I = val;
+    val = *(volatile uint32_t *)SGMII3_CLK_PTP_REF_I;
+    //printf("SGMII3_CLK_PTP_REF_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII3_CLK_TX_125_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII3_CLK_TX_125_I = val;
+		val = *(volatile uint32_t *)SGMII3_CLK_TX_125_I;
+		//printf("SGMII3_CLK_TX_125_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII3_CLK_RX_125_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII3_CLK_RX_125_I = val;
+	val = *(volatile uint32_t *)SGMII3_CLK_RX_125_I;
+    //printf("SGMII3_CLK_RX_125_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII3_CLK_REF_25_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII3_CLK_REF_25_I = val;
+		val = *(volatile uint32_t *)SGMII3_CLK_REF_25_I;
+		//printf("SGMII3_CLK_REF_25_I = 0x%08X\n", val);
+	val = *(volatile uint32_t *)SGMII3_ACLK_I;
+	val |=  (1 << 31);
+	*(volatile uint32_t *)SGMII3_ACLK_I = val;
+	val = *(volatile uint32_t *)SGMII3_ACLK_I;
+    //printf("SGMII3_ACLK_I = 0x%08X\n", val);
+		val = *(volatile uint32_t *)SGMII3_SGMII_PHY_PCLK_I;
+		val |=  (1 << 31);
+		*(volatile uint32_t *)SGMII3_SGMII_PHY_PCLK_I = val;
+		val = *(volatile uint32_t *)SGMII3_SGMII_PHY_PCLK_I;
+		//printf("SGMII3_SGMII_PHY_PCLK_I = 0x%08X\n", val);
+
+	val = *(volatile uint32_t *)SGMII3_ASSERT_SEL;
+	val &=  ~(1 << 8);
+	*(volatile uint32_t *)SGMII3_ASSERT_SEL = val;
+	val = *(volatile uint32_t *)SGMII3_ASSERT_SEL;
+	//printf("SGMII3_ASSERT_SEL = 0x%08X\n", val);
+
+	do {
+		val = *(volatile uint32_t *)SGMII3_ASSERT_STS_SEL;
+		//printf("SGMII3_ASSERT_STS_SEL = 0x%08X\n", val);
+	} while((val&(1<<8))!=(1<<8));
+#endif
+
 }
 
 
@@ -1665,6 +2036,22 @@ static int eqos_probe(struct udevice *dev)
 	disable_clock();
 	set_pinmux();
 	enable_clock();
+
+	uint32_t val1 = 0;
+	*(volatile uint32_t *)SYS2_PINCTRL_OUT = val1;
+	val1 = 0;
+	*(volatile uint32_t *)SYS2_PINCTRL_OUT2 = val1;
+	val1 = 0; //GPIO E5 OUTPUT High
+	*(volatile uint32_t *)GPIO_E5_OUT = val1;
+
+	mdelay(1500);
+
+	val1 = 0x000c0010;
+	*(volatile uint32_t *)SYS2_PINCTRL_OUT = val1;
+	val1 = 0x00000000;
+	*(volatile uint32_t *)SYS2_PINCTRL_OUT2 = val1;
+	val1 = 0x00000020; //GPIO E5 OUTPUT High
+	*(volatile uint32_t *)GPIO_E5_OUT = val1;
 
 	eqos->dev = dev;
 	eqos->config = (void *)dev_get_driver_data(dev);
