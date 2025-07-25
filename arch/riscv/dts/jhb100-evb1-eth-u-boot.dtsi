@@ -219,32 +219,32 @@
 	bootph-pre-ram;
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
-	u-boot,noautostart;
-	clock-frequency = <3000000>;
+	u-boot,autostart;
+	status = "okay";
 };
 
 &wdt1 {
 	bootph-pre-ram;
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
-	u-boot,noautostart;
-	clock-frequency = <3000000>;
+	u-boot,autostart;
+	status = "okay";
 };
 
 &wdt2 {
 	bootph-pre-ram;
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
-	u-boot,noautostart;
-	clock-frequency = <3000000>;
+	u-boot,autostart;
+	status = "okay";
 };
 
 &wdt3 {
 	bootph-pre-ram;
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
-	u-boot,noautostart;
-	clock-frequency = <3000000>;
+	u-boot,autostart;
+	status = "okay";
 };
 
 &wdt_ext {
@@ -253,7 +253,6 @@
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
-	clock-frequency = <3000000>;
 };
 
 &pinctrl_bmcperiph0 {

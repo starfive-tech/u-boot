@@ -10,6 +10,7 @@
 #include <clk.h>
 #include <dm/device_compat.h>
 #include <linux/io.h>
+#include <linux/delay.h>
 #include <reset.h>
 
 struct starfive_wdt_jhb100_priv {
@@ -331,7 +332,6 @@ static inline void starfive_wdt_jhb100_set_restart(struct starfive_wdt_jhb100_pr
 	starfive_wdt_jhb100_lock(priv);
 }
 
-#if 0
 /**
  * starfive_wdt_jhb100_sel_two_stage_timeout - Select two stage timeout mode.
  *
@@ -343,7 +343,7 @@ static void starfive_wdt_jhb100_sel_two_stage_timeout(struct starfive_wdt_jhb100
 {
 	starfive_wdt_jhb100_clear_reg_mask(priv, STARFIVE_JHB100_WDT_CTRL, STARFIVE_JHB100_WDT_CTRL_SINGLE_STAGE_MODE);
 }
-
+#if defined(CONFIG_STARFIVE_JHB100_WDT_ADV_CFG)
 /**
  * starfive_wdt_jhb100_clear_wdt_intr - Clear wdt interrupt.
  *
@@ -500,11 +500,11 @@ static int starfive_wdt_jhb100_enable_clock(struct starfive_wdt_jhb100_priv *pri
 			dev_warn(priv->dev, "enable core_clk error.\n");
 	}
 
-	priv->p_clk = devm_clk_get(priv->dev, "pclk");
+	priv->p_clk = devm_clk_get(priv->dev, "apb");
 	if (!IS_ERR(priv->p_clk)) {
 		ret = clk_prepare_enable(priv->p_clk);
 		if (ret)
-			dev_warn(priv->dev, "enable p_clk error.\n");
+			dev_warn(priv->dev, "enable apb error.\n");
 	}
 
 	return ret;
@@ -536,7 +536,6 @@ static int starfive_wdt_jhb100_get_clock_rate(struct starfive_wdt_jhb100_priv *p
 		return 0;
 	}
 	dev_err(priv->dev, "get clock-frequency failed\n");
-
 	return -ENOENT;
 }
 
@@ -566,7 +565,6 @@ static int starfive_wdt_reset(struct udevice *dev)
 			ret);
 		return ret;
 	}
-
 	return 0;
 }
 
@@ -653,7 +651,6 @@ static int starfive_wdt_jhb100_probe(struct udevice *dev)
 
 /**
  * starfive_wdt_jhb100_start - Start an instance of watchdog timer
- * TODO: Not automatically started yet until SCP is ready
  *
  * @dev: Watchdog device
  * @timeout: Timeout in ms
@@ -782,7 +779,8 @@ static int starfive_wdt_jhb100_expire_now(struct udevice *dev, ulong flags)
 {
 	struct starfive_wdt_jhb100_priv *priv = dev_get_priv(dev);
 
-	starfive_wdt_jhb100_set_intr_timeout(priv, 1);
+	starfive_wdt_jhb100_disable(priv);
+	starfive_wdt_jhb100_set_rst_timeout(priv, 1);
 	starfive_wdt_jhb100_enable(priv);
 
 	return 0;
