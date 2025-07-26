@@ -227,7 +227,7 @@
 	bootph-pre-ram;
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
-	u-boot,autostart;
+	u-boot,noautostart;
 	status = "okay";
 };
 
@@ -235,7 +235,7 @@
 	bootph-pre-ram;
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
-	u-boot,autostart;
+	u-boot,noautostart;
 	status = "okay";
 };
 
@@ -243,7 +243,7 @@
 	bootph-pre-ram;
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
-	u-boot,autostart;
+	u-boot,noautostart;
 	status = "okay";
 };
 
