@@ -162,6 +162,8 @@
 #define PHY_DLL_CTRL_DISABLE		0x0 /* PHY DLL is enabled */
 #define PHY_DLL_CTRL_ENABLE		0x1 /* PHY DLL is disabled */
 
+#define JHB100_BMCPERIPH1_SYSCON_MSHC_ADDR	(0x11b41004UL)
+
 struct rockchip_sdhc_plat {
 	struct mmc_config cfg;
 	struct mmc mmc;
@@ -704,8 +706,27 @@ static void starfive_jhb100_sdhci_init_phy(struct sdhci_host *host)
 	sdhci_writeb(host, PHY_DLL_CTRL_ENABLE, PHY_DLL_CTRL_R);
 }
 
+#if defined(CONFIG_SPL_MMC_SDHCI_SDMA)
+static void starfive_jhb100_set_sdma_addr(struct sdhci_host *host, u64 addr, int len)
+{
+	/* Flush cacheable region */
+	if (is_cpu_addr(addr) && len)
+		flush_cache(addr, len);
+
+	addr = cpu_to_dma_addr(addr);
+
+	sdhci_writel(host, lower_32_bits(addr), SDHCI_ADMA_ADDRESS);
+
+	/*
+	 * Store the upper 32 bits of the DMA address in syscon
+	 * register, as the SDHCI_ADMA_ADDRESS_HI register is not
+	 * supported in JHB100.
+	 */
+	writel(upper_32_bits(addr), (void *)JHB100_BMCPERIPH1_SYSCON_MSHC_ADDR);
+}
+#endif
+
 #if defined(CONFIG_SPL_MMC_SDHCI_ADMA)
-#define JHB100_BMCPERIPH1_SYSCON_MSHC_ADDR	(0x11b41004UL)
 void starfive_jhb100_adma_write_desc(struct sdhci_host *host, void **next_desc,
 				     dma_addr_t addr, int len, bool end)
 {
@@ -760,6 +781,9 @@ static struct sdhci_ops rockchip_sdhci_ops = {
 #ifdef CONFIG_STARFIVE_JHB100
 	.set_card_clock = starfive_jhb100_sdhci_set_card_clock,
 	.init_phy = starfive_jhb100_sdhci_init_phy,
+#if defined(CONFIG_SPL_MMC_SDHCI_SDMA)
+	.set_sdma_addr = starfive_jhb100_set_sdma_addr,
+#endif
 #if defined(CONFIG_SPL_MMC_SDHCI_ADMA)
 	.adma_write_desc = starfive_jhb100_adma_write_desc,
 #endif
