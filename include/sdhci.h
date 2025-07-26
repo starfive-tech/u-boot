@@ -304,6 +304,9 @@ struct sdhci_ops {
 	void	(*adma_write_desc)(struct sdhci_host *host, void **desc,
 				   dma_addr_t addr, int len, bool end);
 #endif
+#if CONFIG_IS_ENABLED(MMC_SDHCI_SDMA)
+	void	(*set_sdma_addr)(struct sdhci_host *host, u64 addr, int len);
+#endif
 };
 
 #define ADMA_MAX_LEN	65532

@@ -71,6 +71,24 @@ static void sdhci_transfer_pio(struct sdhci_host *host, struct mmc_data *data)
 	}
 }
 
+#if CONFIG_IS_ENABLED(MMC_SDHCI_SDMA)
+static void sdhci_set_sdma_addr(struct sdhci_host *host, u64 addr, int len)
+{
+	if (host && host->ops && host->ops->set_sdma_addr) {
+		host->ops->set_sdma_addr(host, addr, len);
+	} else {
+		if (host->v4_mode) {
+			/* For Host Version 4, use ADMA address register
+			 * to store SDMA buffer address
+			 */
+			sdhci_writel(host, addr, SDHCI_ADMA_ADDRESS);
+		} else {
+			sdhci_writel(host, addr, SDHCI_DMA_ADDRESS);
+		}
+	}
+}
+#endif
+
 #if (CONFIG_IS_ENABLED(MMC_SDHCI_SDMA) || CONFIG_IS_ENABLED(MMC_SDHCI_ADMA))
 static void sdhci_prepare_dma(struct sdhci_host *host, struct mmc_data *data,
 			      int *is_aligned, int trans_bytes)
@@ -105,12 +123,14 @@ static void sdhci_prepare_dma(struct sdhci_host *host, struct mmc_data *data,
 	host->start_addr = dma_map_single(buf, trans_bytes,
 					  mmc_get_dma_dir(data));
 
+#if CONFIG_IS_ENABLED(MMC_SDHCI_SDMA)
 	if (host->flags & USE_SDMA) {
 		dma_addr = dev_phys_to_bus(mmc_to_dev(host->mmc), host->start_addr);
-		sdhci_writel(host, dma_addr, SDHCI_DMA_ADDRESS);
+		sdhci_set_sdma_addr(host, dma_addr, trans_bytes);
 	}
+#endif
 #if CONFIG_IS_ENABLED(MMC_SDHCI_ADMA)
-	else if (host->flags & (USE_ADMA | USE_ADMA64)) {
+	if (host->flags & (USE_ADMA | USE_ADMA64)) {
 		sdhci_prepare_adma_table(host, host->adma_desc_table, data,
 					 host->start_addr);
 
@@ -161,14 +181,16 @@ static int sdhci_transfer_data(struct sdhci_host *host, struct mmc_data *data)
 		if ((host->flags & USE_DMA) && !transfer_done &&
 		    (stat & SDHCI_INT_DMA_END)) {
 			sdhci_writel(host, SDHCI_INT_DMA_END, SDHCI_INT_STATUS);
+#if CONFIG_IS_ENABLED(MMC_SDHCI_SDMA)
 			if (host->flags & USE_SDMA) {
 				start_addr &=
 				~(SDHCI_DEFAULT_BOUNDARY_SIZE - 1);
 				start_addr += SDHCI_DEFAULT_BOUNDARY_SIZE;
 				start_addr = dev_phys_to_bus(mmc_to_dev(host->mmc),
 							     start_addr);
-				sdhci_writel(host, start_addr, SDHCI_DMA_ADDRESS);
+				sdhci_set_sdma_addr(host, start_addr, 0);
 			}
+#endif
 		}
 		if (timeout-- > 0)
 			udelay(10);
