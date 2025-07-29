@@ -217,7 +217,7 @@
 
 &wdt0 {
 	bootph-pre-ram;
-	timeout-sec = <15>;
+	timeout-sec = <120>;
 	hw_margin_ms = <1000>;
 	u-boot,autostart;
 	status = "okay";
