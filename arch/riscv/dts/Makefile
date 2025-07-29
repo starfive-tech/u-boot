@@ -8,7 +8,7 @@ dtb-$(CONFIG_TARGET_SIFIVE_UNLEASHED) += hifive-unleashed-a00.dtb
 dtb-$(CONFIG_TARGET_SIFIVE_UNMATCHED) += hifive-unmatched-a00.dtb
 dtb-$(CONFIG_TARGET_SIPEED_MAIX) += k210-maix-bit.dtb
 dtb-$(CONFIG_TARGET_STARFIVE_DEVKITS) += starfive_devkits.dtb starfive_jh7110-amp.dtb
-dtb-$(CONFIG_TARGET_STARFIVE_VISIONFIVE2) += starfive_visionfive2.dtb starfive_jh7110-amp.dtb
+dtb-$(CONFIG_TARGET_STARFIVE_VISIONFIVE2) += starfive_visionfive2_lite.dtb starfive_visionfive2.dtb starfive_jh7110-amp.dtb
 dtb-$(CONFIG_TARGET_STARFIVE_EVB) += starfive_evb.dtb
 
 targets += $(dtb-y)
