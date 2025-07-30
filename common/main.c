@@ -17,6 +17,8 @@
 #include <net.h>
 #include <version.h>
 #include <efi_loader.h>
+#include <asm/arch/jh7110-regs.h>
+#include <asm/io.h>
 
 static void run_preboot_environment_command(void)
 {
@@ -41,6 +43,10 @@ void main_loop(void)
 {
 	int ret = 1;
 	const char *s;
+#ifdef CONFIG_TARGET_STARFIVE_VISIONFIVE2
+	ulong vf2_board_type;
+	u32 value;
+#endif
 
 	bootstage_mark_name(BOOTSTAGE_ID_MAIN_LOOP, "main_loop");
 
@@ -62,7 +68,16 @@ void main_loop(void)
 	if (cli_process_fdt(&s))
 		cli_secure_boot_cmd(s);
 
-	if (IS_ENABLED(CONFIG_AUTO_FASTBOOT_STARFIVE)) {
+#ifdef CONFIG_TARGET_STARFIVE_VISIONFIVE2
+	vf2_board_type = env_get_ulong("vf2_board_type", 10, 0);
+	value = in_le32(AON_IOMUX_BASE + AON_GPIO_DIN_REG);
+#endif
+
+	if (IS_ENABLED(CONFIG_AUTO_FASTBOOT_STARFIVE)
+#ifdef CONFIG_TARGET_STARFIVE_VISIONFIVE2
+	|| ((vf2_board_type == 1 || vf2_board_type == 2) && (value & BIT(3)))
+#endif
+	) {
 		ret = autofastboot_command();
 		s = bootdelay_process();
 	}
