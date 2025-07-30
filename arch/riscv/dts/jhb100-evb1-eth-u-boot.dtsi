@@ -497,9 +497,6 @@
 
 &emmc0 {
 	bootph-pre-ram;
-
-	/* mmc to sram can't do dma, prevent aborts transferring TF-A parts */
-	u-boot,spl-fifo-mode;
 };
 
 &fpga_25mhz_clk {
