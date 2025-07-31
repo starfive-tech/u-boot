@@ -119,7 +119,6 @@
 
 /* PHY CLK delay line delay code */
 #define PHY_SDCLKDL_DC_R		(DWC_MSHC_PTR_PHY_R + 0x1e)
-#define PHY_SDCLKDL_DC_DEFAULT		0x32 /* default delay code */
 
 /* PHY DLL configuration register 2 */
 #define PHY_DLL_CNFG2_R			(DWC_MSHC_PTR_PHY_R + 0x26)
@@ -162,7 +161,11 @@
 #define PHY_DLL_CTRL_DISABLE		0x0 /* PHY DLL is enabled */
 #define PHY_DLL_CTRL_ENABLE		0x1 /* PHY DLL is disabled */
 
+/* StarFive JHB100 specific Registers */
 #define JHB100_BMCPERIPH1_SYSCON_MSHC_ADDR	(0x11b41004UL)
+#define JHB100_TUNING_LOOP_COUNT	512
+#define JHB100_CMD_DEFAULT_TIMEOUT	500000
+#define JHB100_READ_STATUS_TIMEOUT	100000
 
 struct rockchip_sdhc_plat {
 	struct mmc_config cfg;
@@ -567,6 +570,130 @@ static void rockchip_sdhci_set_clock(struct sdhci_host *host, u32 div)
 		data->set_clock(host, div);
 }
 
+#ifdef CONFIG_STARFIVE_JHB100
+static void starfive_jhb100_reset_tuning(struct sdhci_host *host)
+{
+	u16 ctrl2;
+
+	ctrl2 = sdhci_readw(host, SDHCI_HOST_CONTROL2);
+	ctrl2 &= ~SDHCI_CTRL_TUNED_CLK;
+	sdhci_writew(host, ctrl2, SDHCI_HOST_CONTROL2);
+
+	sdhci_reset(host, SDHCI_RESET_CMD);
+	sdhci_reset(host, SDHCI_RESET_DATA);
+}
+
+static int starfive_jhb100_send_tuning(struct sdhci_host *host)
+{
+	u16 flags;
+	u32 mask, stat = 0;
+	u32 cmd_timeout = JHB100_CMD_DEFAULT_TIMEOUT;
+	int bus_width = host->mmc->bus_width == 8 ? 128 : 64;
+
+	sdhci_writew(host,
+		     SDHCI_MAKE_BLKSZ(SDHCI_DEFAULT_BOUNDARY_ARG, bus_width),
+		     SDHCI_BLOCK_SIZE);
+
+	sdhci_writew(host, SDHCI_TRNS_READ, SDHCI_TRANSFER_MODE);
+
+	mask = SDHCI_CMD_INHIBIT;
+	while (sdhci_readl(host, SDHCI_PRESENT_STATE) & mask) {
+		if (!cmd_timeout--)
+			goto err;
+		udelay(1);
+	}
+
+	sdhci_writel(host, SDHCI_INT_ALL_MASK, SDHCI_INT_STATUS);
+
+	mask = SDHCI_INT_DATA_AVAIL;
+	flags = (SDHCI_CMD_RESP_SHORT | SDHCI_CMD_CRC | SDHCI_CMD_INDEX | SDHCI_CMD_DATA);
+	sdhci_writel(host, 0, SDHCI_ARGUMENT);
+	sdhci_writew(host,
+		     SDHCI_MAKE_CMD(MMC_CMD_SEND_TUNING_BLOCK_HS200, flags),
+		     SDHCI_COMMAND);
+
+	cmd_timeout = JHB100_READ_STATUS_TIMEOUT;
+	do {
+		if (!cmd_timeout--)
+			goto err;
+		udelay(1);
+
+		stat = sdhci_readl(host, SDHCI_INT_STATUS);
+		if (stat & SDHCI_INT_ERROR)
+			break;
+	} while ((stat & mask) != mask);
+
+	if ((stat & (SDHCI_INT_ERROR | mask)) == mask) {
+		sdhci_writel(host, mask, SDHCI_INT_STATUS);
+		return 0;
+	}
+
+err:
+	sdhci_writel(host, SDHCI_INT_ALL_MASK, SDHCI_INT_STATUS);
+	return -EIO;
+}
+
+static int __starfive_jhb100_execute_tuning(struct sdhci_host *host)
+{
+	u16 ctrl2 = 0;
+
+	starfive_jhb100_reset_tuning(host);
+	mdelay(10);
+
+	ctrl2 = sdhci_readw(host, SDHCI_HOST_CONTROL2);
+	ctrl2 |= SDHCI_CTRL_EXEC_TUNING;
+	sdhci_writew(host, ctrl2, SDHCI_HOST_CONTROL2);
+
+	for (int i = 0; i < JHB100_TUNING_LOOP_COUNT; i++) {
+		if (starfive_jhb100_send_tuning(host))
+			goto error;
+
+		ctrl2 = sdhci_readw(host, SDHCI_HOST_CONTROL2);
+		if (!(ctrl2 & SDHCI_CTRL_EXEC_TUNING)) {
+			if (ctrl2 & SDHCI_CTRL_TUNED_CLK) {
+				starfive_jhb100_reset_tuning(host);
+				return 0;
+			}
+
+			goto error;
+		}
+
+		sdhci_reset(host, SDHCI_RESET_CMD);
+		sdhci_reset(host, SDHCI_RESET_DATA);
+	}
+
+error:
+	ctrl2 = sdhci_readw(host, SDHCI_HOST_CONTROL2);
+	ctrl2 &= ~SDHCI_CTRL_EXEC_TUNING;
+	sdhci_writew(host, ctrl2, SDHCI_HOST_CONTROL2);
+
+	starfive_jhb100_reset_tuning(host);
+
+	return -EIO;
+}
+
+static int starfive_jhb100_execute_tuning(struct mmc *mmc, u8 opcode)
+{
+	struct rockchip_sdhc *priv = dev_get_priv(mmc->dev);
+	struct sdhci_host *host = &priv->host;
+	struct mmc_cmd cmd;
+	int ret;
+
+	ret = __starfive_jhb100_execute_tuning(host);
+	if (ret) {
+		printf("%s: Tuning failed: %d\n", __func__, ret);
+
+		cmd.cmdidx = MMC_CMD_STOP_TRANSMISSION;
+		cmd.resp_type = MMC_RSP_R1;
+		cmd.cmdarg = 0;
+
+		if (mmc_send_cmd(mmc, &cmd, NULL))
+			printf("%s: Failed to send CMD12.\n", __func__);
+	}
+
+	return ret;
+}
+#else
 static int rockchip_sdhci_execute_tuning(struct mmc *mmc, u8 opcode)
 {
 	struct rockchip_sdhc *priv = dev_get_priv(mmc->dev);
@@ -614,6 +741,7 @@ static int rockchip_sdhci_execute_tuning(struct mmc *mmc, u8 opcode)
 
 	return ret;
 }
+#endif
 
 static int rockchip_sdhci_config_dll(struct sdhci_host *host, u32 clock, bool enable)
 {
@@ -671,7 +799,7 @@ static void starfive_jhb100_sdhci_init_phy(struct sdhci_host *host)
 	sdhci_writeb(host, PHY_SDCLKDL_CNFG_UPDATE, PHY_SDCLKDL_CNFG_R);
 
 	/* set delay line */
-	sdhci_writeb(host, PHY_SDCLKDL_DC_DEFAULT, PHY_SDCLKDL_DC_R);
+	sdhci_writeb(host, 0x10, PHY_SDCLKDL_DC_R);
 	sdhci_writeb(host, PHY_DLL_CNFG2_JUMPSTEP, PHY_DLL_CNFG2_R);
 
 	/* enable delay lane */
@@ -775,7 +903,11 @@ static struct sdhci_ops rockchip_sdhci_ops = {
 	.set_control_reg = rockchip_sdhci_set_control_reg,
 	.set_ios_post = rockchip_sdhci_set_ios_post,
 	.set_clock = rockchip_sdhci_set_clock,
+#ifdef CONFIG_STARFIVE_JHB100
+	.platform_execute_tuning = starfive_jhb100_execute_tuning,
+#else
 	.platform_execute_tuning = rockchip_sdhci_execute_tuning,
+#endif
 	.config_dll = rockchip_sdhci_config_dll,
 	.set_enhanced_strobe = rockchip_sdhci_set_enhanced_strobe,
 #ifdef CONFIG_STARFIVE_JHB100
