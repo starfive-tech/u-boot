@@ -117,7 +117,12 @@
 #define SR_DCOL				BIT(6)
 
 /* Bit field in RISR */
+#define RISR_INT_TXOI			BIT(1)
 #define RISR_INT_RXOI			BIT(3)
+#define RISR_INT_TXUI			BIT(7)
+
+/* Bit field in TXFTLR */
+#define TXFTLR_TXFTHR			GENMASK(7, 0)
 
 /* Bit fields in SPI_CTRLR0 */
 #define DW_SPI_SPI_CTRLR0_CLK_STRETCH_EN	BIT(30)
@@ -427,8 +432,6 @@ err_rate:
 	return -EINVAL;
 }
 
-#if 0
-/* TODO: Remove preprocessor directive once SoC is ready */
 static int dw_spi_reset(struct udevice *bus)
 {
 	int ret;
@@ -458,7 +461,6 @@ static int dw_spi_reset(struct udevice *bus)
 
 	return 0;
 }
-#endif
 
 typedef int (*dw_spi_init_t)(struct udevice *bus, struct dw_spi_priv *priv);
 
@@ -477,12 +479,10 @@ static int dw_spi_probe(struct udevice *bus)
 	if (ret)
 		return ret;
 
-#if 0
 	/* TODO: Remove preprocessor directive once SoC is ready */
 	ret = dw_spi_reset(bus);
 	if (ret)
 		return ret;
-#endif
 
 	if (!init)
 		return -EINVAL;
@@ -885,6 +885,7 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 
 		/* Fill up the write fifo before starting the transfer */
 		dw_writer(priv);
+
 		dw_write(priv, DW_SPI_SER, 1 << spi_chip_select(slave->dev));
 		while (priv->tx != priv->tx_end)
 			dw_writer(priv);

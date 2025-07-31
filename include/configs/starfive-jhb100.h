@@ -87,9 +87,9 @@
 	/** STARFIVE_TODO :: Update the preosbootnotify arguments */
 #define JHB100_KERNEL_BOOTENV	\
 	"set_bootargs_root_ram="		\
-		"setenv bootargs console=ttyS0,115200 debug rootwait earlycon=sbi root=/dev/ram0 rw pd_ignore_unused=1\0"	\
+		"setenv bootargs console=ttyS0,115200 debug rootwait earlycon=sbi root=/dev/ram0 rw pd_ignore_unused=1 clk_ignore_unused=1\0"	\
 	"set_bootargs_root_storage="		\
-		"setenv bootargs console=ttyS0,115200 debug rootwait earlycon=sbi root=/dev/mmcblk0gp${blk_num} rw pd_ignore_unused=1\0"	\
+		"setenv bootargs console=ttyS0,115200 debug rootwait earlycon=sbi root=/dev/mmcblk0gp${blk_num} rw pd_ignore_unused=1 clk_ignore_unused=1\0"	\
 	"importbootenv="	\
 		"echo Importing environment variables from uEnv.txt ...; "	\
 		"env import -t $envloadaddr $filesize\0" \
@@ -334,7 +334,7 @@
 			"getimginfo 5; "	\
 			"run set_bootargs_root_ram;"	\
 			"sf probe;"	\
-			"if sf probe 1:1; then "	\
+			"if sf probe 0:0; then "	\
 				"echo Trying to load SPI Active FIT image ...; "	\
 				"if run loadfitimagespiact; then "	\
 					"echo Authenticating	\
@@ -357,7 +357,7 @@
 				"getimginfo 6; "	\
 				"run set_bootargs_root_ram;"	\
 				"sf probe;"	\
-				"if sf probe 1:1; then "	\
+				"if sf probe 0:1; then "	\
 					"echo Trying to load SPI Golden FIT image ...; "	\
 					"if run loadfitimagespigol; then "	\
 						"echo Authenticating	\
@@ -427,7 +427,7 @@
 		"echo Checking FIT image in SPI flash ...;"	\
 		"if checkimgrcmap 5; then "	\
 			"sf probe;"	\
-			"if sf probe 1:1; then "	\
+			"if sf probe 0:0; then "	\
 				"echo Trying to load SPI Primary FIT image ...; "	\
 				"if run loadfitimagespiprim; then "	\
 					"echo Authenticating SPI Primary FIT image ...; "	\
@@ -437,7 +437,7 @@
 		"fi;"	\
 		"echo SPI Primary FIT image failed authentication ...;"	\
 		"if checkimgrcmap 6; then "	\
-			"if sf probe 1:1; then "	\
+			"if sf probe 0:1; then "	\
 				"echo Trying to load SPI Secondary FIT image ...; "	\
 				"if run loadfitimagespisec; then "	\
 					"echo Authenticating SPI Secondary FIT image ...; "	\
@@ -451,7 +451,7 @@
 		"if checkimgrcmap 5; then "	\
 			"echo Trying to load SPI Primary FIT image ...; "	\
 			"sf probe;"	\
-			"if sf probe 1:1; then "	\
+			"if sf probe 0:0; then "	\
 				"if run loadcompfitimagespiprim; then "	\
 					"echo Uncompressing FIT image ...; "	\
 					"run uncompfitimage;"	\
@@ -463,7 +463,7 @@
 		"echo SPI Primary FIT image failed authentication ...;"	\
 		"if checkimgrcmap 6; then "	\
 			"echo Trying to load SPI Secondary FIT image ...; "	\
-			"if sf probe 1:1; then "	\
+			"if sf probe 0:1; then "	\
 				"if run loadcompfitimagespisec; then "	\
 					"echo Uncompressing FIT image ...; "	\
 					"run uncompfitimage;"	\
