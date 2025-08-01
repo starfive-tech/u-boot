@@ -87,9 +87,9 @@
 	/** STARFIVE_TODO :: Update the preosbootnotify arguments */
 #define JHB100_KERNEL_BOOTENV	\
 	"set_bootargs_root_ram="		\
-		"setenv bootargs console=ttyS0,115200 debug rootwait earlycon=sbi root=/dev/ram0 rw pd_ignore_unused=1 clk_ignore_unused=1\0"	\
+		"setenv bootargs rootwait earlycon=sbi root=/dev/ram0 rw pd_ignore_unused=1 clk_ignore_unused=1\0"	\
 	"set_bootargs_root_storage="		\
-		"setenv bootargs console=ttyS0,115200 debug rootwait earlycon=sbi root=/dev/mmcblk0gp${blk_num} rw pd_ignore_unused=1 clk_ignore_unused=1\0"	\
+		"setenv bootargs rootwait earlycon=sbi root=/dev/mmcblk0gp${blk_num} rw pd_ignore_unused=1 clk_ignore_unused=1\0"	\
 	"importbootenv="	\
 		"echo Importing environment variables from uEnv.txt ...; "	\
 		"env import -t $envloadaddr $filesize\0" \
