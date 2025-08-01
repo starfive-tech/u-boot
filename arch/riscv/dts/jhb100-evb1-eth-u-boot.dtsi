@@ -201,6 +201,10 @@
 
 &sfc0 {
 	bootph-pre-ram;
+	/*clocks = <&fpga_200mhz_clk>;*/
+	spi-max-frequency = <20000000>;
+	rx-sample-delay-ns = <2>;
+	/delete-property/ resets;
 };
 
 &timer0 {
