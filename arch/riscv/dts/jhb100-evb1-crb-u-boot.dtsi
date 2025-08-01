@@ -8,7 +8,7 @@
 	aliases {
 		timer0 = &timer0;
 		ethernet0 = &gmac2;
-		spi0 = &spi0;
+		spi0 = &sfc0;
 		wdt0 = &wdt0;
 		wdt1 = &wdt1;
 		wdt2 = &wdt2;
@@ -217,10 +217,10 @@
 
 &wdt0 {
 	bootph-pre-ram;
-	timeout-sec = <15>;
+	timeout-sec = <120>;
 	hw_margin_ms = <1000>;
-	u-boot,noautostart;
-	clock-frequency = <3000000>;
+	u-boot,autostart;
+	status = "okay";
 };
 
 &wdt1 {
@@ -228,7 +228,7 @@
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
-	clock-frequency = <3000000>;
+	status = "okay";
 };
 
 &wdt2 {
@@ -236,7 +236,7 @@
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
-	clock-frequency = <3000000>;
+	status = "okay";
 };
 
 &wdt3 {
@@ -244,7 +244,7 @@
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
-	clock-frequency = <3000000>;
+	status = "okay";
 };
 
 &wdt_ext {
@@ -253,7 +253,6 @@
 	timeout-sec = <15>;
 	hw_margin_ms = <1000>;
 	u-boot,noautostart;
-	clock-frequency = <3000000>;
 };
 
 &pinctrl_bmcperiph0 {
@@ -498,7 +497,16 @@
 
 &emmc0 {
 	bootph-pre-ram;
+};
 
-	/* mmc to sram can't do dma, prevent aborts transferring TF-A parts */
-	u-boot,spl-fifo-mode;
+&fpga_25mhz_clk {
+	bootph-pre-ram;
+};
+
+&fpga_100mhz_clk {
+	bootph-pre-ram;
+};
+
+&fpga_200mhz_clk {
+	bootph-pre-ram;
 };
