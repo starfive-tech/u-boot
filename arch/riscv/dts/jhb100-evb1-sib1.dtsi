@@ -14,7 +14,7 @@
 &espi0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&espi0_pins &gpio_pass_1_pins &gpio_pass_2_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &i2c1_master {
@@ -144,11 +144,11 @@
 };
 
 &peci0 {
-	status = "disabled";
+	status = "okay";
 };
 
-&pcie_ep0 {
-	status = "disabled";
+&peci1 {
+	status = "okay";
 };
 
 &pinctrl_adc0 {
@@ -169,7 +169,7 @@
 &sgpio1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&sgpio1_pins>;
-	status = "disabled";
+	status = "okay";
 
 	gpio-line-names =
 		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",

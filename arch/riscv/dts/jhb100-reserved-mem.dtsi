@@ -142,3 +142,92 @@ sol_rx_mem_uncache: sol@418300000 {
 	reg = <0x4 0x18300000 0x0 0x2000000>;
 	no-map;
 };
+
+espi1_vw_mem_cache: espi0@5a300000 {
+	reg = <0x0 0x5a300000 0x0 0x1000>;
+	no-map;
+};
+
+espi1_vw_mem_uncache: espi0@41a300000 {
+	reg = <0x4 0x1a300000 0x0 0x1000>;
+	no-map;
+};
+
+espi1_mmbi_buffer_cache: mmbi_buffer@5a800000 {
+	reg = <0x0 0x5a800000 0x0 0x400000>;
+	alignment = <0x0 0x800000>;
+	no-map;
+};
+
+espi1_mmbi_buffer_uncache: mmbi_buffer@41a800000 {
+	reg = <0x4 0x1a800000 0x0 0x400000>;
+	alignment = <0x0 0x800000>;
+	no-map;
+};
+
+espi1_perif_mem_cache: espi0-slave@5ac00000 {
+	reg = <0x0 0x5ac00000 0x0 0x400000>;
+	no-map;
+};
+
+espi1_perif_mem_uncache: espi0-slave@41ac00000 {
+	reg = <0x4 0x1ac00000 0x0 0x400000>;
+	no-map;
+};
+
+pcie1_mmbi_buffer_cache: mmbi_buffer@5b000000 {
+	reg = <0x0 0x5b000000 0x0 0x400000>;
+	alignment = <0x0 0x400000>;
+	no-map;
+};
+
+pcie1_mmbi_buffer_uncache: mmbi_buffer@41b000000 {
+	reg = <0x4 0x1b000000 0x0 0x400000>;
+	alignment = <0x0 0x400000>;
+	no-map;
+};
+
+pcie1_media_mem_cache: media_memory@5c000000 {
+	reg = <0x0 0x5c000000 0x0 0x4000000>;
+	alignment = <0x0 0x4000000>;
+	no-map;
+};
+
+pcie1_media_mem_uncache: media_emory@41c000000 {
+	reg = <0x4 0x1c000000 0x0 0x4000000>;
+	alignment = <0x0 0x4000000>;
+	no-map;
+};
+
+pcie1_hdma_mem_cache: hdma_memory@60000000 {
+	reg = <0x0 0x60000000 0x0 0x1000000>;
+	alignment = <0x0 0x1000000>;
+	no-map;
+};
+
+pcie1_hdma_mem_uncache: hdma_memory@420000000 {
+	reg = <0x4 0x20000000 0x0 0x1000000>;
+	alignment = <0x0 0x1000000>;
+	no-map;
+};
+
+/*
+ * As the ATU configuration required the dest_addr to keep align
+ * with its size, the first reg below required to be aligned with
+ * 0x2000000 too.
+ */
+pcie1_user_mem_cache: user_memory@62000000 {
+	reg = <0x0 0x62000000 0x0 0x2000000>,
+		<0x0 0x64000000 0x0 0x100000>,
+		<0x0 0x64100000 0x0 0x100000>;
+	alignment = <0x0 0x100000>;
+	no-map;
+};
+
+pcie1_user_mem_uncache: user_memory@422000000 {
+	reg = <0x4 0x22000000 0x0 0x2000000>,
+		<0x4 0x24000000 0x0 0x100000>,
+		<0x4 0x24100000 0x0 0x100000>;
+	alignment = <0x0 0x100000>;
+	no-map;
+};

@@ -292,6 +292,7 @@
 					 FUNC_SYSTOP_SYS0H_ESPI0_DATA0)>;
 			bias-pull-up;
 			input-enable;
+			drive-strength = <4>;
 		};
 
 		espi0-io1-pins {
@@ -299,7 +300,7 @@
 					 FUNC_SYSTOP_SYS0H_ESPI0_DATA1)>;
 			bias-pull-up;
 			input-enable;
-
+			drive-strength = <4>;
 		};
 
 		espi0-io2-pins {
@@ -307,6 +308,7 @@
 					 FUNC_SYSTOP_SYS0H_ESPI0_DATA2)>;
 			bias-pull-up;
 			input-enable;
+			drive-strength = <4>;
 		};
 
 		espi0-io3-pins {
@@ -314,13 +316,14 @@
 					 FUNC_SYSTOP_SYS0H_ESPI0_DATA3)>;
 			bias-pull-up;
 			input-enable;
+			drive-strength = <4>;
 		};
 	};
 };
 
 &pinctrl_sys1 {
 	espi1_pins: espi1-grp {
-		espi0-rst-pins {
+		espi1-rst-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A23,
 					 FUNC_SYSTOP_SYS1_ESPI1_RESET)>;
 			input-enable;
@@ -350,6 +353,7 @@
 					 FUNC_SYSTOP_SYS1_ESPI1_DATA0)>;
 			bias-pull-up;
 			input-enable;
+			drive-strength = <8>;
 		};
 
 		espi1-io1-pins {
@@ -357,6 +361,7 @@
 					 FUNC_SYSTOP_SYS1_ESPI1_DATA1)>;
 			bias-pull-up;
 			input-enable;
+			drive-strength = <8>;
 		};
 
 		espi1-io2-pins {
@@ -364,6 +369,7 @@
 					 FUNC_SYSTOP_SYS1_ESPI1_DATA2)>;
 			bias-pull-up;
 			input-enable;
+			drive-strength = <8>;
 		};
 
 		espi1-io3-pins {
@@ -371,6 +377,7 @@
 					 FUNC_SYSTOP_SYS1_ESPI1_DATA3)>;
 			bias-pull-up;
 			input-enable;
+			drive-strength = <8>;
 		};
 	};
 };
@@ -789,7 +796,9 @@
 		i2c0_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B0,
 					 FUNC_BMCPERIPH0_I2C0_CLK)>;
-	};
+			bias-pull-up;
+			input-enable;
+		};
 
 		i2c0_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B1,
@@ -803,6 +812,7 @@
 		i2c1_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B2,
 					 FUNC_BMCPERIPH0_I2C1_CLK)>;
+			input-enable;
 		};
 
 		i2c1_sda-pins{
@@ -817,6 +827,7 @@
 		i2c2_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B4,
 					 FUNC_BMCPERIPH0_I2C2_CLK)>;
+			input-enable;
 		};
 
 		i2c2_sda-pins{
@@ -831,6 +842,7 @@
 		i2c3_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B6,
 					 FUNC_BMCPERIPH0_I2C3_CLK)>;
+			input-enable;
 		};
 
 		i2c3_sda-pins{
@@ -845,6 +857,7 @@
 		i2c4_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
 					 FUNC_BMCPERIPH0_I2C4_CLK)>;
+			input-enable;
 		};
 
 		i2c4_sda-pins{
@@ -859,6 +872,7 @@
 		i2c5_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
 					 FUNC_BMCPERIPH0_I2C5_CLK)>;
+			input-enable;
 		};
 
 		i2c5_sda-pins{
@@ -873,6 +887,7 @@
 		i2c6_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B12,
 					 FUNC_BMCPERIPH0_I2C6_CLK)>;
+			input-enable;
 		};
 
 		i2c6_sda-pins{
@@ -887,6 +902,7 @@
 		i2c7_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B14,
 					 FUNC_BMCPERIPH0_I2C7_CLK)>;
+			input-enable;
 		};
 
 		i2c7_sda-pins{
@@ -901,6 +917,7 @@
 		i2c8_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B16,
 					 FUNC_BMCPERIPH0_I2C8_CLK)>;
+			input-enable;
 		};
 
 		i2c8_sda-pins{
@@ -915,6 +932,7 @@
 		i2c9_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B18,
 					 FUNC_BMCPERIPH0_I2C9_CLK)>;
+			input-enable;
 		};
 
 		i2c9_sda-pins{
@@ -929,6 +947,7 @@
 		i2c10_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B20,
 					 FUNC_BMCPERIPH0_I2C10_CLK)>;
+			input-enable;
 		};
 
 		i2c10_sda-pins{
@@ -943,6 +962,7 @@
 		i2c11_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B22,
 					 FUNC_BMCPERIPH0_I2C11_CLK)>;
+			input-enable;
 		};
 
 		i2c11_sda-pins{
@@ -957,6 +977,7 @@
 		i2c12_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B24,
 					 FUNC_BMCPERIPH0_I2C12_CLK)>;
+			input-enable;
 		};
 
 		i2c12_sda-pins{
@@ -971,6 +992,7 @@
 		i2c13_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B26,
 					 FUNC_BMCPERIPH0_I2C13_CLK)>;
+			input-enable;
 		};
 
 		i2c13_sda-pins{
@@ -987,6 +1009,7 @@
 		i2c14_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C32,
 					 FUNC_BMCPERIPH1_I2C14_CLK)>;
+			input-enable;
 	     };
 
 	     i2c14_sda-pins{
@@ -1001,6 +1024,7 @@
 		i2c15_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C34,
 					 FUNC_BMCPERIPH1_I2C15_CLK)>;
+			input-enable;
 	};
 
 		i2c15_sda-pins{
@@ -1337,12 +1361,13 @@
 		gmac1_mdc-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B30,
 					 FUNC_BMCPERIPH0_GMAC1_MDC)>;
+			bias-pull-up;
+			input-enable;
 		};
 
 		gmac1_mdio-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B31,
 					 FUNC_BMCPERIPH0_GMAC1_MDIO)>;
-			bias-pull-up;
 			input-enable;
 		};
 	};
@@ -1367,12 +1392,13 @@
 		gmac3_mdc-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B26,
 					 FUNC_BMCPERIPH0_GMAC3_MDC)>;
+			bias-pull-up;
+			input-enable;
 		};
 
 		gmac3_mdio-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B27,
 					 FUNC_BMCPERIPH0_GMAC3_MDIO)>;
-			bias-pull-up;
 			input-enable;
 		};
 	};
@@ -1517,48 +1543,6 @@
 		port80_h0_sys1_7-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A23,
 					 FUNC_SYSTOP_SYS1_HOST0_PORT80_DATA_OUT7)>;
-		};
-	};
-
-	port80_host1_sys1_pins: port80_host1_sys1-grp {
-		port80_h1_sys1_0-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A16,
-					 FUNC_SYSTOP_SYS1_HOST1_PORT80_DATA_OUT0)>;
-		};
-
-		port80_h1_sys1_1-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A17,
-					 FUNC_SYSTOP_SYS1_HOST1_PORT80_DATA_OUT1)>;
-		};
-
-		port80_h1_sys1_2-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A18,
-					 FUNC_SYSTOP_SYS1_HOST1_PORT80_DATA_OUT2)>;
-		};
-
-		port80_h1_sys1_3-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A19,
-					 FUNC_SYSTOP_SYS1_HOST1_PORT80_DATA_OUT3)>;
-		};
-
-		port80_h1_sys1_4-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A20,
-					 FUNC_SYSTOP_SYS1_HOST1_PORT80_DATA_OUT4)>;
-		};
-
-		port80_h1_sys1_5-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A21,
-					 FUNC_SYSTOP_SYS1_HOST1_PORT80_DATA_OUT5)>;
-		};
-
-		port80_h1_sys1_6-pins{
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A22,
-					 FUNC_SYSTOP_SYS1_HOST1_PORT80_DATA_OUT6)>;
-		};
-
-		port80_h1_sys1_7-pins {
-			pinmux = <PINMUX(PADNUM_SYSTOP_SYS1_GPIO_A23,
-					 FUNC_SYSTOP_SYS1_HOST1_PORT80_DATA_OUT7)>;
 		};
 	};
 };
@@ -1911,6 +1895,8 @@
 		pwm_ch0-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D41,
 					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL0)>;
+			bias-pull-down;
+			input-disable;
 		};
 	};
 
@@ -1918,6 +1904,8 @@
 		pwm_ch1-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D42,
 					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL1)>;
+			bias-pull-down;
+			input-disable;
 		};
 	};
 
@@ -1925,6 +1913,8 @@
 		pwm_ch2-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D43,
 					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL2)>;
+			bias-pull-down;
+			input-disable;
 		};
 	};
 
@@ -1932,6 +1922,8 @@
 		pwm_ch3-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D44,
 					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL3)>;
+			bias-pull-down;
+			input-disable;
 		};
 	};
 
@@ -1939,6 +1931,8 @@
 		pwm_ch4-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D45,
 					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL4)>;
+			bias-pull-down;
+			input-disable;
 		};
 	};
 
@@ -1946,6 +1940,8 @@
 		pwm_ch5-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D46,
 					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL5)>;
+			bias-pull-down;
+			input-disable;
 		};
 	};
 
@@ -1953,6 +1949,8 @@
 		pwm_ch6-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D47,
 					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL6)>;
+			bias-pull-down;
+			input-disable;
 		};
 	};
 
@@ -1960,6 +1958,8 @@
 		pwm_ch7-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH2_POK_GPIO_D48,
 					 FUNC_BMCPERIPH2_POK_PWM0_CHANNEL7)>;
+			bias-pull-down;
+			input-disable;
 		};
 	};
 };
@@ -2460,16 +2460,19 @@
 		sgpio1_mclk-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C32,
 					FUNC_BMCPERIPH1_SGPIO1_M_CLK)>;
+			drive-push-pull;
 		};
 
 		sgpio1_mld-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C33,
 					FUNC_BMCPERIPH1_SGPIO1_M_LOAD)>;
+			drive-push-pull;
 		};
 
 		sgpio1_mdo-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C34,
 					FUNC_BMCPERIPH1_SGPIO1_M_DATA_OUT)>;
+			drive-push-pull;
 		};
 
 		sgpio1_mdi-pins {
@@ -2819,6 +2822,32 @@
 		};
 	};
 
+	uart7_pins: uart7-grp {
+		uart7_tx-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A40,
+					 FUNC_SYSTOP_SYS2_UART7_TX)>;
+		};
+
+		uart7_rx-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A41,
+					 FUNC_SYSTOP_SYS2_UART7_RX)>;
+			input-enable;
+		};
+	};
+
+	uart8_pins: uart8-grp {
+		uart8_tx-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A42,
+					 FUNC_SYSTOP_SYS2_UART8_TX)>;
+		};
+
+		uart8_rx-pins {
+			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A43,
+					 FUNC_SYSTOP_SYS2_UART8_RX)>;
+			input-enable;
+		};
+	};
+
 	uart9_pins: uart9-grp {
 		uart9_tx-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A44,
@@ -2943,6 +2972,7 @@
 		wdt4_ext_reset-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B34,
 					 FUNC_BMCPERIPH0_WDT4_RESET_OUTPUT)>;
+			drive-push-pull;
 		};
 	};
 

@@ -34,19 +34,7 @@
 };
 
 &dma_spi0 {
-	status = "disabled";
-};
-
-&espi0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&espi0_pins>;
-	status = "disabled";
-};
-
-&espi1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&espi1_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &i2c1_master {
@@ -259,17 +247,21 @@
 	status = "disabled";
 };
 
+&jtag0 {
+	status = "okay";
+};
+
 &jtag1 {
 	pinctrl-names = "jtag";
 	pinctrl-0 = <&jtagm1_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &pwm {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pwm_ch0_pins &pwm_ch1_pins &pwm_ch2_pins &pwm_ch3_pins
 		     &pwm_ch4_pins &pwm_ch5_pins &pwm_ch6_pins &pwm_ch7_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &pwm_tach {
@@ -282,8 +274,32 @@
 		     &pwm_tach0_i10_pins &pwm_tach0_i11_pins
 		     &pwm_tach0_i12_pins &pwm_tach0_i13_pins
 		     &pwm_tach0_i14_pins &pwm_tach0_i15_pins>;
-	#pwm-cells = <1>;
-	status = "disabled";
+	status = "okay";
+
+	fan@0 {
+		tach-ch = <0x0>, <0x1>;
+	};
+	fan@1 {
+		tach-ch = <0x2>, <0x3>;
+	};
+	fan@2 {
+		tach-ch = <0x4>, <0x5>;
+	};
+	fan@3 {
+		tach-ch = <0x6>, <0x7>;
+	};
+	fan@4 {
+		tach-ch = <0x8>, <0x9>;
+	};
+	fan@5 {
+		tach-ch = <0xa>, <0xb>;
+	};
+	fan@6 {
+		tach-ch = <0xc>, <0xd>;
+	};
+	fan@7 {
+		tach-ch = <0xe>, <0xf>;
+	};
 };
 
 &sgpio0 {
@@ -369,5 +385,17 @@
 &spi0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi0_pins>;
-	status = "disabled";
+	status = "okay";
+
+	spi_dev0: spi@0 {
+		compatible = "rohm,dh2228fv";
+		spi-max-frequency = <12000000>;
+		reg = <0>;
+	};
+
+	spi_dev1: spi@1 {
+		compatible = "rohm,dh2228fv";
+		spi-max-frequency = <12000000>;
+		reg = <1>;
+	};
 };

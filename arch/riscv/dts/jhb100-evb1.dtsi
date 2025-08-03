@@ -13,9 +13,9 @@
 	compatible = "starfive,jhb100-evb1", "starfive,jhb100";
 
 	aliases {
+		serial0 = &uart6;
 		serial4 = &uart4;
 		serial5 = &uart5;
-		serial0 = &uart6;
 		serial7 = &uart7;
 		serial8 = &uart8;
 		serial9 = &uart9;
@@ -94,6 +94,9 @@
 		i3c13 = &i3c13;
 		i3c14 = &i3c14;
 		i3c15 = &i3c15;
+
+		peci0 = &peci0;
+		peci4 = &peci1;
 	};
 
 	soc {
@@ -107,12 +110,6 @@
 			compatible = "fixed-clock";
 			#clock-cells = <0>;
 			clock-frequency = <100000000>;
-		};
-
-		fpga_200mhz_clk: fpga_200mhz_clk {
-			compatible = "fixed-clock";
-			#clock-cells = <0>;
-			clock-frequency = <200000000>;
 		};
 	};
 
@@ -145,6 +142,46 @@
 			linux,cma-default;
 		};
 	};
+
+	fan0: pwm-fan0 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 0 40000 0>;
+	};
+
+	fan1: pwm-fan1 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 1 40000 0>;
+	};
+
+	fan2: pwm-fan2 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 2 40000 0>;
+	};
+
+	fan3: pwm-fan3 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 3 40000 0>;
+	};
+
+	fan4: pwm-fan4 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 4 40000 0>;
+	};
+
+	fan5: pwm-fan5 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 5 40000 0>;
+	};
+
+	fan6: pwm-fan6 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 6 40000 0>;
+	};
+
+	fan7: pwm-fan7 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 7 40000 0>;
+	};
 };
 
 &dma_i2c {
@@ -152,7 +189,7 @@
 };
 
 &dma_sfc0 {
-	status = "disabled";
+	status = "okay";
 };
 
 &dma_uart {
@@ -165,6 +202,79 @@
 	non-removable;
 	pinctrl-names = "default";
 	pinctrl-0 = <&emmc0_pins>;
+	status = "okay";
+};
+
+&espi0 {
+	starfive,flash-mtd-device = "Data";
+	starfive,host-src-addr = /bits/ 64 <0xf6810000>;
+	perif-memcyc-size = <0x400000>;
+	memory-region = <&espi0_mmbi_buffer_uncache>,
+			<&espi0_perif_mem_uncache>,
+			<&espi0_vw_mem_uncache>;
+
+
+	starfive,bt-remap-num = <2>;
+	starfive,kcs-remap-num = <4>;
+	starfive,uart-remap-num = <2>;
+	starfive,bt-io-addr = /bits/ 32 <0xe4 0xf4>;
+	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb4 0xcc6 0xcd8>;
+	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x400>;
+	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
+	starfive,mbox-io-addr = /bits/ 32 <0x300>;
+
+	starfive,vgpio_dir_bits = /bits/ 64 <0x00000000ffffffff 0x0000000000000000>;
+	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
+	starfive,vgpio_phy_bits = /bits/ 64 <0x000000000000000f 0x0000000000000000>;
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&espi0_pins>;
+	status = "okay";
+};
+
+&espi0_mmbi {
+	mmbi-id = /bits/ 8 <0>;
+	mmbi-instance-num = /bits/ 32 <1>;
+	mmbi-instance-size = /bits/ 32 <0x10000>;
+	mmbi-src-addr-offset = /bits/ 32 <0x10000>;
+	mmbi-osuse = /bits/ 8 <0 0 0 0 0 0 0 0>;
+	memory-region = <&espi0_mmbi_buffer_uncache>;
+	status = "okay";
+};
+
+&espi1 {
+	starfive,flash-mtd-device = "Data";
+	starfive,host-src-addr = /bits/ 64 <0xf6810000>;
+	perif-memcyc-size = <0x400000>;
+	memory-region = <&espi1_mmbi_buffer_uncache>,
+			<&espi1_perif_mem_uncache>,
+			<&espi1_vw_mem_uncache>;
+
+	starfive,bt-remap-num = <2>;
+	starfive,kcs-remap-num = <4>;
+	starfive,uart-remap-num = <2>;
+	starfive,bt-io-addr = /bits/ 32 <0xe4 0xf4>;
+	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb2 0xcc2 0xcd2>;
+	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x400>;
+	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
+	starfive,mbox-io-addr = /bits/ 32 <0x300>;
+
+	starfive,vgpio_dir_bits = /bits/ 64 <0x00000000ffffffff 0x0000000000000000>;
+	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
+	starfive,vgpio_phy_bits = /bits/ 64 <0x000000000000000f 0x0000000000000000>;
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&espi1_pins>;
+	status = "okay";
+};
+
+&espi1_mmbi {
+	mmbi-id = /bits/ 8 <1>;
+	mmbi-instance-num = /bits/ 32 <1>;
+	mmbi-instance-size = /bits/ 32 <0x10000>;
+	mmbi-src-addr-offset = /bits/ 32 <0x10000>;
+	mmbi-osuse = /bits/ 8 <0 0 0 0 0 0 0 0>;
+	memory-region = <&espi1_mmbi_buffer_uncache>;
 	status = "okay";
 };
 
@@ -195,31 +305,123 @@
 	};
 };
 
+&husb0d0 {
+	status = "okay";
+};
+
+&husb0d1 {
+	status = "okay";
+};
+
+&husb0d2 {
+	status = "okay";
+};
+
+&husb0d3 {
+	status = "okay";
+};
+
+&husb0d4 {
+	status = "okay";
+};
+
+&husb0d5 {
+	status = "okay";
+};
+
+&husb0d6 {
+	status = "okay";
+};
+
+&husb0d7 {
+	status = "okay";
+};
+
 &husb0 {
-	status = "disabled";
+	interrupts-extended = <&plic 251>, <&intc 53>, <&intc 54>;
+	interrupt-names = "err", "perst_pe", "perst_ne";
+	status = "okay";
+};
+
+&husb0core {
+	snps,export-xhci-to-pcie;
+};
+
+&husbd0crg {
+	status = "okay";
 };
 
 &husb0crg {
-	status = "disabled";
+	status = "okay";
+};
+
+&husb1d0 {
+	status = "okay";
+};
+
+&husb1d1 {
+	status = "okay";
+};
+
+&husb1d2 {
+	status = "okay";
+};
+
+&husb1d3 {
+	status = "okay";
+};
+
+&husb1d4 {
+	status = "okay";
+};
+
+&husb1d5 {
+	status = "okay";
+};
+
+&husb1d6 {
+	status = "okay";
+};
+
+&husb1d7 {
+	status = "okay";
 };
 
 &husb1 {
-	status = "disabled";
+	interrupts-extended = <&plic 261>, <&intc 55>, <&intc 56>;
+	interrupt-names = "err", "perst_pe", "perst_ne";
+	status = "okay";
+ };
+
+&husb1core {
+	snps,export-xhci-to-pcie;
+};
+
+&husbd1crg {
+	status = "okay";
 };
 
 &husb1crg {
-	status = "disabled";
+	status = "okay";
+};
+
+&husbphy0 {
+	status = "okay";
+};
+
+&husbphy1 {
+	status = "okay";
 };
 
 &hwspinlock {
-	status = "disabled";
+	status = "okay";
 };
 
 &i2c0_master {
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c0_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &pcie {
@@ -228,44 +430,293 @@
 	status = "disabled";
 };
 
+&pcie_ep0 {
+	memory-region = <&pcie0_media_mem_uncache>,
+			<&pcie0_user_mem_uncache>,
+			<&pcie0_mmbi_buffer_uncache>,
+			<&pcie0_hdma_mem_uncache>;
+	starfive,support-usb-vout-func;
+	status = "okay";
+};
+
+&pcie_ep1 {
+	memory-region = <&pcie1_media_mem_uncache>,
+			<&pcie1_user_mem_uncache>,
+			<&pcie1_mmbi_buffer_uncache>,
+			<&pcie1_hdma_mem_uncache>;
+	starfive,support-usb-vout-func;
+	status = "okay";
+};
+
+&pcie0_mctp {
+	status = "okay";
+};
+
+&pcie0_mmbi {
+	mmbi-id = /bits/ 8 <0>;
+	mmbi-instance-num = /bits/ 32 <8>;
+	mmbi-instance-size = /bits/ 32 <0x10000>;
+	mmbi-src-addr-offset = /bits/ 32 <0>;
+	mmbi-osuse = /bits/ 8 <1 1 1 1 1 1 1 1>;
+	memory-region = <&pcie0_mmbi_buffer_uncache>;
+	starfive,raise-irq-syscon = <&pcie_ep0_ecsr 0x700 0xd>;
+	starfive,rst-en-syscon = <&strap_reg 0x50 0x400>;
+	status = "okay";
+};
+
+&pcie1_mctp {
+	status = "okay";
+};
+
+&pcie1_mmbi {
+	mmbi-id = /bits/ 8 <1>;
+	mmbi-instance-num = /bits/ 32 <8>;
+	mmbi-instance-size = /bits/ 32 <0x10000>;
+	mmbi-src-addr-offset = /bits/ 32 <0>;
+	mmbi-osuse = /bits/ 8 <1 1 1 1 1 1 1 1>;
+	memory-region = <&pcie1_mmbi_buffer_uncache>;
+	starfive,raise-irq-syscon = <&pcie_ep1_ecsr 0x700 0xd>;
+	starfive,rst-en-syscon = <&strap_reg 0x50 0x800>;
+	status = "okay";
+};
+
 &pvt_ddr {
 	status = "disabled";
 };
 
 &reri0 {
-	status = "disabled";
+	status = "okay";
+};
+
+&reri1 {
+	status = "okay";
 };
 
 &reri2 {
-	status = "disabled";
+	status = "okay";
+};
+
+&reri3 {
+	status = "okay";
+};
+
+&reri4 {
+	status = "okay";
 };
 
 &rtc {
-	status = "disabled";
+	status = "okay";
 };
 
 &sfc0 {
 	status = "okay";
 };
 
-&timer0 {
-	status = "disabled";
+&sgmii_phy1 {
+	status = "okay";
 };
 
+&sio0 {
+	status = "okay";
+
+	sio0_bt0: bt@0 {
+		bt_chan = <0>;
+		status = "okay";
+	};
+
+	sio0_bt1: bt@100 {
+		bt_chan = <1>;
+		status = "okay";
+	};
+
+	sio0_kcs0: kcs@200 {
+		kcs_chan = <0>;
+		status = "okay";
+	};
+
+	sio0_kcs1: kcs@300 {
+		kcs_chan = <1>;
+		status = "okay";
+	};
+
+	sio0_kcs2: kcs@400 {
+		kcs_chan = <2>;
+		status = "okay";
+	};
+
+	sio0_kcs3: kcs@500 {
+		kcs_chan = <3>;
+		status = "okay";
+	};
+
+	sio0_mbox: mbox@600 {
+		status = "okay";
+	};
+
+	sio0_pcc: pcc@800 {
+		starfive,pcc-threshold = <0>;
+		status = "okay";
+	};
+
+	sio0_wdi: wdi@900 {
+		status = "okay";
+	};
+};
+
+&sio1 {
+	status = "okay";
+
+	sio1_bt0: bt@0 {
+		bt_chan = <2>;
+		status = "okay";
+	};
+
+	sio1_bt1: bt@100 {
+		bt_chan = <3>;
+		status = "okay";
+	};
+
+	sio1_kcs0: kcs@200 {
+		kcs_chan = <4>;
+		status = "okay";
+	};
+
+	sio1_kcs1: kcs@300 {
+		kcs_chan = <5>;
+		status = "okay";
+	};
+
+	sio1_kcs2: kcs@400 {
+		kcs_chan = <6>;
+		status = "okay";
+	};
+
+	sio1_kcs3: kcs@500 {
+		kcs_chan = <7>;
+		status = "okay";
+	};
+
+	sio1_mbox: mbox@600 {
+		status = "okay";
+	};
+
+	sio1_pcc: pcc@800 {
+		starfive,pcc-threshold = <0>;
+		status = "okay";
+	};
+
+	sio1_wdi: wdi@900 {
+		status = "okay";
+	};
+};
+
+&sol5 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <5>;
+	status = "okay";
+};
+
+&sol6 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <6>;
+	status = "okay";
+};
+
+&sol7 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <7>;
+	status = "okay";
+};
+
+&sol8 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <8>;
+	status = "okay";
+};
+
+&sol9 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <9>;
+	status = "okay";
+};
+
+&sol10 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <10>;
+	status = "okay";
+};
+
+&sol11 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <11>;
+	status = "okay";
+};
+
+&sol12 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <12>;
+	status = "okay";
+};
+
+&sol13 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <13>;
+	status = "okay";
+};
+
+&sol14 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <14>;
+	status = "okay";
+};
+
+&timer0 {
+	status = "okay";
+};
 
 &timer1 {
-	status = "disabled";
+	status = "okay";
 };
 
 &timer2 {
-	status = "disabled";
+	status = "okay";
 };
 
-&uart4 {
+&uart5 {
 	status = "okay";
 	current-speed = <115200>;
 	pinctrl-names = "default";
-	pinctrl-0 = <&uart4_pins>;
+	pinctrl-0 = <&uart5_pins>;
 };
 
 &uart6 {
@@ -276,12 +727,73 @@
 	clocks = <&fpga_25mhz_clk>, <&fpga_100mhz_clk>;
 };
 
+&uart7 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart7_pins>;
+};
+
+&uart8 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart8_pins>;
+};
+
+&uart9 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart9_pins>;
+};
+
+&uart10 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart10_pins>;
+};
+
+&uart11 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart11_pins>;
+};
+
+&uart12 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart12_pins>;
+};
+
+&uart13 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart13_pins>;
+};
+
+&uart14 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart14_pins>;
+};
+
+&uart_routing {
+	starfive,chsel = /bits/ 8 <0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
+	status = "okay";
+};
+
 &ufs0 {
 	status = "disabled";
 };
 
 &usb0 {
-	status = "disabled";
+	status = "okay";
 };
 
 &usb0core {
@@ -289,7 +801,7 @@
 };
 
 &usb1 {
-	status = "disabled";
+	status = "okay";
 };
 
 &usb1core {
@@ -301,27 +813,34 @@
 };
 
 &wdt0 {
-	status = "disabled";
+	status = "okay";
 };
 
 &wdt1 {
-	status = "disabled";
+	status = "okay";
 };
 
 &wdt2 {
-	status = "disabled";
+	status = "okay";
 };
 
 &wdt3 {
-	status = "disabled";
+	status = "okay";
 };
 
 &wdt_ext {
-	status = "disabled";
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&wdt4_ext_reset_pins &wdt4_restart_pins>;
 };
 
 &led0 {
-	status = "okay";
+	status = "disabled";
 	pinctrl-names = "default";
 	pinctrl-0 = <&hbled_pins>;
+};
+
+&vce0 {
+	memory-region = <&pcie0_media_mem_uncache>;
+	status = "okay";
 };

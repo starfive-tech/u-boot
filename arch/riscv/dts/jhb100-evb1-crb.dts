@@ -4,6 +4,7 @@
  */
 
 #include "jhb100-evb1.dtsi"
+#include "jhb100-evb1-sfc0-flash.dtsi"
 #include "jhb100-evb1-ethernet.dtsi"
 #include "jhb100-evb1-sib1.dtsi"
 
@@ -107,8 +108,15 @@
 	gpioc6 {
 		gpio-hog;
 		gpios = <6 GPIO_ACTIVE_HIGH>;
-		output-low;
+		input_enable;
 		line-name = "FM_SKT0_FAULT_LED";
+	};
+
+	gpioc23 {
+		gpio-hog;
+		gpios = <23 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "PWRGD_P1V0_BMC_AUX";
 	};
 
 	gpioc26 {
@@ -223,14 +231,14 @@
 
 	gpioa50 {
 		gpio-hog;
-		gpios = <50 GPIO_ACTIVE_HIGH>;
+		gpios = <26 GPIO_ACTIVE_HIGH>;
 		output-low;
 		line-name = "FM_BMC_BMCINIT_R";
 	};
 
 	gpioa51 {
 		gpio-hog;
-		gpios = <51 GPIO_ACTIVE_HIGH>;
+		gpios = <27 GPIO_ACTIVE_HIGH>;
 		output-low;
 		line-name = "SIO_ONCONTROL";
 	};

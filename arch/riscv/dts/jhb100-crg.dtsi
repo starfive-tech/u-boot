@@ -70,13 +70,13 @@
 	per2_gmac2_rgmii_rx: per2_gmac2_rgmii_rx {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <50000000>;
+		clock-frequency = <125000000>;
 	};
 
 	per2_gmac2_rmii_ref: per2_gmac2_rmii_ref {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <125000000>;
+		clock-frequency = <50000000>;
 	};
 
 	per2_gmac3_sgmii_tx: per2_gmac3_sgmii_tx {
@@ -138,7 +138,6 @@
 				      "host0_espi0_66";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "okay";
 		};
 
 		husb0crg: clock-controller@10694000 {
@@ -149,7 +148,6 @@
 			clock-names = "husb0_600", "husb0_500";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		husbd0crg: clock-controller@10694800 {
@@ -163,15 +161,16 @@
 				      "husbd0_utmi_clk", "husbd0_pipe_clk";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		gpu0crg: clock-controller@10744000 {
 			compatible = "starfive,jhb100-gpu0crg";
 			reg = <0x0 0x10744000 0x0 0x1000>;
+			clocks = <&sys2crg JHB100_SYS2CLK_GPU0_BUS_CLK>,
+				 <&sys2crg JHB100_SYS2CLK_GPU0_APB_CLK>;
+			clock-names = "gpu0_bus_clk", "gpu0_apb_clk";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		host1crg: clock-controller@10d18000 {
@@ -184,7 +183,6 @@
 				      "host1_espi1_66";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		husb1crg: clock-controller@10e94000 {
@@ -195,7 +193,6 @@
 			clock-names = "husb1_600", "husb1_500";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		husbd1crg: clock-controller@10e94800 {
@@ -209,15 +206,16 @@
 				      "husbd1_utmi_clk", "husbd1_pipe_clk";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		gpu1crg: clock-controller@10f44000 {
 			compatible = "starfive,jhb100-gpu1crg";
 			reg = <0x0 0x10f44000 0x0 0x1000>;
+			clocks = <&sys2crg JHB100_SYS2CLK_GPU1_BUS_CLK>,
+				 <&sys2crg JHB100_SYS2CLK_GPU1_APB_CLK>;
+			clock-names = "gpu1_bus_clk", "gpu1_apb_clk";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		husbcmncrg: clock-controller@11044000 {
@@ -230,7 +228,6 @@
 				      "husbcmn_480";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		voutcrg: clock-controller@11134000 {
@@ -244,7 +241,6 @@
 				      "vout_pix0", "vout_pix1";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		vcecrg: clock-controller@11184000 {
@@ -258,7 +254,6 @@
 				      "vce_pix1";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		pcierpcrg: clock-controller@11718000 {
@@ -270,7 +265,6 @@
 				      "pcierp_ncnoc_targ";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		pcierp_syscon: syscon@11719000 {
@@ -296,7 +290,6 @@
 			clock-names = "usb_600", "usb_200";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		npucrg: clock-controller@118e4000 {
@@ -309,7 +302,6 @@
 				      "npu_clksh_div2_o";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
-			status = "disabled";
 		};
 
 		per0crg: clock-controller@11a08000 {
@@ -463,8 +455,8 @@
 		cpucrg: clock-controller@13214000 {
 			compatible = "starfive,jhb100-cpucrg";
 			reg = <0x0 0x13214000 0x0 0x1000>;
-			clocks = <&pvt_aon>;
-			clock-names = "cpu_sensor";
+			clocks = <&pvt_aon>, <&osc>;
+			clock-names = "cpu_sensor", "osc";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};

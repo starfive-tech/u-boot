@@ -214,14 +214,6 @@
 	status = "disabled";
 };
 
-&pcie_ep0 {
-	status = "disabled";
-};
-
-&pcie_ep1 {
-	status = "disabled";
-};
-
 &peci0 {
 	status = "disabled";
 };

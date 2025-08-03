@@ -77,7 +77,15 @@
 	/delete-property/ memory-region;
 };
 
+&pcie_ep1 {
+	/delete-property/ memory-region;
+};
+
 &pcie0_mmbi {
+	/delete-property/ memory-region;
+};
+
+&pcie1_mmbi {
 	/delete-property/ memory-region;
 };
 
@@ -85,7 +93,55 @@
 	/delete-property/ memory-region;
 };
 
+&espi1_mmbi {
+	/delete-property/ memory-region;
+};
+
 &espi0 {
+	/delete-property/ memory-region;
+};
+
+&espi1 {
+	/delete-property/ memory-region;
+};
+
+&vce0 {
+	/delete-property/ memory-region;
+};
+
+&sol6 {
+	/delete-property/ memory-region;
+};
+
+&sol7 {
+	/delete-property/ memory-region;
+};
+
+&sol8 {
+	/delete-property/ memory-region;
+};
+
+&sol9 {
+	/delete-property/ memory-region;
+};
+
+&sol10 {
+	/delete-property/ memory-region;
+};
+
+&sol11 {
+	/delete-property/ memory-region;
+};
+
+&sol12 {
+	/delete-property/ memory-region;
+};
+
+&sol13 {
+	/delete-property/ memory-region;
+};
+
+&sol14 {
 	/delete-property/ memory-region;
 };
 
@@ -201,6 +257,9 @@
 
 &sfc0 {
 	bootph-pre-ram;
+	spi-max-frequency = <20000000>;
+	rx-sample-delay-ns = <2>;
+	/delete-property/ resets;
 };
 
 &timer0 {
@@ -504,9 +563,5 @@
 };
 
 &fpga_100mhz_clk {
-	bootph-pre-ram;
-};
-
-&fpga_200mhz_clk {
 	bootph-pre-ram;
 };
