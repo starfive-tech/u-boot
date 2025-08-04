@@ -21,7 +21,7 @@
 
 		kernel_sign {
 			signing_image {
-				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/Image ./input_files/jhb100/linux_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../u-boot/jhb100-fpga-linux.dtb ./input_files/jhb100/linuxdtb_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../u-boot/rootfs.cpio ./input_files/jhb100/linuxrofs_sec.cfg 0 ../../u-boot/ > /dev/null";
+				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/Image ./input_files/jhb100/linux_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../u-boot/jhb100-evb1-eth-linux.dtb ./input_files/jhb100/linuxdtb_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../u-boot/rootfs.cpio ./input_files/jhb100/linuxrofs_sec.cfg 0 ../../u-boot/ > /dev/null";
 			};
 		};
 #else
@@ -53,7 +53,7 @@
 
 				fdt_kernel {
 					fdt_kernel_blob: blob-ext {
-						filename = "jhb100-fpga-linux.dtb.secure.out";
+						filename = "jhb100-evb1-eth-linux.dtb.secure.out";
 					};
 				};
 

@@ -32,7 +32,7 @@
 					compression = "none";
 					load = /bits/ 64 <0x4fdce000>;
 					fdt_kernel_blob: blob-ext {
-						filename = "jhb100-fpga-linux.dtb";
+						filename = "jhb100-evb1-eth-linux.dtb";
 					};
 				};
 				ramfs {
