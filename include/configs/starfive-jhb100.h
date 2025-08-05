@@ -192,7 +192,7 @@
 		"fi; \0"	\
 	"emmc_write_cap="	\
 		"mmc write ${rofs_offs} 0x0 ${rofs_blk_size};"	\
-		"mmc write ${loadaddr} 0xc4000 ${rofs_blk_offs};\0"	\
+		"mmc write ${loadaddr} ${cap_bif_hdr_offs} ${rofs_blk_offs};\0"	\
 	"kernel_bootenv_mmc="	\
 		"if test ${bootdev} = spi; then "	\
 			"run spi_scan_and_run;"	\
@@ -212,6 +212,7 @@
 		"if parsecap ${loadaddr}; then "	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
+				"getemmcgppsz; "	\
 				"mmc partconf 0 0 0 ${emmc_temp_partition}; "	\
 				"echo Writing parsed update capsule to eMMC temp partition ...; "	\
 				"run emmc_write_cap;"	\
@@ -222,6 +223,7 @@
 		"if parsecap ${loadaddr}; then "	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
+				"getemmcgppsz; "	\
 				"mmc partconf 0 0 0 ${emmc_temp_partition}; "	\
 				"echo Writing parsed update capsule to eMMC temp partition ...; "	\
 				"run emmc_write_cap;"	\
