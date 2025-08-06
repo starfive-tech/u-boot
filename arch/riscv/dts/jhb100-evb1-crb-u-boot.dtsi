@@ -317,14 +317,36 @@
 &pinctrl_bmcperiph0 {
 	bootph-pre-ram;
 
-	mdio0_pins: mdio0-grp {
+	gmac1_mdio_pins: gmac1_mdio-grp {
 		bootph-pre-ram;
-
-		mdio0_mdc-pins {
+		gmac1_mdc-pins {
 			bootph-pre-ram;
 		};
 
-		mdio0_mdio-pins {
+		gmac1_mdio-pins {
+			bootph-pre-ram;
+		};
+	};
+
+	gmac2_mdio_pins: gmac2_mdio-grp {
+		bootph-pre-ram;
+		gmac2_mdc-pins {
+			bootph-pre-ram;
+		};
+
+		gmac2_mdio-pins {
+			bootph-pre-ram;
+			input-enable;
+		};
+	};
+
+	gmac3_mdio_pins: gmac3_mdio-grp {
+		bootph-pre-ram;
+		gmac3_mdc-pins {
+			bootph-pre-ram;
+		};
+
+		gmac3_mdio-pins {
 			bootph-pre-ram;
 		};
 	};
@@ -391,57 +413,55 @@
 };
 
 &pinctrl_bmcperiph2 {
-	gpionw-vsel = <JHB100_VREF_1_8V>;
 	bootph-pre-ram;
 
-	gmac2_pins: gmac2-grp {
+	gmac2_rgmii_pins: gmac2_rgmii-grp {
 		bootph-pre-ram;
-
-		gmac2_txen-pins {
+		gmac2_rgmii_txen-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_txclk-pins {
+		gmac2_rgmii_txclk-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_txd0-pins {
+		gmac2_rgmii_txd0-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_txd1-pins {
+		gmac2_rgmii_txd1-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_txd2-pins {
+		gmac2_rgmii_txd2-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_txd3-pins {
+		gmac2_rgmii_txd3-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_rxclk-pins {
+		gmac2_rgmii_rxclk-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_rxdv-pins {
+		gmac2_rgmii_rxdv-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_rxd0-pins {
+		gmac2_rgmii_rxd0-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_rxd1-pins {
+		gmac2_rgmii_rxd1-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_rxd2-pins {
+		gmac2_rgmii_rxd2-pins {
 			bootph-pre-ram;
 		};
 
-		gmac2_rxd3-pins {
+		gmac2_rgmii_rxd3-pins {
 			bootph-pre-ram;
 		};
 	};
@@ -453,6 +473,52 @@
 
 &pinctrl_bmcperiph3 {
 	bootph-pre-ram;
+
+	gmac0_mdio_pins: gmac0_mdio-grp {
+		bootph-pre-ram;
+		gmac0_mdc-pins {
+			bootph-pre-ram;
+		};
+
+		gmac0_mdio-pins {
+			bootph-pre-ram;
+		};
+	};
+
+	gmac0_rmii_pins: gmac0_rmii-grp {
+		bootph-pre-ram;
+		gmac0_rmii_txen-pins {
+			bootph-pre-ram;
+		};
+
+		gmac0_rmii_txd0-pins {
+			bootph-pre-ram;
+		};
+
+		gmac0_rmii_txd1-pins {
+			bootph-pre-ram;
+		};
+
+		gmac0_rmii_rclki-pins {
+			bootph-pre-ram;
+		};
+
+		gmac0_rmii_rclko-pins {
+			bootph-pre-ram;
+		};
+
+		gmac0_rmii_rxdv-pins {
+			bootph-pre-ram;
+		};
+
+		gmac0_rmii_rxd0-pins {
+			bootph-pre-ram;
+		};
+
+		gmac0_rmii_rxd1-pins {
+			bootph-pre-ram;
+		};
+	};
 };
 
 &pinctrl_sys0 {
