@@ -36,6 +36,9 @@
 #define JHB100_BMCPERIPH0_GPIOIEV0		0x15c
 #define JHB100_BMCPERIPH0_GPIOIEV1		0x160
 
+#define JHB100_BMCPERIPH0_I3CPAD_PIN_START	0
+#define JHB100_BMCPERIPH0_I3CPAD_PIN_END	59
+
 static const struct starfive_pinctrl_pin jhb100_bmcperiph0_pins[] = {
 	STARFIVE_PINCTRL(0,	"BMCPERIPH0_GPIO0"),
 	STARFIVE_PINCTRL(1,	"BMCPERIPH0_GPIO1"),
@@ -189,6 +192,12 @@ static int jhb100_bmcperiph0_get_padcfg_base(struct udevice *dev, u32 pin)
 	return -1;
 }
 
+static bool jhb100_bmcperiph0_is_i3cpad(u32 pin)
+{
+	return (pin >= JHB100_BMCPERIPH0_I3CPAD_PIN_START &&
+		pin <= JHB100_BMCPERIPH0_I3CPAD_PIN_END);
+}
+
 static const struct jhb100_pinctrl_soc_info jhb100_bmcperiph0_pinctrl_info = {
 	.pins				= jhb100_bmcperiph0_pins,
 	.npins				= ARRAY_SIZE(jhb100_bmcperiph0_pins),
@@ -206,6 +215,7 @@ static const struct jhb100_pinctrl_soc_info jhb100_bmcperiph0_pinctrl_info = {
 	.set_one_pinmux			= jhb100_bmcperiph0_set_one_pin_mux,
 	.get_padcfg_base		= jhb100_bmcperiph0_get_padcfg_base,
 	.debouce_width_mask		= GENMASK(31, 15),
+	.is_i3cpad			= jhb100_bmcperiph0_is_i3cpad,
 };
 
 static int jhb100_bmcperiph0_pinctrl_probe(struct udevice *dev)

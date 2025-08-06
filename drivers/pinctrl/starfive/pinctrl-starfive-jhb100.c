@@ -33,6 +33,8 @@
 #define JHB100_RGMII_VSEL_1_8V		0U
 #define JHB100_RGMII_VSEL_2_5V		1U
 #define JHB100_RGMII_VSEL_3_3V		0U
+#define JHB100_I3C_PADCFG_IE		BIT(0)
+#define JHB100_I3C_PADCFG_SMT		BIT(7)
 
 #define JHB100_PADCFG_VSEL_SHIFT	2
 #define JHB100_PADCFG_DB_WIDTH_SHIFT	15
@@ -225,11 +227,15 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 		value = (value & ~JHB100_PADCFG_BIAS_MASK) | JHB100_PADCFG_PU;
 		break;
 	case PIN_CONFIG_DRIVE_STRENGTH:
+		if (info->is_i3cpad && info->is_i3cpad(pin))
+			return -EINVAL;
 		mask |= JHB100_PADCFG_DS_MASK;
 		value = (value & ~JHB100_PADCFG_DS_MASK) |
 			starfive_padcfg_ds_from_mA(arg);
 		break;
 	case PIN_CONFIG_DRIVE_STRENGTH_UA:
+		if (info->is_i3cpad && info->is_i3cpad(pin))
+			return -EINVAL;
 		mask |= JHB100_PADCFG_DS_MASK;
 		value = (value & ~JHB100_PADCFG_DS_MASK) |
 			starfive_padcfg_ds_from_uA(arg);
@@ -241,6 +247,12 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 				value |= JHB100_RGMII_PADCFG_IE;
 			else
 				value &= ~JHB100_RGMII_PADCFG_IE;
+		} else if (info->is_i3cpad && info->is_i3cpad(pin)) {
+			mask |= JHB100_I3C_PADCFG_IE;
+			if (arg)
+				value |= JHB100_I3C_PADCFG_IE;
+			else
+				value &= ~JHB100_I3C_PADCFG_IE;
 		} else {
 			mask |= JHB100_PADCFG_IE;
 			if (arg)
@@ -250,14 +262,24 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 		}
 		break;
 	case PIN_CONFIG_INPUT_SCHMITT_ENABLE:
-		mask |= JHB100_PADCFG_SMT;
-		if (arg)
-			value |= JHB100_PADCFG_SMT;
-		else
-			value &= ~JHB100_PADCFG_SMT;
+		if (info->is_i3cpad && info->is_i3cpad(pin)) {
+			mask |= JHB100_I3C_PADCFG_SMT;
+			if (arg)
+				value |= JHB100_I3C_PADCFG_SMT;
+			else
+				value &= ~JHB100_I3C_PADCFG_SMT;
+		} else {
+			mask |= JHB100_PADCFG_SMT;
+			if (arg)
+				value |= JHB100_PADCFG_SMT;
+			else
+				value &= ~JHB100_PADCFG_SMT;
+		}
 		break;
 	case PIN_CONFIG_SLEW_RATE:
-		if (info->is_vselcfg && info->is_vselcfg(pin)) {
+		if (info->is_i3cpad && info->is_i3cpad(pin)) {
+			return -EINVAL;
+		} else if (info->is_vselcfg && info->is_vselcfg(pin)) {
 			mask |= JHB100_RGMII_PADCFG_IE;
 			if (arg)
 				value |= JHB100_RGMII_PADCFG_IE;

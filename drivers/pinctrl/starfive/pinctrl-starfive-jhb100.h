@@ -43,6 +43,7 @@ struct jhb100_pinctrl_soc_info {
 			      u32 func, int gpioval);
 	int (*get_padcfg_base)(struct udevice *dev, u32 pin);
 	bool (*is_vselcfg)(u32 pin);
+	bool (*is_i3cpad)(u32 pin);
 	u32 debouce_width_mask;
 };
 
