@@ -1378,8 +1378,6 @@
 		gmac2_mdc-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B24,
 					 FUNC_BMCPERIPH0_GMAC2_MDC)>;
-			bias-pull-up;
-			input-enable;
 		};
 
 		gmac2_mdio-pins {
