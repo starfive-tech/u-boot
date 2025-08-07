@@ -625,11 +625,3 @@
 &emmc0 {
 	bootph-pre-ram;
 };
-
-&fpga_25mhz_clk {
-	bootph-pre-ram;
-};
-
-&fpga_100mhz_clk {
-	bootph-pre-ram;
-};
