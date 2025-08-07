@@ -331,7 +331,7 @@ static inline void starfive_wdt_jhb100_set_restart(struct starfive_wdt_jhb100_pr
 	       priv->base + STARFIVE_JHB100_WDT_RESTART);
 	starfive_wdt_jhb100_lock(priv);
 }
-
+#if defined(CONFIG_STARFIVE_JHB100_WDT_ADV_CFG)
 /**
  * starfive_wdt_jhb100_sel_two_stage_timeout - Select two stage timeout mode.
  *
@@ -343,7 +343,7 @@ static void starfive_wdt_jhb100_sel_two_stage_timeout(struct starfive_wdt_jhb100
 {
 	starfive_wdt_jhb100_clear_reg_mask(priv, STARFIVE_JHB100_WDT_CTRL, STARFIVE_JHB100_WDT_CTRL_SINGLE_STAGE_MODE);
 }
-#if defined(CONFIG_STARFIVE_JHB100_WDT_ADV_CFG)
+
 /**
  * starfive_wdt_jhb100_clear_wdt_intr - Clear wdt interrupt.
  *

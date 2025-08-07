@@ -512,7 +512,6 @@ static int dw_spi_probe(struct udevice *bus)
 				     NSEC_PER_SEC /
 				     max_freq);
 	dw_write(priv, DW_SPI_RX_SAMPLE_DLY, rx_delay);
-	u32 rx_sample_read = dw_read(priv, DW_SPI_RX_SAMPLE_DLY);
 	dw_write(priv, DW_SPI_SSIENR, 1);
 
 	return 0;

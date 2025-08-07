@@ -473,7 +473,7 @@ static int sdhci_set_ios_post(struct sdhci_host *host)
 {
 	struct mmc *mmc = host->mmc;
 	struct rockchip_sdhc_plat *plat = dev_get_plat(mmc->dev);
-	struct mmc_config *cfg = &plat->cfg;
+	//struct mmc_config *cfg = &plat->cfg;
 	u32 reg;
 
 	reg = sdhci_readw(host, SDHCI_HOST_CONTROL2);
