@@ -150,6 +150,7 @@
 };
 
 &gmac2 {
+	/delete-property/ assigned-clock-parents; //TEMPORARY FIX FOR CLK MUX SET PARENT FAIL
 	bootph-pre-ram;
 	mdio0 {
 		bootph-pre-ram;
@@ -332,11 +333,12 @@
 		bootph-pre-ram;
 		gmac2_mdc-pins {
 			bootph-pre-ram;
+			bias-pull-up;
+			input-enable;
 		};
 
 		gmac2_mdio-pins {
 			bootph-pre-ram;
-			input-enable;
 		};
 	};
 
