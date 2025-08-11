@@ -417,28 +417,6 @@ static void jh7110_gpio_init(void)
 	SYS_IOMUX_SET_PULL(58, GPIO_PULL_UP);
 }
 
-/* vf2_board_type
- * 0: JH7110B VF2 1.3b or JH7110A VF2 1.2a
- * 1: JH7110S VF2 CM
- * 2: JH7110S VF2 Lite
- */
-static int get_vf2_board_type(void)
-{
-	const char*product_id;
-	unsigned long vf2_board_type = 0;
-
-	product_id = get_product_id_from_eeprom();
-	if (!strncmp(product_id, "VF7110S", 7)) {
-		if (product_id[7] == 'C')
-			vf2_board_type = 1;
-		else if (product_id[7] == 'L')
-			vf2_board_type = 2;
-	}
-
-	env_set_ulong("vf2_board_type", vf2_board_type);
-	return (int)vf2_board_type;
-}
-
 int board_init(void)
 {
 	enable_caches();
@@ -463,7 +441,6 @@ int board_late_init(void)
 	u64 share_ram_addr;
 
 	get_boot_mode();
-	get_vf2_board_type();
 
 	jh7110_gmac_init(get_chip_type(), get_board_type());
 	/*
