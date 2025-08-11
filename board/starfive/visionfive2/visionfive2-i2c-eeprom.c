@@ -745,6 +745,36 @@ int do_mac(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 	return print_usage();
 }
 
+const char *get_product_id_from_eeprom(void)
+{
+	if (read_eeprom(eeprom_wp_buff))
+		return NULL;
+
+	return einfo.pstr;
+}
+
+/* vf2_board_type
+ * 0: JH7110B VF2 1.3b or JH7110A VF2 1.2a
+ * 1: JH7110S VF2 CM
+ * 2: JH7110S VF2 Lite
+ */
+int get_vf2_board_type(void)
+{
+	const char *product_id;
+	unsigned long vf2_board_type = 0;
+
+	product_id = get_product_id_from_eeprom();
+	if (!strncmp(product_id, "VF7110S", 7)) {
+		if (product_id[7] == 'C')
+			vf2_board_type = 1;
+		else if (product_id[7] == 'L')
+			vf2_board_type = 2;
+	}
+
+	env_set_ulong("vf2_board_type", vf2_board_type);
+	return (int)vf2_board_type;
+}
+
 /**
  * mac_read_from_eeprom() - read the MAC address & the serial number in EEPROM
  *
@@ -789,14 +819,6 @@ int mac_read_from_eeprom(void)
 	printf("StarFive EEPROM format v%u\n", *einfo.version);
 	show_eeprom(&einfo);
 	return 0;
-}
-
-const char *get_product_id_from_eeprom(void)
-{
-	if (read_eeprom(eeprom_wp_buff))
-		return NULL;
-
-	return einfo.pstr;
 }
 
 /**
