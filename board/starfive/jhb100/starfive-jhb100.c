@@ -30,6 +30,8 @@
 #include <linux/delay.h>
 #include <spl.h>
 
+static int env_changed_id;
+
 int board_init(void)
 {
 	/* Required to perform early initialization
@@ -190,6 +192,7 @@ void env_filter_add_bootarg(void (*str_fn)(char* str), char *key_str)
 
 	env_set("bootargs", parsed_bootargs);
 
+	env_changed_id = env_get_id();
 	/* TODO: Let's think of whether to save the environment here, leave it for now */
 	/* env_save(); */
 }
@@ -208,6 +211,8 @@ void env_restore_bootcmd(void)
 		restore_bootcmd_sfc();
 	if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
 		restore_bootcmd_emmc();
+
+	env_changed_id = env_get_id();
 }
 
 void uboot_starfive_fb_rec_map_handler(void)
@@ -256,4 +261,21 @@ int board_late_init(void)
 
 	return 0;
 }
+
+#ifndef CONFIG_SPL_BUILD
+static int last_stage_init(void)
+{
+	int env_id = env_get_id();
+
+	/* Update only when the environment has changed */
+	if (env_changed_id != env_id) {
+		env_changed_id = env_id;
+		env_save();
+	}
+
+	return 0;
+}
+EVENT_SPY_SIMPLE(EVT_LAST_STAGE_INIT, last_stage_init);
+#endif
+
 #endif
