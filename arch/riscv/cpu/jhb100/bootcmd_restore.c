@@ -43,10 +43,11 @@ void restore_deep_bootcmd(void)
 
 void restore_bootcmd_utils(void)
 {
-	const char * const boot_vars[7] = {
+	const char * const boot_vars[8] = {
 		"auth_and_boot",
 		"uncompfitimage",
 		"kernel_autoboot",
+		"bootargs",
 		"bootcmd",
 		"bootdelay",
 		"set_bootargs_root_ram",
@@ -57,7 +58,7 @@ void restore_bootcmd_utils(void)
 	 * Restore the above SFC boot envs to their default values, in case users
 	 * managed to override or delete them.
 	 */
-	env_set_default_vars(7, (char * const *)boot_vars, 0);
+	env_set_default_vars(8, (char * const *)boot_vars, 0);
 }
 
 void restore_bootcmd_sfc(void)
