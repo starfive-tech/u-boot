@@ -472,8 +472,10 @@ static int rk3568_sdhci_config_dll(struct sdhci_host *host, u32 clock, bool enab
 static int sdhci_set_ios_post(struct sdhci_host *host)
 {
 	struct mmc *mmc = host->mmc;
+#ifndef CONFIG_STARFIVE_JHB100
 	struct rockchip_sdhc_plat *plat = dev_get_plat(mmc->dev);
-	//struct mmc_config *cfg = &plat->cfg;
+	struct mmc_config *cfg = &plat->cfg;
+#endif
 	u32 reg;
 
 	reg = sdhci_readw(host, SDHCI_HOST_CONTROL2);
@@ -522,21 +524,21 @@ static int sdhci_set_ios_post(struct sdhci_host *host)
 
 	sdhci_writew(host, reg, DWCMSHC_EMMC_EMMC_CTRL);
 
-	/* TODO: This block limit was removed to avoid throttling the transfer rate
-	   on JHB100. Revisit after power-on stage done */
+#ifndef CONFIG_STARFIVE_JHB100
 	/*
 	 * Reading more than 4 blocks with a single CMD18 command in PIO mode
 	 * triggers Data End Bit Error using a slower mode than HS200. Limit to
 	 * reading max 4 blocks in one command when using PIO mode.
 	 */
-	// if (!(host->flags & USE_DMA)) {
-	// 	if (mmc->selected_mode == MMC_HS_200 ||
-	// 	    mmc->selected_mode == MMC_HS_400 ||
-	// 	    mmc->selected_mode == MMC_HS_400_ES)
-	// 		cfg->b_max = CONFIG_SYS_MMC_MAX_BLK_COUNT;
-	// 	else
-	// 		cfg->b_max = 4;
-	// }
+	if (!(host->flags & USE_DMA)) {
+		if (mmc->selected_mode == MMC_HS_200 ||
+			mmc->selected_mode == MMC_HS_400 ||
+			mmc->selected_mode == MMC_HS_400_ES)
+			cfg->b_max = CONFIG_SYS_MMC_MAX_BLK_COUNT;
+		else
+			cfg->b_max = 4;
+	}
+#endif
 
 	return 0;
 }
