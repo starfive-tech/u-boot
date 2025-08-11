@@ -441,7 +441,6 @@ int board_late_init(void)
 	u64 share_ram_addr;
 
 	get_boot_mode();
-	get_vf2_board_type();
 
 	jh7110_gmac_init(get_chip_type(), get_board_type());
 	/*
