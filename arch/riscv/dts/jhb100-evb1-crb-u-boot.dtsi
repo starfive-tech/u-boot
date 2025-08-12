@@ -60,6 +60,7 @@
 
 &uart6 {
 	bootph-pre-ram;
+	bootph-some-ram;
 	dlf-size = <6>;
 	/delete-property/ clock-frequency;
 	/delete-property/ resets;
@@ -534,18 +535,22 @@
 &pinctrl_sys2 {
 	gpiow-vsel = <JHB100_VREF_3_3V>;
 	bootph-pre-ram;
+	bootph-some-ram;
 
 	uart6_pins: uart6-grp {
 		bootph-pre-ram;
+		bootph-some-ram;
 
 		uart6_tx-pins {
 			drive-strength = <12>;
 			bootph-pre-ram;
+			bootph-some-ram;
 		};
 
 		uart6_rx-pins {
 			drive-strength = <12>;
 			bootph-pre-ram;
+			bootph-some-ram;
 		};
 	};
 };
