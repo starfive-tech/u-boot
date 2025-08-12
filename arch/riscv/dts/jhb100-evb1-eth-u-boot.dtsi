@@ -258,9 +258,19 @@
 
 &sfc0 {
 	bootph-pre-ram;
-	spi-max-frequency = <20000000>;
-	rx-sample-delay-ns = <2>;
+	spi-max-frequency = <5000000>;
+	rx-sample-delay-ns = <0>;
 	/delete-property/ resets;
+
+	flash@0 {
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+	};
+
+	flash@1 {
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+	};
 };
 
 &timer0 {
