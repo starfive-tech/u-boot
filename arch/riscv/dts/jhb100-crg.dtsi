@@ -25,103 +25,67 @@
 		clock-frequency = <1000000000>;
 	};
 
-	pll2: pll2 {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <903168000>;
-	};
-
-	pll3: pll3 {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <800000000>;
-	};
-
-	pll4: pll4 {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <100700000>;
-	};
-
-	pll5: pll5 {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <100700000>;
-	};
-
-	pll6: pll6 {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <2400000000>;
-	};
-
-	pll7: pll7 {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <1950000000>;
-	};
-
 	npu_clksh_div2_o: npu-clksh-div2-o {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <460800000>;
 	};
 
-	per2_gmac2_rgmii_rx: per2_gmac2_rgmii_rx {
+	per2_gmac2_rgmii_rx: per2-gmac2-rgmii-rx {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <125000000>;
 	};
 
-	per2_gmac2_rmii_ref: per2_gmac2_rmii_ref {
+	per2_gmac2_rmii_ref: per2-gmac2-rmii-ref {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <50000000>;
 	};
 
-	per2_gmac3_sgmii_tx: per2_gmac3_sgmii_tx {
+	per2_gmac3_sgmii_tx: per2-gmac3-sgmii-tx {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <125000000>;
 	};
 
-	per2_gmac3_sgmii_rx: per2_gmac3_sgmii_rx {
+	per2_gmac3_sgmii_rx: per2-gmac3-sgmii-rx {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <125000000>;
 	};
 
-	per3_gmac0_rmii_rclki: per3_gmac0_rmii_rclki {
+	per3_gmac0_rmii_rclki: per3-gmac0-rmii-rclki {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <50000000>;
 	};
 
-	per3_gmac1_sgmii_tx: per3_gmac1_sgmii_tx {
+	per3_gmac1_sgmii_tx: per3-gmac1-sgmii-tx {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <125000000>;
 	};
 
-	per3_gmac1_sgmii_rx: per3_gmac1_sgmii_rx {
+	per3_gmac1_sgmii_rx: per3-gmac1-sgmii-rx {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <125000000>;
 	};
 
-	rtc_apb: rtc_apb {
+	rtc_apb: rtc-apb {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <100000000>;
 	};
 
-	pwm_apb: pwm_apb {
+	pwm_apb: pwm-apb {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <25000000>;
 	};
 
-	pvt_aon: pvt_aon {
+	pvt_aon: pvt-aon {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <100000000>;
@@ -260,9 +224,11 @@
 			compatible = "starfive,jhb100-pcierpcrg";
 			reg = <0x0 0x11718000 0x0 0x1000>;
 			clocks = <&sys0crg JHB100_SYS0CLK_BMCPCIERP_NCNOC_CFG_INIT>,
-				 <&sys0crg JHB100_SYS0CLK_BMCPCIERP_NCNOC_TARG>;
-			clock-names = "pcierp_nonoc_cfg_init",
-				      "pcierp_ncnoc_targ";
+				 <&sys0crg JHB100_SYS0CLK_BMCPCIERP_NCNOC_TARG>,
+				 <&sys0crg JHB100_SYS0CLK_BMCPCIERP_NCNOC_DATA_INIT>;
+			clock-names = "pcierp_ncnoc_cfg_init",
+				      "pcierp_ncnoc_targ",
+				      "pcierp_ncnoc_data_init";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
 		};
@@ -307,7 +273,8 @@
 		per0crg: clock-controller@11a08000 {
 			compatible = "starfive,jhb100-per0crg";
 			reg = <0x0 0x11a08000 0x0 0x1000>;
-			clocks = <&osc>, <&pll6>,
+			clocks = <&osc>,
+				 <&per0pll JHB100_PER0PLL_PLL6_OUT>,
 				 <&sys0crg JHB100_SYS0CLK_BMCPER0_400>,
 				 <&sys0crg JHB100_SYS0CLK_BMCPER0_800>,
 				 <&sys0crg JHB100_SYS0CLK_BMCPER0_600>,
@@ -334,7 +301,7 @@
 		per1crg: clock-controller@11b40000 {
 			compatible = "starfive,jhb100-per1crg";
 			reg = <0x0 0x11b40000 0x0 0x1000>;
-			clocks = <&pll7>,
+			clocks = <&per1pll JHB100_PER1PLL_PLL7_OUT>,
 				 <&sys0crg JHB100_SYS0CLK_BMCPER1_600>,
 				 <&sys0crg JHB100_SYS0CLK_BMCPER1_800>,
 				 <&sys2crg JHB100_SYS2CLK_BMCPER1_200>,
@@ -411,7 +378,8 @@
 		sys0crg: clock-controller@13000000 {
 			compatible = "starfive,jhb100-sys0crg";
 			reg = <0x0 0x13000000 0x0 0x4000>;
-			clocks = <&osc>, <&pll0>, <&pll1>, <&pll2>;
+			clocks = <&osc>, <&pll0>, <&pll1>,
+				 <&syspll JHB100_SYSPLL_PLL2_OUT>;
 			clock-names = "osc", "pll0", "pll1", "pll2";
 			#clock-cells = <1>;
 			#reset-cells = <1>;
@@ -420,8 +388,11 @@
 		sys1crg: clock-controller@13004000 {
 			compatible = "starfive,jhb100-sys1crg";
 			reg = <0x0 0x13004000 0x0 0x4000>;
-			clocks = <&osc>, <&pll0>, <&pll1>, <&pll2>,
-				 <&pll4>, <&pll5>, <&sys0crg JHB100_SYS0CLK_NPU_600>;
+			clocks = <&osc>, <&pll0>, <&pll1>,
+				 <&syspll JHB100_SYSPLL_PLL2_OUT>,
+				 <&syspll JHB100_SYSPLL_PLL4_OUT>,
+				 <&syspll JHB100_SYSPLL_PLL5_OUT>,
+				 <&sys0crg JHB100_SYS0CLK_NPU_600>;
 			clock-names = "osc", "pll0", "pll1", "pll2",
 				      "pll4", "pll5", "sys1_npu_600";
 			#clock-cells = <1>;

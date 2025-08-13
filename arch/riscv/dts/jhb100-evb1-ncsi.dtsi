@@ -1,0 +1,40 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+&gmac0 {
+	assigned-clocks = <&per3crg JHB100_PER3CLK_GMAC0_RMII_MUX>;
+	assigned-clock-parents = <&per3_gmac0_rmii_rclki>;
+	pinctrl-names = "default";
+	mac-mode = "rmii";
+	snps,use-ncsi;
+	snps,ps-speed = <100>;
+	pinctrl-0 = <&gmac0_rmii_pins>;
+	status = "okay";
+};
+
+&gmac2 {
+	assigned-clocks = <&per2crg JHB100_PER2CLK_GMAC2_RMII_MUX_DLY>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_RX_MUX_DLY>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TXCK_MUX_DLY>;
+	assigned-clock-parents = <&per2crg JHB100_PER2CLK_GMAC2_RMII_50>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RMII_DIV>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RMII_DIV>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RMII_50>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac2_rmii_pins>;
+	mac-mode = "rmii";
+	snps,use-ncsi;
+	snps,ps-speed = <100>;
+	status = "okay";
+};
+
+&pinctrl_bmcperiph2 {
+	gpionw-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOD19-30 */
+};
+
+&pinctrl_bmcperiph3 {
+	gpios-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOE0-10 */
+};

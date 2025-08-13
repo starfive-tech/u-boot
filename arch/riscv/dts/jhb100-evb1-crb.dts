@@ -4,9 +4,9 @@
  */
 
 #include "jhb100-evb1.dtsi"
-#include "jhb100-evb1-sfc0-flash.dtsi"
 #include "jhb100-evb1-ethernet.dtsi"
 #include "jhb100-evb1-sib1.dtsi"
+#include "jhb100-evb1-sfc0-flash.dtsi"
 
 &pinctrl_adc0 {
 	gpio-line-names =
@@ -133,6 +133,7 @@
 		line-name = "FM_BMC_TRUST_N";
 	};
 };
+
 &pinctrl_bmcperiph2 {
 	gpio-line-names =
 		"SIO_POWER_GOOD", "FP_ID_LED_N",				/* GPIOD0-1 */
@@ -145,8 +146,6 @@
 		"GMAC2_RXDV", "GMAC2_RXD0", "GMAC2_RXD1", "GMAC2_RXD2",		/* GPIOD20-23 */
 		"GMAC2_RXD3", "GMAC2_TXCLK", "GMAC2_TXEN", "GMAC2_TXD0",	/* GPIOD24-27 */
 		"GMAC2_TXD1", "GMAC2_TXD2", "GMAC2_TXD3";			/* GPIOD28-30 */
-
-	gpionw-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOD19-30 */
 
 	gpiod4 {
 		gpio-hog;
@@ -181,11 +180,9 @@
 
 &pinctrl_bmcperiph3 {
 	gpio-line-names =
-		"GMAC0_MDC", "GMAC0_MDIO", "GMAC0_RXD1", "GMAC0_",		/* GPIOE0-3 */
+		"GMAC0_MDC", "GMAC0_MDIO", "GMAC0_RXD1", "GMAC0_RXD0",		/* GPIOE0-3 */
 		"GMAC0_RXDV", "GMAC3_PHY_RST", "GMAC0_TXEN", "GMAC0_TXD0",	/* GPIOE4-7 */
 		"GMAC0_TXD1", "GMAC0_RCLKI", "GMAC0_RCLKO";			/* GPIOE8-11 */
-
-	gpios-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOE0-10 */
 };
 
 &pinctrl_emmc {

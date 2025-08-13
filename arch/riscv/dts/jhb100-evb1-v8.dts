@@ -144,3 +144,4 @@
 	gpio-line-names =
 		"VGA_HS", "VGA_VS", "VGA_DDCCLK", "VGA_DDCDAT";		/* GPIOI0-3 */
 };
+

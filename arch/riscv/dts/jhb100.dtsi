@@ -362,6 +362,7 @@
 				num-lanes = <1>;
 				ecsr-syscon = <&pcie_ep0_ecsr>;
 				starfive,ep-id = <0>;
+				starfive,syscon = <&sys_syscon 48 4>;
 				status = "disabled";
 			};
 
@@ -383,6 +384,7 @@
 				starfive,rx-cmd-full-th = <60>;
 				starfive,rx-cmd-empty-th = <0>;
 				starfive,rx-ring-count = <64>;
+				starfive,syscon = <&sys_syscon 48 4>;
 				starfive,tx-cmd-full-th = <15>;
 				starfive,tx-cmd-empty-th = <0>;
 				starfive,tx-ring-count = <64>;
@@ -403,24 +405,6 @@
 				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MMBI_PCIE0>;
 				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_MMBI_PCIE0>;
 				mmbi-id = <0>;
-				status = "disabled";
-			};
-
-			pvt_cpu: pvt@10514000 {
-				compatible = "moortec,mr75203";
-				reg = <0x0 0x10514000 0x0 0x80>,
-				      <0x0 0x10514080 0x0 0x80>,
-				      <0x0 0x10514100 0x0 0x80>,
-				      <0x0 0x10514400 0x0 0x800>;
-				reg-names = "common", "ts", "pd", "vm";
-				intel,vm-map = [00 ff];
-				clocks = <&cpucrg JHB100_CPUCLK_MAIN_ICG_EN_CPUSS_SENSORS>;
-				resets = <&cpucrg JHB100_CPURST_MAIN_RSTN_CPUSS_SENSORS>;
-				moortec,vm-active-channels = <16>;
-				moortec,vm-pre-scaler-x2 = <1 1 1 1 2 1 1 1 1 1 1 1 3 1 1 1>;
-				moortec,ts-coeff-g = <61400>;
-				moortec,ts-coeff-h = <253700>;
-				#thermal-sensor-cells = <1>;
 				status = "disabled";
 			};
 
@@ -750,6 +734,7 @@
 				starfive,syscon = <&husb0syscon 0>;
 				starfive,husbcmn-syscon = <&husbcmnsyscon 0>;
 				starfive,pcie-ecsr = <&pcie_ep0_ecsr>;
+				starfive,sys0cfg = <&sys_syscon 48 4>;
 				interrupts-extended = <&plic 251>;
 				interrupt-names = "err";
 				status = "disabled";
@@ -779,13 +764,15 @@
 			};
 
 			pvt_gpu0: pvt@10740000 {
-				compatible = "moortec,mr75203";
+				compatible = "starfive,jhb100-pvt";
 				reg = <0x0 0x10740000 0x0 0x80>,
 				      <0x0 0x10740080 0x0 0x80>,
 				      <0x0 0x10740100 0x0 0x80>;
 				reg-names = "common", "ts", "pd";
 				clocks = <&gpu0crg JHB100_GPU0CLK_MAIN_ICG_EN_GPU0_SENSORS>;
 				resets = <&gpu0crg JHB100_GPU0RST_MAIN_RSTN_GPU0_SENSORS>;
+				interrupts = <41>;
+				label = "pvt_gpu0";
 				moortec,ts-coeff-g = <61400>;
 				moortec,ts-coeff-h = <253700>;
 				#thermal-sensor-cells = <1>;
@@ -805,7 +792,7 @@
 				reg-names = "dbi", "dbi2", "atu", "hdma", "usb", "dc", "vout",
 					"addr_space";
 				interrupts-extended = <&intc 55>, <&intc 56>,
-					<&plic 308>, <&plic 309>, <&plic 310>, <&plic 312>;
+					<&plic 308>, <&plic 309>, <&plic 311>, <&plic 313>;
 				interrupt-names = "perst_pe", "perst_ne", "pm_link", "flr",
 					"err", "h2b";
 				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_PCIE1_EP>,
@@ -828,6 +815,7 @@
 				num-lanes = <1>;
 				ecsr-syscon = <&pcie_ep1_ecsr>;
 				starfive,ep-id = <1>;
+				starfive,syscon = <&sys_syscon 48 5>;
 				status = "disabled";
 			};
 
@@ -849,6 +837,7 @@
 				starfive,rx-cmd-full-th = <60>;
 				starfive,rx-cmd-empty-th = <0>;
 				starfive,rx-ring-count = <64>;
+				starfive,syscon = <&sys_syscon 48 5>;
 				starfive,tx-cmd-full-th = <15>;
 				starfive,tx-cmd-empty-th = <0>;
 				starfive,tx-ring-count = <64>;
@@ -1198,6 +1187,7 @@
 				starfive,syscon = <&husb1syscon 0>;
 				starfive,husbcmn-syscon = <&husbcmnsyscon 1>;
 				starfive,pcie-ecsr = <&pcie_ep1_ecsr>;
+				starfive,sys0cfg = <&sys_syscon 48 5>;
 				interrupts-extended = <&plic 261>;
 				interrupt-names = "err";
 				ranges;
@@ -1227,13 +1217,15 @@
 			};
 
 			pvt_gpu1: pvt@10f40000 {
-				compatible = "moortec,mr75203";
+				compatible = "starfive,jhb100-pvt";
 				reg = <0x0 0x10f40000 0x0 0x80>,
 				      <0x0 0x10f40080 0x0 0x80>,
 				      <0x0 0x10f40100 0x0 0x80>;
 				reg-names = "common", "ts", "pd";
 				clocks = <&gpu1crg JHB100_GPU1CLK_MAIN_ICG_EN_GPU1_SENSORS>;
 				resets = <&gpu1crg JHB100_GPU1RST_MAIN_RSTN_GPU1_SENSORS>;
+				interrupts = <42>;
+				label = "pvt_gpu1";
 				moortec,ts-coeff-g = <61400>;
 				moortec,ts-coeff-h = <253700>;
 				#thermal-sensor-cells = <1>;
@@ -1265,13 +1257,15 @@
 			};
 
 			pvt_usb: pvt@11040000 {
-				compatible = "moortec,mr75203";
+				compatible = "starfive,jhb100-pvt";
 				reg = <0x0 0x11040000 0x0 0x80>,
 				      <0x0 0x11040080 0x0 0x80>,
 				      <0x0 0x11040100 0x0 0x80>;
 				reg-names = "common", "ts", "pd";
-				clocks = <&usbcrg JHB100_USBCLK_MAIN_ICG_EN_BMCUSB_SENSORS>;
-				resets = <&usbcrg JHB100_USBRST_MAIN_RSTN_SENSORS_BMCUSB>;
+				clocks = <&husbcmncrg JHB100_HUSBD0CLK_MAIN_ICG_EN_HUSBCMN_SENSOR>;
+				resets = <&husbcmncrg JHB100_HUSBCMNRST_MAIN_RSTN_SENSOR_HOSTUSBCMN>;
+				interrupts = <49>;
+				label = "pvt_usb";
 				moortec,ts-coeff-g = <61400>;
 				moortec,ts-coeff-h = <253700>;
 				#thermal-sensor-cells = <1>;
@@ -1281,6 +1275,28 @@
 			husbcmnsyscon: syscon@11045000 {
 				compatible = "starfive,jhb100-husbcmn-syscon", "syscon";
 				reg = <0x0 0x11045000 0x0 0x1000>;
+			};
+
+			dp: dp@11100000 {
+				compatible = "starfive,jhb100-dp";
+				reg = <0x0 0x11100000 0x0 0x10000>,
+				      <0x0 0x11135c00 0x0 0x100>;
+				reg-names = "dp", "dynsw";
+				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_DW_DPTX>,
+					<&voutcrg JHB100_VOUTRST_MAIN_RSTN_U0_VOUT_DYNSW>;
+				reset-names = "rstn_dp", "vout_dynsw0";
+				interrupts = <228>, <237>, <238>, <232>;
+				interrupt-names = "dp", "h2b0", "h2b1", "dynsw";
+				b100,h2b-syscon = <&h2bsyscon>;
+				b100,b2h-syscon = <&b2hsyscon>;
+				dc-syscon = <&dcsyscon>;
+				vout-syscon = <&voutsyscon>;
+				status = "disabled";
+			};
+
+			voutsyscon: syscon@11134000 {
+				compatible = "starfive,jhb100-vout-syscon", "syscon";
+				reg = <0x0 0x11134000 0x0 0x1000>;
 			};
 
 			b2hsyscon: syscon@11135000 {
@@ -1305,10 +1321,12 @@
 				interrupts = <231>, <237>, <238>, <233>;
 				interrupt-names = "vdac", "h02b", "h12b", "dynsw1";
 				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA>,
+					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA_SCAN>,
 					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U1_VOUT_DYNSW>;
-				reset-names = "rstn_vga", "vout_dynsw1";
+				reset-names = "rstn_vga", "rstn_scan", "vout_dynsw1";
 				h2b-syscon = <&h2bsyscon>;
 				b2h-syscon = <&b2hsyscon>;
+				dc-syscon = <&dcsyscon>;
 				status = "disabled";
 			};
 
@@ -1324,13 +1342,15 @@
 			};
 
 			pvt_vce: pvt@11180000 {
-				compatible = "moortec,mr75203";
+				compatible = "starfive,jhb100-pvt";
 				reg = <0x0 0x11180000 0x0 0x80>,
 				      <0x0 0x11180080 0x0 0x80>,
 				      <0x0 0x11180100 0x0 0x80>;
 				reg-names = "common", "ts", "pd";
 				clocks = <&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE_SENSORS>;
 				resets = <&vcecrg JHB100_VCERST_MAIN_RSTN_VCE_SENSORS>;
+				interrupts = <46>;
+				label = "pvt_vce";
 				moortec,ts-coeff-g = <61400>;
 				moortec,ts-coeff-h = <253700>;
 				#thermal-sensor-cells = <1>;
@@ -1346,8 +1366,8 @@
 				resets = <&vcecrg JHB100_VCERST_VCE0_TOP_ASYNC_RSTN>,
 					<&voutcrg JHB100_VOUTRST_MAIN_RSTN_U2_VOUT_DYNSW>;
 				reset-names = "rstn_vce", "vout_dynsw";
-				interrupts = <240>, <237>;
-				interrupt-names = "vce", "host2bmc";
+				interrupts = <240>, <237>, <234>;
+				interrupt-names = "vce", "host2bmc", "dynsw";
 				h2b-syscon = <&h2bsyscon>;
 				status = "disabled";
 			};
@@ -1361,25 +1381,25 @@
 				resets = <&vcecrg JHB100_VCERST_VCE1_TOP_ASYNC_RSTN>,
 					<&voutcrg JHB100_VOUTRST_MAIN_RSTN_U3_VOUT_DYNSW>;
 				reset-names = "rstn_vce", "vout_dynsw";
-				interrupts = <241>, <238>;
-				interrupt-names = "vce", "host2bmc";
+				interrupts = <241>, <238>, <235>;
+				interrupt-names = "vce", "host2bmc", "dynsw";
 				h2b-syscon = <&h2bsyscon>;
 				status = "disabled";
 			};
 
-			pcie: pcie@11200000 {
+			pcie_rc: pcie@11200000 {
 				compatible = "starfive,jhb100-pcie-host";
 				reg = <0x0 0x11200000 0x0 0x00400000>,
-				<0x0 0x28000000 0x0 0x00100000>;
+				      <0x0 0x28000000 0x0 0x00100000>;
 				reg-names = "dbi", "config";
 				device_type = "pci";
 				#address-cells = <3>;
 				#size-cells = <2>;
 				ranges = <0x02000000 0x0 0x28100000 0x0 0x28100000 0x0 0x4000000>,
-					<0x03000000 0xc 0x00000000 0xc 0x00000000 0x1 0x00000000>;
+					 <0x43000000 0xc 0x00000000 0xc 0x00000000 0x1 0x00000000>;
 				bus-range = <0x0 0xff>;
 				clocks = <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP_ECSR>,
-					<&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP>;
+					 <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP>;
 				vendor-id = <0x20b5>;
 				device-id = <0xb107>;
 				interrupt-controller;
@@ -1387,13 +1407,13 @@
 				interrupt-names = "pm_link", "intx_msi", "err", "dma";
 				#interrupt-cells = <1>;
 				interrupt-map-mask = <0 0 0 7>;
-				interrupt-map = <0 0 0 1 &pcie 0>,
-						<0 0 0 2 &pcie 1>,
-						<0 0 0 3 &pcie 2>,
-						<0 0 0 4 &pcie 3>;
+				interrupt-map = <0 0 0 1 &pcie_rc 0>,
+						<0 0 0 2 &pcie_rc 1>,
+						<0 0 0 3 &pcie_rc 2>,
+						<0 0 0 4 &pcie_rc 3>;
 				max-link-speed = <2>;
 				msi-controller;
-				msi-parent = <&pcie>;
+				msi-parent = <&pcie_rc>;
 				num-lanes = <1>;
 				resets = <&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_PCIERP_ECSR>,
 					<&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_DW_PCIE_RP>,
@@ -1407,13 +1427,22 @@
 			pcierp_mctp: mctp@11710000 {
 				compatible = "starfive,jhb100-mctp";
 				reg = <0x0 0x11710000 0x0 0x1000>;
-				/*interrupts = <90>, <91>;*/
-				/*interrupt-names = "mctp", "pcie";*/
-				/*clocks = <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_MCTP>;*/
+				interrupts-extended = <&plic 94>, <&plic 95>, <&plic 96>,
+					<&plic 97>, <&plic 98>, <&plic 99>, <&plic 100>,
+					<&plic 101>;
+				interrupt-names = "tx_cmpl", "rx_cmpl", "rx_rdy", "tx_vdm_full",
+					"rx_vdm_full", "rx_cmd_full", "tx_err", "rx_err";
+				clocks = <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_MCTP>,
+					<&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_M>,
+					<&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_S>,
+					<&pcierpcrg JHB100_PCIERPCLK_MCTP_PCLK>;
 				resets = <&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_MCTP_PCIERP>;
 				starfive,pcie-ecsr = <&pcie_rp_ecsr>;
-				starfive,rx-packet-count = <64>;
+				starfive,rx-cmd-full-th = <60>;
+				starfive,rx-cmd-empty-th = <0>;
 				starfive,rx-ring-count = <64>;
+				starfive,tx-cmd-full-th = <15>;
+				starfive,tx-cmd-empty-th = <0>;
 				starfive,tx-ring-count = <64>;
 				pcie_rc;
 				status = "disabled";
@@ -1483,7 +1512,7 @@
 			npu: vipni@11880000 {
 				compatible = "starfive,vipni";
 				reg = <0x0 0x11880000 0x0 0x40000>;
-				interrupts = <136>;
+				interrupts = <77>;
 				clocks = <&npucrg JHB100_NPUCLK_MAIN_ICG_EN_NPU>;
 				resets = <&npucrg JHB100_NPURST_MAIN_RSTN_NPU>;
 				power-domain-names = "core_major";
@@ -3066,13 +3095,15 @@
 			};
 
 			pvt_sys: pvt@13020000 {
-				compatible = "moortec,mr75203";
+				compatible = "starfive,jhb100-pvt";
 				reg = <0x0 0x13020000 0x0 0x80>,
 				      <0x0 0x13020080 0x0 0x80>,
 				      <0x0 0x13020100 0x0 0x80>;
 				reg-names = "common", "ts", "pd";
 				clocks = <&sys1crg JHB100_SYS1CLK_APB_SENSOR_ICG_BUF>;
 				resets = <&sys1crg JHB100_SYS1RST_MAIN_RSTN_CHIPTOP_SENSOR>;
+				interrupts = <53>;
+				label = "pvt_sys";
 				moortec,ts-coeff-g = <61400>;
 				moortec,ts-coeff-h = <253700>;
 				#thermal-sensor-cells = <1>;
@@ -3217,12 +3248,34 @@
 			};
 
 			pvt_ddr: pvt@13100000 {
-				compatible = "moortec,mr75203";
+				compatible = "starfive,jhb100-pvt";
 				reg = <0x0 0x13100000 0x0 0x80>,
 				      <0x0 0x13100080 0x0 0x80>,
 				      <0x0 0x13100100 0x0 0x80>;
 				reg-names = "common", "ts", "pd";
 				clocks = <&pvt_aon>;
+				interrupts = <34>;
+				label = "pvt_ddr";
+				moortec,ts-coeff-g = <61400>;
+				moortec,ts-coeff-h = <253700>;
+				#thermal-sensor-cells = <1>;
+				status = "disabled";
+			};
+
+			pvt_cpu: pvt@13210000 {
+				compatible = "starfive,jhb100-pvt";
+				reg = <0x0 0x13210000 0x0 0x80>,
+				      <0x0 0x13210080 0x0 0x80>,
+				      <0x0 0x13210100 0x0 0x80>,
+				      <0x0 0x13210400 0x0 0x800>;
+				reg-names = "common", "ts", "pd", "vm";
+				intel,vm-map = [00 ff];
+				clocks = <&cpucrg JHB100_CPUCLK_MAIN_ICG_EN_CPUSS_SENSORS>;
+				resets = <&cpucrg JHB100_CPURST_MAIN_RSTN_CPUSS_SENSORS>;
+				interrupts = <14>;
+				label = "pvt_cpu";
+				moortec,vm-active-channels = <16>;
+				moortec,vm-pre-scaler-x2 = <1 1 1 1 2 1 1 1 1 1 1 1 3 1 1 1>;
 				moortec,ts-coeff-g = <61400>;
 				moortec,ts-coeff-h = <253700>;
 				#thermal-sensor-cells = <1>;
@@ -3363,10 +3416,13 @@
 				interrupt-names = "h2b", "perst_pe", "perst_ne", "espi_rst";
 				clocks = <&voutcrg JHB100_VOUTCLK_MAIN_ICG_EN_U0_DC8000>,
 					<&voutcrg JHB100_VOUTCLK_U0_DC8000_PIXELCLK0>,
-					<&sys1crg JHB100_SYS1CLK_VOUT_PIX0>;
+					<&syspll JHB100_SYSPLL_PLL4_OUT>;
 				clock-names = "main_icg", "pix_clk", "vout_pix";
 				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U0_DC8000>;
 				dc-syscon = <&dcsyscon>;
+				starfive,syscon = <&sys_syscon 48 4>;
+				memory-region = <&pcie0_media_mem_uncache>;
+				host-type = <0>;
 				status = "disabled";
 			};
 
@@ -3374,14 +3430,17 @@
 				compatible = "verisilicon,dc8000-clk";
 				reg = <0x0 0x11135200 0x0 0x200>,
 					<0x0 0x11135500 0x0 0x100>;
-				interrupts-extended = <&plic 238>, <&intc 53>, <&intc 54>, <&intc 57>;
+				interrupts-extended = <&plic 238>, <&intc 55>, <&intc 56>, <&intc 58>;
 				interrupt-names = "h2b", "perst_pe", "perst_ne", "espi_rst";
 				clocks = <&voutcrg JHB100_VOUTCLK_MAIN_ICG_EN_U1_DC8000>,
 					<&voutcrg JHB100_VOUTCLK_U1_DC8000_PIXELCLK0>,
-					<&sys1crg JHB100_SYS1CLK_VOUT_PIX1>;
+					<&syspll JHB100_SYSPLL_PLL5_OUT>;
 				clock-names = "main_icg", "pix_clk", "vout_pix";
 				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U1_DC8000>;
 				dc-syscon = <&dcsyscon>;
+				starfive,syscon = <&sys_syscon 48 5>;
+				memory-region = <&pcie1_media_mem_uncache>;
+				host-type = <1>;
 				status = "disabled";
 			};
 		};
@@ -3474,6 +3533,23 @@
 				clock-names = "pclk", "ref_25m";
 				starfive,syscon = <&syscon_bmcperiph2 0x2a>;
 				#phy-cells = <0>;
+				status = "disabled";
+			};
+
+			dma_system: dma-controller@11bc3000 {
+				compatible = "starfive,jhb100-axi-dma-system";
+				reg = <0x0 0x11bc3000 0x0 0x1000>;
+				clocks = <&per2crg JHB100_PER2CLK_MAIN_ICG_EN_DMAC_1CH>;
+				resets = <&per2crg JHB100_PER2RST_MAIN_RSTN_DMAC_8CH>;
+				interrupts = <127>;
+				#dma-cells = <1>;
+				dma-channels = <8>;
+				snps,dma-masters = <1>;
+				snps,data-width = <3>;
+				snps,block-size = <65536 65536 65536 65536 65536
+						65536 65536 65536>;
+				snps,priority = <0 1 2 3 4 5 6 7>;
+				snps,axi-max-burst-len = <16>;
 				status = "disabled";
 			};
 

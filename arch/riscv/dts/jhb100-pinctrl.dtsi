@@ -1042,6 +1042,7 @@
 		i3c0lv_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B44,
 					 FUNC_BMCPERIPH0_MIPI_I3C0_SCL0)>;
+			input-enable;
 		};
 
 		i3c0lv_sda-pins{
@@ -1055,6 +1056,7 @@
 		i3c1lv_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B46,
 					 FUNC_BMCPERIPH0_MIPI_I3C1_SCL0)>;
+			input-enable;
 		};
 
 		i3c1lv_sda-pins{
@@ -1068,6 +1070,7 @@
 		i3c2lv_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B48,
 					 FUNC_BMCPERIPH0_MIPI_I3C2_SCL0)>;
+			input-enable;
 		};
 
 		i3c2lv_sda-pins{
@@ -1081,6 +1084,7 @@
 		i3c3lv_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B50,
 					 FUNC_BMCPERIPH0_MIPI_I3C3_SCL0)>;
+			input-enable;
 		};
 
 		i3c3lv_sda-pins{
@@ -1094,6 +1098,7 @@
 		i3c4_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
 					 FUNC_BMCPERIPH0_MIPI_I3C4_SCL0)>;
+			input-enable;
 		};
 
 		i3c4_sda-pins{
@@ -1107,6 +1112,7 @@
 		i3c4lv_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B52,
 					 FUNC_BMCPERIPH0_MIPI_I3C4_SCL1)>;
+			input-enable;
 		};
 
 		i3c4lv_sda-pins{
@@ -1120,6 +1126,7 @@
 		i3c5_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
 					 FUNC_BMCPERIPH0_MIPI_I3C5_SCL0)>;
+			input-enable;
 		};
 
 		i3c5_sda-pins{
@@ -1133,6 +1140,7 @@
 		i3c5lv_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B54,
 					 FUNC_BMCPERIPH0_MIPI_I3C5_SCL1)>;
+			input-enable;
 		};
 
 		i3c5lv_sda-pins{
@@ -1146,6 +1154,7 @@
 		i3c6_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B12,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SCL0)>;
+			input-enable;
 		};
 
 		i3c6_sda-pins{
@@ -1159,6 +1168,7 @@
 		i3c6lv_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B56,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SCL1)>;
+			input-enable;
 		};
 
 		i3c5lv_sda-pins{
@@ -1172,6 +1182,7 @@
 		i3c7_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B14,
 					 FUNC_BMCPERIPH0_MIPI_I3C7_SCL0)>;
+			input-enable;
 		};
 
 		i3c7_sda-pins{
@@ -1185,6 +1196,7 @@
 		i3c7lv_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B58,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SCL1)>;
+			input-enable;
 		};
 
 		i3c5lv_sda-pins{
@@ -1198,6 +1210,7 @@
 		i3c8_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B16,
 					 FUNC_BMCPERIPH0_MIPI_I3C8_SCL0)>;
+			input-enable;
 		};
 
 		i3c8_sda-pins{
@@ -1211,6 +1224,7 @@
 		i3c9_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B18,
 					 FUNC_BMCPERIPH0_MIPI_I3C9_SCL0)>;
+			input-enable;
 		};
 
 		i3c9_sda-pins{
@@ -1224,6 +1238,7 @@
 		i3c10_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B20,
 					 FUNC_BMCPERIPH0_MIPI_I3C10_SCL0)>;
+			input-enable;
 		};
 
 		i3c10_sda-pins{
@@ -1237,6 +1252,7 @@
 		i3c11_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B22,
 					 FUNC_BMCPERIPH0_MIPI_I3C11_SCL0)>;
+			input-enable;
 		};
 
 		i3c11_sda-pins{
@@ -1250,6 +1266,7 @@
 		i3c12_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B36,
 					 FUNC_BMCPERIPH0_MIPI_I3C12_SCL0)>;
+			input-enable;
 		};
 
 		i3c12_sda-pins{
@@ -1263,6 +1280,7 @@
 		i3c13_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B38,
 					 FUNC_BMCPERIPH0_MIPI_I3C13_SCL0)>;
+			input-enable;
 		};
 
 		i3c13_sda-pins{
@@ -1276,6 +1294,7 @@
 		i3c14_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B40,
 					 FUNC_BMCPERIPH0_MIPI_I3C14_SCL0)>;
+			input-enable;
 		};
 
 		i3c14_sda-pins{
@@ -1289,6 +1308,7 @@
 		i3c15_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B42,
 					 FUNC_BMCPERIPH0_MIPI_I3C15_SCL0)>;
+			input-enable;
 		};
 
 		i3c15_sda-pins{

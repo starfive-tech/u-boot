@@ -8,7 +8,7 @@
 };
 
 &dma_spi0 {
-	status = "disabled";
+	status = "okay";
 };
 
 &espi0 {
@@ -56,7 +56,19 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c7_pins>;
-	status = "disabled";
+	status = "okay";
+
+	ipmb@10 {
+		compatible = "ipmb-dev";
+		reg = <0x10>;
+		i2c-protocol;
+		slave-dev = <&i2c7_slave>;
+	};
+};
+
+&i2c7_slave {
+	clock-frequency = <100000>;
+	status = "okay";
 };
 
 &i2c8_master {
@@ -209,7 +221,13 @@
 &spi0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi0_pins>;
-	status = "disabled";
+	status = "okay";
+
+	spi_dev0: spi@0 {
+		compatible = "rohm,dh2228fv";
+		spi-max-frequency = <12000000>;
+		reg = <0>;
+	};
 };
 
 &uart9 {

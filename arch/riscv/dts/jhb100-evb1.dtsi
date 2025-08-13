@@ -13,9 +13,9 @@
 	compatible = "starfive,jhb100-evb1", "starfive,jhb100";
 
 	aliases {
-		serial0 = &uart6;
 		serial4 = &uart4;
 		serial5 = &uart5;
+		serial6 = &uart6;
 		serial7 = &uart7;
 		serial8 = &uart8;
 		serial9 = &uart9;
@@ -78,6 +78,15 @@
 		i2c30 = &i2c15_master;
 		i2c31 = &i2c15_slave;
 
+		i2c48 = &imux0;
+		i2c49 = &imux1;
+		i2c50 = &imux2;
+		i2c51 = &imux3;
+		i2c52 = &imux4;
+		i2c53 = &imux5;
+		i2c54 = &imux6;
+		i2c55 = &imux7;
+
 		i3c0 = &i3c0;
 		i3c1 = &i3c1;
 		i3c2 = &i3c2;
@@ -100,7 +109,7 @@
 	};
 
 	chosen {
-		stdout-path = "serial0:115200n8";
+		stdout-path = "serial6:115200n8";
 	};
 
 	cpus {
@@ -170,6 +179,14 @@
 	};
 };
 
+&dc0_clk {
+	status = "okay";
+};
+
+&dc1_clk {
+	status = "okay";
+};
+
 &dma_i2c {
 	status = "disabled";
 };
@@ -178,7 +195,15 @@
 	status = "okay";
 };
 
+&dma_system {
+	status = "okay";
+};
+
 &dma_uart {
+	status = "disabled";
+};
+
+&dp {
 	status = "disabled";
 };
 
@@ -192,13 +217,12 @@
 };
 
 &espi0 {
-	starfive,flash-mtd-device = "Data";
+	starfive,flash-mtd-device = "bios-image0";
 	starfive,host-src-addr = /bits/ 64 <0xf6810000>;
 	perif-memcyc-size = <0x400000>;
 	memory-region = <&espi0_mmbi_buffer_uncache>,
 			<&espi0_perif_mem_uncache>,
 			<&espi0_vw_mem_uncache>;
-
 
 	starfive,bt-remap-num = <2>;
 	starfive,kcs-remap-num = <4>;
@@ -229,7 +253,7 @@
 };
 
 &espi1 {
-	starfive,flash-mtd-device = "Data";
+	starfive,flash-mtd-device = "bios-image1";
 	starfive,host-src-addr = /bits/ 64 <0xf6810000>;
 	perif-memcyc-size = <0x400000>;
 	memory-region = <&espi1_mmbi_buffer_uncache>,
@@ -268,25 +292,22 @@
 	phy-handle = <&phy0>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac1_mdio_pins>;
+	snps,ps-speed = <1000>;
+
 	/* PHY reset pin */
 	/* reset-gpios = <&pinctrl_sys2 4 GPIO_ACTIVE_LOW>; */
 	/* reset-assert-us = <15000>; */
 	/* reset-deassert-us = <15000>; */
 	status = "okay";
-	bootph-pre-ram;
-	phy-mode = "sgmii";
-	phy-sgmii-base = <0x11c10000>;
 
 	mdio {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
-		bootph-pre-ram;
 
 		phy0: ethernet-phy@0 {
-			compatible = "ethernet-phy-id4f51.e91a";
 			reg = <0>;
-			bootph-pre-ram;
+			motorcomm,clk-out-frequency-hz = <25000000>;
 		};
 	};
 };
@@ -408,12 +429,77 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c0_pins>;
 	status = "okay";
+
+	i2c-mux@77 {
+		compatible = "nxp,pca9548";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x77>;
+		reset-gpios = <&pinctrl_sys2 5 GPIO_ACTIVE_LOW>;
+		i2c-mux-idle-disconnect;
+
+		imux0: i2c@0 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0>;
+		};
+		imux1: i2c@1 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+		};
+		imux2: i2c@2 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <2>;
+		};
+		imux3: i2c@3 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <3>;
+		};
+		imux4: i2c@4 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <4>;
+		};
+		imux5: i2c@5 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <5>;
+		};
+		imux6: i2c@6 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <6>;
+		};
+		imux7: i2c@7 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <7>;
+		};
+	};
 };
 
-&pcie {
+&imux6 {
+	rtc@6f {
+		compatible = "nxp,pcf85053a";
+		reg = <0x6f>;
+	};
+};
+
+&npu {
+	status = "okay";
+};
+
+&pcie_rc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pe2rst_pins>;
-	status = "disabled";
+	status = "okay";
+};
+
+&pcierp_mctp {
+	status = "okay";
 };
 
 &pcie_ep0 {
@@ -466,8 +552,32 @@
 	status = "okay";
 };
 
+&pvt_cpu {
+	status = "okay";
+};
+
 &pvt_ddr {
-	status = "disabled";
+	status = "okay";
+};
+
+&pvt_gpu0 {
+	status = "okay";
+};
+
+&pvt_gpu1 {
+	status = "okay";
+};
+
+&pvt_sys {
+	status = "okay";
+};
+
+&pvt_usb {
+	status = "okay";
+};
+
+&pvt_vce {
+	status = "okay";
 };
 
 &reri0 {
@@ -496,6 +606,7 @@
 
 &sfc0 {
 	status = "okay";
+	rx-sample-delay-ns = <10>;
 };
 
 &sgmii_phy1 {
@@ -602,7 +713,7 @@
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <5>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sol6 {
@@ -620,7 +731,7 @@
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <7>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sol8 {
@@ -629,7 +740,7 @@
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <8>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sol9 {
@@ -674,7 +785,7 @@
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <13>;
-	status = "okay";
+	status = "disabled";
 };
 
 &sol14 {
@@ -683,7 +794,7 @@
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <14>;
-	status = "okay";
+	status = "disabled";
 };
 
 &timer0 {
@@ -699,7 +810,7 @@
 };
 
 &uart5 {
-	status = "okay";
+	status = "disabled";
 	current-speed = <115200>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart5_pins>;
@@ -713,14 +824,14 @@
 };
 
 &uart7 {
-	status = "okay";
+	status = "disabled";
 	current-speed = <115200>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart7_pins>;
 };
 
 &uart8 {
-	status = "okay";
+	status = "disabled";
 	current-speed = <115200>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart8_pins>;
@@ -755,14 +866,14 @@
 };
 
 &uart13 {
-	status = "okay";
+	status = "disabled";
 	current-speed = <115200>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart13_pins>;
 };
 
 &uart14 {
-	status = "okay";
+	status = "disabled";
 	current-speed = <115200>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart14_pins>;
@@ -793,8 +904,15 @@
 	dr_mode = "host";
 };
 
+&vga {
+       status = "okay";
+       pinctrl-names = "default";
+       pinctrl-0 = <&vga_pins>;
+       switch-gpios = <&pinctrl_bmcperiph0 28 GPIO_ACTIVE_HIGH>;
+};
+
 &voutcrg {
-	status = "disabled";
+	status = "okay";
 };
 
 &wdt0 {
@@ -820,7 +938,7 @@
 };
 
 &led0 {
-	status = "disabled";
+	status = "okay";
 	pinctrl-names = "default";
 	pinctrl-0 = <&hbled_pins>;
 };

@@ -4,7 +4,7 @@
  */
 
 &gmac0 {
-	assigned-clocks = <&per3crg JHB100_PER3CLK_GMAC0_RMII_PLL>;
+	assigned-clocks = <&per3crg JHB100_PER3CLK_GMAC0_RMII_MUX>;
 	assigned-clock-parents = <&per3_gmac0_rmii_rclki>;
 	phy-mode = "rmii";
 	phy-handle = <&phy1>;
@@ -14,7 +14,7 @@
 	/* reset-gpios = <&pinctrl_sys2 18 GPIO_ACTIVE_LOW>; */
 	/* reset-assert-us = <15000>; */
 	/* reset-deassert-us = <15000>; */
-	status = "disabled";
+	status = "okay";
 
 	mdio {
 		#address-cells = <1>;
@@ -25,10 +25,6 @@
 			reg = <0>;
 		};
 	};
-};
-
-&syscon_bmcperiph2 {
-	bootph-pre-ram;
 };
 
 &gmac2 {
@@ -49,25 +45,19 @@
 	phy-handle = <&phy2>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac2_mdio_pins &gmac2_rgmii_pins>;
-	/* PHY reset pin */
-	/* reset-gpios = <&pinctrl_sys2 19 GPIO_ACTIVE_LOW>; */
-	/* reset-assert-us = <15000>; */
-	/* reset-deassert-us = <15000>; */
 	status = "okay";
-	starfive,syscon = <&syscon_bmcperiph2 0x00 0x8>;
 
 	mdio {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
-		bootph-pre-ram;
+
 		phy2: ethernet-phy@2 {
 			reg = <0>;
-			compatible = "ethernet-phy-id4f51.e91b";
-			motorcomm,tx-clk-adj-enabled;
-			/* rx-internal-delay-ps = <1500>; */
-			/* tx-internal-delay-ps = <1500>; */
-			bootph-pre-ram;
+			rx-internal-delay-ps = <1350>;
+			tx-internal-delay-ps = <1650>;
+			motorcomm,rx-clk-drv-microamp = <3970>;
+			motorcomm,rx-data-drv-microamp = <4350>;
 		};
 	};
 };
@@ -76,26 +66,35 @@
 	phy-handle = <&phy3>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac3_mdio_pins>;
+	snps,ps-speed = <1000>;
+
 	/* PHY reset pin */
 	/* reset-gpios = <&pinctrl_bmcperiph3 5 GPIO_ACTIVE_LOW>; */
 	/* reset-assert-us = <15000>; */
 	/* reset-deassert-us = <15000>; */
 	status = "okay";
-	bootph-pre-ram;
-	phy-mode = "sgmii";
-	phy-sgmii-base = <0x11b90000>;
 
 	mdio {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
-		bootph-pre-ram;
 
 		phy3: ethernet-phy@3 {
-			compatible = "ethernet-phy-id4f51.e91a";
 			reg = <0>;
-			bootph-pre-ram;
+			motorcomm,clk-out-frequency-hz = <25000000>;
 		};
 	};
 
+};
+
+&pinctrl_bmcperiph2 {
+	gpionw-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOD19-30 */
+};
+
+&pinctrl_bmcperiph3 {
+	gpios-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOE0-10 */
+};
+
+&sgmii_phy0 {
+	status = "okay";
 };
