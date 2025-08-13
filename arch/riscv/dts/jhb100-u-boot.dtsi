@@ -61,36 +61,6 @@
 
 	soc {
 		bootph-pre-ram;
-		otp: otpc@28000000 {
-			compatible = "starfive,jhb100-otp";
-			reg = <0x0 0x28000000 0x0 0x100000>;
-			otp1 = <0x1400 0x400 0x1080 0x80 0x12b4 0x8>;
-			otp2 = <0x0 0xc00 0x1010 0xc 0x1280 0x6>;
-			puf = <0x1300 0x80 0x1070 0x10 0x12bc 0x1>;
-			status = "disabled";
-			bootph-pre-ram;
-		};
-
-		aes: starfive-aes@1ff00100 {
-			compatible = "starfive,aes";
-			reg = <0x0 0x1ff00100 0x0 0x100>;
-			status = "disabled";
-			bootph-pre-ram;
-		};
-
-		sha: starfive-sha@1ff00300 {
-			compatible = "starfive,sha";
-			reg = <0x0 0x1ff00300 0x0 0x100>;
-			status = "disabled";
-			bootph-pre-ram;
-		};
-
-		ecc: starfive-ecc@1ff00400 {
-			compatible = "starfive,ecdsa";
-			reg = <0x0 0x1ff00400 0x0 0x400>;
-			status = "disabled";
-			bootph-pre-ram;
-		};
 
 		rpmi: rpmi-shmem@12c10000 {
 			compatible = "riscv,rpmi-shmem-mbox";
@@ -100,7 +70,7 @@
 				<0x0 0x12c10c00 0x0 0x400>,
 				<0x0 0x12c08000 0x0 0x8000>;
 			reg-names = "a2p-req", "p2a-ack", "p2a-req",
-					"a2p-ack", "db-reg";
+				    "a2p-ack", "db-reg";
 			#mbox-cells = <0x01>;
 			riscv,slot-size = <0x40>;
 			#address-cells = <1>;
