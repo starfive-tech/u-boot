@@ -146,6 +146,14 @@
 	/delete-property/ memory-region;
 };
 
+&dc0_clk {
+	/delete-property/ memory-region;
+};
+
+&dc1_clk {
+	/delete-property/ memory-region;
+};
+
 &clint {
 	bootph-pre-ram;
 };
@@ -162,98 +170,6 @@
 };
 
 &plic {
-	bootph-pre-ram;
-};
-
-&osc {
-	bootph-pre-ram;
-};
-
-&pll0 {
-	bootph-pre-ram;
-};
-
-&pll1 {
-	bootph-pre-ram;
-};
-
-&pll2 {
-	bootph-pre-ram;
-};
-
-&pll3 {
-	bootph-pre-ram;
-};
-
-&pll4 {
-	bootph-pre-ram;
-};
-
-&pll5 {
-	bootph-pre-ram;
-};
-
-&pll6 {
-	bootph-pre-ram;
-};
-
-&pll7 {
-	bootph-pre-ram;
-};
-
-&sys0crg {
-	bootph-pre-ram;
-};
-
-&sys1crg {
-	bootph-pre-ram;
-};
-
-&sys2crg {
-	bootph-pre-ram;
-};
-
-&per1crg {
-	bootph-pre-ram;
-};
-
-&per2crg {
-	bootph-pre-ram;
-};
-
-&per3crg {
-	bootph-pre-ram;
-};
-
-&per2_gmac2_rgmii_rx {
-	bootph-pre-ram;
-};
-
-&per2_gmac2_rmii_ref {
-	bootph-pre-ram;
-};
-
-&per2_gmac3_sgmii_tx {
-	bootph-pre-ram;
-};
-
-&per2_gmac3_sgmii_rx {
-	bootph-pre-ram;
-};
-
-&per3_gmac0_rmii_rclki {
-	bootph-pre-ram;
-};
-
-&per3_gmac1_sgmii_tx {
-	bootph-pre-ram;
-};
-
-&per3_gmac1_sgmii_rx {
-	bootph-pre-ram;
-};
-
-&per0crg {
 	bootph-pre-ram;
 };
 
@@ -620,10 +536,6 @@
 };
 
 &pwm {
-	bootph-pre-ram;
-};
-
-&pwm_apb {
 	bootph-pre-ram;
 };
 

@@ -1,0 +1,161 @@
+/ {
+	pll2: pll2 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <903168000>;
+		bootph-pre-ram;
+	};
+
+	pll3: pll3 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <800000000>;
+		bootph-pre-ram;
+	};
+
+	pll4: pll4 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100700000>;
+		bootph-pre-ram;
+	};
+
+	pll5: pll5 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100700000>;
+		bootph-pre-ram;
+	};
+
+	pll6: pll6 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <2400000000>;
+		bootph-pre-ram;
+	};
+
+	pll7: pll7 {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <1950000000>;
+		bootph-pre-ram;
+	};
+
+	/delete-node/ per2-gmac2-rgmii-rx;
+	/delete-node/ per2-gmac2-rmii-ref;
+	/delete-node/ per2-gmac3-sgmii-tx;
+	/delete-node/ per2-gmac3-sgmii-rx;
+	/delete-node/ per3-gmac0-rmii-rclki;
+	/delete-node/ per3-gmac1-sgmii-tx;
+	/delete-node/ per3-gmac1-sgmii-rx;
+	/delete-node/ pwm-apb;
+
+	per2_gmac2_rgmii_rx: per2_gmac2_rgmii_rx {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <125000000>;
+		bootph-pre-ram;
+	};
+
+	per2_gmac2_rmii_ref: per2_gmac2_rmii_ref {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <50000000>;
+		bootph-pre-ram;
+	};
+
+	per2_gmac3_sgmii_tx: per2_gmac3_sgmii_tx {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <125000000>;
+		bootph-pre-ram;
+	};
+
+	per2_gmac3_sgmii_rx: per2_gmac3_sgmii_rx {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <125000000>;
+		bootph-pre-ram;
+	};
+
+	per3_gmac0_rmii_rclki: per3_gmac0_rmii_rclki {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <50000000>;
+		bootph-pre-ram;
+	};
+
+	per3_gmac1_sgmii_tx: per3_gmac1_sgmii_tx {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <125000000>;
+		bootph-pre-ram;
+	};
+
+	per3_gmac1_sgmii_rx: per3_gmac1_sgmii_rx {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <125000000>;
+		bootph-pre-ram;
+	};
+
+	pwm_apb: pwm_apb {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <25000000>;
+		bootph-pre-ram;
+	};
+};
+
+&per0crg {
+	bootph-pre-ram;
+	clocks = <&osc>, <&pll6>,
+		 <&sys0crg JHB100_SYS0CLK_BMCPER0_400>,
+		 <&sys0crg JHB100_SYS0CLK_BMCPER0_800>,
+		 <&sys0crg JHB100_SYS0CLK_BMCPER0_600>,
+		 <&sys2crg JHB100_SYS2CLK_BMCPER0_200>;
+};
+
+&per1crg {
+	bootph-pre-ram;
+	clocks = <&pll7>,
+		 <&sys0crg JHB100_SYS0CLK_BMCPER1_600>,
+		 <&sys0crg JHB100_SYS0CLK_BMCPER1_800>,
+		 <&sys2crg JHB100_SYS2CLK_BMCPER1_200>,
+		 <&sys2crg JHB100_SYS2CLK_BMCPER1_143>;
+};
+
+&sys0crg {
+	bootph-pre-ram;
+	clocks = <&osc>, <&pll0>, <&pll1>, <&pll2>;
+};
+
+&sys1crg {
+	bootph-pre-ram;
+	clocks = <&osc>, <&pll0>, <&pll1>, <&pll2>,
+		 <&pll4>, <&pll5>, <&sys0crg JHB100_SYS0CLK_NPU_600>;
+};
+
+&osc {
+	bootph-pre-ram;
+};
+
+&pll0 {
+	bootph-pre-ram;
+};
+
+&pll1 {
+	bootph-pre-ram;
+};
+
+&sys2crg {
+	bootph-pre-ram;
+};
+
+&per2crg {
+	bootph-pre-ram;
+};
+
+&per3crg {
+	bootph-pre-ram;
+};

@@ -3,6 +3,7 @@
  * Copyright (c) 2021-2022 StarFive Technology Co., Ltd.
  */
 
+#include "jhb100-crg-u-boot.dtsi"
 #include "jhb100-img.dtsi"
 #include "jhb100-evb1-sfc0-flash.dtsi"
 / {
