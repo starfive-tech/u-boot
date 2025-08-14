@@ -766,26 +766,10 @@ static int designware_i2c_probe_chip(struct udevice *bus, uint chip_addr,
 	u32 tmp;
 	int ret;
 
-#if !defined(CONFIG_SYS_I2C_DWC)
 	/* Try to read the first location of the chip */
 	ret = __dw_i2c_read(i2c_base, chip_addr, 0, 1, (uchar *)&tmp, 1);
 	if (ret)
 		__dw_i2c_init(i2c_base, 0, 0);
-#else
-	/* Set the offset to the first location of the chip */
-	ret = __dw_i2c_write(i2c_base, chip_addr, 0, 0, (uchar *)&tmp, 1);
-	if (ret) {
-		__dw_i2c_init(i2c_base, 0, 0);
-		return ret;
-	}
-
-	/* Try to read the first location of the chip */
-	ret = __dw_i2c_read(i2c_base, chip_addr, 0, 0, (uchar *)&tmp, 1);
-	if (ret) {
-		__dw_i2c_init(i2c_base, 0, 0);
-		return ret;
-	}
-#endif
 
 	return ret;
 }
