@@ -758,6 +758,28 @@ static int designware_i2c_set_bus_speed(struct udevice *bus, unsigned int speed)
 	return _dw_i2c_set_bus_speed(i2c, i2c->regs, speed, rate);
 }
 
+/* This is a strict address validity check, used when probing. If a
+ * device uses a reserved address, then it shouldn't be probed. 7-bit
+ * addressing is assumed, 10-bit address devices are rare and should be
+ * explicitly enumerated.
+ */
+static int i2c_check_7bit_addr_validity_strict(uint addr)
+{
+	/*
+	 * Reserved addresses per I2C specification:
+	 * 0x00       General call address / START byte
+	 * 0x01       CBUS address
+	 * 0x02       Reserved for different bus format
+	 * 0x03       Reserved for future purposes
+	 * 0x04-0x07  Hs-mode master code
+	 * 0x78-0x7b  10-bit slave addressing
+	 * 0x7c-0x7f  Reserved for future purposes
+	 */
+	if (addr < 0x08 || addr > 0x77)
+		return -EINVAL;
+	return 0;
+}
+
 static int designware_i2c_probe_chip(struct udevice *bus, uint chip_addr,
 				     uint chip_flags)
 {
@@ -765,6 +787,10 @@ static int designware_i2c_probe_chip(struct udevice *bus, uint chip_addr,
 	struct i2c_regs *i2c_base = i2c->regs;
 	u32 tmp;
 	int ret;
+
+	ret = i2c_check_7bit_addr_validity_strict(chip_addr);
+	if (ret)
+		return ret;
 
 	/* Try to read the first location of the chip */
 	ret = __dw_i2c_read(i2c_base, chip_addr, 0, 1, (uchar *)&tmp, 1);
