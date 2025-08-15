@@ -815,7 +815,9 @@ int get_vf2_board_type(void)
 			vf2_board_type = 2;
 	}
 
+#ifndef CONFIG_SPL_BUILD
 	env_set_ulong("vf2_board_type", vf2_board_type);
+#endif
 	return (int)vf2_board_type;
 }
 

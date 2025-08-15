@@ -9,6 +9,7 @@
 #include <init.h>
 #include <asm/arch/spl.h>
 #include <asm/io.h>
+#include <asm/arch/eeprom.h>
 #include <asm/arch/gpio.h>
 #include <asm/arch/jh7110-regs.h>
 #include <asm/arch/clk.h>
@@ -183,8 +184,16 @@ void board_init_f(ulong dummy)
 #ifdef CONFIG_SPL_LOAD_FIT
 int board_fit_config_name_match(const char *name)
 {
-	/* boot using first FIT config */
-	return 0;
+	int vf2_board_type = get_vf2_board_type();
+
+	if (vf2_board_type == 0 && !strcmp(name, "StarFive VisionFive V2"))
+		return 0;
+	else if (vf2_board_type == 1 && !strcmp(name, "StarFive VisionFive V2 CM"))
+		return 0;
+	else if (vf2_board_type == 2 && !strcmp(name, "StarFive VisionFive V2 Lite"))
+		return 0;
+
+	return -EINVAL;
 }
 #endif
 

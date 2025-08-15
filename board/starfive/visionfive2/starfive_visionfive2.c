@@ -9,6 +9,7 @@
 #include <asm/io.h>
 #include <asm/arch/eeprom.h>
 #include <asm/arch/jh7110-regs.h>
+#include <asm/sections.h>
 #include <cpu_func.h>
 #include <dm/uclass.h>
 #include <dm/device.h>
@@ -578,4 +579,12 @@ static int resize_ddr_from_eeprom(void)
 int board_ddr_size(void)
 {
 	return resize_ddr_from_eeprom();
+}
+
+void *board_fdt_blob_setup(void)
+{
+	if (gd->arch.firmware_fdt_addr)
+		return (ulong *)gd->arch.firmware_fdt_addr;
+	else
+		return (ulong *)&_end;
 }
