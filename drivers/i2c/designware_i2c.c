@@ -725,18 +725,30 @@ static int designware_i2c_xfer(struct udevice *bus, struct i2c_msg *msg,
 	int ret;
 
 	debug("i2c_xfer: %d messages\n", nmsgs);
-	for (; nmsgs > 0; nmsgs--, msg++) {
-		debug("i2c_xfer: chip=0x%x, len=0x%x\n", msg->addr, msg->len);
-		if (msg->flags & I2C_M_RD) {
-			ret = __dw_i2c_read(i2c->regs, msg->addr, 0, 0,
-					    msg->buf, msg->len);
+	while (nmsgs > 0) {
+		if (!(msg->flags & I2C_M_RD) && nmsgs > 1 && (msg[1].flags & I2C_M_RD)) {
+			/* Combined write-then-read */
+			ret = __dw_i2c_read(i2c->regs, msg->addr, msg->buf[0], 1,
+					    msg[1].buf, msg[1].len);
+			if (ret)
+				return -EREMOTEIO;
+			nmsgs -= 2;
+			msg += 2;
 		} else {
-			ret = __dw_i2c_write(i2c->regs, msg->addr, 0, 0,
-					     msg->buf, msg->len);
-		}
-		if (ret) {
-			debug("i2c_write: error sending\n");
-			return -EREMOTEIO;
+			debug("i2c_xfer: chip=0x%x, len=0x%x\n", msg->addr, msg->len);
+			if (msg->flags & I2C_M_RD) {
+				ret = __dw_i2c_read(i2c->regs, msg->addr, 0, 0,
+						    msg->buf, msg->len);
+			} else {
+				ret = __dw_i2c_write(i2c->regs, msg->addr, 0, 0,
+						     msg->buf, msg->len);
+			}
+			if (ret) {
+				debug("i2c_write: error sending\n");
+				return -EREMOTEIO;
+			}
+			nmsgs--;
+			msg++;
 		}
 	}
 
