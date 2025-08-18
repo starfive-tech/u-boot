@@ -103,3 +103,5 @@ obj-y += mscc_eswitch/
 obj-y += phy/
 obj-y += qe/
 obj-y += ti/
+
+ccflags-y += -Idrivers/clk

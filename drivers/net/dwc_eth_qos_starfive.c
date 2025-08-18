@@ -17,18 +17,17 @@
 #include <linux/iopoll.h>
 #include <asm/io.h>
 #include "dwc_eth_qos.h"
+#include <generic-phy.h>
+#include <wait_bit.h>
+#include <starfive/jhb100/clk.h>
 
-/* Clk and rst framework not ready (to be remove) */
-#define FRAMEWORK_NOT_READY
+#define EQOS_MAC_PORT_SELECT_100MBPS BIT(15)
+#define EQOS_MAC_CFG_SPEED_100MBPS	 BIT(16)
 
 #define STARFIVE_DWMAC_PHY_INFT_RGMII	0x1
 #define STARFIVE_DWMAC_PHY_INFT_SGMII	0x2
 #define STARFIVE_DWMAC_PHY_INFT_RMII	0x4
 #define STARFIVE_DWMAC_PHY_INFT_FIELD	0x7U
-
-#define PLL_LOCK_STATUS	    0x13c0
-#define PLL_IS_LOCK		      BIT(0)
-#define PHY_POLL_TIMEOUT_US	10000
 
 struct starfive_platform_data {
 	struct regmap *regmap;
@@ -38,6 +37,7 @@ struct starfive_platform_data {
 	u32 offset;
 	u32 shift;
 	bool tx_use_rgmii_clk;
+	struct phy phy;
 };
 
 static int eqos_interface_init_jh7110(struct udevice *dev)
@@ -204,17 +204,17 @@ static int eqos_probe_resources_jh7110(struct udevice *dev)
 		return -EINVAL;
 	}
 
-	// ret = reset_get_bulk(dev, &data->resets);
-	// if (ret < 0)
-	// 	return ret;
+	ret = reset_get_bulk(dev, &data->resets);
+	if (ret < 0)
+		return ret;
 
-	// ret = clk_get_bulk(dev, &data->clks);
-	// if (ret < 0)
-	// 	return ret;
+	ret = clk_get_bulk(dev, &data->clks);
+	if (ret < 0)
+		return ret;
 
-	// ret = clk_get_by_name(dev, "gtx", &eqos->clk_tx);
-	// if (ret)
-	// 	return ret;
+	ret = clk_get_by_name(dev, "gtx", &eqos->clk_tx);
+	if (ret)
+		return ret;
 
 	data->tx_use_rgmii_clk = dev_read_bool(dev, "starfive,tx-use-rgmii-clk");
 
@@ -226,7 +226,6 @@ static int eqos_interface_init_jhb100(struct udevice *dev)
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
 	unsigned int mode;
-	unsigned int val;
 	struct ofnode_phandle_args phy_phandle;
 	int ret;
 
@@ -241,56 +240,32 @@ static int eqos_interface_init_jhb100(struct udevice *dev)
 		break;
 
 	case PHY_INTERFACE_MODE_SGMII:
-		mode = STARFIVE_DWMAC_PHY_INFT_SGMII;
-		break;
+		return 0;
 
 	default:
 		return -EINVAL;
 	}
 
-	if (mode == STARFIVE_DWMAC_PHY_INFT_SGMII) {
+	ret = dev_read_phandle_with_args(dev, "starfive,syscon", NULL,
+					2, 0, &phy_phandle);
+	if (ret)
+		return ret;
 
-		u32 reg;
-		void *phy_base;
-		u32 val;
+	if (phy_phandle.args_count != 2)
+		return -EINVAL;
 
-		if (dev_read_u32(dev, "phy-sgmii-base", &reg)) {
-			printf("Failed to read phy-sgmii-base\n");
-			return -EINVAL;
-		}
-
-		ret = readl_poll_timeout((void*)reg + PLL_LOCK_STATUS, val,
-								(val & PLL_IS_LOCK), PHY_POLL_TIMEOUT_US);
-		if (ret) {
-			printf("%s sgmii timeout\n", __func__);
-			return ret;
-		}
-
-	} else if (mode == STARFIVE_DWMAC_PHY_INFT_RGMII) {
-
-		ret = dev_read_phandle_with_args(dev, "starfive,syscon", NULL,
-						2, 0, &phy_phandle);
-		if (ret)
-			return ret;
-
-		if (phy_phandle.args_count != 2)
-			return -EINVAL;
-
-		data->offset = phy_phandle.args[0];
-		data->shift = phy_phandle.args[1];
-		data->regmap = syscon_regmap_lookup_by_phandle(dev, "starfive,syscon");
-		if (IS_ERR(data->regmap)) {
-			ret = PTR_ERR(data->regmap);
-			pr_err("Failed to get regmap: %d\n", ret);
-			return ret;
-		}
-
-		return regmap_update_bits(data->regmap, data->offset,
-						STARFIVE_DWMAC_PHY_INFT_FIELD << data->shift,
-						mode << data->shift);
+	data->offset = phy_phandle.args[0];
+	data->shift = phy_phandle.args[1];
+	data->regmap = syscon_regmap_lookup_by_phandle(dev, "starfive,syscon");
+	if (IS_ERR(data->regmap)) {
+		ret = PTR_ERR(data->regmap);
+		printf("Failed to get regmap: %d\n", ret);
+		return ret;
 	}
 
-	return 0;
+	return regmap_update_bits(data->regmap, data->offset,
+					STARFIVE_DWMAC_PHY_INFT_FIELD << data->shift,
+					mode << data->shift);
 }
 
 static int eqos_set_tx_clk_speed_jhb100(struct udevice *dev)
@@ -299,15 +274,7 @@ static int eqos_set_tx_clk_speed_jhb100(struct udevice *dev)
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
 	ulong rate;
-
-	/* Generally, the rgmii_tx clock is provided by the internal clock,
-	 * which needs to match the corresponding clock frequency according
-	 * to different speeds. If the rgmii_tx clock is provided by the
-	 * external rgmii_rxin, there is no need to configure the clock
-	 * internally, because rgmii_rxin will be adaptively adjusted.
-	 */
-	if (data->tx_use_rgmii_clk)
-		return 0;
+	int ret;
 
 	switch (eqos->phy->speed) {
 	case SPEED_1000:
@@ -320,101 +287,112 @@ static int eqos_set_tx_clk_speed_jhb100(struct udevice *dev)
 		rate = 2.5 * 1000 * 1000;
 		break;
 	default:
-		pr_err("invalid speed %d", eqos->phy->speed);
+		printf("invalid speed %d", eqos->phy->speed);
 		return -EINVAL;
 	}
 
-#ifndef FRAMEWORK_NOT_READY
-	struct clk *pclk, *c;
-	int ret;
-	/* eqos->clk_tx clock has no set rate operation, so just set the parent
-	 * clock rate directly
-	 */
-	ret = clk_get_by_id(eqos->clk_tx.id, &c);
-	if (ret)
+	ret = clk_set_rate(&eqos->clk_tx, rate);
+	if (ret < 0) {
+		printf("clk_set_rate(clk_tx, %lu) failed: %d", rate, ret);
 		return ret;
+	}
 
-	pclk = clk_get_parent(c);
-	if (pclk) {
-		ret = clk_set_rate(pclk, rate);
+	if (data->interface == PHY_INTERFACE_MODE_RMII) {
+		u32 val = readl(&eqos->mac_regs->configuration);
+		val |= EQOS_MAC_PORT_SELECT_100MBPS;
+		val |= EQOS_MAC_CFG_SPEED_100MBPS;
+		writel(val, &eqos->mac_regs->configuration);
+	} else if (data->interface == PHY_INTERFACE_MODE_SGMII) {
+		ret = clk_set_rate(&eqos->clk_rx, rate);
 		if (ret < 0) {
-			pr_err("jhb100 (clk_tx, %lu) failed: %d", rate, ret);
+			printf("clk_set_rate(clk_rx, %lu) failed: %d", rate, ret);
 			return ret;
 		}
 	}
-#endif
 
 	return 0;
 }
 
 static ulong eqos_get_tick_clk_rate_jhb100(struct udevice *dev)
 {
-#ifndef FRAMEWORK_NOT_READY
 	struct eqos_priv *eqos = dev_get_priv(dev);
 
 	return clk_get_rate(&eqos->clk_tx);
-#else
-	return 0;
-#endif
 }
 
 static int eqos_start_clks_jhb100(struct udevice *dev)
 {
-#ifndef FRAMEWORK_NOT_READY
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
+	struct clk *parent_clk, *clk;
+	int ret;
 
-	return clk_enable_bulk(&data->clks);
-#else
+	ret = clk_enable_bulk(&data->clks);
+	if (ret) {
+		printf("Failed to enable clk bulk\n");
+		return ret;
+	}
+
+	if (data->interface == PHY_INTERFACE_MODE_RMII) {
+
+		ret = clk_get_by_id(JHB100_PER3_ID_TRANS(JHB100_PER3CLK_GMAC0_RMII_MUX), &clk);
+		if (ret)
+			return ret;
+
+		ret = clk_get_by_id(JHB100_PER3_ID_TRANS(JHB100_PER3CLK_GMAC0_RMII_RCLKI), &parent_clk);
+		if (ret)
+			return ret;
+
+		ret = clk_set_parent(clk, parent_clk);
+		if (ret) {
+			printf("Failed to set clock parent\n");
+			return ret;
+		}
+	}
+
 	return 0;
-#endif
 }
 
 static int eqos_stop_clks_jhb100(struct udevice *dev)
 {
-#ifndef FRAMEWORK_NOT_READY
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
 
 	return clk_disable_bulk(&data->clks);
-#else
-	return 0;
-#endif
 }
 
 static int eqos_start_resets_jhb100(struct udevice *dev)
 {
-#ifndef FRAMEWORK_NOT_READY
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
 
+	if (data->interface == PHY_INTERFACE_MODE_SGMII) {
+		if (reset_deassert_bulk(&data->resets) == 0)
+			return generic_phy_configure(&data->phy, NULL);
+		return -EPERM;
+	}
+
 	return reset_deassert_bulk(&data->resets);
-#else
-	return 0;
-#endif
 }
 
 static int eqos_stop_resets_jhb100(struct udevice *dev)
 {
-#ifndef FRAMEWORK_NOT_READY
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
 
 	return reset_assert_bulk(&data->resets);
-#else
-	return 0;
-#endif
 }
 
 static int eqos_remove_resources_jhb100(struct udevice *dev)
 {
-#ifndef FRAMEWORK_NOT_READY
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
 
 	reset_assert_bulk(&data->resets);
 	clk_disable_bulk(&data->clks);
-#endif
+
+	if (data->interface == PHY_INTERFACE_MODE_SGMII)
+		generic_phy_power_off(&data->phy);
 
 	return 0;
 }
@@ -424,6 +402,7 @@ static int eqos_probe_resources_jhb100(struct udevice *dev)
 	struct eqos_priv *eqos = dev_get_priv(dev);
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data;
+	int ret;
 
 	data = calloc(1, sizeof(struct starfive_platform_data));
 	if (!data)
@@ -436,25 +415,56 @@ static int eqos_probe_resources_jhb100(struct udevice *dev)
 		return -EINVAL;
 	}
 
-	// ret = reset_get_bulk(dev, &data->resets);
-	// if (ret < 0)
-	// 	return ret;
+	ret = reset_get_bulk(dev, &data->resets);
+	if (ret < 0)
+		return ret;
 
-	// ret = clk_get_bulk(dev, &data->clks);
-	// if (ret < 0)
-	// 	return ret;
+	ret = clk_get_bulk(dev, &data->clks);
+	if (ret < 0)
+		return ret;
 
-	// ret = clk_get_by_name(dev, "gtx", &eqos->clk_tx);
-	// if (ret)
-	// 	return ret;
+	ret = clk_get_by_name(dev, "tx", &eqos->clk_tx);
+	if (ret)
+		return ret;
 
-	if ((data->interface == PHY_INTERFACE_MODE_RGMII) ||
-			(data->interface == PHY_INTERFACE_MODE_RGMII_ID))
-		data->tx_use_rgmii_clk = dev_read_bool(dev, "starfive,tx-use-rgmii-clk");
-	else
-		data->tx_use_rgmii_clk = false;
+	if (data->interface == PHY_INTERFACE_MODE_SGMII) {
+		ret = clk_get_by_name(dev, "rx", &eqos->clk_rx);
+		if (ret)
+			return ret;
+
+		ret = generic_phy_get_by_index(dev, 0, &data->phy);
+		if (!ret) {
+			ret = generic_phy_init(&data->phy);
+			if (ret)
+				return ret;
+		} else if (ret != -ENOENT) {
+			debug("could not get phy (err %d)\n", ret);
+			return ret;
+		}
+	}
 
 	return eqos_interface_init_jhb100(dev);
+}
+
+static int eqos_calibrate_pads_jhb100(struct udevice *dev)
+{
+	struct eqos_priv *eqos = dev_get_priv(dev);
+	struct eth_pdata *pdata = dev_get_plat(dev);
+	struct starfive_platform_data *data = pdata->priv_pdata;
+	int ret;
+
+	if (data->interface == PHY_INTERFACE_MODE_SGMII) {
+		/* Initiate internal phy auto negotiation */
+		setbits_le32(&eqos->mac_regs->mac_an_counter, BIT(12));
+		wait_for_bit_le32(&eqos->mac_regs->mac_an_status,
+						BIT(5), false, 500, ret);
+		if (ret) {
+			printf("sgmii internal phy auto negotiation failed\n");
+			return ret;
+		}
+	}
+
+	return 0;
 }
 
 static void eqos_inval_flush_desc_jhb100(void *desc)
@@ -498,7 +508,7 @@ static struct eqos_ops eqos_jhb100_ops = {
 	.eqos_start_resets = eqos_start_resets_jhb100,
 	.eqos_stop_clks = eqos_stop_clks_jhb100,
 	.eqos_start_clks = eqos_start_clks_jhb100,
-	.eqos_calibrate_pads = eqos_null_ops,
+	.eqos_calibrate_pads = eqos_calibrate_pads_jhb100,
 	.eqos_disable_calibration = eqos_null_ops,
 	.eqos_set_tx_clk_speed = eqos_set_tx_clk_speed_jhb100,
 	.eqos_get_enetaddr = eqos_null_ops,

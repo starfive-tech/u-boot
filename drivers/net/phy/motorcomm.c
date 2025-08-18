@@ -1413,7 +1413,6 @@ static int yt8531s_config(struct phy_device *phydev)
 static int yt8531s_startup(struct phy_device *phydev)
 {
 	int ret;
-	fdt_addr_t base;
 
 	ret = genphy_update_link(phydev);
 	if (ret)
@@ -1423,41 +1422,35 @@ static int yt8531s_startup(struct phy_device *phydev)
 	if (ret)
 		return ret;
 
-	ofnode phy_node = phydev->node;
-	ofnode mdio_node = ofnode_get_parent(phy_node);
-	ofnode gmac_node = ofnode_get_parent(mdio_node);
-	base = ofnode_get_addr(gmac_node);
-	if (!base) {
-		printf("Failed to get GMAC base address\n");
-		return -ENXIO;
-	}
+	return 0;
+}
 
-	//autonegotiate internal PHY here
-	// u32 mac_an_counter;			/* 0x0e0 */
-	// u32 mac_an_status;			/* 0x0e4 */
-	uint32_t val;
-	setbits_le32(base + 0xE0, BIT(12));
-	do {
-		val = readl((volatile void*)base + 0xE4);
-	} while((val&(BIT(5))==0));
+static int yt8522_probe(struct phy_device *phydev)
+{
+	struct ytphy_plat_priv	*priv;
+
+	priv = calloc(1, sizeof(struct ytphy_plat_priv));
+	if (!priv)
+		return -ENOMEM;
+
+	phydev->priv = priv;
+	phydev->advertising = phydev->drv->features;
+	phydev->supported = phydev->drv->features;
 
 	return 0;
 }
 
-static int yt8522_config_init(struct phy_device *phydev)
+static int yt8522_config(struct phy_device *phydev)
 {
 	int ret, val;
 	struct ytphy_plat_priv *priv = phydev->priv;
 	u8 chip_mode;
-	int chip_config;
 
-	ytphy_dt_parse(phydev);
+	val = ytphy_read_ext(phydev, YT8522_EXTENDED_COMBO_CTRL_1);
+	if (val < 0)
+		return val;
 
-	chip_config = ytphy_read_ext(phydev, YT8522_EXTENDED_COMBO_CTRL_1);
-	if (chip_config < 0)
-		return chip_config;
-
-	chip_mode = (chip_config & (BIT(1) | BIT(0)));
+	chip_mode = (val & (BIT(1) | BIT(0)));
 
 	if (chip_mode == 0x2) { /* RMII2 mode */
 		val |= BIT(4);
@@ -1593,11 +1586,12 @@ U_BOOT_PHY_DRIVER(motorcomm8521S) = {
 };
 
 U_BOOT_PHY_DRIVER(motorcomm8522) = {
-	.name		= "YT8522 100M Ethernet",
+	.name		= "YT8522 100/10Mb Ethernet",
 	.uid		= PHY_ID_YT8522,
 	.mask		= PHY_ID_MASK,
-	.probe		= &yt8531_probe,
-	.config		= &yt8522_config_init,
+	.features	= PHY_BASIC_FEATURES,
+	.probe		= &yt8522_probe,
+	.config		= &yt8522_config,
 	.startup	= &yt8522_startup,
 	.shutdown	= &genphy_shutdown,
 };

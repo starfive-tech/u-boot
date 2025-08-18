@@ -23,7 +23,9 @@ struct eqos_mac_regs {
 	u32 rxq_ctrl2;				/* 0x0a8 */
 	u32 unused_0ac[(0x0dc - 0x0ac) / 4];	/* 0x0ac */
 	u32 us_tic_counter;			/* 0x0dc */
-	u32 unused_0e0[(0x11c - 0x0e0) / 4];	/* 0x0e0 */
+	u32 mac_an_counter;			/* 0x0e0 */
+	u32 mac_an_status;			/* 0x0e4 */
+	u32 unused_0e8[(0x11c - 0x0e8) / 4];	/* 0x0e8 */
 	u32 hw_feature0;				/* 0x11c */
 	u32 hw_feature1;				/* 0x120 */
 	u32 hw_feature2;				/* 0x124 */
