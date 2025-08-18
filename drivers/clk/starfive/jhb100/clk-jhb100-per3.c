@@ -90,6 +90,8 @@ static struct clk_info per3crg_clk_info[] = {
 		"per3_100",		NULL,	CLK_GATE,	0 },
 	{ JHB100_PER3CLK_MAIN_ICG_EN_GMAC1,	"main_icg_en_gmac1",
 		"per3_100",		NULL,	CLK_GATE,	0 },
+	{ JHB100_PER3CLK_GMAC0_RMII_RCLKI,	"per3_gmac0_rmii_rclki",
+		"",		NULL,	CLK_FIXED,	0 },
 };
 
 static int jhb100_per3crg_probe(struct udevice *dev)

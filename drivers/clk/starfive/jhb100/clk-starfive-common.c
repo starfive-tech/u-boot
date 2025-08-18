@@ -9,6 +9,8 @@
  #include <linux/clk-provider.h>
  #include <dt-bindings/clock/starfive,jhb100-crg.h>
 
+DECLARE_GLOBAL_DATA_PTR;
+
 static struct clk *starfive_clk_mux(void __iomem *reg, const char *name, unsigned int offset,
 				    u8 width, const char * const *parent_names, u8 num_parents)
 {
@@ -127,6 +129,32 @@ static struct clk *starfive_clk_fix_parent_composite(void __iomem *reg, const ch
 				      mux_width, gate_width, div_width);
 }
 
+static struct clk *starfive_clk_fixed_rate(const char *name)
+{
+	const fdt32_t *prop;
+	char node[150];
+	int offset, len;
+	u32 freq;
+
+	snprintf(node, sizeof(node), "/%s", name);
+
+	offset = fdt_path_offset(gd->fdt_blob, node);
+	if (offset < 0) {
+		printf("FDT node '%s' not found\n", name);
+		return ERR_PTR(-ENODEV);
+	}
+
+	prop = fdt_getprop(gd->fdt_blob, offset, "clock-frequency", &len);
+	if (!prop || len != sizeof(fdt32_t)) {
+		printf("clock-frequency not found or invalid in '%s'\n", name);
+		return ERR_PTR(-EINVAL);
+	}
+
+	freq = fdt32_to_cpu(*prop);
+
+	return clk_register_fixed_rate(NULL, name, freq);
+}
+
 unsigned long starfive_clk_id_trans(enum clk_type_t type, unsigned long id)
 {
 	switch (type) {
@@ -218,6 +246,10 @@ void starfive_clk_init(void __iomem *reg, enum clk_type_t type,
 						      OFFSET(init_data[i].id), 1,
 						      STARFIVE_CLK_ENABLE_SHIFT,
 						      init_data[i].div_width));
+			break;
+		case CLK_FIXED:
+			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
+			       starfive_clk_fixed_rate(init_data[i].name));
 			break;
 		default:
 			break;

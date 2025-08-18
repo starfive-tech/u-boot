@@ -7,6 +7,8 @@
 #ifndef __CLK_STARFIVE_H
 #define __CLK_STARFIVE_H
 
+#include <dt-bindings/clock/starfive,jhb100-crg.h>
+
 /* the number of fixed clocks in DTS */
 #define JHB100_EXTCLK_END		19
 
@@ -32,6 +34,18 @@
 #define JHB100_PER2_ID_TRANS(id)	(JHB100_PER1_ID_TRANS(JHB100_PER1CLK_NUM_CLKS) + (id))
 #define JHB100_PER3_ID_TRANS(id)	(JHB100_PER2_ID_TRANS(JHB100_PER2CLK_NUM_CLKS) + (id))
 #define MAX_NUM_PARENTS			2
+
+/* Peripheral 3 External Clock: Sync from Linux:
+	/drivers/clk/starfive/clk-starfive-jhb100-per3.c
+*/
+#define JHB100_PER3CLK_NUM_CLKS			(JHB100_PER3CLK_MAIN_ICG_EN_GMAC1 + 1)
+#define JHB100_PER3CLK_100				(JHB100_PER3CLK_NUM_CLKS + 0)
+#define JHB100_PER3CLK_125				(JHB100_PER3CLK_NUM_CLKS + 1)
+#define JHB100_PER3CLK_600				(JHB100_PER3CLK_NUM_CLKS + 2)
+#define JHB100_PER3CLK_OSC				(JHB100_PER3CLK_NUM_CLKS + 3)
+#define JHB100_PER3CLK_GMAC0_RMII_RCLKI	(JHB100_PER3CLK_NUM_CLKS + 4)
+#define JHB100_PER3CLK_GMAC1_SGMII_TX	(JHB100_PER3CLK_NUM_CLKS + 5)
+#define JHB100_PER3CLK_GMAC1_SGMII_RX	(JHB100_PER3CLK_NUM_CLKS + 6)
 
 #define _JHB100_CLK_OF_XLATE(_name)						\
 static int jhb100_##_name##_clk_of_xlate(struct clk *clk,			\
@@ -72,7 +86,8 @@ enum clk_component_t {
 	CLK_GDIV,
 	CLK_IDIV,
 	CLK_GMUX,
-	CLK_COMPOSITE
+	CLK_COMPOSITE,
+	CLK_FIXED
 };
 
 struct clk_info {
