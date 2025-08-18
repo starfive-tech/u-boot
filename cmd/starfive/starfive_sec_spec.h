@@ -306,6 +306,28 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
+		.request_id = 257,
+		.request_name = "set_inline_crypto_config",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 4,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
+		.request_id = 258,
+		.request_name = "get_part_crypt_status",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 2,
+		.resp_names = {"status", "part_crypt_status"},
+		.resp_size = 8,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
 		.request_id = 513,
 		.request_name = "dice_prov_cert0",
 		.param_count = 1,
