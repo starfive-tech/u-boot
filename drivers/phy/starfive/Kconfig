@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Phy drivers for StarFive platforms
+#
+
+config PHY_STARFIVE_INNO_ETH
+	bool "Starfive Innosillicon SGMII ethernet PHY support"
+	help
+	  Enable this to support the Innosillicon SGMII/Serdes
+	  ethernet PHY
