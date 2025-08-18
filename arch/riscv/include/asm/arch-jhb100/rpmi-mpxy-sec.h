@@ -109,6 +109,9 @@ enum bmcfw_update_info_op {
 	BMCFW_UPDATE_INFO_OP_MAX
 };
 
+#define GET_DRAM_INFO_DRAM_SIZE_FLAG		0
+#define GET_DRAM_INFO_LOW_32BIT_ADDR_MASK	(GENMASK(31, 0))
+
 const struct request_spec *get_request_spec_by_id(u32 request_id);
 int starfive_sec_rx_tx(const struct request_spec *req_spec, void *tx_params, void *rx,
 		       void *auth_data, size_t auth_size, void *ext_data, size_t ext_size,

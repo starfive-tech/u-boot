@@ -19,6 +19,7 @@
   * COPYRIGHT 2024 Shanghai StarFive Technology Co., Ltd.
   */
 
+#include <asm/arch/boot_fdt.h>
 #include <asm/arch/boot_src.h>
 #include <asm/arch/boot_mapping.h>
 #include <asm/arch/starfive_reset.h>
@@ -90,6 +91,13 @@ enum env_location env_get_location(enum env_operation op, int prio)
 	 * this function falls back to here
 	 */
 	return ENVL_NOWHERE;
+}
+
+int ft_board_setup(void *blob, struct bd_info *bd)
+{
+	jhb100_fdt_fixup(blob);
+
+	return 0;
 }
 
 #ifdef CONFIG_BOARD_LATE_INIT

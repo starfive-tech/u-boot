@@ -20,6 +20,7 @@
  */
 #include <dm.h>
 #include <spl.h>
+#include <asm/arch/boot_fdt.h>
 #include <asm/arch/boot_src.h>
 #include <asm/arch/spl.h>
 #include <asm/arch/ap_core.h>
@@ -102,6 +103,11 @@ void board_fit_image_post_process(const void *fit, int node, void **p_image, siz
 		/* We know we have 4 AP cores, this break save processing time */
 		if (idx > 3)
 			break;
+	}
+#else
+	jhb100_fdt_fixup(*p_image);
+	if (CONFIG_IS_ENABLED(SPL_FIT_IMAGE_POST_PROCESS)) {
+		jhb100_fdt_fixup(*p_image);
 	}
 #endif
 }
