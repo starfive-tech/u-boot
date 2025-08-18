@@ -383,11 +383,11 @@ static int starfive_gpio_direction_output(struct udevice *dev,
 		info->set_one_pinmux(pdev, off, 0, val ? GPOUT_HIGH : GPOUT_LOW);
 
 	if (info->is_vselcfg && info->is_vselcfg(off))
-		starfive_padcfg_rmw(pdev, off, JHB100_RGMII_PADCFG_IE, 0);
+		starfive_padcfg_rmw(pdev, off, JHB100_RGMII_PADCFG_IE, JHB100_RGMII_PADCFG_IE);
 	else
 		starfive_padcfg_rmw(pdev, off,
 				    JHB100_PADCFG_IE | JHB100_PADCFG_SMT |
-				    JHB100_PADCFG_BIAS_MASK, 0);
+				    JHB100_PADCFG_BIAS_MASK, JHB100_PADCFG_IE);
 
 	return 0;
 }
