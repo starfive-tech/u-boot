@@ -203,6 +203,16 @@ static int dw_i2c_calc_timing(struct dw_i2c *priv, enum i2c_speed_mode mode,
 		lcnt += period_cnt - tot;
 	}
 
+#ifdef CONFIG_STARFIVE_JHB100
+	/* TODO: Value calibrated on EVB board. Currently used as a
+	 * temporary workaround during power-on.
+	 * A proper formula or handling is required.
+	 */
+	if (mode == IC_SPEED_MODE_FAST || mode == IC_SPEED_MODE_FAST_PLUS) {
+		lcnt = 121;
+		hcnt = 120;
+	}
+#endif
 	config->scl_lcnt = lcnt;
 	config->scl_hcnt = hcnt;
 
