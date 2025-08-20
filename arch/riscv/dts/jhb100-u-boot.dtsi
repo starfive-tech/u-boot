@@ -11,6 +11,7 @@
 		timer0 = &timer0;
 		ethernet0 = &gmac2;
 		spi0 = &sfc0;
+		spi1 = &spi0;
 		wdt0 = &wdt0;
 		wdt1 = &wdt1;
 		wdt2 = &wdt2;
