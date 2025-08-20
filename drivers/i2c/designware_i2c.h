@@ -13,7 +13,7 @@
 #include <linux/bitops.h>
 
 struct i2c_regs {
-#if !defined(CONFIG_SYS_I2C_DWC)
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 	u32 ic_con;		/* 0x00 */
 	u32 ic_tar;		/* 0x04 */
 	u32 ic_sar;		/* 0x08 */
@@ -137,7 +137,7 @@ struct i2c_regs {
 #define I2C_BYTE_TO_BB		(I2C_BYTE_TO * 16)
 
 /* i2c control register definitions */
-#if !defined(CONFIG_SYS_I2C_DWC)
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 #define IC_CON_SD		0x0040
 #define IC_CON_RE		0x0020
 #define IC_CON_10BITADDRMASTER	0x0010
@@ -179,12 +179,12 @@ struct i2c_regs {
 #define IC_RX_UNDER		0x0001
 
 /* i2c interrupt clear register definitions */
-#if defined(CONFIG_SYS_I2C_DWC)
+#if defined(CONFIG_SYS_I2C_DWC_ADV)
 #define DWC_IC_CLR_STOP_DET	BIT(8)
 #endif
 
 /* i2c min high and low counts definitions */
-#if defined(CONFIG_SYS_I2C_DWC)
+#if defined(CONFIG_SYS_I2C_DWC_ADV)
 #define DWC_MIN_HCNT		5
 #define DWC_MIN_LCNT		6
 #endif

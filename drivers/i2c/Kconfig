@@ -231,11 +231,11 @@ config SYS_I2C_DW
 	  controller is used in various SoCs, e.g. the ST SPEAr, Altera
 	  SoCFPGA, Synopsys ARC700 and some Intel x86 SoCs.
 
-config SYS_I2C_DWC
-	bool "Designware Core I2C Controller"
+config SYS_I2C_DWC_ADV
+	bool "Designware Core Advanced I2C Controller"
 	depends on SYS_I2C_DW
 	help
-	  Say yes here to select the Designware Core I2C Host Controller.
+	  Say yes here to select the Designware Core Advanced I2C Host Controller.
 
 config SYS_I2C_DW_PCI
 	bool "Designware PCI I2C Controller"

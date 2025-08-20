@@ -164,7 +164,7 @@ static int dw_i2c_calc_timing(struct dw_i2c *priv, enum i2c_speed_mode mode,
 	      mode, ic_clk, info->speed, period_cnt, rise_cnt, fall_cnt,
 	      min_tlow_cnt, min_thigh_cnt, spk_cnt);
 
-#if !defined(CONFIG_SYS_I2C_DWC)
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 	/*
 	 * Back-solve for hcnt and lcnt according to the following equations:
 	 * SCL_High_time = [(HCNT + IC_*_SPKLEN + T_HD_STA_OFFSET) * ic_clk] + SCL_Fall_time
@@ -334,7 +334,7 @@ static int _dw_i2c_set_bus_speed(struct dw_i2c *priv, struct i2c_regs *i2c_base,
 		break;
 	case IC_SPEED_MODE_STANDARD:
 		cntl |= IC_CON_SPD_SS;
-#if !defined(CONFIG_SYS_I2C_DWC)
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 		writel(config.scl_hcnt, &i2c_base->ic_ss_scl_hcnt);
 		writel(config.scl_lcnt, &i2c_base->ic_ss_scl_lcnt);
 #else
@@ -346,7 +346,7 @@ static int _dw_i2c_set_bus_speed(struct dw_i2c *priv, struct i2c_regs *i2c_base,
 	case IC_SPEED_MODE_FAST:
 	default:
 		cntl |= IC_CON_SPD_FS;
-#if !defined(CONFIG_SYS_I2C_DWC)
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 		writel(config.scl_hcnt, &i2c_base->ic_fs_scl_hcnt);
 		writel(config.scl_lcnt, &i2c_base->ic_fs_scl_lcnt);
 #else
@@ -465,7 +465,7 @@ static int i2c_xfer_finish(struct i2c_regs *i2c_base)
 
 	while (1) {
 		if ((readl(&i2c_base->ic_raw_intr_stat) & IC_STOP_DET)) {
-#if !defined(CONFIG_SYS_I2C_DWC)
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 			readl(&i2c_base->ic_clr_stop_det);
 #else
 			writel(DWC_IC_CLR_STOP_DET, &i2c_base->ic_clr_intr);
@@ -629,7 +629,7 @@ static int __dw_i2c_init(struct i2c_regs *i2c_base, int speed, int slaveaddr)
 	if (ret)
 		return ret;
 
-#if !defined(CONFIG_SYS_I2C_DWC)
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 	writel(IC_CON_SD | IC_CON_RE | IC_CON_SPD_FS | IC_CON_MM,
 	       &i2c_base->ic_con);
 #else
