@@ -106,8 +106,5 @@ void board_fit_image_post_process(const void *fit, int node, void **p_image, siz
 	}
 #else
 	jhb100_fdt_fixup(*p_image);
-	if (CONFIG_IS_ENABLED(SPL_FIT_IMAGE_POST_PROCESS)) {
-		jhb100_fdt_fixup(*p_image);
-	}
 #endif
 }
