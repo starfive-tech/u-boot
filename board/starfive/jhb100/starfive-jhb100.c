@@ -19,6 +19,7 @@
   * COPYRIGHT 2024 Shanghai StarFive Technology Co., Ltd.
   */
 
+#include <asm/arch/boot_env.h>
 #include <asm/arch/boot_fdt.h>
 #include <asm/arch/boot_src.h>
 #include <asm/arch/boot_mapping.h>
@@ -161,48 +162,10 @@ static int env_get_spi_flash_offs(void)
 	return 0;
 }
 
-void env_filter_add_bootarg(void (*str_fn)(char* str), char *key_str)
+void env_add_bootarg_reset_event(void)
 {
-	/* Initialise variable */
-	char new_bootarg[1024];
-	char parsed_bootargs[1024];
-	char *existing_bootargs = env_get("bootargs");
-	char *rst_event_str_start = strstr(existing_bootargs, key_str);
-
-	/* Get returned string */
-	str_fn(new_bootarg);
-
-	/* Try to filter reset_event keyword */
-	if (rst_event_str_start) {
-		/* Found keyword if here */
-		char *rst_event_str_end = strchr(rst_event_str_start, ' ');
-
-		if (!rst_event_str_end) {
-			/* Actually at end of string */
-			rst_event_str_end = rst_event_str_start +
-					    strlen(rst_event_str_start);
-		}
-
-		/* Remove the keyword and 'space' from previous appendation */
-		size_t str_size_before = rst_event_str_start - existing_bootargs - 1;
-
-		strncpy(parsed_bootargs, existing_bootargs, str_size_before);
-		parsed_bootargs[str_size_before] = '\0';
-
-		strcat(parsed_bootargs, rst_event_str_end);
-		env_set("bootargs", parsed_bootargs);
-	}
-
-	/* Append the keyword */
-	existing_bootargs = env_get("bootargs");
-	snprintf(parsed_bootargs, sizeof(parsed_bootargs), "%s %s",
-		 existing_bootargs, strcat(key_str, new_bootarg));
-
-	env_set("bootargs", parsed_bootargs);
-
+	env_filter_add_bootarg(starfive_get_reset_event, "reset_event=", NULL);
 	env_changed_id = env_get_id();
-	/* TODO: Let's think of whether to save the environment here, leave it for now */
-	/* env_save(); */
 }
 
 /* We do critical boot command restoration here in the case user save
@@ -263,7 +226,7 @@ int board_late_init(void)
 	env_get_spi_flash_offs();
 	env_restore_bootcmd();
 	/* Add or replace reset_event argument to bootargs */
-	env_filter_add_bootarg(starfive_get_reset_event, "reset_event=");
+	env_add_bootarg_reset_event();
 
 	uboot_starfive_fb_rec_map_handler();
 

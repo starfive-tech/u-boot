@@ -12,7 +12,7 @@
 static char *reset_id_str[] = {"POR", "WDT0", "PERST0", "PERST1", "eSPI0", "eSPI1", "Host0_SW",
 			       "Host0_PCIe0_SW", "Host1_SW", "Host1_PCIe_SW", "BMC", "WDT1"};
 
-void starfive_get_reset_event(char *parsed_str)
+void starfive_get_reset_event(char *parsed_str, char *val_str)
 {
 	int reset_id = GET_RESET_EVENT_ID;
 	int is_single_node = GET_SOC_OTP_DUAL_NODE_STAT;

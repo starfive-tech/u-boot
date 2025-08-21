@@ -39,6 +39,6 @@
 	(readl((const void *)SYS2_SYSCON_SOC_OTPSTRAP_STAT1_ADDR)	\
 	 & (SOC_OTP_DUAL_NODE_DISABLE_MSK))
 
-void starfive_get_reset_event(char *str);
+void starfive_get_reset_event(char *parsed_str, char *val_str);
 
 #endif /* _STARFIVE_RESET_H */
