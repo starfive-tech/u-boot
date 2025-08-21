@@ -29,6 +29,8 @@
 #define STARFIVE_DWMAC_PHY_INFT_RMII	0x4
 #define STARFIVE_DWMAC_PHY_INFT_FIELD	0x7U
 
+#define STARFIVE_JHB100_GMAC0_RMII_BASE 0x11C00000
+
 struct starfive_platform_data {
 	struct regmap *regmap;
 	struct reset_ctl_bulk resets;
@@ -243,6 +245,7 @@ static int eqos_interface_init_jhb100(struct udevice *dev)
 		return 0;
 
 	default:
+		printf("Undefined phy interface\n");
 		return -EINVAL;
 	}
 
@@ -333,8 +336,11 @@ static int eqos_start_clks_jhb100(struct udevice *dev)
 		return ret;
 	}
 
-	if (data->interface == PHY_INTERFACE_MODE_RMII) {
-
+	if (dev_read_addr(dev) == STARFIVE_JHB100_GMAC0_RMII_BASE) {
+		/*
+		 * This handling addresses the issue where the parent clock cannot
+		 * be set via the device tree during initialization
+		 */
 		ret = clk_get_by_id(JHB100_PER3_ID_TRANS(JHB100_PER3CLK_GMAC0_RMII_MUX), &clk);
 		if (ret)
 			return ret;
@@ -409,7 +415,10 @@ static int eqos_probe_resources_jhb100(struct udevice *dev)
 		return -ENOMEM;
 
 	pdata->priv_pdata = data;
-	data->interface = eqos->config->interface(dev);
+	pdata->phy_interface = eqos->config->interface(dev);
+	data->interface = (dev_read_bool(dev, "snps,use-ncsi")) ?
+		PHY_INTERFACE_MODE_RMII : pdata->phy_interface;
+
 	if (data->interface == PHY_INTERFACE_MODE_NA) {
 		pr_err("Invalid PHY interface\n");
 		return -EINVAL;
