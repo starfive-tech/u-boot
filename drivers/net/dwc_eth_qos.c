@@ -1060,9 +1060,9 @@ static void eqos_stop(struct udevice *dev)
 	clrbits_le32(&eqos->dma_regs->ch0_rx_control,
 		     EQOS_DMA_CH0_RX_CONTROL_SR);
 
-	if (eqos->phy) {
+	if (eqos->phy && !IS_ENABLED(CONFIG_PHY_NCSI))
 		phy_shutdown(eqos->phy);
-	}
+
 	eqos->config->ops->eqos_stop_resets(dev);
 
 	debug("%s: OK\n", __func__);
