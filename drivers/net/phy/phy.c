@@ -1244,7 +1244,13 @@ int phy_modify_mmd(struct phy_device *phydev, int devad, u32 regnum,
 bool phy_interface_is_ncsi(void)
 {
 #ifdef CONFIG_PHY_NCSI
-	struct eth_pdata *pdata = dev_get_plat(eth_get_dev());
+	struct eth_pdata *pdata;
+	char *ethact = env_get("ethact");
+
+	if (!ethact)
+		pdata = dev_get_plat(eth_get_dev());
+	else
+		pdata = dev_get_plat(eth_get_dev_by_name(ethact));
 
 	return pdata->phy_interface == PHY_INTERFACE_MODE_NCSI;
 #else
