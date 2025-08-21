@@ -2,6 +2,7 @@
 #
 # Copyright (c) 2025 StarFive Technology Co., Ltd.
 
+obj-y += boot_env.o
 obj-y += boot_fdt.o
 obj-y += boot_mapping.o
 obj-y += boot_pti.o
