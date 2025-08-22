@@ -233,16 +233,13 @@ static int eqos_interface_init_jhb100(struct udevice *dev)
 
 	switch (data->interface) {
 	case PHY_INTERFACE_MODE_RMII:
-		mode = STARFIVE_DWMAC_PHY_INFT_RMII;
-		break;
+	case PHY_INTERFACE_MODE_SGMII:
+		return 0;
 
 	case PHY_INTERFACE_MODE_RGMII:
 	case PHY_INTERFACE_MODE_RGMII_ID:
 		mode = STARFIVE_DWMAC_PHY_INFT_RGMII;
 		break;
-
-	case PHY_INTERFACE_MODE_SGMII:
-		return 0;
 
 	default:
 		printf("Undefined phy interface\n");
