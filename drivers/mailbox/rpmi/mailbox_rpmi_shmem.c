@@ -214,7 +214,7 @@ static int rpmi_shmem_transport_init(struct udevice *dev, struct rpmi_shmem_mbox
 
 		/* get each queue share-memory base address and size*/
 		reg_addr = dev_read_addr_size_index(dev, qid, &reg_size);
-		if (reg_addr < 0 || !reg_size)
+		if (!reg_addr || !reg_size)
 			return -ENOENT;
 		/* calculate number of slots in each queue */
 		qctx->num_slots =
@@ -255,16 +255,22 @@ static int rpmi_shmem_mbox_probe(struct udevice *dev)
 		return -ENOMEM;
 
 	addr = dev_read_addr(dev);
-	if (addr == FDT_ADDR_T_NONE)
-		return -EINVAL;
+	if (addr == FDT_ADDR_T_NONE) {
+		ret = -EINVAL;
+		goto fail;
+	}
 
 	ret = rpmi_shmem_transport_init(dev, mctl);
 	if (ret)
-		return ret;
+		goto fail;
 
 	mbox_dev->mctl = mctl;
 
 	return 0;
+
+fail:
+	free(mctl);
+	return ret;
 }
 
 static int rpmi_shmem_mbox_child_bind(struct udevice *dev)

@@ -44,19 +44,24 @@ static int rpmi_tx_rx(struct mbox_chan *chan, u16 servicegroup_id, u16 service_i
 {
 	struct rpmi_message *msg = calloc(1, sizeof(*msg) +
 					 (tx_msglen > rx_msglen ? tx_msglen : rx_msglen));
-	int ret = 0;
+	if (!msg)
+		return -ENOMEM;
 
+	int ret = 0;
 	msg->header.servicegroup_id = cpu_to_le16(servicegroup_id);
 	msg->header.service_id = service_id;
 	msg->header.flags = rx ? RPMI_MSG_NORMAL_REQUEST : RPMI_MSG_POSTED_REQUEST;
 	msg->header.datalen = tx_msglen;
 	msg->header.token = cpu_to_le16(MSG_TOKEN);
-	memcpy(msg->data, tx, tx_msglen);
+
+	if (tx)
+		memcpy(msg->data, tx, tx_msglen);
+
 	ret = mbox_send(chan, msg);
 	if (ret) {
 		printf("Failed to send message\n");
-		free(msg);
-		return -EINVAL;
+		ret = -EINVAL;
+		goto cleanup_ret;
 	}
 
 	if (rx) {
@@ -65,19 +70,20 @@ static int rpmi_tx_rx(struct mbox_chan *chan, u16 servicegroup_id, u16 service_i
 		ret = mbox_recv(chan, msg, RPMI_DEF_RX_TIMEOUT_US);
 		if (ret) {
 			printf("Failed to receive message\n");
-			free(msg);
-			return -EINVAL;
+			ret = -EINVAL;
+			goto cleanup_ret;
 		}
 
 		*out_len = (u64)msg->header.datalen;
 		memcpy(rx, msg->data, *out_len);
 
-		free(msg);
-		return ((u32 *)rx)[0];
+		ret = ((u32 *)rx)[0];
+		goto cleanup_ret;
 	}
 
+cleanup_ret:
 	free(msg);
-	return 0;
+	return ret;
 }
 
 static int starfive_bmc_sec_rt_trans(struct udevice *dev, u16 service_id, void *tx, u64 tx_msglen,
@@ -171,6 +177,9 @@ static int rpmi_get_base_privilege_level(struct udevice *dev)
 	if (!out_len)
 		return -EINVAL;
 
+	if (ret)
+		return ret;
+
 	if (resp.status_code)
 		return resp.status_code;
 
@@ -198,6 +207,10 @@ static int rpmi_get_base_version(struct udevice *dev)
 			 val,
 			 sizeof(val),
 			 out_len);
+
+	if (!out_len)
+		return -EINVAL;
+
 	if (ret)
 		return ret;
 
