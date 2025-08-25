@@ -821,6 +821,24 @@ int get_vf2_board_type(void)
 	return (int)vf2_board_type;
 }
 
+unsigned long get_mmc_size_from_eeprom(void)
+{
+	const char *product_id;
+	unsigned long size = 0;
+
+	product_id = get_product_id_from_eeprom();
+	size = dectoul(&product_id[19], NULL);
+
+	if (product_id[21] == 'T')
+		size <<= 10;
+
+#ifndef CONFIG_SPL_BUILD
+	env_set_ulong("emmc_size", size);
+#endif
+
+	return size;
+}
+
 /**
  * mac_read_from_eeprom() - read the MAC address & the serial number in EEPROM
  *
