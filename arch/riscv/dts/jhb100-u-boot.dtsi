@@ -618,6 +618,7 @@
 
 &spi0 {
 	bootph-pre-ram;
+	spi-max-frequency = <10000000>;
 };
 
 &hwspinlock {
