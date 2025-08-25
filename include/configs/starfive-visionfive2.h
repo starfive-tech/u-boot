@@ -237,7 +237,11 @@
 	"if test ${vf2_board_type} = 1; then "		\
 		"setenv fdt_conf config-cm;"		\
 	"elif test ${vf2_board_type} = 2; then "	\
-		"setenv fdt_conf config-lite;"		\
+		"if test ${emmc_size} = 0; then "	\
+			"setenv fdt_conf config-lite;"	\
+		"else "					\
+			"setenv fdt_conf config-lite-emmc;"	\
+		"fi; "					\
 	"else "						\
 		"setenv fdt_conf config-default;"	\
 	"fi; \0"
