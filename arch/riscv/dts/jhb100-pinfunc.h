@@ -768,6 +768,7 @@
 /************************** pincfg *****************************/
 
 /* signal types */
+#define JHB100_DEFAULT_SIGNAL				0
 #define JHB100_SYSTEM_SIGNAL				(1 << 0)
 #define JHB100_APRSTN_SIGNAL				(1 << 1)
 #define JHB100_PCIERP_WAKE_SIGNAL			(1 << 2)

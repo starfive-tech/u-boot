@@ -1043,12 +1043,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B44,
 					 FUNC_BMCPERIPH0_MIPI_I3C0_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c0lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B45,
 					 FUNC_BMCPERIPH0_MIPI_I3C0_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1057,12 +1059,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B46,
 					 FUNC_BMCPERIPH0_MIPI_I3C1_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c1lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B47,
 					 FUNC_BMCPERIPH0_MIPI_I3C1_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1071,12 +1075,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B48,
 					 FUNC_BMCPERIPH0_MIPI_I3C2_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c2lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B49,
 					 FUNC_BMCPERIPH0_MIPI_I3C2_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1085,12 +1091,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B50,
 					 FUNC_BMCPERIPH0_MIPI_I3C3_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c3lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B51,
 					 FUNC_BMCPERIPH0_MIPI_I3C3_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1099,12 +1107,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
 					 FUNC_BMCPERIPH0_MIPI_I3C4_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c4_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B9,
 					 FUNC_BMCPERIPH0_MIPI_I3C4_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1113,12 +1123,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B52,
 					 FUNC_BMCPERIPH0_MIPI_I3C4_SCL1)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c4lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B53,
 					 FUNC_BMCPERIPH0_MIPI_I3C4_SDA1)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1127,12 +1139,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
 					 FUNC_BMCPERIPH0_MIPI_I3C5_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c5_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B11,
 					 FUNC_BMCPERIPH0_MIPI_I3C5_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1141,12 +1155,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B54,
 					 FUNC_BMCPERIPH0_MIPI_I3C5_SCL1)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c5lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B55,
 					 FUNC_BMCPERIPH0_MIPI_I3C5_SDA1)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1155,12 +1171,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B12,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c6_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B13,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1169,12 +1187,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B56,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SCL1)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c5lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B57,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SDA1)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1183,12 +1203,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B14,
 					 FUNC_BMCPERIPH0_MIPI_I3C7_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c7_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B15,
 					 FUNC_BMCPERIPH0_MIPI_I3C7_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1197,12 +1219,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B58,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SCL1)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c5lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B59,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SDA1)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1211,12 +1235,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B16,
 					 FUNC_BMCPERIPH0_MIPI_I3C8_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c8_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B17,
 					 FUNC_BMCPERIPH0_MIPI_I3C8_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1225,12 +1251,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B18,
 					 FUNC_BMCPERIPH0_MIPI_I3C9_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c9_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B19,
 					 FUNC_BMCPERIPH0_MIPI_I3C9_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1239,12 +1267,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B20,
 					 FUNC_BMCPERIPH0_MIPI_I3C10_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c10_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B21,
 					 FUNC_BMCPERIPH0_MIPI_I3C10_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1253,12 +1283,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B22,
 					 FUNC_BMCPERIPH0_MIPI_I3C11_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c11_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B23,
 					 FUNC_BMCPERIPH0_MIPI_I3C11_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1267,12 +1299,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B36,
 					 FUNC_BMCPERIPH0_MIPI_I3C12_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c12_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B37,
 					 FUNC_BMCPERIPH0_MIPI_I3C12_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1281,12 +1315,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B38,
 					 FUNC_BMCPERIPH0_MIPI_I3C13_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c13_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B39,
 					 FUNC_BMCPERIPH0_MIPI_I3C13_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1295,12 +1331,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B40,
 					 FUNC_BMCPERIPH0_MIPI_I3C14_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c14_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B41,
 					 FUNC_BMCPERIPH0_MIPI_I3C14_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 
@@ -1309,12 +1347,14 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B42,
 					 FUNC_BMCPERIPH0_MIPI_I3C15_SCL0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
 		i3c15_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B43,
 					 FUNC_BMCPERIPH0_MIPI_I3C15_SDA0)>;
 			input-enable;
+			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 	};
 };
@@ -3000,6 +3040,16 @@
 		wdt4_restart-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B35,
 					 FUNC_BMCPERIPH0_WDT4_RESTART_INPUT)>;
+			input-enable;
+		};
+	};
+};
+
+&pinctrl_bmcperiph0 {
+	vga_trigger_pins: vga_trigger-grp {
+		vga_trigger-pins {
+			pincfg = <PINCFG(PADNUM_BMCPERIPH0_GPIO_B28,
+					 JHB100_DEFAULT_SIGNAL)>;
 			input-enable;
 		};
 	};

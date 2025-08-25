@@ -270,6 +270,11 @@
 			#reset-cells = <1>;
 		};
 
+		npusyscon: syscon@0x118e5000 {
+			compatible = "starfive,jhb100-npu-syscon", "syscon";
+			reg = <0x0 0x118e5000 0x0 0x100>;
+		};
+
 		per0crg: clock-controller@11a08000 {
 			compatible = "starfive,jhb100-per0crg";
 			reg = <0x0 0x11a08000 0x0 0x1000>;

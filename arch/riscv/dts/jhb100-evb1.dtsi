@@ -187,6 +187,10 @@
 	status = "okay";
 };
 
+&ddrc_edac {
+	status = "okay";
+};
+
 &dma_i2c {
 	status = "disabled";
 };
@@ -200,7 +204,7 @@
 };
 
 &dma_uart {
-	status = "disabled";
+	status = "okay";
 };
 
 &dp {
@@ -228,7 +232,7 @@
 	starfive,kcs-remap-num = <4>;
 	starfive,uart-remap-num = <2>;
 	starfive,bt-io-addr = /bits/ 32 <0xe4 0xf4>;
-	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb4 0xcc6 0xcd8>;
+	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb2 0xcc2 0xcd2>;
 	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x400>;
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
@@ -907,8 +911,7 @@
 &vga {
        status = "okay";
        pinctrl-names = "default";
-       pinctrl-0 = <&vga_pins>;
-       switch-gpios = <&pinctrl_bmcperiph0 28 GPIO_ACTIVE_HIGH>;
+       pinctrl-0 = <&vga_pins &vga_trigger_pins>;
 };
 
 &voutcrg {
@@ -920,19 +923,19 @@
 };
 
 &wdt1 {
-	status = "okay";
+	status = "disabled";
 };
 
 &wdt2 {
-	status = "okay";
+	status = "disabled";
 };
 
 &wdt3 {
-	status = "okay";
+	status = "disabled";
 };
 
 &wdt_ext {
-	status = "okay";
+	status = "disabled";
 	pinctrl-names = "default";
 	pinctrl-0 = <&wdt4_ext_reset_pins &wdt4_restart_pins>;
 };

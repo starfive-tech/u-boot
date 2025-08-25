@@ -7,6 +7,11 @@
 #include "jhb100-evb1-ethernet.dtsi"
 #include "jhb100-evb1-sib1.dtsi"
 #include "jhb100-evb1-sfc0-flash.dtsi"
+#include "jhb100-evb1-sfc1-flash.dtsi"
+
+&dma_sfc1 {
+	status = "okay";
+};
 
 &pinctrl_adc0 {
 	gpio-line-names =
@@ -96,9 +101,9 @@
 		"PRDY_N", "PREQ_N", "NC", "PWRGD_P1V0_BMC_AUX",			/* GPIOC20-23 */
 		"FM_4S_8S_N_MODE", "FM_CPU_CATERR_P1_N",			/* GPIOC24-25 */
 		"FM_BMC_CMOS_CLR_R_N", "PS_PWROK",				/* GPIOC26-27 */
-		"FM_BMC_TRUST_N", "FM_STANDALONE_MODE_N",			/* GPIOC28-29 */
+		"SGPIO0_CLK", "FM_STANDALONE_MODE_N",				/* GPIOC28-29 */
 		"FM_CPU1_ERR1_LVT3_N", "FM_CPU1_ERR2_LVT3_N",			/* GPIOC28-31 */
-		"SGPIO1_CLK", "SGPIO1_LD", "SGPIO1_DO", "SGPIO1_DI";		/* GPIOC32-35 */
+		"FM_BMC_TRUST_N", "SGPIO1_LD", "SGPIO1_DO", "SGPIO1_DI";	/* GPIOC32-35 */
 
 	gpioe-spi-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC0-4 */
 	gpioe-qspi0-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC5-11 */
@@ -110,6 +115,13 @@
 		gpios = <6 GPIO_ACTIVE_HIGH>;
 		input_enable;
 		line-name = "FM_SKT0_FAULT_LED";
+	};
+
+	gpioc21 {
+		gpio-hog;
+		gpios = <21 GPIO_ACTIVE_HIGH>;
+		output-low;
+		line-name = "PREQ_N";
 	};
 
 	gpioc23 {
@@ -126,9 +138,9 @@
 		line-name = "FM_BMC_CMOS_CLR_R_N";
 	};
 
-	gpioc28 {
+	gpioc32 {
 		gpio-hog;
-		gpios = <28 GPIO_ACTIVE_HIGH>;
+		gpios = <32 GPIO_ACTIVE_HIGH>;
 		output-low;
 		line-name = "FM_BMC_TRUST_N";
 	};
@@ -244,4 +256,9 @@
 &pinctrl_vga_vdac {
 	gpio-line-names =
 		"VGA_HS", "VGA_VS", "VGA_DDCCLK", "VGA_DDCDAT";		/* GPIOI0-3 */
+};
+
+&sfc1 {
+	status = "okay";
+	rx-sample-delay-ns = <10>;
 };

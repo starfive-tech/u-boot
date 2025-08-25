@@ -26,13 +26,13 @@
 &can0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&can0_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &can1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&can1_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &dma_i3c {
@@ -153,6 +153,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c0lv_pins>;
+	dmas = <&dma_i3c 0 1 0>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -162,6 +170,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c1lv_pins>;
+	dmas = <&dma_i3c 1 3 2>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -171,6 +187,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c2lv_pins>;
+	dmas = <&dma_i3c 2 5 4>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -180,6 +204,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c3lv_pins>;
+	dmas = <&dma_i3c 3 7 6>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -189,6 +221,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c4_pins>;
+	dmas = <&dma_i3c 4 9 8>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -202,6 +242,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c5_pins>;
+	dmas = <&dma_i3c 5 11 10>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -215,6 +263,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c6_pins>;
+	dmas = <&dma_i3c 6 13 12>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -228,6 +284,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c7_pins>;
+	dmas = <&dma_i3c 7 15 14>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -241,6 +305,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c8_pins>;
+	dmas = <&dma_i3c 8 17 16>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -250,6 +322,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c9_pins>;
+	dmas = <&dma_i3c 9 19 18>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -259,6 +339,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c10_pins>;
+	dmas = <&dma_i3c 10 21 20>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -268,6 +356,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c11_pins>;
+	dmas = <&dma_i3c 11 23 22>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -277,6 +373,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c12_pins>;
+	dmas = <&dma_i3c 12 25 24>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -286,6 +390,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c13_pins>;
+	dmas = <&dma_i3c 13 27 26>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -295,6 +407,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c14_pins>;
+	dmas = <&dma_i3c 14 29 28>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -304,6 +424,14 @@
 	mode = "master";
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c15_pins>;
+	dmas = <&dma_i3c 15 31 30>;
+	dma-names = "rx-tx";
+	i3c-od-pu-offset = <0>;
+	i3c-od-lo-offset = <0>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
 };
 
@@ -337,28 +465,28 @@
 	status = "okay";
 
 	fan@0 {
-		tach-ch = <0x0>, <0x1>;
+		tach-ch = <0x0>, <0x8>;
 	};
 	fan@1 {
-		tach-ch = <0x2>, <0x3>;
+		tach-ch = <0x1>, <0x9>;
 	};
 	fan@2 {
-		tach-ch = <0x4>, <0x5>;
+		tach-ch = <0x2>, <0xa>;
 	};
 	fan@3 {
-		tach-ch = <0x6>, <0x7>;
+		tach-ch = <0x3>, <0xb>;
 	};
 	fan@4 {
-		tach-ch = <0x8>, <0x9>;
+		tach-ch = <0x4>, <0xc>;
 	};
 	fan@5 {
-		tach-ch = <0xa>, <0xb>;
+		tach-ch = <0x5>, <0xd>;
 	};
 	fan@6 {
-		tach-ch = <0xc>, <0xd>;
+		tach-ch = <0x6>, <0xe>;
 	};
 	fan@7 {
-		tach-ch = <0xe>, <0xf>;
+		tach-ch = <0x7>, <0xf>;
 	};
 };
 

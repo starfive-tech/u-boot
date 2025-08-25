@@ -6,6 +6,7 @@
 /dts-v1/;
 #include <dt-bindings/power/starfive,jhb100-power.h>
 #include <dt-bindings/gpio/starfive,jhb100-gpio.h>
+#include <dt-bindings/gpio/gpio.h>
 #include "jhb100-crg.dtsi"
 #include "jhb100-pinfunc.h"
 
@@ -1318,8 +1319,10 @@
 				compatible = "starfive,inno-vga";
 				reg = <0x0 0x11136000 0x0 0x100>,
 				      <0x0 0x11135d00 0x0 0x100>;
-				interrupts = <231>, <237>, <238>, <233>;
-				interrupt-names = "vdac", "h02b", "h12b", "dynsw1";
+				interrupts-extended = <&plic 231>, <&plic 237>,
+						      <&plic 238>, <&plic 233>,
+						      <&pinctrl_bmcperiph0 28 GPIO_ACTIVE_HIGH>;
+				interrupt-names = "vdac", "h02b", "h12b", "dynsw1", "switch";
 				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA>,
 					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA_SCAN>,
 					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U1_VOUT_DYNSW>;
@@ -1336,6 +1339,7 @@
 				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA_IOMUX>;
 				interrupts = <236>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_vga_vdac 0 0 4>;
@@ -1369,6 +1373,7 @@
 				interrupts = <240>, <237>, <234>;
 				interrupt-names = "vce", "host2bmc", "dynsw";
 				h2b-syscon = <&h2bsyscon>;
+				vce-id = <0>;
 				status = "disabled";
 			};
 
@@ -1384,6 +1389,7 @@
 				interrupts = <241>, <238>, <235>;
 				interrupt-names = "vce", "host2bmc", "dynsw";
 				h2b-syscon = <&h2bsyscon>;
+				vce-id = <1>;
 				status = "disabled";
 			};
 
@@ -1399,7 +1405,11 @@
 					 <0x43000000 0xc 0x00000000 0xc 0x00000000 0x1 0x00000000>;
 				bus-range = <0x0 0xff>;
 				clocks = <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP_ECSR>,
-					 <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP>;
+					 <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP>,
+					 <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_MCTP>,
+					 <&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_M>,
+					 <&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_S>,
+					 <&pcierpcrg JHB100_PCIERPCLK_MCTP_PCLK>;
 				vendor-id = <0x20b5>;
 				device-id = <0xb107>;
 				interrupt-controller;
@@ -1417,8 +1427,9 @@
 				num-lanes = <1>;
 				resets = <&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_PCIERP_ECSR>,
 					<&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_DW_PCIE_RP>,
+					<&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_MCTP_PCIERP>,
 					<&pcierp_syscon_rst JHB100_PCIERP_SYSCONRST_PE2RST_OUT>;
-				reset-names = "ecsr", "main", "perst_out";
+				reset-names = "ecsr", "main", "mctp", "perst_out";
 				ecsr-syscon = <&pcie_rp_ecsr>;
 
 				status = "disabled";
@@ -1432,11 +1443,6 @@
 					<&plic 101>;
 				interrupt-names = "tx_cmpl", "rx_cmpl", "rx_rdy", "tx_vdm_full",
 					"rx_vdm_full", "rx_cmd_full", "tx_err", "rx_err";
-				clocks = <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_MCTP>,
-					<&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_M>,
-					<&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_S>,
-					<&pcierpcrg JHB100_PCIERPCLK_MCTP_PCLK>;
-				resets = <&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_MCTP_PCIERP>;
 				starfive,pcie-ecsr = <&pcie_rp_ecsr>;
 				starfive,rx-cmd-full-th = <60>;
 				starfive,rx-cmd-empty-th = <0>;
@@ -1515,9 +1521,11 @@
 				interrupts = <77>;
 				clocks = <&npucrg JHB100_NPUCLK_MAIN_ICG_EN_NPU>;
 				resets = <&npucrg JHB100_NPURST_MAIN_RSTN_NPU>;
+				power-domains = <&rpmi_pmdomain PD_NPU>;
 				power-domain-names = "core_major";
 				contiguous-base = <0x0>;
 				contiguous-size = <0x1000000>;
+				npu-syscon = <&npusyscon>;
 				status = "disabled";
 			};
 
@@ -1526,8 +1534,10 @@
 				reg = <0x0 0x11900000 0x0 0x1000>;
 				interrupts = <177>;
 				clocks = <&per0crg JHB100_PER0CLK_240_CORE_LTPI0>,
-					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>;
-				clock-names = "core_clk", "apb";
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>,
+					<&per0crg JHB100_PER0CLK_PH0_LTPI0>,
+					<&per0crg JHB100_PER0CLK_PH90_LTPI0>;
+				clock-names = "core_clk", "apb", "lvds", "lvds90";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_LTPI0>;
 				ltpi,id = <0>;
 				status = "disabled";
@@ -1553,6 +1563,7 @@
 				#gpio-cells = <2>;
 				interrupts = <178>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				direction = "input";
 				ngpios = <64>;
 				label = "llgpi0";
@@ -1579,6 +1590,7 @@
 				#gpio-cells = <2>;
 				interrupts = <179>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				direction = "input";
 				ngpios = <256>;
 				label = "nlgpi0";
@@ -1590,8 +1602,10 @@
 				reg = <0x0 0x11910000 0x0 0x1000>;
 				interrupts = <180>;
 				clocks = <&per0crg JHB100_PER0CLK_240_CORE_LTPI1>,
-					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>;
-				clock-names = "core_clk", "apb";
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>,
+					<&per0crg JHB100_PER0CLK_PH0_LTPI1>,
+					<&per0crg JHB100_PER0CLK_PH90_LTPI1>;
+				clock-names = "core_clk", "apb", "lvds", "lvds90";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_LTPI1>;
 				ltpi,id = <1>;
 				status = "disabled";
@@ -1617,6 +1631,7 @@
 				#gpio-cells = <2>;
 				interrupts = <181>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				direction = "input";
 				ngpios = <64>;
 				label = "llgpi1";
@@ -1643,6 +1658,7 @@
 				#gpio-cells = <2>;
 				interrupts = <182>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				direction = "input";
 				ngpios = <256>;
 				label = "nlgpi1";
@@ -1728,6 +1744,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART4>;
 				interrupt-parent = <&intc>;
 				interrupts = <24>;
+				dmas = <&dma_uart 8>, <&dma_uart 9>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1742,6 +1760,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART5>;
 				interrupt-parent = <&intc>;
 				interrupts = <25>;
+				dmas = <&dma_uart 10>, <&dma_uart 11>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1756,6 +1776,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART6>;
 				interrupt-parent = <&intc>;
 				interrupts = <26>;
+				dmas = <&dma_uart 12>, <&dma_uart 13>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1770,6 +1792,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART7>;
 				interrupt-parent = <&intc>;
 				interrupts = <27>;
+				dmas = <&dma_uart 14>, <&dma_uart 15>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1784,6 +1808,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART8>;
 				interrupt-parent = <&intc>;
 				interrupts = <28>;
+				dmas = <&dma_uart 16>, <&dma_uart 17>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1798,6 +1824,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART9>;
 				interrupt-parent = <&intc>;
 				interrupts = <29>;
+				dmas = <&dma_uart 18>, <&dma_uart 19>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1812,6 +1840,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART10>;
 				interrupt-parent = <&intc>;
 				interrupts = <30>;
+				dmas = <&dma_uart 20>, <&dma_uart 21>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1826,6 +1856,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART11>;
 				interrupt-parent = <&intc>;
 				interrupts = <31>;
+				dmas = <&dma_uart 22>, <&dma_uart 23>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1840,6 +1872,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART12>;
 				interrupt-parent = <&intc>;
 				interrupts = <32>;
+				dmas = <&dma_uart 24>, <&dma_uart 25>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1854,6 +1888,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART13>;
 				interrupt-parent = <&intc>;
 				interrupts = <33>;
+				dmas = <&dma_uart 26>, <&dma_uart 27>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1868,6 +1904,8 @@
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_UART14>;
 				interrupt-parent = <&intc>;
 				interrupts = <34>;
+				dmas = <&dma_uart 28>, <&dma_uart 29>;
+				dma-names = "tx", "rx";
 				reg-io-width = <4>;
 				reg-shift = <2>;
 				status = "disabled";
@@ -1889,6 +1927,7 @@
 				resets = <&per0crg JHB100_PER0RST_GPIO_IOMUX_PRESETN>;
 				interrupts = <60>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph0 0 0 60>;
@@ -1997,7 +2036,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a18000 0x0 0x600>;
 				interrupts = <161>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C0>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C0>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C0>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C0>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2007,7 +2048,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a18800 0x0 0x600>;
 				interrupts = <162>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C1>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C1>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C1>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C1>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2017,7 +2060,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a19000 0x0 0x600>;
 				interrupts = <163>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C2>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C2>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C2>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C2>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2027,7 +2072,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a19800 0x0 0x600>;
 				interrupts = <164>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C3>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C3>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C3>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C3>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2037,7 +2084,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1a000 0x0 0x600>;
 				interrupts = <165>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C4>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C4>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C4>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C4>;
 				reset-names = "core_rst";
 				syscon = <&i3c4_syscon>;
@@ -2054,7 +2103,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1a800 0x0 0x600>;
 				interrupts = <166>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C5>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C5>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C5>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C5>;
 				reset-names = "core_rst";
 				syscon = <&i3c5_syscon>;
@@ -2071,7 +2122,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1b000 0x0 0x600>;
 				interrupts = <167>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C6>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C6>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C6>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C6>;
 				reset-names = "core_rst";
 				syscon = <&i3c6_syscon>;
@@ -2088,7 +2141,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1b800 0x0 0x600>;
 				interrupts = <168>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C7>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C7>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C7>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C7>;
 				reset-names = "core_rst";
 				syscon = <&i3c7_syscon>;
@@ -2105,7 +2160,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1c000 0x0 0x600>;
 				interrupts = <169>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C8>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C8>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C8>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C8>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2115,7 +2172,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1c800 0x0 0x600>;
 				interrupts = <170>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C9>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C9>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C9>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C9>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2125,7 +2184,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1d000 0x0 0x600>;
 				interrupts = <171>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C10>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C10>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C10>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C10>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2135,7 +2196,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1d800 0x0 0x600>;
 				interrupts = <172>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C11>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C11>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C11>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C11>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2145,7 +2208,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1e000 0x0 0x600>;
 				interrupts = <173>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C12>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C12>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C12>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C12>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2155,7 +2220,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1e800 0x0 0x600>;
 				interrupts = <174>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C13>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C13>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C13>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C13>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2165,7 +2232,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1f000 0x0 0x600>;
 				interrupts = <175>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C14>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C14>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C14>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C14>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2175,7 +2244,9 @@
 				compatible = "starfive,jhb100-i3c";
 				reg = <0x0 0x11a1f800 0x0 0x600>;
 				interrupts = <176>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C15>;
+				clocks = <&per0crg JHB100_PER0CLK_CORE_I3C15>,
+					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_I3C15>;
+				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C15>;
 				reset-names = "core_rst";
 				status = "disabled";
@@ -2843,6 +2914,7 @@
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_SGPIO0>;
 				interrupts = <114>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				ngpios = <128>;
 				bus-frequency = <1200000>;
 				use-hw-data;
@@ -2860,6 +2932,7 @@
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_SGPIO1>;
 				interrupts = <115>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				ngpios = <128>;
 				bus-frequency = <1200000>;
 				use-hw-data;
@@ -2909,6 +2982,7 @@
 				resets = <&per1crg JHB100_PER1RST_IOMUX_PRESETN>;
 				interrupts = <61>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph1 0 0 36>;
@@ -2919,6 +2993,7 @@
 				reg = <0x0 0x11b42800 0x0 0x800>;
 				interrupts = <119>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_emmc 0 0 12>;
@@ -2931,6 +3006,7 @@
 				resets = <&per2crg JHB100_PER2RST_IOMUX_PRESETN>;
 				interrupts = <62>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph2 0 0 31>;
@@ -2942,6 +3018,7 @@
 				resets = <&per2crg JHB100_PER2RST_POK_IOMUX_PRESETN>;
 				interrupts = <63>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph2_pok 0 0 18>;
@@ -2953,6 +3030,7 @@
 				resets = <&per2crg JHB100_PER2RST_ADC0_IOMUX_PRESETN>;
 				interrupts = <147>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_adc0 0 0 8>;
@@ -2964,6 +3042,7 @@
 				resets = <&per2crg JHB100_PER2RST_ADC1_IOMUX_PRESETN>;
 				interrupts = <148>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_adc1 0 0 8>;
@@ -3056,6 +3135,7 @@
 				resets = <&per3crg JHB100_PER3RST_IOMUX_PRESETN>;
 				interrupts = <64>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_bmcperiph3 0 0 11>;
@@ -3116,6 +3196,7 @@
 				resets = <&sys0crg JHB100_SYS0RST_SYS0_IOMUX_PRESETN>;
 				interrupts = <56>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_sys0 0 0 4>;
@@ -3127,6 +3208,7 @@
 				resets = <&sys0crg JHB100_SYS0RST_SYS0H_IOMUX_PRESETN>;
 				interrupts = <57>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_sys0h 0 0 12>;
@@ -3138,6 +3220,7 @@
 				resets = <&sys1crg JHB100_SYS1RST_SYS1_IOMUX_PRESETN>;
 				interrupts = <58>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_sys1 0 0 8>;
@@ -3148,6 +3231,7 @@
 				reg = <0x0 0x13082000 0x0 0x1000>;
 				interrupts = <59>;
 				interrupt-controller;
+				#interrupt-cells = <2>;
 				gpio-controller;
 				#gpio-cells = <2>;
 				gpio-ranges = <&pinctrl_sys2 0 0 37>;
@@ -3339,10 +3423,11 @@
 				status = "disabled";
 			};
 
-			ddrc_edac: ddr_controller_edac@16100000 {
+			ddrc_edac: memory-controller@16000000 {
 				compatible = "starfive,jhb100-ddrc";
-				reg = <0x0 0x16100000 0x0 0x100000>;
+				reg = <0x0 0x16000000 0x0 0x100000>;
 				interrupts = <70>;
+				starfive,data-width = <16>;
 				status = "disabled";
 			};
 

@@ -101,17 +101,76 @@
 
 &i3c0 {
 	i2c-scl-hz = <400000>;
-	i3c-scl-hz = <1000000>;
+	i3c-scl-hz = <12500000>;
 	mode = "master";
-	hotjoin;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i3c0lv_pins>;
-	status = "disabled";
+	i3c-od-scl-high-ns = <1000>;
+	i3c-od-scl-low-ns = <1500>;
+	i3c-pp-scl-high-ns = <60>;
+	i3c-pp-scl-low-ns = <100>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0xf>;
+	is-mng;
+	status = "okay";
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	hub@0,0 {
+		reg = <0x0 0x0 0x0>;
+		cp0-ldo-en = "disabled";
+		cp1-ldo-en = "disabled";
+		cp0-ldo-volt = "1.0V";
+		cp1-ldo-volt = "1.0V";
+		tp0145-ldo-en = "disabled";
+		tp2367-ldo-en = "disabled";
+		tp0145-ldo-volt = "1.0V";
+		tp2367-ldo-volt = "1.0V";
+		tp0145-pullup = "2k";
+		tp2367-pullup = "2k";
+		tp0145-io-strength = "50Ohms";
+		tp2367-io-strength = "50Ohms";
+
+		target-port@0 {
+			mode = "i3c";
+			pullup = "enabled";
+		};
+		target-port@1 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@2 {
+			mode = "i3c";
+			pullup = "disabled";
+		};
+		target-port@3 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@4 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@5 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@6 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@7 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+	};
 };
 
 &i3c1 {
 	i2c-scl-hz = <400000>;
-	i3c-scl-hz = <1000000>;
+	i3c-scl-hz = <12500000>;
 	mode = "master";
 	hotjoin;
 	pinctrl-names = "default";
@@ -121,7 +180,7 @@
 
 &i3c2 {
 	i2c-scl-hz = <400000>;
-	i3c-scl-hz = <1000000>;
+	i3c-scl-hz = <12500000>;
 	mode = "master";
 	hotjoin;
 	pinctrl-names = "default";
@@ -150,9 +209,9 @@
 };
 
 &jtag1 {
-	pinctrl-names = "default";
+	pinctrl-names = "jtag";
 	pinctrl-0 = <&jtagm1_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &peci0 {
@@ -178,9 +237,9 @@
 	num-cs = <1>;
 };
 
-&sgpio1 {
+&sgpio0 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&sgpio1_pins>;
+	pinctrl-0 = <&sgpio0_pins>;
 	status = "okay";
 
 	gpio-line-names =
