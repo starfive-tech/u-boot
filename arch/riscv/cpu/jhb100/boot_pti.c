@@ -122,25 +122,16 @@ int starfive_get_partition_num(int boot_src, int part_type, int img_type)
 	case BOOT_SRC_SFC:
 		break;
 	case BOOT_SRC_EMMC: {
-#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 		/* Send RPMI/MPXY message via mailbox */
 		GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
 
 		return emmc_partition_map[resp_data[1] & GET_BMCFW_INFO_EMMC_UFS_PARTITION_MASK];
-#endif
-		if (img_type == IMG_TYPE_UBOOT_PROPER) {
-			return (part_type == PT_ACTIVE) ?
-				EMMC_BOOT0_PART : EMMC_BOOT1_PART;
-		} else if (img_type == IMG_TYPE_KERNEL) {
-			return EMMC_UDA_PART;
-		}
-		break;
 	}
 	default:
 		printf("Unknown boot source\n");
 	}
 
-	return 0;
+	return -EINVAL;
 }
 
 int starfive_get_partition_offset(int boot_src, int part_type, int img_type)
@@ -148,45 +139,18 @@ int starfive_get_partition_offset(int boot_src, int part_type, int img_type)
 	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
 		printf("fn(): %s\n", __func__);
 	switch (boot_src) {
-	case BOOT_SRC_SFC: {
-#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
-		/* Send RPMI/MPXY message via mailbox */
-		GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
-
-		return resp_data[2];
-#endif
-		if (img_type == IMG_TYPE_UBOOT_PROPER) {
-			return (part_type == PT_ACTIVE) ?
-				SFC_UBOOT_PROPER_ACTIVE_OFFS : SFC_UBOOT_PROPER_GOLDEN_OFFS;
-		} else if (img_type == IMG_TYPE_KERNEL) {
-			return (part_type == PT_ACTIVE) ?
-				SFC_KERNEL_ACTIVE_OFFS : SFC_KERNEL_GOLDEN_OFFS;
-		}
-		break;
-	}
+	case BOOT_SRC_SFC:
 	case BOOT_SRC_EMMC: {
-#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 		/* Send RPMI/MPXY message via mailbox */
 		GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
 
 		return boot_src == BOOT_SRC_EMMC ? resp_data[2] / MMC_BLK_SIZE : resp_data[2];
-#endif
-		if (img_type == IMG_TYPE_UBOOT_PROPER) {
-			return (part_type == PT_ACTIVE) ?
-				(EMMC_UBOOT_PROPER_ACTIVE_OFFS / MMC_BLK_SIZE)
-				 : (EMMC_UBOOT_PROPER_GOLDEN_OFFS / MMC_BLK_SIZE);
-		} else if (img_type == IMG_TYPE_KERNEL) {
-			return (part_type == PT_ACTIVE) ?
-				(EMMC_KERNEL_ACTIVE_OFFS / MMC_BLK_SIZE)
-				 : (EMMC_KERNEL_GOLDEN_OFFS / MMC_BLK_SIZE);
-		}
-		break;
 	}
 	default:
 		printf("Unknown boot source\n");
 	}
 
-	return 0;
+	return -EINVAL;
 }
 
 int starfive_get_sfc_cs_line_num(void)
