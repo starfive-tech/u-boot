@@ -383,7 +383,11 @@ static int eqos_stop_resets_jhb100(struct udevice *dev)
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
 
-	return reset_assert_bulk(&data->resets);
+	/* Asserting JHB100 GMAC Controller is unsafe, as some
+	 * framework paths may still access its registers,
+	 * leading to CPU hang.
+	 */
+	return 0;
 }
 
 static int eqos_remove_resources_jhb100(struct udevice *dev)
@@ -395,7 +399,7 @@ static int eqos_remove_resources_jhb100(struct udevice *dev)
 	clk_disable_bulk(&data->clks);
 
 	if (data->interface == PHY_INTERFACE_MODE_SGMII)
-		generic_phy_power_off(&data->phy);
+		generic_phy_exit(&data->phy);
 
 	return 0;
 }
