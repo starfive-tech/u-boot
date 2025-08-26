@@ -380,9 +380,6 @@ static int eqos_start_resets_jhb100(struct udevice *dev)
 
 static int eqos_stop_resets_jhb100(struct udevice *dev)
 {
-	struct eth_pdata *pdata = dev_get_plat(dev);
-	struct starfive_platform_data *data = pdata->priv_pdata;
-
 	/* Asserting JHB100 GMAC Controller is unsafe, as some
 	 * framework paths may still access its registers,
 	 * leading to CPU hang.
