@@ -23,7 +23,7 @@
 #include "mailbox_rpmi_shmem.h"
 #include <dm/ofnode_decl.h>
 #include <dm/lists.h>
-
+#include <watchdog.h>
 struct rpmi_mbox_priv {
 	struct rpmi_shmem_mbox_controller *mctl;
 };
@@ -108,6 +108,7 @@ static int rpmi_shmem_mbox_rx(struct mbox_chan *chan, void *data)
 	/* Rx */
 	qctx = &mctl->queue_ctx_tbl[RPMI_QUEUE_IDX_P2A_ACK];
 
+	schedule();
 	if (__smq_queue_empty(qctx))
 		return -ENODATA;
 
