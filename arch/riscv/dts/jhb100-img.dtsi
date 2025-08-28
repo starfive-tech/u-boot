@@ -18,12 +18,6 @@
 				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/u-boot-nodtb.bin ./input_files/jhb100/uboot_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../opensbi/build/platform/generic/firmware/fw_dynamic.bin ./input_files/jhb100/opensbi_sec.cfg 0 ../../opensbi/build/platform/generic/firmware/ > /dev/null; ./mkbif_secure ../../u-boot/u-boot.dtb ./input_files/jhb100/ubootdtb_sec.cfg 0 ../../u-boot/ > /dev/null";
 			};
 		};
-
-		kernel_sign {
-			signing_image {
-				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/Image ./input_files/jhb100/linux_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../u-boot/jhb100-evb1-eth-linux.dtb ./input_files/jhb100/linuxdtb_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../u-boot/rootfs.cpio ./input_files/jhb100/linuxrofs_sec.cfg 0 ../../u-boot/ > /dev/null";
-			};
-		};
 #else
 		spl_sign {
 			signing_image {
@@ -34,38 +28,9 @@
 	};
 };
 
-#include "jhb100-binman.dtsi"
+#include "binman.dtsi"
 &binman {
 #ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
-	kernel_fit {
-		filename = "kernel.itb";
-
-		fit {
-			description = "FIT with Linux kernel image, FDT and ramfs";
-			#address-cells = <1>;
-
-			images {
-				kernel {
-					kernel_blob: blob-ext {
-						filename = "Image.secure.out";
-					};
-				};
-
-				fdt_kernel {
-					fdt_kernel_blob: blob-ext {
-						filename = "jhb100-evb1-eth-linux.dtb.secure.out";
-					};
-				};
-
-				ramfs {
-					ramfs_blob: blob-ext {
-						filename = "rootfs.cpio.secure.out";
-					};
-				};
-			};
-		};
-	};
-
 	itb {
 		fit {
 			images {
