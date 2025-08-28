@@ -188,6 +188,7 @@ int starfive_get_sfc_cs(int part_type, int img_type)
 	return (resp_data[1] & GET_BMCFW_INFO_SFC_CS_NUM_MASK) >> GET_BMCFW_INFO_SFC_CS_NUM_SHIFT;
 }
 
+void set_verify_rofs_flag(int val);
 int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type)
 {
 	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
@@ -210,6 +211,8 @@ int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type)
 
 	if (ret)
 		return ret;
+
+	set_verify_rofs_flag(!resp_data[0]);
 
 	return resp_data[0];
 #else

@@ -67,12 +67,35 @@ int mmc_get_env_dev(void)
 	}
 }
 
+static int verify_rofs = 0;
+
+void set_verify_rofs_flag(int val)
+{
+	verify_rofs = !!val;
+}
+
 u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size);
 void board_fit_image_post_process(const void *fit, int node, void **p_image, size_t *p_size)
 {
 #ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
+#ifdef CONFIG_SPL_BUILD
 	if (starfive_jhb100_vendor_authentication(p_image, p_size))
 		hang();
+#else
+	int boot_mode = GET_BOOT_SRC;
+	switch (boot_mode) {
+	case BOOT_SRC_EMMC:
+	case BOOT_SRC_UFS:
+		if (!verify_rofs) {
+			if (starfive_jhb100_vendor_authentication(p_image, p_size))
+				hang();
+		}
+		break;
+	default:
+		if (starfive_jhb100_vendor_authentication(p_image, p_size))
+			hang();
+	}
+#endif
 #endif
 #ifndef CONFIG_SPL_BUILD
 	/* Important that FDT is modified after authentication */
