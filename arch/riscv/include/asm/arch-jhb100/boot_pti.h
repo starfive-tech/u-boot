@@ -68,7 +68,7 @@ struct boot_stat_reg {
 	u32 boot_src		: 2;
 	u32 rsvd_0		: 2;
 	u32 image_flg		: 3; /* Refer Partition Type */
-	u32 rsvd_1		: 3;
+	u32 rsvd_1		: 1;
 	u32 retry_cnt		: 4;
 	u32 rsvd_2		: 19;
 	u32 error		: 1;
