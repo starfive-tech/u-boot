@@ -69,10 +69,10 @@
 		"NC", "NC", "NC", "NC",						/* GPIOB52-55 */
 		"NC", "NC", "NC", "NC";						/* GPIOB56-59 */
 
-	gpioe-i3c0-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOB8-11, 32-33 */
-	gpioe-i3c1-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOB12-15, 34-35 */
-	gpioe-i3c2-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOB16-23 */
-	gpioe-i3c4-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOB36-43 */
+	gpioe-i3c0-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOB8-11, 32-33 */
+	gpioe-i3c1-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOB12-15, 34-35 */
+	gpioe-i3c2-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOB16-23 */
+	gpioe-i3c4-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOB36-43 */
 
 	gpiob41 {
 		gpio-hog;
