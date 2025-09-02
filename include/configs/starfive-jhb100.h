@@ -494,9 +494,9 @@
 	"envloadaddr=0x4fdbe000\0"	\
 	"kernel_addr_r=0x77000000\0"			\
 	"kernel_comp_addr_r=0x60000000\0"		\
-	"kernel_comp_size=0x4000000\0"			\
-	"kernel_fit_load_size=0x4000000\0"		\
-	"kernel_fit_comp_load_size=0x4000000\0"		\
+	"kernel_comp_size=0x1000000\0"			\
+	"kernel_fit_load_size=0x1000000\0"		\
+	"kernel_fit_comp_load_size=0x1000000\0"		\
 	"fdt_addr_r=0x6df00000\0"			\
 	"load_comp_addr=0x47000000\0"	\
 	"ramdisk_size=0x8000000\0"			\
