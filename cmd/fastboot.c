@@ -47,6 +47,8 @@ static void vf2_cm_lite_usb_device_enable(void)
 {
 	AON_IOMUX_DOEN(0, LOW);
 	AON_IOMUX_DOUT(0, 1); /* rgpio0 output high level */
+	SYS_IOMUX_DOEN(62, LOW);
+	SYS_IOMUX_DOUT(62, 1); /* gpio62 output high level */
 }
 #endif
 
