@@ -15,7 +15,7 @@
 
 #define CONFIG_SYS_EEPROM_BUS_NUM		0
 
-#define FORMAT_VERSION				0x2
+#define FORMAT_VERSION				0x3
 #define PCB_VERSION				0xB1
 #define BOM_VERSION				'A'
 /*
@@ -123,7 +123,8 @@ struct starfive_eeprom_atom4_v1_data {
 	u8 bom_revision;		/* BOM version */
 	u8 mac0_addr[MAC_ADDR_BYTES];	/* Ethernet0 MAC */
 	u8 mac1_addr[MAC_ADDR_BYTES];	/* Ethernet1 MAC */
-	u8 reserved[2];
+	u8 wifi_bt;			/* WIFI/BT support flag */
+	u8 reserved;
 };
 
 struct starfive_eeprom_atom4_v1 {
@@ -151,6 +152,7 @@ struct starfive_eeprom_info {
 	u8 *bom_revision;	/* BOM version in ATOM4 */
 	u8 *mac0_addr;		/* Ethernet0 MAC in ATOM4 */
 	u8 *mac1_addr;		/* Ethernet1 MAC in ATOM4 */
+	u8 *wifi_bt;		/* WIFI/BT support flag in ATOM4 */
 };
 static struct starfive_eeprom_info einfo;
 
@@ -192,7 +194,8 @@ static struct starfive_eeprom_atom4_v1 starfive_eeprom_atom4_v1_default = {
 		.bom_revision = BOM_VERSION,
 		.mac0_addr = STARFIVE_DEFAULT_MAC0,
 		.mac1_addr = STARFIVE_DEFAULT_MAC1,
-		.reserved = {0}
+		.wifi_bt = 0,
+		.reserved = 0
 	}
 };
 
@@ -345,24 +348,31 @@ static void *hats_get_atom(struct eeprom_hats_header *header, u16 type)
  */
 static void show_eeprom(struct starfive_eeprom_info *einfo)
 {
+	ulong vf2_board_type;
+
 	if (has_been_read != 1)
 		return;
+
+	vf2_board_type = env_get_ulong("vf2_board_type", 10, 0);
 
 	printf("\n--------EEPROM INFO--------\n");
 	printf("Vendor : %s\n", einfo->vstr);
 	printf("Product full SN: %s\n", einfo->pstr);
 	printf("data version: 0x%x\n", *einfo->version);
-	if (2 == *einfo->version) {
+	if (2 <= *einfo->version) {
 		printf("PCB revision: 0x%x\n", *einfo->pcb_revision);
 		printf("BOM revision: %c\n", *einfo->bom_revision);
+		if (3 <= *einfo->version)
+			printf("WIFI/BT support: %0x\n", *einfo->wifi_bt);
 		printf("Ethernet MAC0 address: %02x:%02x:%02x:%02x:%02x:%02x\n",
 		       einfo->mac0_addr[0], einfo->mac0_addr[1],
 		       einfo->mac0_addr[2], einfo->mac0_addr[3],
 		       einfo->mac0_addr[4], einfo->mac0_addr[5]);
-		printf("Ethernet MAC1 address: %02x:%02x:%02x:%02x:%02x:%02x\n",
-		       einfo->mac1_addr[0], einfo->mac1_addr[1],
-		       einfo->mac1_addr[2], einfo->mac1_addr[3],
-		       einfo->mac1_addr[4], einfo->mac1_addr[5]);
+		if (vf2_board_type != 1 && vf2_board_type != 2)
+			printf("Ethernet MAC1 address: %02x:%02x:%02x:%02x:%02x:%02x\n",
+			       einfo->mac1_addr[0], einfo->mac1_addr[1],
+			       einfo->mac1_addr[2], einfo->mac1_addr[3],
+			       einfo->mac1_addr[4], einfo->mac1_addr[5]);
 	} else {
 		printf("Custom data v%d is not Supported\n", *einfo->version);
 	}
@@ -420,11 +430,12 @@ static int parse_eeprom_info(struct eeprom_hats_header *buf)
 			    sizeof(struct eeprom_hats_atom_header);
 		atom4_v1 = (struct starfive_eeprom_atom4_v1_data *)atom_data;
 		einfo.version = &atom4_v1->version;
-		if (*einfo.version == 2) {
+		if (*einfo.version >= 2) {
 			einfo.pcb_revision = &atom4_v1->pcb_revision;
 			einfo.bom_revision = &atom4_v1->bom_revision;
 			einfo.mac0_addr =  atom4_v1->mac0_addr;
 			einfo.mac1_addr =  atom4_v1->mac1_addr;
+			einfo.wifi_bt = &atom4_v1->wifi_bt;
 		}
 	} else  {
 		printf("fail to get custom data atom\n");
@@ -618,6 +629,34 @@ static void set_bom_revision(char *string)
 }
 
 /**
+ * set_wifi_bt() - stores a StarFive WIFI/BT support flag into the local EEPROM copy
+ *
+ * Takes a pointer to a string representing the numeric WIFI/BT support flag in
+ * decimal ("0" - "255"), stores it in the wifi_bt field of the
+ * EEPROM local copy, and updates the CRC of the local copy.
+ */
+static void set_wifi_bt(char *string)
+{
+	u8 wifi_bt;
+	uint base = 16;
+	struct eeprom_hats_atom_header *atom4;
+	atom4 = (struct eeprom_hats_atom_header *)
+		hats_get_atom((struct eeprom_hats_header *)eeprom_wp_buff,
+			      HATS_ATOM_CUSTOM);
+
+	wifi_bt = (u8)simple_strtoul(string, NULL, base);
+	if (wifi_bt > U8_MAX) {
+		printf("%s must not be greater than %d\n", "WIFI/BT support flag",
+		       U8_MAX);
+		return;
+	}
+
+	*einfo.wifi_bt = wifi_bt;
+
+	update_crc(atom4);
+}
+
+/**
  * set_product_id() - stores a StarFive product ID into the local EEPROM copy
  *
  * Takes a pointer to a string representing the numeric product ID  in
@@ -681,6 +720,8 @@ static int print_usage(void)
 	"    - stores a StarFive PCB revision into the local EEPROM copy\n"
 	"mac bom_revision <A>\n"
 	"    - stores a StarFive BOM revision into the local EEPROM copy\n"
+	"mac wifi_bt <?>\n"
+	"    - stores a StarFive WIFI/BT support flag into the local EEPROM copy\n"
 	"mac product_id <VF7110A1-2228-D008E000-xxxxxxxx>\n"
 	"    - stores a StarFive product ID into the local EEPROM copy\n");
 	return 0;
@@ -737,12 +778,65 @@ int do_mac(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 	} else if (!strcmp(cmd, "bom_revision")) {
 		set_bom_revision(argv[2]);
 		return 0;
+	} else if (!strcmp(cmd, "wifi_bt")) {
+		set_wifi_bt(argv[2]);
+		return 0;
 	} else if (!strcmp(cmd, "product_id")) {
 		set_product_id(argv[2]);
 		return 0;
 	}
 
 	return print_usage();
+}
+
+const char *get_product_id_from_eeprom(void)
+{
+	if (read_eeprom(eeprom_wp_buff))
+		return NULL;
+
+	return einfo.pstr;
+}
+
+/* vf2_board_type
+ * 0: JH7110B VF2 1.3b or JH7110A VF2 1.2a
+ * 1: JH7110S VF2 CM
+ * 2: JH7110S VF2 Lite
+ */
+int get_vf2_board_type(void)
+{
+	const char *product_id;
+	unsigned long vf2_board_type = 0;
+
+	product_id = get_product_id_from_eeprom();
+	if (!strncmp(product_id, "VF7110S", 7)) {
+		if (product_id[7] == 'C')
+			vf2_board_type = 1;
+		else if (product_id[7] == 'L')
+			vf2_board_type = 2;
+	}
+
+#ifndef CONFIG_SPL_BUILD
+	env_set_ulong("vf2_board_type", vf2_board_type);
+#endif
+	return (int)vf2_board_type;
+}
+
+unsigned long get_mmc_size_from_eeprom(void)
+{
+	const char *product_id;
+	unsigned long size = 0;
+
+	product_id = get_product_id_from_eeprom();
+	size = dectoul(&product_id[19], NULL);
+
+	if (product_id[21] == 'T')
+		size <<= 10;
+
+#ifndef CONFIG_SPL_BUILD
+	env_set_ulong("emmc_size", size);
+#endif
+
+	return size;
 }
 
 /**
@@ -759,6 +853,8 @@ int do_mac(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
  */
 int mac_read_from_eeprom(void)
 {
+	int vf2_board_type = 0;
+
 	/**
 	 * try to fill the buff from EEPROM,
 	 * always return SUCCESS, even some error happens.
@@ -768,9 +864,12 @@ int mac_read_from_eeprom(void)
 		return 0;
 	}
 
+	vf2_board_type = get_vf2_board_type();
+
 	// 1, setup ethaddr env
 	eth_env_set_enetaddr("eth0addr", einfo.mac0_addr);
-	eth_env_set_enetaddr("eth1addr", einfo.mac1_addr);
+	if (vf2_board_type != 1 && vf2_board_type != 2)
+		eth_env_set_enetaddr("eth1addr", einfo.mac1_addr);
 
 	/**
 	 * 2, setup serial# env, reference to hifive-platform-i2c-eeprom.c,

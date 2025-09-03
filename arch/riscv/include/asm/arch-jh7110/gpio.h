@@ -50,6 +50,8 @@ enum gpio_state {
 #define GPIO_HIGH_IE	0x104
 #define GPIO_CONFIG	0x120
 
+#define GPIO_AON_DOEN	0x0
+#define GPIO_AON_DOUT	0x4
 
 /* Details about a GPIO bank */
 struct starfive_gpio_platdata {
@@ -88,6 +90,16 @@ struct starfive_gpio_platdata {
 		SYS_IOMUX_DOUT(gpio, gpo);\
 		SYS_IOMUX_DIN(gpio, gpi); \
 	} while (0)
+
+#define AON_IOMUX_DOEN(gpio, oen) \
+	clrsetbits_le32(AON_IOMUX_BASE + GPIO_AON_DOEN, \
+		GPIO_DOEN_MASK <<  GPIO_SHIFT(gpio), \
+		(oen) << GPIO_SHIFT(gpio))
+
+#define AON_IOMUX_DOUT(gpio, gpo) \
+	clrsetbits_le32(AON_IOMUX_BASE + GPIO_AON_DOUT, \
+		GPIO_DOUT_MASK << GPIO_SHIFT(gpio), \
+		((gpo) & GPIO_DOUT_MASK) << GPIO_SHIFT(gpio))
 
 #ifdef __cplusplus
 }

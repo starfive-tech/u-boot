@@ -6,6 +6,9 @@
  * (C) Copyright 2014 Linaro, Ltd.
  * Rob Herring <robh@kernel.org>
  */
+#include <asm/io.h>
+#include <asm/arch/jh7110-regs.h>
+#include <asm/arch/gpio.h>
 #include <common.h>
 #include <command.h>
 #include <console.h>
@@ -14,6 +17,7 @@
 #include <net.h>
 #include <usb.h>
 #include <watchdog.h>
+#include <linux/delay.h>
 #include <linux/stringify.h>
 
 static int do_fastboot_udp(int argc, char *const argv[],
@@ -34,6 +38,20 @@ static int do_fastboot_udp(int argc, char *const argv[],
 #endif
 }
 
+#define RUN_FB_SF_PRESETTING				\
+	"fdt set /soc/usbdrd starfive,usb2-only <0x1>;"	\
+	"fdt set /soc/usbdrd/usb@10100000 dr_num_mode <0x2>;"
+
+#ifdef CONFIG_TARGET_STARFIVE_VISIONFIVE2
+static void vf2_cm_lite_usb_device_enable(void)
+{
+	AON_IOMUX_DOEN(0, LOW);
+	AON_IOMUX_DOUT(0, 1); /* rgpio0 output high level */
+	SYS_IOMUX_DOEN(62, LOW);
+	SYS_IOMUX_DOUT(62, 1); /* gpio62 output high level */
+}
+#endif
+
 static int do_fastboot_usb(int argc, char *const argv[],
 			   uintptr_t buf_addr, size_t buf_size)
 {
@@ -43,11 +61,18 @@ static int do_fastboot_usb(int argc, char *const argv[],
 	char *endp;
 	int ret;
 
-#ifdef CONFIG_TARGET_STARFIVE_DEVKITS
-#define RUN_FB_SF_PRESETTING				\
-	"fdt set /soc/usbdrd starfive,usb2-only <0x1>;"	\
-	"fdt set /soc/usbdrd/usb@10100000 dr_num_mode <0x2>;"
+#ifdef CONFIG_TARGET_STARFIVE_VISIONFIVE2
+	ulong vf2_board_type;
 
+	vf2_board_type = env_get_ulong("vf2_board_type", 10, 0);
+	if (vf2_board_type == 1 || vf2_board_type == 2) {
+		run_command_list(RUN_FB_SF_PRESETTING, -1, 0);
+		vf2_cm_lite_usb_device_enable();
+		mdelay(10);
+	}
+#endif
+
+#ifdef CONFIG_TARGET_STARFIVE_DEVKITS
 	run_command_list(RUN_FB_SF_PRESETTING, -1, 0);
 #endif
 

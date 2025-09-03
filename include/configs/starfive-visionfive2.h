@@ -232,6 +232,20 @@
 	"run visionfive2_mem_set;"		\
 	"run chipa_set;\0"
 
+#define FDT_CONF_SET					\
+	"fdt_conf_set="					\
+	"if test ${vf2_board_type} = 1; then "		\
+		"setenv fdt_conf config-cm;"		\
+	"elif test ${vf2_board_type} = 2; then "	\
+		"if test ${emmc_size} = 0; then "	\
+			"setenv fdt_conf config-lite;"	\
+		"else "					\
+			"setenv fdt_conf config-lite-emmc;"	\
+		"fi; "					\
+	"else "						\
+		"setenv fdt_conf config-default;"	\
+	"fi; \0"
+
 #define VF2_SDK_BOOTENV			\
 	"bootenv=uEnv.txt\0"		\
 	"bootenv_sdk=vf2_uEnv.txt\0"	\
@@ -309,6 +323,11 @@
 		"fatload ${bootdev} ${devnum}:${bootpart} ${loadaddr} /${bootenv}; " \
 		"env import -t ${loadaddr} ${filesize}; \0" \
 	"bootcmd_distro="	\
+		"if test ${vf2_board_type} = 1; then "   \
+		    "setenv bootenv uEnv_CM.txt;"    \
+		"elif test ${vf2_board_type} = 2; then "    \
+		    "setenv bootenv uEnv_Lite.txt;"    \
+		"fi;" \
 		"run load_distro_uenv; " \
 		"sysboot ${bootdev} ${devnum}:${bootpart} fat ${scriptaddr} /${boot_syslinux_conf}; \0" \
 	"distro_mmc_test_and_boot="					\
@@ -383,6 +402,7 @@
 	CPU_FREQ_VOL_SET				\
 	CMA_SIZE_SET					\
 	VISIONFIVE2_MEM_SET				\
+	FDT_CONF_SET					\
 	"type_guid_gpt_loader1=" TYPE_GUID_LOADER1 "\0" \
 	"type_guid_gpt_loader2=" TYPE_GUID_LOADER2 "\0" \
 	"type_guid_gpt_system=" TYPE_GUID_SYSTEM "\0"	\

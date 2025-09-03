@@ -9,6 +9,7 @@
 #include <asm/io.h>
 #include <asm/arch/eeprom.h>
 #include <asm/arch/jh7110-regs.h>
+#include <asm/sections.h>
 #include <cpu_func.h>
 #include <dm/uclass.h>
 #include <dm/device.h>
@@ -28,6 +29,7 @@
 #define PCB_REVISION_SHIFT	4
 #define PCB_REVISION_A		0x0A
 #define PCB_REVISION_B		0x0B
+#define PCB_REVISION_C		0x0C
 #define CHIP_REVISION_SHIFT	80
 
 #define CPU_VOL_BINNING_OFFSET 0x7fc
@@ -44,12 +46,14 @@ enum {
 enum chip_type_t {
 	CHIP_A = 0,
 	CHIP_B,
+	CHIP_S,
 	CHIP_MAX,
 };
 
 enum board_type_t {
 	BOARD_1000M_1000M = 0,
 	BOARD_1000M_100M,
+	BOARD_1000M,
 	BOARD_TYPE_MAX,
 };
 
@@ -188,6 +192,11 @@ static int get_chip_type(void)
 		type = CHIP_B;
 		env_set("chip_vision", "B");
 		break;
+	case 's':
+	case 'S':
+		type = CHIP_S;
+		env_set("chip_vision", "S");
+		break;
 	default:
 		type = CHIP_MAX;
 		env_set("chip_vision", "UNKOWN");
@@ -207,6 +216,8 @@ static int get_board_type(void)
 		type = BOARD_1000M_100M;
 	} else if (pv == PCB_REVISION_B) {
 		type = BOARD_1000M_1000M;
+	} else if (pv == PCB_REVISION_C) {
+		type = BOARD_1000M;
 	} else {
 		type = BOARD_TYPE_MAX;
 	}
@@ -220,6 +231,7 @@ static void jh7110_gmac_init(int chip_type, int pcb_type)
 		case CHIP_A:
 			break;
 		case CHIP_B:
+		case CHIP_S:
 		default:
 			jh7110_gmac_sel_tx_to_rgmii(0);
 			jh7110_gmac_sel_tx_to_rgmii(1);
@@ -233,6 +245,7 @@ static void jh7110_gmac_init(int chip_type, int pcb_type)
 			break;
 
 		case BOARD_1000M_1000M:
+		case BOARD_1000M:
 		default:
 			jh7110_gmac_init_1000M(0);
 			jh7110_gmac_init_1000M(1);
@@ -429,6 +442,7 @@ int board_late_init(void)
 	u64 share_ram_addr;
 
 	get_boot_mode();
+	get_mmc_size_from_eeprom();
 
 	jh7110_gmac_init(get_chip_type(), get_board_type());
 	/*
@@ -566,4 +580,12 @@ static int resize_ddr_from_eeprom(void)
 int board_ddr_size(void)
 {
 	return resize_ddr_from_eeprom();
+}
+
+void *board_fdt_blob_setup(void)
+{
+	if (gd->arch.firmware_fdt_addr)
+		return (ulong *)gd->arch.firmware_fdt_addr;
+	else
+		return (ulong *)&_end;
 }

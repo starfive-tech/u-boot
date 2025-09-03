@@ -35,17 +35,6 @@
 		reg = <0x0 0x40000000 0x1 0x0>;
 	};
 
-	reserved-memory {
-			#size-cells = <2>;
-			#address-cells = <2>;
-			ranges;
-
-			opensbi {
-				reg = <0x00 0x40000000 0x00 0x80000>;
-				no-map;
-			};
-	};
-
 	soc {
 	};
 
@@ -392,20 +381,16 @@
 };
 
 &pcie0 {
-	pinctrl-names = "perst-default", "perst-active", "wake-default", "clkreq-default";
+	pinctrl-names = "perst-default", "perst-active";
 	pinctrl-0 = <&pcie0_perst_default>;
-	pinctrl-1 = <&pcie0_perst_active>;
-	pinctrl-2 = <&pcie0_wake_default>;
-	pinctrl-3 = <&pcie0_clkreq_default>;
+	pinctrl-1 = <&pcie0_perst_active>, <&pcie0_wake_default>, <&pcie0_clkreq_default>;
 	status = "okay";
 };
 
 &pcie1 {
-	pinctrl-names = "perst-default", "perst-active", "wake-default", "clkreq-default";
+	pinctrl-names = "perst-default", "perst-active";
 	pinctrl-0 = <&pcie1_perst_default>;
-	pinctrl-1 = <&pcie1_perst_active>;
-	pinctrl-2 = <&pcie1_wake_default>;
-	pinctrl-3 = <&pcie1_clkreq_default>;
+	pinctrl-1 = <&pcie1_perst_active>, <&pcie1_wake_default>, <&pcie1_clkreq_default>;
 	status = "okay";
 };
 
