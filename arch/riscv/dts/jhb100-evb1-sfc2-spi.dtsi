@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+&sfc2 {
+	compatible = "starfive,jhb100-sfc-spi";
+	pinctrl-names = "default";
+	pinctrl-0 = <&sfc2_2cs_spi_pins>;
+	/delete-property/ dmas;
+	/delete-property/ dma-names;
+	status = "okay";
+
+	spi_dev2: spi@0 {
+		compatible = "rohm,dh2228fv";
+		spi-max-frequency = <20000000>;
+		reg = <0>;
+	};
+
+	spi_dev3: spi@1 {
+		compatible = "rohm,dh2228fv";
+		spi-max-frequency = <20000000>;
+		reg = <1>;
+	};
+};

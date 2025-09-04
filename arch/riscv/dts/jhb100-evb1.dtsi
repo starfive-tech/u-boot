@@ -78,6 +78,23 @@
 		i2c30 = &i2c15_master;
 		i2c31 = &i2c15_slave;
 
+		i2c32 = &i3c0;
+		i2c33 = &i3c1;
+		i2c34 = &i3c2;
+		i2c35 = &i3c3;
+		i2c36 = &i3c4;
+		i2c37 = &i3c5;
+		i2c38 = &i3c6;
+		i2c39 = &i3c7;
+		i2c40 = &i3c8;
+		i2c41 = &i3c9;
+		i2c42 = &i3c10;
+		i2c43 = &i3c11;
+		i2c44 = &i3c12;
+		i2c45 = &i3c13;
+		i2c46 = &i3c14;
+		i2c47 = &i3c15;
+
 		i2c48 = &imux0;
 		i2c49 = &imux1;
 		i2c50 = &imux2;
@@ -208,6 +225,8 @@
 };
 
 &dp {
+	pinctrl-names = "default";
+	pinctrl-0 = <&vga_trigger_pins>;
 	status = "disabled";
 };
 
@@ -885,6 +904,8 @@
 
 &uart_routing {
 	starfive,chsel = /bits/ 8 <0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_rs232_pins>;
 	status = "okay";
 };
 

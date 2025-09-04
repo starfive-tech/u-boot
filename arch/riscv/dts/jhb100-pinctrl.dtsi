@@ -798,6 +798,7 @@
 					 FUNC_BMCPERIPH0_I2C0_CLK)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c0_sda-pins{
@@ -805,6 +806,7 @@
 					 FUNC_BMCPERIPH0_I2C0_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -813,6 +815,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B2,
 					 FUNC_BMCPERIPH0_I2C1_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c1_sda-pins{
@@ -820,6 +823,7 @@
 					 FUNC_BMCPERIPH0_I2C1_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -828,6 +832,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B4,
 					 FUNC_BMCPERIPH0_I2C2_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c2_sda-pins{
@@ -835,6 +840,7 @@
 					 FUNC_BMCPERIPH0_I2C2_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -843,6 +849,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B6,
 					 FUNC_BMCPERIPH0_I2C3_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c3_sda-pins{
@@ -850,6 +857,7 @@
 					 FUNC_BMCPERIPH0_I2C3_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -858,6 +866,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
 					 FUNC_BMCPERIPH0_I2C4_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c4_sda-pins{
@@ -865,6 +874,7 @@
 					 FUNC_BMCPERIPH0_I2C4_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -873,6 +883,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
 					 FUNC_BMCPERIPH0_I2C5_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c5_sda-pins{
@@ -880,6 +891,7 @@
 					 FUNC_BMCPERIPH0_I2C5_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -888,6 +900,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B12,
 					 FUNC_BMCPERIPH0_I2C6_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c6_sda-pins{
@@ -895,6 +908,7 @@
 					 FUNC_BMCPERIPH0_I2C6_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -903,6 +917,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B14,
 					 FUNC_BMCPERIPH0_I2C7_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c7_sda-pins{
@@ -910,6 +925,7 @@
 					 FUNC_BMCPERIPH0_I2C7_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -918,6 +934,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B16,
 					 FUNC_BMCPERIPH0_I2C8_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c8_sda-pins{
@@ -925,6 +942,7 @@
 					 FUNC_BMCPERIPH0_I2C8_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -933,6 +951,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B18,
 					 FUNC_BMCPERIPH0_I2C9_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c9_sda-pins{
@@ -940,6 +959,7 @@
 					 FUNC_BMCPERIPH0_I2C9_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -948,6 +968,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B20,
 					 FUNC_BMCPERIPH0_I2C10_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c10_sda-pins{
@@ -955,6 +976,7 @@
 					 FUNC_BMCPERIPH0_I2C10_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -963,6 +985,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B22,
 					 FUNC_BMCPERIPH0_I2C11_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c11_sda-pins{
@@ -970,6 +993,7 @@
 					 FUNC_BMCPERIPH0_I2C11_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -978,6 +1002,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B24,
 					 FUNC_BMCPERIPH0_I2C12_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c12_sda-pins{
@@ -985,6 +1010,7 @@
 					 FUNC_BMCPERIPH0_I2C12_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -993,6 +1019,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B26,
 					 FUNC_BMCPERIPH0_I2C13_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 
 		i2c13_sda-pins{
@@ -1000,6 +1027,7 @@
 					 FUNC_BMCPERIPH0_I2C13_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 };
@@ -1010,6 +1038,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C32,
 					 FUNC_BMCPERIPH1_I2C14_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 	     };
 
 	     i2c14_sda-pins{
@@ -1017,6 +1046,7 @@
 					 FUNC_BMCPERIPH1_I2C14_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 
@@ -1025,6 +1055,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C34,
 					 FUNC_BMCPERIPH1_I2C15_CLK)>;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 	};
 
 		i2c15_sda-pins{
@@ -1032,6 +1063,7 @@
 					 FUNC_BMCPERIPH1_I2C15_DATA)>;
 			bias-pull-up;
 			input-enable;
+			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
 };
@@ -2489,6 +2521,37 @@
 			input-enable;
 		};
 	};
+
+	sfc2_2cs_spi_pins: sfc2_2cs_spi-grp {
+		sfc2_2cs_spi_sclk-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C23,
+					 FUNC_BMCPERIPH1_SFC2_SCLK_OUT)>;
+		};
+
+		sfc2_2cs_spi_cs0-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C20,
+					 FUNC_BMCPERIPH1_SFC2_N_SS_OUT_0)>;
+			bias-pull-up;
+		};
+
+		sfc2_2cs_spi_cs1-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C21,
+					 FUNC_BMCPERIPH1_SFC2_N_SS_OUT_1)>;
+			bias-pull-up;
+		};
+
+		sfc2_2cs_spi_io0-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C24,
+					 FUNC_BMCPERIPH1_SFC2_IO0)>;
+			input-enable;
+		};
+
+		sfc2_2cs_spi_io1-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C25,
+					 FUNC_BMCPERIPH1_SFC2_IO1)>;
+			input-enable;
+		};
+	};
 };
 
 /* SGPIO pinmux */
@@ -3051,6 +3114,7 @@
 			pincfg = <PINCFG(PADNUM_BMCPERIPH0_GPIO_B28,
 					 JHB100_DEFAULT_SIGNAL)>;
 			input-enable;
+			starfive,debounce_width = <0x5>;
 		};
 	};
 };

@@ -43,10 +43,15 @@
 	status = "okay";
 };
 
+&i2c0_master {
+	i2c-scl-rising-time-ns = <250>;
+};
+
 &i2c1_master {
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c1_pins>;
+	i2c-scl-rising-time-ns = <250>;
 	status = "okay";
 };
 
@@ -54,6 +59,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c2_pins>;
+	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
@@ -62,6 +68,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c3_pins>;
+	i2c-scl-rising-time-ns = <250>;
 	status = "okay";
 
 	smbus_arp@61 {
@@ -74,6 +81,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c4_pins>;
+	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
@@ -81,6 +89,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c5_pins>;
+	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
@@ -88,6 +97,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c6_pins>;
+	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
@@ -103,6 +113,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c8_pins>;
+	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
@@ -123,6 +134,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c10_pins>;
+	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
@@ -130,6 +142,7 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c11_pins>;
+	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
@@ -493,7 +506,7 @@
 &sgpio0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&sgpio0_pins>;
-	status = "disabled";
+	status = "okay";
 
 	gpio-line-names =
 		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",
@@ -533,7 +546,7 @@
 &sgpio1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&sgpio1_pins>;
-	status = "disabled";
+	status = "okay";
 
 	gpio-line-names =
 		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",
