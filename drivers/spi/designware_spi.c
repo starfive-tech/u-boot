@@ -805,6 +805,7 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 			dw_writer(priv);
 	} else {
 		dw_write(priv, DW_SPI_JHB100_FILTER_IMR, FILTER_ERR_MASK);
+		dw_read(priv, DW_SPI_JHB100_FILTER_ICR);
 
 		cs = 1 << spi_chip_select(slave->dev);
 		ret = jhb100_set_sfc_addr_mode(priv->regs, op->addr.nbytes == 3 ? 0 : cs);
