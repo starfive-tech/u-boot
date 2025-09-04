@@ -326,7 +326,11 @@
 		"if test ${vf2_board_type} = 1; then "   \
 		    "setenv bootenv uEnv_CM.txt;"    \
 		"elif test ${vf2_board_type} = 2; then "    \
-		    "setenv bootenv uEnv_Lite.txt;"    \
+		    "if test ${emmc_size} = 0; then "	\
+		        "setenv bootenv uEnv_Lite.txt;"    \
+		    "else "				   \
+		        "setenv bootenv uEnv_Lite_emmc.txt;" \	
+		     "fi; "				    \
 		"fi;" \
 		"run load_distro_uenv; " \
 		"sysboot ${bootdev} ${devnum}:${bootpart} fat ${scriptaddr} /${boot_syslinux_conf}; \0" \
