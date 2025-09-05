@@ -808,7 +808,7 @@ int get_vf2_board_type(void)
 	unsigned long vf2_board_type = 0;
 
 	product_id = get_product_id_from_eeprom();
-	if (!strncmp(product_id, "VF7110S", 7)) {
+	if (product_id && !strncmp(product_id, "VF7110S", 7)) {
 		if (product_id[7] == 'C')
 			vf2_board_type = 1;
 		else if (product_id[7] == 'L')
@@ -827,6 +827,9 @@ unsigned long get_mmc_size_from_eeprom(void)
 	unsigned long size = 0;
 
 	product_id = get_product_id_from_eeprom();
+	if (!product_id)
+		return 0;
+
 	size = dectoul(&product_id[19], NULL);
 
 	if (product_id[21] == 'T')
