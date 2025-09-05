@@ -21,6 +21,7 @@
 #include <bmp_logo.h>
 #include <video.h>
 #include <splash.h>
+#include "visionfive2_lite_bmp_logo.h"
 
 #define SYS_CLOCK_ENABLE(clk) \
 	setbits_le32(SYS_CRG_BASE + clk, CLK_ENABLE_MASK)
@@ -440,6 +441,7 @@ int board_late_init(void)
 	int ret, offset;
 	u8 mac0[6], mac1[6];
 	u64 share_ram_addr;
+	ulong vf2_board_type;
 
 	get_boot_mode();
 	get_mmc_size_from_eeprom();
@@ -457,7 +459,12 @@ int board_late_init(void)
 	if (ret)
 		return ret;
 
-	ret = video_bmp_display(dev, (ulong)&bmp_logo_bitmap[0], BMP_ALIGN_CENTER, BMP_ALIGN_CENTER, true);
+	vf2_board_type = env_get_ulong("vf2_board_type", 10, 0);
+	if (vf2_board_type == 2)
+		ret = video_bmp_display(dev, (ulong)&vf2_lite_bmp_logo_bitmap[0], BMP_ALIGN_CENTER, BMP_ALIGN_CENTER, true);
+	else
+		ret = video_bmp_display(dev, (ulong)&bmp_logo_bitmap[0], BMP_ALIGN_CENTER, BMP_ALIGN_CENTER, true);
+
 	if (ret)
 		goto err;
 
