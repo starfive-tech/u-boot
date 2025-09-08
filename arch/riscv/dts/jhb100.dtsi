@@ -1623,9 +1623,10 @@
 
 			pcie_rc: pcie@11200000 {
 				compatible = "starfive,jhb100-pcie-host";
-				reg = <0x0 0x11200000 0x0 0x00400000>,
+				reg = <0x0 0x11200000 0x0 0x00380000>,
+					  <0x0 0x11580000 0x0 0x00000800>,
 				      <0x0 0x28000000 0x0 0x00100000>;
-				reg-names = "dbi", "config";
+				reg-names = "dbi", "dma", "config";
 				device_type = "pci";
 				#address-cells = <3>;
 				#size-cells = <2>;
@@ -3254,7 +3255,7 @@
 			ufs0: ufs@11b10000 {
 				compatible = "starfive,jhb100-ufs", "jedec,ufs-3.1";
 				reg = <0x0 0x11b10000 0x0 0x10000>;
-				interrupts = <104>, <105>;
+				interrupts = <116>, <117>;
 				interrupts-names = "ufs", "err";
 				clocks = <&per1crg JHB100_PER1CLK_UFS_REF>,
 					 <&per1crg JHB100_PER1CLK_UFS_150>,
@@ -3279,7 +3280,8 @@
 						<7500000 7500000>,
 						<1875000 1875000>,
 						<7143000 7143000>,
-						<3571500 3571500>;
+						<3571500 3571500>,
+						<100000000 100000000>;
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_UFS>,
 					 <&per1crg JHB100_PER1RST_MAIN_RSTN_UFS_PHY>;
 				reset-names = "main", "phy";

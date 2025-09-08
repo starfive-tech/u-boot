@@ -910,7 +910,7 @@
 };
 
 &ufs0 {
-	status = "disabled";
+	status = "okay";
 };
 
 &usb0 {

@@ -3039,12 +3039,12 @@
 	uart14_pins: uart14-grp {
 		uart14_tx-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A54,
-					 FUNC_SYSTOP_SYS2_UART13_TX)>;
+					 FUNC_SYSTOP_SYS2_UART14_TX)>;
 		};
 
 		uart14_rx-pins {
 			pinmux = <PINMUX(PADNUM_SYSTOP_SYS2_GPIO_A55,
-					 FUNC_SYSTOP_SYS2_UART13_RX)>;
+					 FUNC_SYSTOP_SYS2_UART14_RX)>;
 			input-enable;
 		};
 	};

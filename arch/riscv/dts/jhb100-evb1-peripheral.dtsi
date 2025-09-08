@@ -26,12 +26,14 @@
 &can0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&can0_pins>;
+	ts = <0x07>; /* bit 0 enable ts, bit 1 enable tts, bit 2: 0 SOF, 1 EOF */
 	status = "okay";
 };
 
 &can1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&can1_pins>;
+	ts = <0x07>; /* bit 0 enable ts, bit 1 enable tts, bit 2: 0 SOF, 1 EOF */
 	status = "okay";
 };
 

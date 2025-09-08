@@ -4,10 +4,16 @@
  */
 
 &gmac0 {
+	assigned-clocks = <&per3crg JHB100_PER3CLK_GMAC0_RMII_MUX>;
+	assigned-clock-parents = <&per3_gmac0_rmii_rclki>;
 	phy-mode = "rmii";
 	phy-handle = <&phy1>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac0_mdio_pins &gmac0_rmii_pins>;
+	/* PHY reset pin */
+	/* reset-gpios = <&pinctrl_sys2 18 GPIO_ACTIVE_LOW>; */
+	/* reset-assert-us = <15000>; */
+	/* reset-deassert-us = <15000>; */
 	status = "okay";
 
 	mdio {
@@ -61,6 +67,11 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac3_mdio_pins>;
 	snps,ps-speed = <1000>;
+
+	/* PHY reset pin */
+	/* reset-gpios = <&pinctrl_bmcperiph3 5 GPIO_ACTIVE_LOW>; */
+	/* reset-assert-us = <15000>; */
+	/* reset-deassert-us = <15000>; */
 	status = "okay";
 
 	mdio {
@@ -73,6 +84,15 @@
 			motorcomm,clk-out-frequency-hz = <25000000>;
 		};
 	};
+
+};
+
+&pinctrl_bmcperiph2 {
+	gpionw-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOD19-30 */
+};
+
+&pinctrl_bmcperiph3 {
+	gpios-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOE0-10 */
 };
 
 &sgmii_phy0 {

@@ -3,6 +3,17 @@
  * Copyright (c) 2025 StarFive Technology Co., Ltd.
  */
 
+/* Add reserved memory region dedicated for SCP usage. */
+scp_buffer_cache: scp_buffer@43c00000 {
+    reg = <0x0 0x43c00000 0x0 0x400000>;
+    no-map;
+};
+
+scp_buffer_uncache: scp_buffer@403c00000 {
+    reg = <0x4 0x03c00000 0x0 0x400000>;
+    no-map;
+};
+
 /*
  * eSPI & MMBI dma accesses uncached address.
  * Also need to reserve corresponding cache addresses,
