@@ -122,7 +122,7 @@ int riscv_board_reserved_mem_fixup(void *fdt)
 }
 
 #ifdef CONFIG_OF_BOARD_FIXUP
-int board_fix_fdt(void *fdt)
+__weak int board_fix_fdt(void *fdt)
 {
 	int err;
 
