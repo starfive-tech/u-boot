@@ -596,3 +596,27 @@ void *board_fdt_blob_setup(void)
 	else
 		return (ulong *)&_end;
 }
+
+#ifdef CONFIG_OF_BOARD_FIXUP
+int board_fix_fdt(void *fdt)
+{
+	int err;
+	int offset;
+	int vf2_board_type = get_vf2_board_type();
+	unsigned long emmc_size = get_mmc_size_from_eeprom();
+
+	err = riscv_board_reserved_mem_fixup(fdt);
+	if (err < 0) {
+		printf("failed to fixup DT for reserved memory: %d\n", err);
+	}
+
+	if (vf2_board_type == 2 && emmc_size) {
+		offset = fdt_path_offset(fdt, "/soc/sdio0@16010000");
+		err = fdt_setprop_u32(fdt, offset, "bus-width", 8);
+		if (err)
+			printf("%s: failed to set sdio0 bus-width prop\n", __func__);
+	}
+
+	return 0;
+}
+#endif
