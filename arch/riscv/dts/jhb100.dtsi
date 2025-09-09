@@ -916,7 +916,6 @@
 				clocks = <&sys2crg JHB100_SYS2CLK_GPU0_BUS_CLK>,
 					 <&sys2crg JHB100_SYS2CLK_GPU0_APB_CLK>;
 				clock-names = "gpu0_bus_clk", "gpu0_apb_clk";
-				power-domains = <&rpmi_pmdomain PD_GPU0>;
 				#clock-cells = <1>;
 				#reset-cells = <1>;
 			};
@@ -1415,7 +1414,6 @@
 				clocks = <&sys2crg JHB100_SYS2CLK_GPU1_BUS_CLK>,
 					 <&sys2crg JHB100_SYS2CLK_GPU1_APB_CLK>;
 				clock-names = "gpu1_bus_clk", "gpu1_apb_clk";
-				power-domains = <&rpmi_pmdomain PD_GPU1>;
 				#clock-cells = <1>;
 				#reset-cells = <1>;
 			};
