@@ -1,0 +1,576 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+&dma_i3c {
+	status = "disabled";
+};
+
+&dma_sfc0 {
+	status = "okay";
+};
+
+&dma_spi0 {
+	status = "okay";
+};
+
+&dp {
+	status = "okay";
+};
+
+&espi0 {
+	starfive,flash-mtd-device = "bios-image0";
+	starfive,host-src-addr = /bits/ 64 <0xf6810000>;
+	perif-memcyc-size = <0x400000>;
+	memory-region = <&espi0_mmbi_buffer_uncache>,
+			<&espi0_perif_mem_uncache>,
+			<&espi0_vw_mem_uncache>;
+
+	starfive,bt-remap-num = <2>;
+	starfive,kcs-remap-num = <4>;
+	starfive,uart-remap-num = <2>;
+	starfive,bt-io-addr = /bits/ 32 <0xe4 0xf4>;
+	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb4 0xcc6 0xcd8>;
+	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x400>;
+	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
+	starfive,mbox-io-addr = /bits/ 32 <0x300>;
+
+	starfive,vgpio_dir_bits = /bits/ 64 <0x00000000ffffffff 0x0000000000000000>;
+	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
+	starfive,vgpio_phy_bits = /bits/ 64 <0x000000000000000f 0x0000000000000000>;
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&espi0_pins>;
+	status = "okay";
+};
+
+&espi0_mmbi {
+	mmbi-id = /bits/ 8 <0>;
+	mmbi-instance-num = /bits/ 32 <1>;
+	mmbi-instance-size = /bits/ 32 <0x10000>;
+	mmbi-src-addr-offset = /bits/ 32 <0x10000>;
+	mmbi-osuse = /bits/ 8 <0 0 0 0 0 0 0 0>;
+	memory-region = <&espi0_mmbi_buffer_uncache>;
+	status = "okay";
+};
+
+&gmac0 {
+	phy-mode = "rmii";
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac0_rmii_pins>;
+	status = "disabled";
+};
+
+&gmac2 {
+	clocks = <&per2crg JHB100_PER2CLK_ETHER0_RMIIANDRGMII_ACLK_I>,
+		 <&per2crg JHB100_PER2CLK_ETHER0_RMIIANDRGMII_CSR_I>,
+		 <&per2crg JHB100_PER2CLK_ETHER0_RMIIANDRGMII_PTP_REF_I>,
+		 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_DIV>,
+		 <&per2crg JHB100_PER2CLK_MAIN_ICG_EN_GMAC2>;
+	assigned-clocks = <&per2crg JHB100_PER2CLK_GMAC2_RGMII_125_MUX>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_RX_MUX_DLY>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TXCK_MUX_DLY>;
+	assigned-clock-parents = <&per2_gmac2_rgmii_rx>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_125_MUX>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_DIV>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>;
+	phy-mode = "rgmii-id";
+	phy-handle = <&phy2>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac2_mdio_pins &gmac2_rgmii_pins>;
+	status = "okay";
+
+	mdio {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "snps,dwmac-mdio";
+
+		phy2: ethernet-phy@2 {
+			reg = <0>;
+		};
+	};
+};
+
+&husb0d0 {
+	status = "okay";
+};
+
+&husb0d1 {
+	status = "okay";
+};
+
+&husb0d2 {
+	status = "okay";
+};
+
+&husb0d3 {
+	status = "okay";
+};
+
+&husb0d4 {
+	status = "okay";
+};
+
+&husb0d5 {
+	status = "okay";
+};
+
+&husb0d6 {
+	status = "okay";
+};
+
+&husb0d7 {
+	status = "okay";
+};
+
+&husb0 {
+	interrupts-extended = <&plic 251>, <&intc 53>, <&intc 54>;
+	interrupt-names = "err", "perst_pe", "perst_ne";
+	status = "okay";
+};
+
+&husb0core {
+	snps,export-xhci-to-pcie;
+};
+
+&husbd0crg {
+	status = "okay";
+};
+
+&husb0crg {
+	status = "okay";
+};
+
+&husb1d0 {
+	status = "okay";
+};
+
+&husb1d1 {
+	status = "okay";
+};
+
+&husb1d2 {
+	status = "okay";
+};
+
+&husb1d3 {
+	status = "okay";
+};
+
+&husb1d4 {
+	status = "okay";
+};
+
+&husb1d5 {
+	status = "okay";
+};
+
+&husb1d6 {
+	status = "okay";
+};
+
+&husb1d7 {
+	status = "okay";
+};
+
+&husb1 {
+	interrupts-extended = <&plic 261>, <&intc 55>, <&intc 56>;
+	interrupt-names = "err", "perst_pe", "perst_ne";
+	status = "okay";
+};
+
+&husb1core {
+	snps,export-xhci-to-pcie;
+};
+
+&husbd1crg {
+	status = "okay";
+};
+
+&husb1crg {
+	status = "okay";
+};
+
+&husbphy0 {
+	status = "okay";
+};
+
+&husbphy1 {
+	status = "okay";
+};
+
+&i2c0_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+	status = "okay";
+};
+
+&i2c1_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c1_pins>;
+	status = "okay";
+};
+
+&i2c2_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c2_pins>;
+	status = "okay";
+
+	ipmb@10 {
+		compatible = "ipmb-dev";
+		reg = <0x10>;
+		i2c-protocol;
+		slave-dev = <&i2c2_slave>;
+	};
+};
+
+&i2c2_slave {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c4_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c4_pins>;
+	status = "okay";
+};
+
+&i2c6_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c6_pins>;
+	status = "okay";
+};
+
+&i2c7_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c7_pins>;
+	status = "okay";
+};
+
+&i2c8_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c8_pins>;
+	status = "okay";
+};
+
+&i2c9_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c9_pins>;
+	status = "okay";
+};
+
+&i2c10_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c10_pins>;
+	status = "okay";
+};
+
+&i2c11_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c11_pins>;
+	status = "okay";
+};
+
+&i3c0 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c0lv_pins>;
+	status = "disabled";
+};
+
+&i3c1 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c1lv_pins>;
+	status = "disabled";
+};
+
+&i3c2 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c2lv_pins>;
+	status = "disabled";
+};
+
+&i3c12 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c12_pins>;
+	status = "disabled";
+};
+
+&i3c13 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i3c13_pins>;
+	status = "disabled";
+};
+
+&jtag0 {
+	status = "okay";
+};
+
+&ltpi0 {
+	nlgpio-number = /bits/ 16 <32>;
+	uart-channels = <&uart_routing>;
+	uart-max-baudrate = /bits/ 32 <115200>;
+	data-sup;
+	ddr-sup;
+	status = "disabled";
+};
+
+&pcie_ep0 {
+	memory-region = <&pcie0_media_mem_uncache>,
+			<&pcie0_user_mem_uncache>,
+			<&pcie0_mmbi_buffer_uncache>,
+			<&pcie0_hdma_mem_uncache>;
+	starfive,support-usb-vout-func;
+	status = "okay";
+};
+
+&pcie0_mctp {
+	status = "okay";
+};
+
+&pcie0_mmbi {
+	mmbi-id = /bits/ 8 <0>;
+	mmbi-instance-num = /bits/ 32 <8>;
+	mmbi-instance-size = /bits/ 32 <0x10000>;
+	mmbi-src-addr-offset = /bits/ 32 <0>;
+	mmbi-osuse = /bits/ 8 <1 1 1 1 1 1 1 1>;
+	memory-region = <&pcie0_mmbi_buffer_uncache>;
+	starfive,raise-irq-syscon = <&pcie_ep0_ecsr 0x700 0xd>;
+	starfive,rst-en-syscon = <&strap_reg 0x50 0x400>;
+	status = "okay";
+};
+
+&peci0 {
+	status = "okay";
+};
+
+&sfc0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&sfc0_1cs_pins>;
+	rx-sample-delay-ns = <10>;
+	num-cs = <1>;
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <100000000>;
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+	};
+};
+
+&sgpio0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sgpio0_pins>;
+	status = "okay";
+
+	gpio-line-names =
+		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",
+		"", "P80_DOUT4", "", "P80_DOUT5", "", "P80_DOUT6", "", "P80_DOUT7",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "BMC_BOOT_DONE",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "";
+};
+
+&sio0 {
+	status = "okay";
+
+	sio0_bt0: bt@0 {
+		bt_chan = <0>;
+		status = "okay";
+	};
+
+	sio0_bt1: bt@100 {
+		bt_chan = <1>;
+		status = "okay";
+	};
+
+	sio0_kcs0: kcs@200 {
+		kcs_chan = <0>;
+		status = "okay";
+	};
+
+	sio0_kcs1: kcs@300 {
+		kcs_chan = <1>;
+		status = "okay";
+	};
+
+	sio0_kcs2: kcs@400 {
+		kcs_chan = <2>;
+		status = "okay";
+	};
+
+	sio0_kcs3: kcs@500 {
+		kcs_chan = <3>;
+		status = "okay";
+	};
+
+	sio0_mbox: mbox@600 {
+		status = "okay";
+	};
+
+	sio0_pcc: pcc@800 {
+		starfive,pcc-threshold = <0>;
+		status = "okay";
+	};
+
+	sio0_wdi: wdi@900 {
+		status = "okay";
+	};
+};
+
+&sol9 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <9>;
+	status = "okay";
+};
+
+&sol11 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <11>;
+	status = "okay";
+};
+
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins>;
+	status = "okay";
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		spi-max-frequency = <12000000>;
+		reg = <0>;
+		spi-tx-bus-width = <1>;
+		spi-rx-bus-width = <1>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "bios-image0";
+				reg = <0x0 0x4000000>;
+			};
+		};
+	};
+
+	flash@1 {
+		compatible = "jedec,spi-nor";
+		spi-max-frequency = <12000000>;
+		reg = <1>;
+		spi-tx-bus-width = <1>;
+		spi-rx-bus-width = <1>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "bios-image1";
+				reg = <0x0 0x4000000>;
+			};
+		};
+	};
+};
+
+&uart9 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart9_pins>;
+};
+
+&uart11 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart11_pins>;
+};
+
+&uart_routing {
+	starfive,chsel = /bits/ 8 <0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
+	status = "okay";
+};
+
+&usb0 {
+	status = "okay";
+};
+
+&usb0core {
+	dr_mode = "host";
+};
+
+&usb1 {
+	status = "okay";
+};
+
+&usb1core {
+	dr_mode = "host";
+};

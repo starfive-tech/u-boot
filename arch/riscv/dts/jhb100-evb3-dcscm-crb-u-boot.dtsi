@@ -1,0 +1,54 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2021-2022 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100-u-boot.dtsi"
+
+&uart6 {
+	status = "disabled";
+};
+
+&uart4 {
+	bootph-pre-ram;
+	bootph-some-ram;
+	dlf-size = <6>;
+	/delete-property/ clock-frequency;
+	/delete-property/ resets;
+	/delete-property/ dmas;
+};
+
+&sfc0 {
+	bootph-pre-ram;
+	spi-max-frequency = <5000000>;
+	rx-sample-delay-ns = <0>;
+	/delete-property/ resets;
+	/delete-property/ dmas;
+
+	flash@0 {
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+		/delete-node/ partitions;
+	};
+
+	/delete-node/ flash@1;
+};
+
+&pinctrl_sys2 {
+	uart4_pins: uart4-grp {
+		bootph-pre-ram;
+		bootph-some-ram;
+
+		uart4_tx-pins {
+			drive-strength = <12>;
+			bootph-pre-ram;
+			bootph-some-ram;
+		};
+
+		uart4_rx-pins {
+			drive-strength = <12>;
+			bootph-pre-ram;
+			bootph-some-ram;
+		};
+	};
+};

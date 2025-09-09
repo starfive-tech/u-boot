@@ -1,0 +1,294 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100.dtsi"
+#include "jhb100-pinctrl.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/i2c/i2c.h>
+
+/ {
+	model = "StarFive JHB100 EVB-3";
+	compatible = "starfive,jhb100-evb3", "starfive,jhb100";
+
+	aliases {
+		serial4 = &uart4;
+		serial5 = &uart5;
+		serial6 = &uart6;
+		serial7 = &uart7;
+		serial8 = &uart8;
+		serial9 = &uart9;
+		serial10 = &uart10;
+		serial11 = &uart11;
+		serial12 = &uart12;
+		serial13 = &uart13;
+		serial14 = &uart14;
+
+		ethernet0 = &gmac0;
+		ethernet1 = &gmac1;
+		ethernet2 = &gmac2;
+		ethernet3 = &gmac3;
+
+		i2c0 = &i2c0_master;
+		i2c1 = &i2c0_slave;
+
+		i2c2 = &i2c1_master;
+		i2c3 = &i2c1_slave;
+
+		i2c4 = &i2c2_master;
+		i2c5 = &i2c2_slave;
+
+		i2c6 = &i2c3_master;
+		i2c7 = &i2c3_slave;
+
+		i2c8 = &i2c4_master;
+		i2c9 = &i2c4_slave;
+
+		i2c10 = &i2c5_master;
+		i2c11 = &i2c5_slave;
+
+		i2c12 = &i2c6_master;
+		i2c13 = &i2c6_slave;
+
+		i2c14 = &i2c7_master;
+		i2c15 = &i2c7_slave;
+
+		i2c16 = &i2c8_master;
+		i2c17 = &i2c8_slave;
+
+		i2c18 = &i2c9_master;
+		i2c19 = &i2c9_slave;
+
+		i2c20 = &i2c10_master;
+		i2c21 = &i2c10_slave;
+
+		i2c22 = &i2c11_master;
+		i2c23 = &i2c11_slave;
+
+		i2c24 = &i2c12_master;
+		i2c25 = &i2c12_slave;
+
+		i2c26 = &i2c13_master;
+		i2c27 = &i2c13_slave;
+
+		i2c28 = &i2c14_master;
+		i2c29 = &i2c14_slave;
+
+		i2c30 = &i2c15_master;
+		i2c31 = &i2c15_slave;
+
+		i2c32 = &i3c0;
+		i2c33 = &i3c1;
+		i2c34 = &i3c2;
+		i2c35 = &i3c3;
+		i2c36 = &i3c4;
+		i2c37 = &i3c5;
+		i2c38 = &i3c6;
+		i2c39 = &i3c7;
+		i2c40 = &i3c8;
+		i2c41 = &i3c9;
+		i2c42 = &i3c10;
+		i2c43 = &i3c11;
+		i2c44 = &i3c12;
+		i2c45 = &i3c13;
+		i2c46 = &i3c14;
+		i2c47 = &i3c15;
+
+		i3c0 = &i3c0;
+		i3c1 = &i3c1;
+		i3c2 = &i3c2;
+		i3c3 = &i3c3;
+		i3c4 = &i3c4;
+		i3c5 = &i3c5;
+		i3c6 = &i3c6;
+		i3c7 = &i3c7;
+		i3c8 = &i3c8;
+		i3c9 = &i3c9;
+		i3c10 = &i3c10;
+		i3c11 = &i3c11;
+		i3c12 = &i3c12;
+		i3c13 = &i3c13;
+		i3c14 = &i3c14;
+		i3c15 = &i3c15;
+
+		peci0 = &peci0;
+		peci4 = &peci1;
+	};
+
+	cpus {
+		timebase-frequency = <5000000>;
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0x0 0x40000000 0x0 0x80000000>;	/* 2GB */
+	};
+
+	reserved-memory {
+		#address-cells = <0x2>;
+		#size-cells = <0x2>;
+		ranges;
+
+		#include "jhb100-reserved-mem.dtsi"
+
+		linux,cma {
+			compatible = "shared-dma-pool";
+			reusable;
+			size = <0x0 0x08000000>;
+			alignment = <0x0 0x1000>;
+			alloc-ranges = <0x0 0x40000000 0x2 0x0>;
+			linux,cma-default;
+		};
+	};
+
+	fan3: pwm-fan3 {
+		compatible = "pwm-fan";
+		pwms = <&pwm 3 40000 0>;
+	};
+};
+
+&dc0_clk {
+	status = "okay";
+};
+
+&dc1_clk {
+	status = "okay";
+};
+
+&dma_i2c {
+	status = "disabled";
+};
+
+&dma_system {
+	status = "okay";
+};
+
+&dma_uart {
+	status = "disabled";
+};
+
+&emmc0 {
+	mmc-hs400-1_8v;
+	max-frequency = <200000000>;
+	non-removable;
+	pinctrl-names = "default";
+	pinctrl-0 = <&emmc0_pins>;
+	status = "okay";
+};
+
+&hwspinlock {
+	status = "okay";
+};
+
+&i2c3_master {
+	clock-frequency = <100000>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c3_pins>;
+	status = "okay";
+};
+
+&led0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&hbled_pins>;
+};
+
+&npu {
+	status = "okay";
+};
+
+&pvt_cpu {
+	status = "okay";
+};
+
+&pvt_ddr {
+	status = "okay";
+};
+
+&pvt_gpu0 {
+	status = "okay";
+};
+
+&pvt_gpu1 {
+	status = "okay";
+};
+
+&pvt_sys {
+	status = "okay";
+};
+
+&pvt_usb {
+	status = "okay";
+};
+
+&pvt_vce {
+	status = "okay";
+};
+
+&pwm {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm_ch3_pins>;
+	status = "okay";
+};
+
+&reri0 {
+	status = "okay";
+};
+
+&reri1 {
+	status = "okay";
+};
+
+&reri2 {
+	status = "okay";
+};
+
+&reri3 {
+	status = "okay";
+};
+
+&reri4 {
+	status = "okay";
+};
+
+&rtc {
+	status = "okay";
+};
+
+&timer0 {
+	status = "okay";
+};
+
+&timer1 {
+	status = "okay";
+};
+
+&timer2 {
+	status = "okay";
+};
+
+&vce0 {
+	memory-region = <&pcie0_media_mem_uncache>;
+	status = "okay";
+};
+
+&voutcrg {
+	status = "okay";
+};
+
+&wdt0 {
+	status = "okay";
+};
+
+&wdt1 {
+	status = "disabled";
+};
+
+&wdt2 {
+	status = "disabled";
+};
+
+&wdt3 {
+	status = "disabled";
+};
