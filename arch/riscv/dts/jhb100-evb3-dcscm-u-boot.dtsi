@@ -40,13 +40,11 @@
 		bootph-some-ram;
 
 		uart9_tx-pins {
-			drive-strength = <12>;
 			bootph-pre-ram;
 			bootph-some-ram;
 		};
 
 		uart9_rx-pins {
-			drive-strength = <12>;
 			bootph-pre-ram;
 			bootph-some-ram;
 		};

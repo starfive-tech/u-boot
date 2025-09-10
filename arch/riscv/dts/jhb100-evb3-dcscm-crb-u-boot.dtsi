@@ -33,22 +33,3 @@
 
 	/delete-node/ flash@1;
 };
-
-&pinctrl_sys2 {
-	uart4_pins: uart4-grp {
-		bootph-pre-ram;
-		bootph-some-ram;
-
-		uart4_tx-pins {
-			drive-strength = <12>;
-			bootph-pre-ram;
-			bootph-some-ram;
-		};
-
-		uart4_rx-pins {
-			drive-strength = <12>;
-			bootph-pre-ram;
-			bootph-some-ram;
-		};
-	};
-};
