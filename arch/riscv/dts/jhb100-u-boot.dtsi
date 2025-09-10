@@ -20,6 +20,7 @@
 		wdt2 = &wdt2;
 		wdt3 = &wdt3;
 		wdt_ext = &wdt_ext;
+		scp_buffer_cache = &scp_buffer_cache;
 	};
 
 	chosen {
@@ -61,7 +62,13 @@
 		bootph-pre-ram;
 	};
 
-	/delete-node/ reserved-memory;
+	reserved-memory {
+		bootph-pre-ram;
+		/delete-node/ ramoops@4e200000;
+		/delete-node/ dma-reserved@4e300000;
+		/delete-node/ linux,dma@40e300000;
+		/delete-node/ linux,cma;
+	};
 
 	soc {
 		bootph-pre-ram;
@@ -119,6 +126,10 @@
 			};
 		};
 	};
+};
+
+&scp_buffer_cache {
+	bootph-pre-ram;
 };
 
 &cpu0_intc {
@@ -724,3 +735,37 @@
 &sgmii_phy1 {
 	bootph-pre-ram;
 };
+
+/delete-node/ &espi0_mmbi_buffer_cache;
+/delete-node/ &scp_buffer_uncache;
+/delete-node/ &espi0_mmbi_buffer_uncache;
+/delete-node/ &espi0_perif_mem_cache;
+/delete-node/ &espi0_perif_mem_uncache;
+/delete-node/ &pcie0_mmbi_buffer_cache;
+/delete-node/ &pcie0_mmbi_buffer_uncache;
+/delete-node/ &espi0_vw_mem_cache;
+/delete-node/ &espi0_vw_mem_uncache;
+/delete-node/ &pcie0_hdma_mem_cache;
+/delete-node/ &pcie0_hdma_mem_uncache;
+/delete-node/ &pcie0_media_mem_cache;
+/delete-node/ &pcie0_media_mem_uncache;
+/delete-node/ &pcie0_user_mem_cache;
+/delete-node/ &pcie0_user_mem_uncache;
+/delete-node/ &sol_tx_mem_cache;
+/delete-node/ &sol_tx_mem_uncache;
+/delete-node/ &sol_rx_mem_cache;
+/delete-node/ &sol_rx_mem_uncache;
+/delete-node/ &espi1_vw_mem_cache;
+/delete-node/ &espi1_vw_mem_uncache;
+/delete-node/ &espi1_mmbi_buffer_cache;
+/delete-node/ &espi1_mmbi_buffer_uncache;
+/delete-node/ &espi1_perif_mem_cache;
+/delete-node/ &espi1_perif_mem_uncache;
+/delete-node/ &pcie1_mmbi_buffer_cache;
+/delete-node/ &pcie1_mmbi_buffer_uncache;
+/delete-node/ &pcie1_media_mem_cache;
+/delete-node/ &pcie1_media_mem_uncache;
+/delete-node/ &pcie1_hdma_mem_cache;
+/delete-node/ &pcie1_hdma_mem_uncache;
+/delete-node/ &pcie1_user_mem_cache;
+/delete-node/ &pcie1_user_mem_uncache;

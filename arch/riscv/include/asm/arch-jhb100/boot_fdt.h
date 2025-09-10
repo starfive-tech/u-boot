@@ -6,5 +6,6 @@
 #define _BOOT_FDT_H
 
 int jhb100_fdt_fixup(void *blob);
+int jhb100_scp_buffer_parser(void *blob);
 
 #endif /* _BOOT_FDT_H */

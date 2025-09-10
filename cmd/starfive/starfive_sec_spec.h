@@ -306,6 +306,17 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
+		.request_id = 28,
+		.request_name = "assign_mem_block",
+		.param_count = 4,
+		.param_names = {"flags", "addr_low", "addr_high", "size"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 4,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
 		.request_id = 257,
 		.request_name = "set_inline_crypto_config",
 		.param_count = 1,

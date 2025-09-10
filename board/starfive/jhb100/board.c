@@ -129,5 +129,6 @@ void board_fit_image_post_process(const void *fit, int node, void **p_image, siz
 	}
 #else
 	jhb100_fdt_fixup(*p_image);
+	jhb100_scp_buffer_parser(*p_image);
 #endif
 }

@@ -25,7 +25,7 @@
 #define DRAM_AP_BASE_ADDR	0x40000000
 #define DRAM_512_MB_SIZE	0x20000000
 
-#define GET_SPEC_FOR_DDR(id, spec)	\
+#define GET_SPEC_ID(id, spec)	\
 	const struct request_spec *(spec) = get_request_spec_by_id(id); \
 	if (!spec) { \
 		printf("Error: Invalid request_id\n"); \
@@ -39,7 +39,7 @@ int jhb100_fdt_fixup(void *blob)
 	reg[0] = cpu_to_fdt32(0x00000000);
 	reg[1] = cpu_to_fdt32(DRAM_AP_BASE_ADDR);
 
-	GET_SPEC_FOR_DDR(GET_DRAM_INFO, spec);
+	GET_SPEC_ID(GET_DRAM_INFO, spec);
 	u32 resp_data[spec->resp_size / sizeof(u32)];
 	u32 flg_bitmap = GET_DRAM_INFO_DRAM_SIZE_FLAG;
 
@@ -73,6 +73,54 @@ int jhb100_fdt_fixup(void *blob)
 
 	return 0;
 warning_log:
-	printf("WARNING: can't set %s from node %s\n", "reg", "memory");	
+	printf("WARNING: can't set %s from node %s\n", "reg", "memory");
 	return 0;
 }
+
+#ifdef CONFIG_SPL_BUILD
+int jhb100_scp_buffer_parser(void *blob)
+{
+	int ret;
+	int node;
+	const char *path;
+
+	path = fdt_get_alias(blob, "scp_buffer_cache");
+	if (!path)
+		return -ENOENT;
+
+	node = fdt_path_offset(blob, path);
+	if (node < 0)
+		return node;
+
+	fdt_size_t size;
+	fdt_addr_t addr = fdtdec_get_addr_size_auto_parent(blob, 0, node, "reg", 0, &size, false);
+
+	if (addr == FDT_ADDR_T_NONE) {
+		printf("Failed to get reg property\n");
+		return addr;
+	}
+
+	GET_SPEC_ID(ASSIGN_MEM_BLOCK, spec);
+	u32 resp_data[spec->resp_count];
+
+	memset(resp_data, 0, sizeof(u32) * spec->resp_count);
+
+	u32 req_data[spec->param_count];
+
+	req_data[0] = 0; /* flag */
+	req_data[1] = (u64)addr & ADDR_LOW_MASK; /* addr_low */
+	req_data[2] = ((u64)addr & ADDR_HIGH_MASK) >> BITS_PER_WORD; /* addr_high */
+	req_data[3] = (u32)size; /* size */
+
+	ret = starfive_sec_rx_tx(spec, req_data, resp_data, NULL, 0, NULL, 0, false);
+	if (ret)
+		return ret;
+
+	if (resp_data[0]) {
+		printf("Failed, error: %d\n", resp_data[0]);
+		return resp_data[0];
+	}
+
+	return 0;
+}
+#endif
