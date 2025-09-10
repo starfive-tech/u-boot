@@ -21,6 +21,7 @@
 
 #include <asm/arch/boot_env.h>
 #include <asm/arch/boot_fdt.h>
+#include <asm/arch/boot_pti.h>
 #include <asm/arch/boot_src.h>
 #include <asm/arch/boot_mapping.h>
 #include <asm/arch/starfive_reset.h>
@@ -243,6 +244,11 @@ static int last_stage_init(void)
 		env_changed_id = env_id;
 		env_save();
 	}
+
+	starfive_clear_ap_sts_retry_cnt(BOOTSTG_U_BOOT_SPL);
+	starfive_clear_ap_sts_retry_cnt(BOOTSTG_U_BOOT_PROPER);
+	starfive_clear_ap_sts_error(BOOTSTG_U_BOOT_SPL);
+	starfive_clear_ap_sts_error(BOOTSTG_U_BOOT_PROPER);
 
 	return 0;
 }

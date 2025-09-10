@@ -92,6 +92,32 @@ void starfive_add_ap_sts_retry_cnt(int img_type, int cnt)
 	}
 }
 
+void starfive_clear_ap_sts_retry_cnt(int img_type)
+{
+	struct boot_reg_info *boot_reg_info = &boot_reg[img_type];
+
+	boot_reg_info->sts_base_addr->boot_stat_reg.retry_cnt = 0;
+
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE)) {
+		printf("fn(): %s\n", __func__);
+		printf("retry_cnt: 0x%x\n", boot_reg_info->
+		       sts_base_addr->boot_stat_reg.retry_cnt);
+	}
+}
+
+void starfive_clear_ap_sts_error(int img_type)
+{
+	struct boot_reg_info *boot_reg_info = &boot_reg[img_type];
+
+	boot_reg_info->sts_base_addr->boot_stat_reg.error = 0;
+
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE)) {
+		printf("fn(): %s\n", __func__);
+		printf("retry_cnt: 0x%x\n", boot_reg_info->
+		       sts_base_addr->boot_stat_reg.error);
+	}
+}
+
 int starfive_get_ap_sts_retry_cnt(int img_type)
 {
 	struct boot_reg_info *boot_reg_info = &boot_reg[img_type];

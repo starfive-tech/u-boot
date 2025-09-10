@@ -102,6 +102,8 @@ int starfive_pre_os_boot_notify(int part_type);
 void starfive_set_boot_ctrl_reg(int img_type);
 void starfive_set_boot_stat_reg(int boot_src, int part_type, int img_type);
 void starfive_add_ap_sts_retry_cnt(int img_type, int cnt);
+void starfive_clear_ap_sts_retry_cnt(int img_type);
+void starfive_clear_ap_sts_error(int img_type);
 int starfive_get_ap_sts_retry_cnt(int img_type);
 int starfive_get_ap_ctl_boot_stage(int img_type);
 
