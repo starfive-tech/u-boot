@@ -441,10 +441,16 @@ int board_late_init(void)
 	int ret, offset;
 	u8 mac0[6], mac1[6];
 	u64 share_ram_addr;
-	ulong vf2_board_type;
+	ulong vf2_board_type = env_get_ulong("vf2_board_type", 10, 0);
 
 	get_boot_mode();
 	get_mmc_size_from_eeprom();
+
+	if (vf2_board_type == 2) {
+		/* gpio62 output low level for switching usb to host by default */
+		SYS_IOMUX_DOEN(62, LOW);
+		SYS_IOMUX_DOUT(62, 0);
+	}
 
 	jh7110_gmac_init(get_chip_type(), get_board_type());
 	/*
@@ -459,7 +465,6 @@ int board_late_init(void)
 	if (ret)
 		return ret;
 
-	vf2_board_type = env_get_ulong("vf2_board_type", 10, 0);
 	if (vf2_board_type == 2)
 		ret = video_bmp_display(dev, (ulong)&vf2_lite_bmp_logo_bitmap[0], BMP_ALIGN_CENTER, BMP_ALIGN_CENTER, true);
 	else
