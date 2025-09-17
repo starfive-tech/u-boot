@@ -1110,6 +1110,120 @@ static int do_mmc_boot_wp(struct cmd_tbl *cmdtp, int flag,
 	return CMD_RET_SUCCESS;
 }
 
+static int do_mmc_wp_type(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
+{
+	struct mmc *mmc;
+	int dev, gpp_index;
+	int ret, i;
+	u64 wp_bits = 0;
+	u32 gpp_capacity_blk, hc_wp_grp_size;
+
+	if (argc != 3)
+		return CMD_RET_USAGE;
+
+	dev = dectoul(argv[1], NULL);
+	gpp_index = dectoul(argv[2], NULL);
+
+	mmc = init_mmc_device(dev, false);
+	if (!mmc) {
+		printf("Failed to init device %d\n", dev);
+		return CMD_RET_FAILURE;
+	}
+
+	/* (USER=0, BOOT1=1, BOOT2=2, RPMB=3, GPP0=4..7) */
+	if (mmc_set_part_conf(mmc, 0, 0, gpp_index)) {
+		printf("Failed to select partition %d\n", gpp_index);
+		return CMD_RET_FAILURE;
+	}
+
+	if (!mmc->hc_wp_grp_size) {
+		printf("Invalid WP group size\n");
+		return CMD_RET_FAILURE;
+	}
+
+	if (!mmc->capacity_gp[gpp_index - 4]) {
+		printf("Invalid partition capacity\n");
+		return CMD_RET_FAILURE;
+	}
+
+	gpp_capacity_blk = mmc->capacity_gp[gpp_index - 4] >> 9;
+	hc_wp_grp_size = mmc->hc_wp_grp_size;
+
+	if (gpp_capacity_blk < hc_wp_grp_size)
+		gpp_capacity_blk = hc_wp_grp_size;
+
+	for (i = 0; i < (gpp_capacity_blk / hc_wp_grp_size); i += 32) {
+		memset(&wp_bits, 0, sizeof(wp_bits));
+
+		ret = mmc_user_wp_type(mmc, i * hc_wp_grp_size, &wp_bits);
+		if (ret)
+			return CMD_RET_FAILURE;
+
+		printf("Write protect groups %u - %u: ", i, i + 31);
+		if (wp_bits) {
+			printf("Temporary Write Protection\n");
+			ret = 1;
+		} else {
+			printf("No write protection\n");
+			ret = 0;
+		}
+	}
+
+	/* Restore USER partition */
+	if (mmc_set_part_conf(mmc, 0, 0, 0)) {
+		printf("Failed to select partition %d\n", gpp_index);
+		return CMD_RET_FAILURE;
+	}
+
+	return ret;
+}
+
+static int do_mmc_temp_wp(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
+{
+	struct mmc *mmc;
+	u32 gpp_index, onoff;
+	int dev, ret;
+	u32 gpp_capacity_blk, hc_wp_grp_size, block_num;
+
+	if (argc < 4)
+		return CMD_RET_USAGE;
+
+	dev = dectoul(argv[1], NULL);
+	gpp_index = dectoul(argv[2], NULL);
+	onoff = dectoul(argv[3], NULL);
+
+	mmc = init_mmc_device(dev, false);
+	if (!mmc) {
+		printf("Failed to init device %d\n", dev);
+		return CMD_RET_FAILURE;
+	}
+
+	/* (USER=0, BOOT1=1, BOOT2=2, RPMB=3, GPP0=4..7) */
+	if (mmc_set_part_conf(mmc, 0, 0, gpp_index)) {
+		printf("Failed to select partition %d\n", gpp_index);
+		return CMD_RET_FAILURE;
+	}
+
+	gpp_capacity_blk = mmc->capacity_gp[gpp_index - 4] >> 9;
+	hc_wp_grp_size   = mmc->hc_wp_grp_size;
+
+	for (block_num = 0; block_num < gpp_capacity_blk; block_num += hc_wp_grp_size) {
+		ret = mmc_user_wp(mmc, block_num, onoff);
+		if (ret) {
+			printf("WP op failed at block %u\n", block_num);
+			return CMD_RET_FAILURE;
+		}
+	}
+
+	/* Restore USER partition */
+	if (mmc_set_part_conf(mmc, 0, 0, 0)) {
+		printf("Failed to select partition %d\n", gpp_index);
+		return CMD_RET_FAILURE;
+	}
+
+	return CMD_RET_SUCCESS;
+}
+
 #if CONFIG_IS_ENABLED(CMD_MMC_REG)
 static int do_mmc_reg(struct cmd_tbl *cmdtp, int flag,
 		      int argc, char *const argv[])
@@ -1201,6 +1315,8 @@ static struct cmd_tbl cmd_mmc[] = {
 	U_BOOT_CMD_MKENT(info, 1, 0, do_mmcinfo, "", ""),
 	U_BOOT_CMD_MKENT(read, 4, 1, do_mmc_read, "", ""),
 	U_BOOT_CMD_MKENT(wp, 2, 0, do_mmc_boot_wp, "", ""),
+	U_BOOT_CMD_MKENT(wp-temp, 4, 0, do_mmc_temp_wp, "", ""),
+	U_BOOT_CMD_MKENT(wp-gp-type, 3, 0, do_mmc_wp_type, "", ""),
 #if CONFIG_IS_ENABLED(MMC_WRITE)
 	U_BOOT_CMD_MKENT(write, 4, 0, do_mmc_write, "", ""),
 	U_BOOT_CMD_MKENT(erase, 3, 0, do_mmc_erase, "", ""),
@@ -1283,6 +1399,11 @@ U_BOOT_CMD(
 	"   PART - [0|1]\n"
 	"       : 0 - first boot partition, 1 - second boot partition\n"
 	"         if not assigned, write protect all boot partitions\n"
+	"mmc wp-gp-type [dev] [gp_part] - show current mmc device [GP partition] WP status\n"
+	"    - [gp_part] - 4..7\n"
+	"mmc wp-temp [dev] [gp_part] [wp_state] - set or clear the WP group of GP partition\n"
+	"    - [gp_part] - 4..7\n"
+	"    - [wp_state] - 1 - set, 0 - clear\n"
 #if CONFIG_IS_ENABLED(MMC_HW_PARTITIONING)
 	"mmc hwpartition <USER> <GP> <MODE> - does hardware partitioning\n"
 	"  arguments (sizes in 512-byte blocks):\n"

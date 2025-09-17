@@ -911,6 +911,72 @@ int mmc_boot_wp_single_partition(struct mmc *mmc, int partition)
 	return ret;
 }
 
+int mmc_user_wp(struct mmc *mmc, u32 blk_addr, int set_wp)
+{
+	struct mmc_cmd cmd;
+	int ret;
+
+	ALLOC_CACHE_ALIGN_BUFFER(u8, ext_csd, MMC_MAX_BLOCK_LEN);
+
+	ret = mmc_send_ext_csd(mmc, ext_csd);
+	if (ret)
+		return ret;
+
+	if (ext_csd[EXT_CSD_ERASE_GROUP_DEF] == 0) {
+		ret = mmc_switch(mmc, EXT_CSD_CMD_SET_NORMAL, EXT_CSD_ERASE_GROUP_DEF, 1);
+		if (ret)
+			return ret;
+	}
+
+	cmd.cmdidx = set_wp ? MMC_CMD_SET_WRITE_PROT : MMC_CMD_CLR_WRITE_PROT;
+	cmd.cmdarg = blk_addr;
+	cmd.resp_type = MMC_RSP_R1b;
+
+	return mmc_send_cmd(mmc, &cmd, NULL);
+}
+
+int mmc_user_wp_type(struct mmc *mmc, u32 blk_addr, u64 *wp_bits)
+{
+	ALLOC_CACHE_ALIGN_BUFFER(u8, buf, 8);
+	u64 bits = 0;
+	struct mmc_cmd cmd = {0};
+	struct mmc_data data = {0};
+	int ret = 0;
+
+	ALLOC_CACHE_ALIGN_BUFFER(u8, ext_csd, MMC_MAX_BLOCK_LEN);
+
+	ret = mmc_send_ext_csd(mmc, ext_csd);
+	if (ret)
+		return ret;
+
+	if (ext_csd[EXT_CSD_ERASE_GROUP_DEF] == 0) {
+		ret = mmc_switch(mmc, EXT_CSD_CMD_SET_NORMAL, EXT_CSD_ERASE_GROUP_DEF, 1);
+		if (ret)
+			return ret;
+	}
+
+	cmd.cmdidx = MMC_CMD_SEND_WRITE_PROT_TYPE;
+	cmd.cmdarg = blk_addr;
+	cmd.resp_type = MMC_RSP_R1;
+
+	data.dest = (char *)buf;
+	data.blocks = 1;
+	data.blocksize = 8;
+	data.flags = MMC_DATA_READ;
+
+	ret = mmc_send_cmd(mmc, &cmd, &data);
+	if (ret)
+		return ret;
+
+	/* The data read from device, the last significant indicate the first addressed group */
+	for (int i = 0; i < sizeof(buf); i++)
+		bits |= ((u64)buf[7 - i] << (8 * i));
+
+	*wp_bits = bits;
+
+	return 0;
+}
+
 #if !CONFIG_IS_ENABLED(MMC_TINY)
 static int mmc_set_card_speed(struct mmc *mmc, enum bus_mode mode,
 			      bool hsdowngrade)

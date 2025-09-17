@@ -109,6 +109,9 @@ struct bd_info;
 #define MMC_CMD_SET_BLOCK_COUNT         23
 #define MMC_CMD_WRITE_SINGLE_BLOCK	24
 #define MMC_CMD_WRITE_MULTIPLE_BLOCK	25
+#define MMC_CMD_SET_WRITE_PROT		28
+#define MMC_CMD_CLR_WRITE_PROT		29
+#define MMC_CMD_SEND_WRITE_PROT_TYPE	31
 #define MMC_CMD_ERASE_GROUP_START	35
 #define MMC_CMD_ERASE_GROUP_END		36
 #define MMC_CMD_ERASE			38
@@ -1004,6 +1007,30 @@ int mmc_send_ext_csd(struct mmc *mmc, u8 *ext_csd);
  * Return:	0 for success
  */
 int mmc_boot_wp(struct mmc *mmc);
+
+/**
+ * mmc_user_wp() - temp write/clear protect user partitions
+ *
+ * The user partitions are write protected until clear command is issued
+ *
+ * @param mmc  - mmc device
+ * @param blk_addr - block address
+ * @param set_wp - 0 - clear, 1 - set
+ * @return 0 for success
+ */
+int mmc_user_wp(struct mmc *mmc, u32 blk_addr, int set_wp);
+
+/**
+ * mmc_user_wp_type() - Get the write protection status of a partition
+ *
+ * The return wp bits is in 64bits of 32 wp group
+ *
+ * @param mmc - mmc device
+ * @param blk_addr - block address
+ * @param wp_bits - pointer value to store return wp status
+ * @return 0 for success
+ */
+int mmc_user_wp_type(struct mmc *mmc, u32 blk_addr, u64 *wp_bits);
 
 /**
  * mmc_boot_wp_single_partition() - set write protection to a boot partition.
