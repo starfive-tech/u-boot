@@ -56,11 +56,12 @@ static struct
   unsigned long file_length, read_length;
 } xyz;
 
-#define xyzModem_CHAR_TIMEOUT            2000	/* 2 seconds */
+#define xyzModem_CHAR_TIMEOUT            500	/* 500 milliseconds */
 #define xyzModem_MAX_RETRIES             20
 #define xyzModem_MAX_RETRIES_WITH_CRC    10
 #define xyzModem_CAN_COUNT                3	/* Wait for 3 CAN before quitting */
 
+static int final_hdr_blk;
 
 typedef int cyg_int32;
 static int
@@ -319,6 +320,8 @@ xyzModem_get_hdr (void)
 	  xyzModem_flush ();	/* Toss any current input */
 	  ZM_DEBUG (zm_dump (__LINE__));
 	  CYGACC_CALL_IF_DELAY_US ((cyg_int32) 250000);
+	  if (final_hdr_blk)
+	    goto final_blk;
 	  return xyzModem_timeout;
 	}
     }
@@ -409,6 +412,7 @@ xyzModem_get_hdr (void)
 	}
     }
   /* If we get here, the message passes [structural] muster */
+final_blk:
   return 0;
 }
 
@@ -498,7 +502,7 @@ xyzModem_stream_open (connection_info_t * info, int *err)
 	{
 	  if (--crc_retries <= 0)
 	    xyz.crc_mode = false;
-	  CYGACC_CALL_IF_DELAY_US (5 * 100000);	/* Extra delay for startup */
+	  CYGACC_CALL_IF_DELAY_US (10000);	/* Extra delay for startup */
 	  CYGACC_COMM_IF_PUTC (*xyz.__chan, (xyz.crc_mode ? 'C' : NAK));
 	  xyz.total_retries++;
 	  ZM_DEBUG (zm_dprintf ("NAK (%d)\n", __LINE__));
@@ -605,8 +609,10 @@ xyzModem_stream_read (char *buf, int size, int *err)
 		      CYGACC_COMM_IF_PUTC (*xyz.__chan,
 					   (xyz.crc_mode ? 'C' : NAK));
 		      xyz.total_retries++;
+		      final_hdr_blk = 1;
 		      ZM_DEBUG (zm_dprintf ("Reading Final Header\n"));
 		      stat = xyzModem_get_hdr ();
+		      final_hdr_blk = 0;
 		      CYGACC_COMM_IF_PUTC (*xyz.__chan, ACK);
 		      ZM_DEBUG (zm_dprintf ("FINAL ACK (%d)\n", __LINE__));
 		    }
