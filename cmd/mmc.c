@@ -1124,6 +1124,11 @@ static int do_mmc_wp_type(struct cmd_tbl *cmdtp, int flag, int argc, char *const
 	dev = dectoul(argv[1], NULL);
 	gpp_index = dectoul(argv[2], NULL);
 
+	if (!(gpp_index >= 4 && gpp_index <= 7)) {
+		printf("Invalid partition index: %u (valid range: 4..7 for GP1..GP4)\n", gpp_index);
+		return CMD_RET_FAILURE;
+	}
+
 	mmc = init_mmc_device(dev, false);
 	if (!mmc) {
 		printf("Failed to init device %d\n", dev);
@@ -1191,6 +1196,11 @@ static int do_mmc_temp_wp(struct cmd_tbl *cmdtp, int flag, int argc, char *const
 	dev = dectoul(argv[1], NULL);
 	gpp_index = dectoul(argv[2], NULL);
 	onoff = dectoul(argv[3], NULL);
+
+	if (!(gpp_index >= 4 && gpp_index <= 7)) {
+		printf("Invalid partition index: %u (valid range: 4..7 for GP1..GP4)\n", gpp_index);
+		return CMD_RET_FAILURE;
+	}
 
 	mmc = init_mmc_device(dev, false);
 	if (!mmc) {

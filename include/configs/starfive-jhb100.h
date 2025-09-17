@@ -212,10 +212,14 @@
 		"if parsecap ${loadaddr}; then "	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
+				"if mmc wp-gp-type 0 ${emmc_temp_partition}; then "	\
+					"mmc wp-temp 0 ${emmc_temp_partition} 0; "	\
+				"fi; "	\
 				"getemmcgppsz; "	\
 				"mmc partconf 0 0 0 ${emmc_temp_partition}; "	\
 				"echo Writing parsed update capsule to eMMC temp partition ...; "	\
 				"run emmc_write_cap;"	\
+				"mmc wp-temp 0 ${emmc_temp_partition} 1; "	\
 				"echo Writing complete ...; "	\
 			"fi; "	\
 		"fi; \0"	\
@@ -223,10 +227,14 @@
 		"if parsecap ${loadaddr}; then "	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
+				"if mmc wp-gp-type 0 ${emmc_temp_partition}; then "	\
+					"mmc wp-temp 0 ${emmc_temp_partition} 0; "	\
+				"fi; "	\
 				"getemmcgppsz; "	\
 				"mmc partconf 0 0 0 ${emmc_temp_partition}; "	\
 				"echo Writing parsed update capsule to eMMC temp partition ...; "	\
 				"run emmc_write_cap;"	\
+				"mmc wp-temp 0 ${emmc_temp_partition} 1; "	\
 				"mmc partconf 0 0 0 ${emmc_gol_partition}; "	\
 				"echo Writing parsed update capsule to eMMC golden partition ...; "	\
 				"run emmc_write_cap;"	\
