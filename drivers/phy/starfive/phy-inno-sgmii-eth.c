@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * Copyright (c) 2018 Rockchip Electronics Co. Ltd.
+ * Starfive PHY Innosilicon SGMII Driver
  *
- * Author: Wyon Bi <bivvy.bi@rock-chips.com>
+ * Copyright (C) 2025 StarFive Technology Co., Ltd.
  */
 
 #include <dm.h>
@@ -18,9 +18,6 @@
 
 struct inno_sgmii_phy_data {
 	struct clk_bulk clks;
-	unsigned int phy_status_offset;
-	unsigned int phy_status_mask;
-	unsigned int phy_status_valid;
 };
 
 static int inno_sgmii_phy_exit(struct phy *phy)
@@ -62,18 +59,14 @@ static const struct phy_ops inno_sgmii_phy_ops = {
 
 static int inno_sgmii_phy_probe(struct udevice *dev)
 {
-	struct inno_sgmii_phy_data *data;
+	struct inno_sgmii_phy_data *priv = dev_get_plat(dev);
 	int ret;
 
-	data = calloc(1, sizeof(struct inno_sgmii_phy_data));
-	if (!data)
-		return -ENOMEM;
-
-	ret = clk_get_bulk(dev, &data->clks);
+	ret = clk_get_bulk(dev, &priv->clks);
 	if (ret < 0)
 		return ret;
 
-	ret = clk_enable_bulk(&data->clks);
+	ret = clk_enable_bulk(&priv->clks);
 	if (ret) {
 		printf("%s sgmii clk enable failed\n", __func__);
 		return ret;
