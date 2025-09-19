@@ -913,6 +913,7 @@ int mmc_boot_wp_single_partition(struct mmc *mmc, int partition)
 
 int mmc_user_wp(struct mmc *mmc, u32 blk_addr, int set_wp)
 {
+#ifdef CONFIG_STARFIVE_MMC_SET_TEMP_WP
 	struct mmc_cmd cmd;
 	int ret;
 
@@ -933,6 +934,9 @@ int mmc_user_wp(struct mmc *mmc, u32 blk_addr, int set_wp)
 	cmd.resp_type = MMC_RSP_R1b;
 
 	return mmc_send_cmd(mmc, &cmd, NULL);
+#else
+	return 0;
+#endif
 }
 
 int mmc_user_wp_type(struct mmc *mmc, u32 blk_addr, u64 *wp_bits)
