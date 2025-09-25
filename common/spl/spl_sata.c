@@ -17,7 +17,7 @@
 #include <fat.h>
 #include <image.h>
 
-static int spl_sata_load_image_raw(struct spl_image_info *spl_image,
+__maybe_unused static int spl_sata_load_image_raw(struct spl_image_info *spl_image,
 		struct spl_boot_device *bootdev,
 		struct blk_desc *stor_dev, unsigned long sector)
 {

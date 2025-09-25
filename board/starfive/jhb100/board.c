@@ -36,7 +36,7 @@ u32 jhb100_get_boot_device(void)
 	case BOOT_SRC_EMMC:
 		return BOOT_DEVICE_MMC1;
 	case BOOT_SRC_UFS:
-		return BOOT_DEVICE_MMC1;
+		return BOOT_DEVICE_UFS;
 	case BOOT_SRC_UART:
 		return BOOT_DEVICE_UART;
 	case BOOT_SRC_AUTO_DETECT:

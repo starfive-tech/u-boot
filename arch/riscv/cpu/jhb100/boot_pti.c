@@ -153,6 +153,15 @@ int starfive_get_partition_num(int boot_src, int part_type, int img_type)
 
 		return emmc_partition_map[resp_data[1] & GET_BMCFW_INFO_EMMC_UFS_PARTITION_MASK];
 	}
+	case BOOT_SRC_UFS: {
+		if (img_type == IMG_TYPE_UBOOT_PROPER) {
+			return (part_type == PT_ACTIVE) ?
+				UFS_BOOTA_LUN1 : UFS_BOOTB_LUN2;
+		} else if (img_type == IMG_TYPE_KERNEL) {
+			return UFS_LUN0;
+		}
+		break;
+	}
 	default:
 		printf("Unknown boot source\n");
 	}
@@ -171,6 +180,18 @@ int starfive_get_partition_offset(int boot_src, int part_type, int img_type)
 		GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
 
 		return boot_src == BOOT_SRC_EMMC ? resp_data[2] / MMC_BLK_SIZE : resp_data[2];
+	}
+	case BOOT_SRC_UFS: {
+		if (img_type == IMG_TYPE_UBOOT_PROPER) {
+			return (part_type == PT_ACTIVE) ?
+				(UFS_UBOOT_PROPER_ACTIVE_OFFS / UFS_BLK_SIZE)
+				 : (UFS_UBOOT_PROPER_GOLDEN_OFFS / UFS_BLK_SIZE);
+		} else if (img_type == IMG_TYPE_KERNEL) {
+			return (part_type == PT_ACTIVE) ?
+				(UFS_KERNEL_ACTIVE_OFFS / UFS_BLK_SIZE)
+				 : (UFS_KERNEL_GOLDEN_OFFS / UFS_BLK_SIZE);
+		}
+		break;
 	}
 	default:
 		printf("Unknown boot source\n");

@@ -7,6 +7,40 @@
 
 #include <linux/types.h>
 
+#define EMMC_BOOT0_PART		1
+#define EMMC_BOOT1_PART		2
+/* TODO: Currently these macros are hardcoded to '0' indicating access to UDA
+ * This is because not every FPGA station is fused with GPP partition yet.
+ * So, to test access to GPP, choose MDC fpga 4 which is configured with GP1
+ * partition and change below macro values to select GP1.
+ *
+ * Assign EMMC_GPP1_PART to value '4' to access GP1 and so on.....
+ */
+#define EMMC_GPP1_PART		4
+#define EMMC_GPP2_PART		5
+#define EMMC_GPP3_PART		6
+#define EMMC_GPP4_PART		7
+#define EMMC_UDA_PART		0
+
+#define UFS_LUN0			0
+#define UFS_BOOTA_LUN1		1
+#define UFS_BOOTB_LUN2		2
+
+#define SFC_UBOOT_PROPER_ACTIVE_OFFS	0x190000
+#define SFC_UBOOT_PROPER_GOLDEN_OFFS	0x190000
+#define SFC_KERNEL_ACTIVE_OFFS		0xC20000
+#define SFC_KERNEL_GOLDEN_OFFS		0x1C20000
+
+#define EMMC_UBOOT_PROPER_ACTIVE_OFFS	0x190000
+#define EMMC_UBOOT_PROPER_GOLDEN_OFFS	0x190000
+#define EMMC_KERNEL_ACTIVE_OFFS		0
+#define EMMC_KERNEL_GOLDEN_OFFS		0
+
+#define UFS_UBOOT_PROPER_ACTIVE_OFFS	0x190000
+#define UFS_UBOOT_PROPER_GOLDEN_OFFS	0x190000
+#define UFS_KERNEL_ACTIVE_OFFS		0
+#define UFS_KERNEL_GOLDEN_OFFS		0
+
 /* Partition Type */
 enum partition_type {
 	PT_ACTIVE,
@@ -53,6 +87,7 @@ static const int emmc_partition_map[7] = {
 #define KERNEL_BOOT_STAT_REG_ADDR	0x0013018024
 
 #define MMC_BLK_SIZE		512
+#define UFS_BLK_SIZE		4096
 
 #define BOOT_TRIAL_CNT		1
 #define MAX_BOOT_TRIAL_UART	4

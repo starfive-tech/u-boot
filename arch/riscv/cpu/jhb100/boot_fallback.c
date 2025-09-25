@@ -201,6 +201,9 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 		dram_init_banksize();
 
 		break;
+	case BOOT_SRC_UFS:
+		spl_boot_list[0] = BOOT_DEVICE_UFS;
+		break;
 	default:
 		debug("Unsupported boot device 0x%x, trying UART..\n", boot_src);
 		spl_boot_list[0] = BOOT_DEVICE_UART;
