@@ -22,12 +22,6 @@ obj-$(CONFIG_AES) += aes.o
 obj-$(CONFIG_AES) += aes/
 obj-$(CONFIG_$(SPL_TPL_)BINMAN_FDT) += binman.o
 
-ifndef API_BUILD
-ifneq ($(CONFIG_CHARSET),)
-obj-y += charset.o
-endif
-endif
-
 ifdef CONFIG_USB_TTY
 obj-y += circbuf.o
 else
@@ -54,6 +48,12 @@ obj-$(CONFIG_SUPPORT_EMMC_RPMB) += sha256.o
 obj-$(CONFIG_RBTREE)	+= rbtree.o
 obj-$(CONFIG_BITREVERSE) += bitrev.o
 obj-y += list_sort.o
+endif
+
+ifndef API_BUILD
+ifneq ($(CONFIG_CHARSET),)
+obj-y += charset.o
+endif
 endif
 
 obj-$(CONFIG_$(SPL_TPL_)TPM) += tpm-common.o

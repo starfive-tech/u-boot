@@ -1277,6 +1277,15 @@ config SPL_SATA
 	  expense and power consumption. This enables loading from SATA
 	  using a configured device.
 
+config SPL_UFS
+    bool "Enable UFS support in SPL"
+    select UFS
+	select CHARSET
+    help
+      Enable support for UFS (Universal Flash Storage) in SPL.
+      This allows loading from UFS devices during the SPL phase.
+      Useful for boards that boot directly from UFS.
+
 config SYS_SATA_FAT_BOOT_PARTITION
 	int "Partition on the SATA disk to load U-Boot from"
 	depends on SPL_SATA && SPL_FS_FAT

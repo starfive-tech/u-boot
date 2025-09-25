@@ -17,6 +17,7 @@ obj-$(CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH) += secure_vab.o
 obj-y += starfive_reset.o
 obj-$(CONFIG_SPL_BUILD) += spl_mmc_starfive.o
 obj-$(CONFIG_SPL_BUILD) += spl_spi_starfive.o
+obj-$(CONFIG_SPL_BUILD) += spl_ufs_starfive.o
 obj-$(CONFIG_SPL_BUILD) += starfive_pcu.o
 obj-$(CONFIG_SPL_BUILD) += boot_fallback.o
 obj-$(CONFIG_SPL_BUILD) += spl.o
