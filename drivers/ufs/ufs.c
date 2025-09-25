@@ -21,7 +21,9 @@
 #include <hexdump.h>
 #include <scsi.h>
 #include <asm/io.h>
+#include <asm/arch/soc.h>
 #include <asm/dma-mapping.h>
+#include <asm/unaligned.h>
 #include <linux/bitops.h>
 #include <linux/delay.h>
 #include <linux/dma-mapping.h>
@@ -59,6 +61,8 @@
 
 /* maximum bytes per request */
 #define UFS_MAX_BYTES	(128 * 256 * 1024)
+
+#define UFS_BOOT_LUN_ID_MASK 0x3
 
 static inline bool ufshcd_is_hba_active(struct ufs_hba *hba);
 static inline void ufshcd_hba_stop(struct ufs_hba *hba);
@@ -106,7 +110,8 @@ static void ufshcd_init_pwr_info(struct ufs_hba *hba)
  * ufshcd_print_pwr_info - print power params as saved in hba
  * power info
  */
-static void ufshcd_print_pwr_info(struct ufs_hba *hba)
+/* FIXME: Surpress warning with __maybe_unused as we don't support UFS power mode change on JHB100 for now */
+__maybe_unused static void ufshcd_print_pwr_info(struct ufs_hba *hba)
 {
 	static const char * const names[] = {
 		"INVALID MODE",
@@ -603,6 +608,21 @@ static void ufshcd_host_memory_configure(struct ufs_hba *hba)
 	dma_addr_t cmd_desc_dma_addr;
 	u16 response_offset;
 	u16 prdt_offset;
+
+#ifdef CONFIG_TARGET_STARFIVE_JHB100
+	/* Convert cacheable to uncacheable region */
+	uintptr_t utrdl = (uintptr_t)hba->utrdl;
+	uintptr_t ucdl = (uintptr_t)hba->ucdl;
+
+	if (is_cpu_addr(utrdl)) {
+		flush_cache(utrdl, ROUND(sizeof(struct utp_transfer_req_desc), ARCH_DMA_MINALIGN));
+		hba->utrdl = (struct utp_transfer_req_desc *)cpu_to_dma_addr(utrdl);
+	}
+	if (is_cpu_addr(ucdl)) {
+		flush_cache(ucdl, ROUND(sizeof(struct utp_transfer_cmd_desc), ARCH_DMA_MINALIGN));
+		hba->ucdl = (struct utp_transfer_cmd_desc *)cpu_to_dma_addr(ucdl);
+	}
+#endif
 
 	utrdlp = hba->utrdl;
 	cmd_desc_dma_addr = (dma_addr_t)hba->ucdl;
@@ -1279,6 +1299,32 @@ int ufshcd_map_desc_id_to_length(struct ufs_hba *hba, enum desc_idn desc_id,
 EXPORT_SYMBOL(ufshcd_map_desc_id_to_length);
 
 /**
+ * ufshcd_write_desc_param - write the specified descriptor parameter
+ *
+ */
+static int ufshcd_write_desc_param(struct ufs_hba *hba, enum desc_idn desc_id,
+				   int desc_index, u8 param_offset,
+				   u8 *param_write_buf, int param_size)
+{
+	int ret;
+
+	/* Safety check */
+	if (desc_id >= QUERY_DESC_IDN_MAX || !param_size || !param_write_buf)
+		return -EINVAL;
+
+	ret = ufshcd_query_descriptor_retry(hba, UPIU_QUERY_OPCODE_WRITE_DESC,
+					    desc_id, desc_index, param_offset,
+					    param_write_buf, &param_size);
+
+	if (ret)
+		printf("%s: Failed writing descriptor. desc_id %d, desc_index %d, "
+						"param_offset %d, param_size %d, ret %d\n",
+						__func__, desc_id, desc_index, param_offset, param_size, ret);
+
+	return ret;
+}
+
+/**
  * ufshcd_read_desc_param - read the specified descriptor parameter
  *
  */
@@ -1471,6 +1517,14 @@ static void prepare_prdt_table(struct ufs_hba *hba, struct scsi_cmd *pccb)
 	invalidate_dcache_range(aaddr, aaddr +
 				ALIGN(datalen, ARCH_DMA_MINALIGN));
 
+#ifdef CONFIG_TARGET_STARFIVE_JHB100
+	/* Convert cacheable to uncacheable region */
+	if (is_cpu_addr(aaddr)) {
+		flush_cache(aaddr, ROUND(datalen, ARCH_DMA_MINALIGN));
+		pccb->pdata = (unsigned char *)cpu_to_dma_addr(aaddr);
+	}
+#endif
+
 	table_length = DIV_ROUND_UP(pccb->datalen, MAX_PRDT_ENTRY);
 	buf = pccb->pdata;
 	i = table_length;
@@ -1534,6 +1588,17 @@ static int ufs_scsi_exec(struct udevice *scsi_dev, struct scsi_cmd *pccb)
 	return 0;
 }
 
+static inline int ufshcd_write_desc(struct ufs_hba *hba, enum desc_idn desc_id,
+				    int desc_index, u8 *buf, u32 size)
+{
+	return ufshcd_write_desc_param(hba, desc_id, desc_index, 0, buf, size);
+}
+
+static int ufshcd_write_configuration_desc(struct ufs_hba *hba, u8 *buf, u32 size)
+{
+	return ufshcd_write_desc(hba, QUERY_DESC_IDN_CONFIGURATION, 0, buf, size);
+}
+
 static inline int ufshcd_read_desc(struct ufs_hba *hba, enum desc_idn desc_id,
 				   int desc_index, u8 *buf, u32 size)
 {
@@ -1543,6 +1608,21 @@ static inline int ufshcd_read_desc(struct ufs_hba *hba, enum desc_idn desc_id,
 static int ufshcd_read_device_desc(struct ufs_hba *hba, u8 *buf, u32 size)
 {
 	return ufshcd_read_desc(hba, QUERY_DESC_IDN_DEVICE, 0, buf, size);
+}
+
+static int ufshcd_read_configuration_desc(struct ufs_hba *hba, u8 *buf, u32 size, u8 idx)
+{
+	return ufshcd_read_desc(hba, QUERY_DESC_IDN_CONFIGURATION, idx, buf, size);
+}
+
+static int ufshcd_read_geometry_desc(struct ufs_hba *hba, u8 *buf, u32 size)
+{
+	return ufshcd_read_desc(hba, QUERY_DESC_IDN_GEOMETRY, 0, buf, size);
+}
+
+static int ufshcd_read_unit_desc(struct ufs_hba *hba, u8 *buf, u32 size, u8 lun)
+{
+	return ufshcd_read_desc(hba, QUERY_DESC_IDN_UNIT, lun, buf, size);
 }
 
 /**
@@ -1636,6 +1716,9 @@ static int ufs_get_device_desc(struct ufs_hba *hba,
 	dev_desc->wmanufacturerid = desc_buf[DEVICE_DESC_PARAM_MANF_ID] << 8 |
 				     desc_buf[DEVICE_DESC_PARAM_MANF_ID + 1];
 
+	hba->unit_desc_cfg_off = desc_buf[DEVICE_DESC_PARAM_UD_OFFSET];
+	hba->unit_desc_cfg_len = desc_buf[DEVICE_DESC_PARAM_UD_LEN];
+
 	model_index = desc_buf[DEVICE_DESC_PARAM_PRDCT_NAME];
 
 	/* Zero-pad entire buffer for string termination. */
@@ -1657,6 +1740,33 @@ static int ufs_get_device_desc(struct ufs_hba *hba,
 	/* Null terminate the model string */
 	dev_desc->model[MAX_MODEL_LEN] = '\0';
 
+out:
+	kfree(desc_buf);
+	return err;
+}
+
+static int ufs_get_geometry_desc(struct ufs_hba *hba)
+{
+	int err;
+	size_t buff_len;
+	u8 *desc_buf;
+
+	buff_len = max_t(size_t, hba->desc_size.geom_desc,
+			 QUERY_DESC_MAX_SIZE + 1);
+	desc_buf = kmalloc(buff_len, GFP_KERNEL);
+	if (!desc_buf) {
+		err = -ENOMEM;
+		goto out;
+	}
+
+	err = ufshcd_read_geometry_desc(hba, desc_buf, hba->desc_size.geom_desc);
+	if (err) {
+		dev_err(hba->dev, "%s: Failed reading Gemoetry Desc. err = %d\n",
+			__func__, err);
+		goto out;
+	}
+
+	hba->max_num_lus = desc_buf[UFS_GEOMETRY_MAX_NUMBER_LU] ? 32 : 8;
 out:
 	kfree(desc_buf);
 	return err;
@@ -1727,7 +1837,8 @@ static int ufshcd_get_max_pwr_mode(struct ufs_hba *hba)
 	return 0;
 }
 
-static int ufshcd_change_power_mode(struct ufs_hba *hba,
+/* FIXME: Surpress warning with __maybe_unused as we don't support UFS power mode change on JHB100 for now */
+__maybe_unused static int ufshcd_change_power_mode(struct ufs_hba *hba,
 				    struct ufs_pa_layer_attr *pwr_mode)
 {
 	int ret;
@@ -1861,6 +1972,211 @@ static void ufshcd_def_desc_sizes(struct ufs_hba *hba)
 	hba->desc_size.hlth_desc = QUERY_DESC_HEALTH_DEF_SIZE;
 }
 
+void ufs_list_lus(struct udevice *ufs_dev)
+{
+	u8 *desc_buf;
+	u8 idx;
+	size_t buff_len;
+	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+
+	buff_len = max_t(size_t, hba->desc_size.unit_desc,
+			 QUERY_DESC_MAX_SIZE + 1);
+	desc_buf = kmalloc(buff_len, GFP_KERNEL);
+	if (!desc_buf)
+		return;
+
+	printf("LUN  | Size (MB) | Attributes\n");
+	printf("-----------------------------\n");
+
+	for (idx = 0; idx < hba->max_num_lus; idx++) {
+		ufshcd_read_unit_desc(hba, desc_buf, hba->desc_size.unit_desc, idx);
+
+		if (desc_buf[RPMB_DESC_LU_ENABLE]) {
+			//Block = 2^(logical_block_size) * physical_mem_resource
+			unsigned int size_mb = ((1 << desc_buf[RPMB_DESC_LOGICAL_BLOCK_SIZE])
+				* get_unaligned_be64(&desc_buf[RPMB_DESC_PHY_MEM_RESOURCE]))
+				/ (1024 * 1024);
+
+			printf("%02d   | %8u  | ", idx, size_mb);
+
+			char attr_buf[64] = {0};
+			int attr_len = 0;
+
+			if (desc_buf[RPMB_DESC_LU_WRITE_PROTECT])
+				attr_len += snprintf(attr_buf + attr_len,
+						sizeof(attr_buf) - attr_len, "write protect");
+
+			if (desc_buf[RPMB_DESC_BOOT_LUN_ID]) {
+				if (attr_len > 0)
+					attr_len += snprintf(attr_buf + attr_len,
+							sizeof(attr_buf) - attr_len, ", ");
+				attr_len += snprintf(attr_buf + attr_len, sizeof(attr_buf)
+							- attr_len, "Boot LU %s",
+							(desc_buf[RPMB_DESC_BOOT_LUN_ID] == 1)
+							? "A" : "B");
+			}
+
+			if (attr_len > 0)
+				printf("%s", attr_buf);
+
+			printf("\n");
+		}
+	}
+
+	kfree(desc_buf);
+}
+
+int ufs_create_lu(struct udevice *ufs_dev, u8 lun, u32 size, u32 attr)
+{
+	int ret;
+	size_t buff_len;
+	u8 unit_idx_off;
+	u8 *desc_buf;
+	unsigned int size_mb;
+	u8 boot_lun_id;
+	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+
+	buff_len = max_t(size_t, hba->desc_size.conf_desc, QUERY_DESC_MAX_SIZE + 1);
+	desc_buf = kmalloc(buff_len, GFP_KERNEL);
+	if (!desc_buf)
+		return -ENOMEM;
+
+	ret = ufshcd_read_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc, 0);
+	if (ret)
+		goto out;
+
+	unit_idx_off = hba->unit_desc_cfg_off + (hba->unit_desc_cfg_len * lun);
+
+	if (lun >= hba->max_num_lus) {
+		printf("Maximum value for LUN is %x\n", hba->max_num_lus);
+		ret = -EPERM;
+		goto out;
+	}
+
+	if (desc_buf[unit_idx_off]) {
+		printf("LUN %d already exists. Use 'ufs update' instead.\n", lun);
+		ret = -EPERM;
+		goto out;
+	}
+
+	boot_lun_id = attr & UFS_BOOT_LUN_ID_MASK;
+	if (boot_lun_id)
+		desc_buf[unit_idx_off + 1] = boot_lun_id; //Write LUN Boot ID
+
+	put_unaligned_be32(size, &desc_buf[unit_idx_off + 4]); //LUN size in 4MB units
+	desc_buf[unit_idx_off] = 1; //Enable LUN
+
+	ret = ufshcd_write_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc);
+	if (ret) {
+		printf("Failed to write LU descriptor for LUN %d\n", lun);
+		goto out;
+	}
+
+	size_mb = (size * 4); //Size is in 4MB units
+	printf("LUN %d created successfully (%u MB) %s\n", lun, size_mb,
+				(boot_lun_id) ? "(Boot LUN)" : "");
+
+out:
+	kfree(desc_buf);
+	return ret;
+}
+
+int ufs_update_lu(struct udevice *ufs_dev, u8 lun, u32 size, u32 attr)
+{
+	int ret;
+	size_t buff_len;
+	u8 unit_idx_off;
+	u8 *desc_buf;
+	u8 boot_lun_id;
+	unsigned int size_mb;
+	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+
+	buff_len = max_t(size_t, hba->desc_size.conf_desc, QUERY_DESC_MAX_SIZE + 1);
+	desc_buf = kmalloc(buff_len, GFP_KERNEL);
+	if (!desc_buf)
+		return -ENOMEM;
+
+	ret = ufshcd_read_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc, 0);
+	if (ret)
+		goto out;
+
+	unit_idx_off = hba->unit_desc_cfg_off + (hba->unit_desc_cfg_len * lun);
+
+	if (lun >= hba->max_num_lus) {
+		printf("Maximum value for LUN is %x\n", hba->max_num_lus);
+		ret = -EPERM;
+		goto out;
+	}
+
+	if (desc_buf[unit_idx_off] == 0) {
+		printf("LUN %d not created. Use 'ufs create' instead.\n", lun);
+		ret = -EPERM;
+		goto out;
+	}
+
+	boot_lun_id = attr & UFS_BOOT_LUN_ID_MASK;
+	desc_buf[unit_idx_off + 1] = boot_lun_id ? boot_lun_id : 0;
+
+	put_unaligned_be32(size, &desc_buf[unit_idx_off + 4]); //LUN size in 4MB units
+
+	ret = ufshcd_write_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc);
+	if (ret) {
+		printf("Failed to write LU descriptor for LUN %d\n", lun);
+		goto out;
+	}
+
+	size_mb = (size * 4); //Size is in 4MB units
+	printf("LUN %d update successfully (%u MB) %s\n",
+				 lun, size_mb, (boot_lun_id) ? "(Boot LUN)" : "");
+
+out:
+	kfree(desc_buf);
+	return ret;
+}
+
+int ufs_remove_lu(struct udevice *ufs_dev, int lun)
+{
+	int ret;
+	size_t buff_len;
+	u8 unit_idx_off;
+	u8 *desc_buf;
+	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+
+	buff_len = max_t(size_t, hba->desc_size.conf_desc, QUERY_DESC_MAX_SIZE + 1);
+	desc_buf = kmalloc(buff_len, GFP_KERNEL);
+	if (!desc_buf)
+		return -ENOMEM;
+
+	ret = ufshcd_read_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc, 0);
+	if (ret)
+		goto out;
+
+	if (lun >= hba->max_num_lus) {
+		printf("Maximum value for LUN is %x\n", hba->max_num_lus);
+		ret = -EPERM;
+		goto out;
+	}
+
+	unit_idx_off = hba->unit_desc_cfg_off + (hba->unit_desc_cfg_len * lun);
+	desc_buf[unit_idx_off]   = 0; //Disable LUN
+	desc_buf[unit_idx_off + 1] = 0; //Remove Boot LUN ID
+	desc_buf[unit_idx_off + 2] = 0; //Write Protect
+	desc_buf[unit_idx_off + 4] = 0; //Clear Allocate size
+	desc_buf[unit_idx_off + 5] = 0; //Clear Allocate size
+	desc_buf[unit_idx_off + 6] = 0; //Clear Allocate size
+	desc_buf[unit_idx_off + 7] = 0; //Clear Allocate size
+
+	ret = ufshcd_write_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc);
+	if (ret) {
+		printf("Failed to write LU descriptor for LUN %d\n", lun);
+		goto out;
+	}
+
+out:
+	kfree(desc_buf);
+	return ret;
+}
+
 int ufs_start(struct ufs_hba *hba)
 {
 	struct ufs_dev_desc card = {0};
@@ -1889,11 +2205,21 @@ int ufs_start(struct ufs_hba *hba)
 		return ret;
 	}
 
+	ret = ufs_get_geometry_desc(hba);
+	if (ret) {
+		dev_err(hba->dev, "%s: Failed getting device info. err = %d\n",
+			__func__, ret);
+
+		return ret;
+	}
+
 	if (ufshcd_get_max_pwr_mode(hba)) {
 		dev_err(hba->dev,
 			"%s: Failed getting max supported power mode\n",
 			__func__);
 	} else {
+/* FIXME: The reason why we don't support UFS power mode change on JHB100 for now */
+#ifndef CONFIG_TARGET_STARFIVE_JHB100
 		ret = ufshcd_change_power_mode(hba, &hba->max_pwr_info.info);
 		if (ret) {
 			dev_err(hba->dev, "%s: Failed setting power mode, err = %d\n",
@@ -1904,6 +2230,7 @@ int ufs_start(struct ufs_hba *hba)
 
 		printf("Device at %s up at:", hba->dev->name);
 		ufshcd_print_pwr_info(hba);
+#endif
 	}
 
 	return 0;
