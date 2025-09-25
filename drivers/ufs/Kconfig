@@ -41,4 +41,11 @@ config UFS_RENESAS
 	  UFS host on Renesas needs some vendor specific configuration before
 	  accessing the hardware.
 
+config DWC_UFS_STARFIVE
+	bool "DesignWare Core UFS controller platform driver"
+	depends on UFS
+	help
+	  This selects the StarFive-specific additions to the DesignWare Core UFS
+	  host controller platform driver.
+
 endmenu
