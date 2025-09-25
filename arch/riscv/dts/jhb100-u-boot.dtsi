@@ -651,6 +651,11 @@
 	bootph-pre-ram;
 };
 
+&ufs0 {
+	bootph-pre-ram;
+	status = "okay";
+};
+
 /delete-node/ &espi0_mmbi_buffer_cache;
 /delete-node/ &scp_buffer_uncache;
 /delete-node/ &espi0_mmbi_buffer_uncache;
