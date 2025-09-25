@@ -65,10 +65,10 @@ config SPL_DM_MMC
 if MMC
 
 config STARFIVE_MMC_SET_TEMP_WP
-    bool "Support for enabling temporary write protection"
-    help
-        This enables the temporary write protection support on the MMC
-        controller
+	bool "Support for enabling temporary write protection"
+	help
+	  This enables the temporary write protection support on the MMC
+	  controller
 
 config MMC_SDHCI_ADMA_HELPERS
 	bool
