@@ -344,8 +344,7 @@
 			"setimgrcmap 5; "	\
 			"getimginfo 5; "	\
 			"run set_bootargs_root_ram;"	\
-			"sf probe;"	\
-			"if sf probe 0:0; then "	\
+			"if sf probe 0:${cs_num}; then "	\
 				"echo Trying to load SPI Active FIT image ...; "	\
 				"if run loadfitimagespiact; then "	\
 					"authbimgstorage 5;"	\
@@ -362,15 +361,14 @@
 			"fi; "	\
 		"fi;"	\
 		"echo Found invalid SFC Active FIT image ...;"	\
-		"echo Checking if SFC Golden image	\
-		is present in second flash chip ...;"	\
+		"echo Checking for SFC Golden image	\
+		location in flash chip ...;"	\
 		"if chksfcdualflash; then "	\
 			"if checkimgrcmap 6; then "	\
 				"setimgrcmap 6; "	\
 				"getimginfo 6; "	\
 				"run set_bootargs_root_ram;"	\
-				"sf probe;"	\
-				"if sf probe 0:1; then "	\
+				"if sf probe 0:${cs_num}; then "	\
 					"echo Trying to load SPI Golden FIT image ...; "	\
 					"if run loadfitimagespigol; then "	\
 						"authbimgstorage 6;"	\
