@@ -287,11 +287,13 @@ static int do_starfive_pre_os_boot_notify(struct cmd_tbl *cmdtp, int flag, int a
 static int do_starfive_check_sfc_dual_flash(struct cmd_tbl *cmdtp, int flag, int argc,
 					    char *const argv[])
 {
-	if (starfive_get_sfc_cs_line_num() < 2) {
-		printf("Only single SPI flash chip detected\n");
-		return CMD_RET_FAILURE;
+	if (starfive_get_sfc_cs_line_num() == CONFIG_SF_CS1) {
+		printf("Golden image found in CS1...\n");
+		env_set_hex("cs_num", (ulong)CONFIG_SF_CS1);
+	} else {
+		printf("Golden image found in CS0...\n");
+		env_set_hex("cs_num", (ulong)CONFIG_SF_DEFAULT_CS);
 	}
-	printf("Dual SPI flash chip detected\n");
 	return CMD_RET_SUCCESS;
 }
 
@@ -350,17 +352,25 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
 			env_set_hex("sfc_kernel_act_part_offs", (ulong)val);
+			val = starfive_get_image_size(BOOT_SRC_SFC,
+						      PT_ACTIVE,
+						      IMG_TYPE_KERNEL);
+			env_set_hex("kernel_fit_load_size", (ulong)val);
 			break;
 		case SFC_SECONDARY:
-			if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL) < 1) {
-				printf("SFC Golden image not found...\n");
-				printf("Golden image is stored in second flash chip...\n");
+			if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL) == CONFIG_SF_CS1) {
+				printf("Golden image is stored in CS1...\n");
 			} else {
-				val = starfive_get_partition_offset(BOOT_SRC_SFC,
-								    PT_GOLDEN,
-								    IMG_TYPE_KERNEL);
-				env_set_hex("sfc_kernel_gol_part_offs", (ulong)val);
+				printf("Golden image is stored in CS0...\n");
 			}
+			val = starfive_get_partition_offset(BOOT_SRC_SFC,
+							    PT_GOLDEN,
+							    IMG_TYPE_KERNEL);
+			env_set_hex("sfc_kernel_gol_part_offs", (ulong)val);
+			val = starfive_get_image_size(BOOT_SRC_SFC,
+						      PT_GOLDEN,
+						      IMG_TYPE_KERNEL);
+			env_set_hex("kernel_fit_load_size", (ulong)val);
 			break;
 		default:
 			printf("Unknown argument, refer to help command...\n");
