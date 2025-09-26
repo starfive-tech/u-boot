@@ -7,6 +7,8 @@
 
 #include <linux/types.h>
 
+#define CONFIG_SF_CS1		0x1
+
 #define EMMC_BOOT0_PART		1
 #define EMMC_BOOT1_PART		2
 /* TODO: Currently these macros are hardcoded to '0' indicating access to UDA
@@ -129,6 +131,7 @@ void starfive_set_ap_sts_image_flag(int img_type, int sts_image_flag);
 void starfive_set_ap_sts_boot_src(int img_type, int sts_boot_src);
 int starfive_get_partition_num(int boot_src, int part_type, int img_type);
 int starfive_get_partition_offset(int boot_src, int part_type, int img_type);
+int starfive_get_image_size(int boot_src, int part_type, int img_type);
 int starfive_get_sfc_cs_line_num(void);
 int starfive_get_sfc_cs(int part_type, int img_type);
 int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type);
