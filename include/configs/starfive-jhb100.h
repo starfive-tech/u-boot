@@ -347,9 +347,11 @@
 			"if sf probe 0:0; then "	\
 				"echo Trying to load SPI Active FIT image ...; "	\
 				"if run loadfitimagespiact; then "	\
+					"authbimgstorage 5;"	\
 					"echo Authenticating	\
 					SPI Active FIT image ...; "	\
 					"if authbm ${loadaddr}; then "	\
+						"setkernelimgflg 1;"	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 0;"	\
 						"echo Boot OS ...; "	\
@@ -370,9 +372,11 @@
 				"if sf probe 0:1; then "	\
 					"echo Trying to load SPI Golden FIT image ...; "	\
 					"if run loadfitimagespigol; then "	\
+						"authbimgstorage 6;"	\
 						"echo Authenticating	\
 						SPI Golden FIT image ...; "	\
 						"if authbm ${loadaddr}; then "	\
+							"setkernelimgflg 2;"	\
 							"echo Initiate Pre OS Boot Notify ...; "	\
 							"preosbootnotify 1;"	\
 							"echo Boot OS ...; "	\

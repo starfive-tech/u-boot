@@ -17,6 +17,9 @@
 #include <image.h>
 #include <log.h>
 
+#define PRIMARY_IMG		1
+#define SECONDARY_IMG		2
+
 #define EMMC_PRIMARY		1
 #define EMMC_SECONDARY		2
 #define UFS_PRIMARY		3
@@ -235,14 +238,7 @@ static int do_starfive_authenticate_storage(struct cmd_tbl *cmdtp, int flag, int
 							    IMG_TYPE_KERNEL);
 			break;
 		case SFC_PRIMARY:
-			ret = starfive_req_img_auth_memory(BOOT_SRC_SFC,
-							   PT_ACTIVE,
-							   IMG_TYPE_KERNEL);
-			break;
 		case SFC_SECONDARY:
-			ret = starfive_req_img_auth_memory(BOOT_SRC_SFC,
-							   PT_GOLDEN,
-							   IMG_TYPE_KERNEL);
 			break;
 		default:
 			printf("Unknown argument, refer to help command...\n");
@@ -250,8 +246,31 @@ static int do_starfive_authenticate_storage(struct cmd_tbl *cmdtp, int flag, int
 	}
 
 	starfive_set_ap_ctl_boot_stage(BOOTSTG_KERNEL, BOOTSTG_KERNEL);
+	starfive_add_ap_sts_retry_cnt(BOOTSTG_KERNEL, BOOT_TRIAL_CNT);
+
 	if (ret)
 		return CMD_RET_FAILURE;
+	return CMD_RET_SUCCESS;
+}
+
+static int do_starfive_set_kernel_image_flag(struct cmd_tbl *cmdtp, int flag, int argc,
+					     char *const argv[])
+{
+	argc--; argv++;
+	if (argc) {
+		switch (hextoul(argv[0], NULL)) {
+		case PRIMARY_IMG:
+			starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, ACT_IMG);
+			break;
+		case SECONDARY_IMG:
+			starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, GOL_IMG);
+			break;
+		default:
+			printf("Unknown argument, refer to help command...\n");
+		}
+	}
+
+	starfive_set_ap_ctl_boot_stage(BOOTSTG_KERNEL, BOOTSTG_KERNEL);
 	return CMD_RET_SUCCESS;
 }
 
@@ -440,6 +459,12 @@ U_BOOT_LONGHELP(authbimgstorage,
 #endif
 );
 
+U_BOOT_LONGHELP(setkernelimgflg,
+		"[arg\n    - Set AP status image flag\n"
+		"\tpass: 1 - Primary\n"
+		"\t      2 - Secondary\n"
+);
+
 U_BOOT_LONGHELP(preosbootnotify,
 		"[arg\n    - Notify secureity core before booting OS\n"
 		"\tpass: 0 - Active ROFS validated\n"
@@ -488,6 +513,11 @@ U_BOOT_CMD(authbm, CONFIG_SYS_MAXARGS, 1, do_starfive_authenticate_fit_mem,
 U_BOOT_CMD(authbimgstorage, CONFIG_SYS_MAXARGS, 1, do_starfive_authenticate_storage,
 	   "Authenticate image in persistent storage",
 	   authbimgstorage_help_text
+);
+
+U_BOOT_CMD(setkernelimgflg, CONFIG_SYS_MAXARGS, 1, do_starfive_set_kernel_image_flag,
+	   "Set AP status kernel image flag",
+	   setkernelimgflg_help_text
 );
 
 U_BOOT_CMD(preosbootnotify, CONFIG_SYS_MAXARGS, 1, do_starfive_pre_os_boot_notify,
