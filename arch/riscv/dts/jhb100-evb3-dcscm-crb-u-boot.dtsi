@@ -33,3 +33,19 @@
 
 	/delete-node/ flash@1;
 };
+
+&gmac2 {
+	bootph-pre-ram;
+	assigned-clocks = <&per2crg JHB100_PER2CLK_GMAC2_RX_MUX_DLY>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TXCK_MUX_DLY>;
+	assigned-clock-parents = <&per2crg JHB100_PER2CLK_GMAC2_RGMII_125_MUX>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_DIV>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>;
+	mdio {
+		bootph-pre-ram;
+		phy2: ethernet-phy@2 {
+			bootph-pre-ram;
+		};
+	};
+};
