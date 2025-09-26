@@ -59,9 +59,9 @@ u32 spl_spi_boot_cs(void)
 				CHECK);
 
 	if (!map_stat) {
-		/* Get to CS 1 for Golden partition */
-		if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER) == 1)
-			return 1;
+		/* If golden image is in CS1, return 1 otherwise use default CS0 */
+		if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER) == CONFIG_SF_CS1)
+			return CONFIG_SF_CS1;
 	}
 	return CONFIG_SF_DEFAULT_CS;
 }
