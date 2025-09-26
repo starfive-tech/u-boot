@@ -163,6 +163,17 @@ static int env_get_spi_flash_offs(void)
 	return 0;
 }
 
+static void env_get_spi_cs(void)
+{
+	env_set_hex("cs_num", (ulong)CONFIG_SF_DEFAULT_CS);
+}
+
+static void env_get_spi_flash_config(void)
+{
+	env_get_spi_flash_offs();
+	env_get_spi_cs();
+}
+
 void env_add_bootarg_reset_event(void)
 {
 	env_filter_add_bootarg(starfive_get_reset_event, "reset_event=", NULL);
@@ -224,7 +235,7 @@ void uboot_starfive_fb_rec_map_handler(void)
 int board_late_init(void)
 {
 	env_get_boot_dev();
-	env_get_spi_flash_offs();
+	env_get_spi_flash_config();
 	env_restore_bootcmd();
 	/* Add or replace reset_event argument to bootargs */
 	env_add_bootarg_reset_event();
