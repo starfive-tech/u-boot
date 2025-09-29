@@ -89,3 +89,8 @@
 &sgmii_phy1 {
 	bootph-pre-ram;
 };
+
+&ufs0 {
+	bootph-pre-ram;
+	status = "okay";
+};
