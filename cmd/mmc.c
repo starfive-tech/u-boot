@@ -1167,10 +1167,10 @@ static int do_mmc_wp_type(struct cmd_tbl *cmdtp, int flag, int argc, char *const
 		printf("Write protect groups %u - %u: ", i, i + 31);
 		if (wp_bits) {
 			printf("Temporary Write Protection\n");
-			ret = 1;
+			ret = 0;
 		} else {
 			printf("No write protection\n");
-			ret = 0;
+			ret = 1;
 		}
 	}
 
