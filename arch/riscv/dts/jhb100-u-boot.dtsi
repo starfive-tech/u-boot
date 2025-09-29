@@ -249,17 +249,6 @@
 	bootph-pre-ram;
 };
 
-&gmac2 {
-	/delete-property/ assigned-clock-parents; //TEMPORARY FIX FOR CLK MUX SET PARENT FAIL
-	bootph-pre-ram;
-	mdio0 {
-		bootph-pre-ram;
-		ethernet_phy0: ethernet-phy@0 {
-			bootph-pre-ram;
-		};
-	};
-};
-
 &plic {
 	bootph-pre-ram;
 };

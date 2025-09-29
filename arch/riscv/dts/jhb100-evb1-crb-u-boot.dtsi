@@ -38,6 +38,7 @@
 
 &gmac2 {
 	bootph-pre-ram;
+	/delete-property/ assigned-clock-parents;
 
 #ifdef CONFIG_PHY_NCSI
 	assigned-clocks = <&per2crg JHB100_PER2CLK_GMAC2_RMII_MUX_DLY>,
@@ -62,7 +63,6 @@
 		bootph-pre-ram;
 		phy2: ethernet-phy@2 {
 			compatible = "ethernet-phy-id4f51.e91b";
-			motorcomm,tx-clk-adj-enabled;
 			bootph-pre-ram;
 		};
 	};

@@ -36,6 +36,7 @@
 
 &gmac2 {
 	bootph-pre-ram;
+	/delete-property/ assigned-clock-parents;
 	assigned-clocks = <&per2crg JHB100_PER2CLK_GMAC2_RX_MUX_DLY>,
 			  <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>,
 			  <&per2crg JHB100_PER2CLK_GMAC2_TXCK_MUX_DLY>;
