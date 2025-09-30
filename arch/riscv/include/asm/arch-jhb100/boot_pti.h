@@ -132,7 +132,6 @@ void starfive_set_ap_sts_boot_src(int img_type, int sts_boot_src);
 int starfive_get_partition_num(int boot_src, int part_type, int img_type);
 int starfive_get_partition_offset(int boot_src, int part_type, int img_type);
 int starfive_get_image_size(int boot_src, int part_type, int img_type);
-int starfive_get_partition_size(int boot_src, int part_type, int img_type)
 int starfive_get_sfc_cs_line_num(void);
 int starfive_get_sfc_cs(int part_type, int img_type);
 int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type);
