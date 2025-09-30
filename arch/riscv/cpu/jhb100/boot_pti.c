@@ -214,7 +214,7 @@ int starfive_get_sfc_cs_line_num(void)
 		}
 	}
 
-	/** 
+	/**
 	 * Check if Golden images are located in CS0 or CS1
 	 */
 	if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER) == CONFIG_SF_CS1)
@@ -249,6 +249,20 @@ int starfive_get_image_size(int boot_src, int part_type, int img_type)
 	GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
 
 	return resp_data[3];
+}
+
+int starfive_get_partition_size(int boot_src, int part_type, int img_type)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+
+	if (part_type >= PT_TYPE_MAX || img_type >= IMG_TYPE_MAX)
+		return -EINVAL;
+
+	/* Send RPMI/MPXY message via mailbox */
+	GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
+
+	return resp_data[4];
 }
 
 void set_verify_rofs_flag(int val);
