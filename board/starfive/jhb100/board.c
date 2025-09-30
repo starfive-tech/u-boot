@@ -86,6 +86,7 @@ void board_fit_image_post_process(const void *fit, int node, void **p_image, siz
 	switch (boot_mode) {
 	case BOOT_SRC_EMMC:
 	case BOOT_SRC_UFS:
+	case BOOT_SRC_SFC:
 		if (!verify_rofs) {
 			if (starfive_jhb100_vendor_authentication(p_image, p_size))
 				hang();
