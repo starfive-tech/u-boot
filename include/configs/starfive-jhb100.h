@@ -191,6 +191,10 @@
 		"else "	\
 			"echo ERROR: MMC device ${mmcdev} not detected!; "	\
 		"fi; \0"	\
+	"sfc_write_cap="	\
+		"sf erase ${sfc_temp_part_offs} ${sfc_part_size};"	\
+		"sf write ${rofs_offs} ${sfc_temp_part_offs} ${rofs_size};"	\
+		"sf write ${loadaddr} ${sfc_part_last_8mb} ${8mb_size};\0"	\
 	"emmc_write_cap="	\
 		"mmc write ${rofs_offs} 0x0 ${rofs_blk_size};"	\
 		"mmc write ${loadaddr} ${cap_bif_hdr_offs} ${rofs_blk_offs};\0"	\
@@ -209,6 +213,27 @@
 		"for boot_dev in ${boot_dev_s}; do "	\
 			"run kernel_bootenv_${boot_dev}; "	\
 		"done; \0"	\
+	"parse_write_temp_upd_cap_sfc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"if sf probe 0:${sfc_temp_cs}; then "	\
+				"echo Writing parsed update capsule to SFC temp partition ...; "	\
+				"run sfc_write_cap;"	\
+				"echo Writing complete ...; "	\
+			"fi; "	\
+		"fi; \0"	\
+	"parse_write_agt_upd_cap_sfc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"sf probe 0:${sfc_temp_cs}; "	\
+			"echo Writing parsed update capsule to SFC temp partition ...; "	\
+			"run sfc_write_cap;"	\
+			"sf probe 0:${sfc_gol_cs}; "	\
+			"echo Writing parsed update capsule to SFC golden partition ...; "	\
+			"run sfc_write_cap;"	\
+			"sf probe 0:${sfc_act_cs}; "	\
+			"echo Writing parsed update capsule to SFC active partition ...; "	\
+			"run sfc_write_cap;"	\
+			"echo Writing complete ...; "	\
+		"fi; \0"	\
 	"parse_write_temp_upd_cap_emmc="	\
 		"if parsecap ${loadaddr}; then "	\
 			"mmc list;"	\

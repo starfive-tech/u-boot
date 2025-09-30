@@ -382,14 +382,15 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 static int do_starfive_parse_capsule(struct cmd_tbl *cmdtp, int flag, int argc,
 				     char *const argv[])
 {
-	u32 rofs_blk_size, rofs_offs;
+	u32 rofs_blk_size, rofs_size, rofs_offs, place_holder;
 
 	argc--; argv++;
 	if (argc) {
-		if (starfive_jhb100_parse_capsule(&rofs_blk_size, &rofs_offs,
+		if (starfive_jhb100_parse_capsule(&rofs_blk_size, &rofs_size, &rofs_offs,
 						  hextoul(argv[0], NULL)))
 			return CMD_RET_FAILURE;
 
+		/* Get eMMC partition from PTI */
 		u32 val = starfive_get_partition_num(BOOT_SRC_EMMC,
 					     	     PT_TEMP,
 					     	     IMG_TYPE_KERNEL);
@@ -406,9 +407,43 @@ static int do_starfive_parse_capsule(struct cmd_tbl *cmdtp, int flag, int argc,
 
 		env_set_hex("emmc_gol_partition", (ulong)val);
 
+		/* Get SFC CS# from PTI */
+		val = starfive_get_sfc_cs(PT_TEMP, IMG_TYPE_KERNEL);
+		env_set_hex("sfc_temp_cs", (ulong)val);
+
+		val = starfive_get_sfc_cs(PT_ACTIVE, IMG_TYPE_KERNEL);
+		env_set_hex("sfc_act_cs", (ulong)val);
+
+		val = starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL);
+		env_set_hex("sfc_gol_cs", (ulong)val);
+
+		val = starfive_get_partition_offset(BOOT_SRC_SFC,
+						    PT_TEMP,
+						    IMG_TYPE_KERNEL);
+		place_holder = val;
+		env_set_hex("sfc_temp_part_offs", (ulong)val);
+
+
+		val = starfive_get_partition_offset(BOOT_SRC_SFC,
+						    PT_ACTIVE,
+						    IMG_TYPE_KERNEL);
+		env_set_hex("sfc_act_part_offs", (ulong)val);
+
+		val = starfive_get_partition_offset(BOOT_SRC_SFC,
+						    PT_GOLDEN,
+						    IMG_TYPE_KERNEL);
+		env_set_hex("sfc_gol_part_offs", (ulong)val);
+
+		val = starfive_get_sfc_part_size(PT_TEMP,
+						 IMG_TYPE_KERNEL);
+		env_set_hex("sfc_part_size", (ulong)val);
+		env_set_hex("sfc_part_last_8mb", (ulong)(place_holder + val - EIGHT_MB));
+		env_set_hex("8mb_size", (ulong)(EIGHT_MB));
+
 		env_set_hex("rofs_blk_offs", (ulong)(((rofs_offs -
 			    hextoul(argv[0], NULL)) / MMC_BLK_SIZE) + 1));
 		env_set_hex("rofs_blk_size", (ulong)rofs_blk_size);
+		env_set_hex("rofs_size", (ulong)rofs_size);
 		env_set_hex("rofs_offs", (ulong)rofs_offs);
 	} else {
 		printf("Unknown argument, refer to help command...\n");
