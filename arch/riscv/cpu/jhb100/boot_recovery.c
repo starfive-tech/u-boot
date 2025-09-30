@@ -238,7 +238,13 @@ static int do_starfive_authenticate_storage(struct cmd_tbl *cmdtp, int flag, int
 							    IMG_TYPE_KERNEL);
 			break;
 		case SFC_PRIMARY:
+			ret = starfive_req_img_auth_storage(BOOT_SRC_SFC,
+							    PT_ACTIVE,
+							    IMG_TYPE_KERNEL);
 		case SFC_SECONDARY:
+			ret = starfive_req_img_auth_storage(BOOT_SRC_SFC,
+							    PT_GOLDEN,
+							    IMG_TYPE_KERNEL);
 			break;
 		default:
 			printf("Unknown argument, refer to help command...\n");
@@ -356,6 +362,7 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 						      PT_ACTIVE,
 						      IMG_TYPE_KERNEL);
 			env_set_hex("kernel_fit_load_size", (ulong)val);
+			env_set_hex("kernel_fit_comp_load_size", (ulong)val);
 			break;
 		case SFC_SECONDARY:
 			if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL) == CONFIG_SF_CS1) {
@@ -371,6 +378,7 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 						      PT_GOLDEN,
 						      IMG_TYPE_KERNEL);
 			env_set_hex("kernel_fit_load_size", (ulong)val);
+			env_set_hex("kernel_fit_comp_load_size", (ulong)val);
 			break;
 		default:
 			printf("Unknown argument, refer to help command...\n");
