@@ -96,7 +96,7 @@ static int starfive_pwm_set_config(struct udevice *dev, uint channel,
 
 	data_lrc = period_data;
 
-	data_hrc = duty_data;
+	data_hrc = period_data - duty_data;
 
 	/* set hrc */
 	reg_addr = REG_PTC_RPTC_HRC(priv->regs, channel);
