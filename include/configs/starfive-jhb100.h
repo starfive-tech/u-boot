@@ -113,6 +113,8 @@
 	"loadcompfitimagefatsec=fatload mmc ${mmcdev}:${mmcpart} ${kernel_comp_addr_r} ${fitbootrecfile}.gz\0"	\
 	"loadfitimagespiact=sf read ${loadaddr} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespigol=sf read ${loadaddr} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
+	"loadcompfitimagespiact=sf read ${kernel_comp_addr_r} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
+	"loadcompfitimagespigol=sf read ${kernel_comp_addr_r} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespiprim=sf read ${loadaddr} ${kernel_fit_spi_prim_off} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespisec=sf read ${loadaddr} ${kernel_fit_spi_sec_off} ${kernel_fit_load_size}\0"	\
 	"loadcompfitimagespiprim=sf read ${kernel_comp_addr_r} ${kernel_fit_spi_prim_off} ${kernel_fit_comp_load_size}\0"	\
@@ -370,11 +372,21 @@
 			"getimginfo 5; "	\
 			"run set_bootargs_root_ram;"	\
 			"if sf probe 0:${cs_num}; then "	\
-				"echo Trying to load SPI Active FIT image ...; "	\
-				"if run loadfitimagespiact; then "	\
-					"authbimgstorage 5;"	\
-					"echo Authenticating	\
-					SPI Active FIT image ...; "	\
+				"echo Authenticating SFC Active FIT image ...; "	\
+				"if authbimgstorage 5; then "	\
+					"echo Trying to load SPI Active FIT image ...; "	\
+					"run loadcompfitimagespiact; "	\
+					"echo Uncompressing FIT image ...; "	\
+					"run uncompfitimage;"	\
+					"if authbm ${loadaddr}; then "	\
+						"setkernelimgflg 1;"	\
+						"echo Initiate Pre OS Boot Notify ...; "	\
+						"preosbootnotify 0;"	\
+						"echo Boot OS ...; "	\
+						"bootm ${loadaddr};"	\
+					"fi;"	\
+					"echo FIT image may not be compressed, trying again ...; "	\
+					"run loadfitimagespiact; "	\
 					"if authbm ${loadaddr}; then "	\
 						"setkernelimgflg 1;"	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
@@ -394,11 +406,21 @@
 				"getimginfo 6; "	\
 				"run set_bootargs_root_ram;"	\
 				"if sf probe 0:${cs_num}; then "	\
-					"echo Trying to load SPI Golden FIT image ...; "	\
-					"if run loadfitimagespigol; then "	\
-						"authbimgstorage 6;"	\
-						"echo Authenticating	\
-						SPI Golden FIT image ...; "	\
+					"echo Authenticating SFC Golden FIT image ...; "	\
+					"if authbimgstorage 6; then "	\
+						"echo Trying to load SPI Active FIT image ...; "	\
+						"run loadcompfitimagespigol; "	\
+						"echo Uncompressing FIT image ...; "	\
+						"run uncompfitimage;"	\
+						"if authbm ${loadaddr}; then "	\
+							"setkernelimgflg 2;"	\
+							"echo Initiate Pre OS Boot Notify ...; "	\
+							"preosbootnotify 1;"	\
+							"echo Boot OS ...; "	\
+							"bootm ${loadaddr};"	\
+						"fi;"	\
+						"echo FIT image may not be compressed, trying again ...; "	\
+						"run loadfitimagespigol; "	\
 						"if authbm ${loadaddr}; then "	\
 							"setkernelimgflg 2;"	\
 							"echo Initiate Pre OS Boot Notify ...; "	\
