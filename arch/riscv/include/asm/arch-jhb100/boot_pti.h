@@ -91,6 +91,8 @@ static const int emmc_partition_map[7] = {
 #define MMC_BLK_SIZE		512
 #define UFS_BLK_SIZE		4096
 
+#define EIGHT_MB		0x800000
+
 #define BOOT_TRIAL_CNT		1
 #define MAX_BOOT_TRIAL_UART	4
 
@@ -133,6 +135,7 @@ int starfive_get_partition_num(int boot_src, int part_type, int img_type);
 int starfive_get_partition_offset(int boot_src, int part_type, int img_type);
 int starfive_get_image_size(int boot_src, int part_type, int img_type);
 int starfive_get_sfc_cs_line_num(void);
+int starfive_get_sfc_part_size(int part_type, int img_type);
 int starfive_get_sfc_cs(int part_type, int img_type);
 int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type);
 int starfive_req_img_auth_memory(int boot_src, int part_type, int img_type);
