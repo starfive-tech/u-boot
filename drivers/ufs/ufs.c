@@ -1789,7 +1789,8 @@ static int ufshcd_get_max_pwr_mode(struct ufs_hba *hba)
 		pwr_info->pwr_tx = FAST_MODE;
 		pwr_info->pwr_rx = FAST_MODE;
 	}
-	pwr_info->hs_rate = PA_HS_MODE_B;
+	pwr_info->hs_rate = (hba->quirks & UFSHCD_QUIRK_SELECT_GEAR_RATE_A) ?
+			    PA_HS_MODE_A : PA_HS_MODE_B;
 
 	/* Get the connected lane count */
 	ufshcd_dme_get(hba, UIC_ARG_MIB(PA_CONNECTEDRXDATALANES),
@@ -1837,8 +1838,7 @@ static int ufshcd_get_max_pwr_mode(struct ufs_hba *hba)
 	return 0;
 }
 
-/* FIXME: Surpress warning with __maybe_unused as we don't support UFS power mode change on JHB100 for now */
-__maybe_unused static int ufshcd_change_power_mode(struct ufs_hba *hba,
+static int ufshcd_change_power_mode(struct ufs_hba *hba,
 				    struct ufs_pa_layer_attr *pwr_mode)
 {
 	int ret;
@@ -2218,8 +2218,6 @@ int ufs_start(struct ufs_hba *hba)
 			"%s: Failed getting max supported power mode\n",
 			__func__);
 	} else {
-/* FIXME: The reason why we don't support UFS power mode change on JHB100 for now */
-#ifndef CONFIG_TARGET_STARFIVE_JHB100
 		ret = ufshcd_change_power_mode(hba, &hba->max_pwr_info.info);
 		if (ret) {
 			dev_err(hba->dev, "%s: Failed setting power mode, err = %d\n",
@@ -2230,7 +2228,6 @@ int ufs_start(struct ufs_hba *hba)
 
 		printf("Device at %s up at:", hba->dev->name);
 		ufshcd_print_pwr_info(hba);
-#endif
 	}
 
 	return 0;

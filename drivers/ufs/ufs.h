@@ -816,6 +816,11 @@ struct ufs_hba {
  */
 #define UFSHCD_QUIRK_HIBERN_FASTAUTO			BIT(2)
 
+/*
+ * This quirk select the gear rate A or B.
+ */
+#define UFSHCD_QUIRK_SELECT_GEAR_RATE_A			BIT(3)
+
 	/* Virtual memory reference */
 	struct utp_transfer_cmd_desc *ucdl;
 	struct utp_transfer_req_desc *utrdl;

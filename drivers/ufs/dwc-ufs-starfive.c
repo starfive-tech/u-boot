@@ -44,12 +44,13 @@ struct m_phy_cali_para {
 };
 
 static struct m_phy_cali_para cali_default = {
-	.EXT_COARSE_TUNE_RATEA = 35,
-	.EXT_COARSE_TUNE_RATEB = 0x85,
-	.LANE0_ATT_IDAC_OFST   = 133,
-	.LANE0_CTLE_IDAC_OFST  = 146,
-	.LANE1_ATT_IDAC_OFST   = 133,
-	.LANE1_CTLE_IDAC_OFST  = 149,
+	/* Sync from SCP */
+	.EXT_COARSE_TUNE_RATEA = 37,
+	.EXT_COARSE_TUNE_RATEB = 81,
+	.LANE0_ATT_IDAC_OFST   = 138,
+	.LANE0_CTLE_IDAC_OFST  = 142,
+	.LANE1_ATT_IDAC_OFST   = 194,
+	.LANE1_CTLE_IDAC_OFST  = 139,
 };
 
 static int dwc_ufs_c10_mphy_reg_write(struct ufs_hba *hba, u32 addr, u32 data)
@@ -93,14 +94,14 @@ static int dwc_ufs_c10_mphy_reg_read(struct ufs_hba *hba, u32 addr, u32 *data)
 static int dwc_ufs_init_mphy(struct ufs_hba *hba, struct m_phy_cali_para *calibration,
 			     struct dwc_ufs_priv *priv)
 {
+	/* Sync from SCP */
 	u32 val, dme_val = 0;
 	ulong start, timeout_ms = 100;
 
 	/* Set Rate A in CBRATESEL(offset=0x14) Selects Operating Rate: 0: rate A; 1: rate B*/
 	ufshcd_dme_set(hba, GET_ATTR_SEL(0x8114), 0);
 	/* Set ref_clk_gating_support register(0x8132) CBREFCLKCTRL2[7:6] to 2’b10. */
-	ufshcd_dme_get(hba, GET_ATTR_SEL(0x8132), &dme_val);
-	ufshcd_dme_set(hba, GET_ATTR_SEL(0x8132), dme_val | 0x80);
+	ufshcd_dme_set(hba, GET_ATTR_SEL(0x8132), 0x80);
 	/* RX: Configure per lane RXSQCONTROL(0xX8009) implementation specific
 	 * attribute with value 'h1. Set this for all connected lanes 0xX8009, where X can
 	 * take value 4 to 5 to indicate RX lane 0 to RX lane 1
@@ -227,6 +228,8 @@ static int dwc_ufs_link_startup_notify(struct ufs_hba *hba,
 		printf("Controller init fail ...\n");
 		return -EBUSY;
 	}
+
+	hba->quirks |= UFSHCD_QUIRK_SELECT_GEAR_RATE_A;
 
 	return 0;
 }
