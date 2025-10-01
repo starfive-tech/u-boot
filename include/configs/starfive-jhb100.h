@@ -74,6 +74,7 @@
 #define JHB100_BOOTENV	\
 	"bootenv=uEnv.txt\0"	\
 	"boot_dev_s=mmc\0"	\
+	"bootmstatsfc=fail\0"	\
 	"spibootconfig=tftpcompboot\0"	\
 	"mmcbootconfig=mmcramfitboot\0"	\
 	"fitfile=kernel.itb\0"	\
@@ -131,7 +132,7 @@
 	"noramboot=booti ${loadaddr} - ${fdt_addr_r};\0"	\
 	"gzramboot=booti ${kernel_addr_r} ${ramdisk_addr_r}:${ramdisk_size} ${fdt_addr_r};\0"	\
 	"gznoramboot=booti ${kernel_addr_r} - ${fdt_addr_r};\0"	\
-	"uncompfitimage=unzip ${kernel_comp_addr_r} ${loadaddr} ${kernel_fit_load_size};\0"	\
+	"uncompfitimage=unzip ${kernel_comp_addr_r} ${loadaddr}\0"	\
 	"auth_pre_os_bootm="	\
 		"if authbm ${loadaddr}; then "	\
 			"echo Initiate Pre OS Boot Notify ...; "	\
@@ -141,6 +142,22 @@
 		"fi;\0"	\
 	"auth_and_bootm="	\
 		"if authbm ${loadaddr}; then "	\
+			"bootm ${loadaddr};"	\
+		"fi;\0"	\
+	"auth_bootm_sfc_act="	\
+		"if authbm ${loadaddr}; then "	\
+			"setkernelimgflg 1;"	\
+			"echo Initiate Pre OS Boot Notify ...; "	\
+			"preosbootnotify 0;"	\
+			"echo Boot OS ...; "	\
+			"bootm ${loadaddr};"	\
+		"fi;\0"	\
+	"auth_bootm_sfc_gol="	\
+		"if authbm ${loadaddr}; then "	\
+			"setkernelimgflg 2;"	\
+			"echo Initiate Pre OS Boot Notify ...; "	\
+			"preosbootnotify 1;"	\
+			"echo Boot OS ...; "	\
 			"bootm ${loadaddr};"	\
 		"fi;\0"	\
 	"tftpgzramboot="	\
@@ -193,10 +210,15 @@
 		"else "	\
 			"echo ERROR: MMC device ${mmcdev} not detected!; "	\
 		"fi; \0"	\
-	"sfc_write_cap="	\
-		"sf erase ${sfc_temp_part_offs} ${sfc_part_size};"	\
-		"sf write ${rofs_offs} ${sfc_temp_part_offs} ${rofs_size};"	\
-		"sf write ${loadaddr} ${sfc_part_last_8mb} ${8mb_size};\0"	\
+	"sfc_write_cap_act="	\
+		"sf update ${rofs_offs} ${sfc_act_part_offs} ${rofs_size};"	\
+		"sf update ${loadaddr} ${sfc_part_last_8mb} ${8mb_size};\0"	\
+	"sfc_write_cap_gol="	\
+		"sf update ${rofs_offs} ${sfc_gol_part_offs} ${rofs_size};"	\
+		"sf update ${loadaddr} ${sfc_part_last_8mb} ${8mb_size};\0"	\
+	"sfc_write_cap_temp="	\
+		"sf update ${rofs_offs} ${sfc_temp_part_offs} ${rofs_size};"	\
+		"sf update ${loadaddr} ${sfc_part_last_8mb} ${8mb_size};\0"	\
 	"emmc_write_cap="	\
 		"mmc write ${rofs_offs} 0x0 ${rofs_blk_size};"	\
 		"mmc write ${loadaddr} ${cap_bif_hdr_offs} ${rofs_blk_offs};\0"	\
@@ -219,7 +241,7 @@
 		"if parsecap ${loadaddr}; then "	\
 			"if sf probe 0:${sfc_temp_cs}; then "	\
 				"echo Writing parsed update capsule to SFC temp partition ...; "	\
-				"run sfc_write_cap;"	\
+				"run sfc_write_cap_temp;"	\
 				"echo Writing complete ...; "	\
 			"fi; "	\
 		"fi; \0"	\
@@ -227,13 +249,13 @@
 		"if parsecap ${loadaddr}; then "	\
 			"sf probe 0:${sfc_temp_cs}; "	\
 			"echo Writing parsed update capsule to SFC temp partition ...; "	\
-			"run sfc_write_cap;"	\
+			"run sfc_write_cap_temp;"	\
 			"sf probe 0:${sfc_gol_cs}; "	\
 			"echo Writing parsed update capsule to SFC golden partition ...; "	\
-			"run sfc_write_cap;"	\
+			"run sfc_write_cap_gol;"	\
 			"sf probe 0:${sfc_act_cs}; "	\
 			"echo Writing parsed update capsule to SFC active partition ...; "	\
-			"run sfc_write_cap;"	\
+			"run sfc_write_cap_act;"	\
 			"echo Writing complete ...; "	\
 		"fi; \0"	\
 	"parse_write_temp_upd_cap_emmc="	\
@@ -272,6 +294,26 @@
 				"echo Writing complete ...; "	\
 			"fi; "	\
 		"fi; \0"	\
+	"process_load_image_sfc_act="	\
+		"echo Trying to load SPI Active FIT image ...; "	\
+		"run loadcompfitimagespiact; "	\
+		"echo Uncompressing FIT image ...; "	\
+		"run uncompfitimage;"	\
+		"run auth_bootm_sfc_act;"	\
+		"echo FIT image may not be compressed, trying again ...; "	\
+		"run loadfitimagespiact; "	\
+		"run auth_bootm_sfc_act;"	\
+		"setenv bootmstatsfc fail; \0"	\
+	"process_load_image_sfc_gol="	\
+		"echo Trying to load SPI Golden FIT image ...; "	\
+		"run loadcompfitimagespigol; "	\
+		"echo Uncompressing FIT image ...; "	\
+		"run uncompfitimage;"	\
+		"run auth_bootm_sfc_gol;"	\
+		"echo FIT image may not be compressed, trying again ...; "	\
+		"run loadfitimagespigol; "	\
+		"run auth_bootm_sfc_gol;"	\
+		"setenv bootmstatsfc fail; \0"	\
 	"auth_boot_kernel_emmc="	\
 		"echo Checking kernel image in eMMC GPP partition...;"	\
 		"if checkimgrcmap 1; then "	\
@@ -374,26 +416,12 @@
 			"if sf probe 0:${cs_num}; then "	\
 				"echo Authenticating SFC Active FIT image ...; "	\
 				"if authbimgstorage 5; then "	\
-					"echo Trying to load SPI Active FIT image ...; "	\
-					"run loadcompfitimagespiact; "	\
-					"echo Uncompressing FIT image ...; "	\
-					"run uncompfitimage;"	\
-					"if authbm ${loadaddr}; then "	\
-						"setkernelimgflg 1;"	\
-						"echo Initiate Pre OS Boot Notify ...; "	\
-						"preosbootnotify 0;"	\
-						"echo Boot OS ...; "	\
-						"bootm ${loadaddr};"	\
-					"fi;"	\
-					"echo FIT image may not be compressed, trying again ...; "	\
-					"run loadfitimagespiact; "	\
-					"if authbm ${loadaddr}; then "	\
-						"setkernelimgflg 1;"	\
-						"echo Initiate Pre OS Boot Notify ...; "	\
-						"preosbootnotify 0;"	\
-						"echo Boot OS ...; "	\
-						"bootm ${loadaddr};"	\
-					"fi;"	\
+					"run process_load_image_sfc_act;"	\
+				"fi; "	\
+				"if test ${bootmstatsfc} = try; then "	\
+					"echo FIT binary authentication failed ...; "	\
+					"echo Trying to authenticate FIT payload components instead ...; "	\
+					"run process_load_image_sfc_act;"	\
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
@@ -408,26 +436,12 @@
 				"if sf probe 0:${cs_num}; then "	\
 					"echo Authenticating SFC Golden FIT image ...; "	\
 					"if authbimgstorage 6; then "	\
-						"echo Trying to load SPI Active FIT image ...; "	\
-						"run loadcompfitimagespigol; "	\
-						"echo Uncompressing FIT image ...; "	\
-						"run uncompfitimage;"	\
-						"if authbm ${loadaddr}; then "	\
-							"setkernelimgflg 2;"	\
-							"echo Initiate Pre OS Boot Notify ...; "	\
-							"preosbootnotify 1;"	\
-							"echo Boot OS ...; "	\
-							"bootm ${loadaddr};"	\
-						"fi;"	\
-						"echo FIT image may not be compressed, trying again ...; "	\
-						"run loadfitimagespigol; "	\
-						"if authbm ${loadaddr}; then "	\
-							"setkernelimgflg 2;"	\
-							"echo Initiate Pre OS Boot Notify ...; "	\
-							"preosbootnotify 1;"	\
-							"echo Boot OS ...; "	\
-							"bootm ${loadaddr};"	\
-						"fi;"	\
+						"run process_load_image_sfc_gol;"	\
+					"fi; "	\
+					"if test ${bootmstatsfc} = try; then "	\
+						"echo FIT binary authentication failed ...; "	\
+						"echo Trying to authenticate FIT payload components instead ...; "	\
+						"run process_load_image_sfc_gol;"	\
 					"fi; "	\
 				"fi; "	\
 			"fi;"	\
