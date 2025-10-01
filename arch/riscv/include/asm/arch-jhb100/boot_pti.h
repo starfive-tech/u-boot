@@ -90,6 +90,7 @@ static const int emmc_partition_map[7] = {
 
 #define MMC_BLK_SIZE		512
 #define UFS_BLK_SIZE		4096
+#define SFC_PAGE_SIZE		4096
 
 #define EIGHT_MB		0x800000
 
