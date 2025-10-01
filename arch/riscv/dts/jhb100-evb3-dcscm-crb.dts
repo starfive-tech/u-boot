@@ -12,6 +12,24 @@
 	};
 };
 
+&espi0 {
+	starfive,vgpio_mode = <1>;
+	gpio-line-names  =
+										/* Output pins */
+		"", "", "", "",							/* VGPIO0-3 */
+		"VW_FM_DUAL_PARTITION_N", "VW_FM_STANDALONE_MODE_N",		/* VGPIO4-5 */
+		"VW_FM_4S_8S_N_MODE", "VW_FM_NODE_ID_1",			/* VGPIO6-7 */
+		"VW_FM_NODE_ID_0", "", "", "", "", "", "", "",			/* VGPIO8-15*/
+		"", "", "", "",	"", "", "", "",					/* VGPIO16-23 */
+		"", "", "", "",	"", "", "", "",					/* VGPIO23-31 */
+										/* Input pins */
+		"", "", "", "",							/* VGPIO32-35 */
+		"VW_FM_BIOS_POST_CMPLT_N", "VW_CORE_BIOS_DONE_N", "", "",	/* VGPIO36-39 */
+		"", "", "", "",	"", "", "", "",					/* VGPIO40-47 */
+		"", "", "", "",	"", "", "", "",					/* VGPIO48-55 */
+		"", "", "", "",	"", "", "", "";					/* VGPIO56-63 */
+};
+
 &gmac2 {
 	mdio {
 		phy2: ethernet-phy@2 {
@@ -22,6 +40,10 @@
 
 &jtag0 {
 	status = "okay";
+};
+
+&jtag1 {
+	status = "disabled";
 };
 
 &pinctrl_adc0 {
@@ -242,6 +264,79 @@
 &pinctrl_vga_vdac {
 	gpio-line-names =
 		"NC", "NC", "NC", "NC";		/* GPIOI0-3 */
+};
+
+&sgpio0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sgpio0_pins>;
+	status = "okay";
+
+	/* SGPIO lines: Each IO number in pairs (input, output) */
+	gpio-line-names =
+	/* 0-1 */	"CPU1_PRESENCE", "P80_DOUT0", "CPU1_THERMTRIP", "P80_DOUT1",
+	/* 2-3 */	"CPU1_VRHOT", "P80_DOUT2", "H_CPU0_MON_FAIL_LVC1_N", "P80_DOUT3",
+	/* 4-5 */	"CPU1_MEM_VRHOT", "P80_DOUT4", "CPU1_MEM_THERM_EVENT", "P80_DOUT5",
+	/* 6-7 */	"FM_CPU0_PROC_ID0", "P80_DOUT6", "FM_CPU0_PROC_ID1", "P80_DOUT7",
+	/* 8-9 */	"CPU1_MISMATCH", "LED_CPU1_CH1_DIMM1_FAULT", "", "LED_CPU1_CH1_DIMM2_FAULT",
+	/* 10-11 */	"CPU2_PRESENCE", "LED_CPU1_CH2_DIMM1_FAULT", "CPU2_THERMTRIP", "LED_CPU1_CH2_DIMM2_FAULT",
+	/* 12-13 */	"CPU2_VRHOT", "LED_CPU1_CH3_DIMM1_FAULT", "H_CPU1_MON_FAIL_LVC1_N", "LED_CPU1_CH3_DIMM2_FAULT",
+	/* 14-15 */	"CPU2_MEM_VRHOT", "LED_CPU1_CH4_DIMM1_FAULT", "CPU2_MEM_THERM_EVENT", "LED_CPU1_CH4_DIMM2_FAULT",
+	/* 16-17 */	"FM_CPU1_PROC_ID0", "LED_CPU1_CH5_DIMM1_FAULT", "FM_CPU1_PROC_ID1", "LED_CPU1_CH5_DIMM2_FAULT",
+	/* 18-19 */	"CPU2_MISMATCH", "LED_CPU1_CH6_DIMM1_FAULT", "", "LED_CPU1_CH6_DIMM2_FAULT",
+	/* 20-21 */	"", "LED_FAN1_FAULT", "", "LED_FAN2_FAULT",
+	/* 22-23 */	"", "LED_FAN3_FAULT", "", "LED_FAN4_FAULT",
+	/* 24-25 */	"", "LED_FAN5_FAULT", "", "LED_FAN6_FAULT",
+	/* 26-27 */	"", "LED_FAN7_FAULT", "", "LED_FAN8_FAULT",
+	/* 28-29 */	"", "LED_CPU2_CH1_DIMM1_FAULT", "", "LED_CPU2_CH1_DIMM2_FAULT",
+	/* 30-31 */	"", "LED_CPU2_CH2_DIMM1_FAULT", "", "LED_CPU2_CH2_DIMM2_FAULT",
+	/* 32-33 */	"", "LED_CPU2_CH3_DIMM1_FAULT", "", "LED_CPU2_CH3_DIMM2_FAULT",
+	/* 34-35 */	"", "LED_CPU2_CH4_DIMM1_FAULT", "", "LED_CPU2_CH4_DIMM2_FAULT",
+	/* 36-37 */	"", "LED_CPU2_CH5_DIMM1_FAULT", "", "LED_CPU2_CH5_DIMM2_FAULT",
+	/* 38-39 */	"", "LED_CPU2_CH6_DIMM1_FAULT", "CPU1_CPLD_CRC_ERROR", "LED_CPU2_CH6_DIMM2_FAULT",
+	/* 40-41 */	"CPU2_CPLD_CRC_ERROR", "", "CPU1_CATERR_IERR", "",
+	/* 42-43 */	"CPU1_CATERR_MCERR", "", "CPU2_CATERR_IERR", "",
+	/* 44-45 */	"CPU2_CATERR_MCERR", "", "", "",
+	/* 46-47 */	"", "", "", "",
+	/* 48-49 */	"MAIN_PLD_MINOR_REV_BIT0", "", "MAIN_PLD_MINOR_REV_BIT1", "",
+	/* 50-51 */	"MAIN_PLD_MINOR_REV_BIT2", "", "MAIN_PLD_MINOR_REV_BIT3", "",
+	/* 52-53 */	"MAIN_PLD_MAJOR_REV_BIT0", "", "MAIN_PLD_MAJOR_REV_BIT1", "",
+	/* 54-55 */	"MAIN_PLD_MAJOR_REV_BIT2", "", "MAIN_PLD_MAJOR_REV_BIT3", "",
+	/* 56-57 */	"", "", "WMEMX_PWR_FLT", "",
+	/* 58-59 */	"WCPUX_MEM_PWR_FLT", "", "PWRGD_P3V3_FF", "",
+	/* 60-61 */	"WPSU_PWR_FLT", "", "", "",
+	/* 62-63 */	"", "", "WPCH_PWR_FLT", "",
+	/* 64-65 */	"FM_CPU0_PKGID0", "LED_CPU1_CH7_DIMM1_FAULT", "FM_CPU0_PKGID1", "LED_CPU1_CH7_DIMM2_FAULT",
+	/* 66-67 */	"FM_CPU0_PKGID2", "LED_CPU1_CH8_DIMM1_FAULT", "H_CPU0_MEMTRIP_LVC1_N", "LED_CPU1_CH8_DIMM2_FAULT",
+	/* 68-69 */	"FM_CPU1_PKGID0", "LED_CPU2_CH7_DIMM1_FAULT", "FM_CPU1_PKGID1", "LED_CPU2_CH7_DIMM2_FAULT",
+	/* 70-71 */	"FM_CPU1_PKGID2", "LED_CPU2_CH8_DIMM1_FAULT", "H_CPU1_MEMTRIP_LVC1_N", "LED_CPU2_CH8_DIMM2_FAULT",
+	/* 72-73 */	"", "", "", "",
+	/* 74-75 */	"", "", "", "",
+	/* 76-77 */	"", "", "", "",
+	/* 78-79 */	"", "", "", "",
+	/* 80-81 */	"FM_BOARD_REV_ID0", "LED_CPU0_CH9_DIMM1_FAULT", "FM_BOARD_REV_ID1", "LED_CPU0_CH9_DIMM2_FAULT",
+	/* 82-83 */	"FM_BOARD_REV_ID2", "LED_CPU0_CH10_DIMM1_FAULT", "FM_BOARD_SKU_ID0", "LED_CPU0_CH10_DIMM2_FAULT",
+	/* 84-85 */	"FM_BOARD_SKU_ID1", "LED_CPU0_CH11_DIMM1_FAULT", "FM_BOARD_SKU_ID2", "LED_CPU0_CH11_DIMM2_FAULT",
+	/* 86-87 */	"FM_BOARD_SKU_ID3", "LED_CPU0_CH12_DIMM1_FAULT", "FM_BOARD_SKU_ID4", "LED_CPU0_CH12_DIMM2_FAULT",
+	/* 88-89 */	"FM_BOARD_SKU_ID5", "LED_CPU1_CH9_DIMM1_FAULT", "FM_BMC_VAL_EN", "LED_CPU1_CH9_DIMM2_FAULT",
+	/* 90-91 */	"FM_SERIAL_BOOT", "LED_CPU1_CH10_DIMM1_FAULT", "", "LED_CPU1_CH10_DIMM2_FAULT",
+	/* 92-93 */	"S0_PWROK", "LED_CPU1_CH11_DIMM1_FAULT", "", "LED_CPU1_CH11_DIMM2_FAULT",
+	/* 94-95 */	"", "LED_CPU1_CH12_DIMM1_FAULT", "", "LED_CPU1_CH12_DIMM1_FAULT",
+	/* 96-97 */	"", "FM_SURPRISE_RESET_N", "", "FM_CPU1_INTR_CLK_CONFDONE_N",
+	/* 98-99 */	"", "FM_GLOBAL_RESET_N", "FM_1200VA_OC", "BMC_BOOT_DONE",
+	/* 100-101 */	"", "IRQ_BMC_CPU_NMI_P0", "", "IRQ_BMC_CPU_NMI_P1",
+	/* 102-103 */	"", "", "", "",
+	/* 104-105 */	"", "", "", "",
+	/* 106-107 */	"", "", "", "",
+	/* 108-109 */	"", "", "", "",
+	/* 110-111 */	"", "", "", "",
+	/* 112-113 */	"R1S_PRESENCE", "", "", "",
+	/* 114-115 */	"", "", "", "",
+	/* 116-117 */	"", "", "", "",
+	/* 118-119 */	"", "", "", "",
+	/* 120-121 */	"", "", "", "",
+	/* 122-123 */	"", "", "", "",
+	/* 124-125 */	"", "", "", "",
+	/* 126-127 */	"", "", "", "";
 };
 
 &uart4 {

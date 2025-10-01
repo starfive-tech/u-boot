@@ -1532,9 +1532,10 @@
 				reg = <0x0 0x11136000 0x0 0x100>,
 				      <0x0 0x11135d00 0x0 0x100>;
 				interrupts-extended = <&plic 231>, <&plic 237>,
-						      <&plic 238>, <&plic 233>,
+						      <&plic 238>, <&plic 233>, <&plic 308>,
 						      <&pinctrl_bmcperiph0 28 GPIO_ACTIVE_HIGH>;
-				interrupt-names = "vdac", "h02b", "h12b", "dynsw1", "switch";
+				interrupt-names = "vdac", "h02b", "h12b",
+						  "dynsw1", "pm_link", "switch";
 				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA>,
 					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA_SCAN>,
 					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U1_VOUT_DYNSW>;
@@ -1543,6 +1544,7 @@
 				b2h-syscon = <&b2hsyscon>;
 				dc-syscon = <&dcsyscon>;
 				starfive,syscon = <&sys_syscon 52>;
+				ecsr-syscon = <&pcie_ep1_ecsr>;
 				status = "disabled";
 			};
 
@@ -3391,7 +3393,9 @@
 			pinctrl_adc0: pinctrl@11bc2800 {
 				compatible = "starfive,jhb100-pinctrl-adc0";
 				reg = <0x0 0x11bc2800 0x0 0x400>;
-				resets = <&per2crg JHB100_PER2RST_ADC0_IOMUX_PRESETN>;
+				clocks = <&per2crg JHB100_PER2CLK_MAIN_ICG_EN_ADC0>;
+				resets = <&per2crg JHB100_PER2RST_ADC0_IOMUX_PRESETN>,
+					 <&per2crg JHB100_PER2RST_ADC0_PRESETN>;
 				interrupts = <147>;
 				interrupt-controller;
 				#interrupt-cells = <2>;
@@ -3403,7 +3407,9 @@
 			pinctrl_adc1: pinctrl@11bc2c00 {
 				compatible = "starfive,jhb100-pinctrl-adc1";
 				reg = <0x0 0x11bc2c00 0x0 0x400>;
-				resets = <&per2crg JHB100_PER2RST_ADC1_IOMUX_PRESETN>;
+				clocks = <&per2crg JHB100_PER2CLK_MAIN_ICG_EN_ADC1>;
+				resets = <&per2crg JHB100_PER2RST_ADC1_IOMUX_PRESETN>,
+					 <&per2crg JHB100_PER2RST_ADC1_PRESETN>;
 				interrupts = <148>;
 				interrupt-controller;
 				#interrupt-cells = <2>;
@@ -3462,6 +3468,7 @@
 				clock-names = "pclk", "cal_clk";
 				resets = <&per2crg JHB100_PER2RST_MAIN_RSTN_RTC>;
 				rtc,cal-clock-freq = <1000000>;
+				starfive,syscon = <&sys_syscon 52>;
 				status = "disabled";
 			};
 
@@ -3683,6 +3690,7 @@
 				clock-names = "main", "jtag", "apb";
 				resets = <&sys2crg JHB100_SYS2RST_JTAG1_MST_WRAP_HRESETN>,
 					<&sys2crg JHB100_SYS2RST_JTAG1_MST_WRAP_APB_PRESETN>;
+				starfive,jtag_bit_quirk;
 				status = "disabled";
 			};
 
@@ -3696,6 +3704,7 @@
 				clock-names = "main", "jtag", "apb";
 				resets = <&sys2crg JHB100_SYS2RST_JTAG0_MST_WRAP_HRESETN>,
 					<&sys2crg JHB100_SYS2RST_JTAG0_MST_WRAP_APB_PRESETN>;
+				starfive,jtag_bit_quirk;
 				status = "disabled";
 			};
 
@@ -3873,7 +3882,6 @@
 				reg = <0x0 0x16000000 0x0 0x100000>;
 				interrupts = <70>;
 				starfive,data-width = <16>;
-				status = "disabled";
 			};
 
 			sfc1: spi@17f00000  {

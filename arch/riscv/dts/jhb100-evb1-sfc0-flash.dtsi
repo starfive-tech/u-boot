@@ -92,7 +92,7 @@
 
 			partition@14 {
 				label = "Data";
-				reg = <0x2800000 0x1800000>;
+				reg = <0x2800000 0x5800000>;
 			};
 		};
 	};
@@ -151,7 +151,7 @@
 
 			partition@8 {
 				label = "Data";
-				reg = <0x1410000 0x2bf0000>;
+				reg = <0x1410000 0x6bf0000>;
 			};
 		};
 	};

@@ -123,6 +123,11 @@
 
 		peci0 = &peci0;
 		peci4 = &peci1;
+
+		spi0 = &sfc0;
+		spi1 = &sfc1;
+		spi2 = &sfc2;
+		spi3 = &spi0;
 	};
 
 	chosen {
@@ -194,6 +199,20 @@
 		compatible = "pwm-fan";
 		pwms = <&pwm 7 40000 0>;
 	};
+
+	vcc_1v8: regulator-vcc-1v8 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc-1v8";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+	};
+
+	vcc_3v3: regulator-vcc-3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc-3v3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+	};
 };
 
 &dc0_clk {
@@ -201,10 +220,6 @@
 };
 
 &dc1_clk {
-	status = "okay";
-};
-
-&ddrc_edac {
 	status = "okay";
 };
 
@@ -256,9 +271,9 @@
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
 
-	starfive,vgpio_dir_bits = /bits/ 64 <0x00000000ffffffff 0x0000000000000000>;
+	starfive,vgpio_dir_bits = /bits/ 64 <0xffffffff00000000 0x0000000000000000>;
 	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
-	starfive,vgpio_phy_bits = /bits/ 64 <0x000000000000000f 0x0000000000000000>;
+	starfive,vgpio_phy_bits = /bits/ 64 <0x0000000f0000000f 0x0000000000000000>;
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&espi0_pins>;
@@ -292,9 +307,9 @@
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
 
-	starfive,vgpio_dir_bits = /bits/ 64 <0x00000000ffffffff 0x0000000000000000>;
+	starfive,vgpio_dir_bits = /bits/ 64 <0xffffffff00000000 0x0000000000000000>;
 	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
-	starfive,vgpio_phy_bits = /bits/ 64 <0x000000000000000f 0x0000000000000000>;
+	starfive,vgpio_phy_bits = /bits/ 64 <0x0000000f0000000f 0x0000000000000000>;
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&espi1_pins>;
@@ -460,6 +475,7 @@
 		reg = <0x77>;
 		reset-gpios = <&pinctrl_sys2 5 GPIO_ACTIVE_LOW>;
 		i2c-mux-idle-disconnect;
+		vdd-supply = <&vcc_3v3>;
 
 		imux0: i2c@0 {
 			#address-cells = <1>;

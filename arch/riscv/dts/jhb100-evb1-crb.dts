@@ -13,6 +13,24 @@
 	status = "okay";
 };
 
+&espi0 {
+	starfive,vgpio_mode = <1>;
+	gpio-line-names  =
+										/* Output pins */
+		"", "", "", "",							/* VGPIO0-3 */
+		"VW_FM_DUAL_PARTITION_N", "VW_FM_STANDALONE_MODE_N",		/* VGPIO4-5 */
+		"VW_FM_4S_8S_N_MODE", "VW_FM_NODE_ID_1",			/* VGPIO6-7 */
+		"VW_FM_NODE_ID_0", "", "", "", "", "", "", "",			/* VGPIO8-15*/
+		"", "", "", "",	"", "", "", "",					/* VGPIO16-23 */
+		"", "", "", "",	"", "", "", "",					/* VGPIO23-31 */
+										/* Input pins */
+		"", "", "", "",							/* VGPIO32-35 */
+		"VW_FM_BIOS_POST_CMPLT_N", "VW_CORE_BIOS_DONE_N", "", "",	/* VGPIO36-39 */
+		"", "", "", "",	"", "", "", "",					/* VGPIO40-47 */
+		"", "", "", "",	"", "", "", "",					/* VGPIO48-55 */
+		"", "", "", "",	"", "", "", "";					/* VGPIO56-63 */
+};
+
 &pinctrl_adc0 {
 	gpio-line-names =
 		"NC", "FM_SPD_SWITCH_CTRL_N",				/* GPIOG0-1 */
@@ -102,7 +120,7 @@
 		"FM_4S_8S_N_MODE", "FM_CPU_CATERR_P1_N",			/* GPIOC24-25 */
 		"FM_BMC_CMOS_CLR_R_N", "PS_PWROK",				/* GPIOC26-27 */
 		"SGPIO0_CLK", "FM_STANDALONE_MODE_N",				/* GPIOC28-29 */
-		"FM_CPU1_ERR1_LVT3_N", "FM_CPU1_ERR2_LVT3_N",			/* GPIOC28-31 */
+		"FM_CPU1_ERR1_LVT3_N", "FM_CPU1_ERR2_LVT3_N",			/* GPIOC30-31 */
 		"FM_BMC_TRUST_N", "SGPIO1_LD", "SGPIO1_DO", "SGPIO1_DI";	/* GPIOC32-35 */
 
 	gpioe-spi-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC0-4 */
@@ -256,6 +274,12 @@
 &pinctrl_vga_vdac {
 	gpio-line-names =
 		"VGA_HS", "VGA_VS", "VGA_DDCCLK", "VGA_DDCDAT";		/* GPIOI0-3 */
+};
+
+&sfc0 {
+	pinctrl-0 = <&sfc0_1cs_pins>;
+	num-cs = <1>;
+	/delete-node/ flash@1;
 };
 
 &sfc1 {

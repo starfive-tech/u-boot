@@ -814,6 +814,7 @@
 		i2c1_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B2,
 					 FUNC_BMCPERIPH0_I2C1_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -831,6 +832,7 @@
 		i2c2_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B4,
 					 FUNC_BMCPERIPH0_I2C2_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -848,6 +850,7 @@
 		i2c3_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B6,
 					 FUNC_BMCPERIPH0_I2C3_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -865,6 +868,7 @@
 		i2c4_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
 					 FUNC_BMCPERIPH0_I2C4_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -882,6 +886,7 @@
 		i2c5_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
 					 FUNC_BMCPERIPH0_I2C5_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -899,6 +904,7 @@
 		i2c6_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B12,
 					 FUNC_BMCPERIPH0_I2C6_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -916,6 +922,7 @@
 		i2c7_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B14,
 					 FUNC_BMCPERIPH0_I2C7_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -933,6 +940,7 @@
 		i2c8_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B16,
 					 FUNC_BMCPERIPH0_I2C8_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -950,6 +958,7 @@
 		i2c9_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B18,
 					 FUNC_BMCPERIPH0_I2C9_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -967,6 +976,7 @@
 		i2c10_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B20,
 					 FUNC_BMCPERIPH0_I2C10_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -984,6 +994,7 @@
 		i2c11_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B22,
 					 FUNC_BMCPERIPH0_I2C11_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -1001,6 +1012,7 @@
 		i2c12_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B24,
 					 FUNC_BMCPERIPH0_I2C12_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -1018,6 +1030,7 @@
 		i2c13_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B26,
 					 FUNC_BMCPERIPH0_I2C13_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 		};
@@ -1037,6 +1050,7 @@
 		i2c14_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C32,
 					 FUNC_BMCPERIPH1_I2C14_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 	     };
@@ -1054,6 +1068,7 @@
 		i2c15_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C34,
 					 FUNC_BMCPERIPH1_I2C15_CLK)>;
+			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
 	};

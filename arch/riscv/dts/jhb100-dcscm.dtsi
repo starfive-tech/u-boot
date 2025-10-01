@@ -385,50 +385,91 @@
 	flash@0 {
 		compatible = "jedec,spi-nor";
 		reg = <0>;
-		spi-max-frequency = <100000000>;
+		spi-max-frequency = <50000000>;
 		spi-tx-bus-width = <4>;
 		spi-rx-bus-width = <4>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@0 {
+				label = "Boot Info Active";
+				reg = <0x0 0x10000>;
+			};
+
+			partition@1 {
+				label = "L0 Firmware Active";
+				reg = <0x10000 0x80000>;
+			};
+
+			partition@2 {
+				label = "L1 Firmware Active";
+				reg = <0x90000 0x80000>;
+			};
+
+			partition@3 {
+				label = "U-Boot SPL Active";
+				reg = <0x110000 0x80000>;
+			};
+
+			partition@4 {
+				label = "U-Boot FIT Active";
+				reg = <0x190000 0x260000>;
+			};
+
+			partition@5 {
+				label = "SFC I2C filter cfg Active";
+				reg = <0x3f0000 0x10000>;
+			};
+
+			partition@6 {
+				label = "U-Boot Environment";
+				reg = <0x400000 0x10000>;
+			};
+
+			partition@7 {
+				label = "L0 Firmware Temp";
+				reg = <0x410000 0x80000>;
+			};
+
+			partition@8 {
+				label = "L1 Firmware Temp";
+				reg = <0x490000 0x80000>;
+			};
+
+			partition@9 {
+				label = "U-Boot SPL Temp";
+				reg = <0x510000 0x80000>;
+			};
+
+			partition@10 {
+				label = "U-Boot FIT Temp";
+				reg = <0x590000 0x260000>;
+			};
+
+			partition@11 {
+				label = "SFC I2C filter cfg Temp";
+				reg = <0x7f0000 0x10000>;
+			};
+
+			partition@12 {
+				label = "Kernel FIT Active (compressed)";
+				reg = <0x800000 0x1000000>;
+			};
+
+			partition@13 {
+				label = "Kernel FIT Temp (compressed)";
+				reg = <0x1800000 0x1000000>;
+			};
+
+			partition@14 {
+				label = "Data";
+				reg = <0x2800000 0x5800000>;
+			};
+		};
 	};
-};
-
-&sgpio0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&sgpio0_pins>;
-	status = "okay";
-
-	gpio-line-names =
-		"", "P80_DOUT0", "", "P80_DOUT1", "", "P80_DOUT2", "", "P80_DOUT3",
-		"", "P80_DOUT4", "", "P80_DOUT5", "", "P80_DOUT6", "", "P80_DOUT7",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "BMC_BOOT_DONE",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "",
-		"", "", "", "", "", "", "", "";
 };
 
 &sio0 {
@@ -499,11 +540,12 @@
 &spi0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi0_pins>;
+	rx-sample-delay-ns = <15>;
 	status = "okay";
 
 	flash@0 {
 		compatible = "jedec,spi-nor";
-		spi-max-frequency = <12000000>;
+		spi-max-frequency = <20000000>;
 		reg = <0>;
 		spi-tx-bus-width = <1>;
 		spi-rx-bus-width = <1>;
@@ -522,7 +564,7 @@
 
 	flash@1 {
 		compatible = "jedec,spi-nor";
-		spi-max-frequency = <12000000>;
+		spi-max-frequency = <20000000>;
 		reg = <1>;
 		spi-tx-bus-width = <1>;
 		spi-rx-bus-width = <1>;

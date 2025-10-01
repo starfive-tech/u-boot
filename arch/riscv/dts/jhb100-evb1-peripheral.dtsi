@@ -170,13 +170,23 @@
 	pinctrl-0 = <&i3c0lv_pins>;
 	dmas = <&dma_i3c 0 1 0>;
 	dma-names = "rx-tx";
-	i3c-od-pu-offset = <0>;
+	i3c-od-pu-offset = <2>;
 	i3c-od-lo-offset = <0>;
 	master-sda-tx-hold = <3>;
 	master-sda-pp-od-switch-dly = <1>;
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_1v8>;
+		pagesize = <32>;
+	};
 };
 
 &i3c1 {
@@ -187,13 +197,23 @@
 	pinctrl-0 = <&i3c1lv_pins>;
 	dmas = <&dma_i3c 1 3 2>;
 	dma-names = "rx-tx";
-	i3c-od-pu-offset = <0>;
+	i3c-od-pu-offset = <2>;
 	i3c-od-lo-offset = <0>;
 	master-sda-tx-hold = <3>;
 	master-sda-pp-od-switch-dly = <1>;
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_1v8>;
+		pagesize = <32>;
+	};
 };
 
 &i3c2 {
@@ -204,13 +224,23 @@
 	pinctrl-0 = <&i3c2lv_pins>;
 	dmas = <&dma_i3c 2 5 4>;
 	dma-names = "rx-tx";
-	i3c-od-pu-offset = <0>;
+	i3c-od-pu-offset = <2>;
 	i3c-od-lo-offset = <0>;
 	master-sda-tx-hold = <3>;
 	master-sda-pp-od-switch-dly = <1>;
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_1v8>;
+		pagesize = <32>;
+	};
 };
 
 &i3c3 {
@@ -221,13 +251,23 @@
 	pinctrl-0 = <&i3c3lv_pins>;
 	dmas = <&dma_i3c 3 7 6>;
 	dma-names = "rx-tx";
-	i3c-od-pu-offset = <0>;
+	i3c-od-pu-offset = <2>;
 	i3c-od-lo-offset = <0>;
 	master-sda-tx-hold = <3>;
 	master-sda-pp-od-switch-dly = <1>;
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_1v8>;
+		pagesize = <32>;
+	};
 };
 
 &i3c4 {
@@ -245,6 +285,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c4_syscon {
@@ -266,6 +316,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c5_syscon {
@@ -287,6 +347,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c6_syscon {
@@ -308,6 +378,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c7_syscon {
@@ -329,6 +409,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c9 {
@@ -346,6 +436,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c10 {
@@ -363,6 +463,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c11 {
@@ -380,6 +490,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c12 {
@@ -397,6 +517,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c13 {
@@ -414,6 +544,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c14 {
@@ -431,6 +571,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &i3c15 {
@@ -448,6 +598,16 @@
 	master-sda-od-pp-switch-dly = <1>;
 	master-stop-hold-cnt = <0x8>;
 	status = "disabled";
+
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	eeprom@50 {
+		reg = <0x50 0x0 0x10>;
+		compatible = "atmel,24c64";
+		vcc-supply = <&vcc_3v3>;
+		pagesize = <32>;
+	};
 };
 
 &jtag0 {

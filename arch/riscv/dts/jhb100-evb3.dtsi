@@ -114,6 +114,9 @@
 
 		peci0 = &peci0;
 		peci4 = &peci1;
+
+		spi0 = &sfc0;
+		spi1 = &spi0;
 	};
 
 	cpus {
