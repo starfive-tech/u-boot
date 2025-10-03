@@ -136,18 +136,22 @@ extract_capsule:
 		return CAP_PARSE_ERROR;
 	}
 
+#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 	/* Check sig and mft properties */
 	if ((!rofs_hdr->sign_off) || (!rofs_hdr->mft_off)) {
 		printf("[ERROR]: rofs_hdr->sign_off = %x\n", rofs_hdr->sign_off);
 		printf("[ERROR]: rofs_hdr->mft_off = %x\n", rofs_hdr->mft_off);
 		return CAP_PARSE_ERROR;
 	}
+#endif
 
 	*rofs_blk_size = (rofs_hdr->img_len % MMC_BLK_SIZE) ?
 			 ((rofs_hdr->img_len / MMC_BLK_SIZE) + 1) :
 			 (rofs_hdr->img_len / MMC_BLK_SIZE);
-	*rofs_offs = hdr->custom_data_off + comp_attr->off_cap + load_addr +
-		     BIF_HDR_LENGTH + BIF_MFT_LENGTH + BIF_SIG_LENGTH;
+	*rofs_offs = hdr->custom_data_off + comp_attr->off_cap + load_addr + BIF_HDR_LENGTH;
+#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
+	*rofs_offs = *rofs_offs + BIF_MFT_LENGTH + BIF_SIG_LENGTH;
+#endif
 
 	printf("[SUCCESS]: rofs_blk_size = 0x%x\n", *rofs_blk_size);
 	printf("[SUCCESS]: rofs_offs in memory is 0x%x\n", *rofs_offs);
