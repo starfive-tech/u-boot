@@ -178,15 +178,18 @@ struct i2c_regs {
 #define IC_RX_OVER		0x0002
 #define IC_RX_UNDER		0x0001
 
-/* i2c interrupt clear register definitions */
 #if defined(CONFIG_SYS_I2C_DWC_ADV)
+/* i2c interrupt clear register definitions */
 #define DWC_IC_CLR_STOP_DET	BIT(8)
 #endif
 
-/* i2c min high and low counts definitions */
 #if defined(CONFIG_SYS_I2C_DWC_ADV)
+/* i2c min high and low counts definitions */
 #define DWC_MIN_HCNT		5
 #define DWC_MIN_LCNT		6
+
+/* i2c spike suppression: 50ns maximum */
+#define DWC_MAX_SPIKE_NS	50
 #endif
 
 /* fifo threshold register definitions */

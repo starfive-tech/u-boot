@@ -114,15 +114,25 @@ static const struct i2c_mode_info info_for_mode[] = {
 		I2C_SPEED_FAST_PLUS_RATE,
 		MIN_FP_SCL_HIGHTIME,
 		MIN_FP_SCL_LOWTIME,
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 		260,
 		500,
+#else
+		120,
+		120,
+#endif
 	},
 	[IC_SPEED_MODE_HIGH] = {
 		I2C_SPEED_HIGH_RATE,
 		MIN_HS_SCL_HIGHTIME,
 		MIN_HS_SCL_LOWTIME,
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 		120,
 		120,
+#else
+		40,
+		40,
+#endif
 	},
 };
 
@@ -141,7 +151,7 @@ static int dw_i2c_calc_timing(struct dw_i2c *priv, enum i2c_speed_mode mode,
 			      struct dw_i2c_speed_config *config)
 {
 	int fall_cnt, rise_cnt, min_tlow_cnt, min_thigh_cnt;
-	int hcnt, lcnt, period_cnt, diff, tot;
+	int hcnt, lcnt, period_cnt;
 	int sda_hold_time_ns, scl_rise_time_ns, scl_fall_time_ns;
 	const struct i2c_mode_info *info;
 
@@ -151,10 +161,17 @@ static int dw_i2c_calc_timing(struct dw_i2c *priv, enum i2c_speed_mode mode,
 	 */
 	info = &info_for_mode[mode];
 	period_cnt = ic_clk / info->speed;
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 	scl_rise_time_ns = priv && priv->scl_rise_time_ns ?
 		 priv->scl_rise_time_ns : info->def_rise_time_ns;
 	scl_fall_time_ns = priv && priv->scl_fall_time_ns ?
 		 priv->scl_fall_time_ns : info->def_fall_time_ns;
+#else
+	scl_rise_time_ns = priv && priv->scl_rise_time_ns ?
+		 max((int)priv->scl_rise_time_ns, info->def_rise_time_ns) : info->def_rise_time_ns;
+	scl_fall_time_ns = priv && priv->scl_fall_time_ns ?
+		 max((int)priv->scl_fall_time_ns, info->def_fall_time_ns) : info->def_fall_time_ns;
+#endif
 	rise_cnt = calc_counts(ic_clk, scl_rise_time_ns);
 	fall_cnt = calc_counts(ic_clk, scl_fall_time_ns);
 	min_tlow_cnt = calc_counts(ic_clk, info->min_scl_lowtime_ns);
@@ -177,17 +194,8 @@ static int dw_i2c_calc_timing(struct dw_i2c *priv, enum i2c_speed_mode mode,
 		debug("dw_i2c: bad counts. hcnt = %d lcnt = %d\n", hcnt, lcnt);
 		return log_msg_ret("counts", -EINVAL);
 	}
-#else
-	/*
-	 * Back-solve for hcnt and lcnt according to the following equations:
-	 * SCL_High_time = [(HCNT + IC_*_SPKLEN + T_HD_STA_OFFSET) * ic_clk] + SCL_Fall_time
-	 * SCL_Low_time = [LCNT * ic_clk] - SCL_Fall_time + SCL_Rise_time
-	 */
-	hcnt = (min_thigh_cnt > fall_cnt + T_HD_STA_OFFSET + spk_cnt + DWC_MIN_HCNT) ?
-	       min_thigh_cnt - fall_cnt - T_HD_STA_OFFSET - spk_cnt : DWC_MIN_HCNT;
-	lcnt = (min_tlow_cnt > rise_cnt - fall_cnt + DWC_MIN_LCNT) ?
-	       min_tlow_cnt - rise_cnt + fall_cnt : DWC_MIN_LCNT;
-#endif
+
+	int diff, tot;
 
 	/*
 	 * Now add things back up to ensure the period is hit. If it is off,
@@ -203,15 +211,9 @@ static int dw_i2c_calc_timing(struct dw_i2c *priv, enum i2c_speed_mode mode,
 		lcnt += period_cnt - tot;
 	}
 
-#ifdef CONFIG_STARFIVE_JHB100
-	/* TODO: Value calibrated on EVB board. Currently used as a
-	 * temporary workaround during power-on.
-	 * A proper formula or handling is required.
-	 */
-	if (mode == IC_SPEED_MODE_FAST || mode == IC_SPEED_MODE_FAST_PLUS) {
-		lcnt = 121;
-		hcnt = 120;
-	}
+#else
+	hcnt = max(DWC_MIN_HCNT, min_thigh_cnt + rise_cnt - spk_cnt - T_HD_STA_OFFSET);
+	lcnt = max(DWC_MIN_LCNT, min_tlow_cnt + fall_cnt);
 #endif
 	config->scl_lcnt = lcnt;
 	config->scl_hcnt = hcnt;
@@ -268,12 +270,22 @@ static int calc_bus_speed(struct dw_i2c *priv, struct i2c_regs *regs, int speed,
 	}
 
 	/* Get the proper spike-suppression count based on target speed */
+#if !defined(CONFIG_SYS_I2C_DWC_ADV)
 	if (!priv || !priv->has_spk_cnt)
 		spk_cnt = 0;
 	else if (i2c_spd >= IC_SPEED_MODE_HIGH)
 		spk_cnt = readl(&regs->hs_spklen);
 	else
 		spk_cnt = readl(&regs->fs_spklen);
+#else
+	if (i2c_spd >= IC_SPEED_MODE_HIGH) {
+		spk_cnt = calc_counts(bus_clk, DWC_MAX_SPIKE_NS);
+		writel(spk_cnt, &regs->hs_spklen);
+	} else {
+		spk_cnt = calc_counts(bus_clk, DWC_MAX_SPIKE_NS);
+		writel(spk_cnt, &regs->fs_spklen);
+	}
+#endif
 	if (scl_sda_cfg) {
 		config->sda_hold = scl_sda_cfg->sda_hold;
 		if (i2c_spd == IC_SPEED_MODE_STANDARD) {
@@ -833,8 +845,6 @@ int designware_i2c_of_to_plat(struct udevice *bus)
 	dev_read_u32(bus, "i2c-scl-falling-time-ns", &priv->scl_fall_time_ns);
 	dev_read_u32(bus, "i2c-sda-hold-time-ns", &priv->sda_hold_time_ns);
 
-#if 0
-	/* TODO: Remove preprocessor directive once SoC is ready */
 	ret = reset_get_bulk(bus, &priv->resets);
 	if (ret) {
 		if (ret != -ENOTSUPP)
@@ -842,7 +852,6 @@ int designware_i2c_of_to_plat(struct udevice *bus)
 	} else {
 		reset_deassert_bulk(&priv->resets);
 	}
-#endif
 
 #if CONFIG_IS_ENABLED(CLK)
 	ret = clk_get_by_index(bus, 0, &priv->clk);
