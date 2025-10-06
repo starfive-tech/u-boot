@@ -36,9 +36,9 @@ static struct clk_info sys0crg_clk_info[] = {
 	{ JHB100_SYS0CLK_GPIO_ESPI0_66,	"gpio_espi0_66",
 		"pll2",			NULL,	CLK_DIVIDER,	4 },
 	/* bmcusb */
-	{ JHB100_SYS0CLK_BMCUSB_600,	"bmcusb_600",
+	{ JHB100_SYS0CLK_BMCUSB_600,	"usb_600",
 		"pll0",			NULL,	CLK_DIVIDER,	3 },
-	{ JHB100_SYS0CLK_BMCUSB_200,	"bmcusb_200",
+	{ JHB100_SYS0CLK_BMCUSB_200,	"usb_200",
 		"pll1",			NULL,	CLK_DIVIDER,	3 },
 	{ JHB100_SYS0CLK_BMCUSB_SCANCLK,	"bmcusb_scanclk",
 		"pll0",			NULL,	CLK_DIVIDER,	3 },
