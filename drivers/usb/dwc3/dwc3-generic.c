@@ -248,7 +248,7 @@ static int dwc3_generic_host_probe(struct udevice *dev)
 
 	/* Only returns an error if regulator is valid and failed to enable due to a driver issue */
 	rc = regulator_set_enable_if_allowed(priv->vbus_supply, true);
-	if (rc)
+	if ((rc) && (rc != -ENOSYS))
 		return rc;
 
 	hccr = (struct xhci_hccr *)priv->gen_priv.base;
@@ -271,7 +271,7 @@ static int dwc3_generic_host_remove(struct udevice *dev)
 	xhci_deregister(dev);
 
 	rc = regulator_set_enable_if_allowed(priv->vbus_supply, false);
-	if (rc)
+	if ((rc) && (rc != -ENOSYS))
 		debug("%s: Failed to disable vbus regulator: %d\n", dev->name, rc);
 
 	return dwc3_generic_remove(dev, &priv->gen_priv);
@@ -712,6 +712,7 @@ static const struct udevice_id dwc3_glue_ids[] = {
 	{ .compatible = "fsl,imx8mp-dwc3", .data = (ulong)&imx8mp_ops },
 	{ .compatible = "fsl,imx8mq-dwc3" },
 	{ .compatible = "intel,tangier-dwc3" },
+	{ .compatible = "starfive,jhb100-dwc3-drd" },
 	{ }
 };
 
