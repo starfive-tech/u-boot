@@ -80,7 +80,8 @@ static int do_starfive_get_emmc_gpp_size(struct cmd_tbl *cmdtp, int flag, int ar
 }
 
 U_BOOT_LONGHELP(getemmcgppsz,
-		"[arg    - Get eMMC GPP size]\n"
+		"- Get eMMC partition size and set the start block address of raw image\n"
+		"  to 'cap_bif_hdr_offs' u-boot environment variable\n"
 );
 
 U_BOOT_CMD(getemmcgppsz, CONFIG_SYS_MAXARGS, 1, do_starfive_get_emmc_gpp_size,
