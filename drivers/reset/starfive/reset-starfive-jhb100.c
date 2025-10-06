@@ -66,6 +66,12 @@ static const struct starfive_reset_info jhb100_per3_info = {
 	.status_offset = 0x9c,
 };
 
+static const struct starfive_reset_info jhb100_usb_info = {
+	.nr_resets = NUM_RESETS(JHB100_USBRST_USB20_1_PHY_WRAP_POR),
+	.assert_offset = 0x2c,
+	.status_offset = 0x30,
+};
+
 static const struct udevice_id jhb100_reset_ids[] = {
 	{
 		.compatible = "starfive,jhb100-sys0crg",
@@ -94,6 +100,10 @@ static const struct udevice_id jhb100_reset_ids[] = {
 	{
 		.compatible = "starfive,jhb100-per3crg",
 		.data = (ulong)&jhb100_per3_info,
+	},
+	{
+		.compatible = "starfive,jhb100-usbcrg",
+		.data = (ulong)&jhb100_usb_info,
 	},
 	{ /* sentinel */ }
 };
