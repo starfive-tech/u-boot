@@ -46,6 +46,16 @@
 #define JHB100_ETHER_RMIIRGMII_CONTROL0_OFFSET	0x0
 #define JHB100_ETHER_RGMII_ENABLE		BIT(8)
 
+/* PER0_IOMUX */
+#define JHB100_PER0_IOMUX_ADDR			0x11a0a000UL
+#define JHB100_PER0_IOMUX_PADCFG_START		0x14
+#define JHB100_PER0_IOMUX_PADCFG_END		0x100
+
+/* PER1_IOMUX */
+#define JHB100_PER1_IOMUX_ADDR			0x11b42000UL
+#define JHB100_PER1_IOMUX_PADCFG_START		0x94
+#define JHB100_PER1_IOMUX_PADCFG_END		0xa0
+
 u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
 {
 #if defined(CONFIG_SUPPORT_EMMC_BOOT)
@@ -218,6 +228,21 @@ void jhb100_plat_init(void)
 	val |= JHB100_ETHER_RGMII_ENABLE;
 
 	writel(val, addr);
+
+	/* Initialize the following pins to push-pull mode as default FM mode prevents GPIO outputs
+	 * from driving high without an external pull-up.
+	 */
+	addr = (void *)(JHB100_PER0_IOMUX_ADDR + JHB100_PER0_IOMUX_PADCFG_START);
+	while (addr <= (void *)(JHB100_PER0_IOMUX_ADDR + JHB100_PER0_IOMUX_PADCFG_END)) {
+		writel(0, addr);
+		addr += 0x4;
+	}
+
+	addr = (void *)(JHB100_PER1_IOMUX_ADDR + JHB100_PER1_IOMUX_PADCFG_START);
+	while (addr <= (void *)(JHB100_PER1_IOMUX_ADDR + JHB100_PER1_IOMUX_PADCFG_END)) {
+		writel(0, addr);
+		addr += 0x4;
+	}
 }
 
 void subsys_init(void)
