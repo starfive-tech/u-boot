@@ -35,6 +35,9 @@
 #define JHB100_RGMII_VSEL_3_3V		0U
 #define JHB100_I3C_PADCFG_IE		BIT(0)
 #define JHB100_I3C_PADCFG_SMT		BIT(7)
+#define JHB100_I3C_PADCFG_MODE_SEL	GENMASK(2, 1)
+#define JHB100_I3C_PADCFG_MODE_SHIFT	1
+#define JHB100_I2C_LEGACY_FM_PLUS	2
 
 #define JHB100_PADCFG_VSEL_SHIFT	2
 #define JHB100_PADCFG_DB_WIDTH_SHIFT	15
@@ -57,6 +60,7 @@
 
 #define STARFIVE_PIN_CONFIG_GMAC_VSEL		(PIN_CONFIG_END + 1)
 #define STARFIVE_PIN_CONFIG_DEBOUNCE_WIDTH	(PIN_CONFIG_END + 2)
+#define STARFIVE_PIN_DRIVE_I2C_FAST_MODE_PLUS	(PIN_CONFIG_END + 3)
 
 /*
  * mux bits:
@@ -155,7 +159,8 @@ static const struct pinconf_param starfive_pinconf_params[] = {
 	{ "input-disable",	PIN_CONFIG_INPUT_ENABLE,	0 },
 	{ "slew-rate",		PIN_CONFIG_SLEW_RATE,		0 },
 	{ "starfive,gmac_vsel",	STARFIVE_PIN_CONFIG_GMAC_VSEL,	0 },
-	{ "starfive,debounce_width",	STARFIVE_PIN_CONFIG_DEBOUNCE_WIDTH,	0 },
+	{ "starfive,debounce_width", STARFIVE_PIN_CONFIG_DEBOUNCE_WIDTH, 0 },
+	{ "starfive,drive-i2c-fast-mode-plus", STARFIVE_PIN_DRIVE_I2C_FAST_MODE_PLUS, 0},
 };
 
 static const u8 starfive_drive_strength_mA[4] = { 2, 4, 8, 12 };
@@ -303,6 +308,15 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 		if (info->is_vselcfg && info->is_vselcfg(pin)) {
 			mask |= JHB100_RGMII_PADCFG_VSEL;
 			value |= arg ? (1 << JHB100_PADCFG_VSEL_SHIFT) : 0;
+		} else {
+			return -EINVAL;
+		}
+		break;
+	case STARFIVE_PIN_DRIVE_I2C_FAST_MODE_PLUS:
+		if (info->is_i3cpad && info->is_i3cpad(pin)) {
+			mask |= JHB100_I3C_PADCFG_MODE_SEL;
+			value |= JHB100_I2C_LEGACY_FM_PLUS <<
+				 JHB100_I3C_PADCFG_MODE_SHIFT;
 		} else {
 			return -EINVAL;
 		}
