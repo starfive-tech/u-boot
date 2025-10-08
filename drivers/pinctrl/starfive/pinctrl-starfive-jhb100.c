@@ -285,11 +285,11 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 		if (info->is_i3cpad && info->is_i3cpad(pin)) {
 			return -EINVAL;
 		} else if (info->is_vselcfg && info->is_vselcfg(pin)) {
-			mask |= JHB100_RGMII_PADCFG_IE;
+			mask |= JHB100_RGMII_PADCFG_SLEW;
 			if (arg)
-				value |= JHB100_RGMII_PADCFG_IE;
+				value |= JHB100_RGMII_PADCFG_SLEW;
 			else
-				value &= ~JHB100_RGMII_PADCFG_IE;
+				value &= ~JHB100_RGMII_PADCFG_SLEW;
 		} else {
 			mask |= JHB100_PADCFG_SLEW;
 			if (arg)
