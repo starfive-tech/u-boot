@@ -6,7 +6,6 @@
 #include "jhb100-crg-u-boot.dtsi"
 #include "jhb100-img.dtsi"
 #include "jhb100-evb1-sfc0-flash.dtsi"
-#include "jhb100-evb1-sfc1-flash.dtsi"
 / {
 	aliases {
 		timer0 = &timer0;
@@ -273,24 +272,6 @@
 	};
 };
 
-&sfc1 {
-	bootph-pre-ram;
-	spi-max-frequency = <5000000>;
-	rx-sample-delay-ns = <0>;
-	/delete-property/ resets;
-	/delete-property/ dmas;
-
-	flash@0 {
-		spi-tx-bus-width = <1>;
-		spi-rx-bus-width = <1>;
-	};
-
-	flash@1 {
-		spi-tx-bus-width = <1>;
-		spi-rx-bus-width = <1>;
-	};
-};
-
 &timer0 {
 	status = "disabled";
 };
@@ -437,42 +418,6 @@
 		};
 
 		sfc0_io3-pins {
-			bootph-pre-ram;
-		};
-	};
-
-	sfc1_pins: sfc1-grp {
-		bootph-pre-ram;
-
-		sfc1_sclk-pins {
-			bootph-pre-ram;
-		};
-
-		sfc1_cs0-pins {
-			bootph-pre-ram;
-		};
-
-		sfc1_cs1-pins {
-			bootph-pre-ram;
-		};
-
-		sfc1_cs2-pins {
-			bootph-pre-ram;
-		};
-
-		sfc1_io0-pins {
-			bootph-pre-ram;
-		};
-
-		sfc1_io1-pins {
-			bootph-pre-ram;
-		};
-
-		sfc1_io2-pins {
-			bootph-pre-ram;
-		};
-
-		sfc1_io3-pins {
 			bootph-pre-ram;
 		};
 	};
