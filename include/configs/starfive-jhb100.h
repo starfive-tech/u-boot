@@ -76,10 +76,11 @@
 	"boot_dev_s=mmc\0"	\
 	"spibootconfig=tftpcompboot\0"	\
 	"mmcbootconfig=mmcramfitboot\0"	\
-	"fitbootfile=kernel.itb\0"	\
-	"fitbootrecfile=kernel-recovery.itb\0"	\
+	"fitfile=kernel.itb\0"	\
+	"fitbootfile=/boot/kernel.itb\0"	\
+	"fitbootrecfile=/boot/kernel-recovery.itb\0"	\
 	"bootfile=Image\0"	\
-	"fdtfile=jhb100-fpga.dtb\0"	\
+	"fdtfile=jhb100.dtb\0"	\
 	"ramdiskfile=rootfs.cpio\0"	\
 	"updcapfile=capsule.cap\0"	\
 	"mmcpart=1\0"
@@ -99,25 +100,25 @@
 			"run importbootenv; "	\
 		"fi;\0"	\
 	"loademmcimgext4="	\
-		"ext4load mmc 0:0 ${loadaddr} ${bootfile};"	\
-		"ext4load mmc 0:0 ${ramdisk_addr_r} ${ramdiskfile};"	\
-		"ext4load mmc 0:0 ${fdt_addr_r} ${fdtfile};\0"	\
+		"ext4load mmc 0:0 ${loadaddr} /boot/${bootfile};"	\
+		"ext4load mmc 0:0 ${ramdisk_addr_r} /boot/${ramdiskfile};"	\
+		"ext4load mmc 0:0 ${fdt_addr_r} /boot/${fdtfile};\0"	\
 	"loademmcfitimgext4=ext4load mmc 0:0 ${loadaddr} ${fitbootfile}\0"	\
 	"loadimagefat=fatload mmc ${mmcdev}:${mmcpart} ${kernel_addr_r} /${bootfile}\0"	\
-	"loadfitimagefatprim=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} /${fitbootfile}\0"	\
-	"loadfitimagefatsec=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} /${fitbootrecfile}\0"	\
-	"loadcompfitimagefatprim=fatload mmc ${mmcdev}:${mmcpart} ${kernel_comp_addr_r} /${fitbootfile}.gz\0"	\
-	"loadcompfitimagefatsec=fatload mmc ${mmcdev}:${mmcpart} ${kernel_comp_addr_r} /${fitbootrecfile}.gz\0"	\
 	"loadfdtfat=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} /${fdtfile}\0"	\
 	"loadramdiskfat=fatload mmc ${mmcdev}:${mmcpart} ${ramdisk_addr_r} /${ramdiskfile}\0"	\
+	"loadfitimagefatprim=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${fitbootfile}\0"	\
+	"loadfitimagefatsec=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${fitbootrecfile}\0"	\
+	"loadcompfitimagefatprim=fatload mmc ${mmcdev}:${mmcpart} ${kernel_comp_addr_r} ${fitbootfile}.gz\0"	\
+	"loadcompfitimagefatsec=fatload mmc ${mmcdev}:${mmcpart} ${kernel_comp_addr_r} ${fitbootrecfile}.gz\0"	\
 	"loadfitimagespiact=sf read ${loadaddr} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespigol=sf read ${loadaddr} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespiprim=sf read ${loadaddr} ${kernel_fit_spi_prim_off} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespisec=sf read ${loadaddr} ${kernel_fit_spi_sec_off} ${kernel_fit_load_size}\0"	\
 	"loadcompfitimagespiprim=sf read ${kernel_comp_addr_r} ${kernel_fit_spi_prim_off} ${kernel_fit_comp_load_size}\0"	\
 	"loadcompfitimagespisec=sf read ${kernel_comp_addr_r} ${kernel_fit_spi_sec_off} ${kernel_fit_comp_load_size}\0"	\
-	"loadfitimagetftp=tftpboot ${loadaddr} /${fitbootfile}\0"	\
-	"loadcompfitimagetftp=tftpboot ${kernel_comp_addr_r} /${fitbootfile}.gz\0"	\
+	"loadfitimagetftp=tftpboot ${loadaddr} /${fitfile}\0"	\
+	"loadcompfitimagetftp=tftpboot ${kernel_comp_addr_r} /${fitfile}.gz\0"	\
 	"loadimagetftp=tftpboot ${loadaddr} /${bootfile}\0"	\
 	"loadcompimagetftp=tftpboot ${kernel_addr_r} /${bootfile}.gz\0"	\
 	"loadfdttftp=tftpboot ${fdt_addr_r} ${fdtfile}\0"	\
