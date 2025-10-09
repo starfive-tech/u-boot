@@ -22,6 +22,12 @@
 				order = <22>;
 			};
 
+			rpmsg_shmem2: rpmsg_shmem2 {
+				compatible = "opensbi,domain,memregion";
+				base = <0x00 0x72000000>;
+				order = <22>;
+			};
+
 			rtcode: rtcode {
 				compatible = "opensbi,domain,memregion";
 				base = <0x0 0x6e800000>;
@@ -31,6 +37,18 @@
 			rtheap: rtheap {
 				compatible = "opensbi,domain,memregion";
 				base = <0x0 0x6f000000>;
+				order = <24>;
+			};
+
+			rtcode2: rtcode2 {
+				compatible = "opensbi,domain,memregion";
+				base = <0x00 0x70000000>;
+				order = <23>;
+			};
+
+			rtheap2: rtheap2 {
+				compatible = "opensbi,domain,memregion";
+				base = <0x00 0x71000000>;
 				order = <24>;
 			};
 
@@ -55,7 +73,8 @@
 			udomain: u-domain {
 				compatible = "opensbi,domain,instance";
 				possible-harts = <&cpu0 &cpu1 &cpu2 &cpu3>;
-				regions = <&rtcode 0x0>, <&rtheap 0x0>, <&allmem 0x3f>;
+				regions = <&rtcode 0x0>, <&rtheap 0x0>, <&rtcode2 0x0>,
+					  <&rtheap2 0x0>, <&allmem 0x3f>;
 				next-addr = <0x0 0x40200000>;
 				boot-hart = <&cpu1>;
 				system-reset-allowed;
@@ -71,6 +90,17 @@
 				next-arg1 = <0x0 0x0>;
 				next-addr = <0x0 0x6e800000>;
 				next-mode = <0x1>;
+			};
+
+			rtdomain2: rt-domain2 {
+				compatible = "opensbi,domain,instance";
+				possible-harts = <&cpu3>;
+				regions = <&rpmsg_shmem2 0x3f>, <&rtcode2 0x3f>, <&rtheap2 0x3f>,
+					  <&dram1 0x0>, <&allmem 0x3f>;
+				boot-hart = <&cpu3>;
+				next-arg1 = <0x00 0x00>;
+				next-addr = <0x00 0x70000000>;
+				next-mode = <0x01>;
 			};
 		};
 	};
@@ -89,7 +119,7 @@
 };
 
 &cpu3 {
-	opensbi-domain = <&udomain>;
+	opensbi-domain = <&rtdomain2>;
 };
 
 &cpu4 {

@@ -197,6 +197,22 @@ int board_fit_config_name_match(const char *name)
 }
 #endif
 
+static void spl_enable_uart1(void)
+{
+	/* uart1 clock */
+	setbits_le32(SYS_CRG_BASE + CLK_UART1_APB_OFFSET, BIT(31));
+	setbits_le32(SYS_CRG_BASE + CLK_UART1_CORE_OFFSET, BIT(31));
+	clrsetbits_le32(SYS_CRG_BASE + CLK_RSTN_3_OFFSET, BIT(21) | BIT(22), 0);
+
+	/*uart1 tx*/
+	SYS_IOMUX_DOEN(45, LOW);
+	SYS_IOMUX_DOUT(45, 0x44);
+	SYS_IOMUX_SET_DS(45, 3);
+	/*uart1 rx*/
+	SYS_IOMUX_DOEN(44, HIGH);
+	SYS_IOMUX_DIN(44, 55);
+}
+
 static void spl_enable_uart2(void)
 {
 	/* uart2 clock */
@@ -217,16 +233,28 @@ void spl_perform_fixups(struct spl_image_info *spl_image)
 {
 	unsigned long rtos_offset, rtos_image_addr;
 	unsigned long rtos_base;
+	unsigned long rtos_size;
+	unsigned long rtos_next_addr;
 
 	rtos_base = fdtdec_get_config_int(gd->fdt_blob,
 					  "amp,rtos-code-base", 0);
 	rtos_offset = fdtdec_get_config_int(gd->fdt_blob,
 					    "amp,rtos-offset", 0);
+	rtos_size = fdtdec_get_config_int(gd->fdt_blob,
+					  "amp,rtos-size", 0);
+	rtos_next_addr = fdtdec_get_config_int(gd->fdt_blob,
+					       "amp,rtos-next-addr", 0);
 
 	if (rtos_base && rtos_offset) {
+		spl_enable_uart1();
 		spl_enable_uart2();
+
 		rtos_image_addr = CONFIG_SPL_OPENSBI_LOAD_ADDR + rtos_offset;
-		memcpy((void *)rtos_base, (void *)(rtos_image_addr),
-		       spl_image->size - rtos_offset);
+
+		memcpy((void *)rtos_base, (void *)(rtos_image_addr), rtos_size);
+
+		rtos_image_addr += rtos_size;
+
+		memcpy((void *)rtos_next_addr, (void *)(rtos_image_addr), rtos_size);
 	}
 }

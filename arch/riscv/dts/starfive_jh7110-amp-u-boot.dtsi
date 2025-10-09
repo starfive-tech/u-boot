@@ -14,5 +14,7 @@
 	config {
 		amp,rtos-offset = <0x330000>;
 		amp,rtos-code-base = <0x6e800000>;
+		amp,rtos-size = <0x64000>;
+		amp,rtos-next-addr = <0x70000000>;
 	};
 };
