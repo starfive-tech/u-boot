@@ -93,6 +93,7 @@ static const int emmc_partition_map[7] = {
 #define SFC_PAGE_SIZE		4096
 
 #define EIGHT_MB		0x800000
+#define SIXTEEN_MB		0x1000000
 
 #define BOOT_TRIAL_CNT		1
 #define MAX_BOOT_TRIAL_UART	4
