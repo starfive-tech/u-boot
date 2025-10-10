@@ -150,7 +150,7 @@ extract_capsule:
 			 ((rofs_hdr->img_len / MMC_BLK_SIZE) + 1) :
 			 (rofs_hdr->img_len / MMC_BLK_SIZE);
 
-	*rofs_size = rofs_hdr->img_len;
+	*rofs_size = (rofs_hdr->img_len + SFC_PAGE_SIZE - 1) & ~(SFC_PAGE_SIZE - 1);
 	*rofs_offs = hdr->custom_data_off + comp_attr->off_cap + load_addr + BIF_HDR_LENGTH;
 #ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
 	*rofs_offs = *rofs_offs + BIF_MFT_LENGTH + BIF_SIG_LENGTH;
