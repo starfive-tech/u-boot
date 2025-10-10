@@ -31,14 +31,14 @@
 	starfive,kcs-remap-num = <4>;
 	starfive,uart-remap-num = <2>;
 	starfive,bt-io-addr = /bits/ 32 <0xe4 0xf4>;
-	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb4 0xcc6 0xcd8>;
+	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb2 0xcc2 0xcd2>;
 	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x400>;
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
 
-	starfive,vgpio_dir_bits = /bits/ 64 <0x00000000ffffffff 0x0000000000000000>;
+	starfive,vgpio_dir_bits = /bits/ 64 <0xffffffff00000000 0x0000000000000000>;
 	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
-	starfive,vgpio_phy_bits = /bits/ 64 <0x000000000000000f 0x0000000000000000>;
+	starfive,vgpio_phy_bits = /bits/ 64 <0x0000000f0000000f 0x0000000000000000>;
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&espi0_pins>;
