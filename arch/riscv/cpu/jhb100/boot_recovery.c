@@ -241,6 +241,7 @@ static int do_starfive_authenticate_storage(struct cmd_tbl *cmdtp, int flag, int
 			ret = starfive_req_img_auth_storage(BOOT_SRC_SFC,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
+			break;
 		case SFC_SECONDARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_SFC,
 							    PT_GOLDEN,
@@ -425,27 +426,29 @@ static int do_starfive_parse_capsule(struct cmd_tbl *cmdtp, int flag, int argc,
 		val = starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL);
 		env_set_hex("sfc_gol_cs", (ulong)val);
 
+		val = starfive_get_sfc_part_size(PT_TEMP,
+						 IMG_TYPE_KERNEL);
+		env_set_hex("sfc_part_size", (ulong)val);
+		place_holder = val;
+
 		val = starfive_get_partition_offset(BOOT_SRC_SFC,
 						    PT_TEMP,
 						    IMG_TYPE_KERNEL);
-		place_holder = val;
 		env_set_hex("sfc_temp_part_offs", (ulong)val);
-
+		env_set_hex("sfc_part_last_8mb_temp", (ulong)(place_holder + val - EIGHT_MB));
 
 		val = starfive_get_partition_offset(BOOT_SRC_SFC,
 						    PT_ACTIVE,
 						    IMG_TYPE_KERNEL);
 		env_set_hex("sfc_act_part_offs", (ulong)val);
+		env_set_hex("sfc_part_last_8mb_act", (ulong)(place_holder + val - EIGHT_MB));
 
 		val = starfive_get_partition_offset(BOOT_SRC_SFC,
 						    PT_GOLDEN,
 						    IMG_TYPE_KERNEL);
 		env_set_hex("sfc_gol_part_offs", (ulong)val);
+		env_set_hex("sfc_part_last_8mb_gol", (ulong)(place_holder + val - EIGHT_MB));
 
-		val = starfive_get_sfc_part_size(PT_TEMP,
-						 IMG_TYPE_KERNEL);
-		env_set_hex("sfc_part_size", (ulong)val);
-		env_set_hex("sfc_part_last_8mb", (ulong)(place_holder + val - EIGHT_MB));
 		env_set_hex("8mb_size", (ulong)(EIGHT_MB));
 
 		env_set_hex("rofs_blk_offs", (ulong)(((rofs_offs -
