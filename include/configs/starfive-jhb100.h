@@ -77,6 +77,7 @@
 	"bootmstatsfc=fail\0"	\
 	"spibootconfig=tftpcompboot\0"	\
 	"mmcbootconfig=mmcramfitboot\0"	\
+	"fdtmodify=no\0"	\
 	"fitfile=kernel.itb\0"	\
 	"fitbootfile=/boot/kernel.itb\0"	\
 	"fitbootrecfile=/boot/kernel-recovery.itb\0"	\
@@ -212,13 +213,13 @@
 		"fi; \0"	\
 	"sfc_write_cap_act="	\
 		"sf update ${rofs_offs} ${sfc_act_part_offs} ${rofs_size};"	\
-		"sf update ${loadaddr} ${sfc_part_last_8mb} ${8mb_size};\0"	\
+		"sf update ${loadaddr} ${sfc_part_last_8mb_act} ${8mb_size};\0"	\
 	"sfc_write_cap_gol="	\
 		"sf update ${rofs_offs} ${sfc_gol_part_offs} ${rofs_size};"	\
-		"sf update ${loadaddr} ${sfc_part_last_8mb} ${8mb_size};\0"	\
+		"sf update ${loadaddr} ${sfc_part_last_8mb_gol} ${8mb_size};\0"	\
 	"sfc_write_cap_temp="	\
 		"sf update ${rofs_offs} ${sfc_temp_part_offs} ${rofs_size};"	\
-		"sf update ${loadaddr} ${sfc_part_last_8mb} ${8mb_size};\0"	\
+		"sf update ${loadaddr} ${sfc_part_last_8mb_temp} ${8mb_size};\0"	\
 	"emmc_write_cap="	\
 		"mmc write ${rofs_offs} 0x0 ${rofs_blk_size};"	\
 		"mmc write ${loadaddr} ${cap_bif_hdr_offs} ${rofs_blk_offs};\0"	\
