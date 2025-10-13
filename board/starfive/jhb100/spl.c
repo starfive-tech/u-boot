@@ -64,7 +64,7 @@
 
 u32 jhb100_get_product_rev_num(void)
 {
-	return (readl(JHB100_PRODUCT_ID_ADDR) & JHB100_MASK_REV_NUM);
+	return (readl((void *)JHB100_PRODUCT_ID_ADDR) & JHB100_MASK_REV_NUM);
 }
 
 u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
