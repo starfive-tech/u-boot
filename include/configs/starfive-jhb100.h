@@ -429,25 +429,23 @@
 		"echo Found invalid SFC Active FIT image ...;"	\
 		"echo Checking for SFC Golden image	\
 		location in flash chip ...;"	\
-		"if chksfcdualflash; then "	\
-			"if checkimgrcmap 6; then "	\
-				"setimgrcmap 6; "	\
-				"getimginfo 6; "	\
-				"run set_bootargs_root_ram;"	\
-				"if sf probe 0:${cs_num}; then "	\
-					"echo Authenticating SFC Golden FIT image ...; "	\
-					"if authbimgstorage 6; then "	\
-						"run process_load_image_sfc_gol;"	\
-					"fi; "	\
-					"if test ${bootmstatsfc} = try; then "	\
-						"echo FIT binary authentication failed ...; "	\
-						"echo Trying to authenticate FIT payload components instead ...; "	\
-						"run process_load_image_sfc_gol;"	\
-					"fi; "	\
+		"if checkimgrcmap 6; then "	\
+			"setimgrcmap 6; "	\
+			"getimginfo 6; "	\
+			"run set_bootargs_root_ram;"	\
+			"if sf probe 0:${cs_num}; then "	\
+				"echo Authenticating SFC Golden FIT image ...; "	\
+				"if authbimgstorage 6; then "	\
+					"run process_load_image_sfc_gol;"	\
 				"fi; "	\
-			"fi;"	\
-			"echo Found invalid SFC Golden FIT image ...;"	\
-		"fi;\0"	\
+				"if test ${bootmstatsfc} = try; then "	\
+					"echo FIT binary authentication failed ...; "	\
+					"echo Trying to authenticate FIT payload components instead ...; "	\
+					"run process_load_image_sfc_gol;"	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid SFC Golden FIT image ...;\0"	\
 	"kernel_auth_boot_emmc="	\
 		"echo Checking FIT image in eMMC ...;"	\
 		"if checkimgrcmap 1; then "	\

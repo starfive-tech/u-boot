@@ -355,6 +355,13 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 			env_set_hex("ufs_kernel_gol_part_offs", (ulong)val);
 			break;
 		case SFC_PRIMARY:
+			if (starfive_get_sfc_cs(PT_ACTIVE, IMG_TYPE_KERNEL) == CONFIG_SF_CS1) {
+				printf("Active image is stored in CS1...\n");
+				env_set_hex("cs_num", (ulong)CONFIG_SF_CS1);
+			} else {
+				printf("Active image is stored in CS0...\n");
+				env_set_hex("cs_num", (ulong)CONFIG_SF_DEFAULT_CS);
+			}
 			val = starfive_get_partition_offset(BOOT_SRC_SFC,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
@@ -368,8 +375,10 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 		case SFC_SECONDARY:
 			if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL) == CONFIG_SF_CS1) {
 				printf("Golden image is stored in CS1...\n");
+				env_set_hex("cs_num", (ulong)CONFIG_SF_CS1);
 			} else {
 				printf("Golden image is stored in CS0...\n");
+				env_set_hex("cs_num", (ulong)CONFIG_SF_DEFAULT_CS);
 			}
 			val = starfive_get_partition_offset(BOOT_SRC_SFC,
 							    PT_GOLDEN,
