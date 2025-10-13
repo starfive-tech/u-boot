@@ -97,7 +97,6 @@ enum env_location env_get_location(enum env_operation op, int prio)
 	return ENVL_NOWHERE;
 }
 
-/* Helper function: update partition reg property by label */
 static int update_partition_reg(void *fdt, int flash_off,
 				const char *label, uint32_t offset, uint32_t size)
 {
@@ -122,6 +121,37 @@ static int update_partition_reg(void *fdt, int flash_off,
 	}
 
 	printf("  !! Partition '%s' not found\n", label);
+	return -ENOENT;
+}
+
+/* Helper to rename by offset */
+static int rename_partition_by_offset(void *fdt, int flash_off,
+                                      uint32_t match_off,
+                                      const char *new_label)
+{
+	int partitions_off, part_off;
+	const fdt32_t *reg;
+	int len;
+
+	partitions_off = fdt_subnode_offset(fdt, flash_off, "partitions");
+	if (partitions_off < 0) {
+		return partitions_off;
+	}
+
+	fdt_for_each_subnode(part_off, fdt, partitions_off) {
+		reg = fdt_getprop(fdt, part_off, "reg", &len);
+		if (reg && len >= 8) {
+			uint32_t off = fdt32_to_cpu(reg[0]);
+			if (off == match_off) {
+				const char *old = fdt_getprop(fdt, part_off, "label", NULL);
+				printf("  -> Renaming partition at offset %#x: '%s' -> '%s'\n",
+				       off, old ? old : "(none)", new_label);
+				return fdt_setprop_string(fdt, part_off, "label", new_label);
+			}
+		}
+	}
+
+	printf("  !! No partition found at offset %#x for rename to '%s'\n", match_off, new_label);
 	return -ENOENT;
 }
 
@@ -171,38 +201,112 @@ int jhb100_fdt_sfc_fixup(void *fdt)
 	uint32_t kernel_fit_size = SIXTEEN_MB;
 	uint32_t rootfs_size = part_size - SIXTEEN_MB;
 
+	uint32_t a_t_kernel_off;
+	uint32_t a_t_rofs_off;
+	uint32_t g_kernel_off;
+	uint32_t g_rofs_off;
+
+	if (kernel_fit_active_off == kernel_fit_temp_off) {
+		a_t_kernel_off = kernel_fit_active_off;
+		a_t_rofs_off = rootfs_active_off;
+		g_kernel_off = kernel_fit_golden_off;
+		g_rofs_off = rootfs_golden_off;
+	} else if (kernel_fit_active_off == kernel_fit_golden_off) {
+		a_t_kernel_off = kernel_fit_active_off;
+		a_t_rofs_off = rootfs_active_off;
+		g_kernel_off = kernel_fit_temp_off;
+		g_rofs_off = rootfs_temp_off;
+	} else {
+		a_t_kernel_off = kernel_fit_temp_off;
+		a_t_rofs_off = rootfs_temp_off;
+		g_kernel_off = kernel_fit_active_off;
+		g_rofs_off = rootfs_active_off;
+	}
+
+	/* Update labels based on CS and offset */
+	int cs_active = starfive_get_sfc_cs(PT_ACTIVE, IMG_TYPE_KERNEL);
+	int cs_golden = starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL);
+	int cs_temp   = starfive_get_sfc_cs(PT_TEMP, IMG_TYPE_KERNEL);
+
 	/* === Case 1: Dual flash mode === */
 	if ((starfive_get_sfc_cs(PT_ACTIVE, IMG_TYPE_KERNEL) == CONFIG_SF_CS1) ||
 	    (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL) == CONFIG_SF_CS1) ||
-	    (starfive_get_sfc_cs(PT_TEMP, IMG_TYPE_KERNEL) == CONFIG_SF_CS1) ) {
+	    (starfive_get_sfc_cs(PT_TEMP, IMG_TYPE_KERNEL) == CONFIG_SF_CS1)) {
 		printf("Detected dual flash mode, keeping both flashes.\n");
 
 		/* flash@0 updates */
 		update_partition_reg(fdt, flash0_off,
 				     "Kernel FIT Active (compressed)",
-				     kernel_fit_active_off, kernel_fit_size);
+				     a_t_kernel_off, kernel_fit_size);
 		update_partition_reg(fdt, flash0_off,
 				     "RootFS Active",
-				     rootfs_active_off, rootfs_size);
+				     a_t_rofs_off, rootfs_size);
 
 		/* flash@1 updates */
 		if (flash1_off >= 0) {
 			update_partition_reg(fdt, flash1_off,
 					     "Kernel FIT Golden (compressed)",
-					     kernel_fit_golden_off, kernel_fit_size);
+					     g_kernel_off, kernel_fit_size);
 			update_partition_reg(fdt, flash1_off,
 					     "RootFS Golden",
-					     rootfs_golden_off, rootfs_size);
+					     g_rofs_off, rootfs_size);
 			update_partition_reg(fdt, flash1_off,
 					     "Kernel FIT Temp (compressed)",
-					     kernel_fit_temp_off, kernel_fit_size);
+					     a_t_kernel_off, kernel_fit_size);
 			update_partition_reg(fdt, flash1_off,
 					     "RootFS Temp",
-					     rootfs_temp_off, rootfs_size);
+					     a_t_rofs_off, rootfs_size);
 		} else {
 			printf("Warning: flash@1 not found, skipping golden/temp partitions.\n");
 		}
 
+		flash0_off = fdt_subnode_offset(fdt, sfc0_off, "flash@0");
+		/* flash@0 label updates */
+		if (flash0_off >= 0) {
+			if (cs_active == CONFIG_SF_DEFAULT_CS) {
+				rename_partition_by_offset(fdt, flash0_off, kernel_fit_active_off,
+					"Kernel FIT Active (compressed)");
+				rename_partition_by_offset(fdt, flash0_off, rootfs_active_off,
+					"RootFS Active");
+			}
+			if (cs_golden == CONFIG_SF_DEFAULT_CS) {
+				rename_partition_by_offset(fdt, flash0_off, kernel_fit_golden_off,
+					"Kernel FIT Golden (compressed)");
+				rename_partition_by_offset(fdt, flash0_off, rootfs_golden_off,
+					"RootFS Golden");
+			}
+			if (cs_temp == CONFIG_SF_DEFAULT_CS) {
+				rename_partition_by_offset(fdt, flash0_off, kernel_fit_temp_off,
+					"Kernel FIT Temp (compressed)");
+				rename_partition_by_offset(fdt, flash0_off, rootfs_temp_off,
+					"RootFS Temp");
+			}
+		}
+
+		flash1_off = fdt_subnode_offset(fdt, sfc0_off, "flash@1");
+		/* flash@1 label updates */
+		if (flash1_off >= 0) {
+			if (cs_active == CONFIG_SF_CS1) {
+				rename_partition_by_offset(fdt, flash1_off, kernel_fit_active_off,
+					"Kernel FIT Active (compressed)");
+				rename_partition_by_offset(fdt, flash1_off, rootfs_active_off,
+					"RootFS Active");
+			}
+			if (cs_golden == CONFIG_SF_CS1) {
+				rename_partition_by_offset(fdt, flash1_off, kernel_fit_golden_off,
+					"Kernel FIT Golden (compressed)");
+				rename_partition_by_offset(fdt, flash1_off, rootfs_golden_off,
+					"RootFS Golden");
+			}
+			if (cs_temp == CONFIG_SF_CS1) {
+				rename_partition_by_offset(fdt, flash1_off, kernel_fit_temp_off,
+					"Kernel FIT Temp (compressed)");
+				rename_partition_by_offset(fdt, flash1_off, rootfs_temp_off,
+					"RootFS Temp");
+			}
+		}
+
+		printf("Partition labels updated based on flash offset and CS (dual flash mode).\n");
 		printf("Dual-flash partitions updated successfully.\n");
 		return 0;
 	}
@@ -282,9 +386,29 @@ int jhb100_fdt_sfc_fixup(void *fdt)
 	for (int i = (sizeof(parts)/sizeof(parts[0])) - 1; i >= 0; i--) {
 		ADD_AUTO_PART_WITH_OFFSET(parts[i].label, parts[i].size, parts[i].offset);
 	}
-/* Just remove to avoid potential collisions, if any */
+
 #undef ADD_AUTO_PART_WITH_OFFSET
 	printf("Single-flash partitions rebuilt successfully.\n");
+
+	/* Update labels for single flash */
+	flash0_off = fdt_subnode_offset(fdt, sfc0_off, "flash@0");
+
+	if (flash0_off >= 0) {
+		if (cs_active == CONFIG_SF_DEFAULT_CS) {
+			rename_partition_by_offset(fdt, flash0_off, kernel_fit_active_off,
+				"Kernel FIT Active (compressed)");
+			rename_partition_by_offset(fdt, flash0_off, rootfs_active_off,
+				"RootFS Active");
+		}
+		if (cs_temp == CONFIG_SF_DEFAULT_CS) {
+			rename_partition_by_offset(fdt, flash0_off, kernel_fit_temp_off,
+				"Kernel FIT Temp (compressed)");
+			rename_partition_by_offset(fdt, flash0_off, rootfs_temp_off,
+				"RootFS Temp");
+		}
+	}
+
+	printf("Single-flash partition labels updated based on offset and CS.\n");
 	return 0;
 }
 
