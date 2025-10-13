@@ -52,7 +52,7 @@ static int do_starfive_get_emmc_gpp_size(struct cmd_tbl *cmdtp, int flag, int ar
 					 char *const argv[])
 {
 	struct mmc *mmc;
-	u32 val;
+	u32 val = 0;
 
 	if (mmcdev < 0) {
 		if (get_mmc_num() > 0)
@@ -75,7 +75,12 @@ static int do_starfive_get_emmc_gpp_size(struct cmd_tbl *cmdtp, int flag, int ar
 			val = mmc->capacity_gp[i];
 		}
 	}
+
+	if (!val)
+		return CMD_RET_FAILURE;
+
 	env_set_hex("cap_bif_hdr_offs", (ulong)((val - EMMC_GPP_LAST_8MB) / MMC_BLK_SIZE));
+
 	return CMD_RET_SUCCESS;
 }
 

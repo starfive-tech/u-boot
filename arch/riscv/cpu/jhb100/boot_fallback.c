@@ -47,21 +47,18 @@ static int starfive_boot_from_devices(struct spl_image_info *spl_image,
 		int bootdev = spl_boot_list[i];
 
 		for (loader = drv; loader != drv + n_ents; loader++) {
-			if (bootdev != loader->boot_device)
-				continue;
-
 			if (loader) {
+				if (bootdev != loader->boot_device)
+					continue;
 				printf("Trying to boot from %s\n",
 					spl_loader_name(loader));
+				if (!starfive_spl_load_image(spl_image, loader)) {
+					spl_image->boot_device = bootdev;
+					return 0;
+				}
 			} else {
 				puts(SPL_TPL_PROMPT
 					"Unsupported Boot Device!\n");
-			}
-
-			if (loader &&
-				!starfive_spl_load_image(spl_image, loader)) {
-				spl_image->boot_device = bootdev;
-				return 0;
 			}
 		}
 	}

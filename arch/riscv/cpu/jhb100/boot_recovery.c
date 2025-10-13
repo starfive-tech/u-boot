@@ -208,7 +208,7 @@ static int do_starfive_authenticate_fit_mem(struct cmd_tbl *cmdtp, int flag, int
 static int do_starfive_authenticate_storage(struct cmd_tbl *cmdtp, int flag, int argc,
 					    char *const argv[])
 {
-	int ret;
+	int ret = -1;
 
 	argc--; argv++;
 	if (argc) {

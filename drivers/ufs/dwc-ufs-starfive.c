@@ -211,7 +211,6 @@ static int dwc_ufs_link_startup_notify(struct ufs_hba *hba,
 	struct scsi_plat *scsi_plat;
 	struct udevice *scsi_dev;
 	struct dwc_ufs_priv *priv = dev_get_priv(hba->dev);
-	int ret;
 
 	device_find_first_child(hba->dev, &scsi_dev);
 	if (!scsi_dev)
@@ -221,12 +220,12 @@ static int dwc_ufs_link_startup_notify(struct ufs_hba *hba,
 	scsi_plat = dev_get_uclass_plat(scsi_dev);
 	scsi_plat->max_bytes_per_req = MAX_SCSI_BYTE_PER_REQUEST;
 
-	if (status == PRE_CHANGE)
-		ret = dwc_ufs_init_mphy(hba, &cali_default, priv);
-
-	if (ret) {
-		printf("Controller init fail ...\n");
-		return -EBUSY;
+	if (status == PRE_CHANGE) {
+		int ret = dwc_ufs_init_mphy(hba, &cali_default, priv);
+		if (ret) {
+			printf("Controller init fail ...\n");
+			return -EBUSY;
+		}
 	}
 
 	hba->quirks |= UFSHCD_QUIRK_SELECT_GEAR_RATE_A;
