@@ -56,6 +56,17 @@
 #define JHB100_PER1_IOMUX_PADCFG_START		0x94
 #define JHB100_PER1_IOMUX_PADCFG_END		0xa0
 
+/* PRODUCT_ID */
+#define JHB100_PRODUCT_ID_ADDR			0x13010038UL
+#define JHB100_MASK_REV_NUM			GENMASK(3, 0)
+#define JHB100_REV_NUM_A			0x0
+#define JHB100_REV_NUM_B			0x4
+
+u32 jhb100_get_product_rev_num(void)
+{
+	return (readl(JHB100_PRODUCT_ID_ADDR) & JHB100_MASK_REV_NUM);
+}
+
 u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
 {
 #if defined(CONFIG_SUPPORT_EMMC_BOOT)
@@ -230,18 +241,20 @@ void jhb100_plat_init(void)
 	writel(val, addr);
 
 	/* Initialize the following pins to push-pull mode as default FM mode prevents GPIO outputs
-	 * from driving high without an external pull-up.
+	 * from driving high without an external pull-up. (Only required for RevA)
 	 */
-	addr = (void *)(JHB100_PER0_IOMUX_ADDR + JHB100_PER0_IOMUX_PADCFG_START);
-	while (addr <= (void *)(JHB100_PER0_IOMUX_ADDR + JHB100_PER0_IOMUX_PADCFG_END)) {
-		writel(0, addr);
-		addr += 0x4;
-	}
+	if (jhb100_get_product_rev_num() == JHB100_REV_NUM_A) {
+		addr = (void *)(JHB100_PER0_IOMUX_ADDR + JHB100_PER0_IOMUX_PADCFG_START);
+		while (addr <= (void *)(JHB100_PER0_IOMUX_ADDR + JHB100_PER0_IOMUX_PADCFG_END)) {
+			writel(0, addr);
+			addr += 0x4;
+		}
 
-	addr = (void *)(JHB100_PER1_IOMUX_ADDR + JHB100_PER1_IOMUX_PADCFG_START);
-	while (addr <= (void *)(JHB100_PER1_IOMUX_ADDR + JHB100_PER1_IOMUX_PADCFG_END)) {
-		writel(0, addr);
-		addr += 0x4;
+		addr = (void *)(JHB100_PER1_IOMUX_ADDR + JHB100_PER1_IOMUX_PADCFG_START);
+		while (addr <= (void *)(JHB100_PER1_IOMUX_ADDR + JHB100_PER1_IOMUX_PADCFG_END)) {
+			writel(0, addr);
+			addr += 0x4;
+		}
 	}
 }
 
