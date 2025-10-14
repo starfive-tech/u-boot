@@ -127,7 +127,7 @@ dma-reserved@4e300000 {
 };
 
 /* DMA global pool uncached address (alias) */
-linux,dma@40e300000 {
+dma_reserved_uncache: linux,dma@40e300000 {
 	compatible = "shared-dma-pool";
 	reg = <0x4 0x0e300000 0x0 0x08000000>;
 	no-map;

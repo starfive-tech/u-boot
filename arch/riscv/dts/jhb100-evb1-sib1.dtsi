@@ -123,8 +123,9 @@
 	#address-cells = <3>;
 	#size-cells = <0>;
 
-	hub@0,0 {
-		reg = <0x0 0x0 0x0>;
+	hub@0,4cd00000000 {
+		compatible = "renesas,i3chub-rg3mxxb12b1";
+		reg = <0x0 0x4cd 0x0>;
 		cp0-ldo-en = "disabled";
 		cp1-ldo-en = "disabled";
 		cp0-ldo-volt = "1.0V";

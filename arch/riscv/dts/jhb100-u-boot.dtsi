@@ -246,6 +246,10 @@
 	/delete-property/ memory-region;
 };
 
+&npu {
+	/delete-property/ memory-region;
+};
+
 &clint {
 	bootph-pre-ram;
 };
