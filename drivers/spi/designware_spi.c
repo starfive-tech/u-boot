@@ -153,8 +153,9 @@
 #define ADDR_FILTER_ERR				BIT(1)
 #define ADDR_WIDTH_ERR				BIT(2)
 #define CMD_FILTER_ERR				BIT(3)
+#define CS_DEASSERT_FLAG			BIT(4)
 
-#define FILTER_ERR_MASK				GENMASK(3, 0)
+#define JHB100_FILTER_MASK			GENMASK(4, 0)
 
 /* SFC core address */
 #define JHB100_SFC0_CORE_ADDR			(void *)0x18000000
@@ -804,7 +805,7 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 		while (priv->tx != priv->tx_end)
 			dw_writer(priv);
 	} else {
-		dw_write(priv, DW_SPI_JHB100_FILTER_IMR, FILTER_ERR_MASK);
+		dw_write(priv, DW_SPI_JHB100_FILTER_IMR, JHB100_FILTER_MASK);
 		dw_read(priv, DW_SPI_JHB100_FILTER_ICR);
 
 		cs = 1 << spi_chip_select(slave->dev);
