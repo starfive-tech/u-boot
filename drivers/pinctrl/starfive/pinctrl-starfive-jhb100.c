@@ -39,6 +39,14 @@
 #define JHB100_I3C_PADCFG_MODE_SHIFT	1
 #define JHB100_I2C_LEGACY_FM_PLUS	2
 
+#define JHB100_VGA_ADC_PADCFG_SMT	BIT(7)
+#define JHB100_VGA_ADC_PADCFG_SLEW	BIT(6)
+#define JHB100_VGA_ADC_PADCFG_PU	BIT(5)
+#define JHB100_VGA_ADC_PADCFG_PD	BIT(4)
+#define JHB100_VGA_ADC_PADCFG_IE	BIT(3)
+#define JHB100_VGA_ADC_PADCFG_BIAS_MASK	(JHB100_VGA_ADC_PADCFG_PU | JHB100_VGA_ADC_PADCFG_PD)
+#define JHB100_VGA_ADC_PADCFG_DS_MASK	GENMASK(2, 0)
+
 #define JHB100_PADCFG_VSEL_SHIFT	2
 #define JHB100_PADCFG_DB_WIDTH_SHIFT	15
 
@@ -163,25 +171,45 @@ static const struct pinconf_param starfive_pinconf_params[] = {
 	{ "starfive,drive-i2c-fast-mode-plus", STARFIVE_PIN_DRIVE_I2C_FAST_MODE_PLUS, 0},
 };
 
-static const u8 starfive_drive_strength_mA[4] = { 2, 4, 8, 12 };
+static const u8 jhb100_drive_strength_mA[4] = { 2, 4, 8, 12 };
+static const u8 jhb100_vga_adc_drive_strength_mA[8] = { 2, 5, 8, 10, 14, 16, 18, 20 };
 
-static u32 starfive_padcfg_ds_from_mA(u32 v)
+static u32 jhb100_padcfg_ds_from_mA(u32 v)
 {
 	int i;
 
-	for (i = 0; i < 3; i++) {
-		if (v <= starfive_drive_strength_mA[i])
+	for (i = 0; i < ARRAY_SIZE(jhb100_drive_strength_mA); i++) {
+		if (v <= jhb100_drive_strength_mA[i])
 			break;
 	}
 	return i;
 }
 
-static u32 starfive_padcfg_ds_from_uA(u32 v)
+static u32 jhb100_vga_adc_padcfg_ds_from_mA(u32 v)
+{
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(jhb100_vga_adc_drive_strength_mA); i++) {
+		if (v <= jhb100_vga_adc_drive_strength_mA[i])
+			break;
+	}
+	return i;
+}
+
+static u32 jhb100_padcfg_ds_from_uA(u32 v)
 {
 	/* Convert from uA to mA */
 	v /= 1000;
 
-	return starfive_padcfg_ds_from_mA(v);
+	return jhb100_padcfg_ds_from_mA(v);
+}
+
+static u32 jhb100_vga_adc_padcfg_ds_from_uA(u32 v)
+{
+	/* Convert from uA to mA */
+	v /= 1000;
+
+	return jhb100_vga_adc_padcfg_ds_from_mA(v);
 }
 
 static void starfive_padcfg_rmw(struct udevice *dev,
@@ -232,18 +260,30 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 		value = (value & ~JHB100_PADCFG_BIAS_MASK) | JHB100_PADCFG_PU;
 		break;
 	case PIN_CONFIG_DRIVE_STRENGTH:
-		if (info->is_i3cpad && info->is_i3cpad(pin))
+		if (info->is_i3cpad && info->is_i3cpad(pin)) {
 			return -EINVAL;
-		mask |= JHB100_PADCFG_DS_MASK;
-		value = (value & ~JHB100_PADCFG_DS_MASK) |
-			starfive_padcfg_ds_from_mA(arg);
+		} else if (info->is_vga_adc_pad) {
+			mask |= JHB100_VGA_ADC_PADCFG_DS_MASK;
+			value = (value & ~JHB100_VGA_ADC_PADCFG_DS_MASK) |
+				jhb100_vga_adc_padcfg_ds_from_mA(arg);
+		} else {
+			mask |= JHB100_PADCFG_DS_MASK;
+			value = (value & ~JHB100_PADCFG_DS_MASK) |
+				jhb100_padcfg_ds_from_mA(arg);
+		}
 		break;
 	case PIN_CONFIG_DRIVE_STRENGTH_UA:
-		if (info->is_i3cpad && info->is_i3cpad(pin))
+		if (info->is_i3cpad && info->is_i3cpad(pin)) {
 			return -EINVAL;
-		mask |= JHB100_PADCFG_DS_MASK;
-		value = (value & ~JHB100_PADCFG_DS_MASK) |
-			starfive_padcfg_ds_from_uA(arg);
+		} else if (info->is_vga_adc_pad) {
+			mask |= JHB100_VGA_ADC_PADCFG_DS_MASK;
+			value = (value & ~JHB100_VGA_ADC_PADCFG_DS_MASK) |
+				jhb100_vga_adc_padcfg_ds_from_uA(arg);
+		} else {
+			mask |= JHB100_PADCFG_DS_MASK;
+			value = (value & ~JHB100_PADCFG_DS_MASK) |
+				jhb100_padcfg_ds_from_uA(arg);
+		}
 		break;
 	case PIN_CONFIG_INPUT_ENABLE:
 		if (info->is_vselcfg && info->is_vselcfg(pin)) {
@@ -258,6 +298,12 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 				value |= JHB100_I3C_PADCFG_IE;
 			else
 				value &= ~JHB100_I3C_PADCFG_IE;
+		} else if (info->is_vga_adc_pad) {
+			mask |= JHB100_VGA_ADC_PADCFG_IE;
+			if (arg)
+				value |= JHB100_VGA_ADC_PADCFG_IE;
+			else
+				value &= ~JHB100_VGA_ADC_PADCFG_IE;
 		} else {
 			mask |= JHB100_PADCFG_IE;
 			if (arg)
@@ -273,6 +319,12 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 				value |= JHB100_I3C_PADCFG_SMT;
 			else
 				value &= ~JHB100_I3C_PADCFG_SMT;
+		} else if (info->is_vga_adc_pad) {
+			mask |= JHB100_VGA_ADC_PADCFG_SMT;
+			if (arg)
+				value |= JHB100_VGA_ADC_PADCFG_SMT;
+			else
+				value &= ~JHB100_VGA_ADC_PADCFG_SMT;
 		} else {
 			mask |= JHB100_PADCFG_SMT;
 			if (arg)
@@ -373,7 +425,11 @@ static int starfive_gpio_direction_input(struct udevice *dev, unsigned int off)
 	struct starfive_pinctrl_priv *priv = dev_get_priv(pdev);
 	struct jhb100_pinctrl_soc_info *info = priv->info;
 
-	if (info->is_vselcfg && info->is_vselcfg(off))
+	if (info->is_vga_adc_pad)
+		starfive_padcfg_rmw(pdev, off,
+				    JHB100_VGA_ADC_PADCFG_IE | JHB100_VGA_ADC_PADCFG_SMT,
+				    JHB100_VGA_ADC_PADCFG_IE | JHB100_VGA_ADC_PADCFG_SMT);
+	else if (info->is_vselcfg && info->is_vselcfg(off))
 		starfive_padcfg_rmw(pdev, off, JHB100_RGMII_PADCFG_IE, JHB100_RGMII_PADCFG_IE);
 	else
 		starfive_padcfg_rmw(pdev, off,
@@ -396,7 +452,11 @@ static int starfive_gpio_direction_output(struct udevice *dev,
 	if (info->set_one_pinmux)
 		info->set_one_pinmux(pdev, off, 0, val ? GPOUT_HIGH : GPOUT_LOW);
 
-	if (info->is_vselcfg && info->is_vselcfg(off))
+	if (info->is_vga_adc_pad)
+		starfive_padcfg_rmw(pdev, off,
+				    JHB100_VGA_ADC_PADCFG_IE | JHB100_VGA_ADC_PADCFG_SMT |
+				    JHB100_VGA_ADC_PADCFG_BIAS_MASK, JHB100_VGA_ADC_PADCFG_IE);
+	else if (info->is_vselcfg && info->is_vselcfg(off))
 		starfive_padcfg_rmw(pdev, off, JHB100_RGMII_PADCFG_IE, JHB100_RGMII_PADCFG_IE);
 	else
 		starfive_padcfg_rmw(pdev, off,

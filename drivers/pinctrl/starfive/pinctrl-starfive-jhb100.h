@@ -44,6 +44,7 @@ struct jhb100_pinctrl_soc_info {
 	int (*get_padcfg_base)(struct udevice *dev, u32 pin);
 	bool (*is_vselcfg)(u32 pin);
 	bool (*is_i3cpad)(u32 pin);
+	bool is_vga_adc_pad;
 	u32 debouce_width_mask;
 };
 
