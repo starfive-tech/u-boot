@@ -46,6 +46,13 @@
 #define JHB100_ETHER_RMIIRGMII_CONTROL0_OFFSET	0x0
 #define JHB100_ETHER_RGMII_ENABLE		BIT(8)
 
+/* PER2CRG */
+#define JHB100_PER2CRG_ADDR			0x11bc0000UL
+#define JHB100_PER2CRG_MAIN_ICG_EN_ADC0_OFFSET	0x10c
+#define JHB100_PER2CRG_MAIN_ICG_EN_ADC1_OFFSET	0x110
+#define JHB100_PER2CRG_RESET_ASSERT0_OFFSET	0x11c
+#define JHB100_RSTN_ADC				GENMASK(11, 14)
+
 /* PER0_IOMUX */
 #define JHB100_PER0_IOMUX_ADDR			0x11a0a000UL
 #define JHB100_PER0_IOMUX_PADCFG_START		0x14
@@ -258,6 +265,22 @@ void jhb100_plat_init(void)
 			addr += 0x4;
 		}
 	}
+
+	/* Bring ADC hardware block out of reset before ADC IO pads can be used as GPIO */
+	addr = (void *)(JHB100_PER2CRG_ADDR + JHB100_PER2CRG_MAIN_ICG_EN_ADC0_OFFSET);
+	writel(JHB100_MAIN_CLK_ENABLE, addr);	// Enable ADC0 CLK_GATE
+
+	addr = (void *)(JHB100_PER2CRG_ADDR + JHB100_PER2CRG_MAIN_ICG_EN_ADC1_OFFSET);
+	writel(JHB100_MAIN_CLK_ENABLE, addr);	// Enable ADC1 CLK_GATE
+
+	addr = (void *)(JHB100_PER2CRG_ADDR + JHB100_PER2CRG_RESET_ASSERT0_OFFSET);
+
+	val = readl(addr);
+	val |= JHB100_RSTN_ADC;
+	writel(val, addr);	// Assert reset
+
+	val &= ~JHB100_RSTN_ADC;
+	writel(val, addr);	// Deassert reset
 }
 
 void subsys_init(void)
