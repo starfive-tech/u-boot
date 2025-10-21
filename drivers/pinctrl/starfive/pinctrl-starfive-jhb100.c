@@ -431,6 +431,10 @@ static int starfive_gpio_direction_input(struct udevice *dev, unsigned int off)
 				    JHB100_VGA_ADC_PADCFG_IE | JHB100_VGA_ADC_PADCFG_SMT);
 	else if (info->is_vselcfg && info->is_vselcfg(off))
 		starfive_padcfg_rmw(pdev, off, JHB100_RGMII_PADCFG_IE, JHB100_RGMII_PADCFG_IE);
+	else if (info->is_i3cpad && info->is_i3cpad(off))
+		starfive_padcfg_rmw(pdev, off,
+				    JHB100_I3C_PADCFG_IE | JHB100_I3C_PADCFG_SMT,
+				    JHB100_I3C_PADCFG_IE | JHB100_I3C_PADCFG_SMT);
 	else
 		starfive_padcfg_rmw(pdev, off,
 				    JHB100_PADCFG_IE | JHB100_PADCFG_SMT,
@@ -458,6 +462,10 @@ static int starfive_gpio_direction_output(struct udevice *dev,
 				    JHB100_VGA_ADC_PADCFG_BIAS_MASK, JHB100_VGA_ADC_PADCFG_IE);
 	else if (info->is_vselcfg && info->is_vselcfg(off))
 		starfive_padcfg_rmw(pdev, off, JHB100_RGMII_PADCFG_IE, JHB100_RGMII_PADCFG_IE);
+	else if (info->is_i3cpad && info->is_i3cpad(off))
+		starfive_padcfg_rmw(pdev, off,
+				    JHB100_I3C_PADCFG_IE | JHB100_I3C_PADCFG_SMT,
+				    JHB100_I3C_PADCFG_IE);
 	else
 		starfive_padcfg_rmw(pdev, off,
 				    JHB100_PADCFG_IE | JHB100_PADCFG_SMT |
