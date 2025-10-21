@@ -236,6 +236,10 @@ int jhb100_fdt_sfc_fixup(void *fdt)
 
 		/* flash@0 updates */
 		update_partition_reg(fdt, flash0_off,
+				     "User Data Area",
+				     CONFIG_ENV_OFFSET + CONFIG_ENV_SIZE,
+				     part_size - CONFIG_ENV_SIZE);
+		update_partition_reg(fdt, flash0_off,
 				     "Kernel FIT Active (compressed)",
 				     a_t_kernel_off, kernel_fit_size);
 		update_partition_reg(fdt, flash0_off,
