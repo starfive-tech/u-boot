@@ -65,3 +65,10 @@ config CLK_STARFIVE_JHB100_USB
 	help
 	  Say yes here to support the Universal-Serial-Bus clock controller
 	  on the StarFive JHB100 SoC.
+
+config CLK_STARFIVE_JHB100_CPU
+	bool "StarFive JHB100 CPU clock support"
+	depends on CLK_STARFIVE_JHB100_SYS
+	help
+	  Say yes here to support the CPU clock controller
+	  on the StarFive JHB100 SoC.

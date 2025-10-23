@@ -13,3 +13,4 @@ obj-$(CONFIG_CLK_STARFIVE_JHB100_PER1)		+= jhb100/clk-jhb100-per1.o
 obj-$(CONFIG_CLK_STARFIVE_JHB100_PER2)		+= jhb100/clk-jhb100-per2.o
 obj-$(CONFIG_CLK_STARFIVE_JHB100_PER3)		+= jhb100/clk-jhb100-per3.o
 obj-$(CONFIG_CLK_STARFIVE_JHB100_USB)		+= jhb100/clk-jhb100-usb.o
+obj-$(CONFIG_CLK_STARFIVE_JHB100_CPU)		+= jhb100/clk-jhb100-cpu.o
