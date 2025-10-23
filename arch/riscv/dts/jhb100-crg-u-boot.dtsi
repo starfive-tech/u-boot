@@ -49,6 +49,7 @@
 	/delete-node/ per3-gmac1-sgmii-tx;
 	/delete-node/ per3-gmac1-sgmii-rx;
 	/delete-node/ pwm-apb;
+	/delete-node/ pvt-aon;
 
 	per2_gmac2_rgmii_rx: per2_gmac2_rgmii_rx {
 		compatible = "fixed-clock";
@@ -103,6 +104,13 @@
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
 		clock-frequency = <25000000>;
+		bootph-pre-ram;
+	};
+
+	pvt_aon: pvt_aon {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100000000>;
 		bootph-pre-ram;
 	};
 };
