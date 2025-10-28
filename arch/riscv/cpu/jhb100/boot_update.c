@@ -28,8 +28,8 @@
 /* Max size of capsule should be no more than allocated GPP size of 400 MB */
 #define UPD_CAP_MAX_SIZE	0x19000000
 
-u32 starfive_jhb100_parse_capsule(u32 *rofs_blk_size, u32 *rofs_size,
-				  u32 *rofs_offs, u32 load_addr)
+u32 starfive_jhb100_parse_capsule(u32 *rofs_blk_size, u32 *rofs_ufs_blk_size,
+				  u32 *rofs_size, u32 *rofs_offs, u32 load_addr)
 {
 	/* Only simple check performed by AP */
 	printf("Parsing update capsule loaded to address 0x%x\n", load_addr);
@@ -149,6 +149,9 @@ extract_capsule:
 	*rofs_blk_size = (rofs_hdr->img_len % MMC_BLK_SIZE) ?
 			 ((rofs_hdr->img_len / MMC_BLK_SIZE) + 1) :
 			 (rofs_hdr->img_len / MMC_BLK_SIZE);
+	*rofs_ufs_blk_size = (rofs_hdr->img_len % UFS_BLK_SIZE) ?
+			     ((rofs_hdr->img_len / UFS_BLK_SIZE) + 1) :
+			     (rofs_hdr->img_len / UFS_BLK_SIZE);
 
 	*rofs_size = (rofs_hdr->img_len + SFC_PAGE_SIZE - 1) & ~(SFC_PAGE_SIZE - 1);
 	*rofs_offs = hdr->custom_data_off + comp_attr->off_cap + load_addr + BIF_HDR_LENGTH;
@@ -156,8 +159,9 @@ extract_capsule:
 	*rofs_offs = *rofs_offs + BIF_MFT_LENGTH + BIF_SIG_LENGTH;
 #endif
 
-	printf("[SUCCESS]: rofs_blk_size = 0x%x\n", *rofs_blk_size);
-	printf("[SUCCESS]: rofs_size = 0x%x\n", *rofs_size);
+	printf("[SUCCESS]: mmc rofs_blk_size = 0x%x\n", *rofs_blk_size);
+	printf("[SUCCESS]: ufs rofs_blk_size = 0x%x\n", *rofs_ufs_blk_size);
+	printf("[SUCCESS]: raw rofs_size = 0x%x\n", *rofs_size);
 	printf("[SUCCESS]: rofs_offs in memory is 0x%x\n", *rofs_offs);
 
 	return CAP_PARSE_SUCCESS;

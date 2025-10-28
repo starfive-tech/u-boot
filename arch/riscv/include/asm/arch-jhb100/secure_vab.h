@@ -164,7 +164,7 @@ struct capsule_info {
 	u32 part_capsule_off;
 };
 
-u32 starfive_jhb100_parse_capsule(u32 *rofs_blk_size, u32 *rofs_size,
-				  u32 *rofs_offs, u32 load_add);
+u32 starfive_jhb100_parse_capsule(u32 *rofs_blk_size, u32 *rofs_ufs_blk_size,
+				  u32 *rofs_size, u32 *rofs_offs, u32 load_add);
 
 #endif /* _SECURE_VAB_H_ */
