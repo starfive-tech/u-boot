@@ -231,11 +231,15 @@ static int do_starfive_authenticate_storage(struct cmd_tbl *cmdtp, int flag, int
 			ret = starfive_req_img_auth_storage(BOOT_SRC_UFS,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
+			if (!ret)
+				starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, ACT_IMG);
 			break;
 		case UFS_SECONDARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_UFS,
 							    PT_GOLDEN,
 							    IMG_TYPE_KERNEL);
+			if (!ret)
+				starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, GOL_IMG);
 			break;
 		case SFC_PRIMARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_SFC,
@@ -400,11 +404,12 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 static int do_starfive_parse_capsule(struct cmd_tbl *cmdtp, int flag, int argc,
 				     char *const argv[])
 {
-	u32 rofs_blk_size, rofs_size, rofs_offs, place_holder;
+	u32 rofs_blk_size, rofs_ufs_blk_size, rofs_size, rofs_offs, place_holder;
 
 	argc--; argv++;
 	if (argc) {
-		if (starfive_jhb100_parse_capsule(&rofs_blk_size, &rofs_size, &rofs_offs,
+		if (starfive_jhb100_parse_capsule(&rofs_blk_size, &rofs_ufs_blk_size,
+						  &rofs_size, &rofs_offs,
 						  hextoul(argv[0], NULL)))
 			return CMD_RET_FAILURE;
 
@@ -424,6 +429,23 @@ static int do_starfive_parse_capsule(struct cmd_tbl *cmdtp, int flag, int argc,
 					 	 IMG_TYPE_KERNEL);
 
 		env_set_hex("emmc_gol_partition", (ulong)val);
+
+		/* Get UFS partition from PTI */
+		val = starfive_get_partition_num(BOOT_SRC_UFS,
+						 PT_TEMP,
+						 IMG_TYPE_KERNEL);
+
+		env_set_hex("ufs_temp_partition", (ulong)val);
+		val = starfive_get_partition_num(BOOT_SRC_UFS,
+						 PT_ACTIVE,
+						 IMG_TYPE_KERNEL);
+
+		env_set_hex("ufs_act_partition", (ulong)val);
+		val = starfive_get_partition_num(BOOT_SRC_UFS,
+						 PT_GOLDEN,
+						 IMG_TYPE_KERNEL);
+
+		env_set_hex("ufs_gol_partition", (ulong)val);
 
 		/* Get SFC CS# from PTI */
 		val = starfive_get_sfc_cs(PT_TEMP, IMG_TYPE_KERNEL);
@@ -462,7 +484,10 @@ static int do_starfive_parse_capsule(struct cmd_tbl *cmdtp, int flag, int argc,
 
 		env_set_hex("rofs_blk_offs", (ulong)(((rofs_offs -
 			    hextoul(argv[0], NULL)) / MMC_BLK_SIZE) + 1));
+		env_set_hex("rofs_ufs_blk_offs", (ulong)(((rofs_offs -
+			    hextoul(argv[0], NULL)) / UFS_BLK_SIZE) + 1));
 		env_set_hex("rofs_blk_size", (ulong)rofs_blk_size);
+		env_set_hex("rofs_ufs_blk_size", (ulong)rofs_ufs_blk_size);
 		env_set_hex("rofs_size", (ulong)rofs_size);
 		env_set_hex("rofs_offs", (ulong)rofs_offs);
 	} else {

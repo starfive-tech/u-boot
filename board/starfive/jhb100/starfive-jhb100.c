@@ -449,6 +449,9 @@ static void env_get_boot_dev(void)
 		env_set("mmcdev", "0");
 		env_set("bootdev", "mmc1");
 		break;
+	case BOOT_DEVICE_UFS:
+		env_set("bootdev", "ufs");
+		break;
 	case BOOT_DEVICE_UART:
 		env_set("bootdev", "uart");
 		break;
