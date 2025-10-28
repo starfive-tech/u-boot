@@ -199,7 +199,37 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 
 		break;
 	case BOOT_SRC_UFS:
-		spl_boot_list[0] = BOOT_DEVICE_UFS;
+		chk_map = starfive_fb_rec_map_handler(&fb_rec_map,
+				BOOT_SRC_PART_UFS_PRIMARY_BIT_POS,
+				BOOT_SRC_PART_UFS_SECONDARY_BIT_POS,
+				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+				CHECK);
+		if (!chk_map) {
+			printf("Invalid UFS Active and Golden images found...\n");
+
+			if (starfive_get_ap_sts_retry_cnt
+			    (BOOTSTG_U_BOOT_PROPER) == MAX_BOOT_TRIAL_UART) {
+				printf("Max boot retries exceeded...\n");
+				hang();
+				/* Leave in case needed in future */
+				/* printf("Try booting from UART...\n");
+				spl_boot_list[0] = BOOT_DEVICE_UART; */
+			} else {
+				/* Hang because both images broken */
+				printf("Retry booting...\n");
+				hang();
+			}
+		} else {
+			/* Primary or/and secondary is present */
+			starfive_fb_rec_map_handler(&fb_rec_map,
+				BOOT_SRC_PART_UFS_PRIMARY_BIT_POS,
+				BOOT_SRC_PART_UFS_SECONDARY_BIT_POS,
+				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
+				SET);
+			starfive_set_fb_rec_map(fb_rec_map);
+			starfive_add_ap_sts_retry_cnt(BOOTSTG_U_BOOT_PROPER, BOOT_TRIAL_CNT);
+			spl_boot_list[0] = BOOT_DEVICE_UFS;
+		}
 		break;
 	default:
 		debug("Unsupported boot device 0x%x, trying UART..\n", boot_src);
