@@ -106,6 +106,8 @@
 		"affixbootargs root=/dev/ram0\0"	\
 	"set_bootargs_root_storage="		\
 		"affixbootargs root=/dev/mmcblk0gp${blk_num}\0"	\
+	"set_bootargs_root_storage_ufs="		\
+		"affixbootargs root=/dev/mmcblk0gp${blk_num}\0"	\
 	"importbootenv="	\
 		"echo Importing environment variables from uEnv.txt ...; "	\
 		"env import -t $envloadaddr $filesize\0" \
@@ -119,6 +121,7 @@
 		"ext4load mmc 0:0 ${ramdisk_addr_r} /boot/${ramdiskfile};"	\
 		"ext4load mmc 0:0 ${fdt_addr_r} /boot/${fdtfile};\0"	\
 	"loademmcfitimgext4=ext4load mmc 0:0 ${loadaddr} ${fitbootfile}\0"	\
+	"loadufsfitimgext4=ext4load scsi 0:0 ${loadaddr} ${fitbootfile}\0"	\
 	"loadimagefat=fatload mmc ${mmcdev}:${mmcpart} ${kernel_addr_r} /${bootfile}\0"	\
 	"loadfdtfat=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} /${fdtfile}\0"	\
 	"loadramdiskfat=fatload mmc ${mmcdev}:${mmcpart} ${ramdisk_addr_r} /${ramdiskfile}\0"	\
@@ -236,6 +239,9 @@
 	"emmc_write_cap="	\
 		"mmc write ${rofs_offs} 0x0 ${rofs_blk_size};"	\
 		"mmc write ${loadaddr} ${cap_bif_hdr_offs} ${rofs_blk_offs};\0"	\
+	"ufs_write_cap="	\
+		"scsi write ${rofs_offs} 0x0 ${rofs_ufs_blk_size};"	\
+		"scsi write ${loadaddr} ${cap_bif_hdr_ufs_offs} ${rofs_ufs_blk_offs};\0"	\
 	"kernel_bootenv_mmc="	\
 		"if test ${bootdev} = spi; then "	\
 			"run spi_scan_and_run;"	\
@@ -309,6 +315,32 @@
 				"mmc partconf 0 0 0 ${emmc_act_partition}; "	\
 				"echo Writing parsed update capsule to eMMC active partition ...; "	\
 				"run emmc_write_cap;"	\
+				"echo Writing complete ...; "	\
+			"fi; "	\
+		"fi; \0"	\
+	"parse_write_temp_upd_cap_ufs="	\
+		"if parsecap ${loadaddr}; then "	\
+			"if scsi scan; then "	\
+				"getufsgppsz; "	\
+				"scsi device ${ufs_temp_partition}; "	\
+				"echo Writing parsed update capsule to UFS temp partition ...; "	\
+				"run ufs_write_cap;"	\
+				"echo Writing complete ...; "	\
+			"fi; "	\
+		"fi; \0"	\
+	"parse_write_agt_upd_cap_ufs="	\
+		"if parsecap ${loadaddr}; then "	\
+			"if scsi scan; then "	\
+				"getufsgppsz; "	\
+				"scsi device ${ufs_temp_partition}; "	\
+				"echo Writing parsed update capsule to UFS temp partition ...; "	\
+				"run ufs_write_cap;"	\
+				"scsi device ${ufs_gol_partition}; "	\
+				"echo Writing parsed update capsule to UFS golden partition ...; "	\
+				"run ufs_write_cap;"	\
+				"scsi device ${ufs_act_partition}; "	\
+				"echo Writing parsed update capsule to UFS active partition ...; "	\
+				"run ufs_write_cap;"	\
 				"echo Writing complete ...; "	\
 			"fi; "	\
 		"fi; \0"	\
@@ -425,6 +457,50 @@
 			"fi; "	\
 		"fi;"	\
 		"echo Found invalid eMMC Golden image ...;\0"	\
+	"auth_boot_kernel_fit_ufs="	\
+		"echo Checking kernel FIT image in UFS LUN GPP partition...;"	\
+		"if checkimgrcmap 3; then "	\
+			"setimgrcmap 3; "	\
+			"getimginfo 3; "	\
+			"run set_bootargs_root_storage_ufs;"	\
+			"if scsi scan; then "	\
+				"scsi device ${ufs_kernel_act_part_num}; "	\
+				"echo Authenticating UFS Active image ...; "	\
+				"if authbimgstorage 3; then "	\
+					"echo Trying to load UFS Active image ...; "	\
+					"scsi scan;"	\
+					"scsi device ${ufs_kernel_act_part_num}; "	\
+					"if run loadufsfitimgext4; then "	\
+						"echo Initiate Pre OS Boot Notify ...; "	\
+						"preosbootnotify 0;"	\
+						"echo Boot OS ...; "	\
+						"run bootmfit;"	\
+					"fi; "	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid UFS Active image ...;"	\
+		"if checkimgrcmap 4; then "	\
+			"setimgrcmap 4; "	\
+			"getimginfo 4; "	\
+			"run set_bootargs_root_storage_ufs;"	\
+			"if scsi scan; then "	\
+				"scsi device ${ufs_kernel_gol_part_num}; "	\
+				"echo Authenticating UFS Golden image ...; "	\
+				"if authbimgstorage 4; then "	\
+					"echo Trying to load UFS Golden image ...; "	\
+					"scsi scan;"	\
+					"scsi device ${ufs_kernel_gol_part_num}; "	\
+					"if run loadufsfitimgext4; then "	\
+						"echo Initiate Pre OS Boot Notify ...; "	\
+						"preosbootnotify 1;"	\
+						"echo Boot OS ...; "	\
+						"run bootmfit;"	\
+					"fi; "	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid UFS Golden image ...;\0"	\
 	"auth_boot_kernel_fit_sfc="	\
 		"echo Checking kernel FIT image in SPI flash ...;"	\
 		"if checkimgrcmap 5; then "	\
@@ -569,6 +645,9 @@
 		"fi; "	\
 		"if test ${bootdev} = mmc1; then "	\
 			"run auth_boot_kernel_fit_emmc;"	\
+		"fi; "	\
+		"if test ${bootdev} = ufs; then "	\
+			"run auth_boot_kernel_fit_ufs;"	\
 		"fi; "	\
 		"if test ${bootdev} = uart; then "	\
 			"echo Detected boot source is UART, please load kernel image...;"	\
