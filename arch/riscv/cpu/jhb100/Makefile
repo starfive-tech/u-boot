@@ -10,6 +10,7 @@ obj-y += boot_recovery.o
 obj-y += boot_update.o
 obj-y += bootcmd_restore.o
 obj-y += bootcmd_emmc.o
+obj-y += bootcmd_ufs.o
 obj-y += cache.o
 obj-y += cpu.o
 obj-y += dram.o
