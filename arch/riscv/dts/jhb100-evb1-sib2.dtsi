@@ -32,91 +32,65 @@
 };
 
 &espi0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&espi0_pins>;
 	status = "disabled";
 };
 
 &espi1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&espi1_pins>;
 	status = "disabled";
 };
 
 &i2c1_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c1_pins>;
 	status = "disabled";
 };
 
 &i2c2_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c2_pins>;
 	status = "disabled";
 };
 
 &i2c3_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c3_pins>;
 	status = "disabled";
 };
 
 &i2c4_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c4_pins>;
 	status = "disabled";
 };
 
 &i2c5_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c5_pins>;
 	status = "disabled";
 };
 
 &i2c6_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c6_pins>;
 	status = "disabled";
 };
 
 &i2c7_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c7_pins>;
 	status = "disabled";
 };
 
 &i2c8_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c7_pins>;
 	status = "disabled";
 };
 
 &i2c9_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c9_pins>;
 	status = "disabled";
 };
 
 &i2c10_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c10_pins>;
 	status = "disabled";
 };
 
 &i2c11_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c11_pins>;
 	status = "disabled";
 };
 
@@ -125,8 +99,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c0lv_pins>;
 	status = "disabled";
 };
 
@@ -135,8 +107,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c1lv_pins>;
 	status = "disabled";
 };
 
@@ -150,6 +120,10 @@
 	status = "disabled";
 };
 
+&i3c4_syscon {
+	gpio-select = <GPIO_LEVEL_BIT GPIO_LOW_VOLTAGE>;
+};
+
 &i3c5 {
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <1000000>;
@@ -160,13 +134,15 @@
 	status = "disabled";
 };
 
+&i3c5_syscon {
+	gpio-select = <GPIO_LEVEL_BIT GPIO_LOW_VOLTAGE>;
+};
+
 &i3c12 {
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c12_pins>;
 	status = "disabled";
 };
 
@@ -175,8 +151,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c13_pins>;
 	status = "disabled";
 };
 
@@ -185,8 +159,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c14_pins>;
 	status = "disabled";
 };
 
@@ -195,14 +167,10 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c15_pins>;
 	status = "disabled";
 };
 
 &jtag1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&jtagm1_pins>;
 	status = "disabled";
 };
 

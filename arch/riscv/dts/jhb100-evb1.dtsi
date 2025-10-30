@@ -216,10 +216,12 @@
 };
 
 &dc0_clk {
+	single-node = <0>;
 	status = "okay";
 };
 
 &dc1_clk {
+	single-node = <0>;
 	status = "okay";
 };
 
@@ -240,17 +242,13 @@
 };
 
 &dp {
-	pinctrl-names = "default";
-	pinctrl-0 = <&vga_trigger_pins>;
-	status = "disabled";
+	status = "okay";
 };
 
 &emmc0 {
 	mmc-hs400-1_8v;
 	max-frequency = <200000000>;
 	non-removable;
-	pinctrl-names = "default";
-	pinctrl-0 = <&emmc0_pins>;
 	status = "okay";
 };
 
@@ -275,8 +273,6 @@
 	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
 	starfive,vgpio_phy_bits = /bits/ 64 <0x0000000f0000000f 0x0000000000000000>;
 
-	pinctrl-names = "default";
-	pinctrl-0 = <&espi0_pins>;
 	status = "okay";
 };
 
@@ -311,8 +307,6 @@
 	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
 	starfive,vgpio_phy_bits = /bits/ 64 <0x0000000f0000000f 0x0000000000000000>;
 
-	pinctrl-names = "default";
-	pinctrl-0 = <&espi1_pins>;
 	status = "okay";
 };
 
@@ -464,8 +458,6 @@
 
 &i2c0_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c0_pins>;
 	status = "okay";
 
 	i2c-mux@77 {
@@ -876,34 +868,6 @@
 	pinctrl-0 = <&uart8_pins>;
 };
 
-&uart9 {
-	status = "okay";
-	current-speed = <115200>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart9_pins>;
-};
-
-&uart10 {
-	status = "okay";
-	current-speed = <115200>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart10_pins>;
-};
-
-&uart11 {
-	status = "okay";
-	current-speed = <115200>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart11_pins>;
-};
-
-&uart12 {
-	status = "okay";
-	current-speed = <115200>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart12_pins>;
-};
-
 &uart13 {
 	status = "disabled";
 	current-speed = <115200>;
@@ -946,9 +910,7 @@
 };
 
 &vga {
-       status = "okay";
-       pinctrl-names = "default";
-       pinctrl-0 = <&vga_pins &vga_trigger_pins>;
+	status = "okay";
 };
 
 &voutcrg {
@@ -979,8 +941,6 @@
 
 &led0 {
 	status = "okay";
-	pinctrl-names = "default";
-	pinctrl-0 = <&hbled_pins>;
 };
 
 &vce0 {

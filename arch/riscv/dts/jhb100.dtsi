@@ -627,7 +627,8 @@
 					 <&host0crg JHB100_HOST0RST_MAIN_RSTN_SUPERIO0_ESPI>;
 				reset-names = "espi", "sio";
 				starfive,syscon = <&sys_syscon 52>;
-
+				pinctrl-names = "default";
+				pinctrl-0 = <&espi0_pins>;
 				status = "disabled";
 			};
 
@@ -1125,7 +1126,8 @@
 					 <&host1crg JHB100_HOST1RST_MAIN_RSTN_SUPERIO1_ESPI>;
 				reset-names = "espi", "sio";
 				starfive,syscon = <&sys_syscon 52>;
-
+				pinctrl-names = "default";
+				pinctrl-0 = <&espi1_pins>;
 				status = "disabled";
 			};
 
@@ -1545,6 +1547,8 @@
 				dc-syscon = <&dcsyscon>;
 				starfive,syscon = <&sys_syscon 52>;
 				ecsr-syscon = <&pcie_ep1_ecsr>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&vga_pins &vga_trigger_pins>;
 				status = "disabled";
 			};
 
@@ -2357,6 +2361,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C0>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c0lv_pins>;
 				status = "disabled";
 			};
 
@@ -2369,6 +2375,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C1>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c1lv_pins>;
 				status = "disabled";
 			};
 
@@ -2381,6 +2389,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C2>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c2lv_pins>;
 				status = "disabled";
 			};
 
@@ -2393,6 +2403,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C3>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c3lv_pins>;
 				status = "disabled";
 			};
 
@@ -2481,6 +2493,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C8>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c8_pins>;
 				status = "disabled";
 			};
 
@@ -2493,6 +2507,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C9>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c9_pins>;
 				status = "disabled";
 			};
 
@@ -2505,6 +2521,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C10>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c10_pins>;
 				status = "disabled";
 			};
 
@@ -2517,6 +2535,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C11>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c11_pins>;
 				status = "disabled";
 			};
 
@@ -2529,6 +2549,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C12>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c12_pins>;
 				status = "disabled";
 			};
 
@@ -2541,6 +2563,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C13>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c13_pins>;
 				status = "disabled";
 			};
 
@@ -2553,6 +2577,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C14>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c14_pins>;
 				status = "disabled";
 			};
 
@@ -2565,6 +2591,8 @@
 				clock-names = "ref", "pclk";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_I3C15>;
 				reset-names = "core_rst";
+				pinctrl-names = "default";
+				pinctrl-0 = <&i3c15_pins>;
 				status = "disabled";
 			};
 
@@ -2580,6 +2608,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c0_pins>;
+				pinctrl-1 = <&i2c0_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B0
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B1
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2594,6 +2629,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c0_pins>;
 				status = "disabled";
 			};
 
@@ -2609,6 +2646,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c1_pins>;
+				pinctrl-1 = <&i2c1_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B2
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B3
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2623,6 +2667,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c1_pins>;
 				status = "disabled";
 			};
 
@@ -2638,6 +2684,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c2_pins>;
+				pinctrl-1 = <&i2c2_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B4
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B5
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2652,6 +2705,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c2_pins>;
 				status = "disabled";
 			};
 
@@ -2667,6 +2722,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c3_pins>;
+				pinctrl-1 = <&i2c3_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B6
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B7
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2681,6 +2743,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c3_pins>;
 				status = "disabled";
 			};
 
@@ -2696,6 +2760,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c4_pins>;
+				pinctrl-1 = <&i2c4_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B8
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B9
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2710,6 +2781,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c4_pins>;
 				status = "disabled";
 			};
 
@@ -2725,6 +2798,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c5_pins>;
+				pinctrl-1 = <&i2c5_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B10
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B11
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2739,6 +2819,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c5_pins>;
 				status = "disabled";
 			};
 
@@ -2754,6 +2836,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c6_pins>;
+				pinctrl-1 = <&i2c6_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B12
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B13
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2768,6 +2857,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c6_pins>;
 				status = "disabled";
 			};
 
@@ -2783,6 +2874,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c7_pins>;
+				pinctrl-1 = <&i2c7_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B14
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B15
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2797,6 +2895,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c7_pins>;
 				status = "disabled";
 			};
 
@@ -2812,6 +2912,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c8_pins>;
+				pinctrl-1 = <&i2c8_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B16
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B17
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2826,6 +2933,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c8_pins>;
 				status = "disabled";
 			};
 
@@ -2841,6 +2950,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c9_pins>;
+				pinctrl-1 = <&i2c9_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B18
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B19
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2855,6 +2971,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c9_pins>;
 				status = "disabled";
 			};
 
@@ -2870,6 +2988,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c10_pins>;
+				pinctrl-1 = <&i2c10_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B20
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B21
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2884,6 +3009,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c10_pins>;
 				status = "disabled";
 			};
 
@@ -2899,6 +3026,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c11_pins>;
+				pinctrl-1 = <&i2c11_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B22
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B23
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2913,6 +3047,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c11_pins>;
 				status = "disabled";
 			};
 
@@ -2928,6 +3064,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c12_pins>;
+				pinctrl-1 = <&i2c12_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B24
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B25
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2942,6 +3085,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c12_pins>;
 				status = "disabled";
 			};
 
@@ -2957,6 +3102,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c13_pins>;
+				pinctrl-1 = <&i2c13_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B26
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph0 PADNUM_BMCPERIPH0_GPIO_B27
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -2971,6 +3123,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c13_pins>;
 				status = "disabled";
 			};
 
@@ -2986,6 +3140,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c14_pins>;
+				pinctrl-1 = <&i2c14_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph1 PADNUM_BMCPERIPH1_GPIO_C32
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph1 PADNUM_BMCPERIPH1_GPIO_C33
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -3000,6 +3161,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c14_pins>;
 				status = "disabled";
 			};
 
@@ -3015,6 +3178,13 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default", "gpio";
+				pinctrl-0 = <&i2c15_pins>;
+				pinctrl-1 = <&i2c15_gpio_pins>;
+				scl-gpios = <&pinctrl_bmcperiph1 PADNUM_BMCPERIPH1_GPIO_C34
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+				sda-gpios = <&pinctrl_bmcperiph1 PADNUM_BMCPERIPH1_GPIO_C35
+					     (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 				status = "disabled";
 			};
 
@@ -3029,6 +3199,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&i2c15_pins>;
 				status = "disabled";
 			};
 
@@ -3234,6 +3406,8 @@
 				ngpios = <128>;
 				bus-frequency = <1200000>;
 				use-hw-data;
+				pinctrl-names = "default";
+				pinctrl-0 = <&sgpio0_pins>;
 				status = "disabled";
 			};
 
@@ -3252,6 +3426,8 @@
 				ngpios = <128>;
 				bus-frequency = <1200000>;
 				use-hw-data;
+				pinctrl-names = "default";
+				pinctrl-0 = <&sgpio1_pins>;
 				status = "disabled";
 			};
 
@@ -3430,6 +3606,8 @@
 				clock-names = "core_clk", "main_clk";
 				resets = <&per2crg JHB100_PER2RST_MAIN_RSTN_CAN0>;
 				starfive,sys-syscon = <&syscon_bmcperiph2 0x50 0x0 0x1>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&can0_pins>;
 				status = "disabled";
 			};
 
@@ -3442,6 +3620,8 @@
 				clock-names = "core_clk", "main_clk";
 				resets = <&per2crg JHB100_PER2RST_MAIN_RSTN_CAN1>;
 				starfive,sys-syscon = <&syscon_bmcperiph2 0x60 0x0 0x1>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&can1_pins>;
 				status = "disabled";
 			};
 
@@ -3693,6 +3873,8 @@
 				clock-names = "main", "jtag", "apb";
 				resets = <&sys2crg JHB100_SYS2RST_JTAG1_MST_WRAP_HRESETN>,
 					<&sys2crg JHB100_SYS2RST_JTAG1_MST_WRAP_APB_PRESETN>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&jtagm1_pins>;
 				starfive,jtag_bit_quirk;
 				status = "disabled";
 			};
@@ -3828,6 +4010,8 @@
 				reg = <0x0 0x13215000 0x0 0xc>;
 				clocks = <&cpucrg JHB100_CPUCLK_MAIN_ICG_EN_CPUSS_HEARTBEAT>;
 				resets = <&cpucrg JHB100_CPURST_MAIN_RSTN_HEARTBEAT>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&hbled_pins>;
 				status = "disabled";
 			};
 
@@ -4181,6 +4365,8 @@
 				bus-width = <8>;
 				hwlocks = <&hwspinlock 0>;
 				supports-cqe;
+				pinctrl-names = "default";
+				pinctrl-0 = <&emmc0_pins>;
 				status = "disabled";
 			};
 		};

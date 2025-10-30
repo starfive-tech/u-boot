@@ -4,6 +4,7 @@
  */
 
 #include "jhb100.dtsi"
+#include "jhb100-pinctrl.dtsi"
 #include "jhb100-evb1-sfc0-flash.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/i2c/i2c.h>
@@ -1019,8 +1020,9 @@
 	#address-cells = <3>;
 	#size-cells = <0>;
 
-	hub@0,0 {
-		reg = <0x0 0x0 0x0>;
+	hub@0,4cd00000000 {
+		compatible = "renesas,i3chub-rg3mxxb12b1";
+		reg = <0x0 0x4cd 0x0>;
 		cp0-ldo-en = "disabled";
 		cp1-ldo-en = "disabled";
 		cp0-ldo-volt = "1.8V";
@@ -1161,8 +1163,6 @@
 	clocks = <&sys2crg JHB100_SYS2CLK_MAIN_ICG_EN_JTAG1>,
 		 <&fpga_12mhz_clk>,
 		 <&fpga_12mhz_clk>;
-	pinctrl-names = "jtag";
-	pinctrl-0 = <&jtagm1_pins>;
 	starfive,jtag_clk_constant;
 	starfive,jtag_bit_quirk;
 	status = "okay";

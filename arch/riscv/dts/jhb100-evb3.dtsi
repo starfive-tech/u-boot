@@ -152,10 +152,12 @@
 };
 
 &dc0_clk {
+	single-node = <0>;
 	status = "okay";
 };
 
 &dc1_clk {
+	single-node = <0>;
 	status = "okay";
 };
 
@@ -175,8 +177,6 @@
 	mmc-hs400-1_8v;
 	max-frequency = <200000000>;
 	non-removable;
-	pinctrl-names = "default";
-	pinctrl-0 = <&emmc0_pins>;
 	status = "okay";
 };
 
@@ -186,15 +186,11 @@
 
 &i2c3_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c3_pins>;
 	status = "okay";
 };
 
 &led0 {
 	status = "okay";
-	pinctrl-names = "default";
-	pinctrl-0 = <&hbled_pins>;
 };
 
 &npu {

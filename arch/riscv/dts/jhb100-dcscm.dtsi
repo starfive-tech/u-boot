@@ -40,8 +40,6 @@
 	starfive,vgpio_lvl_bits = /bits/ 64 <0x0000000000000000 0x0000000000000000>;
 	starfive,vgpio_phy_bits = /bits/ 64 <0x0000000f0000000f 0x0000000000000000>;
 
-	pinctrl-names = "default";
-	pinctrl-0 = <&espi0_pins>;
 	status = "okay";
 };
 
@@ -203,22 +201,16 @@
 
 &i2c0_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c0_pins>;
 	status = "okay";
 };
 
 &i2c1_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c1_pins>;
 	status = "okay";
 };
 
 &i2c2_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c2_pins>;
 	status = "okay";
 
 	ipmb@10 {
@@ -236,50 +228,36 @@
 
 &i2c4_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c4_pins>;
 	status = "okay";
 };
 
 &i2c6_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c6_pins>;
 	status = "okay";
 };
 
 &i2c7_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c7_pins>;
 	status = "okay";
 };
 
 &i2c8_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c8_pins>;
 	status = "okay";
 };
 
 &i2c9_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c9_pins>;
 	status = "okay";
 };
 
 &i2c10_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c10_pins>;
 	status = "okay";
 };
 
 &i2c11_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c11_pins>;
 	status = "okay";
 };
 
@@ -288,8 +266,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c0lv_pins>;
 	status = "disabled";
 };
 
@@ -298,8 +274,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c1lv_pins>;
 	status = "disabled";
 };
 
@@ -308,8 +282,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c2lv_pins>;
 	status = "disabled";
 };
 
@@ -318,8 +290,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c12_pins>;
 	status = "disabled";
 };
 
@@ -328,8 +298,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c13_pins>;
 	status = "disabled";
 };
 
@@ -426,47 +394,62 @@
 
 			partition@6 {
 				label = "U-Boot Environment";
-				reg = <0x400000 0x10000>;
+				reg = <0x400000 0x290000>;
 			};
 
 			partition@7 {
-				label = "L0 Firmware Temp";
-				reg = <0x410000 0x80000>;
+				label = "Boot Info Temp";
+				reg = <0x690000 0x10000>;
 			};
 
 			partition@8 {
-				label = "L1 Firmware Temp";
-				reg = <0x490000 0x80000>;
+				label = "L0 Firmware Temp";
+				reg = <0x6a0000 0x80000>;
 			};
 
 			partition@9 {
-				label = "U-Boot SPL Temp";
-				reg = <0x510000 0x80000>;
+				label = "L1 Firmware Temp";
+				reg = <0x720000 0x80000>;
 			};
 
 			partition@10 {
-				label = "U-Boot FIT Temp";
-				reg = <0x590000 0x260000>;
+				label = "U-Boot SPL Temp";
+				reg = <0x7a0000 0x80000>;
 			};
 
 			partition@11 {
-				label = "SFC I2C filter cfg Temp";
-				reg = <0x7f0000 0x10000>;
+				label = "U-Boot FIT Temp";
+				reg = <0x820000 0x260000>;
 			};
 
 			partition@12 {
-				label = "Kernel FIT Active (compressed)";
-				reg = <0x800000 0x1000000>;
+				label = "SFC I2C filter cfg Temp";
+				reg = <0xa80000 0x90000>;
 			};
 
 			partition@13 {
-				label = "Kernel FIT Temp (compressed)";
-				reg = <0x1800000 0x1000000>;
+				label = "Kernel FIT Active (compressed)";
+				reg = <0xb10000 0x1000000>;
 			};
 
 			partition@14 {
-				label = "Data";
-				reg = <0x2800000 0x5800000>;
+				label = "RootFS Active";
+				reg = <0x1b10000 0x2878000>;
+			};
+
+			partition@15 {
+				label = "Kernel FIT Temp (compressed)";
+				reg = <0x4388000 0x1000000>;
+			};
+
+			partition@16 {
+				label = "RootFS Temp";
+				reg = <0x5388000 0x2878000>;
+			};
+
+			partition@17 {
+				label = "User Data Area";
+				reg = <0x7c00000 0x400000>;
 			};
 		};
 	};

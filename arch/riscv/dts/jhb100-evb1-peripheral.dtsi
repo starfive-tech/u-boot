@@ -24,15 +24,11 @@
 };
 
 &can0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&can0_pins>;
 	ts = <0x07>; /* bit 0 enable ts, bit 1 enable tts, bit 2: 0 SOF, 1 EOF */
 	status = "okay";
 };
 
 &can1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&can1_pins>;
 	ts = <0x07>; /* bit 0 enable ts, bit 1 enable tts, bit 2: 0 SOF, 1 EOF */
 	status = "okay";
 };
@@ -51,16 +47,12 @@
 
 &i2c1_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c1_pins>;
 	i2c-scl-rising-time-ns = <250>;
 	status = "okay";
 };
 
 &i2c2_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c2_pins>;
 	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
@@ -68,8 +60,6 @@
 /* SMBus ARP test: I2C3 as SMBus ARP master */
 &i2c3_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c3_pins>;
 	i2c-scl-rising-time-ns = <250>;
 	status = "okay";
 
@@ -81,40 +71,30 @@
 
 &i2c4_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c4_pins>;
 	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
 &i2c5_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c5_pins>;
 	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
 &i2c6_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c6_pins>;
 	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
 &i2c7_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c7_pins>;
 	status = "disabled";
 };
 
 /* SMBus loopback test: I2C8 as master, I2C9 as slave acting as an emulated EEPROM */
 &i2c8_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c8_pins>;
 	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
@@ -122,8 +102,6 @@
 /* SMBus loopback test: I2C8 as master, I2C9 as slave acting as an emulated EEPROM */
 &i2c9_slave {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c9_pins>;
 	status = "disabled";
 
 	slave-eeprom@66 {
@@ -134,24 +112,18 @@
 
 &i2c10_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c10_pins>;
 	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
 &i2c11_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c11_pins>;
 	i2c-scl-rising-time-ns = <250>;
 	status = "disabled";
 };
 
 &i2c11_slave {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c11_pins>;
 	status = "okay";
 
 	starfive,mctp-i2c-ms = <&i2c0_master>;
@@ -166,8 +138,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c0lv_pins>;
 	dmas = <&dma_i3c 0 1 0>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <2>;
@@ -193,8 +163,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c1lv_pins>;
 	dmas = <&dma_i3c 1 3 2>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <2>;
@@ -220,8 +188,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c2lv_pins>;
 	dmas = <&dma_i3c 2 5 4>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <2>;
@@ -247,8 +213,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c3lv_pins>;
 	dmas = <&dma_i3c 3 7 6>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <2>;
@@ -398,8 +362,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c8_pins>;
 	dmas = <&dma_i3c 8 17 16>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <0>;
@@ -425,8 +387,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c9_pins>;
 	dmas = <&dma_i3c 9 19 18>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <0>;
@@ -452,8 +412,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c10_pins>;
 	dmas = <&dma_i3c 10 21 20>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <0>;
@@ -479,8 +437,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c11_pins>;
 	dmas = <&dma_i3c 11 23 22>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <0>;
@@ -506,8 +462,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c12_pins>;
 	dmas = <&dma_i3c 12 25 24>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <0>;
@@ -533,8 +487,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c13_pins>;
 	dmas = <&dma_i3c 13 27 26>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <0>;
@@ -560,8 +512,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c14_pins>;
 	dmas = <&dma_i3c 14 29 28>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <0>;
@@ -587,8 +537,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c15_pins>;
 	dmas = <&dma_i3c 15 31 30>;
 	dma-names = "rx-tx";
 	i3c-od-pu-offset = <0>;
@@ -615,8 +563,6 @@
 };
 
 &jtag1 {
-	pinctrl-names = "jtag";
-	pinctrl-0 = <&jtagm1_pins>;
 	status = "okay";
 };
 
@@ -666,8 +612,6 @@
 };
 
 &sgpio0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&sgpio0_pins>;
 	status = "okay";
 
 	gpio-line-names =
@@ -706,8 +650,6 @@
 };
 
 &sgpio1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&sgpio1_pins>;
 	status = "okay";
 
 	gpio-line-names =
@@ -761,4 +703,32 @@
 		spi-max-frequency = <12000000>;
 		reg = <1>;
 	};
+};
+
+&uart9 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart9_pins>;
+};
+
+&uart10 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart10_pins>;
+};
+
+&uart11 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart11_pins>;
+};
+
+&uart12 {
+	status = "okay";
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart12_pins>;
 };

@@ -48,8 +48,8 @@
 
 &pinctrl_adc0 {
 	gpio-line-names =
-		"IRQ_PMBUS1_ALERT_N", "FM_SPD_SWITCH_CTRL_N",		/* GPIOG0-1 */
-		"FP_NMI_BTN_N", "FP_LED_STATUS_GREEN_N",		/* GPIOG2-3 */
+		"IRQ_SML1_PMBUS_BMC_ALERT_N", "FM_SPD_SWITCH_CTRL_N",	/* GPIOG0-1 */
+		"NMI_BUTTON", "FP_LED_STATUS_GREEN_N",			/* GPIOG2-3 */
 		"FP_ID_BTN_N", "PWRGD_AUX_PWRGD_BMC_CPU0",		/* GPIOG4-5 */
 		"NC", "NC";						/* GPIOG6-7 */
 
@@ -128,11 +128,9 @@
 		"SPI0_RX", "SFC0_CS0", "FM_SKT0_FAULT_LED", "SFC0_SCLK",	/* GPIOC4-7 */
 		"SFC0_IO0", "SFC0_IO1", "SFC0_IO2", "SFC0_IO3",			/* GPIOC8-11 */
 		"RST_SRST_BMC_SCM_FPGA_N", "FM_CPU1_ERR0_LVT3_N",		/* GPIOC12-13 */
-		"NC", "FM_CPU0_ERR2_LVC3_N",					/* GPIOC14-15 */
-		"FM_NODE_ID0", "FM_NODE_ID1",					/* GPIOC16-17 */
-		"FM_CPU0_ERR0_LVC3_N", "FM_CPU0_ERR1_LVC3_N",			/* GPIOC18-19 */
-		"PRDY_N", "PREQ_N", "NC", "NC",					/* GPIOC20-23 */
-		"FM_4S_8S_N_MODE", "NC",					/* GPIOC24-25 */
+		"NC", "CPU_ERR2", "FM_NODE_ID0", "FM_NODE_ID1",			/* GPIOC14-17 */
+		"CPU_ERR0", "CPU_ERR1", "PRDY_N", "PREQ_N",			/* GPIOC18-21 */
+		"NC", "NC", "FM_4S_8S_N_MODE", "NC",				/* GPIOC22-25 */
 		"FM_BMC_CMOS_CLR_R_N", "PS_PWROK",				/* GPIOC26-27 */
 		"SGPIO0_CLK", "SGPIO0_LD", "SGPIO0_DO", "SGPIO0_DI",		/* GPIOC28-31 */
 		"FM_STANDALONE_MODE_N", "FM_BMC_TRUST_N",			/* GPIOC32-33 */
@@ -191,8 +189,8 @@
 &pinctrl_bmcperiph2_pok {
 	gpio-line-names =
 		"NC", "NC", "NC", "NC",					/* GPIOD31-34 */
-		"NC", "NC", "FP_RST_BTN_N", "BMC_RST_BTN_N",		/* GPIOD35-38 */
-		"FP_PWR_BTN_N", "FM_BMC_PWRBTN_OUT_N", "NC", "NC",	/* GPIOD39-42 */
+		"NC", "NC", "RESET_BUTTON", "RESET_OUT",		/* GPIOD35-38 */
+		"POWER_BUTTON", "FM_BMC_PWRBTN_OUT_R_N", "NC", "NC",	/* GPIOD39-42 */
 		"NC", "PWM0_CH3", "NC", "NC",				/* GPIOD43-46 */
 		"NC", "NC";						/* GPIOD47-48 */
 };
@@ -267,8 +265,6 @@
 };
 
 &sgpio0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&sgpio0_pins>;
 	status = "okay";
 
 	/* SGPIO lines: Each IO number in pairs (input, output) */
@@ -355,4 +351,77 @@
 
 &usb1core {
 	dr_mode = "host";
+};
+
+&i3c0 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <12500000>;
+	mode = "master";
+	i3c-od-scl-high-ns = <1000>;
+	i3c-od-scl-low-ns = <1500>;
+	i3c-pp-scl-high-ns = <60>;
+	i3c-pp-scl-low-ns = <100>;
+	master-sda-tx-hold = <3>;
+	master-sda-pp-od-switch-dly = <1>;
+	master-sda-od-pp-switch-dly = <1>;
+	master-stop-hold-cnt = <0xf>;
+	is-mng;
+	status = "okay";
+	#address-cells = <3>;
+	#size-cells = <0>;
+
+	hub@0,4cd00000000 {
+		compatible = "renesas,i3chub-rg3mxxb12b1";
+		reg = <0x0 0x4cd 0x0>;
+		cp0-ldo-en = "disabled";
+		cp1-ldo-en = "disabled";
+		cp0-ldo-volt = "1.0V";
+		cp1-ldo-volt = "1.0V";
+		tp0145-ldo-en = "disabled";
+		tp2367-ldo-en = "disabled";
+		tp0145-ldo-volt = "1.0V";
+		tp2367-ldo-volt = "1.0V";
+		tp0145-pullup = "2k";
+		tp2367-pullup = "2k";
+		tp0145-io-strength = "50Ohms";
+		tp2367-io-strength = "50Ohms";
+
+		target-port@0 {
+			mode = "i3c";
+			pullup = "enabled";
+		};
+		target-port@1 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@2 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@3 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@4 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@5 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@6 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+		target-port@7 {
+			mode = "disabled";
+			pullup = "disabled";
+		};
+	};
+};
+
+&dc0_clk {
+	single-node = <1>;
+	status = "okay";
 };

@@ -7,55 +7,37 @@
 	status = "disabled";
 };
 
-&dma_spi0 {
-	status = "okay";
-};
-
 &espi0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&espi0_pins &gpio_pass_1_pins &gpio_pass_2_pins>;
 	status = "okay";
 };
 
 &i2c1_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c1_pins>;
 	status = "disabled";
 };
 
 &i2c2_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c2_pins>;
 	status = "disabled";
 };
 
 &i2c3_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c3_pins>;
 	status = "disabled";
 };
 
 &i2c4_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c4_pins>;
 	status = "disabled";
 };
 
 &i2c6_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c6_pins>;
 	status = "disabled";
 };
 
 &i2c7_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c7_pins>;
 	status = "okay";
 
 	ipmb@10 {
@@ -73,8 +55,6 @@
 
 &i2c8_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c8_pins>;
 	status = "okay";
 
 	pmbus@58 {
@@ -85,22 +65,16 @@
 
 &i2c9_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c9_pins>;
 	status = "disabled";
 };
 
 &i2c10_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c10_pins>;
 	status = "disabled";
 };
 
 &i2c11_master {
 	clock-frequency = <100000>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i2c11_pins>;
 	status = "disabled";
 };
 
@@ -108,8 +82,6 @@
 	i2c-scl-hz = <400000>;
 	i3c-scl-hz = <12500000>;
 	mode = "master";
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c0lv_pins>;
 	i3c-od-scl-high-ns = <1000>;
 	i3c-od-scl-low-ns = <1500>;
 	i3c-pp-scl-high-ns = <60>;
@@ -148,7 +120,7 @@
 			pullup = "disabled";
 		};
 		target-port@2 {
-			mode = "i3c";
+			mode = "disabled";
 			pullup = "disabled";
 		};
 		target-port@3 {
@@ -179,8 +151,6 @@
 	i3c-scl-hz = <12500000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c1lv_pins>;
 	status = "disabled";
 };
 
@@ -189,8 +159,6 @@
 	i3c-scl-hz = <12500000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c2lv_pins>;
 	status = "disabled";
 };
 
@@ -199,8 +167,6 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c12_pins>;
 	status = "disabled";
 };
 
@@ -209,14 +175,10 @@
 	i3c-scl-hz = <1000000>;
 	mode = "master";
 	hotjoin;
-	pinctrl-names = "default";
-	pinctrl-0 = <&i3c13_pins>;
 	status = "disabled";
 };
 
 &jtag1 {
-	pinctrl-names = "jtag";
-	pinctrl-0 = <&jtagm1_pins>;
 	status = "okay";
 };
 
@@ -225,7 +187,7 @@
 };
 
 &peci1 {
-	status = "okay";
+	status = "disabled";
 };
 
 &pinctrl_adc0 {
@@ -237,8 +199,6 @@
 };
 
 &sgpio0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&sgpio0_pins>;
 	status = "okay";
 
 	/* SGPIO lines: Each IO number in pairs (input, output) */
@@ -307,18 +267,6 @@
 	/* 122-123 */	"", "", "", "",
 	/* 124-125 */	"", "", "", "",
 	/* 126-127 */	"", "", "", "";
-};
-
-&spi0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&spi0_pins>;
-	status = "okay";
-
-	spi_dev0: spi@0 {
-		compatible = "rohm,dh2228fv";
-		spi-max-frequency = <12000000>;
-		reg = <0>;
-	};
 };
 
 &uart9 {

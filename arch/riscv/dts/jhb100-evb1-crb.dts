@@ -33,10 +33,10 @@
 
 &pinctrl_adc0 {
 	gpio-line-names =
-		"NC", "FM_SPD_SWITCH_CTRL_N",				/* GPIOG0-1 */
-		"FP_NMI_BTN_N", "FP_LED_STATUS_GREEN_N",		/* GPIOG2-3 */
-		"FP_ID_BTN_N", "PWRGD_AUX_PWRGD_BMC_CPU0",		/* GPIOG4-5 */
-		"NC", "NC";						/* GPIOG6-7 */
+		"IRQ_SML1_PMBUS_BMC_ALERT_N", "FM_SPD_SWITCH_CTRL_N",		/* GPIOG0-1 */
+		"NMI_BUTTON", "FP_LED_STATUS_GREEN_N",				/* GPIOG2-3 */
+		"ID_BUTTON", "PWRGD_AUX_PWRGD_BMC_CPU0",			/* GPIOG4-5 */
+		"NC", "NC";							/* GPIOG6-7 */
 
 	gpiog1 {
 		gpio-hog;
@@ -109,19 +109,18 @@
 
 &pinctrl_bmcperiph1 {
 	gpio-line-names =
-		"SPI0_CS0", "SPI0_CS1", "SPI0_SCLK", "SPI0_TX",			/* GPIOC0-3 */
-		"SPI0_RX", "SFC0_CS0", "FM_SKT0_FAULT_LED", "SFC0_SCLK",	/* GPIOC4-7 */
+		"RST_SRST_BMC_SCM_FPGA_N", "FM_CPU1_ERR0_LVT3_N",		/* GPIOC0-1 */
+		"CPU_ERR2", "FM_NODE_ID0", "FM_NODE_ID1", "SFC0_CS0",		/* GPIOC2-5 */
+		"FM_SKT0_FAULT_LED", "SFC0_SCLK",				/* GPIOC6-7 */
 		"SFC0_IO0", "SFC0_IO1", "SFC0_IO2", "SFC0_IO3",			/* GPIOC8-11 */
-		"RST_SRST_BMC_SCM_FPGA_N", "FM_CPU1_ERR0_LVT3_N",		/* GPIOC12-13 */
-		"NC", "FM_CPU0_ERR2_LVC3_N",					/* GPIOC14-15 */
-		"FM_NODE_ID0", "FM_NODE_ID1",					/* GPIOC16-17 */
-		"FM_CPU0_ERR0_LVC3_N", "FM_CPU0_ERR1_LVC3_N",			/* GPIOC18-19 */
+		"SFC1_CS0", "SFC1_CS1", "NC", "SFC1_CLK",			/* GPIOC12-15 */
+		"SFC1_IO0", "SFC1_IO1", "CPU_ERR0", "CPU_ERR1",			/* GPIOC16-19 */
 		"PRDY_N", "PREQ_N", "NC", "PWRGD_P1V0_BMC_AUX",			/* GPIOC20-23 */
 		"FM_4S_8S_N_MODE", "FM_CPU_CATERR_P1_N",			/* GPIOC24-25 */
 		"FM_BMC_CMOS_CLR_R_N", "PS_PWROK",				/* GPIOC26-27 */
-		"SGPIO0_CLK", "FM_STANDALONE_MODE_N",				/* GPIOC28-29 */
-		"FM_CPU1_ERR1_LVT3_N", "FM_CPU1_ERR2_LVT3_N",			/* GPIOC30-31 */
-		"FM_BMC_TRUST_N", "SGPIO1_LD", "SGPIO1_DO", "SGPIO1_DI";	/* GPIOC32-35 */
+		"SGPIO0_CLK", "SGPIO0_LD", "SGPIO0_SO", "SGPIO0_SI",		/* GPIOC28-31 */
+		"FM_BMC_TRUST_N", "FM_STANDALONE_MODE_N",			/* GPIOC32-33 */
+		"FM_CPU1_ERR1_LVT3_N", "FM_CPU1_ERR2_LVT3_N";			/* GPIOC34-35 */
 
 	gpioe-spi-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC0-4 */
 	gpioe-qspi0-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC5-11 */
@@ -202,10 +201,10 @@
 &pinctrl_bmcperiph2_pok {
 	gpio-line-names =
 		"NC", "NC", "NC", "NC",				/* GPIOD31-34 */
-		"NC", "NC", "PASSTHRU0_IN", "PASSTHRU0_OUT",	/* GPIOD35-38 */
-		"PASSTHRU1_IN", "PASSTHRU1_OUT", "NC", "NC",	/* GPIOD39-42 */
-		"NC", "NC", "NC", "NC",				/* GPIOD43-46 */
-		"NC", "NC";					/* GPIOD47-48 */
+		"NC", "NC", "RESET_BUTTON", "RESET_OUT",	/* GPIOD35-38 */
+		"POWER_BUTTON", "FM_BMC_PWRBTN_OUT_R_N",	/* GPIOD39-40 */
+		"NC", "NC", "NC", "NC",				/* GPIOD41-44 */
+		"NC", "NC", "NC", "NC";				/* GPIOD45-48 */
 };
 
 &pinctrl_bmcperiph3 {
@@ -283,6 +282,13 @@
 };
 
 &sfc1 {
+	pinctrl-0 = <&sfc1_2cs_spi_pins>;
 	status = "okay";
+	num-cs = <2>;
 	rx-sample-delay-ns = <10>;
+};
+
+&dc0_clk {
+	single-node = <1>;
+	status = "okay";
 };

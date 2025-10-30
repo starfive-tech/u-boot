@@ -810,6 +810,19 @@
 		};
 	};
 
+	i2c0_gpio_pins: i2c0-gpio-grp {
+		i2c0_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B0,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c0_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B1,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
+		};
+	};
+
 	i2c1_pins: i2c1-grp {
 		i2c1_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B2,
@@ -825,6 +838,19 @@
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
+		};
+	};
+
+	i2c1_gpio_pins: i2c1-gpio-grp {
+		i2c1_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B2,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c1_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B3,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
 		};
 	};
 
@@ -846,6 +872,19 @@
 		};
 	};
 
+	i2c2_gpio_pins: i2c2-gpio-grp {
+		i2c2_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B4,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c2_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B5,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
+		};
+	};
+
 	i2c3_pins: i2c3-grp {
 		i2c3_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B6,
@@ -861,6 +900,19 @@
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
+		};
+	};
+
+	i2c3_gpio_pins: i2c3-gpio-grp {
+		i2c3_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B6,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c3_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B7,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
 		};
 	};
 
@@ -882,6 +934,19 @@
 		};
 	};
 
+	i2c4_gpio_pins: i2c4-gpio-grp {
+		i2c4_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c4_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B9,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
+		};
+	};
+
 	i2c5_pins: i2c5-grp {
 		i2c5_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
@@ -897,6 +962,19 @@
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
+		};
+	};
+
+	i2c5_gpio_pins: i2c5-gpio-grp {
+		i2c5_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c5_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B11,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
 		};
 	};
 
@@ -918,6 +996,19 @@
 		};
 	};
 
+	i2c6_gpio_pins: i2c6-gpio-grp {
+		i2c6_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B12,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c6_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B13,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
+		};
+	};
+
 	i2c7_pins: i2c7-grp {
 		i2c7_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B14,
@@ -933,6 +1024,19 @@
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
+		};
+	};
+
+	i2c7_gpio_pins: i2c7-gpio-grp {
+		i2c7_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B14,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c7_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B15,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
 		};
 	};
 
@@ -954,6 +1058,19 @@
 		};
 	};
 
+	i2c8_gpio_pins: i2c8-gpio-grp {
+		i2c8_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B16,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c8_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B17,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
+		};
+	};
+
 	i2c9_pins: i2c9-grp {
 		i2c9_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B18,
@@ -969,6 +1086,19 @@
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
+		};
+	};
+
+	i2c9_gpio_pins: i2c9-gpio-grp {
+		i2c9_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B18,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c9_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B19,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
 		};
 	};
 
@@ -990,6 +1120,19 @@
 		};
 	};
 
+	i2c10_gpio_pins: i2c10-gpio-grp {
+		i2c10_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B20,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c10_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B21,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
+		};
+	};
+
 	i2c11_pins: i2c11-grp {
 		i2c11_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B22,
@@ -1005,6 +1148,19 @@
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
+		};
+	};
+
+	i2c11_gpio_pins: i2c11-gpio-grp {
+		i2c11_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B22,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c11_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B23,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
 		};
 	};
 
@@ -1026,6 +1182,19 @@
 		};
 	};
 
+	i2c12_gpio_pins: i2c12-gpio-grp {
+		i2c12_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B24,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c12_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B25,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
+		};
+	};
+
 	i2c13_pins: i2c13-grp {
 		i2c13_scl-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B26,
@@ -1043,6 +1212,19 @@
 			starfive,drive-i2c-fast-mode-plus;
 		};
 	};
+
+	i2c13_gpio_pins: i2c13-gpio-grp {
+		i2c13_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B26,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c13_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B27,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
+		};
+	};
 };
 
 &pinctrl_bmcperiph1 {
@@ -1053,14 +1235,27 @@
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
-	     };
+	};
 
-	     i2c14_sda-pins{
-		      pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C33,
-					 FUNC_BMCPERIPH1_I2C14_DATA)>;
+	i2c14_sda-pins{
+		pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C33,
+				 FUNC_BMCPERIPH1_I2C14_DATA)>;
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
+		};
+	};
+
+	i2c14_gpio_pins: i2c14-gpio-grp {
+		i2c14_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C32,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c14_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C33,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
 		};
 	};
 
@@ -1071,7 +1266,7 @@
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
-	};
+		};
 
 		i2c15_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C35,
@@ -1079,6 +1274,19 @@
 			bias-pull-up;
 			input-enable;
 			starfive,drive-i2c-fast-mode-plus;
+		};
+	};
+
+	i2c15_gpio_pins: i2c15-gpio-grp {
+		i2c15_scl_gpio-pins {
+			pincfg = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C34,
+					 JHB100_DEFAULT_SIGNAL)>;
+		};
+
+		i2c15_sda_gpio-pins{
+			pincfg = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C35,
+					 JHB100_DEFAULT_SIGNAL)>;
+			input-enable;
 		};
 	};
 };
@@ -2459,6 +2667,37 @@
 		sfc1_1cs_io3-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C19,
 					 FUNC_BMCPERIPH1_SFC0_IO3)>;
+			input-enable;
+		};
+	};
+
+	sfc1_2cs_spi_pins: sfc1_2cs_spi-grp {
+		sfc1_2cs_spi_sclk-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C15,
+					 FUNC_BMCPERIPH1_SFC1_SCLK_OUT)>;
+		};
+
+		sfc1_2cs_spi_cs0-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C12,
+					 FUNC_BMCPERIPH1_SFC1_N_SS_OUT_0)>;
+			bias-pull-up;
+		};
+
+		sfc1_2cs_spi_cs1-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C13,
+					 FUNC_BMCPERIPH1_SFC1_N_SS_OUT_1)>;
+			bias-pull-up;
+		};
+
+		sfc1_2cs_spi_io0-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C16,
+					 FUNC_BMCPERIPH1_SFC0_IO0)>;
+			input-enable;
+		};
+
+		sfc1_2cs_spi_io1-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C17,
+					 FUNC_BMCPERIPH1_SFC0_IO1)>;
 			input-enable;
 		};
 	};
