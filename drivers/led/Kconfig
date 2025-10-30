@@ -49,6 +49,13 @@ config LED_CORTINA
 	  This option enables support for LEDs connected to the Cortina
 	  Access CAxxxx SOCs.
 
+config LED_STARFIVE
+	bool "LED Support for StarFive JHB100"
+	depends on (SPL_LED || LED) && STARFIVE_JHB100
+	help
+	  This option enables support for LEDs connected to the StarFive
+	  JHB100.
+
 config LED_LP5562
 	bool "LED Support for LP5562"
 	depends on LED && DM_I2C
