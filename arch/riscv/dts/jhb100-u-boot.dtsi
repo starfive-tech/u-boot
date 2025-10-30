@@ -538,6 +538,14 @@
 
 &pinctrl_sys0 {
 	bootph-pre-ram;
+
+	hbled_pins: hbled-grp {
+		bootph-pre-ram;
+
+		hbled-pins {
+			bootph-pre-ram;
+		};
+	};
 };
 
 &pinctrl_sys1 {
@@ -647,6 +655,19 @@
 
 &per1_syscon {
 	bootph-pre-ram;
+};
+
+&led0 {
+	bootph-pre-ram;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	led@0 {
+		bootph-pre-ram;
+		reg = <0>;
+		label = "heartbeat";
+		default-state = "on";
+	};
 };
 
 /delete-node/ &espi0_mmbi_buffer_cache;

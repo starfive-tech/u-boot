@@ -167,3 +167,7 @@
 &per3crg {
 	bootph-pre-ram;
 };
+
+&cpucrg {
+	bootph-pre-ram;
+};
