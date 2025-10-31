@@ -21,6 +21,7 @@
 
 #include <dm/ofnode.h>
 #include <asm/arch/rpmi-mpxy-sec.h>
+#include <asm/rpmi.h>
 
 #define DRAM_AP_BASE_ADDR	0x40000000
 #define DRAM_512_MB_SIZE	0x20000000
@@ -117,10 +118,10 @@ int jhb100_scp_buffer_parser(void *blob)
 		return ret;
 
 	if (resp_data[0]) {
-		printf("Failed, error: %d\n", resp_data[0]);
-		return resp_data[0];
+		if (resp_data[0] != RPMI_ERR_ALREADY)
+			printf("Failed, error: %d\n", resp_data[0]);
 	}
 
-	return 0;
+	return resp_data[0];
 }
 #endif
