@@ -51,20 +51,6 @@
 		"RST_BMC_PCIE_MUX_N", "RST_BMC_HSBP_MUX_N",		/* GPIOH0-1 */
 		"FM_SMB_BMC_NVME_LVC3_ALERT_N", "FM_PARTITION_SEL",	/* GPIOH2-3 */
 		"REMOTE_DEBUG_ENABLE", "SIO_S3", "NC", "NC";		/* GPIOH4-7 */
-
-	gpioh0 {
-		gpio-hog;
-		gpios = <0 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "RST_BMC_PCIE_MUX_N";
-	};
-
-	gpioh1 {
-		gpio-hog;
-		gpios = <1 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "RST_BMC_HSBP_MUX_N";
-	};
 };
 
 &pinctrl_bmcperiph0 {
@@ -91,20 +77,6 @@
 	gpioe-i3c1-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOB12-15, 34-35 */
 	gpioe-i3c2-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOB16-23 */
 	gpioe-i3c4-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOB36-43 */
-
-	gpiob41 {
-		gpio-hog;
-		gpios = <41 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "FM_LED_BMC_CPU_RSTIND";
-	};
-
-	gpiob43 {
-		gpio-hog;
-		gpios = <43 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "FM_SKT1_FAULT_LED";
-	};
 };
 
 &pinctrl_bmcperiph1 {
@@ -182,20 +154,6 @@
 		output-low;
 		line-name = "A_P3V_BAT_SCALED_EN";
 	};
-
-	gpiod8 {
-		gpio-hog;
-		gpios = <8 GPIO_ACTIVE_HIGH>;
-		output-high;
-		line-name = "DBP_HOOK3_CPU_FBRK_OUT_R_N";
-	};
-
-	gpiod10 {
-		gpio-hog;
-		gpios = <10 GPIO_ACTIVE_HIGH>;
-		output-high;
-		line-name = "FM_TPM_EN_PULSE";
-	};
 };
 
 &pinctrl_bmcperiph2_pok {
@@ -230,7 +188,7 @@
 	gpio-line-names =
 		"ESPI0_IO0", "ESPI0_IO1", "ESPI0_IO2", "ESPI0_IO3",		/* GPIOA4-7 */
 		"ESPI0_CLK", "ESPI0_CS", "ESPI0_ALERT", "ESPI0_RESET",		/* GPIOA8-11 */
-		"NC", "NC", "NC", "NC";						/* GPIOA12-15 */
+		"DEBUG_EN_N", "PWR_DEBUG_N", "TCK_MUX_SEL", "XDP_PRST_N";	/* GPIOA12-15 */
 };
 
 &pinctrl_sys1 {
@@ -260,13 +218,6 @@
 		gpios = <26 GPIO_ACTIVE_HIGH>;
 		output-low;
 		line-name = "FM_BMC_BMCINIT_R";
-	};
-
-	gpioa51 {
-		gpio-hog;
-		gpios = <27 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "SIO_ONCONTROL";
 	};
 };
 
