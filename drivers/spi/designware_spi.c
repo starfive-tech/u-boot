@@ -480,7 +480,6 @@ static int dw_spi_probe(struct udevice *bus)
 	if (ret)
 		return ret;
 
-	/* TODO: Remove preprocessor directive once SoC is ready */
 	ret = dw_spi_reset(bus);
 	if (ret)
 		return ret;
@@ -886,7 +885,6 @@ static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 
 		/* Fill up the write fifo before starting the transfer */
 		dw_writer(priv);
-
 		dw_write(priv, DW_SPI_SER, 1 << spi_chip_select(slave->dev));
 		while (priv->tx != priv->tx_end)
 			dw_writer(priv);
