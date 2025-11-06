@@ -31,11 +31,6 @@
 #include <asm/arch/spl.h>
 #include <asm/arch/starfive_pcu.h>
 
-/* I2C filter */
-#define JHB100_I2C0_FILTER_ADDR		0x14080000UL
-#define JHB100_I2C_FILTER_OFFSET	0x1000
-#define JHB100_I2C_FILTER_MAX_NUM	16
-
 /* CPUSS_SECURE_CRG */
 #define JHB100_CPUSS_SECURE_CRG_ADDR		0x14142000UL
 #define JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET	0x60
@@ -219,15 +214,6 @@ struct legacy_img_hdr *spl_get_load_buffer(ssize_t offset, size_t size)
 	return (struct legacy_img_hdr *)(STARFIVE_SPL_BOOT_LOAD_ADDR);
 }
 
-void jhb100_smbus_filter_disable(void)
-{
-	/* Disable smbus filter for all I2C filters */
-	for (unsigned int i = 0; i < JHB100_I2C_FILTER_MAX_NUM; i++) {
-		void *addr = (void *)(JHB100_I2C0_FILTER_ADDR + (i * JHB100_I2C_FILTER_OFFSET));
-		writel(0x00, addr);
-	}
-}
-
 void jhb100_plat_init(void)
 {
 	void *addr;
@@ -408,9 +394,6 @@ void board_init_f(ulong dummy)
 	preloader_console_init();
 
 	riscv_cpu_setup();
-
-	/* TODO: to remove */
-	//jhb100_smbus_filter_disable();
 
 	jhb100_plat_init();
 
