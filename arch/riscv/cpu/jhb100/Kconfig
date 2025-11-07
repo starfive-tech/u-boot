@@ -120,3 +120,9 @@ config STARFIVE_JHB100_WDT_ADV_CFG
 	depends on TARGET_STARFIVE_JHB100
 	help
 	 Enable configuration such as operating in two stage timeout or pulse mode
+
+config STARFIVE_JHB100_QUERY_DDR_INFO
+	bool "Query DDR info (size) from SCP and update device tree"
+	depends on TARGET_STARFIVE_JHB100
+	help
+	 Enable runtime modification of U-boot and Linux device tree memory node

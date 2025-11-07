@@ -129,7 +129,9 @@ void board_fit_image_post_process(const void *fit, int node, void **p_image, siz
 			break;
 	}
 #else
+#ifdef CONFIG_STARFIVE_JHB100_QUERY_DDR_INFO
 	jhb100_fdt_fixup(*p_image);
+#endif
 	jhb100_scp_buffer_parser(*p_image);
 #endif
 }

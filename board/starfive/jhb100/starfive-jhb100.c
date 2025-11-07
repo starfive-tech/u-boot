@@ -430,7 +430,9 @@ void check_fdtmodify(void *blob)
 
 int ft_board_setup(void *blob, struct bd_info *bd)
 {
+#ifdef CONFIG_STARFIVE_JHB100_QUERY_DDR_INFO
 	jhb100_fdt_fixup(blob);
+#endif
 	check_fdtmodify(blob);
 
 	return 0;
