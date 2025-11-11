@@ -37,13 +37,6 @@
 		"NMI_BUTTON", "FP_LED_STATUS_GREEN_N",				/* GPIOG2-3 */
 		"ID_BUTTON", "PWRGD_AUX_PWRGD_BMC_CPU0",			/* GPIOG4-5 */
 		"NC", "NC";							/* GPIOG6-7 */
-
-	gpiog1 {
-		gpio-hog;
-		gpios = <1 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "FM_SPD_SWITCH_CTRL_N";
-	};
 };
 
 &pinctrl_adc1 {
@@ -98,41 +91,6 @@
 	gpioe-qspi0-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC5-11 */
 	gpioe-qspi1-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC12-19 */
 	gpioe-qspi2-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC20-27 */
-
-	gpioc6 {
-		gpio-hog;
-		gpios = <6 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "FM_SKT0_FAULT_LED";
-	};
-
-	gpioc21 {
-		gpio-hog;
-		gpios = <21 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "PREQ_N";
-	};
-
-	gpioc23 {
-		gpio-hog;
-		gpios = <23 GPIO_ACTIVE_HIGH>;
-		output-high;
-		line-name = "PWRGD_P1V0_BMC_AUX";
-	};
-
-	gpioc26 {
-		gpio-hog;
-		gpios = <26 GPIO_ACTIVE_HIGH>;
-		output-high;
-		line-name = "FM_BMC_CMOS_CLR_R_N";
-	};
-
-	gpioc32 {
-		gpio-hog;
-		gpios = <32 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "FM_BMC_TRUST_N";
-	};
 };
 
 &pinctrl_bmcperiph2 {
@@ -147,13 +105,6 @@
 		"GMAC2_RXDV", "GMAC2_RXD0", "GMAC2_RXD1", "GMAC2_RXD2",		/* GPIOD20-23 */
 		"GMAC2_RXD3", "GMAC2_TXCLK", "GMAC2_TXEN", "GMAC2_TXD0",	/* GPIOD24-27 */
 		"GMAC2_TXD1", "GMAC2_TXD2", "GMAC2_TXD3";			/* GPIOD28-30 */
-
-	gpiod4 {
-		gpio-hog;
-		gpios = <4 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "A_P3V_BAT_SCALED_EN";
-	};
 };
 
 &pinctrl_bmcperiph2_pok {
@@ -213,11 +164,11 @@
 
 	gpiow-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOA36-43 */
 
-	gpioa50 {
+	gpioa51 {
 		gpio-hog;
-		gpios = <26 GPIO_ACTIVE_HIGH>;
+		gpios = <27 GPIO_ACTIVE_HIGH>;
 		output-low;
-		line-name = "FM_BMC_BMCINIT_R";
+		line-name = "SIO_ONCONTROL";
 	};
 };
 
