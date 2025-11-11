@@ -1605,7 +1605,6 @@
 				interrupts = <240>, <237>, <234>;
 				interrupt-names = "vce", "host2bmc", "dynsw";
 				h2b-syscon = <&h2bsyscon>;
-				b2h-syscon = <&b2hsyscon>;
 				vce-id = <0>;
 				status = "disabled";
 			};
@@ -1622,7 +1621,6 @@
 				interrupts = <241>, <238>, <235>;
 				interrupt-names = "vce", "host2bmc", "dynsw";
 				h2b-syscon = <&h2bsyscon>;
-				b2h-syscon = <&b2hsyscon>;
 				vce-id = <1>;
 				status = "disabled";
 			};
