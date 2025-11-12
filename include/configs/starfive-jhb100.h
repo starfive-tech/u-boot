@@ -66,7 +66,19 @@
 #define CONFIG_U_BOOT_ITB	"u-boot.itb"
 #endif
 
-#define CONFIG_RAMDISK_ADDR 0x6e000000
+/**
+ * Environment variables holding default load addresses
+ */
+#define LOAD_COMP_ADDR			__stringify(0x47000000)
+#define ENV_LOAD_ADDR			__stringify(0x4fdbe000)
+#define FDT_ADDR_R			__stringify(0x6df00000)
+#define RAMDISK_ADDR_R			__stringify(0x6e000000)
+#define KERNEL_COMP_ADDR_R		__stringify(0x75000000)
+#define KERNEL_ADDR_R			__stringify(0x77000000)
+#define KERNEL_COMP_SIZE		__stringify(0x1000000)
+#define KERNEL_FIT_LOAD_SIZE		__stringify(0x1000000)
+#define KERNEL_FIT_COMP_LOAD_SIZE	__stringify(0x1000000)
+#define RAMDISK_SIZE			__stringify(0x7000000)
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
@@ -558,26 +570,26 @@
 		"fi; \0"
 
 #define CFG_EXTRA_ENV_SETTINGS			\
-	"bootfile=Image\0"	\
-	"fdtfile=jhb100-fpga.dtb\0"	\
-	"fdt_high=0xffffffffffffffff\0"			\
-	"initrd_high=0xffffffffffffffff\0"		\
-	"envloadaddr=0x4fdbe000\0"	\
-	"kernel_addr_r=0x77000000\0"			\
-	"kernel_comp_addr_r=0x60000000\0"		\
-	"kernel_comp_size=0x1000000\0"			\
-	"kernel_fit_load_size=0x1000000\0"		\
-	"kernel_fit_comp_load_size=0x1000000\0"		\
-	"fdt_addr_r=0x6df00000\0"			\
-	"load_comp_addr=0x47000000\0"	\
-	"ramdisk_size=0x8000000\0"			\
-	"loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
-	"ramdisk_addr_r=" __stringify(CONFIG_RAMDISK_ADDR) "\0"	\
-	"ipaddr=" __stringify(CONFIG_IPADDR) "\0"	\
-	"netmask=" __stringify(CONFIG_NETMASK) "\0"	\
-	"serverip=" __stringify(CONFIG_SERVERIP) "\0"	\
-	"gatewayip=" __stringify(CONFIG_GATEWAYIP) "\0"	\
-	JHB100_BOOTENV	\
+	"bootfile=Image\0"								\
+	"fdtfile=jhb100.dtb\0"								\
+	"fdt_high=0xffffffffffffffff\0"							\
+	"initrd_high=0xffffffffffffffff\0"						\
+	"envloadaddr=" ENV_LOAD_ADDR "\0" 				\
+	"kernel_addr_r=" KERNEL_ADDR_R "\0"				\
+	"kernel_comp_addr_r=" KERNEL_COMP_ADDR_R "\0"		\
+	"kernel_comp_size=" KERNEL_COMP_SIZE "\0"			\
+	"kernel_fit_load_size="KERNEL_FIT_LOAD_SIZE "\0"		\
+	"kernel_fit_comp_load_size=" KERNEL_FIT_COMP_LOAD_SIZE "\0"	\
+	"fdt_addr_r=" FDT_ADDR_R "\0"				\
+	"load_comp_addr=" LOAD_COMP_ADDR "\0"			\
+	"ramdisk_size=" RAMDISK_SIZE "\0"				\
+	"loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0"				\
+	"ramdisk_addr_r=" RAMDISK_ADDR_R "\0"				\
+	"ipaddr=" __stringify(CONFIG_IPADDR) "\0"					\
+	"netmask=" __stringify(CONFIG_NETMASK) "\0"					\
+	"serverip=" __stringify(CONFIG_SERVERIP) "\0"					\
+	"gatewayip=" __stringify(CONFIG_GATEWAYIP) "\0"					\
+	JHB100_BOOTENV									\
 	JHB100_KERNEL_BOOTENV
 
 #endif /* _STARFIVE_JHB100_H */
