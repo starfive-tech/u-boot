@@ -52,13 +52,6 @@
 		"NMI_BUTTON", "FP_LED_STATUS_GREEN_N",			/* GPIOG2-3 */
 		"FP_ID_BTN_N", "PWRGD_AUX_PWRGD_BMC_CPU0",		/* GPIOG4-5 */
 		"NC", "NC";						/* GPIOG6-7 */
-
-	gpiog1 {
-		gpio-hog;
-		gpios = <1 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "FM_SPD_SWITCH_CTRL_N";
-	};
 };
 
 &pinctrl_adc1 {
@@ -102,7 +95,7 @@
 		"RST_SRST_BMC_SCM_FPGA_N", "FM_CPU1_ERR0_LVT3_N",		/* GPIOC12-13 */
 		"NC", "CPU_ERR2", "FM_NODE_ID0", "FM_NODE_ID1",			/* GPIOC14-17 */
 		"CPU_ERR0", "CPU_ERR1", "PRDY_N", "PREQ_N",			/* GPIOC18-21 */
-		"NC", "NC", "FM_4S_8S_N_MODE", "NC",				/* GPIOC22-25 */
+		"NC", "PWRGD_P1V0_BMC_AUX", "FM_4S_8S_N_MODE", "NC",		/* GPIOC22-25 */
 		"FM_BMC_CMOS_CLR_R_N", "PS_PWROK",				/* GPIOC26-27 */
 		"SGPIO0_CLK", "SGPIO0_LD", "SGPIO0_DO", "SGPIO0_DI",		/* GPIOC28-31 */
 		"FM_STANDALONE_MODE_N", "FM_BMC_TRUST_N",			/* GPIOC32-33 */
@@ -112,34 +105,6 @@
 	gpioe-qspi0-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC5-11 */
 	gpioe-qspi1-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC12-19 */
 	gpioe-qspi2-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC20-27 */
-
-	gpioc6 {
-		gpio-hog;
-		gpios = <6 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "FM_SKT0_FAULT_LED";
-	};
-
-	gpioc21 {
-		gpio-hog;
-		gpios = <21 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "PREQ_N";
-	};
-
-	gpioc26 {
-		gpio-hog;
-		gpios = <26 GPIO_ACTIVE_HIGH>;
-		output-high;
-		line-name = "FM_BMC_CMOS_CLR_R_N";
-	};
-
-	gpioc33 {
-		gpio-hog;
-		gpios = <33 GPIO_ACTIVE_HIGH>;
-		output-low;
-		line-name = "FM_BMC_TRUST_N";
-	};
 };
 
 &pinctrl_bmcperiph2 {
@@ -216,11 +181,11 @@
 
 	gpiow-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOA36-43 */
 
-	gpioa50 {
+	gpioa51 {
 		gpio-hog;
-		gpios = <26 GPIO_ACTIVE_HIGH>;
+		gpios = <27 GPIO_ACTIVE_HIGH>;
 		output-low;
-		line-name = "FM_BMC_BMCINIT_R";
+		line-name = "SIO_ONCONTROL";
 	};
 };
 

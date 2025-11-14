@@ -1492,6 +1492,7 @@
 				b100,h2b-syscon = <&h2bsyscon>;
 				b100,b2h-syscon = <&b2hsyscon>;
 				dc-syscon = <&dcsyscon>;
+				starfive,syscon = <&sys_syscon 52>;
 				vout-syscon = <&voutsyscon>;
 				status = "disabled";
 			};

@@ -269,6 +269,24 @@
 	/* 126-127 */	"", "", "", "";
 };
 
+&sol9 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <9>;
+	status = "okay";
+};
+
+&sol11 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <11>;
+	status = "okay";
+};
+
 &uart9 {
 	status = "okay";
 	current-speed = <115200>;

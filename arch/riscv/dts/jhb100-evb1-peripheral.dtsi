@@ -687,6 +687,42 @@
 		"", "", "", "", "", "", "", "";
 };
 
+&sol9 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <9>;
+	status = "okay";
+};
+
+&sol10 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <10>;
+	status = "okay";
+};
+
+&sol11 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <11>;
+	status = "okay";
+};
+
+&sol12 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <12>;
+	status = "okay";
+};
+
 &spi0 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi0_pins>;
