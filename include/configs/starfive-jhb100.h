@@ -84,6 +84,7 @@
 #define CONFIG_ENV_OVERWRITE
 
 #define JHB100_BOOTENV	\
+	"bootdev=uart\0"	\
 	"bootenv=uEnv.txt\0"	\
 	"boot_dev_s=mmc\0"	\
 	"bootmstatsfc=fail\0"	\
