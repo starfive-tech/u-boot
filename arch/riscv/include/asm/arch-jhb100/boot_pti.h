@@ -149,5 +149,6 @@ void starfive_clear_ap_sts_retry_cnt(int img_type);
 void starfive_clear_ap_sts_error(int img_type);
 int starfive_get_ap_sts_retry_cnt(int img_type);
 int starfive_get_ap_ctl_boot_stage(int img_type);
+int starfive_check_secure_boot(void);
 
 #endif /* _BOOT_PTI_H */

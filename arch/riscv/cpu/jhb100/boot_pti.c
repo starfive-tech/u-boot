@@ -214,7 +214,7 @@ int starfive_get_sfc_cs_line_num(void)
 		}
 	}
 
-	/** 
+	/**
 	 * Check if Golden images are located in CS0 or CS1
 	 */
 	if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER) == CONFIG_SF_CS1)
@@ -337,4 +337,25 @@ void starfive_set_boot_stat_reg(int boot_src, int part_type, int img_type)
 	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
 		printf("fn(): %s\n", __func__);
 	// TODO: Sync with FW
+}
+
+int starfive_check_secure_boot(void)
+{
+	if (IS_ENABLED(CONFIG_JHB100_UPD_RCV_TEST_TRACE))
+		printf("fn(): %s\n", __func__);
+
+	/* Send MPXY message via mailbox to get partition */
+	GET_SPEC(GET_SYSTEM_STATUS, spec);
+
+	u32 flags = 0;
+
+	u32 resp_data[spec->resp_size / sizeof(u32)];
+
+	memset(resp_data, 0, spec->resp_size);
+	int ret = starfive_sec_rx_tx(spec, &flags, resp_data, NULL, 0, NULL, 0, false);
+
+	if (ret)
+		return ret;
+
+	return resp_data[1];
 }
