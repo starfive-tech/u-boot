@@ -473,6 +473,19 @@ static int do_starfive_parse_capsule(struct cmd_tbl *cmdtp, int flag, int argc,
 	return CMD_RET_SUCCESS;
 }
 
+static int do_starfive_check_secure_boot(struct cmd_tbl *cmdtp, int flag, int argc,
+					 char *const argv[])
+{
+	int ret = starfive_check_secure_boot();
+
+	if (ret < 0)
+		return -EINVAL;
+
+	env_set_hex("secureboot", (ulong)(ret));
+
+	return !ret;
+}
+
 U_BOOT_LONGHELP(checkimgrcmap,
 		"[arg\n    - Check authentication status from recovery mapping\n"
 		"\tpass: 1 - eMMC Active\n"
@@ -555,6 +568,10 @@ U_BOOT_LONGHELP(parsecap,
 		"[arg    - Hex address in memory]\n"
 );
 
+U_BOOT_LONGHELP(checksecboot,
+		"[arg\n    - None\n"
+);
+
 U_BOOT_CMD(checkimgrcmap, CONFIG_SYS_MAXARGS, 1, do_starfive_check_img_rec_map,
 	   "Check authentication status from recovery mapping",
 	   checkimgrcmap_help_text
@@ -603,4 +620,9 @@ U_BOOT_CMD(getimginfo, CONFIG_SYS_MAXARGS, 1, do_starfive_get_img_info,
 U_BOOT_CMD(parsecap, CONFIG_SYS_MAXARGS, 1, do_starfive_parse_capsule,
 	   "Parse Update Capsule for writting to eMMC",
 	   parsecap_help_text
+);
+
+U_BOOT_CMD(checksecboot, CONFIG_SYS_MAXARGS, 1, do_starfive_check_secure_boot,
+	   "Check secure boot status",
+	   checksecboot_help_text
 );
