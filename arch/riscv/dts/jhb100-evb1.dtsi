@@ -519,10 +519,6 @@
 	};
 };
 
-&npu {
-	status = "okay";
-};
-
 &pcie_rc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pe2rst_pins>;

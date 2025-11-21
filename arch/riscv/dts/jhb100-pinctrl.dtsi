@@ -2611,25 +2611,25 @@
 
 		sfc1_io0-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C16,
-					 FUNC_BMCPERIPH1_SFC0_IO0)>;
+					 FUNC_BMCPERIPH1_SFC1_IO0)>;
 			input-enable;
 		};
 
 		sfc1_io1-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C17,
-					 FUNC_BMCPERIPH1_SFC0_IO1)>;
+					 FUNC_BMCPERIPH1_SFC1_IO1)>;
 			input-enable;
 		};
 
 		sfc1_io2-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C18,
-					 FUNC_BMCPERIPH1_SFC0_IO2)>;
+					 FUNC_BMCPERIPH1_SFC1_IO2)>;
 			input-enable;
 		};
 
 		sfc1_io3-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C19,
-					 FUNC_BMCPERIPH1_SFC0_IO3)>;
+					 FUNC_BMCPERIPH1_SFC1_IO3)>;
 			input-enable;
 		};
 	};
@@ -2648,25 +2648,25 @@
 
 		sfc1_1cs_io0-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C16,
-					 FUNC_BMCPERIPH1_SFC0_IO0)>;
+					 FUNC_BMCPERIPH1_SFC1_IO0)>;
 			input-enable;
 		};
 
 		sfc1_1cs_io1-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C17,
-					 FUNC_BMCPERIPH1_SFC0_IO1)>;
+					 FUNC_BMCPERIPH1_SFC1_IO1)>;
 			input-enable;
 		};
 
 		sfc1_1cs_io2-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C18,
-					 FUNC_BMCPERIPH1_SFC0_IO2)>;
+					 FUNC_BMCPERIPH1_SFC1_IO2)>;
 			input-enable;
 		};
 
 		sfc1_1cs_io3-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C19,
-					 FUNC_BMCPERIPH1_SFC0_IO3)>;
+					 FUNC_BMCPERIPH1_SFC1_IO3)>;
 			input-enable;
 		};
 	};
@@ -2691,13 +2691,13 @@
 
 		sfc1_2cs_spi_io0-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C16,
-					 FUNC_BMCPERIPH1_SFC0_IO0)>;
+					 FUNC_BMCPERIPH1_SFC1_IO0)>;
 			input-enable;
 		};
 
 		sfc1_2cs_spi_io1-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C17,
-					 FUNC_BMCPERIPH1_SFC0_IO1)>;
+					 FUNC_BMCPERIPH1_SFC1_IO1)>;
 			input-enable;
 		};
 	};

@@ -1798,7 +1798,6 @@
 				contiguous-base = <0x0>;
 				contiguous-size = <0x1000000>;
 				npu-syscon = <&npusyscon>;
-				memory-region=<&dma_reserved_uncache>;
 				status = "disabled";
 			};
 
@@ -3465,6 +3464,7 @@
 				reset-names = "main", "phy";
 				starfive,syscon = <&per1_syscon>;
 				hwlocks = <&hwspinlock 1>;
+				starfive,otp = <&rpmi_secure>;
 				status = "disabled";
 			};
 

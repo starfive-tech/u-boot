@@ -265,6 +265,15 @@
 	/* 126-127 */	"", "", "", "";
 };
 
+&sol4 {
+	memory-region = <&sol_tx_mem_uncache>,
+			<&sol_rx_mem_uncache>;
+	tx-size = <3>;
+	rx-size = <3>;
+	dev-id = <4>;
+	status = "okay";
+};
+
 &uart4 {
 	status = "okay";
 	current-speed = <115200>;

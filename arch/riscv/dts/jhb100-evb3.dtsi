@@ -134,6 +134,7 @@
 		ranges;
 
 		#include "jhb100-reserved-mem.dtsi"
+		#include "jhb100-evb3-extend-reserved-mem.dtsi"
 
 		linux,cma {
 			compatible = "shared-dma-pool";
@@ -194,6 +195,7 @@
 };
 
 &npu {
+	memory-region = <&npu_reserved_uncache>;
 	status = "okay";
 };
 

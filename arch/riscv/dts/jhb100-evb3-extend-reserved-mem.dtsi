@@ -1,0 +1,15 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ */
+
+npu_reserved_cache: npu_memory@64200000 {
+	reg = <0x0 0x64200000 0x0 0x08000000>;
+	no-map;
+};
+
+npu_reserved_uncache: npu_memory@424200000 {
+	compatible = "shared-dma-pool";
+	reg = <0x4 0x24200000 0x0 0x08000000>;
+	no-map;
+};
