@@ -83,6 +83,17 @@ static const int emmc_partition_map[7] = {
 	0   /* 6 -> UDA */
 };
 
+/* GET_BMCFW_INFO UFS Partition Mapping */
+static const int ufs_partition_map[7] = {
+	1,  /* 0 -> BOOT0 */
+	2,  /* 1 -> BOOT1 */
+	3,  /* 2 -> LUN0 */
+	4,  /* 3 -> LUN1 */
+	5,  /* 4 -> LUN2 */
+	6,  /* 5 -> LUN3 */
+	0   /* 6 -> UDA */
+};
+
 #define BOOT_CTRL_REG_ADDR		0x0013018018
 #define SPL_BOOT_STAT_REG_ADDR		0x001301801C
 #define UBOOT_PROP_BOOT_STAT_REG_ADDR	0x0013018020
