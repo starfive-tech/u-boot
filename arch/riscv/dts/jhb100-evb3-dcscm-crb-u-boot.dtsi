@@ -50,3 +50,6 @@
 		};
 	};
 };
+
+/delete-node/ &npu_reserved_cache;
+/delete-node/ &npu_reserved_uncache;

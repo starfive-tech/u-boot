@@ -135,3 +135,6 @@
 &sgmii_phy1 {
 	bootph-pre-ram;
 };
+
+/delete-node/ &npu_reserved_cache;
+/delete-node/ &npu_reserved_uncache;
