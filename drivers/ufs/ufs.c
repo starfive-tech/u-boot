@@ -2065,6 +2065,7 @@ int ufs_create_lu(struct udevice *ufs_dev, u8 lun, u32 size, u32 attr)
 
 	put_unaligned_be32(size, &desc_buf[unit_idx_off + 4]); //LUN size in 4MB units
 	desc_buf[unit_idx_off] = 1; //Enable LUN
+	desc_buf[unit_idx_off + 3] = 0; //Normal Memory Type
 
 	ret = ufshcd_write_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc);
 	if (ret) {
