@@ -425,6 +425,16 @@ static int mmc_read_blocks(struct mmc *mmc, void *dst, lbaint_t start,
 	struct mmc_cmd cmd;
 	struct mmc_data data;
 
+#if CONFIG_IS_ENABLED(MMC_PREDEFINED_MULTI_READ)
+	if (blkcnt > 1) {
+		cmd.cmdidx = MMC_CMD_SET_BLOCK_COUNT;
+		cmd.cmdarg = blkcnt & 0x0000FFFF;
+		cmd.resp_type = MMC_RSP_R1;
+		if (mmc_send_cmd(mmc, &cmd, NULL))
+			return 0;
+	}
+#endif
+
 	if (blkcnt > 1)
 		cmd.cmdidx = MMC_CMD_READ_MULTIPLE_BLOCK;
 	else
@@ -442,9 +452,19 @@ static int mmc_read_blocks(struct mmc *mmc, void *dst, lbaint_t start,
 	data.blocksize = mmc->read_bl_len;
 	data.flags = MMC_DATA_READ;
 
-	if (mmc_send_cmd(mmc, &cmd, &data))
+	if (mmc_send_cmd(mmc, &cmd, &data)) {
+#if CONFIG_IS_ENABLED(MMC_PREDEFINED_MULTI_READ)
+		/* For pre-defined multiple block reads (CMD23), a STOP command (CMD12)
+		 * is only required if CMD18 terminates with an error. In that case,
+		 * the host must issue CMD12 to return the device to the Transfer State.
+		 */
+		if (blkcnt > 1 && mmc_send_stop_transmission(mmc, false))
+			return 0;
+#endif
 		return 0;
+	}
 
+#if !CONFIG_IS_ENABLED(MMC_PREDEFINED_MULTI_READ)
 	if (blkcnt > 1) {
 		if (mmc_send_stop_transmission(mmc, false)) {
 #if !defined(CONFIG_SPL_BUILD) || defined(CONFIG_SPL_LIBCOMMON_SUPPORT)
@@ -453,6 +473,7 @@ static int mmc_read_blocks(struct mmc *mmc, void *dst, lbaint_t start,
 			return 0;
 		}
 	}
+#endif
 
 	return blkcnt;
 }

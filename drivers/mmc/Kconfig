@@ -153,6 +153,16 @@ config SPL_MMC_IO_VOLTAGE
 	  support. For eMMC this not mandatory, but not enabling this option may
 	  prevent the driver of using the faster modes.
 
+config MMC_PREDEFINED_MULTI_READ
+	bool "Use CMD23 for pre-defined multi-block read"
+	help
+	  Enable the use of SET_BLOCK_COUNT (CMD23) before READ_MULTIPLE_BLOCK
+	  (CMD18) to perform pre-defined multi-block read operations.
+	  When enabled, the MMC driver issues CMD23 with the requested block
+	  count before CMD18. This allows the device to automatically terminate
+	  the read after the specified number of blocks without needing a STOP
+	  TRANSMISSION (CMD12), unless an error occurs.
+
 config MMC_UHS_SUPPORT
 	bool "enable UHS support"
 	depends on MMC_IO_VOLTAGE
