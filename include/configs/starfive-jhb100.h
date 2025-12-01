@@ -121,7 +121,8 @@
 		"ext4load mmc 0:0 ${ramdisk_addr_r} /boot/${ramdiskfile};"	\
 		"ext4load mmc 0:0 ${fdt_addr_r} /boot/${fdtfile};\0"	\
 	"loademmcfitimgext4=ext4load mmc 0:0 ${loadaddr} ${fitbootfile}\0"	\
-	"loadufsfitimgext4=ext4load scsi 0:0 ${loadaddr} ${fitbootfile}\0"	\
+	"loadufsactfitimgext4=ext4load scsi ${ufs_kernel_act_part_num}:0 ${loadaddr} ${fitbootfile}\0"	\
+	"loadufsgolfitimgext4=ext4load scsi ${ufs_kernel_gol_part_num}:0 ${loadaddr} ${fitbootfile}\0"	\
 	"loadimagefat=fatload mmc ${mmcdev}:${mmcpart} ${kernel_addr_r} /${bootfile}\0"	\
 	"loadfdtfat=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} /${fdtfile}\0"	\
 	"loadramdiskfat=fatload mmc ${mmcdev}:${mmcpart} ${ramdisk_addr_r} /${ramdiskfile}\0"	\
@@ -470,7 +471,7 @@
 					"echo Trying to load UFS Active image ...; "	\
 					"scsi scan;"	\
 					"scsi device ${ufs_kernel_act_part_num}; "	\
-					"if run loadufsfitimgext4; then "	\
+					"if run loadufsactfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 0;"	\
 						"echo Boot OS ...; "	\
@@ -491,7 +492,7 @@
 					"echo Trying to load UFS Golden image ...; "	\
 					"scsi scan;"	\
 					"scsi device ${ufs_kernel_gol_part_num}; "	\
-					"if run loadufsfitimgext4; then "	\
+					"if run loadufsgolfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 1;"	\
 						"echo Boot OS ...; "	\
