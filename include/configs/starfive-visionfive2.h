@@ -329,7 +329,7 @@
 		    "if test ${emmc_size} = 0; then "	\
 		        "setenv bootenv uEnv_Lite.txt;"    \
 		    "else "				   \
-		        "setenv bootenv uEnv_Lite_emmc.txt;" \	
+		        "setenv bootenv uEnv_Lite_emmc.txt;" \
 		     "fi; "				    \
 		"fi;" \
 		"run load_distro_uenv; " \
