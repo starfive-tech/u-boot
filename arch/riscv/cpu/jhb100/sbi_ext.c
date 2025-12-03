@@ -18,3 +18,23 @@ int sbi_set_sfc_addr_mode(unsigned long sfc_num, unsigned long value)
 
 	return 0;
 }
+
+int sbi_set_iopmp_host_readonly_memrange(unsigned long addr, unsigned long size)
+{
+	struct sbiret sbi_ret;
+
+	sbi_ret = sbi_ecall(sbi_get_vendor_extid(),
+			    SBI_EXT_STARFIVE_JHB100_IOPMP_HOST_READONLY_MEMRANGE,
+			    addr, size, 0, 0, 0, 0);
+	if (sbi_ret.error)
+		return sbi_ret.error;
+
+	return 0;
+}
+
+void sbi_set_iopmp_lock(void)
+{
+	sbi_ecall(sbi_get_vendor_extid(),
+		  SBI_EXT_STARFIVE_JHB100_IOPMP_LOCK,
+		  0, 0, 0, 0, 0, 0);
+}

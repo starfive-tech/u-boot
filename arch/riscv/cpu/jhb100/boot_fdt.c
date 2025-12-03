@@ -20,8 +20,10 @@
   */
 
 #include <dm/ofnode.h>
+#include <asm/arch/sbi.h>
 #include <asm/arch/rpmi-mpxy-sec.h>
 #include <asm/rpmi.h>
+#include <linux/kernel.h>
 
 #define DRAM_AP_BASE_ADDR	0x40000000
 #define DRAM_512_MB_SIZE	0x20000000
@@ -32,6 +34,24 @@
 		printf("Error: Invalid request_id\n"); \
 		return -EINVAL; \
 	}
+
+#ifndef CONFIG_SPL_BUILD
+#define MAX_MMBI	4
+
+struct mmbi_info {
+	const char *compatible;
+	u32 id;
+	fdt_addr_t addr;
+	fdt_size_t size;
+};
+
+static struct mmbi_info mmbi_list[MAX_MMBI] = {
+	{.compatible = "starfive,jhb100-mmbi-espi", .id = 0},
+	{.compatible = "starfive,jhb100-mmbi-espi", .id = 1},
+	{.compatible = "starfive,jhb100-mmbi-pcie", .id = 0},
+	{.compatible = "starfive,jhb100-mmbi-pcie", .id = 1},
+};
+#endif
 
 int jhb100_fdt_fixup(void *blob)
 {
@@ -123,5 +143,106 @@ int jhb100_scp_buffer_parser(void *blob)
 	}
 
 	return resp_data[0];
+}
+#endif
+
+#ifndef CONFIG_SPL_BUILD
+static int fdt_find_node_by_compat_and_id(const void *fdt,
+					  const char *compat,
+					  const char *id_prop,
+					  int target_id,
+					  int *out_node,
+					  u32 *instance_num,
+					  u32 *instance_size,
+					  u32 *src_addr_offset)
+{
+	int node = -1;
+
+	if (!fdt || !compat || !id_prop)
+		return -EINVAL;
+
+	while ((node = fdt_node_offset_by_compatible(fdt, node, compat)) >= 0) {
+		int len;
+		const u8 *id = fdt_getprop(fdt, node, id_prop, &len);
+
+		if (!id || len < 1)
+			continue;
+
+		if (id[0] != target_id)
+			continue;
+
+		if (out_node)
+			*out_node = node;
+
+		if (instance_num)
+			*instance_num =
+				fdtdec_get_uint(fdt, node, "mmbi-instance-num", 0);
+
+		if (instance_size)
+			*instance_size =
+				fdtdec_get_uint(fdt, node, "mmbi-instance-size", 0);
+
+		if (src_addr_offset)
+			*src_addr_offset =
+				fdtdec_get_uint(fdt, node, "mmbi-src-addr-offset", 0);
+
+		return 0;
+	}
+
+	return -ENODEV;
+}
+
+static int parse_mmbi_list(void *fdt)
+{
+	int ret = 0;
+
+	for (int i = 0; i < MAX_MMBI; i++) {
+		int node;
+		u32 instance_num = 0, instance_size = 0, src_addr_offset = 0;
+
+		ret = fdt_find_node_by_compat_and_id(fdt,
+						     mmbi_list[i].compatible,
+						     "mmbi-id",
+						     mmbi_list[i].id,
+						     &node,
+						     &instance_num,
+						     &instance_size,
+						     &src_addr_offset);
+		if (ret)
+			goto fail_return;
+
+		int mem_node = fdtdec_lookup_phandle(fdt, node, "memory-region");
+
+		if (mem_node < 0) {
+			ret = mem_node;
+			goto fail_return;
+		}
+
+		fdt_addr_t addr;
+		fdt_size_t unused;
+
+		addr = fdtdec_get_addr_size_auto_parent(fdt, 0, mem_node, "reg", 0, &unused, false);
+
+		/* Compute addr range = addr + src_addr_offset */
+		mmbi_list[i].addr = addr + src_addr_offset;
+
+		/* Compute size = instance_num * instance_size / 2 */
+		mmbi_list[i].size =
+			((fdt_size_t)instance_num * instance_size) / 2;
+	}
+
+fail_return:
+	return ret;
+}
+
+void jhb100_set_mmbi_iopmp_memrange(void *blob)
+{
+	if (parse_mmbi_list(blob))
+		return;
+
+	for (int i = 0; i < MAX_MMBI; i++)
+		sbi_set_iopmp_host_readonly_memrange(mmbi_list[i].addr, mmbi_list[i].size);
+
+	sbi_set_iopmp_lock();
 }
 #endif

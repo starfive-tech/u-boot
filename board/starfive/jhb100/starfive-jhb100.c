@@ -434,6 +434,7 @@ int ft_board_setup(void *blob, struct bd_info *bd)
 	jhb100_fdt_fixup(blob);
 #endif
 	check_fdtmodify(blob);
+	jhb100_set_mmbi_iopmp_memrange(blob);
 
 	return 0;
 }

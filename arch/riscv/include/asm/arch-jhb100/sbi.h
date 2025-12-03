@@ -11,10 +11,14 @@ enum sbi_ext_starfive_jhb100_fid {
 	SBI_EXT_STARFIVE_JHB100_SET_SFC_ADDR_MODE,
 	SBI_EXT_STARFIVE_JHB100_DOMAIN_RESET,
 	SBI_EXT_STARFIVE_JHB100_CLEAR_RST_STS,
+	SBI_EXT_STARFIVE_JHB100_IOPMP_HOST_READONLY_MEMRANGE,
+	SBI_EXT_STARFIVE_JHB100_IOPMP_LOCK,
 	/* Need sync with OPENSBI */
 	SBI_EXT_STARFIVE_JHB100_FID_MAX,
 };
 
 int sbi_set_sfc_addr_mode(unsigned long sfc_num, unsigned long value);
+int sbi_set_iopmp_host_readonly_memrange(unsigned long addr, unsigned long size);
+void sbi_set_iopmp_lock(void);
 
 #endif
