@@ -145,11 +145,6 @@
 			linux,cma-default;
 		};
 	};
-
-	fan3: pwm-fan3 {
-		compatible = "pwm-fan";
-		pwms = <&pwm 3 40000 0>;
-	};
 };
 
 &dc0_clk {
@@ -224,12 +219,6 @@
 };
 
 &pvt_vce {
-	status = "okay";
-};
-
-&pwm {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pwm_ch3_pins>;
 	status = "okay";
 };
 

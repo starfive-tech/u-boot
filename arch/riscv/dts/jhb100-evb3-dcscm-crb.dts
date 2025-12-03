@@ -128,7 +128,7 @@
 		"NC", "NC", "NC", "NC",					/* GPIOD31-34 */
 		"NC", "NC", "RESET_BUTTON", "RESET_OUT",		/* GPIOD35-38 */
 		"POWER_BUTTON", "FM_BMC_PWRBTN_OUT_R_N", "NC", "NC",	/* GPIOD39-42 */
-		"NC", "PWM0_CH3", "NC", "NC",				/* GPIOD43-46 */
+		"NC", "NC", "NC", "NC",				/* GPIOD43-46 */
 		"NC", "NC";						/* GPIOD47-48 */
 };
 

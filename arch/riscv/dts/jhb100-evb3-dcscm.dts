@@ -99,7 +99,7 @@
 		"NC", "NC", "NC", "NC",			/* GPIOD31-34 */
 		"NC", "NC", "NC", "NC",			/* GPIOD35-38 */
 		"NC", "NC", "NC", "NC",			/* GPIOD39-42 */
-		"NC", "PWM0_CH3", "NC", "NC",		/* GPIOD43-46 */
+		"NC", "NC", "NC", "NC",		/* GPIOD43-46 */
 		"NC", "NC";				/* GPIOD47-48 */
 };
 
