@@ -669,7 +669,7 @@
 					clocks = <&husbd0crg JHB100_HUSBD0CLK_USB3_DEV0_BUSCLK>,
 						<&husbd0crg JHB100_HUSBD0CLK_USB3_DEV0_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -692,7 +692,7 @@
 					clocks = <&husbd0crg JHB100_HUSBD0CLK_USB3_DEV1_BUSCLK>,
 						<&husbd0crg JHB100_HUSBD0CLK_USB3_DEV1_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -715,7 +715,7 @@
 						<&husbd0crg JHB100_HUSBD0CLK_USB3_DEV2_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					interrupts = <247>;
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -737,7 +737,7 @@
 					clocks = <&husbd0crg JHB100_HUSBD0CLK_USB3_DEV3_BUSCLK>,
 						<&husbd0crg JHB100_HUSBD0CLK_USB3_DEV3_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					interrupts = <248>;
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
@@ -760,7 +760,7 @@
 					clocks = <&husbd0crg JHB100_HUSBD0CLK_USB3_DEV4_BUSCLK>,
 						<&husbd0crg JHB100_HUSBD0CLK_USB3_DEV4_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					interrupts = <249>;
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
@@ -784,7 +784,7 @@
 						<&husbd0crg JHB100_HUSBD0CLK_USB3_DEV5_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					interrupts = <250>;
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -858,6 +858,8 @@
 					clock-names = "bus_early", "ref", "suspend";
 					interrupts = <252>;
 					dr_mode = "host";
+					snps,incr-burst-type-adjustment = <1>, <32>;
+					snps,axi-burst-req-limit = <7>;
 					snps,dis_rxdet_inp3_quirk;
 				};
 			};
@@ -1168,7 +1170,7 @@
 						<&husbd1crg JHB100_HUSBD1CLK_USB3_DEV0_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					interrupts = <255>;
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -1191,7 +1193,7 @@
 						<&husbd1crg JHB100_HUSBD1CLK_USB3_DEV1_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					interrupts = <256>;
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -1214,7 +1216,7 @@
 						<&husbd1crg JHB100_HUSBD1CLK_USB3_DEV2_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					interrupts = <257>;
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -1237,7 +1239,7 @@
 						<&husbd1crg JHB100_HUSBD1CLK_USB3_DEV3_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					interrupts = <258>;
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -1260,7 +1262,7 @@
 						<&husbd1crg JHB100_HUSBD1CLK_USB3_DEV4_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					interrupts = <259>;
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -1283,7 +1285,7 @@
 						<&husbd1crg JHB100_HUSBD1CLK_USB3_DEV5_SUSPENDCLK>;
 					clock-names = "bus_early", "suspend";
 					interrupts = <260>;
-					maximum-speed = "super-speed";
+					maximum-speed = "high-speed";
 					snps,usb2-gadget-lpm-disable;
 					dr_mode = "peripheral";
 				};
@@ -1357,6 +1359,8 @@
 					clock-names = "bus_early", "ref", "suspend";
 					interrupts = <262>;
 					dr_mode = "host";
+					snps,incr-burst-type-adjustment = <1>, <32>;
+					snps,axi-burst-req-limit = <7>;
 					snps,dis_rxdet_inp3_quirk;
 				};
 			};
