@@ -11,7 +11,7 @@
 #include <env.h>
 #include <env_internal.h>
 
-#define UFS_GPP_1ST_LUN		4
+#define UFS_GPP_1ST_LUN		3
 #define UFS_GPP_LAST_8MB	0x800000
 
 static int do_starfive_get_ufs_gpp_size(struct cmd_tbl *cmdtp, int flag, int argc,
@@ -27,7 +27,7 @@ static int do_starfive_get_ufs_gpp_size(struct cmd_tbl *cmdtp, int flag, int arg
 		ulong bsz, mbsz, blksize;
 		lbaint_t lba;
 
-		lba = desc->lba;
+		lba = desc->lba + 1;
 		blksize = desc->blksz;
 		bsz = (lba * blksize);
 		mbsz = bsz / (1024 * 1024);
