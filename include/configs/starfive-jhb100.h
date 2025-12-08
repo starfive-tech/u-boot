@@ -469,7 +469,6 @@
 				"echo Authenticating UFS Active image ...; "	\
 				"if authbimgstorage 3; then "	\
 					"echo Trying to load UFS Active image ...; "	\
-					"scsi scan;"	\
 					"scsi device ${ufs_kernel_act_part_num}; "	\
 					"if run loadufsactfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
@@ -490,7 +489,6 @@
 				"echo Authenticating UFS Golden image ...; "	\
 				"if authbimgstorage 4; then "	\
 					"echo Trying to load UFS Golden image ...; "	\
-					"scsi scan;"	\
 					"scsi device ${ufs_kernel_gol_part_num}; "	\
 					"if run loadufsgolfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
