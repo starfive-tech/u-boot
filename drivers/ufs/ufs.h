@@ -577,27 +577,48 @@ enum ufs_geometry_desc_offsets {
 };
 
 /* Unit descriptor parameters offsets in bytes*/
+enum unit_desc_param {
+	UNIT_DESC_LENGTH			= 0x00,
+	UNIT_DESC_DESCRIPTOR_IDN		= 0x01,
+	UNIT_DESC_UNIT_INDEX			= 0x02,
+	UNIT_DESC_LU_ENABLE			= 0x03,
+	UNIT_DESC_BOOT_LUN_ID			= 0x04,
+	UNIT_DESC_LU_WRITE_PROTECT		= 0x05,
+	UNIT_DESC_LU_QUEUE_DEPTH		= 0x06,
+	UNIT_DESC_PSA_SENSITIVE			= 0x07,
+	UNIT_DESC_MEMORY_TYPE			= 0x08,
+	UNIT_DESC_DATA_RELIABILITY		= 0x09,
+	UNIT_DESC_LOGICAL_BLOCK_SIZE		= 0x0A,
+	UNIT_DESC_LOGICAL_BLOCK_COUNT		= 0x0B,
+	UNIT_DESC_ERASE_BLOCK_SIZE		= 0x13,
+	UNIT_DESC_PROVISIONING_TYPE		= 0x17,
+	UNIT_DESC_PHY_MEM_RESOURCE_COUNT	= 0x18,
+	UNIT_DESC_CONTEXT_CAPABILITIES		= 0x20,
+	UNIT_DESC_LARGE_UNIT_GRAN_M1		= 0x22,
+};
+
+/* RPMB unit descriptor parameters offsets in bytes*/
 enum rpmb_unit_desc_param {
-	RPMB_DESC_LENGTH				= 0x00,
+	RPMB_DESC_LENGTH			= 0x00,
 	RPMB_DESC_DESCRIPTOR_IDN		= 0x01,
 	RPMB_DESC_UNIT_INDEX			= 0x02,
-	RPMB_DESC_LU_ENABLE				= 0x03,
+	RPMB_DESC_LU_ENABLE			= 0x03,
 	RPMB_DESC_BOOT_LUN_ID			= 0x04,
 	RPMB_DESC_LU_WRITE_PROTECT		= 0x05,
 	RPMB_DESC_LU_QUEUE_DEPTH		= 0x06,
 	RPMB_DESC_PSA_SENSITIVE			= 0x07,
 	RPMB_DESC_MEMORY_TYPE			= 0x08,
 	RPMB_DESC_REGION_ENABLE			= 0x09,
-	RPMB_DESC_LOGICAL_BLOCK_SIZE	= 0x0A,
-	RPMB_DESC_LOGICAL_BLOCK_COUNT	= 0x0B,
+	RPMB_DESC_LOGICAL_BLOCK_SIZE		= 0x0A,
+	RPMB_DESC_LOGICAL_BLOCK_COUNT		= 0x0B,
 	RPMB_DESC_REGION0_SIZE			= 0x13,
 	RPMB_DESC_REGION1_SIZE			= 0x14,
 	RPMB_DESC_REGION2_SIZE			= 0x15,
 	RPMB_DESC_REGION3_SIZE			= 0x16,
 	RPMB_DESC_PROVISIONING_TYPE		= 0x17,
 	RPMB_DESC_PHY_MEM_RESOURCE		= 0x18,
-	RPMB_DESC_CONTEXT_CAPABILITIES	= 0x20,
-	RPMB_DESC_LARGE_UNIT_GRAN_M1	= 0x22
+	RPMB_DESC_CONTEXT_CAPABILITIES		= 0x20,
+	RPMB_DESC_LARGE_UNIT_GRAN_M1		= 0x22
 };
 
 struct ufs_hba;
@@ -837,6 +858,80 @@ struct ufs_hba {
 	struct ufs_pwr_mode_info max_pwr_info;
 
 	struct ufs_dev_cmd dev_cmd;
+
+	/* RPMB */
+	u8 rpmb_region_en;
+	u8 rpmb_region_0_size;
+	u8 rpmb_region_1_size;
+	u8 rpmb_region_2_size;
+	u8 rpmb_region_3_size;
+
+};
+
+#define UFS_RPMB_PREPARE_SECURITY_OUT(_pccb, _region, _frame) \
+	do { \
+		memset((_pccb), 0, sizeof(*(_pccb))); \
+		(_pccb)->cmd[0] = SCSI_SECURITY_PROTOCOL_OUT; \
+		(_pccb)->cmd[1] = UFS_JEDEC_SEC_PROTOCOL_ID; \
+		(_pccb)->cmd[2] = (_region); \
+		(_pccb)->cmd[3] = 1; \
+		(_pccb)->cmdlen = 12; \
+		(_pccb)->lun = UFS_RPMB_LUN_ID; \
+		(_pccb)->pdata = (uint8_t *)(_frame); \
+		(_pccb)->datalen = sizeof(struct ufs_rpmb_frame); \
+		(_pccb)->dma_dir = DMA_TO_DEVICE; \
+	} while (0)
+
+#define UFS_RPMB_PREPARE_SECURITY_IN(_pccb, _region, _frame) \
+	do { \
+		memset((_pccb), 0, sizeof(*(_pccb))); \
+		(_pccb)->cmd[0] = SCSI_SECURITY_PROTOCOL_IN; \
+		(_pccb)->cmd[1] = UFS_JEDEC_SEC_PROTOCOL_ID; \
+		(_pccb)->cmd[2] = (_region); \
+		(_pccb)->cmd[3] = 1; \
+		(_pccb)->cmd[8] = 2; \
+		(_pccb)->cmdlen = 12; \
+		(_pccb)->lun = UFS_RPMB_LUN_ID; \
+		(_pccb)->pdata = (uint8_t *)(_frame); \
+		(_pccb)->datalen = sizeof(struct ufs_rpmb_frame); \
+		(_pccb)->dma_dir = DMA_FROM_DEVICE; \
+	} while (0)
+
+/* RPMB Operation Result Response */
+enum ufs_rpmb_operaton_result {
+	RPMB_OP_OKAY,
+	RPMB_GENERAL_FAILURE,
+	RPMB_AUTH_FAILURE,
+	RPMB_COUNTER_FAILURE,
+	RPMB_ADDRESS_FAILURE,
+	RPMB_WRITE_FAILURE,
+	RPMB_READ_FAILURE,
+	RPMB_AUTH_KEY_NOT_PROG,
+	RPMB_SEC_WP_ACCESS_FAILURE,
+	RPMB_INVALID_SEC_WP_BLK_CFG_PARAM,
+	RPMB_SEC_WP_NOT_SUPPORTED
+};
+
+enum ufs_rpmb_request_msg_types {
+	RPMB_REQ_TYPE_PROGRAM_KEY = 0x01,
+	RPMB_REQ_TYPE_GET_WRITE_COUNTER,
+	RPMB_REQ_TYPE_WRITE_DATA,
+	RPMB_REQ_TYPE_READ_DATA,
+	RPMB_REQ_TYPE_RESULT_READ,
+	RPMB_REQ_TYPE_SEC_WP_BLK_CFG_WRITE,
+	RPMB_REQ_TYPE_SEC_WP_BLK_CFG_READ
+};
+
+struct ufs_rpmb_frame {
+	u8 stuff[196];
+	u8 mac_key[32];
+	u8 data[256];
+	u8 nonce[16];
+	u32 write_counter;
+	u16 address;
+	u16 block_count;
+	u16 result;
+	u16 request_response;
 };
 
 static inline int ufshcd_ops_init(struct ufs_hba *hba)

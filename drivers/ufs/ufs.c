@@ -27,6 +27,7 @@
 #include <linux/bitops.h>
 #include <linux/delay.h>
 #include <linux/dma-mapping.h>
+#include <u-boot/sha256.h>
 
 #include "ufs.h"
 
@@ -63,6 +64,15 @@
 #define UFS_MAX_BYTES	(128 * 256 * 1024)
 
 #define UFS_BOOT_LUN_ID_MASK 0x3
+
+#define SHA256_BLOCK_SIZE	64
+#define UFS_RPMB_SZ_MAC		32
+#define UFS_RPMB_BLK_SIZE	256
+#define UFS_RPMB_LUN_ID		0xC4
+#define UFS_RPMB_HMAC_DATA_LEN  284
+#define UFS_JEDEC_SEC_PROTOCOL_ID 0xEC
+#define UFS_RPMB_MAX_BLK_CNT 	128
+#define UFS_RPMB_MIN_BLK_SZ_KB  128
 
 static inline bool ufshcd_is_hba_active(struct ufs_hba *hba);
 static inline void ufshcd_hba_stop(struct ufs_hba *hba);
@@ -1625,6 +1635,225 @@ static int ufshcd_read_unit_desc(struct ufs_hba *hba, u8 *buf, u32 size, u8 lun)
 	return ufshcd_read_desc(hba, QUERY_DESC_IDN_UNIT, lun, buf, size);
 }
 
+static int ufs_rpmb_read_counter(struct udevice *scsi_dev, u8 region,
+				 struct ufs_rpmb_frame *rpmb_frame, u32 *counter)
+{
+	int ret = 0;
+	struct scsi_cmd *pccb;
+
+	pccb = kmalloc(sizeof(*pccb), GFP_KERNEL);
+	if (!pccb)
+		return -ENOMEM;
+	memset((uint8_t *)pccb, 0, sizeof(*pccb));
+
+	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_GET_WRITE_COUNTER);
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	pccb->cmd[8] = 2;
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+	if (ret)
+		goto out;
+
+	UFS_RPMB_PREPARE_SECURITY_IN(pccb, region, rpmb_frame);
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+	if (ret)
+		goto out;
+
+	*counter = rpmb_frame->write_counter;
+out:
+	kfree(pccb);
+	return (ret) ? ret : cpu_to_be16(rpmb_frame->result);
+}
+
+static void ufs_rpmb_hmac(u8 *key, u8 *buff, int len, u8 *output)
+{
+	sha256_context ctx;
+	int i;
+	u8 k_ipad[SHA256_BLOCK_SIZE];
+	u8 k_opad[SHA256_BLOCK_SIZE];
+
+	sha256_starts(&ctx);
+
+	/* According to RFC 4634, the HMAC transform looks like:
+	   SHA(K XOR opad, SHA(K XOR ipad, text))
+
+	   where K is an n byte key.
+	   ipad is the byte 0x36 repeated blocksize times
+	   opad is the byte 0x5c repeated blocksize times
+	   and text is the data being protected.
+	*/
+
+	for (i = 0; i < UFS_RPMB_SZ_MAC; i++) {
+		k_ipad[i] = key[i] ^ 0x36;
+		k_opad[i] = key[i] ^ 0x5c;
+	}
+	/* remaining pad bytes are '\0' XOR'd with ipad and opad values */
+	for ( ; i < SHA256_BLOCK_SIZE; i++) {
+		k_ipad[i] = 0x36;
+		k_opad[i] = 0x5c;
+	}
+	sha256_update(&ctx, k_ipad, SHA256_BLOCK_SIZE);
+	sha256_update(&ctx, buff, len);
+	sha256_finish(&ctx, output);
+
+	/* Init context for second pass */
+	sha256_starts(&ctx);
+
+	/* start with outer pad */
+	sha256_update(&ctx, k_opad, SHA256_BLOCK_SIZE);
+
+	/* then results of 1st hash */
+	sha256_update(&ctx, output, UFS_RPMB_SZ_MAC);
+
+	/* finish up 2nd pass */
+	sha256_finish(&ctx, output);
+}
+
+static int ufs_rpmb_blk_read(struct udevice *scsi_dev, u8 region,
+			     struct ufs_rpmb_frame *rpmb_frame,
+			     u16 lba, u16 blkcnt)
+{
+	int ret = 0;
+	struct scsi_cmd *pccb;
+
+	pccb = kmalloc(sizeof(*pccb), GFP_KERNEL);
+	if (!pccb)
+		return -ENOMEM;
+	memset((uint8_t *)pccb, 0, sizeof(*pccb));
+
+	rpmb_frame->address = cpu_to_be16(lba);
+	rpmb_frame->block_count = cpu_to_be16(blkcnt);
+	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_READ_DATA);
+	rpmb_frame->write_counter = 0;
+	memset(rpmb_frame->mac_key, 0, 32);
+
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	pccb->cmd[6] = (uint8_t)(((blkcnt * 512) >> 24) & 0xFF);
+	pccb->cmd[7] = (uint8_t)(((blkcnt * 512) >> 16) & 0xFF);
+	pccb->cmd[8] = (uint8_t)(((blkcnt * 512) >> 8) & 0xFF);
+	pccb->cmd[9] = (uint8_t)((blkcnt * 512)  & 0xff);
+	pccb->datalen = 512 * blkcnt;
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+	if (ret)
+		goto out;
+
+	UFS_RPMB_PREPARE_SECURITY_IN(pccb, region, rpmb_frame);
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+out:
+	kfree(pccb);
+	return ret;
+}
+
+static int ufs_rpmb_blk_write(struct udevice *scsi_dev, u8 region,
+			      struct ufs_rpmb_frame *rpmb_frame,
+			      u16 lba, u16 blkcnt, u8 *key_addr)
+{
+	int ret = 0;
+	struct scsi_cmd *pccb;
+
+	pccb = kmalloc(sizeof(*pccb), GFP_KERNEL);
+	if (!pccb)
+		return -ENOMEM;
+	memset((uint8_t *)pccb, 0, sizeof(*pccb));
+
+	rpmb_frame->address = cpu_to_be16(lba);
+	rpmb_frame->block_count = cpu_to_be16(blkcnt);
+	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_WRITE_DATA);
+
+	/* HMAC-SHA256 */
+	ufs_rpmb_hmac(key_addr, rpmb_frame->data, UFS_RPMB_HMAC_DATA_LEN, rpmb_frame->mac_key);
+
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	pccb->cmd[6] = (uint8_t)(((blkcnt * 512) >> 24) & 0xFF);
+	pccb->cmd[7] = (uint8_t)(((blkcnt * 512) >> 16) & 0xFF);
+	pccb->cmd[8] = (uint8_t)(((blkcnt * 512) >> 8) & 0xFF);
+	pccb->cmd[9] = (uint8_t)((blkcnt * 512)  & 0xff);
+	pccb->datalen = 512 * blkcnt;
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+	if (ret)
+		goto out;
+
+	memset((uint8_t *)rpmb_frame, 0, sizeof(*rpmb_frame));
+	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_RESULT_READ);
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+	if (ret)
+		goto out;
+
+	UFS_RPMB_PREPARE_SECURITY_IN(pccb, region, rpmb_frame);
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+out:
+	kfree(pccb);
+	return ret;
+}
+
+static int ufs_rpmb_verify_size(struct udevice *ufs_dev, u8 region, u32 lba, u32 blkcnt)
+{
+	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+	u32 max_blk;
+	u32 region_size[4] = {
+		hba->rpmb_region_0_size,
+		hba->rpmb_region_1_size,
+		hba->rpmb_region_2_size,
+		hba->rpmb_region_3_size
+	};
+
+	max_blk = region_size[region]*512;
+	if ((max_blk - lba) < blkcnt) {
+		printf("Requested read/write area overbound\n");
+		return -EPERM;
+	}
+
+	return 0;
+}
+
+
+static int ufs_rpmb_key_validation(struct udevice *scsi_dev, u8 region,
+			struct ufs_rpmb_frame *rpmb_frame)
+{
+	int ret = 0;
+	struct scsi_cmd *pccb;
+
+	pccb = kmalloc(sizeof(*pccb), GFP_KERNEL);
+	if (!pccb)
+		return -ENOMEM;
+	memset((uint8_t *)pccb, 0, sizeof(*pccb));
+
+	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_RESULT_READ);
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	pccb->cmd[8] = 2;
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+	if (ret)
+		goto out;
+
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+out:
+	kfree(pccb);
+	return (ret) ? ret : cpu_to_be16(rpmb_frame->result);
+}
+
+static int ufs_rpmb_key_program_request(struct udevice *scsi_dev, u8 region,
+			struct ufs_rpmb_frame *rpmb_frame,
+			u8 *key_addr)
+{
+	int ret = 0;
+	struct scsi_cmd *pccb;
+
+	pccb = kmalloc(sizeof(*pccb), GFP_KERNEL);
+	if (!pccb)
+		return -ENOMEM;
+	memset((uint8_t *)pccb, 0, sizeof(*pccb));
+	memset(rpmb_frame, 0, 512);
+	memcpy(rpmb_frame->mac_key, key_addr, 32);
+
+	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_PROGRAM_KEY);
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	pccb->cmd[8] = 2;
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+
+	kfree(pccb);
+	return ret;
+}
+
 /**
  * ufshcd_read_string_desc - read string descriptor
  *
@@ -1767,6 +1996,35 @@ static int ufs_get_geometry_desc(struct ufs_hba *hba)
 	}
 
 	hba->max_num_lus = desc_buf[UFS_GEOMETRY_MAX_NUMBER_LU] ? 32 : 8;
+out:
+	kfree(desc_buf);
+	return err;
+}
+
+static int ufs_get_rpmb_unit_desc(struct ufs_hba *hba)
+{
+	int err;
+	size_t buff_len;
+	u8 *desc_buf;
+
+	buff_len = max_t(size_t, hba->desc_size.unit_desc,
+			 QUERY_DESC_MAX_SIZE + 1);
+	desc_buf = kmalloc(buff_len, GFP_KERNEL);
+	if (!desc_buf)
+		return -ENOMEM;
+
+	err = ufshcd_read_unit_desc(hba, desc_buf, hba->desc_size.unit_desc, UFS_RPMB_LUN_ID);
+	if (err) {
+		dev_err(hba->dev, "%s: Failed reading Gemoetry Desc. err = %d\n",
+			__func__, err);
+		goto out;
+	}
+
+	hba->rpmb_region_en = desc_buf[RPMB_DESC_REGION_ENABLE] | 1;
+	hba->rpmb_region_0_size = desc_buf[RPMB_DESC_REGION0_SIZE];
+	hba->rpmb_region_1_size = desc_buf[RPMB_DESC_REGION1_SIZE];
+	hba->rpmb_region_2_size = desc_buf[RPMB_DESC_REGION2_SIZE];
+	hba->rpmb_region_3_size = desc_buf[RPMB_DESC_REGION3_SIZE];
 out:
 	kfree(desc_buf);
 	return err;
@@ -2023,6 +2281,32 @@ void ufs_list_lus(struct udevice *ufs_dev)
 		}
 	}
 
+	/* RPMB LU */
+	ufshcd_read_unit_desc(hba, desc_buf, hba->desc_size.unit_desc, UFS_RPMB_LUN_ID);
+	if (desc_buf[RPMB_DESC_LU_ENABLE]) {
+		u8 RPMBRegionEn = desc_buf[RPMB_DESC_REGION_ENABLE];
+
+		unsigned int size_kb = desc_buf[RPMB_DESC_REGION0_SIZE] * UFS_RPMB_MIN_BLK_SZ_KB;
+		unsigned int size_mb_x100 = (size_kb * 100) / 1024;
+
+		printf("RPMB | %6u.%02u | Region 0\n",
+				size_mb_x100 / 100,
+				size_mb_x100 % 100);
+
+		for (idx = 1; idx < 4; idx++) {
+			if (RPMBRegionEn & (1 << idx)) {
+				size_kb = desc_buf[RPMB_DESC_REGION0_SIZE + idx] * UFS_RPMB_MIN_BLK_SZ_KB;
+				size_mb_x100 = (size_kb * 100) / 1024;
+
+				printf("RPMB | %6u.%02u | %s\n",
+					size_mb_x100 / 100,
+					size_mb_x100 % 100,
+					(idx == 1) ? "Region 1" :
+					(idx == 2) ? "Region 2" : "Region 3");
+			}
+		}
+	}
+
 	kfree(desc_buf);
 }
 
@@ -2082,59 +2366,6 @@ out:
 	return ret;
 }
 
-int ufs_update_lu(struct udevice *ufs_dev, u8 lun, u32 size, u32 attr)
-{
-	int ret;
-	size_t buff_len;
-	u8 unit_idx_off;
-	u8 *desc_buf;
-	u8 boot_lun_id;
-	unsigned int size_mb;
-	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
-
-	buff_len = max_t(size_t, hba->desc_size.conf_desc, QUERY_DESC_MAX_SIZE + 1);
-	desc_buf = kmalloc(buff_len, GFP_KERNEL);
-	if (!desc_buf)
-		return -ENOMEM;
-
-	ret = ufshcd_read_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc, 0);
-	if (ret)
-		goto out;
-
-	unit_idx_off = hba->unit_desc_cfg_off + (hba->unit_desc_cfg_len * lun);
-
-	if (lun >= hba->max_num_lus) {
-		printf("Maximum value for LUN is %x\n", hba->max_num_lus);
-		ret = -EPERM;
-		goto out;
-	}
-
-	if (desc_buf[unit_idx_off] == 0) {
-		printf("LUN %d not created. Use 'ufs create' instead.\n", lun);
-		ret = -EPERM;
-		goto out;
-	}
-
-	boot_lun_id = attr & UFS_BOOT_LUN_ID_MASK;
-	desc_buf[unit_idx_off + 1] = boot_lun_id ? boot_lun_id : 0;
-
-	put_unaligned_be32(size, &desc_buf[unit_idx_off + 4]); //LUN size in 4MB units
-
-	ret = ufshcd_write_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc);
-	if (ret) {
-		printf("Failed to write LU descriptor for LUN %d\n", lun);
-		goto out;
-	}
-
-	size_mb = (size * 4); //Size is in 4MB units
-	printf("LUN %d update successfully (%u MB) %s\n",
-				 lun, size_mb, (boot_lun_id) ? "(Boot LUN)" : "");
-
-out:
-	kfree(desc_buf);
-	return ret;
-}
-
 int ufs_remove_lu(struct udevice *ufs_dev, int lun)
 {
 	int ret;
@@ -2153,13 +2384,13 @@ int ufs_remove_lu(struct udevice *ufs_dev, int lun)
 		goto out;
 
 	if (lun >= hba->max_num_lus) {
-		printf("Maximum value for LUN is %x\n", hba->max_num_lus);
+		printf("Maximum value for LUN is %d\n", hba->max_num_lus);
 		ret = -EPERM;
 		goto out;
 	}
 
 	unit_idx_off = hba->unit_desc_cfg_off + (hba->unit_desc_cfg_len * lun);
-	desc_buf[unit_idx_off]   = 0; //Disable LUN
+	desc_buf[unit_idx_off]     = 0; //Disable LUN
 	desc_buf[unit_idx_off + 1] = 0; //Remove Boot LUN ID
 	desc_buf[unit_idx_off + 2] = 0; //Write Protect
 	desc_buf[unit_idx_off + 4] = 0; //Clear Allocate size
@@ -2175,6 +2406,286 @@ int ufs_remove_lu(struct udevice *ufs_dev, int lun)
 
 out:
 	kfree(desc_buf);
+	return ret;
+}
+
+int ufs_create_rpmb_lu(struct udevice *ufs_dev, u8 region, u32 size)
+{
+	int ret;
+	size_t buff_len;
+	u8 *desc_buf;
+	int remain_size;
+	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+
+	buff_len = max_t(size_t, hba->desc_size.conf_desc, QUERY_DESC_MAX_SIZE + 1);
+	desc_buf = kmalloc(buff_len, GFP_KERNEL);
+	if (!desc_buf)
+		return -ENOMEM;
+
+	ret = ufshcd_read_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc, 0);
+	if (ret)
+		goto out;
+
+	if (region > 3) {
+		printf("Maximum value for RPMB region is 3\n");
+		ret = -EPERM;
+		goto out;
+	}
+
+	/* RPMB Max size 16MB, 1 blk size 128kb. Max blk count 128 blks */
+	remain_size = UFS_RPMB_MAX_BLK_CNT - desc_buf[CONF_DESC_RPMB_REGION1_SIZE] +
+			  desc_buf[CONF_DESC_RPMB_REGION2_SIZE] +
+			  desc_buf[CONF_DESC_RPMB_REGION3_SIZE];
+
+	if (size > remain_size) {
+		printf("Requested size more than available size. \n");
+		printf("Total RPMB LU only 16MB\n");
+		ret = -EPERM;
+		goto out;
+	}
+
+	desc_buf[CONF_DESC_CONF_DESC_CONTINUE] = 0;
+	desc_buf[CONF_DESC_DESCR_ACCESS_EN] = 1;
+	desc_buf[CONF_DESC_RPMB_REGION_EN] |= 1 << region;
+	desc_buf[CONF_DESC_RPMB_REGION_EN + region] = size;
+
+	ret = ufshcd_write_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc);
+
+	printf("RPMB region %d created successfully (%u MB)\n",
+			region, (size * UFS_RPMB_MIN_BLK_SZ_KB) / 1024);
+
+	ufs_get_rpmb_unit_desc(hba);
+
+out:
+	kfree(desc_buf);
+	return ret;
+}
+
+int ufs_remove_rpmb_lu(struct udevice *ufs_dev, u8 region)
+{
+	int ret;
+	size_t buff_len;
+	u8 *desc_buf;
+	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+
+	buff_len = max_t(size_t, hba->desc_size.conf_desc, QUERY_DESC_MAX_SIZE + 1);
+	desc_buf = kmalloc(buff_len, GFP_KERNEL);
+	if (!desc_buf)
+		return -ENOMEM;
+
+	ret = ufshcd_read_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc, 0);
+	if (ret)
+		goto out;
+
+	if (region > 3) {
+		printf("Maximum value for RPMB region is 3\n");
+		ret = -EPERM;
+		goto out;
+	}
+
+	desc_buf[CONF_DESC_CONF_DESC_CONTINUE] = 0;
+	desc_buf[CONF_DESC_DESCR_ACCESS_EN] = 1;
+	desc_buf[CONF_DESC_RPMB_REGION_EN] &= ~(1 << region);
+	desc_buf[CONF_DESC_RPMB_REGION_EN + region] = 0;
+
+	ret = ufshcd_write_configuration_desc(hba, desc_buf, hba->desc_size.conf_desc);
+
+	ufs_get_rpmb_unit_desc(hba);
+	printf("RPMB region %d removed successfully\n", region);
+out:
+	kfree(desc_buf);
+	return ret;
+}
+
+
+int ufs_rpmb_read(struct udevice *ufs_dev, u8 region, void *addr, u32 lba,
+		u32 blkcnt, u8 *key_addr)
+{
+	int ret = 0;
+	struct udevice *scsi_dev;
+	struct ufs_rpmb_frame *frame_buffer;
+	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+
+	device_find_first_child(ufs_dev, &scsi_dev);
+	if (!scsi_dev)
+		return -ENODEV;
+
+	if (!(hba->rpmb_region_en & BIT(region))) {
+		printf("RPMB region %d is not enabled\n", region);
+		return -EPERM;
+	}
+
+	if (ufs_rpmb_verify_size(ufs_dev, region, lba, blkcnt))
+		return -EPERM;
+
+	frame_buffer = kmalloc(sizeof(*frame_buffer), GFP_KERNEL);
+	if (!frame_buffer)
+		return -ENOMEM;
+	memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
+
+	/* Check RPMB Key */
+	ret = ufs_rpmb_read_counter(scsi_dev, region, frame_buffer, &frame_buffer->write_counter);
+	if (ret == RPMB_AUTH_KEY_NOT_PROG) {
+		printf("Please perform RPMB key programming first\n");
+		ret = -EPERM;
+		goto out;
+	}
+
+	do {
+		memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
+		ret = ufs_rpmb_blk_read(scsi_dev, region, frame_buffer, lba, 1);
+	if (ret) {
+			ret = -EINVAL;
+			break;
+		}
+
+		/* Check the HMAC if key is provided */
+		if (key_addr) {
+			u8 ret_hmac[UFS_RPMB_SZ_MAC];
+
+			ufs_rpmb_hmac(key_addr, frame_buffer->data, UFS_RPMB_HMAC_DATA_LEN, ret_hmac);
+			if (memcmp(ret_hmac, frame_buffer->mac_key, UFS_RPMB_SZ_MAC)) {
+				printf("MAC error on block #%d\n", lba);
+				break;
+			}
+		}
+
+		memcpy(addr, frame_buffer->data, UFS_RPMB_BLK_SIZE);
+		addr += UFS_RPMB_BLK_SIZE;
+		lba++;
+		blkcnt--;
+	} while (blkcnt != 0);
+
+out:
+	kfree(frame_buffer);
+	return ret;
+}
+
+int ufs_rpmb_write(struct udevice *ufs_dev, u8 region, void *addr, u32 lba,
+		u32 blkcnt, u8 *key_addr)
+{
+	int ret = 0;
+	struct udevice *scsi_dev;
+	struct ufs_rpmb_frame *frame_buffer;
+	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+
+	device_find_first_child(ufs_dev, &scsi_dev);
+	if (!scsi_dev)
+		return -ENODEV;
+
+	if (!(hba->rpmb_region_en & BIT(region))) {
+		printf("RPMB region %d is not enabled\n", region);
+		return -EPERM;
+	}
+
+	if (ufs_rpmb_verify_size(ufs_dev, region, lba, blkcnt))
+		return -EPERM;
+
+	frame_buffer = kmalloc(sizeof(*frame_buffer), GFP_KERNEL);
+	if (!frame_buffer)
+		return -ENOMEM;
+	memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
+
+	/* Check RPMB Key */
+	ret = ufs_rpmb_read_counter(scsi_dev, region, frame_buffer, &frame_buffer->write_counter);
+	if (ret == RPMB_AUTH_KEY_NOT_PROG) {
+		printf("Please perform RPMB key programming first\n");
+		ret = -EPERM;
+		goto out;
+	}
+
+	do {
+		memcpy(frame_buffer->data, addr, UFS_RPMB_BLK_SIZE);
+		ret = ufs_rpmb_blk_write(scsi_dev, region, frame_buffer, lba, 1, key_addr);
+		if (ret) {
+			ret = -EINVAL;
+			break;
+		}
+
+		memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
+		ufs_rpmb_read_counter(scsi_dev, region, frame_buffer, &frame_buffer->write_counter);
+
+		addr += UFS_RPMB_BLK_SIZE;
+		lba++;
+		blkcnt--;
+	} while (blkcnt != 0);
+
+out:
+	kfree(frame_buffer);
+	return ret;
+}
+
+int ufs_write_rpmb_key(struct udevice *ufs_dev, u8 region, u8 *key_addr)
+{
+	int ret = 0;
+	struct udevice *scsi_dev;
+	struct ufs_rpmb_frame *frame_buffer;
+
+	if (region > 3) {
+		printf("Maximum value for RPMB region is 3\n");
+		return -EPERM;
+	}
+
+	device_find_first_child(ufs_dev, &scsi_dev);
+	if (!scsi_dev)
+		return -ENODEV;
+
+	frame_buffer = kmalloc(sizeof(*frame_buffer), GFP_KERNEL);
+	if (!frame_buffer)
+		return -ENOMEM;
+
+	memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
+	ret = ufs_rpmb_key_validation(scsi_dev, region, frame_buffer);
+	if (ret != RPMB_OP_OKAY && ret != RPMB_SEC_WP_ACCESS_FAILURE) {
+		if (ret == RPMB_AUTH_KEY_NOT_PROG) {
+			memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
+			ret = ufs_rpmb_key_program_request(scsi_dev, region, frame_buffer, key_addr);
+			if (ret) {
+				printf("UFS RPMB key programming request failed\n");
+				goto out;
+			}
+			memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
+			ret = ufs_rpmb_key_validation(scsi_dev, region, frame_buffer);
+			if (ret != RPMB_OP_OKAY) {
+				printf("UFS RPMB key programming validation failed(0x%x)\n", ret);
+			}
+		}
+		else {
+			printf("UFS RPMB key programming validation failed(0x%x)\n", ret);
+		}
+	}
+
+out:
+	kfree(frame_buffer);
+	return ret;
+}
+
+static int ufs_rpmb_unit_ready(struct udevice *ufs_dev)
+{
+	int ret = 0;
+	struct scsi_cmd *pccb;
+	struct udevice *scsi_dev;
+
+	device_find_first_child(ufs_dev, &scsi_dev);
+	if (!scsi_dev)
+		return -ENODEV;
+
+	pccb = kmalloc(sizeof(*pccb), GFP_KERNEL);
+	if (!pccb){
+		ret = -ENOMEM;
+		goto out;
+	}
+	memset((uint8_t *)pccb, 0, sizeof(*pccb));
+
+	pccb->cmd[0] = SCSI_TST_U_RDY;
+	pccb->cmdlen = 6;
+	pccb->lun = UFS_RPMB_LUN_ID;
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+	if (ret)
+		goto out;
+
+out:
+	kfree(pccb);
 	return ret;
 }
 
@@ -2214,6 +2725,14 @@ int ufs_start(struct ufs_hba *hba)
 		return ret;
 	}
 
+	ret = ufs_get_rpmb_unit_desc(hba);
+	if (ret) {
+		dev_err(hba->dev, "%s: Failed getting device info. err = %d\n",
+			__func__, ret);
+
+		return ret;
+	}
+
 	if (ufshcd_get_max_pwr_mode(hba)) {
 		dev_err(hba->dev,
 			"%s: Failed getting max supported power mode\n",
@@ -2239,6 +2758,7 @@ int ufshcd_probe(struct udevice *ufs_dev, struct ufs_hba_ops *hba_ops)
 	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
 	struct scsi_plat *scsi_plat;
 	struct udevice *scsi_dev;
+	unsigned long start;
 	void __iomem *mmio_base;
 	int err;
 
@@ -2314,6 +2834,14 @@ int ufshcd_probe(struct udevice *ufs_dev, struct ufs_hba_ops *hba_ops)
 	err = ufs_start(hba);
 	if (err)
 		return err;
+
+	start = get_timer(0);
+	while (ufs_rpmb_unit_ready(ufs_dev)) {
+		if (get_timer(start) > UFS_UIC_CMD_TIMEOUT) {
+			dev_err(hba->dev, "RPMB LU not ready timeout");
+			return -ETIMEDOUT;
+		}
+	}
 
 	return 0;
 }

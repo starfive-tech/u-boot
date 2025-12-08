@@ -183,6 +183,8 @@ struct scsi_cmd {
 #define SCSI_WRT_VERIFY	0x2E		/* Write and Verify (O) */
 #define SCSI_WRITE_LONG	0x3F		/* Write Long (O) */
 #define SCSI_WRITE_SAME	0x41		/* Write Same (O) */
+#define SCSI_SECURITY_PROTOCOL_OUT	0xB5 /* Security Protocol OUT */
+#define SCSI_SECURITY_PROTOCOL_IN	0xA2 /*	Security Protocol IN */
 
 /**
  * enum scsi_cmd_phase - current phase of the SCSI protocol

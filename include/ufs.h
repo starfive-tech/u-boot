@@ -82,4 +82,81 @@ int ufs_update_lu(struct udevice *ufs_dev, u8 lun, u32 size, u32 attr);
  */
 int ufs_remove_lu(struct udevice *ufs_dev, int lun);
 
+/**
+ * ufs_create_rpmb_lu() - Create a new RPMB Logical Unit (LU) on a UFS device
+ *
+ * @ufs_dev: Pointer to the UFS device
+ * @region:     Logical Unit Number RPMB region (1-3)
+ * @size:    Size of the LU in blocks (4MB per block)
+ *
+ * This function creates a new LU on the specified UFS device with the given
+ * size and attributes.
+ *
+ * Return: 0 on success, -ve on error
+ */
+int ufs_create_rpmb_lu(struct udevice *ufs_dev, u8 region, u32 size);
+
+/**
+ * ufs_remove_rpmb_lu() - Remove RPMB Logical Unit (LU) on a UFS device
+ *
+ * @ufs_dev: Pointer to the UFS device
+ * @region:     Logical Unit Number RPMB region (1-3)
+ *
+ * This function remove exisitng RPMB LU on the specified UFS device with the given
+ * region.
+ *
+ * Return: 0 on success, -ve on error
+ */
+int ufs_remove_rpmb_lu(struct udevice *ufs_dev, u8 region);
+
+
+/**
+ * ufs_rpmb_read() - Read RPMB Logical Unit (LU) on a UFS device
+ *
+ * @ufs_dev: Pointer to the UFS device
+ * @region:     Logical Unit Number RPMB region (0-3)
+ * @addr:    Address to store read data
+ * @lba:     Logical Block Address to start reading from
+ * @blkcnt:  Number of blocks to read
+ * @key_addr: Pointer to the RPMB authentication key
+ *
+ * This function read RPMB LU on the specified UFS device with the given
+ * region, lba, and block count.
+ *
+ * Return: 0 on success, -ve on error
+ */
+int ufs_rpmb_read(struct udevice *ufs_dev, u8 region, void *addr, u32 lba, u32 blkcnt, u8 *key_addr);
+
+/**
+ * ufs_rpmb_write() - Write RPMB Logical Unit (LU) on a UFS device
+ *
+ * @ufs_dev: Pointer to the UFS device
+ * @region:     Logical Unit Number RPMB region (0-3)
+ * @addr:    Address to store write data
+ * @lba:     Logical Block Address to start reading from
+ * @blkcnt:  Number of blocks to write
+ * @key_addr: Pointer to the RPMB authentication key
+ *
+ * This function write RPMB LU on the specified UFS device with the given
+ * region, lba, and block count.
+ *
+ * Return: 0 on success, -ve on error
+ */
+int ufs_rpmb_write(struct udevice *ufs_dev, u8 region, void *addr, u32 lba, u32 blkcnt, u8 *key_addr);
+
+/**
+ * ufs_write_rpmb_key() - Provision RPMB Logical Unit (LU) region key on a UFS device
+ *
+ * @ufs_dev: Pointer to the UFS device
+ * @region:     Logical Unit Number RPMB region (0-3)
+ * @key_addr: Pointer to the RPMB authentication key
+ *
+ * This function perform RPMB LU key programming on the specified UFS device with the given
+ * key address.
+ *
+ * Return: 0 on success, -ve on error
+ */
+int ufs_write_rpmb_key(struct udevice *ufs_dev, u8 region, u8 *key_addr);
+
+
 #endif
