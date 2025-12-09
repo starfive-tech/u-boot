@@ -308,6 +308,16 @@ static int do_starfive_check_sfc_dual_flash(struct cmd_tbl *cmdtp, int flag, int
 	return CMD_RET_SUCCESS;
 }
 
+static void do_starfive_lookup_sd(ulong lun_n)
+{
+	const char map[] = "def";
+
+	if (lun_n >= 3 && lun_n <= 5)
+		env_set("lun_l", (char[]){ map[lun_n - 3], '\0' });
+	else
+		printf("Invalid lun_n value\n");
+}
+
 static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 				    char *const argv[])
 {
@@ -343,6 +353,7 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 							 PT_ACTIVE,
 							 IMG_TYPE_KERNEL);
 			env_set_hex("ufs_kernel_act_part_num", (ulong)val);
+			do_starfive_lookup_sd((ulong)val);
 			val = starfive_get_partition_offset(BOOT_SRC_UFS,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
@@ -353,6 +364,7 @@ static int do_starfive_get_img_info(struct cmd_tbl *cmdtp, int flag, int argc,
 							 PT_GOLDEN,
 							 IMG_TYPE_KERNEL);
 			env_set_hex("ufs_kernel_gol_part_num", (ulong)val);
+			do_starfive_lookup_sd((ulong)val);
 			val = starfive_get_partition_offset(BOOT_SRC_UFS,
 							    PT_GOLDEN,
 							    IMG_TYPE_KERNEL);

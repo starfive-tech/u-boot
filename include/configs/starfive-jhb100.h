@@ -98,6 +98,7 @@
 	"fdtfile=jhb100.dtb\0"	\
 	"ramdiskfile=rootfs.cpio\0"	\
 	"updcapfile=capsule.cap\0"	\
+	"lun_l=d\0"	\
 	"mmcpart=1\0"
 
 	/** STARFIVE_TODO :: Update the preosbootnotify arguments */
@@ -107,7 +108,7 @@
 	"set_bootargs_root_storage="		\
 		"affixbootargs root=/dev/mmcblk0gp${blk_num}\0"	\
 	"set_bootargs_root_storage_ufs="		\
-		"affixbootargs root=/dev/mmcblk0gp${blk_num}\0"	\
+		"affixbootargs root=/dev/sd${lun_l}\0"	\
 	"importbootenv="	\
 		"echo Importing environment variables from uEnv.txt ...; "	\
 		"env import -t $envloadaddr $filesize\0" \
