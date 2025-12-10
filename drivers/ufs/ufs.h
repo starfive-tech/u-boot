@@ -866,15 +866,21 @@ struct ufs_hba {
 	u8 rpmb_region_2_size;
 	u8 rpmb_region_3_size;
 
+	/* Write Protection */
+	u8 power_on_wp_en;
 };
 
-#define UFS_RPMB_PREPARE_SECURITY_OUT(_pccb, _region, _frame) \
+#define UFS_RPMB_PREPARE_SECURITY_OUT(_pccb, _region, _frame, _blk) \
 	do { \
 		memset((_pccb), 0, sizeof(*(_pccb))); \
 		(_pccb)->cmd[0] = SCSI_SECURITY_PROTOCOL_OUT; \
 		(_pccb)->cmd[1] = UFS_JEDEC_SEC_PROTOCOL_ID; \
 		(_pccb)->cmd[2] = (_region); \
 		(_pccb)->cmd[3] = 1; \
+		(_pccb)->cmd[6] = (uint8_t)(((_blk*512) >> 24) & 0xFF); \
+		(_pccb)->cmd[7] = (uint8_t)(((_blk*512) >> 16) & 0xFF); \
+		(_pccb)->cmd[8] = (uint8_t)(((_blk*512) >> 8) & 0xFF); \
+		(_pccb)->cmd[9] = (uint8_t)((_blk*512) & 0xFF); \
 		(_pccb)->cmdlen = 12; \
 		(_pccb)->lun = UFS_RPMB_LUN_ID; \
 		(_pccb)->pdata = (uint8_t *)(_frame); \

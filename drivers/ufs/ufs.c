@@ -1647,7 +1647,7 @@ static int ufs_rpmb_read_counter(struct udevice *scsi_dev, u8 region,
 	memset((uint8_t *)pccb, 0, sizeof(*pccb));
 
 	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_GET_WRITE_COUNTER);
-	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame, 0);
 	pccb->cmd[8] = 2;
 	ret = ufs_scsi_exec(scsi_dev, pccb);
 	if (ret)
@@ -1708,6 +1708,73 @@ static void ufs_rpmb_hmac(u8 *key, u8 *buff, int len, u8 *output)
 	sha256_finish(&ctx, output);
 }
 
+static int ufs_rpmb_read_lun_write_protect(struct udevice *scsi_dev, u32 lun,
+					   struct ufs_rpmb_frame *rpmb_frame)
+{
+	int ret = 0;
+	struct scsi_cmd *pccb;
+
+	pccb = kmalloc(sizeof(*pccb), GFP_KERNEL);
+	if (!pccb)
+		return -ENOMEM;
+	memset((uint8_t *)pccb, 0, sizeof(*pccb));
+
+	rpmb_frame->data[0] = lun;
+	rpmb_frame->address = cpu_to_be16(0);
+	rpmb_frame->block_count = cpu_to_be16(1);
+	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_SEC_WP_BLK_CFG_READ);
+	rpmb_frame->write_counter = 0;
+	memset(rpmb_frame->mac_key, 0, 32);
+
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, 0, rpmb_frame, 1);
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+	if (ret)
+		goto out;
+
+	UFS_RPMB_PREPARE_SECURITY_IN(pccb, 0, rpmb_frame);
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+out:
+	kfree(pccb);
+	return ret;
+}
+
+static int ufs_rpmb_config_lun_write_protect(struct udevice *scsi_dev, u32 lun,
+			                     bool wpf, u8 wpt, u8 *key_addr,
+			                     struct ufs_rpmb_frame *rpmb_frame)
+{
+	int ret = 0;
+	u8 ret_hmac[32];
+	struct scsi_cmd *pccb;
+
+	pccb = kmalloc(sizeof(*pccb), GFP_KERNEL);
+	if (!pccb)
+		return -ENOMEM;
+	memset((uint8_t *)pccb, 0, sizeof(*pccb));
+
+	rpmb_frame->data[0] = lun;
+	rpmb_frame->data[1] = 16;
+	rpmb_frame->data[16] = (wpf & 0x1) | ((wpt & 0x3) << 1);
+	rpmb_frame->address = cpu_to_be16(0);
+	rpmb_frame->block_count = cpu_to_be16(1);
+	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_SEC_WP_BLK_CFG_WRITE);
+
+	ufs_rpmb_hmac(key_addr, rpmb_frame->data, UFS_RPMB_HMAC_DATA_LEN, ret_hmac);
+	memcpy(rpmb_frame->mac_key, ret_hmac, 32);
+
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, 0, rpmb_frame, 1);
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+	if (ret)
+		goto out;
+
+	memset(rpmb_frame, 0, 512);
+	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_RESULT_READ);
+	UFS_RPMB_PREPARE_SECURITY_IN(pccb, 0, rpmb_frame);
+	ret = ufs_scsi_exec(scsi_dev, pccb);
+out:
+	kfree(pccb);
+	return ret;
+}
+
 static int ufs_rpmb_blk_read(struct udevice *scsi_dev, u8 region,
 			     struct ufs_rpmb_frame *rpmb_frame,
 			     u16 lba, u16 blkcnt)
@@ -1726,11 +1793,7 @@ static int ufs_rpmb_blk_read(struct udevice *scsi_dev, u8 region,
 	rpmb_frame->write_counter = 0;
 	memset(rpmb_frame->mac_key, 0, 32);
 
-	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
-	pccb->cmd[6] = (uint8_t)(((blkcnt * 512) >> 24) & 0xFF);
-	pccb->cmd[7] = (uint8_t)(((blkcnt * 512) >> 16) & 0xFF);
-	pccb->cmd[8] = (uint8_t)(((blkcnt * 512) >> 8) & 0xFF);
-	pccb->cmd[9] = (uint8_t)((blkcnt * 512)  & 0xff);
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame, blkcnt);
 	pccb->datalen = 512 * blkcnt;
 	ret = ufs_scsi_exec(scsi_dev, pccb);
 	if (ret)
@@ -1762,11 +1825,7 @@ static int ufs_rpmb_blk_write(struct udevice *scsi_dev, u8 region,
 	/* HMAC-SHA256 */
 	ufs_rpmb_hmac(key_addr, rpmb_frame->data, UFS_RPMB_HMAC_DATA_LEN, rpmb_frame->mac_key);
 
-	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
-	pccb->cmd[6] = (uint8_t)(((blkcnt * 512) >> 24) & 0xFF);
-	pccb->cmd[7] = (uint8_t)(((blkcnt * 512) >> 16) & 0xFF);
-	pccb->cmd[8] = (uint8_t)(((blkcnt * 512) >> 8) & 0xFF);
-	pccb->cmd[9] = (uint8_t)((blkcnt * 512)  & 0xff);
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame, blkcnt);
 	pccb->datalen = 512 * blkcnt;
 	ret = ufs_scsi_exec(scsi_dev, pccb);
 	if (ret)
@@ -1818,13 +1877,13 @@ static int ufs_rpmb_key_validation(struct udevice *scsi_dev, u8 region,
 	memset((uint8_t *)pccb, 0, sizeof(*pccb));
 
 	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_RESULT_READ);
-	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame, 0);
 	pccb->cmd[8] = 2;
 	ret = ufs_scsi_exec(scsi_dev, pccb);
 	if (ret)
 		goto out;
 
-	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame, 0);
 	ret = ufs_scsi_exec(scsi_dev, pccb);
 out:
 	kfree(pccb);
@@ -1846,7 +1905,7 @@ static int ufs_rpmb_key_program_request(struct udevice *scsi_dev, u8 region,
 	memcpy(rpmb_frame->mac_key, key_addr, 32);
 
 	rpmb_frame->request_response = cpu_to_be16(RPMB_REQ_TYPE_PROGRAM_KEY);
-	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame);
+	UFS_RPMB_PREPARE_SECURITY_OUT(pccb, region, rpmb_frame, 0);
 	pccb->cmd[8] = 2;
 	ret = ufs_scsi_exec(scsi_dev, pccb);
 
@@ -2215,6 +2274,17 @@ static int ufshcd_complete_dev_init(struct ufs_hba *hba)
 			"%s fDeviceInit was not cleared by the device\n",
 			__func__);
 
+	bool response = 1;
+	err = ufshcd_query_flag(hba, UPIU_QUERY_OPCODE_READ_FLAG,
+				      QUERY_FLAG_IDN_PWR_ON_WPE, &response);
+	if (err) {
+		dev_err(hba->dev,
+			"%s reading fPowerOnWPEn flag failed with error %d\n",
+			__func__, err);
+		goto out;
+	}
+	hba->power_on_wp_en = response;
+
 out:
 	return err;
 }
@@ -2236,6 +2306,16 @@ void ufs_list_lus(struct udevice *ufs_dev)
 	u8 idx;
 	size_t buff_len;
 	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
+	struct ufs_rpmb_frame *frame_buffer;
+	struct udevice *scsi_dev;
+
+	device_find_first_child(ufs_dev, &scsi_dev);
+	if (!scsi_dev)
+		return;
+
+	frame_buffer = kmalloc(sizeof(*frame_buffer), GFP_KERNEL);
+	if (!frame_buffer)
+		return;
 
 	buff_len = max_t(size_t, hba->desc_size.unit_desc,
 			 QUERY_DESC_MAX_SIZE + 1);
@@ -2260,10 +2340,6 @@ void ufs_list_lus(struct udevice *ufs_dev)
 			char attr_buf[64] = {0};
 			int attr_len = 0;
 
-			if (desc_buf[RPMB_DESC_LU_WRITE_PROTECT])
-				attr_len += snprintf(attr_buf + attr_len,
-						sizeof(attr_buf) - attr_len, "write protect");
-
 			if (desc_buf[RPMB_DESC_BOOT_LUN_ID]) {
 				if (attr_len > 0)
 					attr_len += snprintf(attr_buf + attr_len,
@@ -2272,6 +2348,32 @@ void ufs_list_lus(struct udevice *ufs_dev)
 							- attr_len, "Boot LU %s",
 							(desc_buf[RPMB_DESC_BOOT_LUN_ID] == 1)
 							? "A" : "B");
+			}
+
+			if (hba->power_on_wp_en & desc_buf[UNIT_DESC_LU_WRITE_PROTECT]) {
+				if (attr_len > 0)
+					attr_len += snprintf(attr_buf + attr_len,
+							sizeof(attr_buf) - attr_len, ", ");
+				attr_len += snprintf(attr_buf + attr_len, sizeof(attr_buf)
+							- attr_len, "Boot LU %s",
+							(desc_buf[UNIT_DESC_LU_WRITE_PROTECT] == 1)
+							? "Power ON" : "Permanent");
+			} else if (desc_buf[UNIT_DESC_LU_WRITE_PROTECT] == 0) {
+				/* Secure Write Protect */
+				memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
+				if (ufs_rpmb_read_lun_write_protect(scsi_dev, idx, frame_buffer) == 0) {
+					u8 wpt = (frame_buffer->data[16] >> 1) & 0x3;
+					u8 wpf = frame_buffer->data[16] & 0x1;
+					if (wpf) {
+						if (attr_len > 0)
+							attr_len += snprintf(attr_buf + attr_len,
+									sizeof(attr_buf) - attr_len, ", ");
+						attr_len += snprintf(attr_buf + attr_len, sizeof(attr_buf)
+								- attr_len, "Secure Write Protect[%s]",
+								(wpt == 2) ? "NV-AWP-type" :
+								(wpt == 1) ? "P-type" : "NV-type");
+					}
+				}
 			}
 
 			if (attr_len > 0)
@@ -2686,6 +2788,38 @@ static int ufs_rpmb_unit_ready(struct udevice *ufs_dev)
 
 out:
 	kfree(pccb);
+	return ret;
+}
+
+int ufs_write_protect(struct udevice *ufs_dev, u32 lun, bool write_en, u8 type, u8 *key_addr)
+{
+	struct ufs_rpmb_frame *frame_buffer;
+	struct udevice *scsi_dev;
+	int ret;
+
+	device_find_first_child(ufs_dev, &scsi_dev);
+	if (!scsi_dev)
+		return -ENODEV;
+
+	frame_buffer = kmalloc(sizeof(*frame_buffer), GFP_KERNEL);
+	if (!frame_buffer)
+		return -ENOMEM;
+
+	memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
+	ret = ufs_rpmb_read_counter(scsi_dev, 0, frame_buffer, &frame_buffer->write_counter);
+	if (ret) {
+		dev_err(ufs_dev, "Read RPMB counter failed %d\n", ret);
+		goto out;
+	}
+
+	ret = ufs_rpmb_config_lun_write_protect(scsi_dev, lun, write_en, type, key_addr,
+						frame_buffer);
+	if (ret)
+		dev_err(ufs_dev, "Config LUN %d Write Protect failed %d\n", lun, ret);
+
+	printf("Config LUN %d Write Protect successfully\n", lun);
+out:
+	kfree(frame_buffer);
 	return ret;
 }
 

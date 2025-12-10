@@ -158,5 +158,20 @@ int ufs_rpmb_write(struct udevice *ufs_dev, u8 region, void *addr, u32 lba, u32 
  */
 int ufs_write_rpmb_key(struct udevice *ufs_dev, u8 region, u8 *key_addr);
 
+/**
+ * ufs_write_protect() - Enable/Disable Write Protect on Logical Unit (LU) on a UFS device
+ *
+ * @ufs_dev: Pointer to the UFS device
+ * @lun:     Logical Unit Number to set write protect
+ * @write_en:  true to enable write protect, false to disable
+ * @type:    Write protect type (0: NV-Type, 1: P-Type, 2: NV-AWP-Type)
+ * @key_addr: Pointer to the RPMB authentication key
+ *
+ * This function enable or disable write protection to LUN on the specified UFS device with the given
+ * arguement.
+ *
+ * Return: 0 on success, -ve on error
+ */
+int ufs_write_protect(struct udevice *ufs_dev, u32 lun, u8 write_en, u8 wpt, u8 *key_addr);
 
 #endif

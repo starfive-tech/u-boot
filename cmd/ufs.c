@@ -188,7 +188,28 @@ static int do_ufs(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 				printf("RPMB Region %d key programmed successfully!\n", region);
 				return CMD_RET_SUCCESS;
 			}
+		} else if (!strcmp(argv[1], "wp")) {
+			if (argc < 4)
+				return CMD_RET_USAGE;
+
+			u32 lun = dectoul(argv[2], NULL);
+			u8 en = dectoul(argv[3], NULL);
+			void *key_addr = (void *)hextoul(argv[4], NULL);
+			u8 type = dectoul(argv[5], 0);
+
+			if (type > 2) {
+				printf("Type should be 0, 1 or 2\n");
+				return CMD_RET_FAILURE;
+			}
+
+			if (do_ufs_get_device(&ufs_dev, 0))
+				return CMD_RET_FAILURE;
+
+			ufs_write_protect(ufs_dev, lun, en, type, key_addr);
+
+			return CMD_RET_SUCCESS;
 		}
+
 	}
 
 	return CMD_RET_USAGE;
@@ -208,6 +229,11 @@ U_BOOT_CMD(ufs, 8, 1, do_ufs,
 	"ufs rpmb remove <region>  - remove a RPMB region [1-3]\n"
 	"ufs rpmb read <region> <addr> <blk#> <cnt> [address of auth-key] - read from UFS RPMB to memory\n"
 	"ufs rpmb write <region> <addr> <blk#> <cnt> <address of auth-key>  - read from UFS RPMB to memory\n\n"
+
+	"ufs wp <lun> <en> <address of auth-key> [type] - enable or disable write protect\n"
+	" Type: 0: NV-Type - Write Protect persist through power cycle and hardware reset\n"
+	"       1: P-Type - Write Protect clear to 0 after power cycle and hardware reset\n"
+	"       2: NV-AWP-Type - Write Protect set to 1 after power cycle and hardware reset\n\n"
 
 	"ATTENTION: create, update, and remove will reset data in all LUNs\n"
 );
