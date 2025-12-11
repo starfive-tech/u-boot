@@ -89,6 +89,16 @@ static int do_ufs(struct cmd_tbl *cmdtp, int flag, int argc, char *const argv[])
 
 			return CMD_RET_SUCCESS;
 
+		} else if (!strcmp(argv[1], "remove")) {
+			if (argc == 3) {
+				if (do_ufs_get_device(&ufs_dev, 0))
+					return CMD_RET_FAILURE;
+				dev = dectoul(argv[2], NULL);
+				return ufs_remove_lu(ufs_dev, dev);
+			}
+
+			return CMD_RET_SUCCESS;
+
 		} else if (!strcmp(argv[1], "rpmb")) {
 			if (!strcmp(argv[2], "create")) {
 				if (argc != 5)
@@ -221,7 +231,8 @@ U_BOOT_CMD(ufs, 8, 1, do_ufs,
 	"ufs list  - list existing Logical Units\n"
 	"ufs create <lun> <blksize> <attr>  - create a logical unit\n"
 	"   1 blksize equal 4MB\n"
-	"   Attribute[0:1] - 0: Not bootable, 1:Boot LU A, 2: Boot LU B\n\n"
+	"   Attribute[0:1] - 0: Not bootable, 1:Boot LU A, 2: Boot LU B\n"
+	"ufs remove <lun>  - remove a logical unit\n\n"
 
 	"ufs rpmb key <region> <address of auth-key> - program the RPMB authentication key "
 	"ufs rpmb create <region> <blksize>  - create a RPMB region [1-3]\n"
