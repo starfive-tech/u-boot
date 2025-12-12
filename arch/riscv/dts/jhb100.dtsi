@@ -4274,6 +4274,8 @@
 						65536 65536 65536>;
 				snps,priority = <0 1 2 3 4 5 6 7>;
 				snps,axi-max-burst-len = <16>;
+				snps,dst-osr-limit = <8>;
+				snps,src-osr-limit = <8>;
 				status = "disabled";
 			};
 
