@@ -99,27 +99,53 @@ warning_log:
 }
 
 #ifdef CONFIG_SPL_BUILD
-int jhb100_scp_buffer_parser(void *blob)
+static int jhb100_parse_reserved_mem(void *fdt, const char *alias, fdt_addr_t *addr,
+				     fdt_size_t *size)
 {
-	int ret;
-	int node;
 	const char *path;
+	int node;
 
-	path = fdt_get_alias(blob, "scp_buffer_cache");
+	if (!addr || !size)
+		return -EINVAL;
+
+	path = fdt_get_alias(fdt, alias);
 	if (!path)
 		return -ENOENT;
 
-	node = fdt_path_offset(blob, path);
-	if (node < 0)
+	/* Find node through path */
+	node = fdt_path_offset(fdt, path);
+	if (node < 0) {
+		printf("Node for alias '%s' (%s) not found: %d\n",
+		       alias, path, node);
 		return node;
-
-	fdt_size_t size;
-	fdt_addr_t addr = fdtdec_get_addr_size_auto_parent(blob, 0, node, "reg", 0, &size, false);
-
-	if (addr == FDT_ADDR_T_NONE) {
-		printf("Failed to get reg property\n");
-		return addr;
 	}
+
+	/* Read reg property with parent address-cells support */
+	fdt_addr_t tmp_addr;
+	fdt_size_t tmp_size;
+
+	tmp_addr = fdtdec_get_addr_size_auto_parent(fdt, 0, node, "reg", 0, &tmp_size, false);
+
+	if (tmp_addr == FDT_ADDR_T_NONE) {
+		printf("Failed to parse 'reg' for alias '%s'\n", alias);
+		return -ENOENT;
+	}
+
+	*addr = tmp_addr;
+	*size = tmp_size;
+
+	return 0;
+}
+
+int jhb100_scp_buffer_parser(void *blob)
+{
+	int ret;
+	fdt_size_t size;
+	fdt_addr_t addr;
+
+	ret = jhb100_parse_reserved_mem(blob, "scp_buffer_cache", &addr, &size);
+	if (ret)
+		return ret;
 
 	GET_SPEC_ID(ASSIGN_MEM_BLOCK, spec);
 	u32 resp_data[spec->resp_count];
