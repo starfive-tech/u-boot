@@ -43,7 +43,7 @@ void restore_deep_bootcmd(void)
 
 void restore_bootcmd_utils(void)
 {
-	const char * const boot_vars[11] = {
+	const char * const boot_vars[12] = {
 		"auth_and_boot",
 		"uncompfitimage",
 		"kernel_autoboot",
@@ -54,7 +54,8 @@ void restore_bootcmd_utils(void)
 		"eth1addr",
 		"eth3addr",
 		"set_bootargs_root_ram",
-		"set_bootargs_root_storage",
+		"set_bootargs_root_storage_mmc",
+		"set_bootargs_root_storage_ufs",
 	};
 
 	/*

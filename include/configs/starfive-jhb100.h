@@ -105,7 +105,7 @@
 #define JHB100_KERNEL_BOOTENV	\
 	"set_bootargs_root_ram="		\
 		"affixbootargs root=/dev/ram0\0"	\
-	"set_bootargs_root_storage="		\
+	"set_bootargs_root_storage_mmc="		\
 		"affixbootargs root=/dev/mmcblk0gp${blk_num}\0"	\
 	"set_bootargs_root_storage_ufs="		\
 		"affixbootargs root=/dev/sd${lun_l}\0"	\
@@ -371,7 +371,7 @@
 		"if checkimgrcmap 1; then "	\
 			"setimgrcmap 1; "	\
 			"getimginfo 1; "	\
-			"run set_bootargs_root_storage;"	\
+			"run set_bootargs_root_storage_mmc;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
 				"mmc partconf 0 0 0 ${emmc_kernel_act_part_num}; "	\
@@ -393,7 +393,7 @@
 		"if checkimgrcmap 2; then "	\
 			"setimgrcmap 2; "	\
 			"getimginfo 2; "	\
-			"run set_bootargs_root_storage;"	\
+			"run set_bootargs_root_storage_mmc;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
 				"mmc partconf 0 0 0 ${emmc_kernel_gol_part_num}; "	\
@@ -406,7 +406,7 @@
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 1;"	\
 						"echo Boot OS ...; "	\
-						"run set_bootargs_root_storage;"	\
+						"run set_bootargs_root_storage_mmc;"	\
 						"run ramboot;"	\
 					"fi; "	\
 				"fi; "	\
@@ -418,7 +418,7 @@
 		"if checkimgrcmap 1; then "	\
 			"setimgrcmap 1; "	\
 			"getimginfo 1; "	\
-			"run set_bootargs_root_storage;"	\
+			"run set_bootargs_root_storage_mmc;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
 				"mmc partconf 0 0 0 ${emmc_kernel_act_part_num}; "	\
@@ -440,7 +440,7 @@
 		"if checkimgrcmap 2; then "	\
 			"setimgrcmap 2; "	\
 			"getimginfo 2; "	\
-			"run set_bootargs_root_storage;"	\
+			"run set_bootargs_root_storage_mmc;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
 				"mmc partconf 0 0 0 ${emmc_kernel_gol_part_num}; "	\
