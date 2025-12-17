@@ -218,36 +218,36 @@ static int fdt_find_node_by_compat_and_id(const void *fdt,
 	return -ENODEV;
 }
 
-static int parse_mmbi_list(void *fdt)
+static void parse_mmbi_list(void *fdt, int *found_nodes, int nodes_num)
 {
-	int ret = 0;
-
-	for (int i = 0; i < MAX_MMBI; i++) {
+	for (int i = 0; i < nodes_num; i++) {
 		int node;
 		u32 instance_num = 0, instance_size = 0, src_addr_offset = 0;
 
-		ret = fdt_find_node_by_compat_and_id(fdt,
-						     mmbi_list[i].compatible,
-						     "mmbi-id",
-						     mmbi_list[i].id,
-						     &node,
-						     &instance_num,
-						     &instance_size,
-						     &src_addr_offset);
-		if (ret)
-			goto fail_return;
+		if (fdt_find_node_by_compat_and_id(fdt,
+						   mmbi_list[i].compatible,
+						   "mmbi-id",
+						   mmbi_list[i].id,
+						   &node,
+						   &instance_num,
+						   &instance_size,
+						   &src_addr_offset))
+			continue;
 
 		int mem_node = fdtdec_lookup_phandle(fdt, node, "memory-region");
 
-		if (mem_node < 0) {
-			ret = mem_node;
-			goto fail_return;
-		}
+		if (mem_node < 0)
+			continue;
 
 		fdt_addr_t addr;
 		fdt_size_t unused;
 
 		addr = fdtdec_get_addr_size_auto_parent(fdt, 0, mem_node, "reg", 0, &unused, false);
+		if (addr == FDT_ADDR_T_NONE)
+			continue;
+
+		/* If found node, then 1 for that iteration */
+		found_nodes[i] = 1;
 
 		/* Compute addr range = addr + src_addr_offset */
 		mmbi_list[i].addr = addr + src_addr_offset;
@@ -256,18 +256,20 @@ static int parse_mmbi_list(void *fdt)
 		mmbi_list[i].size =
 			((fdt_size_t)instance_num * instance_size) / 2;
 	}
-
-fail_return:
-	return ret;
 }
 
 void jhb100_set_mmbi_iopmp_memrange(void *blob)
 {
-	if (parse_mmbi_list(blob))
-		return;
+	int mmbi_nodes[MAX_MMBI] = {0};
 
-	for (int i = 0; i < MAX_MMBI; i++)
+	parse_mmbi_list(blob, mmbi_nodes, MAX_MMBI);
+
+	for (int i = 0; i < MAX_MMBI; i++) {
+		if (!mmbi_nodes[i])
+			continue;
+
 		sbi_set_iopmp_host_readonly_memrange(mmbi_list[i].addr, mmbi_list[i].size);
+	}
 
 	sbi_set_iopmp_lock();
 }
