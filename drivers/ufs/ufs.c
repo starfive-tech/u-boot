@@ -2439,12 +2439,6 @@ int ufs_create_lu(struct udevice *ufs_dev, u8 lun, u32 size, u32 attr)
 		goto out;
 	}
 
-	if (desc_buf[unit_idx_off]) {
-		printf("LUN %d already exists. Use 'ufs update' instead.\n", lun);
-		ret = -EPERM;
-		goto out;
-	}
-
 	boot_lun_id = attr & UFS_BOOT_LUN_ID_MASK;
 	if (boot_lun_id)
 		desc_buf[unit_idx_off + 1] = boot_lun_id; //Write LUN Boot ID
