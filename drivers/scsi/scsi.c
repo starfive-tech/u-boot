@@ -122,6 +122,28 @@ static void scsi_setup_write_ext(struct scsi_cmd *pccb, lbaint_t start,
 	      pccb->cmd[7], pccb->cmd[8]);
 }
 
+static void scsi_setup_flush_ext(struct scsi_cmd *pccb, lbaint_t start,
+				 unsigned short blocks)
+{
+	pccb->cmd[0] = SCSI_SYNC_CACHE;
+	pccb->cmd[1] = 1 << 2;
+	pccb->cmd[2] = (unsigned char)(start >> 24) & 0xff;
+	pccb->cmd[3] = (unsigned char)(start >> 16) & 0xff;
+	pccb->cmd[4] = (unsigned char)(start >> 8) & 0xff;
+	pccb->cmd[5] = (unsigned char)start & 0xff;
+	pccb->cmd[6] = 0;
+	pccb->cmd[7] = (unsigned char)(blocks >> 8) & 0xff;
+	pccb->cmd[8] = (unsigned char)blocks & 0xff;
+	pccb->cmd[9] = 0;
+	pccb->cmdlen = 10;
+	pccb->msgout[0] = SCSI_IDENTIFY;  /* NOT USED */
+	debug("%s: cmd: %02X %02X startblk %02X%02X%02X%02X blccnt %02X%02X\n",
+	      __func__,
+	      pccb->cmd[0], pccb->cmd[1],
+	      pccb->cmd[2], pccb->cmd[3], pccb->cmd[4], pccb->cmd[5],
+	      pccb->cmd[7], pccb->cmd[8]);
+}
+
 static ulong scsi_read(struct udevice *dev, lbaint_t blknr, lbaint_t blkcnt,
 		       void *buffer)
 {
@@ -241,6 +263,11 @@ static ulong scsi_write(struct udevice *dev, lbaint_t blknr, lbaint_t blkcnt,
 		}
 		buf_addr += pccb->datalen;
 	} while (blks != 0);
+
+	/* Flush UFS cache */
+	scsi_setup_flush_ext(pccb, blknr, blkcnt);
+	scsi_exec(bdev, pccb);
+
 	debug("%s: end startblk " LBAF ", blccnt %x buffer %lX\n",
 	      __func__, start, smallblks, buf_addr);
 	return blkcnt;
