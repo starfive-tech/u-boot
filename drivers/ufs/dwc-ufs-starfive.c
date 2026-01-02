@@ -15,16 +15,16 @@
 
 #include "ufs.h"
 
-#define MAX_SCSI_BYTE_PER_REQUEST 524288
+#define MAX_SCSI_BYTE_PER_REQUEST (16 * 4096) /* 1BLK = 4096byte */
 
 #define	PERI1_SYSCON_56_OFF	0x38
-#define SRAM_INIT_DONE_BIT	2	// [0:Busy 1:Done]
-#define SRAM_EXT_LD_DONE_BIT	1	// [0:Busy 1:Done]
+#define SRAM_INIT_DONE_BIT	2	/* [0:Busy 1:Done] */
+#define SRAM_EXT_LD_DONE_BIT	1	/* [0:Busy 1:Done] */
 
 #define	PERI1_SYSCON_60_OFF	0x3C
-#define REF_CLK_OEN_BIT		8	// [0:Output Enabled 1:Output Disabled]
-#define UFS_RESET_I_BIT		9	// UFS RESET logic level
-#define UFS_RESET_OEN_BIT	10	// [0:Output Enabled 1:Output Disabled]
+#define REF_CLK_OEN_BIT		8	/* [0:Output Enabled 1:Output Disabled] */
+#define UFS_RESET_I_BIT		9	/* UFS RESET logic level */
+#define UFS_RESET_OEN_BIT	10	/* [0:Output Enabled 1:Output Disabled] */
 
 #define GET_ATTR_SEL(n)	((((n) & 0xFFFF) << 16) | (((n) >> 16) & 0xFFFF))
 
@@ -57,12 +57,12 @@ static int dwc_ufs_c10_mphy_reg_write(struct ufs_hba *hba, u32 addr, u32 data)
 {
 	int result = 0;
 
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8116), (addr & 0xff)); // Address Low
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8117), ((addr >> 8) & 0xff)); // Address High
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8118), (data & 0xff)); // Data Low
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8119), ((data >> 8) & 0xff)); // Data High
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x811c), 0x01); // Write
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0xd085), 0x01); // Config Update
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8116), (addr & 0xff)); /* Address Low */
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8117), ((addr >> 8) & 0xff)); /* Address High */
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8118), (data & 0xff)); /* Data Low */
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8119), ((data >> 8) & 0xff)); /* Data High */
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x811c), 0x01); /* Write */
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0xd085), 0x01); /* Config Update */
 
 	return result;
 }
@@ -73,12 +73,12 @@ static int dwc_ufs_c10_mphy_reg_read(struct ufs_hba *hba, u32 addr, u32 *data)
 	u32 data_lsb;
 	u32 data_msb;
 
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8116), (addr & 0xff)); // Address Low
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8117), ((addr >> 8) & 0xff)); // Address High
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8116), (addr & 0xff)); /* Address Low */
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8117), ((addr >> 8) & 0xff)); /* Address High */
 	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8118), 0xff);
 	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x8119), 0xff);
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x811c), 0x00); // Read
-	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0xd085), 0x01); // Config Update
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0x811c), 0x00); /* Read */
+	result |= ufshcd_dme_set(hba, GET_ATTR_SEL(0xd085), 0x01); /* Config Update */
 
 	/* Read the data */
 	*data = 0;
