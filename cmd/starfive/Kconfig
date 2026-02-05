@@ -21,4 +21,10 @@ config SPL_CMD_STARFIVE_SEC
 	  Support for StarFive Secure Runtime Services. The SEC commands
 	  available includes secure boot, firmware update, attestation and OTP read/write.
 
+config CMD_STARFIVE_LTPI
+	bool "command for LTPI"
+	depends on CMD_STARFIVE
+	help
+	  Support for StarFive Diagnostic Services for LTPI.
+
 endmenu
