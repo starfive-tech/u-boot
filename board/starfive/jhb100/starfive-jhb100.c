@@ -593,6 +593,7 @@ int board_late_init(void)
 static int last_stage_init(void)
 {
 	int env_id = env_get_id();
+	int boot_mode = GET_BOOT_SRC;
 
 	/* Update only when the environment has changed */
 	if (env_changed_id != env_id) {
@@ -600,6 +601,7 @@ static int last_stage_init(void)
 		env_save();
 	}
 
+	starfive_set_ap_sts_boot_src(BOOTSTG_KERNEL, boot_mode);
 	starfive_clear_ap_sts_retry_cnt(BOOTSTG_U_BOOT_SPL);
 	starfive_clear_ap_sts_retry_cnt(BOOTSTG_U_BOOT_PROPER);
 	starfive_clear_ap_sts_error(BOOTSTG_U_BOOT_SPL);

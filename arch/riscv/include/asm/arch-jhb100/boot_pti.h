@@ -126,11 +126,11 @@ struct boot_stat_reg {
 	u32 error		: 1;
 };
 
-typedef struct {
+typedef volatile struct {
 	struct boot_ctrl_reg	boot_ctrl_reg;
 } ap_boot_ctl_reg;
 
-typedef struct {
+typedef volatile struct {
 	struct boot_stat_reg	boot_stat_reg;
 } ap_boot_sts_reg;
 

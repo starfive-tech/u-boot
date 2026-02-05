@@ -217,39 +217,55 @@ static int do_starfive_authenticate_storage(struct cmd_tbl *cmdtp, int flag, int
 			ret = starfive_req_img_auth_storage(BOOT_SRC_EMMC,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
-			if (!ret)
+			if (!ret) {
 				starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, ACT_IMG);
+				starfive_set_ap_sts_boot_src(BOOTSTG_KERNEL, BOOT_SRC_EMMC);
+			}
 			break;
 		case EMMC_SECONDARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_EMMC,
 							    PT_GOLDEN,
 							    IMG_TYPE_KERNEL);
-			if (!ret)
+			if (!ret) {
 				starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, GOL_IMG);
+				starfive_set_ap_sts_boot_src(BOOTSTG_KERNEL, BOOT_SRC_EMMC);
+			}
 			break;
 		case UFS_PRIMARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_UFS,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
-			if (!ret)
+			if (!ret) {
 				starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, ACT_IMG);
+				starfive_set_ap_sts_boot_src(BOOTSTG_KERNEL, BOOT_SRC_UFS);
+			}
 			break;
 		case UFS_SECONDARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_UFS,
 							    PT_GOLDEN,
 							    IMG_TYPE_KERNEL);
-			if (!ret)
+			if (!ret) {
 				starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, GOL_IMG);
+				starfive_set_ap_sts_boot_src(BOOTSTG_KERNEL, BOOT_SRC_UFS);
+			}
 			break;
 		case SFC_PRIMARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_SFC,
 							    PT_ACTIVE,
 							    IMG_TYPE_KERNEL);
+			if (!ret) {
+				starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, ACT_IMG);
+				starfive_set_ap_sts_boot_src(BOOTSTG_KERNEL, BOOT_SRC_SFC);
+			}
 			break;
 		case SFC_SECONDARY:
 			ret = starfive_req_img_auth_storage(BOOT_SRC_SFC,
 							    PT_GOLDEN,
 							    IMG_TYPE_KERNEL);
+			if (!ret) {
+				starfive_set_ap_sts_image_flag(BOOTSTG_KERNEL, GOL_IMG);
+				starfive_set_ap_sts_boot_src(BOOTSTG_KERNEL, BOOT_SRC_SFC);
+			}
 			break;
 		default:
 			printf("Unknown argument, refer to help command...\n");
