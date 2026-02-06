@@ -16,7 +16,9 @@
 #ifndef HOST_XHCI_H_
 #define HOST_XHCI_H_
 
+#ifdef CONFIG_TARGET_STARFIVE_JHB100
 #include <asm/arch/soc.h>
+#endif
 #include <iommu.h>
 #include <phys2bus.h>
 #include <asm/types.h>
@@ -1303,16 +1305,17 @@ static inline dma_addr_t xhci_dma_map(struct xhci_ctrl *ctrl, void *addr,
 #if CONFIG_IS_ENABLED(IOMMU)
 	return dev_iommu_dma_map(xhci_to_dev(ctrl), addr, size);
 #else
-	if (IS_ENABLED(CONFIG_TARGET_STARFIVE_JHB100)) {
-		dma_addr_t buffer = dev_phys_to_bus(xhci_to_dev(ctrl), virt_to_phys(addr));
 
-		if (is_cpu_addr(buffer))
-			buffer = cpu_to_dma_addr(buffer);
+#ifdef CONFIG_TARGET_STARFIVE_JHB100
+	dma_addr_t buffer = dev_phys_to_bus(xhci_to_dev(ctrl), virt_to_phys(addr));
 
-		return buffer;
-	}
+	if (is_cpu_addr(buffer))
+		buffer = cpu_to_dma_addr(buffer);
 
+	return buffer;
+#else
 	return dev_phys_to_bus(xhci_to_dev(ctrl), virt_to_phys(addr));
+#endif
 #endif
 }
 
