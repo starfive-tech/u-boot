@@ -21,13 +21,16 @@
 #include <hexdump.h>
 #include <scsi.h>
 #include <asm/io.h>
-#include <asm/arch/soc.h>
 #include <asm/dma-mapping.h>
 #include <asm/unaligned.h>
 #include <linux/bitops.h>
 #include <linux/delay.h>
 #include <linux/dma-mapping.h>
 #include <u-boot/sha256.h>
+
+#ifdef CONFIG_TARGET_STARFIVE_JHB100
+#include <asm/arch/soc.h>
+#endif
 
 #include "ufs.h"
 
