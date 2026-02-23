@@ -69,6 +69,11 @@
 		/delete-node/ dma-reserved@4e300000;
 		/delete-node/ linux,dma@40e300000;
 		/delete-node/ linux,cma;
+
+		fb0: framebuffer@50000000 {
+			no-map;
+			reg = <0x0 0x50000000 0x0 0x00100000>;
+		};
 	};
 
 	soc {
@@ -125,6 +130,36 @@
 				mboxes = <&rpmi 0x03>;
 				compatible = "riscv,jhb100-rpmi-system-reset";
 			};
+		};
+
+		dc0: display-controller@11120000 {
+			compatible = "starfive,jhb100-dc8000";
+			reg = <0x0 0x11120000 0x0 0x8000>;
+			dc-id = <0>;
+			clocks = <&voutcrg JHB100_VOUTCLK_MAIN_ICG_EN_U0_DC8000>,
+				<&voutcrg JHB100_VOUTCLK_U0_DC8000_PIXELCLK0>;
+			clock-names = "main_icg", "pix_clk";
+			resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U0_DC8000>;
+			memory-region = <&fb0>;
+			starfive,syscon = <&sys_syscon>;
+			starfive,crg    = <&sys1crg>;
+			bootph-all;
+			status = "okay";
+		};
+
+		dc1: display-controller@11128000 {
+			compatible = "starfive,jhb100-dc8000";
+			reg = <0x0 0x11128000 0x0 0x8000>;
+			dc-id = <1>;
+			clocks = <&voutcrg JHB100_VOUTCLK_MAIN_ICG_EN_U1_DC8000>,
+				<&voutcrg JHB100_VOUTCLK_U1_DC8000_PIXELCLK0>;
+			clock-names = "main_icg", "pix_clk";
+			resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U1_DC8000>;
+			memory-region = <&fb0>;
+			starfive,syscon = <&sys_syscon>;
+			starfive,crg    = <&sys1crg>;
+			bootph-all;
+			status = "okay";
 		};
 	};
 };
@@ -668,6 +703,14 @@
 		label = "heartbeat";
 		default-state = "on";
 	};
+};
+
+&dp {
+	starfive,lane-count = <2>;
+	starfive,link-rate = <1>;
+	link-frequencies = /bits/ 64 <2700000000>;
+	lane-count = <2>;
+	status = "okay";
 };
 
 /delete-node/ &espi0_mmbi_buffer_cache;
