@@ -78,6 +78,12 @@ static const struct starfive_reset_info jhb100_cpu_info = {
 	.status_offset = 0x54,
 };
 
+static const struct starfive_reset_info jhb100_vout_info = {
+	.nr_resets = NUM_RESETS(JHB100_VOUTRST_MAIN_RSTN_VGA_SCAN),
+	.assert_offset = 0x10c,
+	.status_offset = 0x110,
+};
+
 static const struct udevice_id jhb100_reset_ids[] = {
 	{
 		.compatible = "starfive,jhb100-sys0crg",
@@ -114,6 +120,10 @@ static const struct udevice_id jhb100_reset_ids[] = {
 	{
 		.compatible = "starfive,jhb100-cpucrg",
 		.data = (ulong)&jhb100_cpu_info,
+	},
+	{
+		.compatible = "starfive,jhb100-voutcrg",
+		.data = (ulong)&jhb100_vout_info,
 	},
 	{ /* sentinel */ }
 };
