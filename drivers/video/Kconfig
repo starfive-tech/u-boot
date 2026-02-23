@@ -651,6 +651,8 @@ config VIDEO_LCD_SPI_MISO
 
 source "drivers/video/meson/Kconfig"
 
+source "drivers/video/starfive/Kconfig"
+
 config VIDEO_MVEBU
 	bool "Armada XP LCD controller"
 	---help---

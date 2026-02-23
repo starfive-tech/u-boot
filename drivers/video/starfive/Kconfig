@@ -1,0 +1,19 @@
+menu "StarFive Video and Display Support"
+	depends on VIDEO || DISPLAY
+
+config VIDEO_STARFIVE_JHB100_DC8000
+	bool "StarFive JHB100 DC8000 display controller"
+	depends on VIDEO
+	help
+	  Enable minimal DC8000 framebuffer output for the JHB100 SoC.
+	  This driver configures the primary plane for ARGB8888 and hands
+	  timing selection to the attached display device (e.g. DP).
+
+config DISPLAY_STARFIVE_JHB100_DW_DP
+	bool "StarFive JHB100 DWC DisplayPort transmitter"
+	depends on DISPLAY
+	help
+	  Enable the JHB100 DWC DisplayPort transmitter driver. This provides
+	  EDID readout and link training for an attached DP sink.
+
+endmenu

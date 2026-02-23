@@ -83,3 +83,4 @@ obj-$(CONFIG_VIDEO_ZYNQMP_DPSUB) += zynqmp/
 obj-y += bridge/
 obj-y += sunxi/
 obj-y += tegra20/
+obj-y += starfive/
