@@ -27,4 +27,10 @@ config CMD_STARFIVE_LTPI
 	help
 	  Support for StarFive Diagnostic Services for LTPI.
 
+config CMD_JHB100_DP
+	bool "dp"
+	depends on VIDEO && DISPLAY
+	help
+	  DisplayPort test command for the JHB100 DC8000 + DPTX pipeline.
+
 endmenu
