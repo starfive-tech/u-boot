@@ -72,3 +72,11 @@ config CLK_STARFIVE_JHB100_CPU
 	help
 	  Say yes here to support the CPU clock controller
 	  on the StarFive JHB100 SoC.
+
+config CLK_STARFIVE_JHB100_VOUT
+	bool "StarFive JHB100 VOUT clock support"
+	depends on CLK
+	select CLK_STARFIVE_COMMON
+	help
+	  Say yes here to support the VOUT (Video Output)
+	  clock controller on the StarFive JHB100 SoC.
