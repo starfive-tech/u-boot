@@ -176,6 +176,8 @@ unsigned long starfive_clk_id_trans(enum clk_type_t type, unsigned long id)
 		return JHB100_USB_ID_TRANS(id);
 	case cpu:
 		return JHB100_CPU_ID_TRANS(id);
+	case vout:
+		return JHB100_VOUT_ID_TRANS(id);
 	default:
 		debug("Invalid id: %lu\n", id);
 		return 0;
