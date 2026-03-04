@@ -21,9 +21,6 @@
 #include <wait_bit.h>
 #include <starfive/jhb100/clk.h>
 
-#define EQOS_MAC_PORT_SELECT_100MBPS BIT(15)
-#define EQOS_MAC_CFG_SPEED_100MBPS	 BIT(16)
-
 #define STARFIVE_DWMAC_PHY_INFT_RGMII	0x1
 #define STARFIVE_DWMAC_PHY_INFT_SGMII	0x2
 #define STARFIVE_DWMAC_PHY_INFT_RMII	0x4
@@ -298,10 +295,8 @@ static int eqos_set_tx_clk_speed_jhb100(struct udevice *dev)
 	}
 
 	if (data->interface == PHY_INTERFACE_MODE_RMII) {
-		u32 val = readl(&eqos->mac_regs->configuration);
-		val |= EQOS_MAC_PORT_SELECT_100MBPS;
-		val |= EQOS_MAC_CFG_SPEED_100MBPS;
-		writel(val, &eqos->mac_regs->configuration);
+		setbits_le32(&eqos->mac_regs->configuration,
+		     EQOS_MAC_CONFIGURATION_FES | EQOS_MAC_CONFIGURATION_PS);
 	} else if (data->interface == PHY_INTERFACE_MODE_SGMII) {
 		ret = clk_set_rate(&eqos->clk_rx, rate);
 		if (ret < 0) {
