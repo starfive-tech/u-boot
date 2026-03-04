@@ -33,4 +33,10 @@ config CMD_JHB100_DP
 	help
 	  DisplayPort test command for the JHB100 DC8000 + DPTX pipeline.
 
+config CMD_JHB100_NETTEST
+	bool "nettest"
+	depends on CMD_STARFIVE && NET
+	help
+	  JHB100 Ethernet test command.
+
 endmenu
