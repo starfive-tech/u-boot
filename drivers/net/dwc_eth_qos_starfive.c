@@ -11,6 +11,7 @@
 #include <dm.h>
 #include <eth_phy.h>
 #include <net.h>
+#include <nettest_starfive.h>
 #include <regmap.h>
 #include <reset.h>
 #include <syscon.h>
@@ -304,6 +305,15 @@ static int eqos_set_tx_clk_speed_jhb100(struct udevice *dev)
 			return ret;
 		}
 	}
+
+#ifdef CONFIG_CMD_JHB100_NETTEST
+	if(nettest_mac_status())
+		setbits_le32(&eqos->mac_regs->configuration,
+		     EQOS_MAC_CONFIGURATION_LM);
+	else
+		clrbits_le32(&eqos->mac_regs->configuration,
+		     EQOS_MAC_CONFIGURATION_LM);
+#endif
 
 	return 0;
 }
