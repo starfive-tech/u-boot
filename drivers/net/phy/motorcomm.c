@@ -7,11 +7,11 @@
  */
 
 #include <config.h>
-#include <common.h>
 #include <malloc.h>
 #include <phy.h>
 #include <linux/bitfield.h>
 #include <asm/io.h>
+#include <nettest_starfive.h>
 
 #define PHY_ID_YT8511				0x0000010a
 #define PHY_ID_YT8531				0x4f51e91b
@@ -304,6 +304,50 @@ static const struct ytphy_cfg_reg_map ytphy_rgmii_delays[] = {
 	{ 2250 + YT8531_CCR_RXC_DLY_1_900_NS,	YT8531_RC1R_RGMII_2_250_NS }
 };
 
+#ifdef CONFIG_CMD_JHB100_NETTEST
+static void enable_loopback(struct phy_device *phydev)
+{
+	if(nettest_mac_status()) {
+		phydev->autoneg = AUTONEG_DISABLE;
+		phydev->link = 1;
+		phydev->speed = SPEED_10;
+		phydev->duplex = DUPLEX_FULL;
+		phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+			 BMCR_LOOPBACK, 0);
+		phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+			 BMCR_SPEED100, 0);
+		phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+			 BMCR_SPEED1000, 0);
+		phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+			BMCR_ANENABLE, 0);
+	} else if (nettest_phy_status()) {
+		phydev->autoneg = AUTONEG_DISABLE;
+		phydev->link = 1;
+		phydev->speed = SPEED_100;
+		phydev->duplex = DUPLEX_FULL;
+		phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+			 BMCR_LOOPBACK, BMCR_LOOPBACK);
+		phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+			 BMCR_SPEED100, BMCR_SPEED100);
+		phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+			 BMCR_SPEED1000, 0);
+		phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+			BMCR_ANENABLE, 0);
+	} else {
+		if (phydev->autoneg == AUTONEG_DISABLE) {
+			phydev->link = 0;
+			phydev->autoneg = AUTONEG_ENABLE;
+			phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+				BMCR_ANRESTART, BMCR_ANRESTART);
+			phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+				BMCR_ANENABLE, BMCR_ANENABLE);
+			phy_modify(phydev, MDIO_DEVAD_NONE, MII_BMCR,
+				BMCR_LOOPBACK, 0);
+		}
+	}
+}
+#endif
+
 static u32 ytphy_get_delay_reg_value(struct phy_device *phydev,
 				     u32 val,
 				     u16 *rxc_dly_en)
@@ -439,6 +483,12 @@ static int yt8531_startup(struct phy_device *phydev)
 	struct ytphy_plat_priv	*priv = phydev->priv;
 	u16 val = 0;
 	int ret;
+
+#ifdef CONFIG_CMD_JHB100_NETTEST
+	enable_loopback(phydev);
+	if (nettest_mac_status() || nettest_phy_status())
+		return 0;
+#endif
 
 	ret = genphy_update_link(phydev);
 	if (ret)
@@ -1271,6 +1321,12 @@ static int yt8531s_startup(struct phy_device *phydev)
 {
 	int ret;
 
+#ifdef CONFIG_CMD_JHB100_NETTEST
+	enable_loopback(phydev);
+	if (nettest_mac_status() || nettest_phy_status())
+		return 0;
+#endif
+
 	ret = genphy_update_link(phydev);
 	if (ret)
 		return ret;
@@ -1368,6 +1424,12 @@ static int yt8522_config(struct phy_device *phydev)
 static int yt8522_startup(struct phy_device *phydev)
 {
 	int ret, val;
+
+#ifdef CONFIG_CMD_JHB100_NETTEST
+	enable_loopback(phydev);
+	if (nettest_mac_status() || nettest_phy_status())
+		return 0;
+#endif
 
 	/* Start Autonegotation */
 	ret = genphy_update_link(phydev);
