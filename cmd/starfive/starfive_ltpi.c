@@ -119,6 +119,10 @@
 #define L_LINK_STA_SFT			16
 
 /* STARFIVE_REG_DET_CAP_L reg */
+#define FREQ_25_MHZ_MSK			BIT(8)
+#define FREQ_50_MHZ_MSK			BIT(9)
+#define FREQ_75_MHZ_MSK			BIT(10)
+#define FREQ_100_MHZ_MSK		BIT(11)
 #define FREQ_150_MHZ_MSK		BIT(12)
 #define DDR_SUP_MSK			BIT(23)
 
@@ -195,7 +199,21 @@ enum starfive_ltpi_link_state {
 
 enum starfive_ltpi_gpio_type {
 	LTPI_GPIO_TYPE_LL = 0,		/* Low Latency GPIO */
-	LTPI_GPIO_TYPE_NL		/* Normal Latency GPIO */
+	LTPI_GPIO_TYPE_NL,		/* Normal Latency GPIO */
+};
+
+enum starfive_ltpi_speed_limit {
+	LTPI_150_DDR,
+	LTPI_150_SDR,
+	LTPI_100_DDR,
+	LTPI_100_SDR,
+	LTPI_75_DDR,
+	LTPI_75_SDR,
+	LTPI_50_DDR,
+	LTPI_50_SDR,
+	LTPI_25_DDR,
+	LTPI_25_SDR,
+	LTPI_SPD_LIMIT_MAX,
 };
 
 struct starfive_ltpi_cap_config {
@@ -228,6 +246,22 @@ static const u32 starfive_ltpi_spd_sup_sdr_60m[LTPI_SPEED_FREQ_ID_MAX] = {
 	24, 12, 8, 6, 4, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
+static const u32 freq_mask[] = {
+	FREQ_150_MHZ_MSK,
+	FREQ_100_MHZ_MSK,
+	FREQ_75_MHZ_MSK,
+	FREQ_50_MHZ_MSK,
+	FREQ_25_MHZ_MSK,
+};
+
+static const u8 phx_div_table[] = {
+	8,	/* 150 MHz */
+	12,	/* 100 MHz */
+	16,	/* 75 MHz */
+	24,	/* 50 MHz */
+	48,	/* 25 MHz */
+};
+
 static const struct ltpi_clk_desc ltpi_desc[] = {
 	[0] = {
 		.main_icg_en = JHB100_PER0CRG_MAIN_ICG_EN_LTPI0_OFFSET,
@@ -257,7 +291,8 @@ static const struct ltpi_clk_desc ltpi_desc[] = {
 	},
 };
 
-static int ltpi_clock_enable(int id)
+static int ltpi_clock_enable(int id,
+			     enum starfive_ltpi_speed_limit speed_limit)
 {
 	const struct ltpi_clk_desc *d;
 	void *syscon0 = (void *)JHB100_PER0_SYSCON_ADDR_0;
@@ -265,10 +300,15 @@ static int ltpi_clock_enable(int id)
 	void *crg;
 	u32 val, timeout;
 	u32 controller_clk_div;
+	u8 phx_div;
 
 	if (id < 0 || id > 1)
 		return -EINVAL;
 
+	if (speed_limit >= LTPI_SPD_LIMIT_MAX)
+		return -EINVAL;
+
+	phx_div = phx_div_table[speed_limit >> 1];
 	d = &ltpi_desc[id];
 
 	/* Disable PLL output & gate post-divider */
@@ -310,10 +350,10 @@ static int ltpi_clock_enable(int id)
 
 	/* Program PH dividers */
 	crg = (void *)(JHB100_PER0CRG_ADDR + d->ph0_div);
-	writel((readl(crg) & ~0xFFFFFF) | 8, crg);
+	writel((readl(crg) & ~0xFFFFFF) | phx_div, crg);
 
 	crg = (void *)(JHB100_PER0CRG_ADDR + d->ph90_div);
-	writel((readl(crg) & ~0xFFFFFF) | 8, crg);
+	writel((readl(crg) & ~0xFFFFFF) | phx_div, crg);
 
 	/* Enable PH clocks */
 	crg = (void *)(JHB100_PER0CRG_ADDR + d->ph0_en);
@@ -370,7 +410,8 @@ static inline void starfive_ltpi_clr_cnt(void __iomem *base, u32 start, u32 end)
 		writel(GENMASK(31, 0), base + off);
 }
 
-static void starfive_ltpi_set_maxspeed(void __iomem *base)
+static void starfive_ltpi_set_maxspeed(void __iomem *base,
+				       enum starfive_ltpi_speed_limit speed_limit)
 {
 	u32 reg;
 
@@ -379,13 +420,18 @@ static void starfive_ltpi_set_maxspeed(void __iomem *base)
 
 	reg = readl(base + STARFIVE_REG_DET_CAP_L);
 	reg &= ~(GENMASK(23, 8));
-	reg |= DDR_SUP_MSK | FREQ_150_MHZ_MSK;
+	reg |= freq_mask[speed_limit >> 1];
+
+	if (!(speed_limit & 1))
+		reg |= DDR_SUP_MSK;
+
 	writel(reg, base + STARFIVE_REG_DET_CAP_L);
 }
 
-static inline void starfive_ltpi_speed_cap_set(void __iomem *base)
+static inline void starfive_ltpi_speed_cap_set(void __iomem *base,
+					       enum starfive_ltpi_speed_limit speed_limit)
 {
-	starfive_ltpi_set_maxspeed(base);
+	starfive_ltpi_set_maxspeed(base, speed_limit);
 }
 
 static inline void starfive_ltpi_set_auto_cfg(void __iomem *base)
@@ -558,6 +604,30 @@ static const char *starfive_ltpi_uart_baud_str(u8 baud)
 	}
 }
 
+static void starfive_ltpi_dump_spd_limit(void __iomem *base)
+{
+	u32 reg;
+	bool ddr_mode;
+	u8 spd_mask = 0;
+	int freq_mhz;
+
+	static const int freq_table[] = {25, 50, 75, 100, 150};
+
+	reg = readl(base + STARFIVE_REG_LINK_STA);
+
+	ddr_mode = !!((reg & DDR_MOD_MSK) >> DDR_MOD_SFT);
+	spd_mask = (reg & LINK_SPEED_MSK) >> LINK_SPEED_SFT;
+
+	if (spd_mask >= ARRAY_SIZE(freq_table)) {
+		printf("(Invalid speed encoding: %u)\n", spd_mask);
+		return;
+	}
+
+	freq_mhz = freq_table[spd_mask];
+
+	printf("(%s, %d MHz)\n", ddr_mode ? "DDR" : "SDR", freq_mhz);
+}
+
 static void starfive_ltpi_dump_caps(int id,
 				    struct starfive_ltpi_cap_config *caps)
 {
@@ -597,6 +667,7 @@ static void starfive_ltpi_dump_caps(int id,
 }
 
 static void starfive_ltpi_init(int id,
+			       enum starfive_ltpi_speed_limit speed_limit,
 			       struct starfive_ltpi_cap_config *config)
 {
 	void __iomem *base = starfive_ltpi_base(id);
@@ -606,14 +677,14 @@ static void starfive_ltpi_init(int id,
 	int ret;
 
 	/* Enable clock */
-	ret = ltpi_clock_enable(id);
+	ret = ltpi_clock_enable(id, speed_limit);
 	if (ret) {
 		printf("ERROR: LTPI%d clock enable failed (%d)\n", id, ret);
 		return;
 	}
 
 	/* Configure speed & capabilities */
-	starfive_ltpi_speed_cap_set(base);
+	starfive_ltpi_speed_cap_set(base, speed_limit);
 	starfive_ltpi_default_frame_init(base, config);
 	starfive_ltpi_set_auto_cfg(base);
 
@@ -643,7 +714,8 @@ static void starfive_ltpi_init(int id,
 		}
 
 		if (operational) {
-			printf("LTPI%d: operational, link up (DDR, 150 MHz)\n", id);
+			printf("LTPI%d: operational, link up ", id);
+			starfive_ltpi_dump_spd_limit(base);
 			starfive_ltpi_dump_caps(id, config);
 			break;
 		}
@@ -870,6 +942,7 @@ static int starfive_ltpi_data_channel_read_resp(void __iomem *base,
 }
 
 static int starfive_ltpi_gpio_handler(int id,
+				      enum starfive_ltpi_speed_limit speed_limit,
 				      enum starfive_ltpi_gpio_type type,
 				      int pin_start,
 				      int pin_range,
@@ -914,7 +987,7 @@ static int starfive_ltpi_gpio_handler(int id,
 	else
 		config.nl_gpio_caps = pin_range;
 
-	starfive_ltpi_init(id, &config);
+	starfive_ltpi_init(id, speed_limit, &config);
 
 	if (!starfive_ltpi_link_is_up(ltpi_base)) {
 		printf("LTPI%d: link down\n", id);
@@ -952,7 +1025,9 @@ static int starfive_ltpi_gpio_handler(int id,
 	return 0;
 }
 
-static int starfive_ltpi_data_handler(int id, bool write, u32 addr, u32 value)
+static int starfive_ltpi_data_handler(int id,
+				      enum starfive_ltpi_speed_limit speed_limit,
+				      bool write, u32 addr, u32 value)
 {
 	void __iomem *ltpi_base;
 	struct starfive_ltpi_cap_config config = { 0 };
@@ -973,7 +1048,7 @@ static int starfive_ltpi_data_handler(int id, bool write, u32 addr, u32 value)
 
 	config.supported_channels = LTPI_CAP_DATA_CHANNEL;
 
-	starfive_ltpi_init(id, &config);
+	starfive_ltpi_init(id, speed_limit, &config);
 
 	if (!starfive_ltpi_link_is_up(ltpi_base)) {
 		printf("LTPI%d: link down\n", id);
@@ -1012,7 +1087,9 @@ static int starfive_ltpi_data_handler(int id, bool write, u32 addr, u32 value)
 	return 0;
 }
 
-static int starfive_ltpi_uart_handler(int id, u8 mask)
+static int starfive_ltpi_uart_handler(int id,
+				      enum starfive_ltpi_speed_limit speed_limit,
+				      u8 mask)
 {
 	void __iomem *ltpi_base;
 	struct starfive_ltpi_cap_config config = { 0 };
@@ -1029,7 +1106,7 @@ static int starfive_ltpi_uart_handler(int id, u8 mask)
 	config.uart_caps = mask;
 	config.uart_max_baud_rate = LTPI_UART_BAUD_921600;
 
-	starfive_ltpi_init(id, &config);
+	starfive_ltpi_init(id, speed_limit, &config);
 
 	if (!starfive_ltpi_link_is_up(ltpi_base)) {
 		printf("LTPI%d: link down\n", id);
@@ -1039,7 +1116,9 @@ static int starfive_ltpi_uart_handler(int id, u8 mask)
 	return 0;
 }
 
-static int starfive_ltpi_i2c_handler(int id, u8 mask, u32 speed)
+static int starfive_ltpi_i2c_handler(int id,
+				     enum starfive_ltpi_speed_limit speed_limit,
+				     u8 mask, u32 speed)
 {
 	void __iomem *ltpi_base;
 	struct starfive_ltpi_cap_config config = { 0 };
@@ -1060,7 +1139,7 @@ static int starfive_ltpi_i2c_handler(int id, u8 mask, u32 speed)
 	config.i2c_speed = speed;
 	config.i2c_caps = mask;
 
-	starfive_ltpi_init(id, &config);
+	starfive_ltpi_init(id, speed_limit, &config);
 
 	if (!starfive_ltpi_link_is_up(ltpi_base)) {
 		printf("LTPI%d: link down\n", id);
@@ -1070,12 +1149,14 @@ static int starfive_ltpi_i2c_handler(int id, u8 mask, u32 speed)
 	return 0;
 }
 
-static void starfive_ltpi_gpio_nl(int dev, int pin_start, int pin_range,
+static void starfive_ltpi_gpio_nl(int dev,
+				  enum starfive_ltpi_speed_limit speed_limit,
+				  int pin_start, int pin_range,
 				  bool output_high, bool is_input)
 {
 	int ret;
 
-	ret = starfive_ltpi_gpio_handler(dev, LTPI_GPIO_TYPE_NL, pin_start, pin_range,
+	ret = starfive_ltpi_gpio_handler(dev, speed_limit, LTPI_GPIO_TYPE_NL, pin_start, pin_range,
 					 output_high, is_input);
 	if (ret) {
 		printf("LTPI UART GPIO NL failed for dev %d (err=%d)\n",
@@ -1083,12 +1164,14 @@ static void starfive_ltpi_gpio_nl(int dev, int pin_start, int pin_range,
 	}
 }
 
-static void starfive_ltpi_gpio_ll(int dev, int pin_start, int pin_range,
+static void starfive_ltpi_gpio_ll(int dev,
+				  enum starfive_ltpi_speed_limit speed_limit,
+				  int pin_start, int pin_range,
 				  bool output_high, bool is_input)
 {
 	int ret;
 
-	ret = starfive_ltpi_gpio_handler(dev, LTPI_GPIO_TYPE_LL, pin_start, pin_range,
+	ret = starfive_ltpi_gpio_handler(dev, speed_limit, LTPI_GPIO_TYPE_LL, pin_start, pin_range,
 					 output_high, is_input);
 	if (ret) {
 		printf("LTPI UART GPIO LL failed for dev %d (err=%d)\n",
@@ -1096,44 +1179,52 @@ static void starfive_ltpi_gpio_ll(int dev, int pin_start, int pin_range,
 	}
 }
 
-static void starfive_ltpi_data_read(int dev, u32 addr)
+static void starfive_ltpi_data_read(int dev,
+				    enum starfive_ltpi_speed_limit speed_limit,
+				    u32 addr)
 {
 	int ret;
 
-	ret = starfive_ltpi_data_handler(dev, false, addr, 0);
+	ret = starfive_ltpi_data_handler(dev, speed_limit, false, addr, 0);
 	if (ret) {
 		printf("LTPI DATA READ failed for dev %d (err=%d)\n",
 		       dev, ret);
 	}
 }
 
-static void starfive_ltpi_data_write(int dev, u32 addr, u32 value)
+static void starfive_ltpi_data_write(int dev,
+				     enum starfive_ltpi_speed_limit speed_limit,
+				     u32 addr, u32 value)
 {
 	int ret;
 
-	ret = starfive_ltpi_data_handler(dev, true, addr, value);
+	ret = starfive_ltpi_data_handler(dev, speed_limit, true, addr, value);
 	if (ret) {
 		printf("LTPI DATA WRITE failed for dev %d (err=%d)\n",
 		       dev, ret);
 	}
 }
 
-static void starfive_ltpi_uart_config(int dev, u8 mask)
+static void starfive_ltpi_uart_config(int dev,
+				      enum starfive_ltpi_speed_limit speed_limit,
+				      u8 mask)
 {
 	int ret;
 
-	ret = starfive_ltpi_uart_handler(dev, mask);
+	ret = starfive_ltpi_uart_handler(dev, speed_limit, mask);
 	if (ret) {
 		printf("LTPI UART CONFIG failed for dev %d (err=%d)\n",
 		       dev, ret);
 	}
 }
 
-static void starfive_ltpi_i2c_config(int dev, u8 mask, u32 speed)
+static void starfive_ltpi_i2c_config(int dev,
+				     enum starfive_ltpi_speed_limit speed_limit,
+				     u8 mask, u32 i2c_speed)
 {
 	int ret;
 
-	ret = starfive_ltpi_i2c_handler(dev, mask, speed);
+	ret = starfive_ltpi_i2c_handler(dev, speed_limit, mask, i2c_speed);
 	if (ret) {
 		printf("LTPI I2C CONFIG failed for dev %d (err=%d)\n",
 		       dev, ret);
@@ -1143,8 +1234,8 @@ static void starfive_ltpi_i2c_config(int dev, u8 mask, u32 speed)
 static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 		   int argc, char *const argv[])
 {
-	int dev, pin_start, pin_range;
-	u32 addr, val, speed;
+	int dev, speed_limit, pin_start, pin_range;
+	u32 addr, val, i2c_speed;
 	u8 mask;
 	bool output_high = false;
 	bool is_input = false;
@@ -1154,29 +1245,32 @@ static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 
 	/* ---------------- GPIO ---------------- */
 	if (!strcmp(argv[1], "gpio")) {
-		if (argc != 7)
+		if (argc != 8)
 			return CMD_RET_USAGE;
 
 		dev = simple_strtoul(argv[3], NULL, 0);
-		pin_start = simple_strtoul(argv[4], NULL, 0);
-		pin_range = simple_strtoul(argv[5], NULL, 0);
+		speed_limit = simple_strtoul(argv[4], NULL, 0);
+		pin_start = simple_strtoul(argv[5], NULL, 0);
+		pin_range = simple_strtoul(argv[6], NULL, 0);
 
-		if (!strcmp(argv[6], "set"))
+		if (!strcmp(argv[7], "set"))
 			output_high = true;
-		else if (!strcmp(argv[6], "clear"))
+		else if (!strcmp(argv[7], "clear"))
 			output_high = false;
-		else if (!strcmp(argv[6], "input"))
+		else if (!strcmp(argv[7], "input"))
 			is_input = true;
 		else
 			return CMD_RET_USAGE;
 
 		if (!strcmp(argv[2], "nl")) {
-			starfive_ltpi_gpio_nl(dev, pin_start, pin_range, output_high, is_input);
+			starfive_ltpi_gpio_nl(dev, (enum starfive_ltpi_speed_limit)speed_limit,
+					      pin_start, pin_range, output_high, is_input);
 			return CMD_RET_SUCCESS;
 		}
 
 		if (!strcmp(argv[2], "ll")) {
-			starfive_ltpi_gpio_ll(dev, pin_start, pin_range, output_high, is_input);
+			starfive_ltpi_gpio_ll(dev, (enum starfive_ltpi_speed_limit)speed_limit,
+					      pin_start, pin_range, output_high, is_input);
 			return CMD_RET_SUCCESS;
 		}
 
@@ -1186,25 +1280,33 @@ static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 	/* ---------------- DATA ---------------- */
 	if (!strcmp(argv[1], "data")) {
 		if (!strcmp(argv[2], "read")) {
-			if (argc != 5)
-				return CMD_RET_USAGE;
-
-			dev = simple_strtoul(argv[3], NULL, 0);
-			addr = simple_strtoul(argv[4], NULL, 0);
-
-			starfive_ltpi_data_read(dev, addr);
-			return CMD_RET_SUCCESS;
-		}
-
-		if (!strcmp(argv[2], "write")) {
 			if (argc != 6)
 				return CMD_RET_USAGE;
 
 			dev = simple_strtoul(argv[3], NULL, 0);
-			addr = simple_strtoul(argv[4], NULL, 0);
-			val = simple_strtoul(argv[5], NULL, 0);
+			speed_limit = simple_strtoul(argv[4], NULL, 0);
+			addr = simple_strtoul(argv[5], NULL, 0);
 
-			starfive_ltpi_data_write(dev, addr, val);
+			starfive_ltpi_data_read(dev,
+						(enum starfive_ltpi_speed_limit)speed_limit,
+						addr);
+
+			return CMD_RET_SUCCESS;
+		}
+
+		if (!strcmp(argv[2], "write")) {
+			if (argc != 7)
+				return CMD_RET_USAGE;
+
+			dev = simple_strtoul(argv[3], NULL, 0);
+			speed_limit = simple_strtoul(argv[4], NULL, 0);
+			addr = simple_strtoul(argv[5], NULL, 0);
+			val = simple_strtoul(argv[6], NULL, 0);
+
+			starfive_ltpi_data_write(dev,
+						 (enum starfive_ltpi_speed_limit)speed_limit,
+						 addr, val);
+
 			return CMD_RET_SUCCESS;
 		}
 
@@ -1214,18 +1316,22 @@ static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 	/* ---------------- UART ---------------- */
 	if (!strcmp(argv[1], "uart")) {
 		if (!strcmp(argv[2], "config")) {
-			if (argc != 5)
+			if (argc != 6)
 				return CMD_RET_USAGE;
 
 			dev = simple_strtoul(argv[3], NULL, 0);
-			mask = (u8)simple_strtoul(argv[4], NULL, 0);
+			speed_limit = simple_strtoul(argv[4], NULL, 0);
+			mask = (u8)simple_strtoul(argv[5], NULL, 0);
 
 			if (mask > 3) {
 				printf("Invalid UART mask %u\n", mask);
 				return CMD_RET_USAGE;
 			}
 
-			starfive_ltpi_uart_config(dev, mask);
+			starfive_ltpi_uart_config(dev,
+						  (enum starfive_ltpi_speed_limit)speed_limit,
+						  mask);
+
 			return CMD_RET_SUCCESS;
 		}
 
@@ -1235,24 +1341,28 @@ static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 	/* ---------------- I2C ---------------- */
 	if (!strcmp(argv[1], "i2c")) {
 		if (!strcmp(argv[2], "config")) {
-			if (argc != 6)
+			if (argc != 7)
 				return CMD_RET_USAGE;
 
 			dev = simple_strtoul(argv[3], NULL, 0);
-			mask = (u8)simple_strtoul(argv[4], NULL, 0);
-			speed = simple_strtoul(argv[5], NULL, 0);
+			speed_limit = simple_strtoul(argv[4], NULL, 0);
+			mask = (u8)simple_strtoul(argv[5], NULL, 0);
+			i2c_speed = simple_strtoul(argv[6], NULL, 0);
 
 			if (mask > 63) {
 				printf("Invalid I2C mask %u\n", mask);
 				return CMD_RET_USAGE;
 			}
 
-			if (speed > 1) {
-				printf("Invalid I2C speed %u\n", speed);
+			if (i2c_speed > 1) {
+				printf("Invalid I2C speed %u\n", i2c_speed);
 				return CMD_RET_USAGE;
 			}
 
-			starfive_ltpi_i2c_config(dev, mask, speed);
+			starfive_ltpi_i2c_config(dev,
+						 (enum starfive_ltpi_speed_limit)speed_limit,
+						 mask, i2c_speed);
+
 			return CMD_RET_SUCCESS;
 		}
 
@@ -1264,20 +1374,33 @@ static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 
 U_BOOT_CMD(ltpi, CONFIG_SYS_MAXARGS, 1, do_ltpi,
 	   "StarFive Diagnostic Tool for LTPI",
-	   "gpio nl <dev> <pin_start> <pin_range> <set|clear|input>\n"
+	   "gpio nl <dev> <speed_limit> <pin_start> <pin_range> <set|clear|input>\n"
 	   "    - configure LTPI GPIOs to Normal Latency mode\n"
-	   "ltpi gpio ll <dev> <pin_start> <pin_range> <set|clear|input>\n"
+	   "ltpi gpio ll <dev> <speed_limit> <pin_start> <pin_range> <set|clear|input>\n"
 	   "    - configure LTPI GPIOs to Low Latency mode\n"
-	   "ltpi data read <dev> <addr>\n"
+	   "ltpi data read <dev> <speed_limit> <addr>\n"
 	   "    - read from LTPI data registers\n"
-	   "ltpi data write <dev> <addr> <value>\n"
+	   "ltpi data write <dev> <speed_limit> <addr> <value>\n"
 	   "    - write to LTPI data registers\n"
-	   "ltpi uart config <dev> <mask>\n"
+	   "ltpi uart config <dev> <speed_limit> <mask>\n"
 	   "    - configure LTPI UART capability mask\n"
 	   "      mask: 0=off, 1=UART0, 2=UART1, 3=UART0+UART1\n"
-	   "ltpi i2c config <dev> <mask> <speed>\n"
+	   "ltpi i2c config <dev> <speed_limit> <mask> <i2c_speed>\n"
 	   "    - configure LTPI I2C capability mask\n"
 	   "      mask: bit0=I2C0, bit1=I2C1, ..., bit5=I2C5\n"
 	   "            (0=disable all, 63=all buses)\n"
-	   "      speed: 0=100kHz, 1=400kHz\n"
+	   "      i2c_speed: 0=100kHz, 1=400kHz\n"
+	   "\n"
+	   "Notes:\n"
+	   "  speed_limit:\n"
+	   "    0: 150MHz - DDR\n"
+	   "    1: 150MHz - SDR\n"
+	   "    2: 100MHz - DDR\n"
+	   "    3: 100MHz - SDR\n"
+	   "    4: 75MHz - DDR\n"
+	   "    5: 75MHz - SDR\n"
+	   "    6: 50MHz - DDR\n"
+	   "    7: 50MHz - SDR\n"
+	   "    8: 25MHz - DDR\n"
+	   "    9: 25MHz - SDR\n"
 );
