@@ -373,11 +373,27 @@ static int eqos_start_resets_jhb100(struct udevice *dev)
 {
 	struct eth_pdata *pdata = dev_get_plat(dev);
 	struct starfive_platform_data *data = pdata->priv_pdata;
+	struct eqos_priv *eqos = dev_get_priv(dev);
+	u16 val;
 
-	if (data->interface == PHY_INTERFACE_MODE_SGMII) {
+	switch (data->interface) {
+	case PHY_INTERFACE_MODE_SGMII:
 		if (reset_deassert_bulk(&data->resets) == 0)
 			return generic_phy_configure(&data->phy, NULL);
 		return -EPERM;
+
+	case PHY_INTERFACE_MODE_RGMII:
+	case PHY_INTERFACE_MODE_RGMII_ID:
+		/* RGMII interface require external clk from PHY.
+		 * After reboot, PHY is set to sleep mode.
+		 * Clear BMCR_PDOWN bit to wake up the PHY to supply clk to MAC.
+		 */
+		val = eqos->mii->read(eqos->mii, 0, 0, MII_BMCR);
+		val &= ~BMCR_PDOWN;
+		eqos->mii->write(eqos->mii, 0, 0, MII_BMCR, val);
+		break;
+	default:
+		break;
 	}
 
 	return reset_deassert_bulk(&data->resets);
