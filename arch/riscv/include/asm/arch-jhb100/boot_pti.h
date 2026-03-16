@@ -73,25 +73,27 @@ enum sts_image_flag {
 };
 
 /* GET_BMCFW_INFO EMMC Partition Mapping */
-static const int emmc_partition_map[7] = {
-	1,  /* 0 -> BOOT0 */
-	2,  /* 1 -> BOOT1 */
-	4,  /* 2 -> GPP0 */
-	5,  /* 3 -> GPP1 */
-	6,  /* 4 -> GPP2 */
-	7,  /* 5 -> GPP3 */
-	0   /* 6 -> UDA */
+static const int emmc_partition_map[8] = {
+	0,  /* 0 -> UDA */
+	1,  /* 1 -> BOOT0 */
+	2,  /* 2 -> BOOT1 */
+	3,  /* 3 -> #NA */
+	4,  /* 4 -> GPP0 */
+	5,  /* 5 -> GPP1 */
+	6,  /* 6 -> GPP2 */
+	7   /* 7 -> GPP3 */
 };
 
 /* GET_BMCFW_INFO UFS Partition Mapping */
-static const int ufs_partition_map[7] = {
-	1,  /* 0 -> BOOT0 */
-	2,  /* 1 -> BOOT1 */
-	3,  /* 2 -> LUN0 */
-	4,  /* 3 -> LUN1 */
-	5,  /* 4 -> LUN2 */
-	6,  /* 5 -> LUN3 */
-	0   /* 6 -> UDA */
+static const int ufs_partition_map[8] = {
+	0,  /* 0 -> UDA/LUN0 */
+	1,  /* 1 -> BOOT0/LUN1 */
+	2,  /* 2 -> BOOT1/LUN2 */
+	3,  /* 3 -> LUN3 */
+	4,  /* 4 -> LUN4 */
+	5,  /* 5 -> LUN5 */
+	6,  /* 6 -> LUN6 */
+	7   /* 7 -> #NA */
 };
 
 #define BOOT_CTRL_REG_ADDR		0x0013018018

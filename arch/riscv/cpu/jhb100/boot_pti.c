@@ -151,13 +151,13 @@ int starfive_get_partition_num(int boot_src, int part_type, int img_type)
 		/* Send RPMI/MPXY message via mailbox */
 		GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
 
-		return emmc_partition_map[resp_data[1] & GET_BMCFW_INFO_EMMC_UFS_PARTITION_MASK];
+		return emmc_partition_map[resp_data[1] & GET_BMCFW_INFO_SFC_EMMC_UFS_PARTITION_MASK];
 	}
 	case BOOT_SRC_UFS: {
 		/* Send RPMI/MPXY message via mailbox */
 		GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, boot_src, img_type, resp_data);
 
-		return ufs_partition_map[resp_data[1] & GET_BMCFW_INFO_EMMC_UFS_PARTITION_MASK];
+		return ufs_partition_map[resp_data[1] & GET_BMCFW_INFO_SFC_EMMC_UFS_PARTITION_MASK];
 	}
 	default:
 		printf("Unknown boot source\n");
@@ -225,7 +225,7 @@ int starfive_get_sfc_cs(int part_type, int img_type)
 	/* Send RPMI/MPXY message via mailbox */
 	GET_BMCFW_INFO(GET_CURRENT_PARTITION, part_type, BOOT_SRC_SFC, img_type, resp_data);
 
-	return (resp_data[1] & GET_BMCFW_INFO_SFC_CS_NUM_MASK) >> GET_BMCFW_INFO_SFC_CS_NUM_SHIFT;
+	return (resp_data[1] & GET_BMCFW_INFO_SFC_EMMC_UFS_PARTITION_MASK);
 }
 
 int starfive_get_sfc_part_size(int part_type, int img_type)
