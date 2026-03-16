@@ -49,6 +49,8 @@
 };
 
 &i2c7_slave {
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
 	clock-frequency = <100000>;
 	status = "okay";
 };

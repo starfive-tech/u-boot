@@ -32,7 +32,7 @@
 	starfive,uart-remap-num = <2>;
 	starfive,bt-io-addr = /bits/ 32 <0xe4 0xf4>;
 	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb2 0xcc2 0xcd2>;
-	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x400>;
+	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x410>;
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
 
@@ -222,6 +222,8 @@
 };
 
 &i2c2_slave {
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
 	clock-frequency = <100000>;
 	status = "okay";
 };

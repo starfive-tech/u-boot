@@ -85,7 +85,7 @@ pcie0_media_mem_cache: media_memory@48000000 {
 	no-map;
 };
 
-pcie0_media_mem_uncache: media_emory@408000000 {
+pcie0_media_mem_uncache: media_memory@408000000 {
 	reg = <0x4 0x08000000 0x0 0x4000000>;
 	alignment = <0x0 0x4000000>;
 	no-map;
@@ -135,32 +135,32 @@ dma_reserved_uncache: linux,dma@40e300000 {
 };
 
 sol_tx_mem_cache: sol@56300000 {
-	reg = <0x0 0x56300000 0x0 0x2000000>;
+	reg = <0x0 0x56300000 0x0 0x2000400>;
 	no-map;
 };
 
 sol_tx_mem_uncache: sol@416300000 {
-	reg = <0x4 0x16300000 0x0 0x2000000>;
+	reg = <0x4 0x16300000 0x0 0x2000400>;
 	no-map;
 };
 
-sol_rx_mem_cache: sol@58300000 {
-	reg = <0x0 0x58300000 0x0 0x2000000>;
+sol_rx_mem_cache: sol@58300400 {
+	reg = <0x0 0x58300400 0x0 0x2000400>;
 	no-map;
 };
 
-sol_rx_mem_uncache: sol@418300000 {
-	reg = <0x4 0x18300000 0x0 0x2000000>;
+sol_rx_mem_uncache: sol@418300400 {
+	reg = <0x4 0x18300400 0x0 0x2000400>;
 	no-map;
 };
 
-espi1_vw_mem_cache: espi0@5a300000 {
-	reg = <0x0 0x5a300000 0x0 0x1000>;
+espi1_vw_mem_cache: espi0@5a300800 {
+	reg = <0x0 0x5a300800 0x0 0x1000>;
 	no-map;
 };
 
-espi1_vw_mem_uncache: espi0@41a300000 {
-	reg = <0x4 0x1a300000 0x0 0x1000>;
+espi1_vw_mem_uncache: espi0@41a300800 {
+	reg = <0x4 0x1a300800 0x0 0x1000>;
 	no-map;
 };
 
@@ -204,7 +204,7 @@ pcie1_media_mem_cache: media_memory@5c000000 {
 	no-map;
 };
 
-pcie1_media_mem_uncache: media_emory@41c000000 {
+pcie1_media_mem_uncache: media_memory@41c000000 {
 	reg = <0x4 0x1c000000 0x0 0x4000000>;
 	alignment = <0x0 0x4000000>;
 	no-map;

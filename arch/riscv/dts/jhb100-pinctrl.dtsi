@@ -1298,6 +1298,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B44,
 					 FUNC_BMCPERIPH0_MIPI_I3C0_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1314,6 +1315,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B46,
 					 FUNC_BMCPERIPH0_MIPI_I3C1_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1330,6 +1332,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B48,
 					 FUNC_BMCPERIPH0_MIPI_I3C2_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1346,6 +1349,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B50,
 					 FUNC_BMCPERIPH0_MIPI_I3C3_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1362,6 +1366,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B8,
 					 FUNC_BMCPERIPH0_MIPI_I3C4_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1378,6 +1383,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B52,
 					 FUNC_BMCPERIPH0_MIPI_I3C4_SCL1)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1394,6 +1400,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B10,
 					 FUNC_BMCPERIPH0_MIPI_I3C5_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1410,6 +1417,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B54,
 					 FUNC_BMCPERIPH0_MIPI_I3C5_SCL1)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1426,6 +1434,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B12,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1442,10 +1451,11 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B56,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SCL1)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
-		i3c5lv_sda-pins{
+		i3c6lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B57,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SDA1)>;
 			input-enable;
@@ -1458,6 +1468,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B14,
 					 FUNC_BMCPERIPH0_MIPI_I3C7_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1474,10 +1485,11 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B58,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SCL1)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
-		i3c5lv_sda-pins{
+		i3c7lv_sda-pins{
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B59,
 					 FUNC_BMCPERIPH0_MIPI_I3C6_SDA1)>;
 			input-enable;
@@ -1490,6 +1502,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B16,
 					 FUNC_BMCPERIPH0_MIPI_I3C8_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1506,6 +1519,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B18,
 					 FUNC_BMCPERIPH0_MIPI_I3C9_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1522,6 +1536,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B20,
 					 FUNC_BMCPERIPH0_MIPI_I3C10_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1538,6 +1553,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B22,
 					 FUNC_BMCPERIPH0_MIPI_I3C11_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1554,6 +1570,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B36,
 					 FUNC_BMCPERIPH0_MIPI_I3C12_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1570,6 +1587,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B38,
 					 FUNC_BMCPERIPH0_MIPI_I3C13_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1586,6 +1604,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B40,
 					 FUNC_BMCPERIPH0_MIPI_I3C14_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 
@@ -1602,6 +1621,7 @@
 			pinmux = <PINMUX(PADNUM_BMCPERIPH0_GPIO_B42,
 					 FUNC_BMCPERIPH0_MIPI_I3C15_SCL0)>;
 			input-enable;
+			drive-push-pull;
 			starfive,i2c-open-drain-pull-up-ohm = <600>;
 		};
 

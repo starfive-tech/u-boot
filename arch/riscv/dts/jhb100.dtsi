@@ -493,7 +493,7 @@
 			};
 
 			pcie0_mmbi: mmbi@10512000 {
-				compatible = "starfive,jhb100-mmbi-pcie";
+				compatible = "starfive,jhb100-mmbi-lgc", "starfive,jhb100-mmbi-pcie";
 				reg = <0x0 0x10512000 0x0 0x800>;
 				interrupts-extended = <&plic 289>, <&plic 290>, <&plic 291>, <&plic 292>,
 						      <&plic 293>, <&plic 294>, <&plic 295>, <&plic 296>,
@@ -501,6 +501,7 @@
 				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MMBI_PCIE0>;
 				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_MMBI_PCIE0>;
 				mmbi-id = <0>;
+				mmbi-bus = "pcie";
 				status = "disabled";
 			};
 
@@ -517,7 +518,7 @@
 			};
 
 			espi0_mmbi: mmbi@10580000 {
-				compatible = "starfive,jhb100-mmbi-espi";
+				compatible = "starfive,jhb100-mmbi-lgc", "starfive,jhb100-mmbi-espi";
 				reg = <0x0 0x10580000 0x0 0x800>;
 				interrupts-extended = <&plic 272>, <&plic 273>, <&plic 274>, <&plic 275>,
 						      <&plic 276>, <&plic 277>, <&plic 278>, <&plic 279>,
@@ -525,6 +526,7 @@
 				clocks = <&host0crg JHB100_HOST0CLK_MAIN_ICG_EN_MMBI_ESPI0>;
 				resets = <&host0crg JHB100_HOST0RST_MAIN_RSTN_MMBI_ESPI0>;
 				mmbi-id = <0>;
+				mmbi-bus = "espi";
 				status = "disabled";
 			};
 
@@ -844,8 +846,8 @@
 				starfive,husbcmn-syscon = <&husbcmnsyscon 0>;
 				starfive,pcie-ecsr = <&pcie_ep0_ecsr>;
 				starfive,sys0cfg = <&sys_syscon 48 4>;
-				interrupts-extended = <&plic 251>;
-				interrupt-names = "err";
+				interrupts-extended = <&plic 251>, <&plic 271>;
+				interrupt-names = "err", "pme";
 				status = "disabled";
 				ranges;
 
@@ -994,7 +996,7 @@
 			};
 
 			pcie1_mmbi: mmbi@10d12000 {
-				compatible = "starfive,jhb100-mmbi-pcie";
+				compatible = "starfive,jhb100-mmbi-lgc", "starfive,jhb100-mmbi-pcie";
 				reg = <0x0 0x10d12000 0x0 0x800>;
 				interrupts-extended = <&plic 333>, <&plic 334>, <&plic 335>, <&plic 336>,
 						      <&plic 337>, <&plic 338>, <&plic 339>, <&plic 340>,
@@ -1002,6 +1004,7 @@
 				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_MMBI_PCIE1>;
 				resets = <&host1crg JHB100_HOST1RST_MAIN_RSTN_MMBI_PCIE1>;
 				mmbi-id = <1>;
+				mmbi-bus = "pcie";
 				status = "disabled";
 			};
 
@@ -1018,7 +1021,7 @@
 			};
 
 			espi1_mmbi: mmbi@10d80000 {
-				compatible = "starfive,jhb100-mmbi-espi";
+				compatible = "starfive,jhb100-mmbi-lgc", "starfive,jhb100-mmbi-espi";
 				reg = <0x0 0x10d80000 0x0 0x800>;
 				interrupts-extended = <&plic 316>, <&plic 316>, <&plic 318>, <&plic 319>,
 						      <&plic 320>, <&plic 321>, <&plic 322>, <&plic 323>,
@@ -1026,6 +1029,7 @@
 				clocks = <&host1crg JHB100_HOST1CLK_MAIN_ICG_EN_MMBI_ESPI1>;
 				resets = <&host1crg JHB100_HOST1RST_MAIN_RSTN_MMBI_ESPI1>;
 				mmbi-id = <1>;
+				mmbi-bus = "espi";
 				status = "disabled";
 			};
 
@@ -1345,8 +1349,8 @@
 				starfive,husbcmn-syscon = <&husbcmnsyscon 1>;
 				starfive,pcie-ecsr = <&pcie_ep1_ecsr>;
 				starfive,sys0cfg = <&sys_syscon 48 5>;
-				interrupts-extended = <&plic 261>;
-				interrupt-names = "err";
+				interrupts-extended = <&plic 261>, <&plic 315>;
+				interrupt-names = "err", "pme";
 				ranges;
 				status = "disabled";
 
@@ -1486,9 +1490,8 @@
 				reg = <0x0 0x11100000 0x0 0x10000>,
 				      <0x0 0x11135c00 0x0 0x100>;
 				reg-names = "dp", "dynsw";
-				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_DW_DPTX>,
-					<&voutcrg JHB100_VOUTRST_MAIN_RSTN_U0_VOUT_DYNSW>;
-				reset-names = "rstn_dp", "vout_dynsw0";
+				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_DW_DPTX>;
+				reset-names = "rstn_dp";
 				interrupts-extended = <&plic 228>, <&plic 237>,
 						      <&plic 238>, <&plic 232>,
 						      <&pinctrl_bmcperiph0 28 GPIO_ACTIVE_HIGH>;
@@ -1544,9 +1547,8 @@
 				interrupt-names = "vdac", "h02b", "h12b",
 						  "dynsw1", "pm_link", "switch";
 				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA>,
-					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA_SCAN>,
-					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U1_VOUT_DYNSW>;
-				reset-names = "rstn_vga", "rstn_scan", "vout_dynsw1";
+					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_VGA_SCAN>;
+				reset-names = "rstn_vga", "rstn_scan";
 				h2b-syscon = <&h2bsyscon>;
 				b2h-syscon = <&b2hsyscon>;
 				dc-syscon = <&dcsyscon>;
@@ -1604,9 +1606,8 @@
 					<0x0 0x11135e00 0x0 0x100>;
 				reg-names = "vce", "dynsw";
 				clocks = <&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE0>;
-				resets = <&vcecrg JHB100_VCERST_VCE0_TOP_ASYNC_RSTN>,
-					<&voutcrg JHB100_VOUTRST_MAIN_RSTN_U2_VOUT_DYNSW>;
-				reset-names = "rstn_vce", "vout_dynsw";
+				resets = <&vcecrg JHB100_VCERST_VCE0_TOP_ASYNC_RSTN>;
+				reset-names = "rstn_vce";
 				interrupts = <240>, <237>, <234>;
 				interrupt-names = "vce", "host2bmc", "dynsw";
 				h2b-syscon = <&h2bsyscon>;
@@ -1620,9 +1621,8 @@
 					<0x0 0x11135f00 0x0 0x100>;
 				reg-names = "vce", "dynsw";
 				clocks = <&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE1>;
-				resets = <&vcecrg JHB100_VCERST_VCE1_TOP_ASYNC_RSTN>,
-					<&voutcrg JHB100_VOUTRST_MAIN_RSTN_U3_VOUT_DYNSW>;
-				reset-names = "rstn_vce", "vout_dynsw";
+				resets = <&vcecrg JHB100_VCERST_VCE1_TOP_ASYNC_RSTN>;
+				reset-names = "rstn_vce";
 				interrupts = <241>, <238>, <235>;
 				interrupt-names = "vce", "host2bmc", "dynsw";
 				h2b-syscon = <&h2bsyscon>;
@@ -1651,8 +1651,8 @@
 				vendor-id = <0x20b5>;
 				device-id = <0xb107>;
 				interrupt-controller;
-				interrupts = <86>, <87>, <88>, <90>;
-				interrupt-names = "pm_link", "intx_msi", "err", "dma";
+				interrupts = <86>, <87>, <88>, <90>, <102>;
+				interrupt-names = "pm_link", "intx_msi", "err", "dma", "wake";
 				#interrupt-cells = <1>;
 				interrupt-map-mask = <0 0 0 7>;
 				interrupt-map = <0 0 0 1 &pcie_rc 0>,
@@ -3782,11 +3782,19 @@
 				compatible = "starfive,jhb100-sys-syscon", "syscon",
 					     "simple-mfd";
 				reg = <0x0 0x13010000 0x0 0x4000>;
+				#address-cells = <2>;
+				#size-cells = <2>;
+				ranges = <0x0 0x0 0x0 0x13010000 0x0 0x4000>;
 
 				syspll: clock-controller {
 					compatible = "starfive,jhb100-sys-pll";
 					clocks = <&osc>;
 					#clock-cells = <1>;
+				};
+
+				chipid@38 {
+					compatible = "starfive,jhb100-socinfo";
+					reg = <0x0 0x38 0x0 0x4>;
 				};
 			};
 
@@ -3866,6 +3874,21 @@
 				gpio-ranges = <&pinctrl_sys2 0 0 37>;
 			};
 
+
+			jtag0: jtag-master@130c0800 {
+				compatible = "starfive,jhb100-jtag";
+				reg = <0x0 0x130c0800 0x0 0x100>,
+				      <0x0 0x130c0c00 0x0 0x400>;
+				clocks = <&sys2crg JHB100_SYS2CLK_MAIN_ICG_EN_JTAG0>,
+					 <&sys2crg JHB100_SYS2CLK_JTAGM0_200>,
+					 <&sys2crg JHB100_SYS2CLK_JTAGM0_100>;
+				clock-names = "main", "jtag", "apb";
+				resets = <&sys2crg JHB100_SYS2RST_JTAG0_MST_WRAP_HRESETN>,
+					<&sys2crg JHB100_SYS2RST_JTAG0_MST_WRAP_APB_PRESETN>;
+				starfive,jtag_bit_quirk;
+				status = "disabled";
+			};
+
 			jtag1: jtag-master@130c0000 {
 				compatible = "starfive,jhb100-jtag";
 				reg = <0x0 0x130c0000 0x0 0x100>,
@@ -3878,20 +3901,6 @@
 					<&sys2crg JHB100_SYS2RST_JTAG1_MST_WRAP_APB_PRESETN>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&jtagm1_pins>;
-				starfive,jtag_bit_quirk;
-				status = "disabled";
-			};
-
-			jtag0: jtag-master@130c0800 {
-				compatible = "starfive,jhb100-jtag";
-				reg = <0x0 0x130c0800 0x0 0x100>,
-				      <0x0 0x130c0c00 0x0 0x400>;
-				clocks = <&sys2crg JHB100_SYS2CLK_MAIN_ICG_EN_JTAG0>,
-					 <&sys2crg JHB100_SYS2CLK_JTAGM0_200>,
-					 <&sys2crg JHB100_SYS2CLK_JTAGM0_100>;
-				clock-names = "main", "jtag", "apb";
-				resets = <&sys2crg JHB100_SYS2RST_JTAG0_MST_WRAP_HRESETN>,
-					<&sys2crg JHB100_SYS2RST_JTAG0_MST_WRAP_APB_PRESETN>;
 				starfive,jtag_bit_quirk;
 				status = "disabled";
 			};
@@ -4139,7 +4148,8 @@
 			dc0_clk: dc0@dc8000 {
 				compatible = "verisilicon,dc8000-clk";
 				reg = <0x0 0x11135000 0x0 0x200>,
-					<0x0 0x11135400 0x0 0x100>;
+					<0x0 0x11135400 0x0 0x100>,
+					<0x0 0x11120000 0x0 0x8000>;
 				interrupts-extended = <&plic 237>, <&intc 53>, <&intc 54>, <&intc 57>;
 				interrupt-names = "h2b", "perst_pe", "perst_ne", "espi_rst";
 				clocks = <&voutcrg JHB100_VOUTCLK_MAIN_ICG_EN_U0_DC8000>,
@@ -4157,7 +4167,8 @@
 			dc1_clk: dc1@dc8000 {
 				compatible = "verisilicon,dc8000-clk";
 				reg = <0x0 0x11135200 0x0 0x200>,
-					<0x0 0x11135500 0x0 0x100>;
+					<0x0 0x11135500 0x0 0x100>,
+					<0x0 0x11128000 0x0 0x8000>;
 				interrupts-extended = <&plic 238>, <&intc 55>, <&intc 56>, <&intc 58>;
 				interrupt-names = "h2b", "perst_pe", "perst_ne", "espi_rst";
 				clocks = <&voutcrg JHB100_VOUTCLK_MAIN_ICG_EN_U1_DC8000>,

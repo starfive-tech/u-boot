@@ -265,7 +265,7 @@
 	starfive,uart-remap-num = <2>;
 	starfive,bt-io-addr = /bits/ 32 <0xe4 0xf4>;
 	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb2 0xcc2 0xcd2>;
-	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x400>;
+	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x410>;
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
 
@@ -299,7 +299,7 @@
 	starfive,uart-remap-num = <2>;
 	starfive,bt-io-addr = /bits/ 32 <0xe4 0xf4>;
 	starfive,kcs-io-addr = /bits/ 32 <0xca2 0xcb2 0xcc2 0xcd2>;
-	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x400>;
+	starfive,uart-io-addr = /bits/ 32 <0x3f8 0x410>;
 	starfive,wdi-io-addr = /bits/ 32 <0xa00>;
 	starfive,mbox-io-addr = /bits/ 32 <0x300>;
 
@@ -377,8 +377,8 @@
 };
 
 &husb0 {
-	interrupts-extended = <&plic 251>, <&intc 53>, <&intc 54>;
-	interrupt-names = "err", "perst_pe", "perst_ne";
+	interrupts-extended = <&plic 251>, <&plic 271>, <&intc 53>, <&intc 54>;
+	interrupt-names = "err", "pme", "perst_pe", "perst_ne";
 	status = "okay";
 };
 
@@ -427,8 +427,8 @@
 };
 
 &husb1 {
-	interrupts-extended = <&plic 261>, <&intc 55>, <&intc 56>;
-	interrupt-names = "err", "perst_pe", "perst_ne";
+	interrupts-extended = <&plic 261>, <&plic 315>, <&intc 55>, <&intc 56>;
+	interrupt-names = "err", "pme", "perst_pe", "perst_ne";
 	status = "okay";
  };
 
