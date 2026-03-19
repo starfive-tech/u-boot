@@ -490,17 +490,12 @@ static void starfive_ltpi_default_frame_init(void __iomem *base,
 		  (nl_gpio_count << 8) |
 		  (i2c_enable << 24);
 
-	u8 i2c_speed = caps->i2c_speed & 0x3F;
+	u8 i2c_speed = caps->i2c_speed ? 0x3F : 0;
 	u8 uart_cfg = ((caps->uart_caps & 0x03) << 5) |
 		      (caps->is_uart_flow_ctrl_enabled ? BIT(4) : 0) |
 		      (caps->uart_max_baud_rate & 0x0F);
 
-	u16 i2c_ext = ((caps->i2c_caps >> 6) & 0xFF) |
-		      (((caps->i2c_speed >> 6) & 0xFF) << 8);
-
-	cap_high = i2c_speed |
-		   (uart_cfg << 8) |
-		   (i2c_ext << 16);
+	cap_high = i2c_speed | (uart_cfg << 8);
 
 	writel(cap_low,  base + STARFIVE_REG_ADV_CAP_LOCAL_L);
 	writel(cap_high, base + STARFIVE_REG_ADV_CAP_LOCAL_H);
@@ -666,9 +661,9 @@ static void starfive_ltpi_dump_caps(int id,
 	printf("\n");
 }
 
-static void starfive_ltpi_init(int id,
-			       enum starfive_ltpi_speed_limit speed_limit,
-			       struct starfive_ltpi_cap_config *config)
+static int starfive_ltpi_init(int id,
+			      enum starfive_ltpi_speed_limit speed_limit,
+			      struct starfive_ltpi_cap_config *config)
 {
 	void __iomem *base = starfive_ltpi_base(id);
 	const unsigned long timeout = LTPI_TIMEOUT_MS;
@@ -680,7 +675,7 @@ static void starfive_ltpi_init(int id,
 	ret = ltpi_clock_enable(id, speed_limit);
 	if (ret) {
 		printf("ERROR: LTPI%d clock enable failed (%d)\n", id, ret);
-		return;
+		return -EIO;
 	}
 
 	/* Configure speed & capabilities */
@@ -696,7 +691,7 @@ static void starfive_ltpi_init(int id,
 	while (!(readl(base + STARFIVE_REG_LINK_STA) & BIT(12))) {
 		if (get_timer(start) > timeout) {
 			printf("LTPI%d: training start timeout\n", id);
-			return;
+			return -ETIMEDOUT;
 		}
 		mdelay(1);
 	}
@@ -726,6 +721,8 @@ static void starfive_ltpi_init(int id,
 	}
 
 	starfive_ltpi_clr_all(base);
+
+	return 0;
 }
 
 static int starfive_ltpi_gpio_enable(void __iomem *base,
@@ -952,6 +949,7 @@ static int starfive_ltpi_gpio_handler(int id,
 	void __iomem *ltpi_base;
 	struct starfive_ltpi_cap_config config = { 0 };
 	int max_range, max_gpio;
+	int ret;
 
 	if (id < 0 || id > 1)
 		return -EINVAL;
@@ -987,7 +985,9 @@ static int starfive_ltpi_gpio_handler(int id,
 	else
 		config.nl_gpio_caps = pin_range;
 
-	starfive_ltpi_init(id, speed_limit, &config);
+	ret = starfive_ltpi_init(id, speed_limit, &config);
+	if (ret)
+		return ret;
 
 	if (!starfive_ltpi_link_is_up(ltpi_base)) {
 		printf("LTPI%d: link down\n", id);
@@ -1048,7 +1048,9 @@ static int starfive_ltpi_data_handler(int id,
 
 	config.supported_channels = LTPI_CAP_DATA_CHANNEL;
 
-	starfive_ltpi_init(id, speed_limit, &config);
+	ret = starfive_ltpi_init(id, speed_limit, &config);
+	if (ret)
+		return ret;
 
 	if (!starfive_ltpi_link_is_up(ltpi_base)) {
 		printf("LTPI%d: link down\n", id);
@@ -1093,6 +1095,7 @@ static int starfive_ltpi_uart_handler(int id,
 {
 	void __iomem *ltpi_base;
 	struct starfive_ltpi_cap_config config = { 0 };
+	int ret;
 
 	if (id < 0 || id > 1)
 		return -EINVAL;
@@ -1106,7 +1109,9 @@ static int starfive_ltpi_uart_handler(int id,
 	config.uart_caps = mask;
 	config.uart_max_baud_rate = LTPI_UART_BAUD_921600;
 
-	starfive_ltpi_init(id, speed_limit, &config);
+	ret = starfive_ltpi_init(id, speed_limit, &config);
+	if (ret)
+		return ret;
 
 	if (!starfive_ltpi_link_is_up(ltpi_base)) {
 		printf("LTPI%d: link down\n", id);
@@ -1122,6 +1127,7 @@ static int starfive_ltpi_i2c_handler(int id,
 {
 	void __iomem *ltpi_base;
 	struct starfive_ltpi_cap_config config = { 0 };
+	int ret;
 
 	if (id < 0 || id > 1)
 		return -EINVAL;
@@ -1139,7 +1145,9 @@ static int starfive_ltpi_i2c_handler(int id,
 	config.i2c_speed = speed;
 	config.i2c_caps = mask;
 
-	starfive_ltpi_init(id, speed_limit, &config);
+	ret = starfive_ltpi_init(id, speed_limit, &config);
+	if (ret)
+		return ret;
 
 	if (!starfive_ltpi_link_is_up(ltpi_base)) {
 		printf("LTPI%d: link down\n", id);
