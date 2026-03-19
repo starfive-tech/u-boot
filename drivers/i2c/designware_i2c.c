@@ -750,8 +750,16 @@ static int designware_i2c_xfer(struct udevice *bus, struct i2c_msg *msg,
 	while (nmsgs > 0) {
 		if (!(msg->flags & I2C_M_RD) && nmsgs > 1 && (msg[1].flags & I2C_M_RD)) {
 			/* Combined write-then-read */
-			ret = __dw_i2c_read(i2c->regs, msg->addr, msg->buf[0], 1,
-					    msg[1].buf, msg[1].len);
+			int offset_len = msg->len;
+			u32 addr_offset = 0;
+			int i;
+
+			/* Reconstruct address from offset bytes (big-endian) */
+			for (i = 0; i < offset_len; i++)
+				addr_offset = (addr_offset << 8) | msg->buf[i];
+
+			ret = __dw_i2c_read(i2c->regs, msg->addr, addr_offset,
+					    offset_len, msg[1].buf, msg[1].len);
 			if (ret)
 				return -EREMOTEIO;
 			nmsgs -= 2;
