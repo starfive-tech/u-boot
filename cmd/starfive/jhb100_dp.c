@@ -103,7 +103,7 @@ static int do_jhb100_dp(struct cmd_tbl *cmdtp, int flag, int argc,
 	if (!strcmp(cmd, "edid") || !strcmp(cmd, "EDID")) {
 		ret = uclass_get_device(UCLASS_DISPLAY, 0, &disp_dev);
 		if (ret) {
-			printf("Failed to get display controller %u (%d)\n",
+			printf("Failed to get display controller %d (%d)\n",
 			       0, ret);
 			return CMD_RET_FAILURE;
 		}
