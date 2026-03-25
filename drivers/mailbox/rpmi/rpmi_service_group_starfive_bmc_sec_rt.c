@@ -154,9 +154,9 @@ static int starfive_bmc_sec_rt_process_msg(struct udevice *dev, u16 service_id, 
 
 static int rpmi_get_base_privilege_level(struct udevice *dev)
 {
-	int ret;
 	struct rpmi_base_get_attributes_resp resp;
-	u64 *out_len = NULL;
+	u64 out_len = 0;
+	int ret;
 
 	struct rpmi_chan_priv *chan_priv = dev_get_priv(dev);
 
@@ -172,7 +172,7 @@ static int rpmi_get_base_privilege_level(struct udevice *dev)
 			 0,
 			 &resp,
 			 sizeof(resp),
-			 out_len);
+			 &out_len);
 
 	if (!out_len)
 		return -EINVAL;
@@ -188,9 +188,9 @@ static int rpmi_get_base_privilege_level(struct udevice *dev)
 
 static int rpmi_get_base_version(struct udevice *dev)
 {
-	int ret;
+	u64 out_len = 0;
 	u32 val[2];
-	u64 *out_len = NULL;
+	int ret;
 
 	struct rpmi_chan_priv *chan_priv = dev_get_priv(dev);
 
@@ -206,7 +206,7 @@ static int rpmi_get_base_version(struct udevice *dev)
 			 0,
 			 val,
 			 sizeof(val),
-			 out_len);
+			 &out_len);
 
 	if (!out_len)
 		return -EINVAL;
