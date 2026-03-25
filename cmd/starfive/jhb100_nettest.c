@@ -86,7 +86,7 @@ static int do_jhb100_nettest_loopback(struct udevice *dev, enum nettest_type typ
 	for (i = 0; i < sizeof(test_packet); i++)
 		test_packet[i] = rand() & 0xFF;
 
-	printf("Sending test packet (%ld bytes):\n", sizeof(test_packet));
+	printf("Sending test packet (%zu bytes):\n", sizeof(test_packet));
 	for (i = 0; i < 16; i++)
 		printf("%02x ", test_packet[i]);
 	printf("...\n");
