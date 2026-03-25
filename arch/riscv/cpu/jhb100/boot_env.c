@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0+
 /*
- * Copyright (c) 2t025 StarFive Technology Co., Ltd.
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
  * Author:	Wei Sheng Ch'ng <weisheng.chng@starfivetech.com>
  */
 
@@ -43,14 +43,10 @@ void env_filter_add_bootarg(void (*str_fn)(char *ostr, char *istr),
 				      strlen(key_str_start);
 		}
 
-		/* Remove the keyword and 'space' from previous appendation */
-		size_t str_size_before;
-
 		if (key_str_start == existing_bootargs) {
-			str_size_before = 0;
 			parsed_bootargs[0] = '\0';
 		} else {
-			str_size_before = key_str_start - existing_bootargs - 1;
+			size_t str_size_before = key_str_start - existing_bootargs - 1;
 			strncpy(parsed_bootargs, existing_bootargs, str_size_before);
 			parsed_bootargs[str_size_before] = '\0';
 		}
@@ -68,7 +64,7 @@ void env_filter_add_bootarg(void (*str_fn)(char *ostr, char *istr),
 
 	if (existing_bootargs && strlen(existing_bootargs) > 0) {
 		snprintf(parsed_bootargs, sizeof(parsed_bootargs), "%s %s",
-			 existing_bootargs ? existing_bootargs : "", new_entry);
+			 existing_bootargs, new_entry);
 	} else {
 		snprintf(parsed_bootargs, sizeof(parsed_bootargs), "%s", new_entry);
 	}
