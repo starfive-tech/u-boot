@@ -869,11 +869,10 @@ static int starfive_ltpi_data_channel_send_req(void __iomem *base,
 
 	writel(address, base + STARFIVE_REG_REQ_ADDR);
 
-	if (is_write)
+	if (is_write) {
 		writel(data, base + STARFIVE_REG_REQ_DATA);
-
-	if (is_write)
 		req_attr |= LTPI_ATTR_WRITE_BIT;
+	}
 
 	req_attr |= ((u32)tag++ << LTPI_ATTR_TAG_SHIFT);
 	req_attr |= byte_enable;
@@ -886,9 +885,7 @@ static int starfive_ltpi_data_channel_send_req(void __iomem *base,
 	writel(LTPI_REQ_TRIGGER_BIT,
 	       base + STARFIVE_REG_REQ_RESP_CTL);
 
-	while (readl(base + STARFIVE_REG_REQ_RESP_CTL) &
-	       LTPI_REQ_TRIGGER_BIT)
-		;
+	while (readl(base + STARFIVE_REG_REQ_RESP_CTL) &  LTPI_REQ_TRIGGER_BIT);
 
 	return 0;
 }
