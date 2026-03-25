@@ -331,16 +331,11 @@ static int dw_dp_read_edid(struct udevice *dev, u8 *buf, int buf_size)
 {
 	struct dw_dp *priv = dev_get_priv(dev);
 	struct connector_state *conn_state = &priv->conn_state;
-	int ret;
 
 	if (buf_size > EDID_SIZE)
 		buf_size = EDID_SIZE;
 
-	ret = dp_edid_read(priv, conn_state->edid, EDID_SIZE);
-
-	if (ret)
-		return ret;
-
+	dp_edid_read(priv, conn_state->edid, EDID_SIZE);
 	memcpy(buf, conn_state->edid, buf_size);
 
 	return buf_size;
@@ -544,6 +539,8 @@ static int dw_dp_link_configure(struct udevice *dev)
 	}
 
 	ret = drm_dp_dpcd_write(priv, DP_LINK_BW_SET, buf, sizeof(buf));
+	if (ret < 0)
+		return ret;
 
 	buf[0] = link->caps.ssc ? DP_SPREAD_AMP_0_5 : 0;
 	buf[1] = link->caps.channel_coding ? DP_SET_ANSI_8B10B : 0;
@@ -681,12 +678,10 @@ static void dw_dp_link_train_adjust(struct drm_dp_link_train *train)
 	unsigned int i;
 
 	for (i = 0; i < 4; i++)
-		if (request->voltage_swing[i] != adjust->voltage_swing[i])
-			request->voltage_swing[i] = adjust->voltage_swing[i];
+		request->voltage_swing[i] = adjust->voltage_swing[i];
 
 	for (i = 0; i < 4; i++)
-		if (request->pre_emphasis[i] != adjust->pre_emphasis[i])
-			request->pre_emphasis[i] = adjust->pre_emphasis[i];
+		request->pre_emphasis[i] = adjust->pre_emphasis[i];
 }
 
 static int dw_dp_link_train_update_vs_emph(struct dw_dp *priv)
@@ -1402,7 +1397,7 @@ static bool dw_dp_detect(struct dw_dp *priv)
 	return false;
 }
 
-int drm_dp_bw_code_to_link_rate(u8 link_bw)
+static int drm_dp_bw_code_to_link_rate(u8 link_bw)
 {
 	/* Spec says link_rate = link_bw * 0.27Gbps */
 	return link_bw * 27000;
@@ -1649,16 +1644,13 @@ static int dw_dp_connector_prepare(struct udevice *dev)
 static int dw_dp_enable(struct udevice *dev, int panel_bpp,
 			const struct display_timing *timing)
 {
-	int ret;
 	struct dw_dp *priv = dev_get_priv(dev);
 
 	priv->dc_id = video_jhb100_get_dc_dev_id();
 	priv->v_sync_polarity = (timing->flags & DISPLAY_FLAGS_HSYNC_HIGH) ? 1 : 0;
 	priv->h_sync_polarity = (timing->flags & DISPLAY_FLAGS_VSYNC_HIGH) ? 1 : 0;
 
-	ret = dw_dp_connector_get_timing(dev, timing);
-	if (ret)
-		return ret;
+	dw_dp_connector_get_timing(dev, timing);
 
 	sft_ds_config(priv->dynsw, priv->dc_id, 1, 0, priv->v_sync_polarity, priv->h_sync_polarity);
 	dw_dp_connector_prepare(dev);
@@ -1761,11 +1753,7 @@ static int dw_dp_probe(struct udevice *dev)
 		return ret;
 	}
 
-	ret = dw_dp_parse_dt(dev);
-	if (ret) {
-		dev_err(dev, "Failed to parse DT\n");
-		return ret;
-	}
+	dw_dp_parse_dt(dev);
 
 	/* Set for DDR Address higher than 32-bit */
 	DC_SYSCON_WRITE(priv, 0x14, 0x800);
