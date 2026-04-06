@@ -8,13 +8,15 @@
 #include <dm.h>
 #include <dm/device_compat.h>
 #include <generic-phy.h>
+#include <linux/delay.h>
 #include <linux/iopoll.h>
 #include <linux/clk-provider.h>
 #include <linux/delay.h>
 
 #define PLL_LOCK_STATUS		0x13c0
-#define PLL_IS_LOCK			BIT(0)
+#define PLL_IS_LOCK		BIT(0)
 #define PHY_POLL_TIMEOUT_US	10000
+#define PHY_RESET		0x15b8
 
 struct inno_sgmii_phy_data {
 	struct clk_bulk clks;
@@ -52,9 +54,24 @@ static int inno_sgmii_phy_configure(struct phy *phy, void *params)
 	return 0;
 }
 
+static int inno_sgmii_phy_reset(struct phy *phy)
+{
+	void *phy_base = dev_read_addr_ptr(phy->dev);
+	u32 orig, val;
+
+	orig = readl(phy_base + PHY_RESET);
+	val = orig | BIT(21);
+	writel(val, phy_base + PHY_RESET);
+	udelay(100);
+	writel(orig, phy_base + PHY_RESET);
+
+	return 0;
+}
+
 static const struct phy_ops inno_sgmii_phy_ops = {
 	.configure = inno_sgmii_phy_configure,
 	.exit = inno_sgmii_phy_exit,
+	.reset = inno_sgmii_phy_reset,
 };
 
 static int inno_sgmii_phy_probe(struct udevice *dev)

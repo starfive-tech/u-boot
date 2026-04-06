@@ -15,6 +15,7 @@
 #include <regmap.h>
 #include <reset.h>
 #include <syscon.h>
+#include <linux/delay.h>
 #include <linux/iopoll.h>
 #include <asm/io.h>
 #include "dwc_eth_qos.h"
@@ -28,6 +29,9 @@
 #define STARFIVE_DWMAC_PHY_INFT_FIELD	0x7U
 
 #define STARFIVE_JHB100_GMAC0_RMII_BASE 0x11C00000
+#define STARFIVE_JHB100_MAC_AN_STATUS_OFF 0xE4
+#define STARFIVE_JHB100_MAC_AN_STATUS_LS BIT(2)
+#define PHY_LINK_TIMEOUT_US 100000
 
 struct starfive_platform_data {
 	struct regmap *regmap;
@@ -375,11 +379,31 @@ static int eqos_start_resets_jhb100(struct udevice *dev)
 	struct starfive_platform_data *data = pdata->priv_pdata;
 	struct eqos_priv *eqos = dev_get_priv(dev);
 	u16 val;
+	u8 count;
+	int ret;
 
 	switch (data->interface) {
 	case PHY_INTERFACE_MODE_SGMII:
-		if (reset_deassert_bulk(&data->resets) == 0)
-			return generic_phy_configure(&data->phy, NULL);
+		if (reset_deassert_bulk(&data->resets) == 0) {
+			generic_phy_configure(&data->phy, NULL);
+
+			void __iomem *addr = (void __iomem *)eqos->mac_regs +
+						STARFIVE_JHB100_MAC_AN_STATUS_OFF;
+
+			count = 10;
+			while (count > 0) {
+				ret = readl_poll_timeout(addr, val,
+							 val & STARFIVE_JHB100_MAC_AN_STATUS_LS,
+							 PHY_LINK_TIMEOUT_US);
+				if (ret) {
+					generic_phy_reset(&data->phy);
+					count--;
+				} else {
+					return 0; /* Link status established */
+				}
+			}
+			pr_warn("SGMII AN status timeout\n");
+		}
 		return -EPERM;
 
 	case PHY_INTERFACE_MODE_RGMII:
