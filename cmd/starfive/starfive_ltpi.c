@@ -7,9 +7,14 @@
 
 #include <common.h>
 #include <command.h>
+#include <dm.h>
+#include <dm/device-internal.h>
+#include <dm/uclass-internal.h>
 #include <env.h>
+#include <fdtdec.h>
 #include <malloc.h>
 #include <misc.h>
+#include <serial.h>
 #include <linux/types.h>
 #include <linux/string.h>
 #include <linux/errno.h>
@@ -20,6 +25,10 @@
 /* LTPI Base Address */
 #define LTPI_0_BASE_ADDR				0x11900000UL
 #define LTPI_1_BASE_ADDR				0x11910000UL
+
+/* UART Routing */
+#define UART_LSR_OFFSET					0x14
+#define UART_LSR_THRE					BIT(6)
 
 /* PER0_SYSCON */
 #define JHB100_PER0_SYSCON_ADDR_0			0x11a09000UL
@@ -187,6 +196,7 @@
 #define LTPI_CONTROLLER_CLOCK_SOURCE_FREQ	(LTPI_PLL_CLOCK_FREQ / 2 / 5)
 #define LTPI_MAX_ATTEMPT			10
 #define JHB100_MAIN_CLK_ENABLE			BIT(31)
+#define LTPI_I2C_GPIO_SELECT_REG_OFFSET		0x300
 
 enum starfive_ltpi_link_state {
 	STA_LINK_DET,
@@ -885,7 +895,8 @@ static int starfive_ltpi_data_channel_send_req(void __iomem *base,
 	writel(LTPI_REQ_TRIGGER_BIT,
 	       base + STARFIVE_REG_REQ_RESP_CTL);
 
-	while (readl(base + STARFIVE_REG_REQ_RESP_CTL) &  LTPI_REQ_TRIGGER_BIT);
+	while (readl(base + STARFIVE_REG_REQ_RESP_CTL) &  LTPI_REQ_TRIGGER_BIT)
+		;
 
 	return 0;
 }
@@ -1210,6 +1221,193 @@ static void starfive_ltpi_data_write(int dev,
 	}
 }
 
+static void starfive_ltpi_uart_list(void)
+{
+	struct udevice *uart_dev;
+	struct uclass *uc;
+	int seq;
+
+	printf("\n%-15s | %-2s\n", "UART devices", "UART ID");
+	printf("--------------------------\n");
+
+	if (uclass_get(UCLASS_SERIAL, &uc) == 0) {
+		uclass_foreach_dev(uart_dev, uc) {
+			seq = dev_seq(uart_dev);
+			printf("%-15s | %-2d\n",
+			       uart_dev->name, seq);
+		}
+	} else {
+		printf("  No UART devices found\n");
+	}
+}
+
+static void starfive_ltpi_uart_mux_reset(void)
+{
+	fdt_addr_t base;
+	u32 reg;
+	int node;
+	int i;
+	int reset_count = 0;
+	struct udevice *cur_dev;
+	int cur_uart_id = -1;
+
+	cur_dev = gd->cur_serial_dev;
+	if (cur_dev)
+		cur_uart_id = dev_seq(cur_dev);
+
+	node = fdt_node_offset_by_compatible(gd->fdt_blob, -1, "starfive,jhb100-uart-routing");
+
+	if (node < 0) {
+		printf("UART Routing node not found\n");
+		return;
+	}
+
+	base = fdtdec_get_addr(gd->fdt_blob, node, "reg");
+	if (base == FDT_ADDR_T_NONE) {
+		printf("Failed to get UART routing base address\n");
+		return;
+	}
+
+	for (i = 0; i < 15; i++) {
+		/* Skip the UART currently used by U-Boot console */
+		if (i == cur_uart_id)
+			continue;
+
+		reg = readl((void *)(base + (i * 4)));
+		if (((reg & 0xF) != i) || (((reg >> 8) & 0xF) != i)) {
+			/* Reset TX_SEL and RX_SEL */
+			reg = (i | (i << 8));
+			writel(reg, (void *)(base + (i * 4)));
+			reset_count++;
+		}
+	}
+
+	printf("Reset %d actively routed UART mux channels\n", reset_count);
+}
+
+static void starfive_ltpi_uart_routing(u8 uart_id, u8 ltpi_dev, u8 ltpi_uart)
+{
+	struct udevice *uart_dev;
+	struct udevice *cur_dev;
+	struct uclass *uc;
+	int uart_count = 0;
+	int cur_uart_id = -1;
+	int seq;
+	int node;
+	fdt_addr_t base;
+	fdt_addr_t uart_base;
+	u32 reg;
+	const char *ltpi_str;
+
+	cur_dev = gd->cur_serial_dev;
+	if (cur_dev) {
+		cur_uart_id = dev_seq(cur_dev);
+		if (uart_id == cur_uart_id && ltpi_dev > 0) {
+			printf("Error: UART%u is currently using by U-Boot.\n", uart_id);
+			return;
+		}
+	}
+
+	if (uclass_get(UCLASS_SERIAL, &uc) == 0) {
+		uclass_foreach_dev(uart_dev, uc) {
+			seq = dev_seq(uart_dev);
+			if (seq == uart_id) {
+				uart_base = dev_read_addr(uart_dev);
+				if (uart_base == FDT_ADDR_T_NONE) {
+					printf("Failed to get base address for UART device %u\n",
+					       uart_id);
+					return;
+				}
+				break;
+			}
+			uart_count++;
+		}
+	}
+
+	if (ltpi_dev > 2) {
+		printf("Invalid LTPI device: %u (0=GPIO, 1=LTPI0, 2=LTPI1)\n", ltpi_dev);
+		return;
+	}
+
+	if (ltpi_uart > 14) {
+		printf("Invalid LTPI UART: %u (max 14)\n", ltpi_uart);
+		return;
+	}
+
+	node = fdt_node_offset_by_compatible(gd->fdt_blob, -1, "starfive,jhb100-uart-routing");
+
+	if (node < 0) {
+		printf("UART Routing node not found\n");
+		return;
+	}
+
+	base = fdtdec_get_addr(gd->fdt_blob, node, "reg");
+	base += (ltpi_uart * 4);
+	reg = readl((void *)base);
+
+	reg &= ~(0x3 << 20);
+	reg &= ~(0x3 << 16);
+	reg &= ~0x1F;
+	reg |= (uart_id & 0x1F);
+
+	if (ltpi_dev > 0) {
+		reg |= (ltpi_dev << 16);
+		reg |= (ltpi_dev << 20);
+	}
+
+	writel(reg, (void *)base);
+
+	ltpi_str = (ltpi_dev == 0) ? "TX RX" : (ltpi_dev == 1 ? "LTPI0" : "LTPI1");
+	printf("UART%u routed to %s (UART %u)\n", uart_id, ltpi_str, ltpi_uart);
+}
+
+static void starfive_ltpi_uart_test(int uart_id)
+{
+	struct udevice *uart_dev;
+	struct dm_serial_ops *ops;
+	const char *msg = "This is to verify that LTPI UART is working fine!!\n";
+	fdt_addr_t uart_base;
+	int ret;
+
+	ret = uclass_get_device_by_seq(UCLASS_SERIAL, uart_id, &uart_dev);
+	if (ret) {
+		printf("UART device with ID %d not found\n", uart_id);
+		return;
+	}
+
+	ret = device_probe(uart_dev);
+	if (ret) {
+		printf("UART probe failed: %d\n", ret);
+		return;
+	}
+
+	uart_base = dev_read_addr(uart_dev);
+	if (uart_base == FDT_ADDR_T_NONE) {
+		printf("Failed to get UART base address\n");
+		return;
+	}
+
+	ops = serial_get_ops(uart_dev);
+	if (!ops) {
+		printf("Failed to get UART operations\n");
+		return;
+	}
+
+	if (ops->setbrg)
+		ops->setbrg(uart_dev, 115200);
+
+	printf("Sending test string through UART%d...\n", uart_id);
+
+	while (*msg) {
+		/* Wait for transmitter holding register empty */
+		while (!(readl((void *)(uart_base + UART_LSR_OFFSET)) & UART_LSR_THRE))
+			;
+		ops->putc(uart_dev, *msg++);
+	}
+
+	printf("Test message sent successfully\n");
+}
+
 static void starfive_ltpi_uart_config(int dev,
 				      enum starfive_ltpi_speed_limit speed_limit,
 				      u8 mask)
@@ -1236,10 +1434,112 @@ static void starfive_ltpi_i2c_config(int dev,
 	}
 }
 
+static void starfive_ltpi_i2c_mux_reset(void)
+{
+	struct udevice *i2c_dev;
+	struct uclass *uc;
+	fdt_addr_t base;
+	int dev_idx = 0;
+
+	if (uclass_get(UCLASS_I2C, &uc) != 0) {
+		printf("No I2C devices found\n");
+		return;
+	}
+
+	uclass_foreach_dev(i2c_dev, uc) {
+		base = dev_read_addr(i2c_dev);
+
+		if (base == FDT_ADDR_T_NONE) {
+			printf("I2C device %d: Failed to get base address\n", dev_idx);
+			dev_idx++;
+			continue;
+		}
+
+		writel(0, (void *)(base + LTPI_I2C_GPIO_SELECT_REG_OFFSET));
+		printf("I2C device %d ('%s') reset to GPIO mode\n", dev_idx, i2c_dev->name);
+		dev_idx++;
+	}
+}
+
+static void starfive_ltpi_i2c_routing(u8 i2c_dev_idx, u8 select)
+{
+	struct udevice *dev;
+	fdt_addr_t base;
+	u32 reg;
+	int ret;
+	static const char * const modes[] = { "GPIO", "LTPI0", "LTPI1" };
+
+	if (select > 2) {
+		printf("Invalid I2C GPIO select mode: %u\n", select);
+		return;
+	}
+
+	ret = uclass_get_device(UCLASS_I2C, i2c_dev_idx, &dev);
+	if (ret) {
+		printf("I2C device at index %u not found\n", i2c_dev_idx);
+		return;
+	}
+
+	base = dev_read_addr(dev);
+	if (base == FDT_ADDR_T_NONE) {
+		printf("Failed to get base address for I2C device %u\n", i2c_dev_idx);
+		return;
+	}
+
+	reg = readl((void *)(base + LTPI_I2C_GPIO_SELECT_REG_OFFSET));
+	reg &= ~0x3;
+
+	if (select == 1)
+		reg |= 0x2;  /* LTPI0: BIT[1]=1, BIT[0]=0 */
+	else if (select == 2)
+		reg |= 0x3;  /* LTPI1: BIT[1]=1, BIT[0]=1 */
+
+	writel(reg, (void *)(base + LTPI_I2C_GPIO_SELECT_REG_OFFSET));
+	printf("I2C device '%s' (ID %u) routed to: %s\n", dev->name, i2c_dev_idx, modes[select]);
+}
+
+static void starfive_ltpi_i2c_list(void)
+{
+	struct udevice *i2c_dev;
+	struct uclass *uc;
+	int dev_idx = 0;
+
+	printf("\n%-12s | %-2s | %-12s\n", "I2C devices", "ID", "GPIO Select");
+	printf("--------------------------------\n");
+
+	if (uclass_get(UCLASS_I2C, &uc) == 0) {
+		uclass_foreach_dev(i2c_dev, uc) {
+			fdt_addr_t base = dev_read_addr(i2c_dev);
+			const char *mode_str = "UNKNOWN";
+
+			if (base == FDT_ADDR_T_NONE) {
+				printf("%-12s | %-2d | %-12s\n", i2c_dev->name,
+				       dev_idx, "NO BASE");
+				dev_idx++;
+				continue;
+			}
+
+			u32 reg = readl((void *)(base + LTPI_I2C_GPIO_SELECT_REG_OFFSET));
+			u32 bit1 = (reg >> 1) & 0x1;
+			u32 bit0 = (reg >> 0) & 0x1;
+
+			mode_str = (bit1 == 0) ? "GPIO" : ((bit0 == 0) ? "LTPI 0" : "LTPI 1");
+
+			printf("%-12s | %-2d | %-12s\n", i2c_dev->name,
+			       dev_idx, mode_str);
+
+			dev_idx++;
+		}
+	} else {
+		printf("  No I2C devices found\n");
+	}
+}
+
 static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 		   int argc, char *const argv[])
 {
 	int dev, speed_limit, pin_start, pin_range;
+	int uart_id, i2c_id, ltpi_uart, select;
 	u32 addr, val, i2c_speed;
 	u8 mask;
 	bool output_high = false;
@@ -1320,6 +1620,29 @@ static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 
 	/* ---------------- UART ---------------- */
 	if (!strcmp(argv[1], "uart")) {
+		if (!strcmp(argv[2], "list")) {
+			starfive_ltpi_uart_list();
+			return CMD_RET_SUCCESS;
+		}
+
+		if (!strcmp(argv[2], "mux")) {
+			if (!strcmp(argv[3], "reset")) {
+				starfive_ltpi_uart_mux_reset();
+				return CMD_RET_SUCCESS;
+			}
+
+			if (argc != 6)
+				return CMD_RET_USAGE;
+
+			uart_id = simple_strtoul(argv[3], NULL, 0);
+			select = simple_strtoul(argv[4], NULL, 0);
+			ltpi_uart = simple_strtoul(argv[5], NULL, 0);
+
+			starfive_ltpi_uart_routing(uart_id, select, ltpi_uart);
+
+			return CMD_RET_SUCCESS;
+		}
+
 		if (!strcmp(argv[2], "config")) {
 			if (argc != 6)
 				return CMD_RET_USAGE;
@@ -1337,6 +1660,16 @@ static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 						  (enum starfive_ltpi_speed_limit)speed_limit,
 						  mask);
 
+			return CMD_RET_SUCCESS;
+		}
+
+		if (!strcmp(argv[2], "test")) {
+			if (argc != 4)
+				return CMD_RET_USAGE;
+
+			dev = simple_strtoul(argv[3], NULL, 0);
+
+			starfive_ltpi_uart_test(dev);
 			return CMD_RET_SUCCESS;
 		}
 
@@ -1371,6 +1704,26 @@ static int do_ltpi(struct cmd_tbl *cmdtp, int flag,
 			return CMD_RET_SUCCESS;
 		}
 
+		if (!strcmp(argv[2], "list")) {
+			starfive_ltpi_i2c_list();
+			return CMD_RET_SUCCESS;
+		}
+
+		if (!strcmp(argv[2], "mux")) {
+			if (!strcmp(argv[3], "reset")) {
+				starfive_ltpi_i2c_mux_reset();
+				return CMD_RET_SUCCESS;
+			}
+
+			if (argc != 5)
+				return CMD_RET_USAGE;
+
+			i2c_id = simple_strtoul(argv[3], NULL, 0);
+			select = simple_strtoul(argv[4], NULL, 0);
+			starfive_ltpi_i2c_routing(i2c_id, select);
+			return CMD_RET_SUCCESS;
+		}
+
 		return CMD_RET_USAGE;
 	}
 
@@ -1387,9 +1740,29 @@ U_BOOT_CMD(ltpi, CONFIG_SYS_MAXARGS, 1, do_ltpi,
 	   "    - read from LTPI data registers\n"
 	   "ltpi data write <dev> <speed_limit> <addr> <value>\n"
 	   "    - write to LTPI data registers\n"
+	   "ltpi uart list\n"
+	   "    - enumerate all UART devices found in device tree\n"
 	   "ltpi uart config <dev> <speed_limit> <mask>\n"
 	   "    - configure LTPI UART capability mask\n"
 	   "      mask: 0=off, 1=UART0, 2=UART1, 3=UART0+UART1\n"
+	   "ltpi uart mux <uart_id> <sel> <ltpi_uart>\n"
+	   "    - Route a UART to GPIO or LTPI interface\n"
+	   "    - uart_id   : Index from \"ltpi uart list\"\n"
+	   "    - sel       : 0=TX RX, 1=LTPI0, 2=LTPI1\n"
+	   "    - ltpi_uart : LTPI UART channel index (0-14)\n"
+	   "ltpi uart mux reset\n"
+	   "    - reset all UART mux channels to TX RX\n"
+	   "ltpi uart test <uart_id>\n"
+	   "    - Send test data through a UART\n"
+	   "    - uart_id   : Index from \"ltpi uart list\"\n"
+	   "ltpi i2c list\n"
+	   "    - enumerate all I2C devices found in device tree\n"
+	   "ltpi i2c mux <i2c_id> <sel>\n"
+	   "    - Route I2C device to GPIO or LTPI interface\n"
+	   "    - i2c_id : Index from \"ltpi i2c list\"\n"
+	   "    - sel    : 0=GPIO, 1=LTPI0, 2=LTPI1\n"
+	   "ltpi i2c mux reset\n"
+	   "    - reset all I2C mux channels to GPIO\n"
 	   "ltpi i2c config <dev> <speed_limit> <mask> <i2c_speed>\n"
 	   "    - configure LTPI I2C capability mask\n"
 	   "      mask: bit0=I2C0, bit1=I2C1, ..., bit5=I2C5\n"
