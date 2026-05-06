@@ -7,11 +7,15 @@
 #include <asm/arch/boot_pti.h>
 #include <asm/arch/boot_src.h>
 #include <asm/arch/rpmi-mpxy-sec.h>
+#include <asm/rpmi.h>
 #include <linux/bitops.h>
+#include <linux/delay.h>
 #include <dm.h>
 #include <log.h>
 #include <rand.h>
 #include <spl.h>
+
+#define SECURE_SERVICE_TIMEOUT 20 /* multiply 500ms */
 
 #define GET_SPEC(id, spec)	\
 	const struct request_spec *(spec) = get_request_spec_by_id(id); \
@@ -255,7 +259,6 @@ int starfive_get_image_size(int boot_src, int part_type, int img_type)
 
 	return resp_data[3];
 }
-
 void set_verify_rofs_flag(int val);
 int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type)
 {
@@ -282,15 +285,49 @@ int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type)
 
 	u32 flags = part_type |
 		    boot_src << SECBOOT_VERIFY_ROFS_BOOT_SRC_REQ_SHIFT;
-
 	int ret = starfive_sec_rx_tx(spec, &flags, resp_data, NULL, 0, NULL, 0, false);
+	u32 status;
+	u32 retries = SECURE_SERVICE_TIMEOUT;
+	u32 prev_per = 0;
 
-	if (ret)
-		return ret;
+	if ((ret) || resp_data[0]) {
+		printf("Image authentication request failed, error: %d\n",
+		       ret ? ret : resp_data[0]);
+		return ret ? ret : resp_data[0];
+	}
 
-	set_verify_rofs_flag(!resp_data[0]);
+	GET_SPEC(GET_ASYNC_SEC_SRV_STATUS, status_spec);
+	u32 status_resp[status_spec->resp_size / sizeof(u32)];
+	flags = SECBOOT_VERIFY_ROFS;
 
-	return resp_data[0];
+	do {
+		memset(status_resp, 0, status_spec->resp_size);
+		ret = starfive_sec_rx_tx(status_spec, &flags, status_resp,
+					 NULL, 0, NULL, 0, false);
+
+		if (ret)
+			return ret;
+
+		status = status_resp[0];
+		if (status != RPMI_ERR_BUSY)
+			break;
+
+		if (status_resp[1] != prev_per) {
+			prev_per = status_resp[1];
+			retries = SECURE_SERVICE_TIMEOUT;
+		}
+
+		debug("Image authentication in progress... (%d%%)\n", prev_per);
+
+		mdelay(500);
+	} while (--retries);
+
+	if (!retries && status != RPMI_SUCCESS)
+		return status;
+
+	set_verify_rofs_flag(!status);
+
+	return status;
 }
 
 // TODO: Remove this. Not required anymore
