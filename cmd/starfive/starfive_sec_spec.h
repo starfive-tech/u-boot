@@ -335,6 +335,15 @@ static const struct request_spec request_specs[] = {
 		.resp_count = 1,
 		.resp_names = {"status"},
 		.resp_size = 4,
+	},
+	{
+		.request_id = 255,
+		.request_name = "get_async_sec_srv_status",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 2,
+		.resp_names = {"status", "percentage"},
+		.resp_size = 8,
 		.need_auth = 0,
 		.has_external_data = 0
 	},
