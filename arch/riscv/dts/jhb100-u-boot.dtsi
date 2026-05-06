@@ -69,11 +69,6 @@
 		/delete-node/ dma-reserved@4e300000;
 		/delete-node/ linux,dma@40e300000;
 		/delete-node/ linux,cma;
-
-		fb0: framebuffer@50000000 {
-			no-map;
-			reg = <0x0 0x50000000 0x0 0x00100000>;
-		};
 	};
 
 	soc {
@@ -140,7 +135,6 @@
 				<&voutcrg JHB100_VOUTCLK_U0_DC8000_PIXELCLK0>;
 			clock-names = "main_icg", "pix_clk";
 			resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U0_DC8000>;
-			memory-region = <&fb0>;
 			starfive,syscon = <&sys_syscon>;
 			starfive,crg    = <&sys1crg>;
 			bootph-all;
@@ -155,7 +149,6 @@
 				<&voutcrg JHB100_VOUTCLK_U1_DC8000_PIXELCLK0>;
 			clock-names = "main_icg", "pix_clk";
 			resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_U1_DC8000>;
-			memory-region = <&fb0>;
 			starfive,syscon = <&sys_syscon>;
 			starfive,crg    = <&sys1crg>;
 			bootph-all;
