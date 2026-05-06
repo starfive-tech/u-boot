@@ -28,6 +28,12 @@
 #include "jhb100_dc8000.h"
 
 DECLARE_GLOBAL_DATA_PTR;
+
+#define JHB100_MAX_XRES		2048
+#define JHB100_MAX_YRES		1080
+#define JHB100_BPP_BYTES	4
+#define JHB100_FB_ALIGN		0x100000
+
 struct jhb100_dc8000_priv {
 	struct clk_bulk clks;
 	struct reset_ctl reset;
@@ -909,6 +915,18 @@ static int dc_setup_fb_and_display(struct dc_hw_fb *fb,
 	return 0;
 }
 
+static int jhb100_dc8000_bind(struct udevice *dev)
+{
+	struct video_uc_plat *plat = dev_get_uclass_plat(dev);
+
+	/* Go for the maximum supported resolution */
+	plat->size = ALIGN(JHB100_MAX_XRES * VNBYTES(VIDEO_BPP32), 128) *
+			JHB100_MAX_YRES;
+	plat->align = JHB100_FB_ALIGN;
+
+	return 0;
+}
+
 static int jhb100_dc8000_probe(struct udevice *dev)
 {
 	struct jhb100_dc8000_priv *priv = dev_get_priv(dev);
@@ -917,9 +935,7 @@ static int jhb100_dc8000_probe(struct udevice *dev)
 	struct video_priv     *uc_priv  = dev_get_uclass_priv(dev);
 	struct udevice        *disp_dev = NULL;
 	struct display_timing  timing;
-	struct resource        res;
 	enum force_timing      req_timing;
-	ofnode                 mem;
 	u32 dc_id, alloc_x, alloc_y;
 	int err;
 
@@ -943,10 +959,8 @@ static int jhb100_dc8000_probe(struct udevice *dev)
 	if (!priv->dc)
 		goto err_dc8000_probe;
 	priv->fb = malloc(sizeof(struct dc_hw_fb));
-	if (!priv->fb) {
-		free(priv->dc);
+	if (!priv->fb)
 		goto err_dc8000_probe;
-	}
 
 	dc_id = dev_read_u32_default(dev, "dc-id", 0);
 
@@ -954,18 +968,6 @@ static int jhb100_dc8000_probe(struct udevice *dev)
 	hw->dc_base = dev_read_addr_ptr(dev);
 	if (!hw->dc_base) {
 		err = -EINVAL;
-		goto err_dc8000_probe;
-	}
-
-	/* Get framebuffer base address from DT */
-	if (!plat->base) {
-		mem = ofnode_get_by_phandle(dev_read_u32_default
-					    (dev, "memory-region", 0));
-		if (ofnode_valid(mem) && !ofnode_read_resource(mem, 0, &res))
-			plat->base = res.start;
-	}
-	if (!plat->base) {
-		err = -ENOMEM;
 		goto err_dc8000_probe;
 	}
 
@@ -1019,11 +1021,14 @@ static int jhb100_dc8000_probe(struct udevice *dev)
 
 	alloc_x = timing.hactive.typ;
 	alloc_y = timing.vactive.typ;
-	plat->size = alloc_x * alloc_y * VNBYTES(uc_priv->bpix);
 
 	return 0;
 
 err_dc8000_probe:
+	if (priv->fb)
+		free(priv->fb);
+	if (priv->dc)
+		free(priv->dc);
 	reset_assert(&priv->reset);
 	clk_disable_bulk(&priv->clks);
 	clk_release_bulk(&priv->clks);
@@ -1054,6 +1059,7 @@ U_BOOT_DRIVER(jhb100_dc8000) = {
 	.name = "jhb100_dc8000",
 	.id = UCLASS_VIDEO,
 	.of_match = jhb100_dc8000_ids,
+	.bind = jhb100_dc8000_bind,
 	.probe = jhb100_dc8000_probe,
 	.remove = jhb100_dc8000_remove,
 	.priv_auto = sizeof(struct jhb100_dc8000_priv),
