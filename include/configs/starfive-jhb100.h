@@ -421,7 +421,6 @@
 			"run set_bootargs_root_storage_mmc;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
-				"mmc partconf 0 0 0 ${emmc_kernel_act_part_num}; "	\
 				"echo Authenticating eMMC Active image ...; "	\
 				"if authbimgstorage 1; then "	\
 					"echo Trying to load eMMC Active image ...; "	\
@@ -430,6 +429,7 @@
 					"if run loademmcfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 0;"	\
+						"mmc dev 0;"	\
 						"echo Boot OS ...; "	\
 						"run bootmfit;"	\
 					"fi; "	\
@@ -443,7 +443,6 @@
 			"run set_bootargs_root_storage_mmc;"	\
 			"mmc list;"	\
 			"if mmc dev 0; then "	\
-				"mmc partconf 0 0 0 ${emmc_kernel_gol_part_num}; "	\
 				"echo Authenticating eMMC Golden image ...; "	\
 				"if authbimgstorage 2; then "	\
 					"echo Trying to load eMMC Golden image ...; "	\
@@ -452,6 +451,7 @@
 					"if run loademmcfitimgext4; then "	\
 						"echo Initiate Pre OS Boot Notify ...; "	\
 						"preosbootnotify 1;"	\
+						"mmc dev 0;"	\
 						"echo Boot OS ...; "	\
 						"run bootmfit;"	\
 					"fi; "	\
