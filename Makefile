@@ -1383,6 +1383,7 @@ cmd_binman = $(srctree)/tools/binman/binman $(if $(BINMAN_DEBUG),-D) \
 		-a tee-os-path=${TEE} \
 		-a ti-dm-path=${TI_DM} \
 		-a opensbi-path=${OPENSBI} \
+		-a opensbi-secure-path=${OPENSBI_SECURE} \
 		-a default-dt=$(default_dt) \
 		-a scp-path=$(SCP) \
 		-a rockchip-tpl-path=$(ROCKCHIP_TPL) \
