@@ -21,6 +21,7 @@
 #include <dm.h>
 #include <spl.h>
 #include <asm/arch/boot_fdt.h>
+#include <asm/arch/boot_pti.h>
 #include <asm/arch/boot_src.h>
 #include <asm/arch/spl.h>
 #include <asm/arch/ap_core.h>
@@ -77,28 +78,38 @@ void set_verify_rofs_flag(int val)
 u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size);
 void board_fit_image_post_process(const void *fit, int node, void **p_image, size_t *p_size)
 {
-#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
+	int sec_ret = starfive_check_secure_boot();
+
+	if (sec_ret < 0)
+		return;
+
 #ifdef CONFIG_SPL_BUILD
-	if (starfive_jhb100_vendor_authentication(p_image, p_size))
-		hang();
-#else
-	int boot_mode = GET_BOOT_SRC;
-	switch (boot_mode) {
-	case BOOT_SRC_EMMC:
-	case BOOT_SRC_UFS:
-	case BOOT_SRC_SFC:
-		if (!verify_rofs) {
-			if (starfive_jhb100_vendor_authentication(p_image, p_size))
-				hang();
-		}
-		break;
-	default:
+	if (sec_ret) {
 		if (starfive_jhb100_vendor_authentication(p_image, p_size))
 			hang();
 	}
+#ifdef CONFIG_STARFIVE_JHB100_QUERY_DDR_INFO
+	jhb100_fdt_fixup(*p_image);
 #endif
-#endif
-#ifndef CONFIG_SPL_BUILD
+	jhb100_scp_buffer_parser(*p_image);
+#else
+	if (sec_ret) {
+		int boot_mode = GET_BOOT_SRC;
+		switch (boot_mode) {
+		case BOOT_SRC_EMMC:
+		case BOOT_SRC_UFS:
+		case BOOT_SRC_SFC:
+			if (!verify_rofs) {
+				if (starfive_jhb100_vendor_authentication(p_image, p_size))
+					hang();
+			}
+			break;
+		default:
+			if (starfive_jhb100_vendor_authentication(p_image, p_size))
+				hang();
+		}
+	}
+
 	/* Important that FDT is modified after authentication */
 	/* Assign new pointer to retain wherever pointed by p_image  */
 	void *payld = *p_image;
@@ -128,10 +139,5 @@ void board_fit_image_post_process(const void *fit, int node, void **p_image, siz
 		if (idx > 3)
 			break;
 	}
-#else
-#ifdef CONFIG_STARFIVE_JHB100_QUERY_DDR_INFO
-	jhb100_fdt_fixup(*p_image);
-#endif
-	jhb100_scp_buffer_parser(*p_image);
 #endif
 }

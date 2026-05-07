@@ -534,7 +534,7 @@ static int do_starfive_check_secure_boot(struct cmd_tbl *cmdtp, int flag, int ar
 	if (ret < 0)
 		return -EINVAL;
 
-	env_set_hex("secureboot", (ulong)(ret));
+	printf("Secure Boot %s\n", ret ? "Enabled" : "Disabled");
 
 	return !ret;
 }

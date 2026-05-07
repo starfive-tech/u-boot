@@ -19,6 +19,7 @@
 #include <asm/sbi.h>
 #include <asm/arch/ap_core.h>
 #include <asm/arch/boot_pti.h>
+#include <asm/arch/boot_pti.h>
 #include <asm/arch/boot_fallback.h>
 #include <rand.h>
 
@@ -137,14 +138,19 @@ extract_capsule:
 		return CAP_PARSE_ERROR;
 	}
 
-#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
-	/* Check sig and mft properties */
-	if ((!rofs_hdr->sign_off) || (!rofs_hdr->mft_off)) {
-		printf("[ERROR]: rofs_hdr->sign_off = %x\n", rofs_hdr->sign_off);
-		printf("[ERROR]: rofs_hdr->mft_off = %x\n", rofs_hdr->mft_off);
-		return CAP_PARSE_ERROR;
+	int sec_ret = starfive_check_secure_boot();
+
+	if (sec_ret < 0)
+		return -EINVAL;
+
+	if (sec_ret) {
+		/* Check sig and mft properties */
+		if ((!rofs_hdr->sign_off) || (!rofs_hdr->mft_off)) {
+			printf("[ERROR]: rofs_hdr->sign_off = %x\n", rofs_hdr->sign_off);
+			printf("[ERROR]: rofs_hdr->mft_off = %x\n", rofs_hdr->mft_off);
+			return CAP_PARSE_ERROR;
+		}
 	}
-#endif
 
 	*rofs_blk_size = (rofs_hdr->img_len % MMC_BLK_SIZE) ?
 			 ((rofs_hdr->img_len / MMC_BLK_SIZE) + 1) :
@@ -155,9 +161,9 @@ extract_capsule:
 
 	*rofs_size = (rofs_hdr->img_len + SFC_PAGE_SIZE - 1) & ~(SFC_PAGE_SIZE - 1);
 	*rofs_offs = hdr->custom_data_off + comp_attr->off_cap + load_addr + BIF_HDR_LENGTH;
-#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
-	*rofs_offs = *rofs_offs + BIF_MFT_LENGTH + BIF_SIG_LENGTH;
-#endif
+
+	if (sec_ret)
+		*rofs_offs = *rofs_offs + BIF_MFT_LENGTH + BIF_SIG_LENGTH;
 
 	printf("[SUCCESS]: mmc rofs_blk_size = 0x%x\n", *rofs_blk_size);
 	printf("[SUCCESS]: ufs rofs_blk_size = 0x%x\n", *rofs_ufs_blk_size);

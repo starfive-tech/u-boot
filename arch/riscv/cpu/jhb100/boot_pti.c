@@ -264,7 +264,15 @@ int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type)
 
 	if (part_type >= PT_TYPE_MAX)
 		return -EINVAL;
-#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
+
+	int sec_ret = starfive_check_secure_boot();
+
+	if (sec_ret < 0)
+		return -EINVAL;
+
+	if (!sec_ret)
+		return 0;
+
 	/* Send MPXY message via mailbox */
 	GET_SPEC(SECBOOT_VERIFY_ROFS, spec);
 
@@ -283,9 +291,6 @@ int starfive_req_img_auth_storage(int boot_src, int part_type, int img_type)
 	set_verify_rofs_flag(!resp_data[0]);
 
 	return resp_data[0];
-#else
-	return 0;
-#endif
 }
 
 // TODO: Remove this. Not required anymore
