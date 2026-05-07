@@ -6,42 +6,61 @@
 / {
 	binman: binman	{
 		multiple-images;
-#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
-		spl_sign {
+
+		spl_secure_sign {
 			signing_image {
 				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_sec.cfg 0 ../../u-boot/spl/ > /dev/null";
 			};
 		};
 
-		uboot_sign {
+		uboot_secure_sign {
 			signing_image {
 				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/u-boot-nodtb.bin ./input_files/jhb100/uboot_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../opensbi/build/platform/generic/firmware/fw_dynamic.bin ./input_files/jhb100/opensbi_sec.cfg 0 ../../opensbi/build/platform/generic/firmware/ > /dev/null; ./mkbif_secure ../../u-boot/u-boot.dtb ./input_files/jhb100/ubootdtb_sec.cfg 0 ../../u-boot/ > /dev/null";
 			};
 		};
-#else
+
 		spl_sign {
 			signing_image {
 				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif ../../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_nor.cfg 0 ../../u-boot/spl/ > /dev/null";
 			};
 		};
-#endif
 	};
 };
 
 #include "binman.dtsi"
 &binman {
-#ifdef CONFIG_STARFIVE_JHB100_SECURE_VAB_AUTH
-	itb {
+	itb-secure {
+		filename = "u-boot-secure.itb";
+		#address-cells = <2>;
+		fit,fdt-list = "of-list";
+
 		fit {
+			description = "Configuration to load secure OpenSBI before secure U-Boot";
+
 			images {
 				uboot {
-					uboot_blob: blob-ext {
+					description = "Secure U-Boot";
+					type = "standalone";
+					os = "U-Boot";
+					arch = "riscv";
+					compression = "none";
+					load = /bits/ 64 <CONFIG_TEXT_BASE>;
+
+					secure_uboot_blob: blob-ext {
 						filename = "u-boot-nodtb.bin.secure.out";
 					};
 				};
 
 				opensbi {
-					opensbi_blob: opensbi {
+					description = "Secure OpenSBI fw_dynamic Firmware";
+					type = "firmware";
+					os = "opensbi";
+					arch = "riscv";
+					compression = "none";
+					load = /bits/ 64 <CONFIG_SPL_OPENSBI_LOAD_ADDR>;
+					entry = /bits/ 64 <CONFIG_SPL_OPENSBI_LOAD_ADDR>;
+
+					secure_opensbi_blob: opensbi-secure {
 						filename = "fw_dynamic.bin.secure.out";
 					};
 				};
@@ -51,7 +70,7 @@
 					type = "flat_dt";
 					arch = "riscv";
 					compression = "none";
-					fdt_blob: blob-ext {
+					secure_fdt_blob: blob-ext {
 						filename = "u-boot.dtb.secure.out";
 					};
 				};
@@ -68,5 +87,4 @@
 			};
 		};
 	};
-#endif
 };
