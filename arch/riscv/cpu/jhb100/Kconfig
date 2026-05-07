@@ -70,16 +70,6 @@ config STARFIVE_SECURE_SERVICES_TOOL
 	help
 	  This is a configuration to enable StarFive Secure Service Tools
 
-config STARFIVE_JHB100_SECURE_VAB_AUTH
-	bool "Enable boot image authentication with Starfive JHB100 VAB"
-	depends on TARGET_STARFIVE_JHB100
-	select FIT_IMAGE_POST_PROCESS
-	select SPL_FIT_IMAGE_POST_PROCESS
-	select CRC32
-	select STARFIVE_SECURE_SERVICES_TOOL
-	help
-	 All images loaded from FIT will be authenticated by Starfive JHB100 VAB
-
 config SPL_FS_LOAD_RECOVERY_PAYLOAD_NAME
 	string "MMC recovery image for u-boot.itb"
 	depends on TARGET_STARFIVE_JHB100
