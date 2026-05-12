@@ -34,6 +34,7 @@
 #include <spl.h>
 #include <common.h>
 #include <fdt_support.h>
+#include "safe_mtest.h"
 
 static int env_changed_id;
 
@@ -585,6 +586,11 @@ int board_late_init(void)
 	env_add_bootarg_reset_event();
 
 	uboot_starfive_fb_rec_map_handler();
+
+#if IS_ENABLED(CONFIG_STARFIVE_JHB100_SAFE_MTEST)
+	if (readl((const void *)AP_BOOT_COUNTER_ADDR) == 1)
+		return starfive_safe_mtest_run();
+#endif
 
 	return 0;
 }

@@ -58,4 +58,13 @@ config BOARD_SPECIFIC_OPTIONS # dummy
 	imply SYSRESET
 	imply SYSRESET_GPIO
 
+config STARFIVE_JHB100_SAFE_MTEST
+	bool "Run safe memtest from board_late_init()"
+	depends on CMD_MEMTEST
+	default n
+	help
+	  Run a board-local memory test during board_late_init(). The test
+	  dynamically computes testable ranges from the LMB memory map and
+	  skips all reserved regions before writing test patterns.
+
 endif
