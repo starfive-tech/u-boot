@@ -234,7 +234,7 @@ U_BOOT_CMD(ufs, 8, 1, do_ufs,
 	"   Attribute[0:1] - 0: Not bootable, 1:Boot LU A, 2: Boot LU B\n"
 	"ufs remove <lun>  - remove a logical unit\n\n"
 
-	"ufs rpmb key <region> <address of auth-key> - program the RPMB authentication key "
+	"ufs rpmb key <region> <address of auth-key> - program the RPMB authentication key\n"
 	"ufs rpmb create <region> <blksize>  - create a RPMB region [1-3]\n"
 	"   1 blksize equal 128KB\n"
 	"ufs rpmb remove <region>  - remove a RPMB region [1-3]\n"
@@ -246,5 +246,5 @@ U_BOOT_CMD(ufs, 8, 1, do_ufs,
 	"       1: P-Type - Write Protect clear to 0 after power cycle and hardware reset\n"
 	"       2: NV-AWP-Type - Write Protect set to 1 after power cycle and hardware reset\n\n"
 
-	"ATTENTION: create, update, and remove will reset data in all LUNs\n"
+	"ATTENTION: create and remove will reset data in all LUNs\n"
 );
