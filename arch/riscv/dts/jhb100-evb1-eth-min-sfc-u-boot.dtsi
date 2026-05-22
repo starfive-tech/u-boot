@@ -1,0 +1,266 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ *
+ * U-Boot SPL overlay for the minimal SFC-only build.
+ * Includes the full jhb100-evb1-eth-u-boot.dtsi and then strips
+ * bootph-pre-ram from GMAC clocks, GMAC ethernet nodes, and pinctrl
+ * groups that are not needed when booting from SFC only.
+ */
+
+#include "jhb100-evb1-eth-u-boot.dtsi"
+
+/* GMAC fixed clocks: not needed in SPL for minimal SFC boot */
+&per2_gmac2_rmii_ref {
+	/delete-property/ bootph-pre-ram;
+};
+
+&per2_gmac3_sgmii_tx {
+	/delete-property/ bootph-pre-ram;
+};
+
+&per2_gmac3_sgmii_rx {
+	/delete-property/ bootph-pre-ram;
+};
+
+&per3_gmac0_rmii_rclki {
+	/delete-property/ bootph-pre-ram;
+};
+
+&per3_gmac1_sgmii_tx {
+	/delete-property/ bootph-pre-ram;
+};
+
+&per3_gmac1_sgmii_rx {
+	/delete-property/ bootph-pre-ram;
+};
+
+/* GMAC ethernet nodes: not needed in SPL for minimal SFC boot */
+&gmac0 {
+	/delete-property/ bootph-pre-ram;
+#ifndef CONFIG_PHY_NCSI
+	mdio {
+		/delete-property/ bootph-pre-ram;
+		ethernet-phy@1 {
+			/delete-property/ bootph-pre-ram;
+		};
+	};
+#endif
+};
+
+&gmac1 {
+	/delete-property/ bootph-pre-ram;
+	mdio {
+		/delete-property/ bootph-pre-ram;
+		ethernet-phy@0 {
+			/delete-property/ bootph-pre-ram;
+		};
+	};
+};
+
+&gmac2 {
+	/delete-property/ bootph-pre-ram;
+#ifndef CONFIG_PHY_NCSI
+	mdio {
+		/delete-property/ bootph-pre-ram;
+		ethernet-phy@2 {
+			/delete-property/ bootph-pre-ram;
+		};
+	};
+#endif
+};
+
+&gmac3 {
+	/delete-property/ bootph-pre-ram;
+	mdio {
+		/delete-property/ bootph-pre-ram;
+		ethernet-phy@3 {
+			/delete-property/ bootph-pre-ram;
+		};
+	};
+};
+
+&sgmii_phy0 {
+	/delete-property/ bootph-pre-ram;
+};
+
+&sgmii_phy1 {
+	/delete-property/ bootph-pre-ram;
+};
+
+/* pinctrl_bmcperiph0: GMAC1/2/3 MDC/MDIO pins not needed in minimal SPL */
+&pinctrl_bmcperiph0 {
+	/delete-property/ bootph-pre-ram;
+};
+
+&gmac1_mdio_pins {
+	/delete-property/ bootph-pre-ram;
+	gmac1_mdc-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac1_mdio-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+};
+
+&gmac2_mdio_pins {
+	/delete-property/ bootph-pre-ram;
+	gmac2_mdc-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_mdio-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+};
+
+&gmac3_mdio_pins {
+	/delete-property/ bootph-pre-ram;
+	gmac3_mdc-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac3_mdio-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+};
+
+/* pinctrl_bmcperiph2: GMAC2 RGMII pins not needed in minimal SPL */
+&pinctrl_bmcperiph2 {
+	/delete-property/ bootph-pre-ram;
+};
+
+&gmac2_rgmii_pins {
+	/delete-property/ bootph-pre-ram;
+	gmac2_rgmii_txen-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_txclk-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_txd0-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_txd1-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_txd2-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_txd3-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_rxclk-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_rxdv-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_rxd0-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_rxd1-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_rxd2-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac2_rgmii_rxd3-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+};
+
+&pinctrl_bmcperiph2_pok {
+	/delete-property/ bootph-pre-ram;
+};
+
+/* pinctrl_bmcperiph3: GMAC0 MDC/MDIO and RMII pins not needed in minimal SPL */
+&pinctrl_bmcperiph3 {
+	/delete-property/ bootph-pre-ram;
+};
+
+&gmac0_mdio_pins {
+	/delete-property/ bootph-pre-ram;
+	gmac0_mdc-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac0_mdio-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+};
+
+&gmac0_rmii_pins {
+	/delete-property/ bootph-pre-ram;
+	gmac0_rmii_txen-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac0_rmii_txd0-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac0_rmii_txd1-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac0_rmii_rclki-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac0_rmii_rclko-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac0_rmii_rxdv-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac0_rmii_rxd0-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	gmac0_rmii_rxd1-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+};
+
+/* pinctrl_sys1: no SPL devices use sys1 pins */
+&pinctrl_sys1 {
+	/delete-property/ bootph-pre-ram;
+};
+
+/* pinctrl_emmc: CONFIG_MMC not enabled in minimal defconfig */
+&pinctrl_emmc {
+	/delete-property/ bootph-pre-ram;
+};
+
+&emmc0_pins {
+	/delete-property/ bootph-pre-ram;
+	emmc0_clk-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_rst-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_cmd-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_dqs-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_data0-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_data1-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_data2-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_data3-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_data4-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_data5-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_data6-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+	emmc0_data7-pins {
+		/delete-property/ bootph-pre-ram;
+	};
+};

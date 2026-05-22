@@ -1,0 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ *
+ * Minimal SFC-only variant of jhb100-evb1-eth for SPL.
+ * GMAC, eMMC, and unused pinctrl nodes are excluded from SPL
+ * via jhb100-evb1-eth-min-sfc-u-boot.dtsi.
+ */
+
+#include "jhb100-evb1-eth.dts"
