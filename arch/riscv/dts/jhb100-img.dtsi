@@ -9,19 +9,34 @@
 
 		spl_secure_sign {
 			signing_image {
-				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_sec.cfg 0 ../../u-boot/spl/ > /dev/null";
+				cmd1 = "UBOOT_DIR=$(pwd); ",
+				   "CST_DIR=${JHB100_CST_DIR:-$UBOOT_DIR/../jhb100-tool/cst}; ",
+				   "test -d ${CST_DIR} || exit 0; ",
+				   "cd ${CST_DIR}; ",
+				   "./mkbif_secure $UBOOT_DIR/spl/u-boot-spl.bin ./input_files/jhb100/spl_sec.cfg 0 $UBOOT_DIR/spl/ > /dev/null";
 			};
 		};
 
 		uboot_secure_sign {
 			signing_image {
-				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif_secure ../../u-boot/u-boot-nodtb.bin ./input_files/jhb100/uboot_sec.cfg 0 ../../u-boot/ > /dev/null; ./mkbif_secure ../../opensbi/build/platform/generic/firmware/fw_dynamic.bin ./input_files/jhb100/opensbi_sec.cfg 0 ../../opensbi/build/platform/generic/firmware/ > /dev/null; ./mkbif_secure ../../u-boot/u-boot.dtb ./input_files/jhb100/ubootdtb_sec.cfg 0 ../../u-boot/ > /dev/null";
+				cmd1 = "UBOOT_DIR=$(pwd); ",
+				   "CST_DIR=${JHB100_CST_DIR:-$UBOOT_DIR/../jhb100-tool/cst}; ",
+				   "test -d ${CST_DIR} || exit 0; ",
+				   "cd ${CST_DIR}; ",
+				   "./mkbif_secure $UBOOT_DIR/u-boot-nodtb.bin ./input_files/jhb100/uboot_sec.cfg 0 $UBOOT_DIR/ > /dev/null; ",
+				   "OPENSBI_BIN=${OPENSBI:-$UBOOT_DIR/fw_dynamic.bin}; ",
+				   "test -f ${OPENSBI_BIN} && ./mkbif_secure ${OPENSBI_BIN} ./input_files/jhb100/opensbi_sec.cfg 0 $(dirname ${OPENSBI_BIN})/ > /dev/null; ",
+				   "./mkbif_secure $UBOOT_DIR/u-boot.dtb ./input_files/jhb100/ubootdtb_sec.cfg 0 $UBOOT_DIR/ > /dev/null";
 			};
 		};
 
 		spl_sign {
 			signing_image {
-				cmd1 = "cd ../jhb100-tool/cst/; ./mkbif ../../u-boot/spl/u-boot-spl.bin ./input_files/jhb100/spl_nor.cfg 0 ../../u-boot/spl/ > /dev/null";
+				cmd1 = "UBOOT_DIR=$(pwd); ",
+				   "CST_DIR=${JHB100_CST_DIR:-$UBOOT_DIR/../jhb100-tool/cst}; ",
+				   "test -d ${CST_DIR} || exit 0; ",
+				   "cd ${CST_DIR}; ",
+				   "./mkbif $UBOOT_DIR/spl/u-boot-spl.bin ./input_files/jhb100/spl_nor.cfg 0 $UBOOT_DIR/spl/ > /dev/null";
 			};
 		};
 	};
@@ -62,6 +77,7 @@
 
 					secure_opensbi_blob: opensbi-secure {
 						filename = "fw_dynamic.bin.secure.out";
+						missing-msg = "opensbi-secure";
 					};
 				};
 
