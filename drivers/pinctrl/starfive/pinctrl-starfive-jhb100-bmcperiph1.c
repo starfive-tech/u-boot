@@ -39,6 +39,54 @@
 #define JHB100_BMCPERIPH1_I3CPAD_PIN_START	32
 #define JHB100_BMCPERIPH1_I3CPAD_PIN_END	35
 
+#ifdef CONFIG_SPL_BUILD
+static const struct starfive_pinctrl_pin jhb100_bmcperiph1_pins[] = {
+	STARFIVE_PINCTRL(0,	"BMCPERIPH1_GPIO0"),
+	STARFIVE_PINCTRL(1,	"BMCPERIPH1_GPIO1"),
+	STARFIVE_PINCTRL(2,	"BMCPERIPH1_GPIO2"),
+	STARFIVE_PINCTRL(3,	"BMCPERIPH1_GPIO3"),
+	STARFIVE_PINCTRL(4,	"BMCPERIPH1_GPIO4"),
+	STARFIVE_PINCTRL(5,	"BMCPERIPH1_GPIO5"),
+	STARFIVE_PINCTRL(6,	"BMCPERIPH1_GPIO6"),
+	STARFIVE_PINCTRL(7,	"BMCPERIPH1_GPIO7"),
+	STARFIVE_PINCTRL(8,	"BMCPERIPH1_GPIO8"),
+	STARFIVE_PINCTRL(9,	"BMCPERIPH1_GPIO9"),
+	STARFIVE_PINCTRL(10,	"BMCPERIPH1_GPIO10"),
+	STARFIVE_PINCTRL(11,	"BMCPERIPH1_GPIO11"),
+	STARFIVE_PINCTRL(12,	"BMCPERIPH1_GPIO12"),
+	STARFIVE_PINCTRL(13,	"BMCPERIPH1_GPIO13"),
+	STARFIVE_PINCTRL(14,	"BMCPERIPH1_GPIO14"),
+	STARFIVE_PINCTRL(15,	"BMCPERIPH1_GPIO15"),
+	STARFIVE_PINCTRL(16,	"BMCPERIPH1_GPIO16"),
+	STARFIVE_PINCTRL(17,	"BMCPERIPH1_GPIO17"),
+	STARFIVE_PINCTRL(18,	"BMCPERIPH1_GPIO18"),
+	STARFIVE_PINCTRL(19,	"BMCPERIPH1_GPIO19"),
+};
+
+static const struct jhb100_gpio_func_sel
+	jhb100_bmcperiph1_func_sel[ARRAY_SIZE(jhb100_bmcperiph1_pins)] = {
+	[0]	= { 0x0bc,	0,	2 },
+	[1]	= { 0x0bc,	2,	2 },
+	[2]	= { 0x0bc,	4,	1 },
+	[3]	= { 0x0bc,	6,	1 },
+	[4]	= { 0x0bc,	8,	1 },
+	[5]	= { 0x0bc,	10,	1 },
+	[6]	= { 0x0bc,	12,	1 },
+	[7]	= { 0x0bc,	14,	1 },
+	[8]	= { 0x0bc,	16,	1 },
+	[9]	= { 0x0bc,	18,	1 },
+	[10]	= { 0x0bc,	20,	1 },
+	[11]	= { 0x0bc,	22,	1 },
+	[12]	= { 0x0bc,	24,	1 },
+	[13]	= { 0x0bc,	26,	1 },
+	[14]	= { 0x0bc,	28,	1 },
+	[15]	= { 0x0bc,	30,	1 },
+	[16]	= { 0x0c0,	0,	1 },
+	[17]	= { 0x0c0,	2,	1 },
+	[18]	= { 0x0c0,	4,	1 },
+	[19]	= { 0x0c0,	6,	1 },
+};
+#else
 static const struct starfive_pinctrl_pin jhb100_bmcperiph1_pins[] = {
 	STARFIVE_PINCTRL(0,	"BMCPERIPH1_GPIO0"),
 	STARFIVE_PINCTRL(1,	"BMCPERIPH1_GPIO1"),
@@ -117,6 +165,7 @@ static const struct jhb100_gpio_func_sel
 	[34]	= { 0x0c4,	4,	2 },
 	[35]	= { 0x0c4,	6,	2 },
 };
+#endif /* CONFIG_SPL_BUILD */
 
 static void jhb100_bmcperiph1_init_hw(struct udevice *dev)
 {

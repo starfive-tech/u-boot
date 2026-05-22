@@ -39,6 +39,7 @@
 #define JHB100_BMCPERIPH0_I3CPAD_PIN_START	0
 #define JHB100_BMCPERIPH0_I3CPAD_PIN_END	59
 
+#ifndef CONFIG_SPL_BUILD /* not probed in SPL */
 static const struct starfive_pinctrl_pin jhb100_bmcperiph0_pins[] = {
 	STARFIVE_PINCTRL(0,	"BMCPERIPH0_GPIO0"),
 	STARFIVE_PINCTRL(1,	"BMCPERIPH0_GPIO1"),
@@ -243,3 +244,4 @@ U_BOOT_DRIVER(jhb100_bmcperiph0_pinctrl) = {
 	.probe		= jhb100_bmcperiph0_pinctrl_probe,
 	.bind		= starfive_pinctrl_bind,
 };
+#endif /* CONFIG_SPL_BUILD */
