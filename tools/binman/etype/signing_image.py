@@ -8,7 +8,6 @@
 
 from binman.entry import Entry
 from dtoc import fdt_util
-from u_boot_pylib import tools
 import os
 
 class Entry_signing_image(Entry):
@@ -26,12 +25,10 @@ class Entry_signing_image(Entry):
     """
     def __init__(self, section, etype, node):
         super().__init__(section, etype, node)
-        self.cmd1 = fdt_util.GetString(self._node, 'cmd1').split('  ')
+        parts = fdt_util.GetStringList(self._node, 'cmd1')
+        self.cmd1 = ''.join(parts) if parts else ''
 
     def ObtainContents(self):
-        uniq = self.GetUniqueName()
-        output_fname = tools.get_output_filename('arg-out.%s' % uniq)
-        tools.run('touch', 'arg-out.%s' % uniq);
-        os.system(*self.cmd1)
-        self.SetContents(tools.read_file(output_fname))
+        os.system(self.cmd1)
+        self.SetContents(b'')
         return True
