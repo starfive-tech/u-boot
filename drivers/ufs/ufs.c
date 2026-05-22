@@ -2058,6 +2058,8 @@ static int ufs_get_geometry_desc(struct ufs_hba *hba)
 	}
 
 	hba->max_num_lus = desc_buf[UFS_GEOMETRY_MAX_NUMBER_LU] ? 32 : 8;
+	hba->total_raw_dev_cap =
+		get_unaligned_be64(&desc_buf[UFS_GEOMETRY_TOTAL_RAW_DEVICE_CAPACITY]) << 9;
 out:
 	kfree(desc_buf);
 	return err;
@@ -2311,6 +2313,7 @@ void ufs_list_lus(struct udevice *ufs_dev)
 	struct ufs_hba *hba = dev_get_uclass_priv(ufs_dev);
 	struct ufs_rpmb_frame *frame_buffer;
 	struct udevice *scsi_dev;
+	u64 unused_size_mb;
 
 	device_find_first_child(ufs_dev, &scsi_dev);
 	if (!scsi_dev)
@@ -2325,6 +2328,8 @@ void ufs_list_lus(struct udevice *ufs_dev)
 	desc_buf = kmalloc(buff_len, GFP_KERNEL);
 	if (!desc_buf)
 		return;
+
+	unused_size_mb = hba->total_raw_dev_cap / (1024 * 1024);
 
 	printf("LUN  | Size (MB) | Attributes\n");
 	printf("-----------------------------\n");
@@ -2383,6 +2388,7 @@ void ufs_list_lus(struct udevice *ufs_dev)
 				printf("%s", attr_buf);
 
 			printf("\n");
+			unused_size_mb -= size_mb;
 		}
 	}
 
@@ -2411,6 +2417,10 @@ void ufs_list_lus(struct udevice *ufs_dev)
 			}
 		}
 	}
+
+	printf("-----------------------------\n");
+	printf("UFS unused size (exclude RPMB): %lld MB\n",
+	       (unsigned long long)unused_size_mb);
 
 	kfree(desc_buf);
 }

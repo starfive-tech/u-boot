@@ -816,6 +816,7 @@ struct ufs_hba {
 	u32			unit_desc_cfg_off;
 	u32			unit_desc_cfg_len;
 	u32			max_num_lus;
+	u64			total_raw_dev_cap;
 /*
  * If UFS host controller is having issue in processing LCC (Line
  * Control Command) coming from device then enable this quirk.
