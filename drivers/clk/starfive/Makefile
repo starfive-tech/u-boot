@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0+
 
-obj-y += clk-jh7110.o
-obj-y += clk-jh7110-pll.o
+obj-$(CONFIG_CLK_JH7110) += clk-jh7110.o
+obj-$(CONFIG_CLK_JH7110) += clk-jh7110-pll.o
 
 # StarFive JHB100 Clock
 obj-$(CONFIG_CLK_STARFIVE_COMMON)		+= jhb100/clk-starfive-common.o
