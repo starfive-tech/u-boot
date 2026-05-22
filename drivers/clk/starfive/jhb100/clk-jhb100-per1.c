@@ -10,6 +10,52 @@
  #include <dt-bindings/clock/starfive,jhb100-crg.h>
  #include <linux/clk-provider.h>
 
+#ifdef CONFIG_SPL_BUILD
+static struct clk_info per1crg_clk_info[] = {
+#ifdef CONFIG_DESIGNWARE_SPI
+	{ JHB100_PER1CLK_MAIN_ICG_EN_SFC0,	"main_icg_en_sfc0",
+		"per1_200",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER1CLK_MAIN_ICG_EN_SFC1,	"main_icg_en_sfc1",
+		"per1_200",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER1CLK_MAIN_ICG_EN_SFC2,	"main_icg_en_sfc2",
+		"per1_200",	NULL,	CLK_GATE,	0 },
+#endif
+#ifdef CONFIG_MMC
+	{ JHB100_PER1CLK_EMMC0_BCLK,		"emmc0_bclk",
+		"per1_200",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER1CLK_EMMC0_CCLK,		"emmc0_cclk",
+		"per1_200",	NULL,	CLK_GATE,	0 },
+	{ JHB100_PER1CLK_MAIN_ICG_EN_EMMC0,	"main_icg_en_emmc0",
+		"per1_200",	NULL,	CLK_GATE,	0 },
+#endif
+#ifdef CONFIG_DWC_UFS_STARFIVE
+	{ JHB100_PER1CLK_100,		"per1_100",
+		"per1_600",	NULL,	CLK_DIVIDER,	4 },
+	{ JHB100_PER1CLK_UFS_REF,	"ufs_ref",
+		"pll7",		NULL,	CLK_DIVIDER,	7 },
+	{ JHB100_PER1CLK_UFS_300,	"ufs_300",
+		"per1_600",	NULL,	CLK_DIVIDER,	2 },
+	{ JHB100_PER1CLK_UFS_150,	"ufs_150",
+		"per1_600",	NULL,	CLK_DIVIDER,	4 },
+	{ JHB100_PER1CLK_UFS_400,	"ufs_400",
+		"per1_800",	NULL,	CLK_DIVIDER,	2 },
+	{ JHB100_PER1CLK_UFS_75,	"ufs_75",
+		"ufs_150",	NULL,	CLK_DIVIDER,	2 },
+	{ JHB100_PER1CLK_UFS_37_5,	"ufs_37_5",
+		"ufs_75",	NULL,	CLK_DIVIDER,	2 },
+	{ JHB100_PER1CLK_UFS_7_5,	"ufs_7_5",
+		"ufs_75",	NULL,	CLK_DIVIDER,	4 },
+	{ JHB100_PER1CLK_UFS_1_875,	"ufs_1_875",
+		"ufs_7_5",	NULL,	CLK_DIVIDER,	3 },
+	{ JHB100_PER1CLK_UFS_7_143,	"ufs_7_143",
+		"per1_143",	NULL,	CLK_DIVIDER,	5 },
+	{ JHB100_PER1CLK_UFS_3_5715,	"ufs_3_5715",
+		"ufs_7_143",	NULL,	CLK_DIVIDER,	2 },
+	{ JHB100_PER1CLK_MAIN_ICG_EN_UFS,	"main_icg_en_ufs",
+		"per1_100",	NULL,	CLK_GATE,	0 },
+#endif
+};
+#else
 static struct clk_info per1crg_clk_info[] = {
 	{ JHB100_PER1CLK_100,	"per1_100",
 		"per1_600",	NULL,	CLK_DIVIDER,	4 },
@@ -102,6 +148,7 @@ static struct clk_info per1crg_clk_info[] = {
 	{ JHB100_PER1CLK_MAIN_ICG_EN_UFS,	"main_icg_en_ufs",
 		"per1_100",	NULL,	CLK_GATE,	0 },
 };
+#endif /* CONFIG_SPL_BUILD */
 
 static int jhb100_per1crg_probe(struct udevice *dev)
 {
