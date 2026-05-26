@@ -22,7 +22,37 @@
 
 		opensbi-domains {
 			compatible = "opensbi,domain,config";
-			jhb100-system-suspend;
+
+			ro_region: ro-region@404018000 {
+				compatible = "opensbi,domain,memregion";
+				base = <0x4 0x04018000>;
+				order = <15>;
+				access-type = <0x08>;
+				clear-on-boot;
+			};
+
+			ro_region2: ro-region@44018000 {
+				compatible = "opensbi,domain,memregion";
+				base = <0x0 0x44018000>;
+				order = <15>;
+				access-type = <0x08>;
+				clear-on-boot;
+			};
+
+			allaccess: all-access@0 {
+				compatible = "opensbi,domain,memregion";
+				base = <0x0 0x0>;
+				order = <64>;
+			};
+
+			rootdomain: user-domain {
+				compatible = "opensbi,domain,instance";
+				possible-harts = <&cpu0 &cpu1 &cpu2 &cpu3>;
+				regions = <&ro_region 0x08>, <&ro_region2 0x08>,
+					  <&allaccess 0x3f>;
+				system-reset-allowed;
+				system-suspend-allowed;
+			};
 		};
 	};
 
@@ -36,18 +66,22 @@
 		bootph-pre-ram;
 		cpu@0 {
 			bootph-pre-ram;
+			opensbi-domain = <&rootdomain>;
 		};
 
 		cpu@1 {
 			bootph-pre-ram;
+			opensbi-domain = <&rootdomain>;
 		};
 
 		cpu@2 {
 			bootph-pre-ram;
+			opensbi-domain = <&rootdomain>;
 		};
 
 		cpu@3 {
 			bootph-pre-ram;
+			opensbi-domain = <&rootdomain>;
 		};
 	};
 
