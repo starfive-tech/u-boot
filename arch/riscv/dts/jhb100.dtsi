@@ -1432,9 +1432,7 @@
 				compatible = "starfive,jhb100-phy-snps-femto-host";
 				reg = <0x0 0x11000000 0x0 0x10000>;
 				clocks = <&husbcmncrg JHB100_HUSBD0CLK_MAIN_ICG_EN_HUSB0>;
-				resets = <&husbcmncrg JHB100_HUSBCMNRST_MAIN_RSTN_HOSTUSB0>,
-					 <&husbd0crg JHB100_HUSBD0RST_HOST_SYSCON_RSTN>,
-					 <&husbd0crg JHB100_HUSBD0RST_DEV_SYSCON_RSTN>;
+				resets = <&husbcmncrg JHB100_HUSBCMNRST_MAIN_RSTN_HOSTUSB0>;
 				starfive,syscon = <&husbcmnsyscon 0>;
 				#phy-cells = <1>;
 				status = "disabled";
@@ -1444,9 +1442,7 @@
 				compatible = "starfive,jhb100-phy-snps-femto-host";
 				reg = <0x0 0x11010000 0x0 0x10000>;
 				clocks = <&husbcmncrg JHB100_HUSBD0CLK_MAIN_ICG_EN_HUSB1>;
-				resets = <&husbcmncrg JHB100_HUSBCMNRST_MAIN_RSTN_HOSTUSB1>,
-					 <&husbd1crg JHB100_HUSBD1RST_HOST_SYSCON_RSTN>,
-					 <&husbd1crg JHB100_HUSBD1RST_DEV_SYSCON_RSTN>;
+				resets = <&husbcmncrg JHB100_HUSBCMNRST_MAIN_RSTN_HOSTUSB1>;
 				starfive,syscon = <&husbcmnsyscon 1>;
 				#phy-cells = <1>;
 				status = "disabled";
@@ -1488,8 +1484,11 @@
 			dp: dp@11100000 {
 				compatible = "starfive,jhb100-dp";
 				reg = <0x0 0x11100000 0x0 0x10000>,
-				      <0x0 0x11135c00 0x0 0x100>;
-				reg-names = "dp", "dynsw";
+				      <0x0 0x11135c00 0x0 0x100>,
+				      <0x0 0x11140000 0x0 0x20000>;
+				reg-names = "dp", "dynsw", "phy";
+				clocks = <&voutcrg JHB100_VOUTCLK_MAIN_ICG_EN_DP_PHY_PCLK>;
+				clocks-names = "phy";
 				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_DW_DPTX>;
 				reset-names = "rstn_dp";
 				interrupts-extended = <&plic 228>, <&plic 237>,
@@ -1627,49 +1626,6 @@
 				interrupt-names = "vce", "host2bmc", "dynsw";
 				h2b-syscon = <&h2bsyscon>;
 				vce-id = <1>;
-				status = "disabled";
-			};
-
-			pcie_rc: pcie@11200000 {
-				compatible = "starfive,jhb100-pcie-host";
-				reg = <0x0 0x11200000 0x0 0x00380000>,
-					  <0x0 0x11580000 0x0 0x00000800>,
-				      <0x0 0x28000000 0x0 0x00100000>;
-				reg-names = "dbi", "dma", "config";
-				device_type = "pci";
-				#address-cells = <3>;
-				#size-cells = <2>;
-				ranges = <0x02000000 0x0 0x28100000 0x0 0x28100000 0x0 0x4000000>,
-					 <0x43000000 0xc 0x00000000 0xc 0x00000000 0x1 0x00000000>;
-				bus-range = <0x0 0xff>;
-				clocks = <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP_ECSR>,
-					 <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP>,
-					 <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_MCTP>,
-					 <&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_M>,
-					 <&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_S>,
-					 <&pcierpcrg JHB100_PCIERPCLK_MCTP_PCLK>;
-				vendor-id = <0x20b5>;
-				device-id = <0xb107>;
-				interrupt-controller;
-				interrupts = <86>, <87>, <88>, <90>, <102>;
-				interrupt-names = "pm_link", "intx_msi", "err", "dma", "wake";
-				#interrupt-cells = <1>;
-				interrupt-map-mask = <0 0 0 7>;
-				interrupt-map = <0 0 0 1 &pcie_rc 0>,
-						<0 0 0 2 &pcie_rc 1>,
-						<0 0 0 3 &pcie_rc 2>,
-						<0 0 0 4 &pcie_rc 3>;
-				max-link-speed = <2>;
-				msi-controller;
-				msi-parent = <&pcie_rc>;
-				num-lanes = <1>;
-				resets = <&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_PCIERP_ECSR>,
-					<&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_DW_PCIE_RP>,
-					<&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_MCTP_PCIERP>,
-					<&pcierp_syscon_rst JHB100_PCIERP_SYSCONRST_PE2RST_OUT>;
-				reset-names = "ecsr", "main", "mctp", "perst_out";
-				ecsr-syscon = <&pcie_rp_ecsr>;
-
 				status = "disabled";
 			};
 
@@ -3665,8 +3621,8 @@
 				clocks = <&per2crg JHB100_PER2CLK_MAIN_ICG_EN_ADC0>;
 				resets = <&per2crg JHB100_PER2RST_ADC0_PRESETN>;
 				#io-channel-cells = <1>;
-				upper-bound = <0xfff>;
-				lower-bound = <0>;
+				upper-bound-mv = <0xfff>;
+				lower-bound-mv = <0>;
 				/* Cycle time = (scan-freq + 5) * 10 ns, minimum scan-freq is 15 */
 				scan-freq = <20>;
 				status = "disabled";
@@ -3679,8 +3635,8 @@
 				clocks = <&per2crg JHB100_PER2CLK_MAIN_ICG_EN_ADC1>;
 				resets = <&per2crg JHB100_PER2RST_ADC1_PRESETN>;
 				#io-channel-cells = <1>;
-				upper-bound = <0xfff>;
-				lower-bound = <0>;
+				upper-bound-mv = <0xfff>;
+				lower-bound-mv = <0>;
 				/* Cycle time = (scan-freq + 5) * 10 ns, minimum scan-freq is 15 */
 				scan-freq = <20>;
 				status = "disabled";
@@ -4356,6 +4312,61 @@
 				clock-names = "pclk", "ref_25m";
 				starfive,syscon = <&syscon_bmcperiph3 0x24>;
 				#phy-cells = <0>;
+				status = "disabled";
+			};
+		};
+
+		bus_nioc_pcie: bus_nioc_pcie {
+			compatible = "simple-bus";
+			#address-cells = <2>;
+			#size-cells = <2>;
+			dma-noncoherent;
+			ranges;
+
+			pcie_rc: pcie@11200000 {
+				compatible = "starfive,jhb100-pcie-host";
+				reg = <0x0 0x11200000 0x0 0x00200000>,
+					  <0x0 0x11500000 0x0 0x00001000>,
+					  <0x0 0x11580000 0x0 0x00000800>,
+				      <0x0 0x28000000 0x0 0x00100000>;
+				reg-names = "dbi", "atu", "dma", "config";
+				device_type = "pci";
+				#address-cells = <3>;
+				#size-cells = <2>;
+				ranges = <0x02000000 0x0 0x28100000 0x0 0x28100000 0x0 0x4000000>,
+					 <0x43000000 0xc 0x00000000 0xc 0x00000000 0x1 0x00000000>;
+				bus-range = <0x0 0xff>;
+				dma-ranges = <0x42000000 0x0 0x40000000 0x0 0x40000000 0x0 0x80000000>,
+					    <0x2000000 0x0 0x40000000 0x4 0x0 0x0 0x80000000>,
+					    <0x3000000 0x4 0x0 0x4 0x0 0x2 0x0>;
+				clocks = <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP_ECSR>,
+					 <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_PCIERP>,
+					 <&pcierpcrg JHB100_PCIERPCLK_MAIN_ICG_EN_MCTP>,
+					 <&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_M>,
+					 <&pcierpcrg JHB100_PCIERPCLK_MCTP_ACLK_S>,
+					 <&pcierpcrg JHB100_PCIERPCLK_MCTP_PCLK>;
+				vendor-id = <0x20b5>;
+				device-id = <0xb107>;
+				interrupt-controller;
+				interrupts = <86>, <87>, <88>, <90>, <102>;
+				interrupt-names = "pm_link", "intx_msi", "err", "dma", "wake";
+				#interrupt-cells = <1>;
+				interrupt-map-mask = <0 0 0 7>;
+				interrupt-map = <0 0 0 1 &pcie_rc 0>,
+						<0 0 0 2 &pcie_rc 1>,
+						<0 0 0 3 &pcie_rc 2>,
+						<0 0 0 4 &pcie_rc 3>;
+				max-link-speed = <2>;
+				msi-controller;
+				msi-parent = <&pcie_rc>;
+				num-lanes = <1>;
+				resets = <&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_PCIERP_ECSR>,
+					<&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_DW_PCIE_RP>,
+					<&pcierpcrg JHB100_PCIERPRST_MAIN_RSTN_MCTP_PCIERP>,
+					<&pcierp_syscon_rst JHB100_PCIERP_SYSCONRST_PE2RST_OUT>;
+				reset-names = "ecsr", "main", "mctp", "perst_out";
+				ecsr-syscon = <&pcie_rp_ecsr>;
+
 				status = "disabled";
 			};
 		};

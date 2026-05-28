@@ -40,7 +40,7 @@
 			#size-cells = <1>;
 
 			partition@0 {
-				label = "bios-image1";
+				label = "bios-image0-backup";
 				reg = <0x0 0x4000000>;
 			};
 		};

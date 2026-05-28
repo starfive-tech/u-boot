@@ -7,8 +7,8 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&adc0_vin0_pins &adc0_vin1_pins &adc0_vin2_pins &adc0_vin3_pins
 		     &adc0_vin4_pins &adc0_vin5_pins &adc0_vin6_pins &adc0_vin7_pins>;
-	upper-bound = /bits/ 16 <0xfff>;
-	lower-bound = /bits/ 16 <0>;
+	upper-bound-mv = /bits/ 16 <1800>;
+	lower-bound-mv = /bits/ 16 <0>;
 	scan-freq = /bits/ 16 <0x3e3>;
 	status = "okay";
 };
@@ -17,8 +17,8 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&adc1_vin0_pins &adc1_vin1_pins &adc1_vin2_pins &adc1_vin3_pins
 		     &adc1_vin4_pins &adc1_vin5_pins &adc1_vin6_pins &adc1_vin7_pins>;
-	upper-bound = /bits/ 16 <0xfff>;
-	lower-bound = /bits/ 16 <0>;
+	upper-bound-mv = /bits/ 16 <1800>;
+	lower-bound-mv = /bits/ 16 <0>;
 	scan-freq = /bits/ 16 <0x3e3>;
 	status = "okay";
 };
