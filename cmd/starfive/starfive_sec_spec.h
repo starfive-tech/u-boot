@@ -8,6 +8,7 @@
 #define __STARFIVE_SEC_SPEC_H
 
 static const struct request_spec request_specs[] = {
+	/* --- entries used by SPL --- */
 	{
 		.request_id = 1,
 		.request_name = "secboot_verify_bmcfw",
@@ -19,6 +20,84 @@ static const struct request_spec request_specs[] = {
 		.need_auth = 0,
 		.has_external_data = 0
 	},
+	{
+		.request_id = 8,
+		.request_name = "get_bmcfw_info",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 20,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
+		.request_id = 19,
+		.request_name = "get_dram_info",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 20,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
+		.request_id = 22,
+		.request_name = "get_system_status",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 20,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
+		.request_id = 23,
+		.request_name = "pre_os_boot_notify",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 4,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
+		.request_id = 25,
+		.request_name = "secboot_verify_rofs",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 4,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
+		.request_id = 28,
+		.request_name = "assign_mem_block",
+		.param_count = 4,
+		.param_names = {"flags", "addr_low", "addr_high", "size"},
+		.resp_count = 1,
+		.resp_names = {"status"},
+		.resp_size = 4,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+	{
+		.request_id = 255,
+		.request_name = "get_async_sec_srv_status",
+		.param_count = 1,
+		.param_names = {"flags"},
+		.resp_count = 2,
+		.resp_names = {"status", "percentage"},
+		.resp_size = 8,
+		.need_auth = 0,
+		.has_external_data = 0
+	},
+#ifndef CONFIG_SPL_BUILD
 	{
 		.request_id = 2,
 		.request_name = "secboot_verify_biosfw",
@@ -82,17 +161,6 @@ static const struct request_spec request_specs[] = {
 		.resp_count = 1,
 		.resp_names = {"status"},
 		.resp_size = 4,
-		.need_auth = 0,
-		.has_external_data = 0
-	},
-	{
-		.request_id = 8,
-		.request_name = "get_bmcfw_info",
-		.param_count = 1,
-		.param_names = {"flags"},
-		.resp_count = 1,
-		.resp_names = {"status"},
-		.resp_size = 20,
 		.need_auth = 0,
 		.has_external_data = 0
 	},
@@ -207,17 +275,6 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 19,
-		.request_name = "get_dram_info",
-		.param_count = 1,
-		.param_names = {"flags"},
-		.resp_count = 1,
-		.resp_names = {"status"},
-		.resp_size = 20,
-		.need_auth = 0,
-		.has_external_data = 0
-	},
-	{
 		.request_id = 20,
 		.request_name = "biosfw_factory_reset",
 		.param_count = 1,
@@ -240,41 +297,8 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 22,
-		.request_name = "get_system_status",
-		.param_count = 1,
-		.param_names = {"flags"},
-		.resp_count = 1,
-		.resp_names = {"status"},
-		.resp_size = 20,
-		.need_auth = 0,
-		.has_external_data = 0
-	},
-	{
-		.request_id = 23,
-		.request_name = "pre_os_boot_notify",
-		.param_count = 1,
-		.param_names = {"flags"},
-		.resp_count = 1,
-		.resp_names = {"status"},
-		.resp_size = 4,
-		.need_auth = 0,
-		.has_external_data = 0
-	},
-	{
 		.request_id = 24,
 		.request_name = "os_boot_notify",
-		.param_count = 1,
-		.param_names = {"flags"},
-		.resp_count = 1,
-		.resp_names = {"status"},
-		.resp_size = 4,
-		.need_auth = 0,
-		.has_external_data = 0
-	},
-	{
-		.request_id = 25,
-		.request_name = "secboot_verify_rofs",
 		.param_count = 1,
 		.param_names = {"flags"},
 		.resp_count = 1,
@@ -306,17 +330,6 @@ static const struct request_spec request_specs[] = {
 		.has_external_data = 0
 	},
 	{
-		.request_id = 28,
-		.request_name = "assign_mem_block",
-		.param_count = 4,
-		.param_names = {"flags", "addr_low", "addr_high", "size"},
-		.resp_count = 1,
-		.resp_names = {"status"},
-		.resp_size = 4,
-		.need_auth = 0,
-		.has_external_data = 0
-	},
-	{
 		.request_id = 29,
 		.request_name = "otp_get_ufs_phyconfig",
 		.param_count = 1,
@@ -335,17 +348,6 @@ static const struct request_spec request_specs[] = {
 		.resp_count = 1,
 		.resp_names = {"status"},
 		.resp_size = 4,
-	},
-	{
-		.request_id = 255,
-		.request_name = "get_async_sec_srv_status",
-		.param_count = 1,
-		.param_names = {"flags"},
-		.resp_count = 2,
-		.resp_names = {"status", "percentage"},
-		.resp_size = 8,
-		.need_auth = 0,
-		.has_external_data = 0
 	},
 	{
 		.request_id = 513,
@@ -412,6 +414,7 @@ static const struct request_spec request_specs[] = {
 		.resp_size = 4,
 		.need_auth = 1,
 		.has_external_data = 0
-	}
+	},
+#endif /* CONFIG_SPL_BUILD */
 };
 #endif
