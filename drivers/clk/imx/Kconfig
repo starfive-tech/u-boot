@@ -1,8 +1,18 @@
+config CLK_IMX_CCF_HELPERS
+	bool
+	help
+	  Enables i.MX-specific CCF clock helpers (clk-pllv3, clk-gate2, clk-pfd).
+	  Selected automatically by i.MX clock drivers that require them.
+
+config SPL_CLK_IMX_CCF_HELPERS
+	bool
+
 config SPL_CLK_IMX6Q
 	bool "SPL clock support for i.MX6Q"
 	depends on ARCH_MX6 && SPL
 	select SPL_CLK
 	select SPL_CLK_CCF
+	select SPL_CLK_IMX_CCF_HELPERS
 	help
 	  This enables SPL DM/DTS support for clock driver in i.MX6Q platforms.
 
@@ -11,6 +21,7 @@ config CLK_IMX6Q
 	depends on ARCH_MX6
 	select CLK
 	select CLK_CCF
+	select CLK_IMX_CCF_HELPERS
 	help
 	  This enables DM/DTS support for clock driver in i.MX6Q platforms.
 
@@ -113,6 +124,7 @@ config SPL_CLK_IMXRT1020
 	select SPL_CLK
 	select SPL_CLK_CCF
 	select SPL_CLK_COMPOSITE_CCF
+	select SPL_CLK_IMX_CCF_HELPERS
 	help
 	  This enables SPL DM/DTS support for clock driver in i.MXRT1020
 
@@ -122,6 +134,7 @@ config CLK_IMXRT1020
 	select CLK
 	select CLK_CCF
 	select CLK_COMPOSITE_CCF
+	select CLK_IMX_CCF_HELPERS
 	help
 	  This enables support clock driver for i.MXRT1020 platforms.
 
@@ -131,6 +144,7 @@ config SPL_CLK_IMXRT1050
 	select SPL_CLK
 	select SPL_CLK_CCF
 	select SPL_CLK_COMPOSITE_CCF
+	select SPL_CLK_IMX_CCF_HELPERS
 	help
 	  This enables SPL DM/DTS support for clock driver in i.MXRT1050
 
@@ -140,6 +154,7 @@ config CLK_IMXRT1050
 	select CLK
 	select CLK_CCF
 	select CLK_COMPOSITE_CCF
+	select CLK_IMX_CCF_HELPERS
 	help
 	  This enables support clock driver for i.MXRT1050 platforms.
 
@@ -148,6 +163,7 @@ config SPL_CLK_IMXRT1170
 	depends on ARCH_IMXRT && SPL
 	select SPL_CLK
 	select SPL_CLK_CCF
+	select SPL_CLK_IMX_CCF_HELPERS
 	help
 	  This enables SPL DM/DTS support for clock driver in i.MXRT1170.
 
@@ -156,5 +172,6 @@ config CLK_IMXRT1170
 	depends on ARCH_IMXRT
 	select CLK
 	select CLK_CCF
+	select CLK_IMX_CCF_HELPERS
 	help
 	  This enables support clock driver for i.MXRT1170 platforms.
