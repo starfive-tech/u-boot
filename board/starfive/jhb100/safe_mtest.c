@@ -60,6 +60,20 @@ static int safe_mtest_memory_region(struct lmb *lmb,
 	return 0;
 }
 
+static void lmb_reserved_sort(struct lmb *lmb)
+{
+	unsigned long i, j;
+
+	for (i = 1; i < lmb->reserved.cnt; i++) {
+		struct lmb_property key = lmb->reserved.region[i];
+
+		for (j = i; j > 0 && lmb->reserved.region[j - 1].base > key.base; j--)
+			lmb->reserved.region[j] = lmb->reserved.region[j - 1];
+
+		lmb->reserved.region[j] = key;
+	}
+}
+
 int starfive_safe_mtest_run(void)
 {
 	struct lmb lmb;
@@ -67,6 +81,7 @@ int starfive_safe_mtest_run(void)
 	int ret;
 
 	lmb_init_and_reserve(&lmb, gd->bd, (void *)gd->fdt_blob);
+	lmb_reserved_sort(&lmb);
 
 	for (i = 0; i < lmb.memory.cnt; i++) {
 		ret = safe_mtest_memory_region(&lmb, &lmb.memory.region[i]);
