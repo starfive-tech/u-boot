@@ -94,14 +94,14 @@
 	"ramdiskfile=rootfs.cpio\0"	\
 	"updcapfile=capsule.cap\0"
 
-#if CONFIG_IS_ENABLED(MMC)
+#ifdef CONFIG_MMC
 #define JHB100_BOOTENV_MMC	\
 	"mmcpart=1\0"
 #else
 #define JHB100_BOOTENV_MMC
 #endif
 
-#if CONFIG_IS_ENABLED(MMC) || CONFIG_IS_ENABLED(SCSI)
+#if defined(CONFIG_MMC) || defined(CONFIG_SCSI)
 #define JHB100_BOOTENV_STORAGE_FIT	\
 	"fitbootfile=/boot/kernel.itb\0"	\
 	"fitbootrecfile=/boot/kernel-recovery.itb\0"
@@ -109,7 +109,7 @@
 #define JHB100_BOOTENV_STORAGE_FIT
 #endif
 
-#if CONFIG_IS_ENABLED(SCSI)
+#ifdef CONFIG_SCSI
 #define JHB100_BOOTENV_UFS	\
 	"lun_l=d\0"
 #else
@@ -152,7 +152,7 @@
 		"run loadfdttftp;"	\
 		"run loadramdisktftp; run ramboot;\0"
 
-#if CONFIG_IS_ENABLED(CMD_SF)
+#ifdef CONFIG_CMD_SF
 #define JHB100_KERNEL_BOOTENV_SFC	\
 	"loadfitimagespiact=sf read ${loadaddr} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespigol=sf read ${loadaddr} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
@@ -268,7 +268,7 @@
 #define JHB100_KERNEL_BOOTENV_SFC
 #endif
 
-#if CONFIG_IS_ENABLED(MMC)
+#ifdef CONFIG_MMC
 #define JHB100_KERNEL_BOOTENV_MMC	\
 	"set_bootargs_root_storage_mmc="		\
 		"affixbootargs root=/dev/mmcblk0gp${blk_num}\0"	\
@@ -445,7 +445,7 @@
 #define JHB100_KERNEL_BOOTENV_MMC
 #endif
 
-#if CONFIG_IS_ENABLED(SCSI)
+#ifdef CONFIG_SCSI
 #define JHB100_KERNEL_BOOTENV_UFS	\
 	"set_bootargs_root_storage_ufs="		\
 		"affixbootargs root=/dev/sd${lun_l}\0"	\
@@ -526,7 +526,7 @@
 #define JHB100_KERNEL_BOOTENV_UFS
 #endif
 
-#if CONFIG_IS_ENABLED(CMD_SF)
+#ifdef CONFIG_CMD_SF
 #define JHB100_KERNEL_AUTOBOOT_SFC	\
 		"if test ${bootdev} = spi; then "	\
 			"run auth_boot_kernel_fit_sfc;"	\
@@ -535,7 +535,7 @@
 #define JHB100_KERNEL_AUTOBOOT_SFC
 #endif
 
-#if CONFIG_IS_ENABLED(MMC)
+#ifdef CONFIG_MMC
 #define JHB100_KERNEL_AUTOBOOT_MMC	\
 		"if test ${bootdev} = mmc1; then "	\
 			"run auth_boot_kernel_fit_emmc;"	\
@@ -544,7 +544,7 @@
 #define JHB100_KERNEL_AUTOBOOT_MMC
 #endif
 
-#if CONFIG_IS_ENABLED(SCSI)
+#ifdef CONFIG_SCSI
 #define JHB100_KERNEL_AUTOBOOT_UFS	\
 		"if test ${bootdev} = ufs; then "	\
 			"run auth_boot_kernel_fit_ufs;"	\
