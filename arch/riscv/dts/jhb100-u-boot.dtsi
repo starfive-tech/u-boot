@@ -36,6 +36,8 @@
 				base = <0x4 0x04018000>;
 				order = <15>;
 				access-type = <0x08>;
+				starfive,iopmp-attr = <0x3>;
+				starfive,iopmp-srcid-mask = <0x00000003 0xffffffff>;
 				clear-on-boot;
 			};
 
@@ -44,6 +46,8 @@
 				base = <0x0 0x44018000>;
 				order = <15>;
 				access-type = <0x08>;
+				starfive,iopmp-attr = <0x3>;
+				starfive,iopmp-srcid-mask = <0x00000003 0xffffffff>;
 				clear-on-boot;
 			};
 
