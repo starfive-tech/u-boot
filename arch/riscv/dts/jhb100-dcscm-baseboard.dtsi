@@ -321,6 +321,18 @@
 			<&pcie0_user_mem_uncache>,
 			<&pcie0_mmbi_buffer_uncache>,
 			<&pcie0_hdma_mem_uncache>;
+	/*
+	 * Resizable BAR default size = 2^(20+rebar-def-enc)MB.
+	 * PF0 BAR2 = 16MB for HDMA data
+	 * PF1 BAR4 = 64MB for VOUT frame buffer
+	 * PF5 BAR0 = 32MB and BAR2 = 1MB are reserved for users
+	 * PF6 BAR0 = 4MB for MMBI data
+	 */
+	rebar-def-enc-pf0-bar2 = <4>;
+	rebar-def-enc-pf1-bar4 = <6>;
+	rebar-def-enc-pf5-bar0 = <5>;
+	rebar-def-enc-pf5-bar2 = <0>;
+	rebar-def-enc-pf6-bar0 = <2>;
 	starfive,support-usb-vout-func;
 	status = "okay";
 };

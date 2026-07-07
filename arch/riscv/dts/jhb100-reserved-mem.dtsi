@@ -45,13 +45,13 @@ espi0_perif_mem_uncache: espi0-slave@404400000 {
 	no-map;
 };
 
-pcie0_mmbi_buffer_cache: mmbi_buffer@44800000 {
+pcie0_mmbi_buffer_cache: pf6_mmbi_buffer@44800000 {
 	reg = <0x0 0x44800000 0x0 0x400000>;
 	alignment = <0x0 0x100000>;
 	no-map;
 };
 
-pcie0_mmbi_buffer_uncache: mmbi_buffer@404800000 {
+pcie0_mmbi_buffer_uncache: pf6_mmbi_buffer@404800000 {
 	reg = <0x4 0x04800000 0x0 0x400000>;
 	alignment = <0x0 0x100000>;
 	no-map;
@@ -67,25 +67,25 @@ espi0_vw_mem_uncache: espi0@404c00000 {
 	no-map;
 };
 
-pcie0_hdma_mem_cache: hdma_memory@45000000 {
+pcie0_hdma_mem_cache: pf0_hdma_memory@45000000 {
 	reg = <0x0 0x45000000 0x0 0x1000000>;
 	alignment = <0x0 0x1000000>;
 	no-map;
 };
 
-pcie0_hdma_mem_uncache: hdma_memory@405000000 {
+pcie0_hdma_mem_uncache: pf0_hdma_memory@405000000 {
 	reg = <0x4 0x05000000 0x0 0x1000000>;
 	alignment = <0x0 0x1000000>;
 	no-map;
 };
 
-pcie0_media_mem_cache: media_memory@48000000 {
+pcie0_media_mem_cache: pf1_media_memory@48000000 {
 	reg = <0x0 0x48000000 0x0 0x4000000>;
 	alignment = <0x0 0x4000000>;
 	no-map;
 };
 
-pcie0_media_mem_uncache: media_memory@408000000 {
+pcie0_media_mem_uncache: pf1_media_memory@408000000 {
 	reg = <0x4 0x08000000 0x0 0x4000000>;
 	alignment = <0x0 0x4000000>;
 	no-map;
@@ -96,7 +96,7 @@ pcie0_media_mem_uncache: media_memory@408000000 {
  * with its size, the first reg below required to be aligned with
  * 0x2000000 too.
  */
-pcie0_user_mem_cache: user_memory@4c000000 {
+pcie0_user_mem_cache: pf5_user_memory@4c000000 {
 	reg = <0x0 0x4c000000 0x0 0x2000000>,
 		<0x0 0x4e000000 0x0 0x100000>,
 		<0x0 0x4e100000 0x0 0x100000>;
@@ -104,7 +104,7 @@ pcie0_user_mem_cache: user_memory@4c000000 {
 	no-map;
 };
 
-pcie0_user_mem_uncache: user_memory@40c000000 {
+pcie0_user_mem_uncache: pf5_user_memory@40c000000 {
 	reg = <0x4 0x0c000000 0x0 0x2000000>,
 		<0x4 0x0e000000 0x0 0x100000>,
 		<0x4 0x0e100000 0x0 0x100000>;
@@ -186,37 +186,37 @@ espi1_perif_mem_uncache: espi0-slave@41ac00000 {
 	no-map;
 };
 
-pcie1_mmbi_buffer_cache: mmbi_buffer@5b000000 {
+pcie1_mmbi_buffer_cache: pf6_mmbi_buffer@5b000000 {
 	reg = <0x0 0x5b000000 0x0 0x400000>;
 	alignment = <0x0 0x400000>;
 	no-map;
 };
 
-pcie1_mmbi_buffer_uncache: mmbi_buffer@41b000000 {
+pcie1_mmbi_buffer_uncache: pf6_mmbi_buffer@41b000000 {
 	reg = <0x4 0x1b000000 0x0 0x400000>;
 	alignment = <0x0 0x400000>;
 	no-map;
 };
 
-pcie1_media_mem_cache: media_memory@5c000000 {
+pcie1_media_mem_cache: pf1_media_memory@5c000000 {
 	reg = <0x0 0x5c000000 0x0 0x4000000>;
 	alignment = <0x0 0x4000000>;
 	no-map;
 };
 
-pcie1_media_mem_uncache: media_memory@41c000000 {
+pcie1_media_mem_uncache: pf1_media_memory@41c000000 {
 	reg = <0x4 0x1c000000 0x0 0x4000000>;
 	alignment = <0x0 0x4000000>;
 	no-map;
 };
 
-pcie1_hdma_mem_cache: hdma_memory@60000000 {
+pcie1_hdma_mem_cache: pf0_hdma_memory@60000000 {
 	reg = <0x0 0x60000000 0x0 0x1000000>;
 	alignment = <0x0 0x1000000>;
 	no-map;
 };
 
-pcie1_hdma_mem_uncache: hdma_memory@420000000 {
+pcie1_hdma_mem_uncache: pf0_hdma_memory@420000000 {
 	reg = <0x4 0x20000000 0x0 0x1000000>;
 	alignment = <0x0 0x1000000>;
 	no-map;
@@ -227,7 +227,7 @@ pcie1_hdma_mem_uncache: hdma_memory@420000000 {
  * with its size, the first reg below required to be aligned with
  * 0x2000000 too.
  */
-pcie1_user_mem_cache: user_memory@62000000 {
+pcie1_user_mem_cache: pf5_user_memory@62000000 {
 	reg = <0x0 0x62000000 0x0 0x2000000>,
 		<0x0 0x64000000 0x0 0x100000>,
 		<0x0 0x64100000 0x0 0x100000>;
@@ -235,7 +235,7 @@ pcie1_user_mem_cache: user_memory@62000000 {
 	no-map;
 };
 
-pcie1_user_mem_uncache: user_memory@422000000 {
+pcie1_user_mem_uncache: pf5_user_memory@422000000 {
 	reg = <0x4 0x22000000 0x0 0x2000000>,
 		<0x4 0x24000000 0x0 0x100000>,
 		<0x4 0x24100000 0x0 0x100000>;

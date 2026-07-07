@@ -1489,8 +1489,10 @@
 				reg-names = "dp", "dynsw", "phy";
 				clocks = <&voutcrg JHB100_VOUTCLK_MAIN_ICG_EN_DP_PHY_PCLK>;
 				clocks-names = "phy";
-				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_DW_DPTX>;
-				reset-names = "rstn_dp";
+				resets = <&voutcrg JHB100_VOUTRST_MAIN_RSTN_DW_DPTX>,
+					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_PHY_RESET>,
+					 <&voutcrg JHB100_VOUTRST_MAIN_RSTN_LANE_RESET>;
+				reset-names = "rstn_dp", "rstn_phy", "rstn_lane";
 				interrupts-extended = <&plic 228>, <&plic 237>,
 						      <&plic 238>, <&plic 232>,
 						      <&pinctrl_bmcperiph0 28 GPIO_ACTIVE_HIGH>;
@@ -3395,29 +3397,9 @@
 				interrupts = <116>, <117>;
 				interrupts-names = "ufs", "err";
 				clocks = <&per1crg JHB100_PER1CLK_UFS_REF>,
-					 <&per1crg JHB100_PER1CLK_UFS_150>,
-					 <&per1crg JHB100_PER1CLK_UFS_300>,
-					 <&per1crg JHB100_PER1CLK_UFS_400>,
-					 <&per1crg JHB100_PER1CLK_UFS_75>,
-					 <&per1crg JHB100_PER1CLK_UFS_37_5>,
-					 <&per1crg JHB100_PER1CLK_UFS_7_5>,
-					 <&per1crg JHB100_PER1CLK_UFS_1_875>,
-					 <&per1crg JHB100_PER1CLK_UFS_7_143>,
-					 <&per1crg JHB100_PER1CLK_UFS_3_5715>,
 					 <&per1crg JHB100_PER1CLK_MAIN_ICG_EN_UFS>;
-				clock-names = "ref_clk","clk_150", "clk_300","clk_400",
-					      "clk_75", "clk_37_5", "clk_7_5","clk_1_875",
-					      "clk_7_143", "clk_3_5715", "ufs";
+				clock-names = "ref_clk", "ufs";
 				freq-table-hz = <26000000 26000000>,
-						<50000000 150000000>,
-						<300000000 300000000>,
-						<400000000 400000000>,
-						<75000000 75000000>,
-						<37500000 37500000>,
-						<7500000 7500000>,
-						<1875000 1875000>,
-						<7143000 7143000>,
-						<3571500 3571500>,
 						<100000000 100000000>;
 				resets = <&per1crg JHB100_PER1RST_MAIN_RSTN_UFS>,
 					 <&per1crg JHB100_PER1RST_MAIN_RSTN_UFS_PHY>;
