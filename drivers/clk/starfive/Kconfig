@@ -23,6 +23,16 @@ config CLK_STARFIVE_COMMON
 	select CLK_CCF
 	select CLK_COMPOSITE_CCF
 
+config CLK_STARFIVE_JHB100_AUTO_ENABLE
+	bool "Auto-enable all StarFive JHB100 gated clocks at probe"
+	depends on CLK_STARFIVE_COMMON
+	default n
+	help
+	  Say yes here to have every gated clock (CLK_GATE, CLK_GDIV,
+	  CLK_GMUX, CLK_COMPOSITE) automatically enabled as soon as its
+	  clock domain driver probes, instead of waiting for a consumer
+	  driver to request and enable it explicitly.
+
 config CLK_STARFIVE_JHB100_SYS
 	bool "StarFive JHB100 System clock support"
 	depends on CLK

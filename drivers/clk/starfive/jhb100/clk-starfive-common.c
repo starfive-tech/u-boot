@@ -188,78 +188,89 @@ void starfive_clk_init(void __iomem *reg, enum clk_type_t type,
 		       const struct clk_info *init_data, unsigned long init_data_size)
 {
 	for (unsigned long i = 0; i < init_data_size; i++) {
+		struct clk *clk = NULL;
+
 		switch (init_data[i].component) {
 		case CLK_GATE:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_gate(reg, init_data[i].name,
-						 init_data[i].parent_name,
-						 OFFSET(init_data[i].id)));
+			clk = starfive_clk_gate(reg, init_data[i].name,
+						init_data[i].parent_name,
+						OFFSET(init_data[i].id));
 			break;
 		case CLK_INV:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_inv(reg, init_data[i].name,
-						init_data[i].parent_name,
-						OFFSET(init_data[i].id)));
+			clk = starfive_clk_inv(reg, init_data[i].name,
+					       init_data[i].parent_name,
+					       OFFSET(init_data[i].id));
 			break;
 		case CLK_MUX:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_mux(reg, init_data[i].name,
-						OFFSET(init_data[i].id),
-						1, init_data[i].parent_names,
-						MAX_NUM_PARENTS));
+			clk = starfive_clk_mux(reg, init_data[i].name,
+					       OFFSET(init_data[i].id),
+					       1, init_data[i].parent_names,
+					       MAX_NUM_PARENTS);
 			break;
 		case CLK_DIVIDER:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_divider(reg, init_data[i].name,
-						    init_data[i].parent_name,
-						    OFFSET(init_data[i].id),
-						    init_data[i].div_width));
+			clk = starfive_clk_divider(reg, init_data[i].name,
+						   init_data[i].parent_name,
+						   OFFSET(init_data[i].id),
+						   init_data[i].div_width);
 			break;
 		case CLK_MDIV:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_composite(reg, init_data[i].name,
-						      init_data[i].parent_names,
-						      MAX_NUM_PARENTS, OFFSET(init_data[i].id),
-						      1, 0, init_data[i].div_width));
+			clk = starfive_clk_composite(reg, init_data[i].name,
+						     init_data[i].parent_names,
+						     MAX_NUM_PARENTS, OFFSET(init_data[i].id),
+						     1, 0, init_data[i].div_width);
 			break;
 		case CLK_GDIV:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_fix_parent_composite(reg, init_data[i].name,
-								 init_data[i].parent_name,
-								 OFFSET(init_data[i].id), 0,
-								 STARFIVE_CLK_ENABLE_SHIFT,
-								 init_data[i].div_width));
+			clk = starfive_clk_fix_parent_composite(reg, init_data[i].name,
+								init_data[i].parent_name,
+								OFFSET(init_data[i].id), 0,
+								STARFIVE_CLK_ENABLE_SHIFT,
+								init_data[i].div_width);
 			break;
 		case CLK_IDIV:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_fix_parent_composite(reg, init_data[i].name,
-								 init_data[i].parent_name,
-								 OFFSET(init_data[i].id), 0,
-								 STARFIVE_CLK_INVERT_SHIFT,
-								 init_data[i].div_width));
+			clk = starfive_clk_fix_parent_composite(reg, init_data[i].name,
+								init_data[i].parent_name,
+								OFFSET(init_data[i].id), 0,
+								STARFIVE_CLK_INVERT_SHIFT,
+								init_data[i].div_width);
 			break;
 		case CLK_GMUX:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_composite(reg, init_data[i].name,
-						      init_data[i].parent_names, MAX_NUM_PARENTS,
-						      OFFSET(init_data[i].id), 1,
-						      STARFIVE_CLK_ENABLE_SHIFT, 0));
+			clk = starfive_clk_composite(reg, init_data[i].name,
+						     init_data[i].parent_names, MAX_NUM_PARENTS,
+						     OFFSET(init_data[i].id), 1,
+						     STARFIVE_CLK_ENABLE_SHIFT, 0);
 			break;
 		case CLK_COMPOSITE:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_composite(reg, init_data[i].name,
-						      init_data[i].parent_names, MAX_NUM_PARENTS,
-						      OFFSET(init_data[i].id), 1,
-						      STARFIVE_CLK_ENABLE_SHIFT,
-						      init_data[i].div_width));
+			clk = starfive_clk_composite(reg, init_data[i].name,
+						     init_data[i].parent_names, MAX_NUM_PARENTS,
+						     OFFSET(init_data[i].id), 1,
+						     STARFIVE_CLK_ENABLE_SHIFT,
+						     init_data[i].div_width);
 			break;
 		case CLK_FIXED:
-			clk_dm(starfive_clk_id_trans(type, init_data[i].id),
-			       starfive_clk_fixed_rate(init_data[i].name));
+			clk = starfive_clk_fixed_rate(init_data[i].name);
 			break;
 		default:
 			break;
 		}
+
+		clk_dm(starfive_clk_id_trans(type, init_data[i].id), clk);
+
+#if CONFIG_IS_ENABLED(CLK_STARFIVE_JHB100_AUTO_ENABLE)
+		/* Only components with a real enable-bit gate should be auto-enabled;
+		 * CLK_INV/CLK_IDIV reuse clk_register_gate() for the invert bit, so
+		 * enabling them would flip polarity instead of gating the clock.
+		 */
+		switch (init_data[i].component) {
+		case CLK_GATE:
+		case CLK_GDIV:
+		case CLK_GMUX:
+		case CLK_COMPOSITE:
+			clk_enable(clk);
+			break;
+		default:
+			break;
+		}
+#endif
 	}
 }
 
