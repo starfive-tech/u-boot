@@ -145,6 +145,11 @@ static int jhb100_reset_probe(struct udevice *dev)
 	struct starfive_reset_priv *priv = dev_get_priv(dev);
 	struct starfive_reset_info *cfg;
 	const char *compat;
+#if CONFIG_IS_ENABLED(RESET_STARFIVE_JHB100_AUTO_DEASSERT)
+	struct reset_ctl rst;
+	unsigned int i;
+	int ret;
+#endif
 
 	priv->reg = (void __iomem *)dev_read_addr_index(dev, 0);
 	if (IS_ERR(priv->reg)) {
@@ -162,6 +167,16 @@ static int jhb100_reset_probe(struct udevice *dev)
 
 	/* jhb100 reset private data */
 	priv->starfive_reset_info = cfg;
+
+#if CONFIG_IS_ENABLED(RESET_STARFIVE_JHB100_AUTO_DEASSERT)
+	rst.dev = dev;
+	for (i = 0; i < cfg->nr_resets; i++) {
+		rst.id = i;
+		ret = starfive_reset_ops.rst_deassert(&rst);
+		if (ret)
+			return ret;
+	}
+#endif
 
 	return 0;
 }

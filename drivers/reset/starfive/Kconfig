@@ -12,3 +12,13 @@ config RESET_STARFIVE_JHB100
 	depends on  RESET_STARFIVE
 	help
 	  This selects the reset driver for StarFive JHB100 SOC.
+
+config RESET_STARFIVE_JHB100_AUTO_DEASSERT
+	bool "Auto-deassert all StarFive JHB100 reset lines at probe"
+	depends on RESET_STARFIVE_JHB100
+	default n
+	help
+	  Say yes here to have every reset line in a CRG domain
+	  automatically deasserted as soon as that domain's reset
+	  device probes, instead of waiting for a consumer driver to
+	  request and deassert it explicitly.
