@@ -102,6 +102,13 @@ void starfive_board_boot_order(u32 *spl_boot_list)
 			}
 		} else {
 			/* Primary or/and secondary is present */
+			if (IS_ENABLED(CONFIG_STARFIVE_JHB100_SFC_AB) && (chk_map ==
+			    (FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK
+			     << BOOT_SRC_PART_SPI_SECONDARY_BIT_POS))) {
+				/* Let AP2SCP interrupt triggers */
+				printf("Invalid SFC Active image found...");
+				hang();
+			}
 			starfive_fb_rec_map_handler(&fb_rec_map,
 				BOOT_SRC_PART_SPI_PRIMARY_BIT_POS,
 				BOOT_SRC_PART_SPI_SECONDARY_BIT_POS,

@@ -58,12 +58,20 @@ u32 spl_spi_boot_cs(void)
 				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 				CHECK);
 
+	int cs = 0;
+
 	if (!map_stat) {
-		/* If golden image is in CS1, return 1 otherwise use default CS0 */
-		if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER) == CONFIG_SF_CS1)
-			return CONFIG_SF_CS1;
+		if (IS_ENABLED(CONFIG_STARFIVE_JHB100_SFC_AB)) {
+			/* Let AP2SCP interrupt triggers */
+			hang();
+		}
+		/* For AGT, if golden image is in CS1, return 1 otherwise use default CS0 */
+		cs = starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER);
+	} else {
+		cs = starfive_get_sfc_cs(PT_ACTIVE, IMG_TYPE_UBOOT_PROPER);
 	}
-	return CONFIG_SF_DEFAULT_CS;
+	return (cs >= CONFIG_SF_DEFAULT_CS && cs <= CONFIG_SF_CS1) ?
+		cs : CONFIG_SF_DEFAULT_CS;
 }
 
 unsigned int starfive_spl_spi_get_uboot_offs(void)
@@ -77,6 +85,9 @@ unsigned int starfive_spl_spi_get_uboot_offs(void)
 				FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK,
 				CHECK);
 	if (!map_stat) {
+		if (IS_ENABLED(CONFIG_STARFIVE_JHB100_SFC_AB))
+			/* Let AP2SCP interrupt triggers */
+			hang();
 		printf("Loading SFC Golden image...\n");
 		return starfive_get_partition_offset(BOOT_SRC_SFC,
 						     PT_GOLDEN,
@@ -167,7 +178,8 @@ static int spl_spi_load_image_handler(struct spl_image_info *spl_image,
 		} else if (map_stat == (FB_RCV_SPL_SET_UBOOT_PROP_CLEAR_MSK
 					<< BOOT_SRC_PART_SPI_SECONDARY_BIT_POS)) {
 			printf("Invalid SFC Active image found...\n");
-			if (starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER) < 1) {
+			if (IS_ENABLED(CONFIG_STARFIVE_JHB100_SFC_AB) ||
+			    starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_UBOOT_PROPER) < 1) {
 				printf("Booting stop...\n");
 				hang();
 			}

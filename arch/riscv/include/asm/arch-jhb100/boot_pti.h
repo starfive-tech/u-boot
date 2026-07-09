@@ -105,8 +105,7 @@ static const int ufs_partition_map[8] = {
 #define UFS_BLK_SIZE		4096
 #define SFC_PAGE_SIZE		65536
 
-#define EIGHT_MB		0x800000
-#define SIXTEEN_MB		0x1000000
+#define SZ_58M			0x3A00000
 
 #define BOOT_TRIAL_CNT		1
 #define MAX_BOOT_TRIAL_UART	4

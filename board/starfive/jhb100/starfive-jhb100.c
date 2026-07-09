@@ -31,6 +31,7 @@
 #include <env_internal.h>
 #include <init.h>
 #include <linux/delay.h>
+#include <linux/sizes.h>
 #include <spl.h>
 #include <common.h>
 #include <fdt_support.h>
@@ -156,7 +157,8 @@ static int rename_partition_by_offset(void *fdt, int flash_off,
 	return -ENOENT;
 }
 
-int jhb100_fdt_sfc_fixup(void *fdt)
+#ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
+int jhb100_fdt_sfc_fixup_agt(void *fdt)
 {
 	int sfc0_off, flash0_off, flash1_off, partitions_off;
 	int part_off;
@@ -187,20 +189,20 @@ int jhb100_fdt_sfc_fixup(void *fdt)
 		starfive_get_partition_offset(BOOT_SRC_SFC,
 					      PT_ACTIVE,
 					      IMG_TYPE_KERNEL);
-	uint32_t rootfs_active_off = kernel_fit_active_off + SIXTEEN_MB;
+	uint32_t rootfs_active_off = kernel_fit_active_off + SZ_16M;
 	uint32_t kernel_fit_golden_off =
 		starfive_get_partition_offset(BOOT_SRC_SFC,
 					      PT_GOLDEN,
 					      IMG_TYPE_KERNEL);
-	uint32_t rootfs_golden_off = kernel_fit_golden_off + SIXTEEN_MB;
+	uint32_t rootfs_golden_off = kernel_fit_golden_off + SZ_16M;
 	uint32_t kernel_fit_temp_off =
 		starfive_get_partition_offset(BOOT_SRC_SFC,
 					      PT_TEMP,
 					      IMG_TYPE_KERNEL);
-	uint32_t rootfs_temp_off = kernel_fit_temp_off + SIXTEEN_MB;
+	uint32_t rootfs_temp_off = kernel_fit_temp_off + SZ_16M;
 
-	uint32_t kernel_fit_size = SIXTEEN_MB;
-	uint32_t rootfs_size = part_size - SIXTEEN_MB;
+	uint32_t kernel_fit_size = SZ_16M;
+	uint32_t rootfs_size = part_size - SZ_16M;
 
 	uint32_t a_t_kernel_off;
 	uint32_t a_t_rofs_off;
@@ -416,6 +418,130 @@ int jhb100_fdt_sfc_fixup(void *fdt)
 	printf("Single-flash partition labels updated based on offset and CS.\n");
 	return 0;
 }
+#endif /* CONFIG_STARFIVE_JHB100_SFC_AGT */
+
+#ifdef CONFIG_STARFIVE_JHB100_SFC_AB
+int jhb100_fdt_sfc_fixup_ab(void *fdt)
+{
+	int sfc0_off, flash0_off, flash1_off;
+	int ret;
+
+	/* Make sure we can modify the FDT (expand if needed) */
+	ret = fdt_open_into(fdt, fdt, fdt_totalsize(fdt) + 8192);
+	if (ret) {
+		printf("Failed to expand FDT: %s\n", fdt_strerror(ret));
+		return ret;
+	}
+
+	/* Get sfc0 node, try under soc/ */
+	sfc0_off = fdt_path_offset(fdt, "/sfc0");
+	if (sfc0_off < 0)
+		sfc0_off = fdt_path_offset(fdt, "/soc/bus_nioc/spi@18000000");
+	if (sfc0_off < 0) {
+		printf("sfc0 node not found\n");
+		return sfc0_off;
+	}
+
+	/* Locate flash@0 and flash@1 */
+	flash0_off = fdt_subnode_offset(fdt, sfc0_off, "flash@0");
+	flash1_off = fdt_subnode_offset(fdt, sfc0_off, "flash@1");
+
+	uint32_t part_size = starfive_get_sfc_part_size(PT_ACTIVE, IMG_TYPE_KERNEL);
+
+	if ((part_size % SZ_58M) != 0)
+		return -EINVAL;
+
+	uint32_t kernel_fit_off =
+		starfive_get_partition_offset(BOOT_SRC_SFC, PT_ACTIVE, IMG_TYPE_KERNEL);
+	uint32_t flash_size = (part_size / SZ_58M) * SZ_64M;
+	uint32_t kernel_fit_size = (flash_size / SZ_64M) * SZ_16M;
+	uint32_t rootfs_off = kernel_fit_off + kernel_fit_size;
+	uint32_t rootfs_size = part_size - kernel_fit_size;
+	uint32_t uda_off = rootfs_off + rootfs_size;
+	uint32_t uda_size = flash_size - uda_off;
+
+	/* Update labels based on CS and offset */
+	int cs_active = starfive_get_sfc_cs(PT_ACTIVE, IMG_TYPE_KERNEL);
+	int cs_golden = starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL);
+
+	if ((cs_active >= CONFIG_SF_CS1 && cs_active <= CONFIG_SF_DEFAULT_CS) &&
+	    (cs_golden >= CONFIG_SF_CS1 && cs_golden <= CONFIG_SF_DEFAULT_CS))
+		return -EINVAL;
+
+	/* flash@0 updates */
+	if (flash0_off >= 0) {
+		update_partition_reg(fdt, flash0_off,
+				     "Kernel FIT Active (compressed)",
+				     kernel_fit_off, kernel_fit_size);
+		update_partition_reg(fdt, flash0_off,
+				     "RootFS Active",
+				     rootfs_off, rootfs_size);
+		update_partition_reg(fdt, flash0_off,
+				     "User Data Area", uda_off, uda_size);
+	}
+
+	/* === Case 1: Dual flash mode === */
+	if (cs_active != cs_golden) {
+		printf("Detected dual flash mode, keeping both flashes.\n");
+
+		/* flash@0 updates */
+		if (flash0_off >= 0) {
+
+			if (cs_golden == CONFIG_SF_DEFAULT_CS) {
+				rename_partition_by_offset(fdt, flash0_off, kernel_fit_off,
+					"Kernel FIT Golden (compressed)");
+				rename_partition_by_offset(fdt, flash0_off, rootfs_off,
+					"RootFS Golden");
+			}
+		} else {
+			printf("Warning: flash@0 not found, skipping this partition.\n");
+		}
+
+		/* flash@1 updates */
+		if (flash1_off >= 0) {
+			update_partition_reg(fdt, flash1_off,
+					     "Kernel FIT Golden (compressed)",
+					     kernel_fit_off, kernel_fit_size);
+			update_partition_reg(fdt, flash1_off,
+					     "RootFS Golden",
+					     rootfs_off, rootfs_size);
+			update_partition_reg(fdt, flash1_off,
+					     "User Data Area",
+					     uda_off, uda_size);
+
+			if (cs_active == CONFIG_SF_CS1) {
+				rename_partition_by_offset(fdt, flash0_off, kernel_fit_off,
+					"Kernel FIT Active (compressed)");
+				rename_partition_by_offset(fdt, flash0_off, rootfs_off,
+					"RootFS Active");
+			}
+		} else {
+			printf("Warning: flash@1 not found, skipping this partition.\n");
+		}
+
+		printf("Partition labels updated based on flash offset and CS (dual flash mode).\n");
+		printf("Dual-flash partitions updated successfully.\n");
+		return 0;
+	}
+
+	/* === Case 2: Single flash mode === */
+	printf("Detected single flash mode, converting to single flash layout.\n");
+
+	/* Remove flash@1 if present */
+	if (flash1_off >= 0) {
+		ret = fdt_del_node(fdt, flash1_off);
+		if (ret) {
+			printf("Failed to remove flash@1: %s\n", fdt_strerror(ret));
+			return ret;
+		}
+		printf("Removed flash@1 node.\n");
+	}
+
+	printf("Flash partition labels updated based on offset and CS.\n");
+	printf("Single flash partition updated successfully.\n");
+	return 0;
+}
+#endif /* CONFIG_STARFIVE_JHB100_SFC_AB */
 
 void check_fdtmodify(void *blob)
 {
@@ -425,7 +551,11 @@ void check_fdtmodify(void *blob)
 
 	if (fdtmodify && strcmp(fdtmodify, "yes") == 0) {
 		printf("fdtmodify = yes, modifying device tree\n");
-		jhb100_fdt_sfc_fixup(blob);
+#ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
+		jhb100_fdt_sfc_fixup_agt(blob);
+#else
+		jhb100_fdt_sfc_fixup_ab(blob);
+#endif
 	}
 }
 

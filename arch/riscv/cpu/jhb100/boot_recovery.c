@@ -12,6 +12,7 @@
 #include <env.h>
 #include <env_internal.h>
 #include <linux/bitops.h>
+#include <linux/sizes.h>
 #include <mapmem.h>
 #include <dm.h>
 #include <image.h>
@@ -494,21 +495,21 @@ static int do_starfive_parse_capsule(struct cmd_tbl *cmdtp, int flag, int argc,
 						    PT_TEMP,
 						    IMG_TYPE_KERNEL);
 		env_set_hex("sfc_temp_part_offs", (ulong)val);
-		env_set_hex("sfc_part_last_8mb_temp", (ulong)(place_holder + val - EIGHT_MB));
+		env_set_hex("sfc_part_last_8mb_temp", (ulong)(place_holder + val - SZ_8M));
 
 		val = starfive_get_partition_offset(BOOT_SRC_SFC,
 						    PT_ACTIVE,
 						    IMG_TYPE_KERNEL);
 		env_set_hex("sfc_act_part_offs", (ulong)val);
-		env_set_hex("sfc_part_last_8mb_act", (ulong)(place_holder + val - EIGHT_MB));
+		env_set_hex("sfc_part_last_8mb_act", (ulong)(place_holder + val - SZ_8M));
 
 		val = starfive_get_partition_offset(BOOT_SRC_SFC,
 						    PT_GOLDEN,
 						    IMG_TYPE_KERNEL);
 		env_set_hex("sfc_gol_part_offs", (ulong)val);
-		env_set_hex("sfc_part_last_8mb_gol", (ulong)(place_holder + val - EIGHT_MB));
+		env_set_hex("sfc_part_last_8mb_gol", (ulong)(place_holder + val - SZ_8M));
 
-		env_set_hex("8mb_size", (ulong)(EIGHT_MB));
+		env_set_hex("8mb_size", (ulong)(SZ_8M));
 
 		env_set_hex("rofs_blk_offs", (ulong)(((rofs_offs -
 			    hextoul(argv[0], NULL)) / MMC_BLK_SIZE) + 1));
