@@ -116,3 +116,26 @@ config STARFIVE_JHB100_QUERY_DDR_INFO
 	depends on TARGET_STARFIVE_JHB100
 	help
 	 Enable runtime modification of U-boot and Linux device tree memory node
+
+choice
+	prompt "StarFive JHB100 SFC partition mechanism"
+	depends on TARGET_STARFIVE_JHB100
+
+config STARFIVE_JHB100_SFC_NONE
+	bool "None selected (build error)"
+	help
+	 Placeholder so an unset choice does not silently fall back to
+	 AGT or AB. Selecting this (or leaving a defconfig without an
+	 explicit choice) fails the build with a clear error instead.
+
+config STARFIVE_JHB100_SFC_AGT
+	bool "AGT (active/golden/temp) partition layout"
+	help
+	 StarFive JHB100 SFC boot flow using AGT partitions.
+
+config STARFIVE_JHB100_SFC_AB
+	bool "AB (active/backup) partition layout"
+	help
+	 StarFive JHB100 SFC boot flow using AB partitions.
+
+endchoice
