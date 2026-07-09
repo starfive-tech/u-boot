@@ -13,6 +13,11 @@
 #include <version.h>
 #include <linux/sizes.h>
 
+#ifdef CONFIG_STARFIVE_JHB100_SFC_NONE
+#error "JHB100 SFC partition mechanism not selected: choose \
+	CONFIG_STARFIVE_JHB100_SFC_AGT or CONFIG_STARFIVE_JHB100_SFC_AB"
+#endif
+
 #ifdef CONFIG_SPL
 
 #define CONFIG_SPL_STACK	(0x40100000 - GENERATED_GBL_DATA_SIZE)
@@ -153,6 +158,91 @@
 		"run loadramdisktftp; run ramboot;\0"
 
 #ifdef CONFIG_CMD_SF
+#ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
+#define JHB100_KERNEL_BOOTENV_SFC_LAYOUT	\
+	"auth_boot_kernel_fit_sfc="	\
+		"echo Checking kernel FIT image in SPI flash ...;"	\
+		"if checkimgrcmap 5; then "	\
+			"setimgrcmap 5; "	\
+			"getimginfo 5; "	\
+			"run set_bootargs_root_ram;"	\
+			"if sf probe 0:${cs_num}; then "	\
+				"echo Authenticating SFC Active FIT image ...; "	\
+				"if authbimgstorage 5; then "	\
+					"run process_load_image_sfc_act;"	\
+				"fi; "	\
+				"if test ${bootmstatsfc} = try; then "	\
+					"echo FIT binary authentication failed ...; "	\
+					"echo Trying to authenticate FIT payload components instead ...; "	\
+					"run process_load_image_sfc_act;"	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid SFC Active FIT image ...;"	\
+		"echo Checking for SFC Golden image location in flash chip ...;"	\
+		"if checkimgrcmap 6; then "	\
+			"setimgrcmap 6; "	\
+			"getimginfo 6; "	\
+			"run set_bootargs_root_ram;"	\
+			"if sf probe 0:${cs_num}; then "	\
+				"echo Authenticating SFC Golden FIT image ...; "	\
+				"if authbimgstorage 6; then "	\
+					"run process_load_image_sfc_gol;"	\
+				"fi; "	\
+				"if test ${bootmstatsfc} = try; then "	\
+					"echo FIT binary authentication failed ...; "	\
+					"echo Trying to authenticate FIT payload components instead ...; "	\
+					"run process_load_image_sfc_gol;"	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid SFC Golden FIT image ...; \0"	\
+	"parse_write_agt_upd_cap_sfc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"sf probe 0:${sfc_temp_cs}; "	\
+			"echo Writing parsed update capsule to SFC temp partition ...; "	\
+			"run sfc_write_cap_temp;"	\
+			"sf probe 0:${sfc_gol_cs}; "	\
+			"echo Writing parsed update capsule to SFC golden partition ...; "	\
+			"run sfc_write_cap_gol;"	\
+			"sf probe 0:${sfc_act_cs}; "	\
+			"echo Writing parsed update capsule to SFC active partition ...; "	\
+			"run sfc_write_cap_act;"	\
+			"echo Writing complete ...; "	\
+		"fi; \0"
+#else /* AB (active/backup) partition layout */
+#define JHB100_KERNEL_BOOTENV_SFC_LAYOUT	\
+	"auth_boot_kernel_fit_sfc="	\
+		"echo Checking kernel FIT image in SPI flash ...;"	\
+		"if checkimgrcmap 5; then "	\
+			"setimgrcmap 5; "	\
+			"getimginfo 5; "	\
+			"run set_bootargs_root_ram;"	\
+			"if sf probe 0:${cs_num}; then "	\
+				"echo Authenticating SFC Active FIT image ...; "	\
+				"if authbimgstorage 5; then "	\
+					"run process_load_image_sfc_act;"	\
+				"fi; "	\
+				"if test ${bootmstatsfc} = try; then "	\
+					"echo FIT binary authentication failed ...; "	\
+					"echo Trying to authenticate FIT payload components instead ...; "	\
+					"run process_load_image_sfc_act;"	\
+				"fi; "	\
+			"fi; "	\
+		"fi;"	\
+		"echo Found invalid SFC Active FIT image ...; \0" \
+	"parse_write_ab_upd_cap_sfc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"sf probe 0:${sfc_gol_cs}; "	\
+			"echo Writing parsed update capsule to SFC backup partition ...; "	\
+			"run sfc_write_cap_gol;"	\
+			"sf probe 0:${sfc_act_cs}; "	\
+			"echo Writing parsed update capsule to SFC active partition ...; "	\
+			"run sfc_write_cap_act;"	\
+			"echo Writing complete ...; "	\
+		"fi; \0"
+#endif
+
 #define JHB100_KERNEL_BOOTENV_SFC	\
 	"loadfitimagespiact=sf read ${loadaddr} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespigol=sf read ${loadaddr} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
@@ -185,6 +275,22 @@
 	"sfc_write_cap_temp="	\
 		"sf update ${rofs_offs} ${sfc_temp_part_offs} ${rofs_size};"	\
 		"sf update ${loadaddr} ${sfc_part_last_8mb_temp} ${8mb_size};\0"	\
+	"parse_write_act_upd_cap_sfc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"if sf probe 0:${sfc_act_cs}; then "	\
+				"echo Writing parsed update capsule to SFC active partition ...; "	\
+				"run sfc_write_cap_act;"	\
+				"echo Writing complete ...; "	\
+			"fi; "	\
+		"fi; \0"	\
+	"parse_write_gol_upd_cap_sfc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"if sf probe 0:${sfc_gol_cs}; then "	\
+				"echo Writing parsed update capsule to SFC golden partition ...; "	\
+				"run sfc_write_cap_gol;"	\
+				"echo Writing complete ...; "	\
+			"fi; "	\
+		"fi; \0"	\
 	"parse_write_temp_upd_cap_sfc="	\
 		"if parsecap ${loadaddr}; then "	\
 			"if sf probe 0:${sfc_temp_cs}; then "	\
@@ -192,19 +298,6 @@
 				"run sfc_write_cap_temp;"	\
 				"echo Writing complete ...; "	\
 			"fi; "	\
-		"fi; \0"	\
-	"parse_write_agt_upd_cap_sfc="	\
-		"if parsecap ${loadaddr}; then "	\
-			"sf probe 0:${sfc_temp_cs}; "	\
-			"echo Writing parsed update capsule to SFC temp partition ...; "	\
-			"run sfc_write_cap_temp;"	\
-			"sf probe 0:${sfc_gol_cs}; "	\
-			"echo Writing parsed update capsule to SFC golden partition ...; "	\
-			"run sfc_write_cap_gol;"	\
-			"sf probe 0:${sfc_act_cs}; "	\
-			"echo Writing parsed update capsule to SFC active partition ...; "	\
-				"run sfc_write_cap_act;"	\
-				"echo Writing complete ...; "	\
 		"fi; \0"	\
 	"process_load_image_sfc_act="	\
 		"echo Trying to load SPI Active FIT image ...; "	\
@@ -226,44 +319,7 @@
 		"run loadfitimagespigol; "	\
 		"run auth_bootm_sfc_gol;"	\
 		"setenv bootmstatsfc fail; \0"	\
-	"auth_boot_kernel_fit_sfc="	\
-		"echo Checking kernel FIT image in SPI flash ...;"	\
-		"if checkimgrcmap 5; then "	\
-			"setimgrcmap 5; "	\
-			"getimginfo 5; "	\
-			"run set_bootargs_root_ram;"	\
-			"if sf probe 0:${cs_num}; then "	\
-				"echo Authenticating SFC Active FIT image ...; "	\
-				"if authbimgstorage 5; then "	\
-					"run process_load_image_sfc_act;"	\
-				"fi; "	\
-				"if test ${bootmstatsfc} = try; then "	\
-					"echo FIT binary authentication failed ...; "	\
-					"echo Trying to authenticate FIT payload components instead ...; "	\
-					"run process_load_image_sfc_act;"	\
-				"fi; "	\
-			"fi; "	\
-		"fi;"	\
-		"echo Found invalid SFC Active FIT image ...;"	\
-		"echo Checking for SFC Golden image	\
-		location in flash chip ...;"	\
-		"if checkimgrcmap 6; then "	\
-			"setimgrcmap 6; "	\
-			"getimginfo 6; "	\
-			"run set_bootargs_root_ram;"	\
-			"if sf probe 0:${cs_num}; then "	\
-				"echo Authenticating SFC Golden FIT image ...; "	\
-				"if authbimgstorage 6; then "	\
-					"run process_load_image_sfc_gol;"	\
-				"fi; "	\
-				"if test ${bootmstatsfc} = try; then "	\
-					"echo FIT binary authentication failed ...; "	\
-					"echo Trying to authenticate FIT payload components instead ...; "	\
-					"run process_load_image_sfc_gol;"	\
-				"fi; "	\
-			"fi; "	\
-		"fi;"	\
-		"echo Found invalid SFC Golden FIT image ...;\0"
+	JHB100_KERNEL_BOOTENV_SFC_LAYOUT
 #else
 #define JHB100_KERNEL_BOOTENV_SFC
 #endif
