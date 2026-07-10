@@ -116,7 +116,9 @@
 		peci4 = &peci1;
 
 		spi0 = &sfc0;
-		spi1 = &spi0;
+		spi1 = &sfc1;
+		spi2 = &sfc2;
+		spi3 = &spi0;
 	};
 
 	cpus {
@@ -144,6 +146,20 @@
 			alloc-ranges = <0x0 0x40000000 0x2 0x0>;
 			linux,cma-default;
 		};
+	};
+
+	vcc_1v8: regulator-vcc-1v8 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc-1v8";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+	};
+
+	vcc_3v3: regulator-vcc-3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc-3v3";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
 	};
 };
 
@@ -182,6 +198,8 @@
 
 &i2c3_master {
 	clock-frequency = <100000>;
+	i2c-scl-rising-time-ns = <250>;
+	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 

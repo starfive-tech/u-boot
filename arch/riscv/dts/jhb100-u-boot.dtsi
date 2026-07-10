@@ -15,7 +15,8 @@
 		ethernet3 = &gmac3;
 		spi0 = &sfc0;
 		spi1 = &sfc1;
-		spi2 = &spi0;
+		spi2 = &sfc2;
+		spi3 = &spi0;
 		wdt0 = &wdt0;
 		wdt1 = &wdt1;
 		wdt2 = &wdt2;

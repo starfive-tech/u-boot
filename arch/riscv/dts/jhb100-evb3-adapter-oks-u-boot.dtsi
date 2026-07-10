@@ -1,0 +1,77 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2021-2022 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100-u-boot.dtsi"
+
+&uart6 {
+	status = "disabled";
+};
+
+&uart9 {
+	bootph-pre-ram;
+	bootph-some-ram;
+	dlf-size = <6>;
+	/delete-property/ clock-frequency;
+	/delete-property/ resets;
+	/delete-property/ dmas;
+};
+
+&sfc0 {
+	bootph-pre-ram;
+	spi-max-frequency = <5000000>;
+	rx-sample-delay-ns = <0>;
+	/delete-property/ resets;
+	/delete-property/ dmas;
+
+	flash@0 {
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+		/delete-node/ partitions;
+	};
+
+	flash@1 {
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+		/delete-node/ partitions;
+	};
+};
+
+&pinctrl_sys2 {
+	uart9_pins: uart9-grp {
+		bootph-pre-ram;
+		bootph-some-ram;
+
+		uart9_tx-pins {
+			bootph-pre-ram;
+			bootph-some-ram;
+		};
+
+		uart9_rx-pins {
+			bootph-pre-ram;
+			bootph-some-ram;
+		};
+	};
+};
+
+&gmac2 {
+	bootph-pre-ram;
+	/delete-property/ assigned-clock-parents;
+	assigned-clocks = <&per2crg JHB100_PER2CLK_GMAC2_RX_MUX_DLY>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TXCK_MUX_DLY>;
+	assigned-clock-parents = <&per2crg JHB100_PER2CLK_GMAC2_RGMII_125_MUX>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RGMII_DIV>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>;
+	mdio {
+		bootph-pre-ram;
+		phy2: ethernet-phy@2 {
+			compatible = "ethernet-phy-id4f51.e91b";
+			bootph-pre-ram;
+		};
+	};
+};
+
+/delete-node/ &npu_reserved_cache;
+/delete-node/ &npu_reserved_uncache;
