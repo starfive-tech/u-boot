@@ -58,6 +58,17 @@ config BOARD_SPECIFIC_OPTIONS # dummy
 	imply SYSRESET
 	imply SYSRESET_GPIO
 
+config STARFIVE_JHB100_ENV_CS_DYNAMIC
+	bool "Dynamically detect the SPI flash chip-select for the environment"
+	depends on ENV_IS_IN_SPI_FLASH
+	default n
+	help
+	  On dual-flash (CS0/CS1) boards the active u-boot-proper image, and
+	  therefore the environment, can live on either chip select. Enable
+	  this to query the active chip select at runtime via
+	  starfive_get_sfc_cs() instead of always using the compiled-in
+	  CONFIG_ENV_SPI_CS.
+
 config STARFIVE_JHB100_SAFE_MTEST
 	bool "Run safe memtest from board_late_init()"
 	depends on CMD_MEMTEST
