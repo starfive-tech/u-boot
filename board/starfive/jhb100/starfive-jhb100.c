@@ -433,6 +433,7 @@ int jhb100_fdt_sfc_fixup_agt(void *fdt)
 #endif /* CONFIG_STARFIVE_JHB100_SFC_AGT */
 
 #ifdef CONFIG_STARFIVE_JHB100_SFC_AB
+#ifdef CONFIG_STARFIVE_JHB100_SFC_AB_RENAME_RESIZE
 int jhb100_fdt_sfc_fixup_ab_rename_resize(void *fdt)
 {
 	int sfc0_off, flash0_off, flash1_off;
@@ -553,6 +554,83 @@ int jhb100_fdt_sfc_fixup_ab_rename_resize(void *fdt)
 	printf("Single flash partition updated successfully.\n");
 	return 0;
 }
+#endif /* CONFIG_STARFIVE_JHB100_SFC_AB_RENAME_RESIZE */
+
+#ifdef CONFIG_STARFIVE_JHB100_SFC_AB_SWAP_PARTITION
+int jhb100_fdt_sfc_fixup_ab_swap_partition(void *fdt)
+{
+	int sfc0_off, flash0_off, flash1_off;
+	int ret;
+
+	/* Make sure we can modify the FDT (expand if needed) */
+	ret = fdt_open_into(fdt, fdt, fdt_totalsize(fdt) + 8192);
+	if (ret) {
+		printf("Failed to expand FDT: %s\n", fdt_strerror(ret));
+		return ret;
+	}
+
+	/* Get sfc0 node, try under soc/ */
+	sfc0_off = fdt_path_offset(fdt, "/sfc0");
+	if (sfc0_off < 0)
+		sfc0_off = fdt_path_offset(fdt, "/soc/bus_nioc/spi@18000000");
+	if (sfc0_off < 0) {
+		printf("sfc0 node not found\n");
+		return sfc0_off;
+	}
+
+	/* Locate flash@0 and flash@1 */
+	flash0_off = fdt_subnode_offset(fdt, sfc0_off, "flash@0");
+	flash1_off = fdt_subnode_offset(fdt, sfc0_off, "flash@1");
+
+	/* Update labels based on CS and offset */
+	int cs_active = starfive_get_sfc_cs(PT_ACTIVE, IMG_TYPE_KERNEL);
+	int cs_golden = starfive_get_sfc_cs(PT_GOLDEN, IMG_TYPE_KERNEL);
+
+	if ((cs_active >= CONFIG_SF_CS1 && cs_active <= CONFIG_SF_DEFAULT_CS) &&
+	    (cs_golden >= CONFIG_SF_CS1 && cs_golden <= CONFIG_SF_DEFAULT_CS))
+		return -EINVAL;
+
+	/*
+	 * If the active partition lives on CS1, flash@0 and flash@1 are
+	 * swapped so that flash@0 always refers to the active flash.
+	 */
+	if (flash0_off >= 0 && flash1_off >= 0 && cs_active == CONFIG_SF_CS1) {
+		ret = fdt_set_name(fdt, flash0_off, "flash@X");
+		if (ret) {
+			printf("Failed to rename flash@0 to flash@X: %s\n",
+			       fdt_strerror(ret));
+			return ret;
+		}
+
+		flash1_off = fdt_subnode_offset(fdt, sfc0_off, "flash@1");
+		ret = fdt_set_name(fdt, flash1_off, "flash@0");
+		if (ret) {
+			printf("Failed to rename flash@1 to flash@0: %s\n",
+			       fdt_strerror(ret));
+			return ret;
+		}
+
+		flash0_off = fdt_subnode_offset(fdt, sfc0_off, "flash@X");
+		ret = fdt_set_name(fdt, flash0_off, "flash@1");
+		if (ret) {
+			printf("Failed to rename flash@X to flash@1: %s\n",
+			       fdt_strerror(ret));
+			return ret;
+		}
+
+		flash0_off = fdt_subnode_offset(fdt, sfc0_off, "flash@0");
+		flash1_off = fdt_subnode_offset(fdt, sfc0_off, "flash@1");
+
+		printf("Swapped flash@0 and flash@1 node names (active CS is CS1).\n");
+
+		return 0;
+	}
+
+	printf("Retain flash@0 and flash@1 node names (active CS is CS0).\n");
+
+	return 0;
+}
+#endif /* CONFIG_STARFIVE_JHB100_SFC_AB_SWAP_PARTITION */
 #endif /* CONFIG_STARFIVE_JHB100_SFC_AB */
 
 void check_fdtmodify(void *blob)
@@ -565,8 +643,12 @@ void check_fdtmodify(void *blob)
 		printf("fdtmodify = yes, modifying device tree\n");
 #ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
 		jhb100_fdt_sfc_fixup_agt(blob);
-#else
+#else /* CONFIG_STARFIVE_JHB100_SFC_AB */
+#if defined(CONFIG_STARFIVE_JHB100_SFC_AB_RENAME_RESIZE)
 		jhb100_fdt_sfc_fixup_ab_rename_resize(blob);
+#elif defined(CONFIG_STARFIVE_JHB100_SFC_AB_SWAP_PARTITION)
+		jhb100_fdt_sfc_fixup_ab_swap_partition(blob);
+#endif
 #endif
 	}
 }

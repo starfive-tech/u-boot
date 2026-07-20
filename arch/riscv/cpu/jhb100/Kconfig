@@ -139,3 +139,24 @@ config STARFIVE_JHB100_SFC_AB
 	 StarFive JHB100 SFC boot flow using AB partitions.
 
 endchoice
+
+choice
+	prompt "StarFive JHB100 SFC AB fixup method"
+	depends on STARFIVE_JHB100_SFC_AB
+	default STARFIVE_JHB100_SFC_AB_RENAME_RESIZE
+
+config STARFIVE_JHB100_SFC_AB_RENAME_RESIZE
+	bool "Rename and resize AB partitions"
+	help
+	 Fix up the AB partitions by renaming and resizing the
+	 Kernel FIT / RootFS / User Data Area partitions in the FDT
+	 based on the active/golden CS and offset.
+
+config STARFIVE_JHB100_SFC_AB_SWAP_PARTITION
+	bool "Swap AB partition nodes"
+	help
+	 Fix up the AB partitions by swapping the flash@0/flash@1
+	 node names in the FDT so flash@0 always refers to the
+	 active flash, instead of renaming/resizing partitions.
+
+endchoice
