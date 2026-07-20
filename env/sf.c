@@ -39,15 +39,29 @@ static ulong env_new_offset	= CONFIG_ENV_OFFSET_REDUND;
 
 DECLARE_GLOBAL_DATA_PTR;
 
+/*
+ * Runtime-discoverable chip select for the env SPI flash. Defaults to
+ * the compiled-in CONFIG_ENV_SPI_CS, but a board can override it
+ * (e.g. from an ID EEPROM, strapping GPIOs, or DT) by implementing
+ * board_get_spi_env_cs().
+ */
+__weak void board_get_spi_env_cs(u32 *cs)
+{
+	/* no-op: keep the compiled-in default unless a board overrides this */
+}
+
 static int setup_flash_device(struct spi_flash **env_flash)
 {
+	u32 cs = CONFIG_ENV_SPI_CS;
+
+	board_get_spi_env_cs(&cs);
+
 #if CONFIG_IS_ENABLED(DM_SPI_FLASH)
 	struct udevice *new;
 	int	ret;
 
 	/* speed and mode will be read from DT */
-	ret = spi_flash_probe_bus_cs(CONFIG_ENV_SPI_BUS, CONFIG_ENV_SPI_CS,
-				     &new);
+	ret = spi_flash_probe_bus_cs(CONFIG_ENV_SPI_BUS, cs, &new);
 	if (ret) {
 		env_set_default("spi_flash_probe_bus_cs() failed", 0);
 		return ret;
@@ -55,7 +69,7 @@ static int setup_flash_device(struct spi_flash **env_flash)
 
 	*env_flash = dev_get_uclass_priv(new);
 #else
-	*env_flash = spi_flash_probe(CONFIG_ENV_SPI_BUS, CONFIG_ENV_SPI_CS,
+	*env_flash = spi_flash_probe(CONFIG_ENV_SPI_BUS, cs,
 				     CONFIG_ENV_SPI_MAX_HZ, CONFIG_ENV_SPI_MODE);
 	if (!*env_flash) {
 		env_set_default("spi_flash_probe() failed", 0);
