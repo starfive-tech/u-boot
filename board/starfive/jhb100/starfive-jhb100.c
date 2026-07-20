@@ -49,6 +49,18 @@ int board_init(void)
 	return 0;
 }
 
+#if defined(CONFIG_STARFIVE_JHB100_ENV_CS_DYNAMIC)
+void board_get_spi_env_cs(u32 *cs)
+{
+	int cs_active = starfive_get_sfc_cs(PT_ACTIVE, IMG_TYPE_UBOOT_PROPER);
+
+	if (cs_active >= 0 && cs_active <= 1)
+		*cs = cs_active;
+	else
+		printf("sfc active env detect error!\n");
+}
+#endif
+
 enum env_location env_get_location(enum env_operation op, int prio)
 {
 	int boot_mode = GET_BOOT_SRC;
