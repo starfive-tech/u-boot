@@ -433,7 +433,7 @@ int jhb100_fdt_sfc_fixup_agt(void *fdt)
 #endif /* CONFIG_STARFIVE_JHB100_SFC_AGT */
 
 #ifdef CONFIG_STARFIVE_JHB100_SFC_AB
-int jhb100_fdt_sfc_fixup_ab(void *fdt)
+int jhb100_fdt_sfc_fixup_ab_rename_resize(void *fdt)
 {
 	int sfc0_off, flash0_off, flash1_off;
 	int ret;
@@ -566,7 +566,7 @@ void check_fdtmodify(void *blob)
 #ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
 		jhb100_fdt_sfc_fixup_agt(blob);
 #else
-		jhb100_fdt_sfc_fixup_ab(blob);
+		jhb100_fdt_sfc_fixup_ab_rename_resize(blob);
 #endif
 	}
 }
