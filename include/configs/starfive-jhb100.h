@@ -159,7 +159,7 @@
 
 #ifdef CONFIG_CMD_SF
 #ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
-#define JHB100_KERNEL_BOOTENV_SFC_LAYOUT	\
+#define JHB100_KERNEL_BOOTENV_SFC_BOOT	\
 	"auth_boot_kernel_fit_sfc="	\
 		"echo Checking kernel FIT image in SPI flash ...;"	\
 		"if checkimgrcmap 5; then "	\
@@ -196,22 +196,10 @@
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
-		"echo Found invalid SFC Golden FIT image ...; \0"	\
-	"parse_write_agt_upd_cap_sfc="	\
-		"if parsecap ${loadaddr}; then "	\
-			"sf probe 0:${sfc_temp_cs}; "	\
-			"echo Writing parsed update capsule to SFC temp partition ...; "	\
-			"run sfc_write_cap_temp;"	\
-			"sf probe 0:${sfc_gol_cs}; "	\
-			"echo Writing parsed update capsule to SFC golden partition ...; "	\
-			"run sfc_write_cap_gol;"	\
-			"sf probe 0:${sfc_act_cs}; "	\
-			"echo Writing parsed update capsule to SFC active partition ...; "	\
-			"run sfc_write_cap_act;"	\
-			"echo Writing complete ...; "	\
-		"fi; \0"
+		"echo Found invalid SFC Golden FIT image ...; \0"
+
 #else /* AB (active/backup) partition layout */
-#define JHB100_KERNEL_BOOTENV_SFC_LAYOUT	\
+#define JHB100_KERNEL_BOOTENV_SFC_BOOT	\
 	"auth_boot_kernel_fit_sfc="	\
 		"echo Checking kernel FIT image in SPI flash ...;"	\
 		"if checkimgrcmap 5; then "	\
@@ -230,42 +218,12 @@
 				"fi; "	\
 			"fi; "	\
 		"fi;"	\
-		"echo Found invalid SFC Active FIT image ...; \0" \
-	"parse_write_ab_upd_cap_sfc="	\
-		"if parsecap ${loadaddr}; then "	\
-			"sf probe 0:${sfc_gol_cs}; "	\
-			"echo Writing parsed update capsule to SFC backup partition ...; "	\
-			"run sfc_write_cap_gol;"	\
-			"sf probe 0:${sfc_act_cs}; "	\
-			"echo Writing parsed update capsule to SFC active partition ...; "	\
-			"run sfc_write_cap_act;"	\
-			"echo Writing complete ...; "	\
-		"fi; \0"
+		"echo Found invalid SFC Active FIT image ...; \0"
+
 #endif
 
-#define JHB100_KERNEL_BOOTENV_SFC	\
-	"loadfitimagespiact=sf read ${loadaddr} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
-	"loadfitimagespigol=sf read ${loadaddr} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
-	"loadcompfitimagespiact=sf read ${kernel_comp_addr_r} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
-	"loadcompfitimagespigol=sf read ${kernel_comp_addr_r} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
-	"loadfitimagespiprim=sf read ${loadaddr} ${kernel_fit_spi_prim_off} ${kernel_fit_load_size}\0"	\
-	"loadfitimagespisec=sf read ${loadaddr} ${kernel_fit_spi_sec_off} ${kernel_fit_load_size}\0"	\
-	"auth_bootm_sfc_act="	\
-		"if authbm ${loadaddr}; then "	\
-			"setkernelimgflg 1;"	\
-			"echo Initiate Pre OS Boot Notify ...; "	\
-			"preosbootnotify 0;"	\
-			"echo Boot OS ...; "	\
-			"bootm ${loadaddr};"	\
-		"fi;\0"	\
-	"auth_bootm_sfc_gol="	\
-		"if authbm ${loadaddr}; then "	\
-			"setkernelimgflg 2;"	\
-			"echo Initiate Pre OS Boot Notify ...; "	\
-			"preosbootnotify 1;"	\
-			"echo Boot OS ...; "	\
-			"bootm ${loadaddr};"	\
-		"fi;\0"	\
+#ifndef CONFIG_STARFIVE_JHB100_SFC_NO_CAPSULE
+#define JHB100_KERNEL_BOOTENV_SFC_CAP_COMMON	\
 	"sfc_write_cap_act="	\
 		"sf update ${rofs_offs} ${sfc_act_part_offs} ${rofs_size};"	\
 		"sf update ${loadaddr} ${sfc_part_last_8mb_act} ${8mb_size};\0"	\
@@ -298,7 +256,66 @@
 				"run sfc_write_cap_temp;"	\
 				"echo Writing complete ...; "	\
 			"fi; "	\
-		"fi; \0"	\
+		"fi; \0"
+
+#ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
+#define JHB100_KERNEL_BOOTENV_SFC_CAP	\
+	JHB100_KERNEL_BOOTENV_SFC_CAP_COMMON	\
+	"parse_write_agt_upd_cap_sfc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"sf probe 0:${sfc_temp_cs}; "	\
+			"echo Writing parsed update capsule to SFC temp partition ...; "	\
+			"run sfc_write_cap_temp;"	\
+			"sf probe 0:${sfc_gol_cs}; "	\
+			"echo Writing parsed update capsule to SFC golden partition ...; "	\
+			"run sfc_write_cap_gol;"	\
+			"sf probe 0:${sfc_act_cs}; "	\
+			"echo Writing parsed update capsule to SFC active partition ...; "	\
+			"run sfc_write_cap_act;"	\
+			"echo Writing complete ...; "	\
+		"fi; \0"
+#else /* AB (active/backup) partition layout */
+#define JHB100_KERNEL_BOOTENV_SFC_CAP	\
+	JHB100_KERNEL_BOOTENV_SFC_CAP_COMMON	\
+	"parse_write_ab_upd_cap_sfc="	\
+		"if parsecap ${loadaddr}; then "	\
+			"sf probe 0:${sfc_gol_cs}; "	\
+			"echo Writing parsed update capsule to SFC backup partition ...; "	\
+			"run sfc_write_cap_gol;"	\
+			"sf probe 0:${sfc_act_cs}; "	\
+			"echo Writing parsed update capsule to SFC active partition ...; "	\
+			"run sfc_write_cap_act;"	\
+			"echo Writing complete ...; "	\
+		"fi; \0"
+#endif /* CONFIG_STARFIVE_JHB100_SFC_AGT */
+#else
+#define JHB100_KERNEL_BOOTENV_SFC_CAP
+#endif /* CONFIG_STARFIVE_JHB100_SFC_NO_CAPSULE */
+
+#define JHB100_KERNEL_BOOTENV_SFC	\
+	"loadfitimagespiact=sf read ${loadaddr} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
+	"loadfitimagespigol=sf read ${loadaddr} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
+	"loadcompfitimagespiact=sf read ${kernel_comp_addr_r} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
+	"loadcompfitimagespigol=sf read ${kernel_comp_addr_r} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
+	"loadfitimagespiprim=sf read ${loadaddr} ${kernel_fit_spi_prim_off} ${kernel_fit_load_size}\0"	\
+	"loadfitimagespisec=sf read ${loadaddr} ${kernel_fit_spi_sec_off} ${kernel_fit_load_size}\0"	\
+	"auth_bootm_sfc_act="	\
+		"if authbm ${loadaddr}; then "	\
+			"setkernelimgflg 1;"	\
+			"echo Initiate Pre OS Boot Notify ...; "	\
+			"preosbootnotify 0;"	\
+			"echo Boot OS ...; "	\
+			"bootm ${loadaddr};"	\
+		"fi;\0"	\
+	"auth_bootm_sfc_gol="	\
+		"if authbm ${loadaddr}; then "	\
+			"setkernelimgflg 2;"	\
+			"echo Initiate Pre OS Boot Notify ...; "	\
+			"preosbootnotify 1;"	\
+			"echo Boot OS ...; "	\
+			"bootm ${loadaddr};"	\
+		"fi;\0"	\
+	JHB100_KERNEL_BOOTENV_SFC_CAP	\
 	"process_load_image_sfc_act="	\
 		"echo Trying to load SPI Active FIT image ...; "	\
 		"run loadcompfitimagespiact; "	\
@@ -319,7 +336,7 @@
 		"run loadfitimagespigol; "	\
 		"run auth_bootm_sfc_gol;"	\
 		"setenv bootmstatsfc fail; \0"	\
-	JHB100_KERNEL_BOOTENV_SFC_LAYOUT
+	JHB100_KERNEL_BOOTENV_SFC_BOOT
 #else
 #define JHB100_KERNEL_BOOTENV_SFC
 #endif

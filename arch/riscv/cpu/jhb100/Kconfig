@@ -160,3 +160,14 @@ config STARFIVE_JHB100_SFC_AB_SWAP_PARTITION
 	 active flash, instead of renaming/resizing partitions.
 
 endchoice
+
+config STARFIVE_JHB100_SFC_NO_CAPSULE
+	bool "Disable image capsule update support for SFC (non-PFR)"
+	depends on TARGET_STARFIVE_JHB100
+	help
+	 Select this for JHB100 "non-PFR" builds that no longer support
+	 update-capsule based firmware updates over the SFC (SPI flash)
+	 storage path. This hides the parsecap-based env commands
+	 (parse_write_*_upd_cap_sfc and the sfc_write_cap_* helpers) from
+	 the SFC boot flow. The eMMC and UFS capsule update paths are
+	 unaffected by this option.
