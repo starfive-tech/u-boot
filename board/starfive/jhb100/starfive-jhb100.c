@@ -803,6 +803,7 @@ void uboot_starfive_fb_rec_map_handler(void)
 
 int board_late_init(void)
 {
+	jhb100_env_check_version();
 	env_get_boot_dev();
 	env_get_spi_flash_config();
 	env_restore_bootcmd();

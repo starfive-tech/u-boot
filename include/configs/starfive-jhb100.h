@@ -88,6 +88,50 @@
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
 
+/*
+ * Identifies which defconfig's env layout is currently flashed, derived
+ * from the Kconfig options that already distinguish the defconfig variants
+ * (SFC partition layout, and which storage backends are built in) rather
+ * than a separately maintained per-defconfig string. Bump the composition
+ * below whenever a Kconfig combination changes the env in a way that makes
+ * a previously saved environment stale.
+ */
+#ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
+#define JHB100_ENV_VERSION_LAYOUT	"agt"
+#elif defined(CONFIG_STARFIVE_JHB100_SFC_AB)
+#define JHB100_ENV_VERSION_LAYOUT	"ab"
+#else
+#define JHB100_ENV_VERSION_LAYOUT	"none"
+#endif
+
+#ifdef CONFIG_STARFIVE_JHB100_SFC_NO_CAPSULE
+#define JHB100_ENV_VERSION_CAP		"-nocap"
+#else
+#define JHB100_ENV_VERSION_CAP		""
+#endif
+
+#ifdef CONFIG_CMD_SF
+#define JHB100_ENV_VERSION_SFC		"-sfc"
+#else
+#define JHB100_ENV_VERSION_SFC		""
+#endif
+
+#ifdef CONFIG_MMC
+#define JHB100_ENV_VERSION_MMC		"-mmc"
+#else
+#define JHB100_ENV_VERSION_MMC		""
+#endif
+
+#ifdef CONFIG_SCSI
+#define JHB100_ENV_VERSION_UFS		"-ufs"
+#else
+#define JHB100_ENV_VERSION_UFS		""
+#endif
+
+#define JHB100_ENV_VERSION	\
+	JHB100_ENV_VERSION_LAYOUT JHB100_ENV_VERSION_CAP	\
+	JHB100_ENV_VERSION_SFC JHB100_ENV_VERSION_MMC JHB100_ENV_VERSION_UFS
+
 #define JHB100_BOOTENV_COMMON	\
 	"bootdev=uart\0"	\
 	"bootenv=uEnv.txt\0"	\
@@ -97,7 +141,8 @@
 	"bootfile=Image\0"	\
 	"fdtfile=jhb100.dtb\0"	\
 	"ramdiskfile=rootfs.cpio\0"	\
-	"updcapfile=capsule.cap\0"
+	"updcapfile=capsule.cap\0"	\
+	"jhb100_env_version=" JHB100_ENV_VERSION "\0"
 
 #ifdef CONFIG_MMC
 #define JHB100_BOOTENV_MMC	\
