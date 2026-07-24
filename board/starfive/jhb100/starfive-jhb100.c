@@ -560,6 +560,7 @@ int jhb100_fdt_sfc_fixup_ab_rename_resize(void *fdt)
 int jhb100_fdt_sfc_fixup_ab_swap_partition(void *fdt)
 {
 	int sfc0_off, flash0_off, flash1_off;
+	int cs_scratch = 0xff;
 	int ret;
 
 	/* Make sure we can modify the FDT (expand if needed) */
@@ -602,6 +603,13 @@ int jhb100_fdt_sfc_fixup_ab_swap_partition(void *fdt)
 			return ret;
 		}
 
+		ret = fdt_setprop_u32(fdt, flash0_off, "reg", cs_scratch);
+		if (ret) {
+			printf("Failed to park flash@X on the scratch CS: %s\n",
+			       fdt_strerror(ret));
+			return ret;
+		}
+
 		flash1_off = fdt_subnode_offset(fdt, sfc0_off, "flash@1");
 		ret = fdt_set_name(fdt, flash1_off, "flash@0");
 		if (ret) {
@@ -610,10 +618,24 @@ int jhb100_fdt_sfc_fixup_ab_swap_partition(void *fdt)
 			return ret;
 		}
 
+		ret = fdt_setprop_u32(fdt, flash1_off, "reg", 0);
+		if (ret) {
+			printf("Failed to set flash@0 reg to CS0: %s\n",
+			       fdt_strerror(ret));
+			return ret;
+		}
+
 		flash0_off = fdt_subnode_offset(fdt, sfc0_off, "flash@X");
 		ret = fdt_set_name(fdt, flash0_off, "flash@1");
 		if (ret) {
 			printf("Failed to rename flash@X to flash@1: %s\n",
+			       fdt_strerror(ret));
+			return ret;
+		}
+
+		ret = fdt_setprop_u32(fdt, flash0_off, "reg", 1);
+		if (ret) {
+			printf("Failed to set flash@1 reg to CS1: %s\n",
 			       fdt_strerror(ret));
 			return ret;
 		}
