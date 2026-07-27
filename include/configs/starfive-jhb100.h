@@ -132,11 +132,17 @@
 	JHB100_ENV_VERSION_LAYOUT JHB100_ENV_VERSION_CAP	\
 	JHB100_ENV_VERSION_SFC JHB100_ENV_VERSION_MMC JHB100_ENV_VERSION_UFS
 
+#ifdef CONFIG_STARFIVE_JHB100_FDTMODIFY_DEFAULT
+#define JHB100_FDTMODIFY_DEFAULT	"yes"
+#else
+#define JHB100_FDTMODIFY_DEFAULT	"no"
+#endif
+
 #define JHB100_BOOTENV_COMMON	\
 	"bootdev=uart\0"	\
 	"bootenv=uEnv.txt\0"	\
 	"bootmstatsfc=fail\0"	\
-	"fdtmodify=no\0"	\
+	"fdtmodify=" JHB100_FDTMODIFY_DEFAULT "\0"	\
 	"fitfile=kernel.itb\0"	\
 	"bootfile=Image\0"	\
 	"fdtfile=jhb100.dtb\0"	\

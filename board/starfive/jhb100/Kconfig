@@ -69,6 +69,17 @@ config STARFIVE_JHB100_ENV_CS_DYNAMIC
 	  starfive_get_sfc_cs() instead of always using the compiled-in
 	  CONFIG_ENV_SPI_CS.
 
+config STARFIVE_JHB100_FDTMODIFY_DEFAULT
+	bool "Enable device tree fixups by default (fdtmodify=yes)"
+	depends on TARGET_STARFIVE_JHB100
+	default n
+	help
+	 Set the compiled-in default of the "fdtmodify" environment variable
+	 to "yes" instead of "no", so the SFC device tree fixups run in
+	 ft_board_setup() without the user having to set the variable first.
+	 The variable can still be flipped at runtime with
+	 "setenv fdtmodify yes|no".
+
 config STARFIVE_JHB100_SAFE_MTEST
 	bool "Run safe memtest from board_late_init()"
 	depends on CMD_MEMTEST
