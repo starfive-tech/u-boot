@@ -16,9 +16,16 @@ config RESET_STARFIVE_JHB100
 config RESET_STARFIVE_JHB100_AUTO_DEASSERT
 	bool "Auto-deassert all StarFive JHB100 reset lines at probe"
 	depends on RESET_STARFIVE_JHB100
+	select TIMER_EARLY if TIMER
 	default n
 	help
 	  Say yes here to have every reset line in a CRG domain
 	  automatically deasserted as soon as that domain's reset
 	  device probes, instead of waiting for a consumer driver to
 	  request and deassert it explicitly.
+
+	  This deasserts from dm_probe_devices(), which runs inside
+	  dm_init_and_scan() while gd->timer is NULL and before
+	  EVT_DM_POST_INIT_R binds riscv_timer. Deassert confirms via
+	  readl_poll_timeout(), so TIMER_EARLY is required to keep
+	  get_ticks() from panicking there.
