@@ -276,9 +276,32 @@ void starfive_clk_init(void __iomem *reg, enum clk_type_t type,
 
 int jhb100_clk_bind(struct udevice *dev)
 {
+	struct udevice *rst_dev;
+	int ret;
+
+	/*
+	 * Auto-enable happens in the clock domain's probe, but DM probes
+	 * lazily: a domain is only brought up once a consumer looks up one of
+	 * its clocks. Set DM_FLAG_PROBE_AFTER_BIND so dm_probe_devices() brings
+	 * the domain up at the end of the bind pass instead, and every gate is
+	 * enabled regardless of who asks for it.
+	 */
+	if (CONFIG_IS_ENABLED(CLK_STARFIVE_JHB100_AUTO_ENABLE) &&
+	    (gd->flags & GD_FLG_RELOC))
+		dev_or_flags(dev, DM_FLAG_PROBE_AFTER_BIND);
+
 	/* The reset driver does not have a device node, so bind it here */
-	return device_bind_driver_to_node(dev, "starfive_reset", dev->name,
-					  dev_ofnode(dev), NULL);
+	ret = device_bind_driver_to_node(dev, "starfive_reset", dev->name,
+					 dev_ofnode(dev), &rst_dev);
+	if (ret)
+		return ret;
+
+	/* Same again: probing the reset device probes its clock parent first */
+	if (CONFIG_IS_ENABLED(RESET_STARFIVE_JHB100_AUTO_DEASSERT) &&
+	    (gd->flags & GD_FLG_RELOC))
+		dev_or_flags(rst_dev, DM_FLAG_PROBE_AFTER_BIND);
+
+	return 0;
 }
 
 int jhb100_clk_check_parent(const struct driver *parent_drv)
