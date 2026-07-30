@@ -171,7 +171,3 @@
 &cpucrg {
 	bootph-pre-ram;
 };
-
-&voutcrg {
-	bootph-pre-ram;
-};
