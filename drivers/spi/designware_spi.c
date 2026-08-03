@@ -750,12 +750,12 @@ static int jhb100_set_sfc_addr_mode(void __iomem *regs, u32 value)
 static int dw_spi_exec_op(struct spi_slave *slave, const struct spi_mem_op *op)
 {
 	bool read = op->data.dir == SPI_MEM_DATA_IN;
-	int pos, i, ret = 0;
+	int pos, i, ret = 0, retry = 0;
 	struct udevice *bus = slave->dev->parent;
 	struct dw_spi_priv *priv = dev_get_priv(bus);
 	u8 op_len = op->cmd.nbytes + op->addr.nbytes + op->dummy.nbytes;
 	u8 op_buf[op_len];
-	u32 cr0, sts, spi_cr0, level, rx_len, retry, cs, filter_sts;
+	u32 cr0, sts, spi_cr0, level, rx_len, cs, filter_sts;
 
 	priv->spi_frf = (op->data.buswidth == 4) ? CTRLR0_SPI_FRF_QUAD :
 		((op->data.buswidth == 2) ? CTRLR0_SPI_FRF_DUAL : CTRLR0_SPI_FRF_BYTE);
