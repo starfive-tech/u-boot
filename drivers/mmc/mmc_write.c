@@ -9,6 +9,7 @@
 #include <config.h>
 #include <common.h>
 #include <blk.h>
+#include <cyclic.h>
 #include <dm.h>
 #include <part.h>
 #include <div64.h>
@@ -118,6 +119,8 @@ ulong mmc_berase(struct blk_desc *block_dev, lbaint_t start, lbaint_t blkcnt)
 	}
 
 	while (blk < blkcnt) {
+		schedule();
+
 		if (IS_SD(mmc) && mmc->ssr.au) {
 			blk_r = ((blkcnt - blk) > mmc->ssr.au) ?
 				mmc->ssr.au : (blkcnt - blk);
@@ -223,6 +226,8 @@ ulong mmc_bwrite(struct blk_desc *block_dev, lbaint_t start, lbaint_t blkcnt,
 		return 0;
 
 	do {
+		schedule();
+
 		cur = (blocks_todo > mmc->cfg->b_max) ?
 			mmc->cfg->b_max : blocks_todo;
 		if (mmc_write_blocks(mmc, start, cur, src) != cur)

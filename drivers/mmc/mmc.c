@@ -11,6 +11,7 @@
 #include <common.h>
 #include <blk.h>
 #include <command.h>
+#include <cyclic.h>
 #include <dm.h>
 #include <log.h>
 #include <dm/device-internal.h>
@@ -534,6 +535,13 @@ ulong mmc_bread(struct blk_desc *block_dev, lbaint_t start, lbaint_t blkcnt,
 	b_max = mmc_get_b_max(mmc, dst, blkcnt);
 
 	do {
+		/*
+		 * A single transfer is capped at b_max blocks, so a large
+		 * read is many passes of this loop and nothing below it
+		 * services the cyclic tasks.
+		 */
+		schedule();
+
 		cur = (blocks_todo > b_max) ? b_max : blocks_todo;
 		if (mmc_read_blocks(mmc, dst, start, cur) != cur) {
 			pr_debug("%s: Failed to read blocks\n", __func__);
