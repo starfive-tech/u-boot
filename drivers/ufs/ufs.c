@@ -11,6 +11,7 @@
 #include <bouncebuf.h>
 #include <charset.h>
 #include <common.h>
+#include <cyclic.h>
 #include <dm.h>
 #include <log.h>
 #include <dm/device_compat.h>
@@ -2641,9 +2642,11 @@ int ufs_rpmb_read(struct udevice *ufs_dev, u8 region, void *addr, u32 lba,
 	}
 
 	do {
+		schedule();
+
 		memset((uint8_t *)frame_buffer, 0, sizeof(*frame_buffer));
 		ret = ufs_rpmb_blk_read(scsi_dev, region, frame_buffer, lba, 1);
-	if (ret) {
+		if (ret) {
 			ret = -EINVAL;
 			break;
 		}
@@ -2704,6 +2707,8 @@ int ufs_rpmb_write(struct udevice *ufs_dev, u8 region, void *addr, u32 lba,
 	}
 
 	do {
+		schedule();
+
 		memcpy(frame_buffer->data, addr, UFS_RPMB_BLK_SIZE);
 		ret = ufs_rpmb_blk_write(scsi_dev, region, frame_buffer, lba, 1, key_addr);
 		if (ret) {

@@ -10,6 +10,7 @@
 #include <blk.h>
 #include <bootdev.h>
 #include <bootstage.h>
+#include <cyclic.h>
 #include <dm.h>
 #include <env.h>
 #include <libata.h>
@@ -170,6 +171,14 @@ static ulong scsi_read(struct udevice *dev, lbaint_t blknr, lbaint_t blkcnt,
 	      ", blccnt " LBAF " buffer %lx\n",
 	      block_dev->devnum, start, blks, (unsigned long)buffer);
 	do {
+		/*
+		 * A request is capped at max_bytes_per_req, so a large read
+		 * is many passes of this loop. The transport below only ever
+		 * waits a bounded time per command and never services the
+		 * cyclic tasks itself.
+		 */
+		schedule();
+
 		pccb->pdata = (unsigned char *)buf_addr;
 		pccb->dma_dir = DMA_FROM_DEVICE;
 #ifdef CONFIG_SYS_64BIT_LBA
@@ -239,6 +248,12 @@ static ulong scsi_write(struct udevice *dev, lbaint_t blknr, lbaint_t blkcnt,
 	debug("\n%s: dev %d startblk " LBAF ", blccnt " LBAF " buffer %lx\n",
 	      __func__, block_dev->devnum, start, blks, (unsigned long)buffer);
 	do {
+		/*
+		 * As in scsi_read(), a request is capped at
+		 * max_bytes_per_req and a large write is many passes.
+		 */
+		schedule();
+
 		pccb->pdata = (unsigned char *)buf_addr;
 		pccb->dma_dir = DMA_TO_DEVICE;
 		if (blks > max_blks) {
