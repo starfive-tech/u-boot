@@ -839,6 +839,14 @@ static int spi_nor_wait_till_ready_with_timeout(struct spi_nor *nor,
 	timebase = get_timer(0);
 
 	while (get_timer(timebase) < timeout) {
+		/*
+		 * Service the cyclic tasks between status polls. A full-chip
+		 * erase runs a single pass of the erase loop, so the
+		 * schedule() there is reached only once and this poll is the
+		 * only kick point for the whole operation.
+		 */
+		schedule();
+
 		ret = spi_nor_ready(nor);
 		if (ret < 0)
 			return ret;
@@ -1465,6 +1473,8 @@ static int spi_nor_read(struct mtd_info *mtd, loff_t from, size_t len,
 		else
 			read_len = remain_len;
 #endif
+
+		schedule();
 
 		ret = nor->read(nor, addr, read_len, buf);
 		if (ret == 0) {
