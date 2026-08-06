@@ -88,6 +88,7 @@
 #define KERNEL_COMP_SIZE		__stringify(0x1000000)
 #define KERNEL_FIT_LOAD_SIZE		__stringify(0x1000000)
 #define KERNEL_FIT_COMP_LOAD_SIZE	__stringify(0x1000000)
+#define KERNEL_FIT_HDR_SIZE		__stringify(0x40)
 #define RAMDISK_SIZE			__stringify(0x7000000)
 
 /* allow to overwrite serial and ethaddr */
@@ -371,8 +372,6 @@
 #endif /* CONFIG_STARFIVE_JHB100_SFC_NO_CAPSULE */
 
 #define JHB100_KERNEL_BOOTENV_SFC	\
-	"loadfitimagespiact=sf read ${loadaddr} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
-	"loadfitimagespigol=sf read ${loadaddr} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadcompfitimagespiact=sf read ${kernel_comp_addr_r} ${sfc_kernel_act_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadcompfitimagespigol=sf read ${kernel_comp_addr_r} ${sfc_kernel_gol_part_offs} ${kernel_fit_load_size}\0"	\
 	"loadfitimagespiprim=sf read ${loadaddr} ${kernel_fit_spi_prim_off} ${kernel_fit_load_size}\0"	\
@@ -395,24 +394,44 @@
 		"fi;\0"	\
 	JHB100_KERNEL_BOOTENV_SFC_CAP	\
 	"process_load_image_sfc_act="	\
-		"echo Trying to load SPI Active FIT image ...; "	\
-		"run loadcompfitimagespiact; "	\
-		"echo Uncompressing FIT image ...; "	\
-		"run uncompfitimage;"	\
-		"run auth_bootm_sfc_act;"	\
-		"echo FIT image may not be compressed, trying again ...; "	\
-		"run loadfitimagespiact; "	\
-		"run auth_bootm_sfc_act;"	\
+		"sf read ${loadaddr} ${sfc_kernel_act_part_offs} " KERNEL_FIT_HDR_SIZE "; "	\
+		"if fdt addr -q ${loadaddr}; then "	\
+			"fdt header get fit_totalsize totalsize; "	\
+			"if itest.l ${fit_totalsize} > ${kernel_fit_load_size}; then "	\
+				"setenv fit_totalsize ${kernel_fit_load_size}; "	\
+			"fi; "	\
+			"echo Trying to load SPI Active FIT image ...; "	\
+			"sf read ${loadaddr} ${sfc_kernel_act_part_offs} ${fit_totalsize}; "	\
+			"run auth_bootm_sfc_act;"	\
+		"elif itest.w *${loadaddr} == 0x8b1f; then "	\
+			"echo Trying to load compressed SPI Active FIT image ...; "	\
+			"run loadcompfitimagespiact; "	\
+			"echo Uncompressing FIT image ...; "	\
+			"run uncompfitimage;"	\
+			"run auth_bootm_sfc_act;"	\
+		"else "	\
+			"echo SPI Active FIT image header unrecognised, neither FIT nor gzip ...; "	\
+		"fi; "	\
 		"setenv bootmstatsfc fail; \0"	\
 	"process_load_image_sfc_gol="	\
-		"echo Trying to load SPI Golden FIT image ...; "	\
-		"run loadcompfitimagespigol; "	\
-		"echo Uncompressing FIT image ...; "	\
-		"run uncompfitimage;"	\
-		"run auth_bootm_sfc_gol;"	\
-		"echo FIT image may not be compressed, trying again ...; "	\
-		"run loadfitimagespigol; "	\
-		"run auth_bootm_sfc_gol;"	\
+		"sf read ${loadaddr} ${sfc_kernel_gol_part_offs} " KERNEL_FIT_HDR_SIZE "; "	\
+		"if fdt addr -q ${loadaddr}; then "	\
+			"fdt header get fit_totalsize totalsize; "	\
+			"if itest.l ${fit_totalsize} > ${kernel_fit_load_size}; then "	\
+				"setenv fit_totalsize ${kernel_fit_load_size}; "	\
+			"fi; "	\
+			"echo Trying to load SPI Golden FIT image ...; "	\
+			"sf read ${loadaddr} ${sfc_kernel_gol_part_offs} ${fit_totalsize}; "	\
+			"run auth_bootm_sfc_gol;"	\
+		"elif itest.w *${loadaddr} == 0x8b1f; then "	\
+			"echo Trying to load compressed SPI Golden FIT image ...; "	\
+			"run loadcompfitimagespigol; "	\
+			"echo Uncompressing FIT image ...; "	\
+			"run uncompfitimage;"	\
+			"run auth_bootm_sfc_gol;"	\
+		"else "	\
+			"echo SPI Golden FIT image header unrecognised, neither FIT nor gzip ...; "	\
+		"fi; "	\
 		"setenv bootmstatsfc fail; \0"	\
 	JHB100_KERNEL_BOOTENV_SFC_BOOT
 #else
