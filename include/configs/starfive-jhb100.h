@@ -279,7 +279,8 @@
 #endif
 
 #ifndef CONFIG_STARFIVE_JHB100_SFC_NO_CAPSULE
-#define JHB100_KERNEL_BOOTENV_SFC_CAP_COMMON	\
+#ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
+#define JHB100_KERNEL_BOOTENV_SFC_CAP_WRITE	\
 	"sfc_write_cap_act="	\
 		"sf update ${rofs_offs} ${sfc_act_part_offs} ${rofs_size};"	\
 		"sf update ${loadaddr} ${sfc_part_last_8mb_act} ${8mb_size};\0"	\
@@ -288,7 +289,28 @@
 		"sf update ${loadaddr} ${sfc_part_last_8mb_gol} ${8mb_size};\0"	\
 	"sfc_write_cap_temp="	\
 		"sf update ${rofs_offs} ${sfc_temp_part_offs} ${rofs_size};"	\
-		"sf update ${loadaddr} ${sfc_part_last_8mb_temp} ${8mb_size};\0"	\
+		"sf update ${loadaddr} ${sfc_part_last_8mb_temp} ${8mb_size};\0"
+#else /* AB (active/backup) partition layout */
+#define JHB100_SFC_CAP_OFFS		"0xd800"
+#define JHB100_SFC_CAP_HEAD_SECT	"0xd000"
+#define JHB100_SFC_CAP_SECT_SIZE	"0x1000"
+#define JHB100_SFC_CAP_HEAD_LEN		"0x800"
+#define JHB100_SFC_CAP_BODY_OFFS	"0xe000"
+
+#define JHB100_KERNEL_BOOTENV_SFC_CAP_WRITE	\
+	"sfc_write_cap="	\
+		"setexpr sfc_cap_body_addr ${loadaddr} + " JHB100_SFC_CAP_HEAD_LEN ";"	\
+		"setexpr sfc_cap_body_size ${filesize} - " JHB100_SFC_CAP_HEAD_LEN ";"	\
+		"sf erase " JHB100_SFC_CAP_HEAD_SECT " " JHB100_SFC_CAP_SECT_SIZE ";"	\
+		"sf write ${loadaddr} " JHB100_SFC_CAP_OFFS " " JHB100_SFC_CAP_HEAD_LEN ";"	\
+		"sf update ${sfc_cap_body_addr} " JHB100_SFC_CAP_BODY_OFFS " ${sfc_cap_body_size};\0"	\
+	"sfc_write_cap_act=run sfc_write_cap;\0"	\
+	"sfc_write_cap_gol=run sfc_write_cap;\0"	\
+	"sfc_write_cap_temp=run sfc_write_cap;\0"
+#endif
+
+#define JHB100_KERNEL_BOOTENV_SFC_CAP_COMMON	\
+	JHB100_KERNEL_BOOTENV_SFC_CAP_WRITE	\
 	"parse_write_act_upd_cap_sfc="	\
 		"if parsecap ${loadaddr}; then "	\
 			"if sf probe 0:${sfc_act_cs}; then "	\
