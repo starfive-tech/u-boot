@@ -101,6 +101,11 @@ static int jhb100_adc1_pinctrl_probe(struct udevice *dev)
 {
 	struct jhb100_pinctrl_soc_info *info =
 		(struct jhb100_pinctrl_soc_info *)dev_get_driver_data(dev);
+	int ret;
+
+	ret = starfive_pinctrl_enable_clk_reset(dev);
+	if (ret)
+		return ret;
 
 	return starfive_pinctrl_probe(dev, info);
 }

@@ -6,6 +6,9 @@
  * Author: ZhiWei Lim <zhiwei.lim@starfivetech.com>
  */
 
+#include <clk.h>
+#include <reset.h>
+
 #define STARFIVE_PINCTRL(a, b) { .number = a, .name = b }
 
 extern const struct pinctrl_ops starfive_pinctrl_ops;
@@ -57,6 +60,8 @@ struct jhb100_pinctrl_soc_info {
 struct starfive_pinctrl_priv {
 	void __iomem *base;
 	struct jhb100_pinctrl_soc_info *info;
+	struct clk_bulk clks;
+	struct reset_ctl_bulk resets;
 };
 
 void starfive_set_gpioval(struct udevice *dev, unsigned int pin,
@@ -67,3 +72,4 @@ int starfive_set_one_pin_mux(struct udevice *dev, u32 pin,
 int starfive_pinctrl_probe(struct udevice *dev,
 			   const struct jhb100_pinctrl_soc_info *info);
 int starfive_pinctrl_bind(struct udevice *dev);
+int starfive_pinctrl_enable_clk_reset(struct udevice *dev);

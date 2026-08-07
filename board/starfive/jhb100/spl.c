@@ -36,13 +36,6 @@
 #define JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET	0x60
 #define JHB100_MAIN_CLK_ENABLE			BIT(31)
 
-/* PER2CRG */
-#define JHB100_PER2CRG_ADDR			0x11bc0000UL
-#define JHB100_PER2CRG_MAIN_ICG_EN_ADC0_OFFSET	0x10c
-#define JHB100_PER2CRG_MAIN_ICG_EN_ADC1_OFFSET	0x110
-#define JHB100_PER2CRG_RESET_ASSERT0_OFFSET	0x11c
-#define JHB100_RSTN_ADC				GENMASK(11, 14)
-
 u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
 {
 #if defined(CONFIG_SUPPORT_EMMC_BOOT)
@@ -190,29 +183,12 @@ struct legacy_img_hdr *spl_get_load_buffer(ssize_t offset, size_t size)
 void jhb100_plat_init(void)
 {
 	void *addr;
-	u32 val;
 
 	/* CPUSS Secure CRG is now in PMP region. Enable main_icg clock during SPL init to ensure
 	 * Linux can boot successfully to the console in emulator environment
 	 */
 	addr = (void *)(JHB100_CPUSS_SECURE_CRG_ADDR + JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET);
 	writel(JHB100_MAIN_CLK_ENABLE, addr);
-
-	/* Bring ADC hardware block out of reset before ADC IO pads can be used as GPIO */
-	addr = (void *)(JHB100_PER2CRG_ADDR + JHB100_PER2CRG_MAIN_ICG_EN_ADC0_OFFSET);
-	writel(JHB100_MAIN_CLK_ENABLE, addr);	// Enable ADC0 CLK_GATE
-
-	addr = (void *)(JHB100_PER2CRG_ADDR + JHB100_PER2CRG_MAIN_ICG_EN_ADC1_OFFSET);
-	writel(JHB100_MAIN_CLK_ENABLE, addr);	// Enable ADC1 CLK_GATE
-
-	addr = (void *)(JHB100_PER2CRG_ADDR + JHB100_PER2CRG_RESET_ASSERT0_OFFSET);
-
-	val = readl(addr);
-	val |= JHB100_RSTN_ADC;
-	writel(val, addr);	// Assert reset
-
-	val &= ~JHB100_RSTN_ADC;
-	writel(val, addr);	// Deassert reset
 }
 
 void subsys_init(void)

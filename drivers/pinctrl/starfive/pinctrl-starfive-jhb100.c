@@ -8,14 +8,14 @@
 
 #include <clk.h>
 #include <dm.h>
+#include <asm-generic/gpio.h>
+#include <dm/device_compat.h>
 #include <dm/device-internal.h>
 #include <dm/lists.h>
 #include <dm/pinctrl.h>
-#include <asm-generic/gpio.h>
 #include <linux/bitops.h>
 #include <linux/io.h>
 #include <linux/ioport.h>
-#include <dm/device_compat.h>
 
 #include "pinctrl-starfive-jhb100.h"
 
@@ -558,6 +558,30 @@ static int starfive_gpiochip_register(struct udevice *parent)
 					   "starfive_gpio", 0, node, &dev);
 
 	return (ret == 0) ? 0 : ret;
+}
+
+int starfive_pinctrl_enable_clk_reset(struct udevice *dev)
+{
+	struct starfive_pinctrl_priv *priv = dev_get_priv(dev);
+	int ret;
+
+	ret = clk_get_bulk(dev, &priv->clks);
+	if (ret)
+		return ret;
+
+	ret = clk_enable_bulk(&priv->clks);
+	if (ret)
+		return ret;
+
+	ret = reset_get_bulk(dev, &priv->resets);
+	if (ret)
+		return ret;
+
+	ret = reset_assert_bulk(&priv->resets);
+	if (ret)
+		return ret;
+
+	return reset_deassert_bulk(&priv->resets);
 }
 
 int starfive_pinctrl_probe(struct udevice *dev,
