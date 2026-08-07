@@ -43,18 +43,6 @@
 #define JHB100_PER2CRG_RESET_ASSERT0_OFFSET	0x11c
 #define JHB100_RSTN_ADC				GENMASK(11, 14)
 
-/* PRODUCT_ID */
-#define JHB100_PRODUCT_ID_ADDR			0x13010038UL
-#define JHB100_MASK_REV_NUM			GENMASK(3, 0)
-#define JHB100_REV_NUM_A			0x0
-#define JHB100_REV_NUM_A_ECO			0x1
-#define JHB100_REV_NUM_B			0x4
-
-u32 jhb100_get_product_rev_num(void)
-{
-	return (readl((void *)JHB100_PRODUCT_ID_ADDR) & JHB100_MASK_REV_NUM);
-}
-
 u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
 {
 #if defined(CONFIG_SUPPORT_EMMC_BOOT)
