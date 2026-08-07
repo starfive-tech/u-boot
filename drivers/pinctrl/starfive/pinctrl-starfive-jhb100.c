@@ -164,6 +164,8 @@ static const struct pinconf_param starfive_pinconf_params[] = {
 	{ "bias-pull-up",	PIN_CONFIG_BIAS_PULL_UP,	1 },
 	{ "bias-pull-down",	PIN_CONFIG_BIAS_PULL_DOWN,	1 },
 	{ "drive-strength",	PIN_CONFIG_DRIVE_STRENGTH,	0 },
+	{ "drive-push-pull",	PIN_CONFIG_DRIVE_PUSH_PULL,	0 },
+	{ "drive-open-drain",	PIN_CONFIG_DRIVE_OPEN_DRAIN,	0 },
 	{ "input-schmitt-enable", PIN_CONFIG_INPUT_SCHMITT_ENABLE, 1 },
 	{ "input-schmitt-disable", PIN_CONFIG_INPUT_SCHMITT_ENABLE, 0 },
 	{ "input-enable",	PIN_CONFIG_INPUT_ENABLE,	1 },
@@ -371,6 +373,24 @@ static int starfive_pinconf_set(struct udevice *dev, unsigned int pin,
 		if (info->is_i3cpad && info->is_i3cpad(pin)) {
 			mask |= JHB100_I3C_PADCFG_MODE_SEL;
 			value |= JHB100_I2C_LEGACY_FM_PLUS <<
+				 JHB100_I3C_PADCFG_MODE_SHIFT;
+		} else {
+			return -EINVAL;
+		}
+		break;
+	case PIN_CONFIG_DRIVE_PUSH_PULL:
+		if (info->is_i3cpad && info->is_i3cpad(pin)) {
+			mask |= JHB100_I3C_PADCFG_MODE_SEL;
+			value |= JHB100_I3C_MODE_SEL_PUSH_PULL <<
+				 JHB100_I3C_PADCFG_MODE_SHIFT;
+		} else {
+			return -EINVAL;
+		}
+		break;
+	case PIN_CONFIG_DRIVE_OPEN_DRAIN:
+		if (info->is_i3cpad && info->is_i3cpad(pin)) {
+			mask |= JHB100_I3C_PADCFG_MODE_SEL;
+			value |= JHB100_I3C_MODE_SEL_OPEN_DRAIN <<
 				 JHB100_I3C_PADCFG_MODE_SHIFT;
 		} else {
 			return -EINVAL;
