@@ -43,16 +43,6 @@
 #define JHB100_PER2CRG_RESET_ASSERT0_OFFSET	0x11c
 #define JHB100_RSTN_ADC				GENMASK(11, 14)
 
-/* PER0_IOMUX */
-#define JHB100_PER0_IOMUX_ADDR			0x11a0a000UL
-#define JHB100_PER0_IOMUX_PADCFG_START		0x14
-#define JHB100_PER0_IOMUX_PADCFG_END		0x100
-
-/* PER1_IOMUX */
-#define JHB100_PER1_IOMUX_ADDR			0x11b42000UL
-#define JHB100_PER1_IOMUX_PADCFG_START		0x94
-#define JHB100_PER1_IOMUX_PADCFG_END		0xa0
-
 /* PRODUCT_ID */
 #define JHB100_PRODUCT_ID_ADDR			0x13010038UL
 #define JHB100_MASK_REV_NUM			GENMASK(3, 0)
@@ -219,24 +209,6 @@ void jhb100_plat_init(void)
 	 */
 	addr = (void *)(JHB100_CPUSS_SECURE_CRG_ADDR + JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET);
 	writel(JHB100_MAIN_CLK_ENABLE, addr);
-
-	/* Initialize the following pins to push-pull mode as default FM mode prevents GPIO outputs
-	 * from driving high without an external pull-up. (Only required for RevA & RevA ECO)
-	 */
-	if (jhb100_get_product_rev_num() == JHB100_REV_NUM_A ||
-	    jhb100_get_product_rev_num() == JHB100_REV_NUM_A_ECO) {
-		addr = (void *)(JHB100_PER0_IOMUX_ADDR + JHB100_PER0_IOMUX_PADCFG_START);
-		while (addr <= (void *)(JHB100_PER0_IOMUX_ADDR + JHB100_PER0_IOMUX_PADCFG_END)) {
-			writel(0, addr);
-			addr += 0x4;
-		}
-
-		addr = (void *)(JHB100_PER1_IOMUX_ADDR + JHB100_PER1_IOMUX_PADCFG_START);
-		while (addr <= (void *)(JHB100_PER1_IOMUX_ADDR + JHB100_PER1_IOMUX_PADCFG_END)) {
-			writel(0, addr);
-			addr += 0x4;
-		}
-	}
 
 	/* Bring ADC hardware block out of reset before ADC IO pads can be used as GPIO */
 	addr = (void *)(JHB100_PER2CRG_ADDR + JHB100_PER2CRG_MAIN_ICG_EN_ADC0_OFFSET);

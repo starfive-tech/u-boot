@@ -37,7 +37,10 @@
 #define JHB100_I3C_PADCFG_SMT		BIT(7)
 #define JHB100_I3C_PADCFG_MODE_SEL	GENMASK(2, 1)
 #define JHB100_I3C_PADCFG_MODE_SHIFT	1
+#define JHB100_I3C_MODE_SEL_PUSH_PULL	0
+#define JHB100_I3C_MODE_SEL_OPEN_DRAIN	1
 #define JHB100_I2C_LEGACY_FM_PLUS	2
+#define JHB100_I2C_LEGACY_FM		3
 
 #define JHB100_VGA_ADC_PADCFG_SMT	BIT(7)
 #define JHB100_VGA_ADC_PADCFG_SLEW	BIT(6)
@@ -573,6 +576,11 @@ int starfive_pinctrl_probe(struct udevice *dev,
 	priv->base = dev_read_addr_ptr(dev);
 	if (!priv->base)
 		return -EINVAL;
+
+	if (info->is_i3cpad) {
+		for (unsigned int pin = 0; pin < info->ngpios; pin++)
+			starfive_padcfg_rmw(dev, pin, ~0U, JHB100_I3C_MODE_SEL_PUSH_PULL);
+	}
 
 	/* gpiochip register */
 	ret = starfive_gpiochip_register(dev);
