@@ -235,13 +235,17 @@ static int eqos_interface_init_jhb100(struct udevice *dev)
 
 	switch (data->interface) {
 	case PHY_INTERFACE_MODE_RMII:
-	case PHY_INTERFACE_MODE_SGMII:
-		return 0;
+		mode = STARFIVE_DWMAC_PHY_INFT_RMII;
+		break;
 
 	case PHY_INTERFACE_MODE_RGMII:
 	case PHY_INTERFACE_MODE_RGMII_ID:
 		mode = STARFIVE_DWMAC_PHY_INFT_RGMII;
 		break;
+
+	/* SGMII is muxed via the "phys" serdes PHY, not this syscon field */
+	case PHY_INTERFACE_MODE_SGMII:
+		return 0;
 
 	default:
 		printf("Undefined phy interface\n");
@@ -250,8 +254,9 @@ static int eqos_interface_init_jhb100(struct udevice *dev)
 
 	ret = dev_read_phandle_with_args(dev, "starfive,syscon", NULL,
 					2, 0, &phy_phandle);
+	/* no syscon mux defined for this GMAC in the devicetree - nothing to configure */
 	if (ret)
-		return ret;
+		return 0;
 
 	if (phy_phandle.args_count != 2)
 		return -EINVAL;

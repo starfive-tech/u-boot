@@ -36,11 +36,6 @@
 #define JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET	0x60
 #define JHB100_MAIN_CLK_ENABLE			BIT(31)
 
-/* PER2_SYSREG */
-#define JHB100_PER2_SYSREG_ADDR			0x11bc1000UL
-#define JHB100_ETHER_RMIIRGMII_CONTROL0_OFFSET	0x0
-#define JHB100_ETHER_RGMII_ENABLE		BIT(8)
-
 /* PER2CRG */
 #define JHB100_PER2CRG_ADDR			0x11bc0000UL
 #define JHB100_PER2CRG_MAIN_ICG_EN_ADC0_OFFSET	0x10c
@@ -224,15 +219,6 @@ void jhb100_plat_init(void)
 	 */
 	addr = (void *)(JHB100_CPUSS_SECURE_CRG_ADDR + JHB100_MAIN_ICG_EN_INT_CTRL_OFFSET);
 	writel(JHB100_MAIN_CLK_ENABLE, addr);
-
-	/* Select to use RGMII as PHY interface */
-	addr = (void *)(JHB100_PER2_SYSREG_ADDR + JHB100_ETHER_RMIIRGMII_CONTROL0_OFFSET);
-
-	val = readl(addr);
-	val &= ~(0xF << 8);
-	val |= JHB100_ETHER_RGMII_ENABLE;
-
-	writel(val, addr);
 
 	/* Initialize the following pins to push-pull mode as default FM mode prevents GPIO outputs
 	 * from driving high without an external pull-up. (Only required for RevA & RevA ECO)
