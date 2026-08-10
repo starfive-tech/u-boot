@@ -16,7 +16,6 @@ config RESET_STARFIVE_JHB100
 config RESET_STARFIVE_JHB100_AUTO_DEASSERT
 	bool "Auto-deassert all StarFive JHB100 reset lines at probe"
 	depends on RESET_STARFIVE_JHB100
-	select TIMER_EARLY if TIMER
 	default n
 	help
 	  Say yes here to have every reset line in a CRG domain
