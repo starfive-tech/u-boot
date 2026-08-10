@@ -25,6 +25,11 @@
 		scp_buffer_cache = &scp_buffer_cache;
 	};
 
+	timer {
+		compatible = "riscv,timer";
+		bootph-some-ram;
+	};
+
 	chosen {
 		/* tick-timer = "timer0"; */
 		bootph-pre-ram;
