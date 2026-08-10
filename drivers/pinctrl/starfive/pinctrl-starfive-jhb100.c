@@ -621,8 +621,8 @@ int starfive_pinctrl_probe(struct udevice *dev,
 	if (!priv->base)
 		return -EINVAL;
 
-	if (info->is_i3cpad) {
-		for (unsigned int pin = 0; pin < info->ngpios; pin++)
+	for (unsigned int pin = 0; pin < info->ngpios; pin++) {
+		if (info->is_i3cpad && info->is_i3cpad(pin))
 			starfive_padcfg_rmw(dev, pin, ~0U, JHB100_I3C_MODE_SEL_PUSH_PULL);
 	}
 
