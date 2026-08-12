@@ -75,7 +75,7 @@ void set_verify_rofs_flag(int val)
 	verify_rofs = !!val;
 }
 
-u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size);
+u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size, bool secure);
 void board_fit_image_post_process(const void *fit, int node, void **p_image, size_t *p_size)
 {
 	int sec_ret = starfive_check_secure_boot();
@@ -84,30 +84,26 @@ void board_fit_image_post_process(const void *fit, int node, void **p_image, siz
 		return;
 
 #ifdef CONFIG_SPL_BUILD
-	if (sec_ret) {
-		if (starfive_jhb100_vendor_authentication(p_image, p_size))
-			hang();
-	}
+	if (starfive_jhb100_vendor_authentication(p_image, p_size, sec_ret))
+		hang();
 #ifdef CONFIG_STARFIVE_JHB100_QUERY_DDR_INFO
 	jhb100_fdt_fixup(*p_image);
 #endif
 	jhb100_scp_buffer_parser(*p_image);
 #else
-	if (sec_ret) {
-		int boot_mode = GET_BOOT_SRC;
-		switch (boot_mode) {
-		case BOOT_SRC_EMMC:
-		case BOOT_SRC_UFS:
-		case BOOT_SRC_SFC:
-			if (!verify_rofs) {
-				if (starfive_jhb100_vendor_authentication(p_image, p_size))
-					hang();
-			}
-			break;
-		default:
-			if (starfive_jhb100_vendor_authentication(p_image, p_size))
+	int boot_mode = GET_BOOT_SRC;
+	switch (boot_mode) {
+	case BOOT_SRC_EMMC:
+	case BOOT_SRC_UFS:
+	case BOOT_SRC_SFC:
+		if (!verify_rofs) {
+			if (starfive_jhb100_vendor_authentication(p_image, p_size, sec_ret))
 				hang();
 		}
+		break;
+	default:
+		if (starfive_jhb100_vendor_authentication(p_image, p_size, sec_ret))
+			hang();
 	}
 
 	/* Important that FDT is modified after authentication */

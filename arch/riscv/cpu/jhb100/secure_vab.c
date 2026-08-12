@@ -23,7 +23,7 @@
 #include <asm/arch/boot_fallback.h>
 #include <rand.h>
 
-u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
+u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size, bool secure)
 {
 	int ret = 0;
 
@@ -68,8 +68,17 @@ u32 starfive_jhb100_vendor_authentication(void **p_image, size_t *p_size)
 	}
 
 	if (resp_data[0]) {
-		printf("Image verification failed, error: %d\n", resp_data[0]);
-		return resp_data[0];
+		/**
+		 * In case verification fail, we should check if it is in secure
+		 * mode, secure mode should immediately return fail, else we
+		 * should return the image as is for normal booting.
+		 */
+		if (secure) {
+			printf("Image verification failed, error: %d\n", resp_data[0]);
+			return resp_data[0];
+		} else {
+			return 0;
+		}
 	}
 
 	struct bif_image_hdr *hdr = (struct bif_image_hdr *)*p_image;
