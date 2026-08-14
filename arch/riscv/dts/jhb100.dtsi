@@ -1607,6 +1607,8 @@
 					<0x0 0x11135e00 0x0 0x100>;
 				reg-names = "vce", "dynsw";
 				clocks = <&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE0>;
+				assigned-clocks = <&vcecrg JHB100_VCECLK_CORE_CLK_VCE0_DIV>;
+				assigned-clock-rates = <600000000>;
 				resets = <&vcecrg JHB100_VCERST_VCE0_TOP_ASYNC_RSTN>;
 				reset-names = "rstn_vce";
 				interrupts = <240>, <237>, <234>;
@@ -1622,6 +1624,8 @@
 					<0x0 0x11135f00 0x0 0x100>;
 				reg-names = "vce", "dynsw";
 				clocks = <&vcecrg JHB100_VCECLK_MAIN_ICG_EN_VCE1>;
+				assigned-clocks = <&vcecrg JHB100_VCECLK_CORE_CLK_VCE1_DIV>;
+				assigned-clock-rates = <600000000>;
 				resets = <&vcecrg JHB100_VCERST_VCE1_TOP_ASYNC_RSTN>;
 				reset-names = "rstn_vce";
 				interrupts = <241>, <238>, <235>;
@@ -1784,6 +1788,8 @@
 			ltpi0: ltpi@11900000 {
 				compatible = "starfive,ltpi";
 				reg = <0x0 0x11900000 0x0 0x1000>;
+				#address-cells = <1>;
+				#size-cells = <1>;
 				interrupts = <177>;
 				clocks = <&per0crg JHB100_PER0CLK_240_CORE_LTPI0>,
 					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>,
@@ -1791,67 +1797,70 @@
 					<&per0crg JHB100_PER0CLK_PH90_LTPI0>;
 				clock-names = "core_clk", "apb", "lvds", "lvds90";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_LTPI0>;
+				ranges = <0x0 0x0 0x11900000 0x3000>;
 				ltpi,id = <0>;
 				status = "disabled";
-			};
 
-			llgpo0: virgpio@11901000 {
-				compatible = "starfive,jhb100-virgpio";
-				reg = <0x0 0x11901000 0x0 0x180>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				direction = "output";
-				ngpios = <64>;
-				label = "llgpo0";
-				status = "disabled";
-			};
+				llgpo0: virgpio@1000 {
+					compatible = "starfive,jhb100-virgpio";
+					reg = <0x1000 0x180>;
+					clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>;
+					gpio-controller;
+					#gpio-cells = <2>;
+					direction = "output";
+					ngpios = <64>;
+					label = "llgpo0";
+					status = "disabled";
+				};
 
-			llgpi0: virgpio@11901180 {
-				compatible = "starfive,jhb100-virgpio";
-				reg = <0x0 0x11901180 0x0 0x500>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				interrupts = <178>;
-				interrupt-controller;
-				#interrupt-cells = <2>;
-				direction = "input";
-				ngpios = <64>;
-				label = "llgpi0";
-				status = "disabled";
-			};
+				llgpi0: virgpio@1180 {
+					compatible = "starfive,jhb100-virgpio";
+					reg = <0x1180 0x500>;
+					clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>;
+					gpio-controller;
+					#gpio-cells = <2>;
+					interrupts = <178>;
+					interrupt-controller;
+					#interrupt-cells = <2>;
+					direction = "input";
+					ngpios = <64>;
+					label = "llgpi0";
+					status = "disabled";
+				};
 
-			nlgpo0: virgpio@11902000 {
-				compatible = "starfive,jhb100-virgpio";
-				reg = <0x0 0x11902000 0x0 0x180>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				direction = "output";
-				ngpios = <256>;
-				label = "nlgpo0";
-				status = "disabled";
-			};
+				nlgpo0: virgpio@2000 {
+					compatible = "starfive,jhb100-virgpio";
+					reg = <0x2000 0x180>;
+					clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>;
+					gpio-controller;
+					#gpio-cells = <2>;
+					direction = "output";
+					ngpios = <256>;
+					label = "nlgpo0";
+					status = "disabled";
+				};
 
-			nlgpi0: virgpio@11902180 {
-				compatible = "starfive,jhb100-virgpio";
-				reg = <0x0 0x11902180 0x0 0x500>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				interrupts = <179>;
-				interrupt-controller;
-				#interrupt-cells = <2>;
-				direction = "input";
-				ngpios = <256>;
-				label = "nlgpi0";
-				status = "disabled";
+				nlgpi0: virgpio@2180 {
+					compatible = "starfive,jhb100-virgpio";
+					reg = <0x2180 0x500>;
+					clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI0>;
+					gpio-controller;
+					#gpio-cells = <2>;
+					interrupts = <179>;
+					interrupt-controller;
+					#interrupt-cells = <2>;
+					direction = "input";
+					ngpios = <256>;
+					label = "nlgpi0";
+					status = "disabled";
+				};
 			};
 
 			ltpi1: ltpi@11910000 {
 				compatible = "starfive,ltpi";
 				reg = <0x0 0x11910000 0x0 0x1000>;
+				#address-cells = <1>;
+				#size-cells = <1>;
 				interrupts = <180>;
 				clocks = <&per0crg JHB100_PER0CLK_240_CORE_LTPI1>,
 					<&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>,
@@ -1859,62 +1868,63 @@
 					<&per0crg JHB100_PER0CLK_PH90_LTPI1>;
 				clock-names = "core_clk", "apb", "lvds", "lvds90";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_LTPI1>;
+				ranges = <0x0 0x0 0x11910000 0x3000>;
 				ltpi,id = <1>;
 				status = "disabled";
-			};
 
-			llgpo1: virgpio@11911000 {
-				compatible = "starfive,jhb100-virgpio";
-				reg = <0x0 0x11911000 0x0 0x180>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				direction = "output";
-				ngpios = <64>;
-				label = "llgpo1";
-				status = "disabled";
-			};
+				llgpo1: virgpio@1000 {
+					compatible = "starfive,jhb100-virgpio";
+					reg = <0x1000 0x180>;
+					clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>;
+					gpio-controller;
+					#gpio-cells = <2>;
+					direction = "output";
+					ngpios = <64>;
+					label = "llgpo1";
+					status = "disabled";
+				};
 
-			llgpi1: virgpio@11911180 {
-				compatible = "starfive,jhb100-virgpio";
-				reg = <0x0 0x11911180 0x0 0x500>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				interrupts = <181>;
-				interrupt-controller;
-				#interrupt-cells = <2>;
-				direction = "input";
-				ngpios = <64>;
-				label = "llgpi1";
-				status = "disabled";
-			};
+				llgpi1: virgpio@1180 {
+					compatible = "starfive,jhb100-virgpio";
+					reg = <0x1180 0x500>;
+					clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>;
+					gpio-controller;
+					#gpio-cells = <2>;
+					interrupts = <181>;
+					interrupt-controller;
+					#interrupt-cells = <2>;
+					direction = "input";
+					ngpios = <64>;
+					label = "llgpi1";
+					status = "disabled";
+				};
 
-			nlgpo1: virgpio@11912000 {
-				compatible = "starfive,jhb100-virgpio";
-				reg = <0x0 0x11912000 0x0 0x180>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				direction = "output";
-				ngpios = <256>;
-				label = "nlgpo1";
-				status = "disabled";
-			};
+				nlgpo1: virgpio@2000 {
+					compatible = "starfive,jhb100-virgpio";
+					reg = <0x2000 0x180>;
+					clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>;
+					gpio-controller;
+					#gpio-cells = <2>;
+					direction = "output";
+					ngpios = <256>;
+					label = "nlgpo1";
+					status = "disabled";
+				};
 
-			nlgpi1: virgpio@11912180 {
-				compatible = "starfive,jhb100-virgpio";
-				reg = <0x0 0x11912180 0x0 0x500>;
-				clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>;
-				gpio-controller;
-				#gpio-cells = <2>;
-				interrupts = <182>;
-				interrupt-controller;
-				#interrupt-cells = <2>;
-				direction = "input";
-				ngpios = <256>;
-				label = "nlgpi1";
-				status = "disabled";
+				nlgpi1: virgpio@2180 {
+					compatible = "starfive,jhb100-virgpio";
+					reg = <0x2180 0x500>;
+					clocks = <&per0crg JHB100_PER0CLK_MAIN_ICG_EN_LTPI1>;
+					gpio-controller;
+					#gpio-cells = <2>;
+					interrupts = <182>;
+					interrupt-controller;
+					#interrupt-cells = <2>;
+					direction = "input";
+					ngpios = <256>;
+					label = "nlgpi1";
+					status = "disabled";
+				};
 			};
 
 			dma_uart: dma-controller@11924000 {
@@ -2261,6 +2271,7 @@
 				clock-names = "core", "apb";
 				resets = <&per0crg JHB100_PER0RST_MAIN_RSTN_WDT0>;
 				timeout_sec = <15>;
+				starfive,support-early-boot;
 				status = "disabled";
 			};
 
@@ -2589,6 +2600,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c0_pins>;
 				status = "disabled";
@@ -2606,6 +2619,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c1_pins>;
 				pinctrl-1 = <&i2c1_gpio_pins>;
@@ -2627,6 +2642,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c1_pins>;
 				status = "disabled";
@@ -2644,6 +2661,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c2_pins>;
 				pinctrl-1 = <&i2c2_gpio_pins>;
@@ -2665,6 +2684,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c2_pins>;
 				status = "disabled";
@@ -2682,6 +2703,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c3_pins>;
 				pinctrl-1 = <&i2c3_gpio_pins>;
@@ -2703,6 +2726,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c3_pins>;
 				status = "disabled";
@@ -2720,6 +2745,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c4_pins>;
 				pinctrl-1 = <&i2c4_gpio_pins>;
@@ -2741,6 +2768,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c4_pins>;
 				status = "disabled";
@@ -2758,6 +2787,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c5_pins>;
 				pinctrl-1 = <&i2c5_gpio_pins>;
@@ -2779,6 +2810,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c5_pins>;
 				status = "disabled";
@@ -2796,6 +2829,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c6_pins>;
 				pinctrl-1 = <&i2c6_gpio_pins>;
@@ -2817,6 +2852,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c6_pins>;
 				status = "disabled";
@@ -2834,6 +2871,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c7_pins>;
 				pinctrl-1 = <&i2c7_gpio_pins>;
@@ -2855,6 +2894,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c7_pins>;
 				status = "disabled";
@@ -2872,6 +2913,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c8_pins>;
 				pinctrl-1 = <&i2c8_gpio_pins>;
@@ -2893,6 +2936,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c8_pins>;
 				status = "disabled";
@@ -2910,6 +2955,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c9_pins>;
 				pinctrl-1 = <&i2c9_gpio_pins>;
@@ -2931,6 +2978,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c9_pins>;
 				status = "disabled";
@@ -2948,6 +2997,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c10_pins>;
 				pinctrl-1 = <&i2c10_gpio_pins>;
@@ -2969,6 +3020,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c10_pins>;
 				status = "disabled";
@@ -2986,6 +3039,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c11_pins>;
 				pinctrl-1 = <&i2c11_gpio_pins>;
@@ -3007,6 +3062,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c11_pins>;
 				status = "disabled";
@@ -3024,6 +3081,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c12_pins>;
 				pinctrl-1 = <&i2c12_gpio_pins>;
@@ -3045,6 +3104,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c12_pins>;
 				status = "disabled";
@@ -3062,6 +3123,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c13_pins>;
 				pinctrl-1 = <&i2c13_gpio_pins>;
@@ -3083,6 +3146,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c13_pins>;
 				status = "disabled";
@@ -3100,6 +3165,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c14_pins>;
 				pinctrl-1 = <&i2c14_gpio_pins>;
@@ -3121,6 +3188,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c14_pins>;
 				status = "disabled";
@@ -3138,6 +3207,8 @@
 				starfive,chsel = <0>;
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default", "gpio";
 				pinctrl-0 = <&i2c15_pins>;
 				pinctrl-1 = <&i2c15_gpio_pins>;
@@ -3159,6 +3230,8 @@
 				clock-names = "ref", "pclk";
 				dwc-i2c-tx-fifo-depth = <64>;
 				dwc-i2c-rx-fifo-depth = <64>;
+				i2c-sda-hold-time-ns = <150>;
+				i2c-scl-rising-time-ns = <250>;
 				pinctrl-names = "default";
 				pinctrl-0 = <&i2c15_pins>;
 				status = "disabled";

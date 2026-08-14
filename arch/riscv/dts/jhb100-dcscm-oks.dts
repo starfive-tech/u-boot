@@ -1,0 +1,402 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2026 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100-dcscm.dtsi"
+#include "jhb100-evb1-sfc0-flash.dtsi"
+
+/ {
+	chosen {
+		stdout-path = "serial6:115200n8";
+	};
+};
+
+&espi0 {
+	starfive,vgpio_mode = <1>;
+	gpio-line-names  =
+										/* Output pins */
+		"", "", "", "",							/* VGPIO0-3 */
+		"VW_FM_DUAL_PARTITION_N", "VW_FM_STANDALONE_MODE_N",		/* VGPIO4-5 */
+		"VW_FM_4S_8S_N_MODE", "VW_FM_NODE_ID_1",			/* VGPIO6-7 */
+		"VW_FM_NODE_ID_0", "", "", "", "", "", "", "",			/* VGPIO8-15*/
+		"", "", "", "",	"", "", "", "",					/* VGPIO16-23 */
+		"", "", "", "",	"", "", "", "",					/* VGPIO23-31 */
+										/* Input pins */
+		"", "", "", "",							/* VGPIO32-35 */
+		"VW_FM_BIOS_POST_CMPLT_N", "VW_CORE_BIOS_DONE_N", "", "",	/* VGPIO36-39 */
+		"", "", "", "",	"", "", "", "",					/* VGPIO40-47 */
+		"", "", "", "",	"", "", "", "",					/* VGPIO48-55 */
+		"", "", "", "",	"", "", "", "";					/* VGPIO56-63 */
+};
+
+&espi1 {
+	status = "disabled";
+};
+
+&espi1_mmbi {
+	status = "disabled";
+};
+
+&gmac2 {
+	status = "disabled";
+};
+
+&i2c4_master {
+	status = "disabled";
+};
+
+&i2c5_master {
+	status = "disabled";
+};
+
+&i2c8_master {
+	status = "disabled";
+};
+
+&i3c4 {
+	/* status = "okay"; */
+};
+
+&i3c5 {
+	/* status = "okay"; */
+};
+
+&i3c8 {
+	/* status = "okay"; */
+};
+
+&ltpi0 {
+	nlgpio-number = /bits/ 16 <128>;
+
+	llgpo0: virgpio@1000 {
+		ngpios = <16>;
+		gpo-init-value = <0x100>;
+		status = "okay";
+	};
+
+	llgpi0: virgpio@1180 {
+		ngpios = <16>;
+		status = "okay";
+	};
+
+	nlgpo0: virgpio@2000 {
+		ngpios = <128>;
+		/* bit[31:0, 63:32, 95:64, 127,96] */
+		gpo-init-value = <0x00400000 0x0E101300 0x03400800 0x0>;
+		status = "okay";
+	};
+
+	nlgpi0: virgpio@2180 {
+		ngpios = <128>;
+		status = "okay";
+	};
+};
+
+&ltpi1 {
+	status = "disabled";
+};
+
+&pcie1_mctp {
+	status = "disabled";
+};
+
+&pcie1_mmbi {
+	status = "disabled";
+};
+
+&pcie_ep1 {
+	status = "disabled";
+};
+
+&pinctrl_adc0 {
+	gpio-line-names =
+		"MUX_I3C14_EN_N", "MUX_I3C15_EN_N",			/* GPIOG0-1 */
+		"BMC_MUX_I3C14_SEL", "BMC_MUX_I3C15_SEL",		/* GPIOG2-3 */
+		"NC", "SPI_SCMCNTRL_IRQ0_R_N", "NC", "NC";		/* GPIOG4-7 */
+};
+
+&pinctrl_adc1 {
+	gpio-line-names =
+		"MUX_ROT_P0_EN_N", "MUX_ROT_P0_SEL",			/* GPIOH0-1 */
+		"MUX_ROT_P1_EN_N", "MUX_ROT_P1_SEL",			/* GPIOH2-3 */
+		"MUX_ROT_PROG_EN_N", "MUX_ROT_PROG_SEL", "NC", "NC";	/* GPIOH4-7 */
+};
+
+&pinctrl_bmcperiph0 {
+	gpio-line-names =
+		"I2C0_SCL", "I2C0_SDA", "I2C1_SCL", "I2C1_SDA",			/* GPIOB0-3 */
+		"I2C2_SCL", "I2C2_SDA", "I2C3_SCL", "I2C3_SDA",			/* GPIOB4-7 */
+		"I2C4_SCL", "I2C4_SDA", "I3C5_SCL", "I3C5_SDA",			/* GPIOB8-11 */
+		"I2C6_SCL", "I2C6_SDA", "I2C7_SCL", "I2C7_SDA",			/* GPIOB12-15 */
+		"I2C8_SCL", "I2C8_SDA", "NC", "NC",				/* GPIOB16-19 */
+		"I2C10_SCL", "I2C10_SDA", "I2C11_SCL", "I2C11_SDA",		/* GPIOB20-23 */
+		"I2C12_SCL", "I2C12_SDA", "I2C13_SCL", "I2C13_SDA",		/* GPIOB24-27 */
+		"NC", "NC", "GMAC1_MDC", "GMAC1_MDIO",				/* GPIOB28-31 */
+		"NC", "NC", "NC", "NC",						/* GPIOB32-35 */
+		"NC", "NC", "NC", "NC",						/* GPIOB36-39 */
+		"NC", "NC","NC", "NC",						/* GPIOB40-43 */
+		"I3C0LV_SCL", "I3C0LV_SDA", "I3C1LV_SCL", "I3C1LV_SDA",		/* GPIOB44-47 */
+		"NC", "NC", "NC", "NC",						/* GPIOB48-51 */
+		"NC", "NC", "NC", "NC",						/* GPIOB52-55 */
+		"NC", "NC", "NC", "NC";						/* GPIOB56-59 */
+
+	gpioe-i3c0-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOB8-11, 32-33 */
+	gpioe-i3c1-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOB12-15, 34-35 */
+	gpioe-i3c2-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOB16-23 */
+	gpioe-i3c4-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOB36-43 */
+};
+
+&pinctrl_bmcperiph1 {
+	gpio-line-names =
+		"SPI0_CS0", "SPI0_CS1", "SPI0_SCLK", "SPI0_TX",			/* GPIOC0-3 */
+		"SPI0_RX", "SFC0_CS0", "SFC0_CS1", "SFC0_SCLK",			/* GPIOC4-7 */
+		"SFC0_IO0", "SFC0_IO1", "SFC0_IO2", "SFC0_IO3",			/* GPIOC8-11 */
+		"SFC1_CS0", "SFC1_CS1", "NC", "SFC1_SCLK",			/* GPIOC12-15 */
+		"SFC1_IO0", "SFC1_IO1", "SFC1_IO2", "SFC1_IO3",			/* GPIOC16-19 */
+		"SFC2_CS0", "SFC2_CS1", "NC", "SFC2_SCLK",			/* GPIOC20-23 */
+		"SFC2_IO0", "SFC2_IO1", "SFC2_IO2", "SFC2_IO3",			/* GPIOC24-27 */
+		"SGPIO0_CLK", "SGPIO0_LD", "SGPIO0_DO", "SGPIO0_DI",		/* GPIOC28-31 */
+		"I2C14_SCL", "I2C14_SDA", "I2C15_SCL", "I2C15_SDA";		/* GPIOC32-35 */
+
+	gpioe-spi-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC0-4 */
+	gpioe-qspi0-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOC5-11 */
+	gpioe-qspi1-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOC12-19 */
+	gpioe-qspi2-vsel = <JHB100_VREF_1_8V>; /* VREF for GPIOC20-27 */
+};
+
+&pinctrl_bmcperiph2 {
+	gpio-line-names =
+		"USB_PWR_EN", "GMAC1_PHY_INT_N",			/* GPIOD0-1 */
+		"VGA_PWR_EN_R", "DP_PWR_EN_R",				/* GPIOD2-3 */
+		"M_PESTI_RSVD", "ROT_RSVD_GPIO5",			/* GPIOD4-5 */
+		"ROT_RSVD_GPIO6", "ROT_P1_RST_L",			/* GPIOD6-7 */
+		"P1_RSTIND_BUF_L", "PROG_BMC_ROTGOLD_FW",		/* GPIOD8-9 */
+		"PROG_CPU0_BIOS", "PROG_CPU1_BIOS",			/* GPIOD10-11 */
+		"PROG_ROT_FW_FLASH", "RSVD_GPIO_PROG_CNTRL",		/* GPIOD12-13 */
+		"ROT_BRD_ID0", "ROT_BRD_ID1",				/* GPIOD14-15 */
+		"NC", "BMC_RSTIND_L", "NC", "GMAC2_RCLK",		/* GPIOD16-19 */
+		"GMAC2_RXDV", "GMAC2_RXD0", "GMAC2_RXD1", "NC",		/* GPIOD20-23 */
+		"NC", "NC", "GMAC2_TXEN", "GMAC2_TXD0",			/* GPIOD24-27 */
+		"GMAC2_TXD1", "NC", "NC";				/* GPIOD28-30 */
+
+	gpionw-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOD19-30 */
+};
+
+&pinctrl_bmcperiph2_pok {
+	gpio-line-names =
+		"NC", "NC", "NC", "NC",					/* GPIOD31-34 */
+		"NC", "NC", "NC", "NC",					/* GPIOD35-38 */
+		"NC", "NC", "NC", "NC",					/* GPIOD39-42 */
+		"NC", "NC", "NC", "NC",					/* GPIOD43-46 */
+		"NC", "NC";						/* GPIOD47-48 */
+};
+
+&pinctrl_bmcperiph3 {
+	gpio-line-names =
+		"GMAC0_MDC", "GMAC0_MDIO", "GMAC0_RXD1", "GMAC0_RXD0",		/* GPIOE0-3 */
+		"GMAC0_RXDV", "NC", "GMAC0_TXEN", "GMAC0_TXD0",			/* GPIOE4-7 */
+		"GMAC0_TXD1", "GMAC0_RCLKI", "GMAC0_RCLKO";			/* GPIOE8-11 */
+
+	gpios-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOE0-10 */
+};
+
+&pinctrl_emmc {
+	gpio-line-names =
+		"EMMC0_CLK", "EMMC0_RST", "EMMC0_CMD", "EMMC0_DQS",		/* GPIOF0-3 */
+		"EMMC0_DATA0", "EMMC0_DATA1", "EMMC0_DATA2", "EMMC0_DATA3",	/* GPIOF4-7 */
+		"EMMC0_DATA4", "EMMC0_DATA5", "EMMC0_DATA6", "EMMC0_DATA7";	/* GPIOF8-11 */
+};
+
+&pinctrl_sys0 {
+	gpio-line-names =
+		"NC", "NC", "HB_LED", "PE2_RSTOUT_N";		/* GPIOA0-3 */
+};
+
+&pinctrl_sys0h {
+	gpio-line-names =
+		"ESPI0_IO0", "ESPI0_IO1", "ESPI0_IO2", "ESPI0_IO3",		/* GPIOA4-7 */
+		"ESPI0_CLK", "ESPI0_CS", "ESPI0_ALERT", "ESPI0_RESET",		/* GPIOA8-11 */
+		"NC", "NC", "NC", "NC";						/* GPIOA12-15 */
+};
+
+&pinctrl_sys1 {
+	gpio-line-names =
+		"ESPI1_IO0", "ESPI1_IO1", "ESPI1_IO2", "ESPI1_IO3",		/* GPIOA16-19 */
+		"ESPI1_CLK", "ESPI1_CS", "ESPI1_ALERT", "ESPI1_RESET";		/* GPIOA20-23 */
+};
+
+&pinctrl_sys2 {
+	gpio-line-names =
+		"NC", "P0_RSTIND_BUF_L", "NC", "NC",				/* GPIOA24-27 */
+		"UART1_TX", "UART1_RX", "UART2_TX", "UART2_RX",			/* GPIOA28-31 */
+		"NC", "NC", "UART4_TX", "UART4_RX",				/* GPIOA32-35 */
+		"UART5_TX", "UART5_RX", "UART6_TX", "UART6_RX",			/* GPIOA36-39 */
+		"MUX_ROT_UART_EN_N", "MUX_ROT_UART_SEL",			/* GPIOA40-41 */
+		"FM_HPM_STBY_RST_N", "FM_HPM_STBY_EN",				/* GPIOA42-43 */
+		"ROT_RSVD_GPIO11", "NC",					/* GPIOA44-45 */
+		"ROT_RSVD_GPIO13", "HPM_SCM_STBY_RDY",				/* GPIOA46-47 */
+		"INTRUDER_CLR_N", "INTRUDER_DET",				/* GPIOA48-49 */
+		"NC", "DBP_ASD_SCM_PRDY_LVC3_R_N",				/* GPIOA50-51 */
+		"NC", "NC", "NC", "NC",						/* GPIOA52-55 */
+		"NC", "NC", "BMC_SELF_KILL", "ROT_P0_RST_L",			/* GPIOA56-59 */
+		"NC";								/* GPIOA60 */
+
+	gpiow-vsel = <JHB100_VREF_3_3V>; /* VREF for GPIOA36-43 */
+};
+
+&pinctrl_vga_vdac {
+	gpio-line-names =
+		"VGA_HSYNC", "VGA_VSYNC", "VGA_DDC_CLK", "VGA_DDC_DAT";		/* GPIOI0-3 */
+};
+
+&sfc0 {
+	rx-sample-delay-ns = <10>;
+};
+
+&sfc1 {
+	rx-sample-delay-ns = <10>;
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <20000000>;
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+	};
+
+	flash@1 {
+		compatible = "jedec,spi-nor";
+		reg = <1>;
+		spi-max-frequency = <20000000>;
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+	};
+};
+
+&sfc2 {
+	rx-sample-delay-ns = <10>;
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <20000000>;
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+	};
+
+	flash@1 {
+		compatible = "jedec,spi-nor";
+		reg = <1>;
+		spi-max-frequency = <20000000>;
+		spi-tx-bus-width = <4>;
+		spi-rx-bus-width = <4>;
+	};
+};
+
+&sgpio0 {
+	/* SGPIO lines: Each IO number in pairs (input, output) */
+	gpio-line-names =
+	/* 0-1 */	"CPU0_VRHOT_N", "LED_POSTCODE_0_LSB", "CPU0_THERMTRIP_N", "LED_POSTCODE_1",
+	/* 2-3 */	"CPU0_MEMTRIP_N", "LED_POSTCODE_2", "CPU0_MEM_VRHOT_N", "LED_POSTCODE_3",
+	/* 4-5 */	"CPU0_MEM_HOT_N", "LED_POSTCODE_4", "CPU0_MON_FAIL_N", "LED_POSTCODE_5",
+	/* 6-7 */	"CPU1_VRHOT_N", "LED_POSTCODE_6", "CPU1_THERMTRIP_N", "LED_POSTCODE_7_MSB",
+	/* 8-9 */	"CPU1_MEMTRIP_N", "FM_ASYNC_WARM_RESET_REQ", "CPU1_MEM_VRHOT_N", "HPM_FRU_READ_DONE",
+	/* 10-11 */	"CPU1_MEM_HOT_N", "FM_ASYNC_GLOBAL_RESET_REQ", "CPU1_MON_FAIL_N", "BMC_BOOT_DONE",
+	/* 12-13 */	"CPU2_VRHOT_N", "NMI_OUT", "CPU2_THERMTRIP_N", "AGGREGATOR_MODE",
+	/* 14-15 */	"CPU2_MEMTRIP_N", "RST_I3C_PCIE_HUB_N", "CPU2_MEM_VRHOT_N", "",
+	/* 16-17 */	"CPU2_MEM_HOT_N", "HPM0_PRESENT", "CPU2_MON_FAIL_N", "HPM1_PRESENT",
+	/* 18-19 */	"CPU3_VRHOT_N", "HPM2_PRESENT", "CPU3_THERMTRIP_N", "HPM3_PRESENT",
+	/* 20-21 */	"CPU3_MEMTRIP_N", "HPM0_SOURCE_TO_DESTINATION_FAIL", "CPU3_MEM_VRHOT_N", "HPM1_SOURCE_TO_DESTINATION_FAIL",
+	/* 22-23 */	"CPU3_MEM_HOT_N", "HPM2_SOURCE_TO_DESTINATION_FAIL", "CPU3_MON_FAIL_N", "HPM3_SOURCE_TO_DESTINATION_FAIL",
+	/* 24-25 */	"FM_BMC_VAL_EN", "HPM0_FRU_VALID", "FM_SERIAL_BOOT", "HPM1_FRU_VALID",
+	/* 26-27 */	"FM_INTRUSION_CABLE_PRES_N", "HPM2_FRU_VALID", "USB_OC_P2_3_N", "HPM3_FRU_VALID",
+	/* 28-29 */	"FM_SYSTEM_COOLING_MODE0", "FM_S2D_DISCOVERY_DONE", "FM_SYSTEM_COOLING_MODE1", "",
+	/* 30-31 */	"", "", "", "",
+	/* 32-33 */	"DBP_PMODE_S0_PWROK", "", "DBP_PMODE_PLTRST", "",
+	/* 34-35 */	"DBP_PMODE_GLOBALRESET", "", "DBP_PMODE_CPU_PWRGD", "",
+	/* 36-37 */	"FM_SMBUS_RDY", "", "FM_LEAK_DETECTION", "",
+	/* 38-39 */	"FM_LEAK_CBL_PRSNT_N", "", "FM_LEAK_CBL_FAULT_N", "",
+	/* 40-41 */	"CPU0_SKTOCC1_N", "CPU0_SKT_FAULT_LED", "CPU0_SKTOCC2_N", "CPU1_SKT_FAULT_LED",
+	/* 42-43 */	"CPU0_MISMATCH", "CPU2_SKT_FAULT_LED", "CPU1_SKTOCC1_N", "CPU3_SKT_FAULT_LED",
+	/* 44-45 */	"CPU1_SKTOCC2_N", "", "CPU1_MISMATCH", "",
+	/* 46-47 */	"CPU2_SKTOCC1_N", "", "CPU2_SKTOCC2_N", "",
+	/* 48-49 */	"CPU2_MISMATCH", "", "CPU3_SKTOCC1_N", "",
+	/* 50-51 */	"CPU3_SKTOCC2_N", "", "CPU3_MISMATCH", "",
+	/* 52-53 */	"HPM0_PRSNT_N", "", "HPM1_PRSNT_N", "",
+	/* 54-55 */	"HPM2_PRSNT_N", "", "HPM3_PRSNT_N", "",
+	/* 56-57 */	"", "", "", "",
+	/* 58-59 */	"", "", "", "",
+	/* 60-61 */	"", "", "", "",
+	/* 62-63 */	"", "", "", "",
+	/* 64-65 */	"", "", "", "",
+	/* 66-67 */	"", "", "", "",
+	/* 68-69 */	"", "", "", "",
+	/* 70-71 */	"", "", "", "",
+	/* 72-73 */	"", "", "", "",
+	/* 74-75 */	"", "", "", "",
+	/* 76-77 */	"", "", "", "",
+	/* 78-79 */	"", "", "", "",
+	/* 80-81 */	"FM_BOARD_REV_ID0", "", "FM_BOARD_REV_ID1", "",
+	/* 82-83 */	"FM_BOARD_REV_ID2", "", "FM_BOARD_SKU_ID0", "",
+	/* 84-85 */	"FM_BOARD_SKU_ID1", "", "FM_BOARD_SKU_ID2", "",
+	/* 86-87 */	"FM_BOARD_SKU_ID3", "", "FM_BOARD_SKU_ID4", "",
+	/* 88-89 */	"FM_BOARD_SKU_ID5", "", "FM_BOARD_SKU_ID6", "",
+	/* 90-91 */	"FM_BOARD_SKU_ID7", "", "", "",
+	/* 92-93 */	"", "", "", "",
+	/* 94-95 */	"", "", "", "",
+	/* 96-97 */	"", "", "", "",
+	/* 98-99 */	"", "", "", "",
+	/* 100-101 */	"", "", "", "",
+	/* 102-103 */	"", "", "", "",
+	/* 104-105 */	"", "", "", "",
+	/* 106-107 */	"", "", "", "",
+	/* 108-109 */	"", "", "", "",
+	/* 110-111 */	"", "", "", "",
+	/* 112-113 */	"", "", "", "",
+	/* 114-115 */	"", "", "", "",
+	/* 116-117 */	"", "", "", "",
+	/* 118-119 */	"", "", "", "",
+	/* 120-121 */	"", "", "", "",
+	/* 122-123 */	"", "", "", "",
+	/* 124-125 */	"", "", "", "",
+	/* 126-127 */	"", "", "", "";
+};
+
+&sio1 {
+	status = "disabled";
+};
+
+&spi0 {
+	rx-sample-delay-ns = <15>;
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		spi-max-frequency = <20000000>;
+		reg = <0>;
+		spi-tx-bus-width = <1>;
+		spi-rx-bus-width = <1>;
+	};
+
+	flash@1 {
+		compatible = "jedec,spi-nor";
+		spi-max-frequency = <20000000>;
+		reg = <1>;
+		spi-tx-bus-width = <1>;
+		spi-rx-bus-width = <1>;
+	};
+};
+
+&uart_routing {
+	starfive,chsel = /bits/ 8 <0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart1_pins &uart2_pins>;
+};
+
+&usb1 {
+	dr_mode = "host";
+};
+
+&vce1 {
+	status = "disabled";
+};

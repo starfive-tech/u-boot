@@ -177,6 +177,10 @@
 		"VGA_HS", "VGA_VS", "VGA_DDCCLK", "VGA_DDCDAT";		/* GPIOI0-3 */
 };
 
+&rpmi_pmdomain {
+	off-domains = <PD_NPU PD_HOST1_USB PD_GPU0 PD_GPU1 PD_DC1 PD_HOSTSS_i1>;
+};
+
 &sfc0 {
 	pinctrl-0 = <&sfc0_1cs_pins>;
 	num-cs = <1>;

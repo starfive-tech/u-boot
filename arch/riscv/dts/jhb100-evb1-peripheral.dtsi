@@ -41,30 +41,19 @@
 	status = "okay";
 };
 
-&i2c0_master {
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
-};
-
 &i2c1_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c2_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "disabled";
 };
 
 /* SMBus ARP test: I2C3 as SMBus ARP master */
 &i2c3_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 
 	smbus_arp@61 {
@@ -75,37 +64,27 @@
 
 &i2c4_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "disabled";
 };
 
 &i2c5_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "disabled";
 };
 
 &i2c6_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "disabled";
 };
 
 &i2c7_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "disabled";
 };
 
 /* SMBus loopback test: I2C8 as master, I2C9 as slave acting as an emulated EEPROM */
 &i2c8_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "disabled";
 };
 
@@ -122,15 +101,11 @@
 
 &i2c10_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "disabled";
 };
 
 &i2c11_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "disabled";
 };
 

@@ -2814,6 +2814,49 @@
 		};
 	};
 
+	sfc2_2cs_pins: sfc2-2cs-grp {
+		sfc2-2cs-sclk-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C23,
+					 FUNC_BMCPERIPH1_SFC2_SCLK_OUT)>;
+		};
+
+		sfc2-2cs-cs0-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C20,
+					 FUNC_BMCPERIPH1_SFC2_N_SS_OUT_0)>;
+			bias-pull-up;
+		};
+
+		sfc2-2cs-cs1-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C21,
+					 FUNC_BMCPERIPH1_SFC2_N_SS_OUT_1)>;
+			bias-pull-up;
+		};
+
+		sfc2-2cs-io0-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C24,
+					 FUNC_BMCPERIPH1_SFC2_IO0)>;
+			input-enable;
+		};
+
+		sfc2-2cs-io1-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C25,
+					 FUNC_BMCPERIPH1_SFC2_IO1)>;
+			input-enable;
+		};
+
+		sfc2-2cs-io2-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C26,
+					 FUNC_BMCPERIPH1_SFC2_IO2)>;
+			input-enable;
+		};
+
+		sfc2-2cs-io3-pins {
+			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C27,
+					 FUNC_BMCPERIPH1_SFC2_IO3)>;
+			input-enable;
+		};
+	};
+
 	sfc2_1cs_spi_pins: sfc2_1cs_spi-grp {
 		sfc2_1cs_spi_sclk-pins {
 			pinmux = <PINMUX(PADNUM_BMCPERIPH1_GPIO_C23,

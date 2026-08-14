@@ -141,56 +141,6 @@
 	status = "okay";
 };
 
-&husb1d0 {
-	status = "okay";
-};
-
-&husb1d1 {
-	status = "okay";
-};
-
-&husb1d2 {
-	status = "okay";
-};
-
-&husb1d3 {
-	status = "okay";
-};
-
-&husb1d4 {
-	status = "okay";
-};
-
-&husb1d5 {
-	status = "okay";
-};
-
-&husb1d6 {
-	status = "okay";
-};
-
-&husb1d7 {
-	status = "okay";
-};
-
-&husb1 {
-	interrupts-extended = <&plic 261>, <&intc 55>, <&intc 56>;
-	interrupt-names = "err", "perst_pe", "perst_ne";
-	status = "okay";
-};
-
-&husb1core {
-	snps,export-xhci-to-pcie;
-};
-
-&husbd1crg {
-	status = "okay";
-};
-
-&husb1crg {
-	status = "okay";
-};
-
 &husbphy0 {
 	status = "okay";
 };

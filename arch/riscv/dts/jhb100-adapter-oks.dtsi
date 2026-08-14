@@ -212,85 +212,61 @@
 
 &i2c0_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c1_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c2_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c4_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c6_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c7_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c8_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c9_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c10_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c11_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c14_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
 &i2c15_master {
 	clock-frequency = <100000>;
-	i2c-scl-rising-time-ns = <250>;
-	i2c-sda-hold-time-ns = <150>;
 	status = "okay";
 };
 
@@ -339,12 +315,35 @@
 };
 
 &ltpi0 {
-	nlgpio-number = /bits/ 16 <32>;
+	nlgpio-number = /bits/ 16 <128>;
 	uart-channels = <&uart_routing>;
 	uart-max-baudrate = /bits/ 32 <115200>;
 	data-sup;
 	ddr-sup;
 	status = "okay";
+
+	llgpo0: virgpio@1000 {
+		ngpios = <16>;
+		gpo-init-value = <0x100>;
+		status = "okay";
+	};
+
+	llgpi0: virgpio@1180 {
+		ngpios = <16>;
+		status = "okay";
+	};
+
+	nlgpo0: virgpio@2000 {
+		ngpios = <128>;
+		/* bit[31:0, 63:32, 95:64, 127,96] */
+		gpo-init-value = <0x00400000 0x0E101300 0x03400800 0x0>;
+		status = "okay";
+	};
+
+	nlgpi0: virgpio@2180 {
+		ngpios = <128>;
+		status = "okay";
+	};
 };
 
 &pcie_ep0 {

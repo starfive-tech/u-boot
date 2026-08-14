@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0 OR MIT
 /*
- * Copyright (c) 2025 StarFive Technology Co., Ltd.
+ * Copyright (c) 2026 StarFive Technology Co., Ltd.
  */
 
 #include "jhb100.dtsi"
@@ -9,8 +9,8 @@
 #include <dt-bindings/i2c/i2c.h>
 
 / {
-	model = "StarFive JHB100 EVB-1";
-	compatible = "starfive,jhb100-evb1", "starfive,jhb100";
+	model = "StarFive JHB100 DC-SCM";
+	compatible = "starfive,jhb100-dcscm", "starfive,jhb100";
 
 	aliases {
 		serial4 = &uart4;
@@ -95,15 +95,6 @@
 		i2c46 = &i3c14;
 		i2c47 = &i3c15;
 
-		i2c48 = &imux0;
-		i2c49 = &imux1;
-		i2c50 = &imux2;
-		i2c51 = &imux3;
-		i2c52 = &imux4;
-		i2c53 = &imux5;
-		i2c54 = &imux6;
-		i2c55 = &imux7;
-
 		i3c0 = &i3c0;
 		i3c1 = &i3c1;
 		i3c2 = &i3c2;
@@ -134,17 +125,13 @@
 		spi3 = &spi0;
 	};
 
-	chosen {
-		stdout-path = "serial6:115200n8";
-	};
-
 	cpus {
 		timebase-frequency = <5000000>;
 	};
 
 	memory {
 		device_type = "memory";
-		reg = <0x0 0x40000000 0x0 0x40000000>;	/* 1GB */
+		reg = <0x0 0x40000000 0x0 0x80000000>;	/* 2GB */
 	};
 
 	reserved-memory {
@@ -153,55 +140,7 @@
 		ranges;
 
 		#include "jhb100-reserved-mem.dtsi"
-
-		linux,cma {
-			compatible = "shared-dma-pool";
-			reusable;
-			size = <0x0 0x08000000>;
-			alignment = <0x0 0x1000>;
-			alloc-ranges = <0x0 0x40000000 0x2 0x0>;
-			linux,cma-default;
-		};
-	};
-
-	fan0: pwm-fan0 {
-		compatible = "pwm-fan";
-		pwms = <&pwm 0 40000 0>;
-	};
-
-	fan1: pwm-fan1 {
-		compatible = "pwm-fan";
-		pwms = <&pwm 1 40000 0>;
-	};
-
-	fan2: pwm-fan2 {
-		compatible = "pwm-fan";
-		pwms = <&pwm 2 40000 0>;
-	};
-
-	fan3: pwm-fan3 {
-		compatible = "pwm-fan";
-		pwms = <&pwm 3 40000 0>;
-	};
-
-	fan4: pwm-fan4 {
-		compatible = "pwm-fan";
-		pwms = <&pwm 4 40000 0>;
-	};
-
-	fan5: pwm-fan5 {
-		compatible = "pwm-fan";
-		pwms = <&pwm 5 40000 0>;
-	};
-
-	fan6: pwm-fan6 {
-		compatible = "pwm-fan";
-		pwms = <&pwm 6 40000 0>;
-	};
-
-	fan7: pwm-fan7 {
-		compatible = "pwm-fan";
-		pwms = <&pwm 7 40000 0>;
+		#include "jhb100-evb3-extend-reserved-mem.dtsi"
 	};
 
 	vcc_1v8: regulator-vcc-1v8 {
@@ -220,6 +159,11 @@
 };
 
 &dc0_clk {
+	single-node = <1>;
+	status = "okay";
+};
+
+&dc1_clk {
 	single-node = <0>;
 	status = "okay";
 };
@@ -228,7 +172,23 @@
 	status = "disabled";
 };
 
+&dma_i3c {
+	status = "okay";
+};
+
 &dma_sfc0 {
+	status = "okay";
+};
+
+&dma_sfc1 {
+	status = "okay";
+};
+
+&dma_sfc2 {
+	status = "okay";
+};
+
+&dma_spi0 {
 	status = "okay";
 };
 
@@ -319,16 +279,22 @@
 	status = "okay";
 };
 
+&gmac0 {
+	assigned-clocks = <&per3crg JHB100_PER3CLK_GMAC0_RMII_MUX>;
+	assigned-clock-parents = <&per3_gmac0_rmii_rclki>;
+	pinctrl-names = "default";
+	mac-mode = "rmii";
+	snps,use-ncsi;
+	snps,ps-speed = <100>;
+	pinctrl-0 = <&gmac0_rmii_pins>;
+	status = "okay";
+};
+
 &gmac1 {
-	phy-handle = <&phy0>;
+	phy-handle = <&phy1>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&gmac1_mdio_pins>;
 	snps,ps-speed = <1000>;
-
-	/* PHY reset pin */
-	/* reset-gpios = <&pinctrl_sys2 4 GPIO_ACTIVE_LOW>; */
-	/* reset-assert-us = <15000>; */
-	/* reset-deassert-us = <15000>; */
 	status = "okay";
 
 	mdio {
@@ -336,11 +302,55 @@
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
 
-		phy0: ethernet-phy@0 {
+		phy1: ethernet-phy@0 {
 			reg = <0>;
 			motorcomm,clk-out-frequency-hz = <25000000>;
 		};
 	};
+};
+
+&gmac2 {
+	assigned-clocks = <&per2crg JHB100_PER2CLK_GMAC2_RMII_MUX_DLY>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TX_MUX>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_RX_MUX_DLY>,
+			  <&per2crg JHB100_PER2CLK_GMAC2_TXCK_MUX_DLY>;
+	assigned-clock-parents = <&per2crg JHB100_PER2CLK_GMAC2_RMII_50>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RMII_DIV>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RMII_DIV>,
+				 <&per2crg JHB100_PER2CLK_GMAC2_RMII_50>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&gmac2_rmii_pins>;
+	mac-mode = "rmii";
+	snps,use-ncsi;
+	snps,ps-speed = <100>;
+	status = "okay";
+};
+
+&husbd0crg {
+	status = "okay";
+};
+
+&husbd1crg {
+	status = "okay";
+};
+
+&husbphy0 {
+	status = "okay";
+};
+
+&husbphy1 {
+	status = "okay";
+};
+
+&husb0 {
+	interrupts-extended = <&plic 252>, <&plic 251>, <&plic 271>, <&intc 53>, <&intc 54>;
+	interrupt-names = "host", "err", "pme", "perst_pe", "perst_ne";
+	snps,export-xhci-to-pcie;
+	status = "okay";
+};
+
+&husb0crg {
+	status = "okay";
 };
 
 &husb0d0 {
@@ -375,29 +385,46 @@
 	status = "okay";
 };
 
-&husb0 {
-	interrupts-extended = <&plic 251>, <&plic 271>, <&intc 53>, <&intc 54>;
-	interrupt-names = "err", "pme", "perst_pe", "perst_ne";
-	status = "okay";
-};
-
-&husb0core {
+&husb1 {
+	interrupts-extended = <&plic 262>, <&plic 261>, <&plic 315>, <&intc 55>, <&intc 56>;
+	interrupt-names = "host", "err", "pme", "perst_pe", "perst_ne";
 	snps,export-xhci-to-pcie;
-};
-
-&husbd0crg {
 	status = "okay";
 };
 
-&husb0crg {
+&husb1crg {
 	status = "okay";
 };
 
-&husbphy0 {
+&husb1d0 {
 	status = "okay";
 };
 
-&husbphy1 {
+&husb1d1 {
+	status = "okay";
+};
+
+&husb1d2 {
+	status = "okay";
+};
+
+&husb1d3 {
+	status = "okay";
+};
+
+&husb1d4 {
+	status = "okay";
+};
+
+&husb1d5 {
+	status = "okay";
+};
+
+&husb1d6 {
+	status = "okay";
+};
+
+&husb1d7 {
 	status = "okay";
 };
 
@@ -408,73 +435,214 @@
 &i2c0_master {
 	clock-frequency = <100000>;
 	status = "okay";
-
-	i2c-mux@77 {
-		compatible = "nxp,pca9548";
-		#address-cells = <1>;
-		#size-cells = <0>;
-		reg = <0x77>;
-		reset-gpios = <&pinctrl_sys2 5 GPIO_ACTIVE_LOW>;
-		i2c-mux-idle-disconnect;
-		vdd-supply = <&vcc_3v3>;
-
-		imux0: i2c@0 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <0>;
-		};
-		imux1: i2c@1 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <1>;
-		};
-		imux2: i2c@2 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <2>;
-		};
-		imux3: i2c@3 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <3>;
-		};
-		imux4: i2c@4 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <4>;
-		};
-		imux5: i2c@5 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <5>;
-		};
-		imux6: i2c@6 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <6>;
-		};
-		imux7: i2c@7 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			reg = <7>;
-		};
-	};
 };
 
-&imux6 {
-	rtc@6f {
-		compatible = "nxp,pcf85053a";
-		reg = <0x6f>;
-	};
+&i2c1_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c2_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c3_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c4_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c5_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c6_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c7_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c8_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c10_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c11_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c12_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c13_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c14_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i2c15_master {
+	clock-frequency = <100000>;
+	status = "okay";
+};
+
+&i3c0 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	status = "disabled";
+};
+
+&i3c1 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	status = "disabled";
+};
+
+&i3c4 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	status = "disabled";
+};
+
+&i3c5 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	status = "disabled";
+};
+
+&i3c6 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	status = "disabled";
+};
+
+&i3c7 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	status = "disabled";
+};
+
+&i3c8 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	status = "disabled";
+};
+
+&i3c10 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	status = "disabled";
+};
+
+&i3c11 {
+	i2c-scl-hz = <400000>;
+	i3c-scl-hz = <1000000>;
+	mode = "master";
+	hotjoin;
+	status = "disabled";
+};
+
+&jtag0 {
+	status = "okay";
+};
+
+&ltpi0 {
+	uart-channels = <&uart_routing>;
+	uart-max-baudrate = /bits/ 32 <115200>;
+	data-sup;
+	ddr-sup;
+	status = "okay";
+};
+
+&ltpi1 {
+	uart-channels = <&uart_routing>;
+	uart-max-baudrate = /bits/ 32 <115200>;
+	data-sup;
+	ddr-sup;
+	status = "okay";
+};
+
+&npu {
+	memory-region = <&npu_reserved_uncache>;
+	status = "okay";
+};
+
+&pcierp_mctp {
+	status = "okay";
+};
+
+&pcie0_mctp {
+	status = "okay";
+};
+
+&pcie0_mmbi {
+	mmbi-id = /bits/ 8 <0>;
+	mmbi-instance-num = /bits/ 32 <8>;
+	mmbi-instance-size = /bits/ 32 <0x10000>;
+	mmbi-src-addr-offset = /bits/ 32 <0>;
+	mmbi-osuse = /bits/ 8 <1 1 1 1 1 1 1 1>;
+	memory-region = <&pcie0_mmbi_buffer_uncache>;
+	starfive,raise-irq-syscon = <&pcie_ep0_ecsr 0x700 0xd>;
+	starfive,rst-en-syscon = <&strap_reg 0x50 0x400>;
+	status = "okay";
+};
+
+&pcie1_mctp {
+	status = "okay";
+};
+
+&pcie1_mmbi {
+	mmbi-id = /bits/ 8 <1>;
+	mmbi-instance-num = /bits/ 32 <8>;
+	mmbi-instance-size = /bits/ 32 <0x10000>;
+	mmbi-src-addr-offset = /bits/ 32 <0>;
+	mmbi-osuse = /bits/ 8 <1 1 1 1 1 1 1 1>;
+	memory-region = <&pcie1_mmbi_buffer_uncache>;
+	starfive,raise-irq-syscon = <&pcie_ep1_ecsr 0x700 0xd>;
+	starfive,rst-en-syscon = <&strap_reg 0x50 0x800>;
+	status = "okay";
 };
 
 &pcie_rc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pe2rst_pins>;
-	status = "okay";
-};
-
-&pcierp_mctp {
 	status = "okay";
 };
 
@@ -499,19 +667,24 @@
 	status = "okay";
 };
 
-&pcie0_mctp {
-	status = "okay";
-};
-
-&pcie0_mmbi {
-	mmbi-id = /bits/ 8 <0>;
-	mmbi-instance-num = /bits/ 32 <8>;
-	mmbi-instance-size = /bits/ 32 <0x10000>;
-	mmbi-src-addr-offset = /bits/ 32 <0>;
-	mmbi-osuse = /bits/ 8 <1 1 1 1 1 1 1 1>;
-	memory-region = <&pcie0_mmbi_buffer_uncache>;
-	starfive,raise-irq-syscon = <&pcie_ep0_ecsr 0x700 0xd>;
-	starfive,rst-en-syscon = <&strap_reg 0x50 0x400>;
+&pcie_ep1 {
+	memory-region = <&pcie1_media_mem_uncache>,
+			<&pcie1_user_mem_uncache>,
+			<&pcie1_mmbi_buffer_uncache>,
+			<&pcie1_hdma_mem_uncache>;
+	/*
+	 * Resizable BAR default size = 2^(20+rebar-def-enc)MB.
+	 * PF0 BAR2 = 16MB for HDMA data
+	 * PF1 BAR4 = 64MB for VOUT frame buffer
+	 * PF5 BAR0 = 32MB and BAR2 = 1MB are reserved for users
+	 * PF6 BAR0 = 4MB for MMBI data
+	 */
+	rebar-def-enc-pf0-bar2 = <4>;
+	rebar-def-enc-pf1-bar4 = <6>;
+	rebar-def-enc-pf5-bar0 = <5>;
+	rebar-def-enc-pf5-bar2 = <0>;
+	rebar-def-enc-pf6-bar0 = <2>;
+	starfive,support-usb-vout-func;
 	status = "okay";
 };
 
@@ -569,10 +742,27 @@
 
 &sfc0 {
 	status = "okay";
-	rx-sample-delay-ns = <10>;
+};
+
+&sfc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sfc1_2cs_pins>;
+	num-cs = <2>;
+	status = "okay";
+};
+
+&sfc2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&sfc2_2cs_pins>;
+	num-cs = <2>;
+	status = "okay";
 };
 
 &sgmii_phy1 {
+	status = "okay";
+};
+
+&sgpio0 {
 	status = "okay";
 };
 
@@ -676,7 +866,7 @@
 	tx-size = <3>;
 	rx-size = <3>;
 	dev-id = <5>;
-	status = "disabled";
+	status = "okay";
 };
 
 &sol6 {
@@ -688,40 +878,10 @@
 	status = "okay";
 };
 
-&sol7 {
-	memory-region = <&sol_tx_mem_uncache>,
-			<&sol_rx_mem_uncache>;
-	tx-size = <3>;
-	rx-size = <3>;
-	dev-id = <7>;
-	status = "disabled";
-};
-
-&sol8 {
-	memory-region = <&sol_tx_mem_uncache>,
-			<&sol_rx_mem_uncache>;
-	tx-size = <3>;
-	rx-size = <3>;
-	dev-id = <8>;
-	status = "disabled";
-};
-
-&sol13 {
-	memory-region = <&sol_tx_mem_uncache>,
-			<&sol_rx_mem_uncache>;
-	tx-size = <3>;
-	rx-size = <3>;
-	dev-id = <13>;
-	status = "disabled";
-};
-
-&sol14 {
-	memory-region = <&sol_tx_mem_uncache>,
-			<&sol_rx_mem_uncache>;
-	tx-size = <3>;
-	rx-size = <3>;
-	dev-id = <14>;
-	status = "disabled";
+&spi0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins>;
+	status = "okay";
 };
 
 &timer0 {
@@ -737,7 +897,7 @@
 };
 
 &uart5 {
-	status = "disabled";
+	status = "okay";
 	current-speed = <115200>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart5_pins>;
@@ -750,59 +910,12 @@
 	pinctrl-0 = <&uart6_pins>;
 };
 
-&uart7 {
-	status = "disabled";
-	current-speed = <115200>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart7_pins>;
-};
-
-&uart8 {
-	status = "disabled";
-	current-speed = <115200>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart8_pins>;
-};
-
-&uart13 {
-	status = "disabled";
-	current-speed = <115200>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart13_pins>;
-};
-
-&uart14 {
-	status = "disabled";
-	current-speed = <115200>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart14_pins>;
-};
-
 &uart_routing {
-	starfive,chsel = /bits/ 8 <0 0 0 0 0 0 0 0 0 0 0 0 0 0 0>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart0_rs232_pins>;
 	status = "okay";
-};
-
-&ufs0 {
-	status = "okay";
-};
-
-&usb0 {
-	status = "okay";
-};
-
-&usb0core {
-	dr_mode = "host";
 };
 
 &usb1 {
 	status = "okay";
-};
-
-&usb1core {
-	dr_mode = "host";
 };
 
 &vga {
@@ -829,17 +942,16 @@
 	status = "disabled";
 };
 
-&wdt_ext {
-	status = "disabled";
-	pinctrl-names = "default";
-	pinctrl-0 = <&wdt4_ext_reset_pins &wdt4_restart_pins>;
-};
-
 &led0 {
 	status = "okay";
 };
 
 &vce0 {
 	memory-region = <&pcie0_media_mem_uncache>;
+	status = "okay";
+};
+
+&vce1 {
+	memory-region = <&pcie1_media_mem_uncache>;
 	status = "okay";
 };

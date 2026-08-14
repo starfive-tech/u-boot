@@ -364,3 +364,7 @@
 	single-node = <1>;
 	status = "okay";
 };
+
+&rpmi_pmdomain {
+	off-domains = <PD_HOST1_USB PD_GPU0 PD_GPU1 PD_DC1 PD_HOSTSS_i1 PD_UFS PD_BMCPCIe_RP>;
+};
