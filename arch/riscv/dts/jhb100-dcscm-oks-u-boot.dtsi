@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: GPL-2.0 OR MIT
+/*
+ * Copyright (c) 2026 StarFive Technology Co., Ltd.
+ */
+
+#include "jhb100-u-boot.dtsi"
+
+/*
+ * eMMC, SFC0, WDT0-3 and the uart6 console are already tagged bootph-pre-ram
+ * by jhb100-u-boot.dtsi. DC-SCM boots on serial6, so no console retarget.
+ */
+
+&gmac0 {
+	status = "disabled";
+};
+
+&gmac1 {
+	bootph-pre-ram;
+
+	mdio {
+		bootph-pre-ram;
+
+		/* phy1 in jhb100-dcscm.dtsi */
+		ethernet-phy@0 {
+			bootph-pre-ram;
+		};
+	};
+};
+
+&sgmii_phy1 {
+	bootph-pre-ram;
+};
+
+/delete-node/ &npu_reserved_cache;
+/delete-node/ &npu_reserved_uncache;
