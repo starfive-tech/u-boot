@@ -111,6 +111,9 @@ enum env_location env_get_location(enum env_operation op, int prio)
 	return ENVL_NOWHERE;
 }
 
+#if defined(CONFIG_STARFIVE_JHB100_SFC_AGT) || \
+    defined(CONFIG_STARFIVE_JHB100_SFC_AB_RENAME_RESIZE)
+
 static int update_partition_reg(void *fdt, int flash_off,
 				const char *label, uint32_t offset, uint32_t size)
 {
@@ -168,6 +171,10 @@ static int rename_partition_by_offset(void *fdt, int flash_off,
 	printf("  !! No partition found at offset %#x for rename to '%s'\n", match_off, new_label);
 	return -ENOENT;
 }
+
+#endif /* CONFIG_STARFIVE_JHB100_SFC_AGT ||
+	* CONFIG_STARFIVE_JHB100_SFC_AB_RENAME_RESIZE
+	*/
 
 #ifdef CONFIG_STARFIVE_JHB100_SFC_AGT
 int jhb100_fdt_sfc_fixup_agt(void *fdt)
